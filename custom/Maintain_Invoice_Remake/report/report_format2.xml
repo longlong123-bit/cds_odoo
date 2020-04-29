@@ -1,0 +1,157 @@
+<!--Custom report.-->
+<odoo>
+<data>
+    <template id="report_invoice_format2">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                <t t-call="Maintain_Invoice_Remake.report_invoice_document2" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+    <template id="report_invoice_document2">
+        <t t-set="o" t-value="o.with_context(lang=lang)" />
+
+        <!-- LOGO AND TITLE -->
+        <div style="margin-bottom: 220px">
+            <div><span t-field="o.partner_id.zip"/> <span t-field="o.x_studio_address_1"/></div>
+            <div><span t-field="o.x_studio_address_1"/><span t-field="o.x_studio_address_2"/><span t-field="o.x_studio_address_3"/></div>
+            <div><span t-field="o.x_studio_name"/></div>
+        </div>
+
+        <!-- HEADER OF CONTENT -->
+        <h4 class="mt0" style="font-size: 25px; line-height: 50px; margin: 0; padding: 0; text-align: center">御　請　求　書</h4>
+        <div style="font-size: 18px; line-height: 20px">
+            <div style="display: inline-block; width: 42%; margin-top: 40px; float: left">
+                <div style="border-bottom: 1.5px solid #439eb2">
+                    <strong><span t-field="o.x_studio_name"/> <span t-field="o.partner_id.title"/></strong>
+                </div>
+                <div style="margin-top: 30px; margin-bottom: 3px; border-bottom: 1.5px solid #439eb2">
+                    件名: <span t-field="o.x_studio_description"/>
+                </div>
+                <div>下記の通り、ご請求申し上げます。</div>
+            </div>
+
+            <div style="display: inline-block; width: 45%; float: right">
+                <div style="padding-left: 100px">
+                    <div name="invoice_date">
+                        <span>請求日付: <span class="m-0" t-field="o.x_studio_date_invoiced"/></span>
+                    </div>
+                    <div name="document_no">
+                        <span>請求書番号: <span class="m-0" t-field="o.x_studio_document_no"/></span>
+                    </div>
+                    <div>
+    <!--                    <span>ページ: <span class="o.page" />/<span class="o.topage" /></span>-->
+                        <span>ページ: 1 / 1</span>
+                    </div>
+                </div>
+
+                <!-- Company information -->
+                <div style="margin-top: 5px">
+                    <div><img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo" style="height: 50px"/></div>
+                    <strong t-field="o.x_studio_client_2"/>
+                    <div><span t-field="o.x_studio_organization.zip"/></div>
+                    <div><span t-field="o.x_studio_organization.street"/><span t-field="o.x_studio_organization.street2"/></div>
+                    <div>TEL <span t-field="o.x_studio_organization.phone"/> / FAX <span t-field="o.x_studio_organization.phone"/></div>
+                </div>
+            </div>
+            <div style="clear: both"/>
+        </div>
+
+        <!-- PRICE -->
+        <div class="price" style="margin-right: 10px; margin-bottom: 10px; margin-top: -10px">
+            <div style="width: 42%">
+                <div  style="border-bottom: 1.5px solid #439eb2; padding-bottom: 2px">
+                    <div  style="border-bottom: 1.5px solid #439eb2">
+                        <strong style="font-size: 28px;">御請求金額: <span t-field="o.amount_total"/></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page">
+            <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
+            <div class="content-table" style="border: 2px solid #439eb2;">
+                <div style="min-height: 300px">
+                    <table border="0" cellspacing="0" style="width: 100%; font-size: 12px; line-height: 15px">
+                        <thead>
+                            <tr>
+                                <td style="border: 0; border-bottom: 1px solid #439eb2; text-align: left; width: 60px; background-color: #e0e0e0" name="th_id"><span>明細</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: left; width: 500px; background-color: #e0e0e0" name="th_description"><span>品目コード:品目名称<br/>説明/備考</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0" name="th_priceunit" ><span>数量<br/>単位</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0" name="th_taxes"><span>単価<br/>定価</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0" name="th_subtotal">行合計<br/>税金情報</td>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-set="current_subtotal" t-value="0"/>
+                            <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.invoice_custom_line_no), reverse=True)"/>
+
+                            <t t-foreach="lines" t-as="line">
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                                <tr>
+                                    <td style="border: 0; border-bottom: 1px solid #439eb2; text-align: left; width: 60px; vertical-align: top" name="account_invoice_line_name">
+                                        <span t-field="line.invoice_custom_line_no"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: left; vertical-align: top" class="text-right">
+                                        <span t-field="line.product_id.product_custom_search_key"/>: <span t-field="line.product_id.name"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; width: 110px; border-right: 0; border-top: 0; text-align: right">
+                                        <span t-field="line.quantity"/><br/>
+                                        <span t-field="line.product_id.uom_id"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; width: 110px; border-right: 0; border-top: 0; text-align: right">
+                                        <span t-field="line.price_unit"/><br/>
+                                        <span t-field="line.product_id.list_price"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; width: 130px; border-right: 0; border-top: 0; text-align: right">
+                                        <span t-field="line.price_subtotal"/><br/>
+                                        <t t-foreach="line.tax_ids" t-as="tax">
+                                            <span t-field="tax.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="height: 42px"/>
+                <table style="width: 100%; font-size: 16px" border="0" cellspacing="0">
+                    <tr>
+                        <td style="border: 0; border-top: 1px solid #439eb2; text-align: right">
+                            <span>明細行合計</span>
+                        </td>
+                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; width: 350px; text-align: right;">
+                            <span t-field="o.amount_untaxed"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 0; border-top: 1px solid #439eb2; text-align: right;"><span>消　費　税</span></td>
+                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; text-align: right;">
+                            <t t-foreach="o.amount_by_group" t-as="tax">
+                                <div><span t-esc="tax[3]"/></div>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border: 0; border-top: 1px solid #439eb2; text-align: right;"><span>御請求金額</span></td>
+                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; text-align: right;"><span t-field="o.amount_total"/></td>
+                    </tr>
+                    <tr>
+                        <td style="border: 0; border-top: 1px solid #439eb2; text-align: right"><span>御支払期限</span></td>
+                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; text-align: right;"><span t-field="o.x_due_date"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="border: 0; border-top: 1px solid #439eb2;">
+                            <div>口座情報: 三井住友銀行　赤坂支店(825) 普通 1234567</div>
+                            <div>口座名義: 株式会社オープンソース・イーアールピー・ソリューションズ</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </template>
+</data>
+</odoo>

@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="partner_custom_tree">
+			<field name="name">partner.custom.form</field>
+			<field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                     <attribute name="class">forward_edit</attribute>
+                </xpath>
+                <xpath expr="//field[@name='display_name']" position="replace">
+                    <field name="display_name" string="Name" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="before">
+                    <field name="name" string="Name"/>
+                    <field name="customer_namef" string="namef"/>
+                    <field name="customer_extra_name" string="Name 2"/>
+                    <field name="description" string="Description"/>
+                    <field name="partner_group" string="BPartner Group"/>
+                </xpath>
+                <xpath expr="//field[@name='display_name']" position="before">
+                    <field name="search_key_partner" string="Search Key"/>
+                </xpath>
+            </field>
+        </record>
+
+<!--        <record model="ir.ui.view" id="partner_custom_template">-->
+<!--            <field name="name">partner.custom.form</field>-->
+<!--			<field name="model">res.partner</field>-->
+<!--            <field name="inherit_id" ref="base.view_partner_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='street']" position="attributes">-->
+<!--                    <attribute name="placeholder"></attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='street2']" position="attributes">-->
+<!--                    <attribute name="placeholder"></attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='street2']" position="after" >-->
+<!--                    <field name="address3" class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='type']" position="before">-->
+<!--                    <field name="search_key_partner" string="Search Key"/>-->
+<!--                    <field name="customer_extra_name" string="Name 2"/>-->
+<!--                    <label class="required_red" for="customer_namef" string="namef*"/>-->
+<!--                    <div>-->
+<!--                        <field name="customer_namef" default_focus="1"-->
+<!--                           />-->
+<!--                    </div>-->
+<!--                    <field name="title" string="Greeting" options='{"no_open": True}' placeholder="e.g. Mister" attrs="{'invisible': [('is_company', '=', True)] }"/>-->
+<!--                    <field name="zip_code" string="zipcd" placeholder="ZIP"/>-->
+<!--                </xpath>-->
+<!--                &lt;!&ndash;Left Group&ndash;&gt;-->
+<!--                <xpath expr="//field[@name='vat']" position="after" >-->
+<!--                    <field name="function" placeholder="e.g. Sales Director"-->
+<!--                        attrs="{'invisible': [('is_company','=', True)]}"/>-->
+<!--                    <field name="phone" widget="phone"/>-->
+<!--                    <field name="mobile" widget="phone"/>-->
+<!--                    <field name="user_ids" invisible="1"/>-->
+<!--                    <field name="email" widget="email" context="{'gravatar_image': True}" attrs="{'required': [('user_ids','!=', [])]}"/>-->
+<!--                    <field name="website" widget="url" placeholder="e.g. https://www.odoo.com"/>-->
+<!--                    <field name="active_lang_count" invisible="1"/>-->
+<!--                    <field name="category_id" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Tags..." invisible="1"-->
+<!--                           />-->
+<!--                    <label class="required_red" for="partner_group" string="BPartner Group*"/>-->
+<!--                    <div>-->
+<!--                        <field name="partner_group"  default_focus="1" attrs="{'required' : [('type', '=', 'contact')]}"/>-->
+<!--                    </div>-->
+<!--                    <field name="user_id" string="Representative/Agent" domain="[('share', '=', False)]">-->
+<!--                    </field>-->
+<!--                    <field name="payment_rule"  string="Payment Rule" class="o_input readonly_modify payment_rule" readonly="1" force_save="1"/>-->
+<!--                    <field string="Payment Terms" class="o_input readonly_modify" name="payment_terms" widget="selection" readonly="1" force_save="1"/>-->
+<!--                    <field name="bill_schema" string="Bill Schema" widget="selection" class="o_input readonly_modify" readonly="1" force_save="1"/>-->
+<!--                    <field name="is_so_tax_exempt" string="SO Tax exempt"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//group/field[@name='website']" position="after" >-->
+<!--                    <field name="fax" string="Fax"/>-->
+<!--                </xpath>-->
+<!--&lt;!&ndash;                <xpath expr="//group/field[@name='category_id']" position="after" >&ndash;&gt;-->
+
+<!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
+<!--                <xpath expr="/form/sheet/group/group[2]" position="replace" >-->
+<!--                    <group>-->
+<!--                        <field name="pricelist_custom"-->
+<!--                               string="Pricelist"-->
+<!--                                readonly="1"-->
+<!--                               class="o_input readonly_modify"-->
+<!--                               />-->
+<!--                        <div name="parent_pricelists" groups="product.group_product_pricelist" colspan="2" attrs="{'invisible': ['|',('is_company','=',True),('parent_id','=',False)]}">-->
+<!--                            <p>Pricelists are managed on <button name="open_commercial_entity" type="object" string="the parent company" class="oe_link"/></p>-->
+<!--                        </div>-->
+<!--                        <field name="discount_schema" class="o_input readonly_modify" string="Discount Schema" attrs="{'readonly': 1}" force_save="1"/>-->
+<!--                        <field name="flat_discount" string="Flat Discount" digits="[42, 1]" style="text-align:right;" class="o_input readonly_modify" readonly="1"/>-->
+<!--                        <label class="width-modify" for="so_tax_rounding" string="SO Tax Rounding" />-->
+<!--                        <div>-->
+<!--                            <field name="so_tax_rounding" class="o_input readonly_modify" readonly="1"/>-->
+<!--                        </div>-->
+<!--                        <field name="credit_status" string="Credit Status" class="o_input readonly_modify" force_save="1" readonly="1"/>-->
+<!--                        <field name="credit_limit" string="Credit Limit" style="text-align:right;" class="o_input readonly_modify" readonly="1"/>-->
+<!--                        <field name="billformrequireflag" string="billformrequireflag" class="o_input readonly_modify" force_save="1" readonly="1"/>-->
+<!--                        <field name="first_sale" string="First Sale"/>-->
+<!--                        <field name="exchangeenddate" string="exchangeenddate" />-->
+<!--                        <field name="salesslipformcd" string="salesslipformcd" />-->
+<!--                        <field name="description" string="Description" />-->
+<!--                        <field name="invoice_print_format" string="Invoice Print Format" />-->
+<!--                        <field name="document_copies" string="Document Copies" style="text-align:right;"/>-->
+<!--                        <field name="discount_printed" string="Discount Printed"/>-->
+<!--                        <field name="write_date" string="Updated" readonly="1"/>-->
+<!--                        <field name="active" string="Active"/>-->
+<!--                        <field name="open_balance" string="Open Balance" style="text-align:right;" class="o_input readonly_modify" readonly="1"/>-->
+<!--                        <field name="actual_life_time_value" string="Actual Life Time Value" style="text-align:right;" class="o_input readonly_modify" readonly="1"/>-->
+<!--                    </group>-->
+<!--                </xpath>-->
+<!--&lt;!&ndash;                invisible field default odoo&ndash;&gt;-->
+<!--                <xpath expr="//field[@name='email']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='city']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='state_id']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='zip']" position="replace">-->
+<!--                    <field invisible="1" name="zip"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='vat']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='function']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='mobile']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='category_id']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='website']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='type']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+
+<!--                &lt;!&ndash;notebook list modify&ndash;&gt;-->
+<!--&lt;!&ndash;                <xpath expr="/form/sheet/notebook/page[1]" position="attributes">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <attribute name="invisible">1</attribute>&ndash;&gt;-->
+<!--&lt;!&ndash;                </xpath>&ndash;&gt;-->
+<!--                <xpath expr="/form/sheet/notebook/page[2]" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="/form/sheet/notebook/page[3]" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+
+<!--                <notebook>-->
+<!--                    <page string="Other Info" autofocus="autofocus">-->
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="vat"/>-->
+<!--                                <field name="function"/>-->
+<!--                                <field name="lang"/>-->
+<!--                                <field name="category_id" widget="many2many_tags"/>-->
+<!--                                <field name="property_product_pricelist"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="mobile"/>-->
+<!--                                <field name="website"/>-->
+<!--                                <field name="email"/>-->
+<!--                                <field name="type"/>-->
+<!--                                <field name="user_id" string="Salesperson"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </page>-->
+<!--                </notebook>-->
+<!--            </field>-->
+<!--&lt;!&ndash;        </record>&ndash;&gt;-->
+
+<!--        </record>-->
+
+
+        <record id="partner_custom_template" model="ir.ui.view">
+            <field name="name">partner.custom.form</field>
+            <field name="model">res.partner</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">1</field>
+
+            <field name="arch" type="xml">
+                <!-- BEGIN FORM -->
+                <xpath expr="//group[1]" position="replace">
+                    <table class="custom-form-table partner-table-form">
+                        <tbody>
+                        <!-- Row 1 -->
+<!--                        <tr>-->
+<!--                            <td class="col-label"><label for="search_key_partner" string="Search Key"/></td>-->
+<!--                            <td class="col-field"><field name="search_key_partner"/></td>-->
+<!--                        </tr>-->
+
+                        <!-- Row 2 -->
+                        <tr>
+                            <td class="col-label"><label for="search_key_partner" string="Search Key"/></td>
+                            <td colspan="3"><field name="search_key_partner"/></td>
+                            <td class="col-label"><label for="property_product_pricelist" string="Price List"/></td>
+                            <td class="col-field"><field name="property_product_pricelist"/></td>
+                        </tr>
+
+                        <!-- Row 3 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_extra_name" string="Name 4"/></td>
+                            <td colspan="3"><field name="customer_extra_name"/></td>
+                            <td class="col-label"><label for="discount_schema" string="Discount Schema"/></td>
+                            <td class="col-field"><field name="discount_schema"/></td>
+                        </tr>
+
+                        <!-- Row 4 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_display_name" string="Name 2"/></td>
+                            <td colspan="3"><field name="customer_display_name"/></td>
+                            <td class="col-label"><label for="flat_discount" string="Flat Discount %"/></td>
+                            <td class="col-field col-number"><field name="flat_discount"/></td>
+                        </tr>
+
+                        <!-- Row 5 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_namef" string="name3"/></td>
+                            <td colspan="3"><field name="customer_namef"/></td>
+                            <td class="col-label"><label for="so_tax_rounding" string="SO Tax Rounding"/></td>
+                            <td class="col-field"><field name="so_tax_rounding"/></td>
+                        </tr>
+
+                        <!-- Row 6 -->
+                        <tr>
+                            <td class="col-label"><label for="title" string="Greeting"/></td>
+                            <td class="col-field"><field name="title"/></td>
+                            <td colspan="2"></td>
+                            <td class="col-label"><label for="credit_status" string="Credit Status"/></td>
+                            <td class="col-field"><field name="credit_status"/></td>
+                            <td class="col-label"><label for="credit_limit" string="Credit Limit"/></td>
+                            <td class="col-field col-number"><field name="credit_limit"/></td>
+                        </tr>
+
+                        <!-- Row 7 -->
+                        <tr>
+                            <td class="col-label"><label for="zip_code" string="zipcd"/></td>
+                            <td colspan="2"><field name="zip_code" widget="mask" data-inputmask-mask="〒999_9999"/></td>
+                            <td></td>
+                            <td class="col-label"><label for="description" string="Description"/></td>
+                            <td colspan="3"><field name="description"/></td>
+
+                        </tr>
+
+                        <!-- Row 8 -->
+                        <tr>
+                            <td class="col-label"><label for="street" string="Address 1"/></td>
+                            <td colspan="3"><field name="street"/></td>
+                            <td class="col-label"><label for="invoice_print_format" string="Invoice Print Format"/></td>
+                            <td class="col-field"><field name="invoice_print_format"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="discount_printed"/><label for="discount_printed" string="Discount Printed"/></td>
+                        </tr>
+
+                        <!-- Row 9 -->
+                        <tr>
+                            <td class="col-label"><label for="street2" string="Address 2"/></td>
+                            <td colspan="3"><field name="street2"/></td>
+                            <td class="col-label"><label for="document_copies" string="Document Copies"/></td>
+                            <td class="col-field col-number"><field name="document_copies"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="active"/><label for="active" string="Active"/></td>
+                        </tr>
+
+                        <!-- Row 10 -->
+                        <tr>
+                            <td class="col-label"><label for="address3" string="Address 3"/></td>
+                            <td colspan="3"><field name="address3"/></td>
+
+
+                            <td class="col-label"><label for="write_date" string="Updated"/></td>
+                            <td class="col-field"><field name="write_date" readonly="1" class="o_input readonly_modify"/></td>
+                            <td class="col-label"><label for="actual_life_time_value" string="Actual Life Time Value"/></td>
+                            <td class="col-field col-number"><field name="actual_life_time_value" readonly="1" class="o_input readonly_modify"/></td>
+                        </tr>
+
+                        <!-- Row 11 -->
+                        <tr>
+                            <td class="col-label"><label for="phone" string="Phone"/></td>
+                            <td class="col-field"><field name="phone"/></td>
+                            <td class="col-label"><label for="fax" string="Fax"/></td>
+                            <td class="col-field"><field name="fax"/></td>
+
+
+                            <td class="col-label"><label for="open_balance" string="Open Balance"/></td>
+                            <td class="col-field col-number"><field name="open_balance" readonly="1" class="o_input readonly_modify"/></td>
+
+                        </tr>
+
+                        <!-- Row 12 -->
+                        <tr>
+                            <td class="col-label"><label for="partner_group" string="BPartner Group*"/></td>
+                            <td class="col-field"><field name="partner_group" attrs="{'required' : [('type', '=', 'contact')]}"/></td>
+                            <td colspan="2"></td>
+                            <td class="col-label"><label for="customer_tax" string="Tax"/></td>
+                            <td class="col-field col-number"><field name="customer_tax"/></td>
+                        </tr>
+
+                        <!-- Row 13 -->
+                        <tr>
+                            <td class="col-label"><label for="user_id" string="Representative/Agent"/></td>
+                            <td class="col-field"><field name="user_id"/></td>
+                            <td class="col-label"><label for="sale_person" string="Salesperson"/></td>
+                            <td class="col-field"><field name="sale_person"/></td>
+                            <td class="col-label"><label for="customer_classification_rate" string="vj_classification_rate"/></td>
+                            <td class="col-field col-number"><field name="customer_classification_rate"/></td>
+                        </tr>
+
+                        <!-- Row 14 -->
+                        <tr>
+                            <td class="col-label"><label for="payment_rule" string="Payment Rule"/></td>
+                            <td class="col-field"><field name="payment_rule"/></td>
+                            <td colspan="2"></td>
+                            <td class="col-label"><label for="customer_class_rate" string="class_rate"/></td>
+                            <td class="col-field col-number"><field name="customer_class_rate"/></td>
+                        </tr>
+
+                        <!-- Row 15 -->
+                        <tr>
+                            <td class="col-label"><label for="payment_terms" string="Payment Term"/></td>
+                            <td class="col-field"><field name="payment_terms"/></td>
+                            <td colspan="2"></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="customer_isdateprinted"/><label for="customer_isdateprinted" string="isdateprinted"/></td>
+                        </tr>
+
+                        <!-- Row 16 -->
+                        <tr>
+                            <td class="col-label"><label for="bill_schema" string="Bill Schema"/></td>
+                            <td class="col-field"><field name="bill_schema"/></td>
+                        </tr>
+
+                        <!-- Row 17 -->
+                        </tbody>
+
+                        <tr>
+                            <td></td>
+                            <td class="col-checkbox"><field name="is_so_tax_exempt"/><label for="is_so_tax_exempt" string="SO Tax exempt"/></td>
+                        </tr>
+                    </table>
+
+                    <field name="city" invisible="1"/>
+                    <field name="state_id" invisible="1"/>
+                    <field name="zip" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                    <field name="lang" invisible="1"/>
+                </xpath>
+                <!-- END FORM -->
+
+                <xpath expr="/form/sheet/notebook" position="replace"></xpath>
+            </field>
+        </record>
+
+<!--        search-->
+        <record model="ir.ui.view" id="partner_custom_search">
+			<field name="name">partner.custom.search</field>
+			<field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="customer_namef" string="Namef"/>
+                    <field name="customer_extra_name" string="Name 2"/>
+                    <field name="description" string="Description"/>
+                    <field name="partner_group" string="BPartner Group"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="search_key_partner" string="Search Key"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_partner_action_customer" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1,
+                'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}
+            </field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new customer in your address book
+              </p><p>
+                Odoo helps you easily track all activities related to a customer.
+              </p>
+            </field>
+        </record>
+
+        <record id="readonly_when_field_boolean_is_false" model="ir.rule">
+            <field name="name">readonly_when_field_boolean_is_false</field>
+            <field ref="model_res_partner" name="model_id"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_read" eval="0"/>
+        </record>
+
+
+
+<!--		&lt;!&ndash; Action &ndash;&gt;-->
+<!--		<record id="action_show_partner_view" model="ir.actions.act_window">-->
+<!--			<field name="name">Business Partner Custom</field>-->
+<!--			<field name="res_model">res.partner</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--		</record>-->
+
+	
+        <menuitem id="menu_ideas" parent="" name="Business Partner Custom" sequence="10"
+                  action="res_partner_action_customer" groups="base.group_user"/>
+    </data>
+</odoo>

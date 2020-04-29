@@ -1,0 +1,28 @@
+.price_list_template{
+
+    .o_inner_group{
+        margin: 0 !important;
+
+        > tbody > tr > td {
+            &.o_td_label {
+                padding: 0 !important;
+            }
+        }
+        }
+
+    .o_td_label {
+        border-right: none !important;
+        text-align: right !important;
+    }
+    .o_form_sheet{
+        min-height: 200px !important;
+    }
+}
+
+.client_group{
+    margin: 0 !important;
+}
+
+.custom_group{
+    margin: 0 !important;
+}

@@ -1,0 +1,13 @@
+button ._btn_disable {
+  border: 1px solid #0066cc!important;
+  background-color: #0099cc!important;
+  color: #ffffff!important;
+  padding: 5px 10px!important;
+}
+
+button ._btn_disable:disabled,
+button .button ._btn_disable[disabled]{
+  border: 1px solid #999999!important;
+  background-color: #cccccc!important;
+  color: #666666;
+}

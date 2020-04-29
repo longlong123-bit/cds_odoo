@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-extend="ControlPanel">
+        <t t-jquery=".o_control_panel" t-operation="append">
+            <div style="display:none; min-height:0px!important; margin-top:10px;padding:5px 5px 5px 5px;" class="alert alert-success" id="success-alert">
+              <strong>Save Success</strong>
+            </div>
+        </t>
+    </t>
+</templates>

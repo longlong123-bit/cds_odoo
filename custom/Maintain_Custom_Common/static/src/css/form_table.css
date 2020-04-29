@@ -1,0 +1,50 @@
+.custom-form-table{
+    width: 100%;
+    font-size: 1rem
+}
+.custom-form-table .col-field .o_field_widget {
+    margin-bottom: 5px;
+    height: 25.06px;
+    width: 100%;
+}
+
+.custom-form-table .col-field .o_field_empty {
+    display: block !important;
+}
+
+.custom-form-table .o_readonly_modifier:not(.o_field_boolean):not(.no-border){
+    background-color: #f0f0f0 !important;
+    padding: 0 5px;
+    border-radius: 3px;
+}
+
+.custom-form-table > tbody > tr > .col-field {
+    width: 15%;
+}
+
+.custom-form-table > tbody > tr > .col-number {
+    text-align: right;
+}
+
+.custom-form-table > tbody > tr > .col-checkbox > div {
+    margin-right: 0;
+}
+
+.custom-form-table > tbody > tr > .col-label {
+    width: 10%;
+    text-align: right;
+}
+
+.custom-form-table td {
+    vertical-align: top;
+}
+
+.custom-form-table label{
+    font-weight: bold;
+}
+
+/* Custom CSS when hover input */
+.o_input:focus{
+    border-color: #c280ff;
+    background-color: #f9efff;
+}

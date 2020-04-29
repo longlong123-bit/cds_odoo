@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--		treeview-->
+		    <record id="receipt_tree_view" model="ir.ui.view">
+				<field name="name">receipt.divide.custom.tree</field>
+				<field name="model">receipt.divide.custom</field>
+				<field name="arch" type="xml">
+					<tree string="Product" class="forward_edit">
+						<field name="search_key_receipt" string="Search Key"/>
+						<field name="name" string="Name"/>
+						<field name="description" string="Description"/>
+						<field name="client" string="Client"/>
+						<field name="organization" string="Organization"/>
+					</tree>
+				</field>
+			</record>
+
+		<!--filter search-->
+		<record id="receipt_tree_filter" model="ir.ui.view">
+            <field name="name">Module 1</field>
+			<field name="model">receipt.divide.custom</field>
+			<field name="arch" type="xml">
+                <search>
+					<field name="name" string="Name"/>
+					<field name="search_key_receipt" string="Search Key"/>
+					<field name="description" string="Description"/>
+                </search>
+            </field>
+        </record>
+
+
+
+		<!-- Main form -->
+		<record model="ir.ui.view" id="edit_receipt_divide">
+			<field name="name">Module 1 </field>
+			<field name="model">receipt.divide.custom</field>
+			<field name="arch" type="xml">
+				<form string="Form" class="receipt_divide">
+					<sheet>
+						<group class="top_menu_group">
+								<group>
+									<field name="client" string="Client*"/>
+									<field name="search_key_receipt" string="Search Key"/>
+								</group>
+								<group>
+									<field name="organization" string="Organization*"/>
+								</group>
+						</group>
+						<group class="bottom_menu_group">
+								<field name="name" string="Name*"/>
+								<field name="description" string="Description"/>
+<!--								<field name="comment" string="Comment/Help"/>-->
+								<field name="active" string="Active"/>
+						</group>
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_list_ideas">
+             <field name="name">receipt.action</field>
+             <field name="res_model">receipt.divide.custom</field>
+             <field name="view_mode">tree,form</field>
+             <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
+             <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Receipt
+                </p>
+             </field>
+        </record>
+
+
+		<record model="ir.actions.act_window" id="action_list_ideas">
+            <field name="name">入金区分</field>
+            <field name="res_model">receipt.divide.custom</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	
+        <menuitem id="menu_ideas" parent="" name="入金区分" sequence="12"
+                  action="action_list_ideas" groups="base.group_user"/>
+    </data>
+</odoo>

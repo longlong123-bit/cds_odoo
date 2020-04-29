@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- Main form -->
+		<record model="ir.ui.view" id="edit_invoice_customer2">
+			 <field name="name">aa123.move.form.inherit.website_sale</field>
+             <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                            <xpath expr="/form/sheet/notebook/page[@id='invoice_tab']/field/tree" position="replace">
+                                    <tree editable="bottom" class="invoice_create" string="Journal Items" default_order="sequence, date desc, move_name desc, id">
+                                        <control>
+                                            <create name="add_line_control" string="Add a line"/>
+                                        </control>
+                                        <!-- Displayed fields -->
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="invoice_custom_line_no" />
+                                        <field name="invoice_custom_detaildivide" required="True" string="detaildivide"/>
+                                        <field name="product_id" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
+                                        <field name="invoice_custom_standardnumber"/>
+                                        <field name="invoice_custom_FreightCategory"/>
+                                        <field name="quantity"/>
+                                        <field name="product_uom_id" string="UoM" required="True"/>
+
+                                        <field name="price_unit" string="Price"/>
+                                        <field name="invoice_custom_uom_cost_value"/>
+
+                                        <field name="invoice_custom_discountunitprice"/>
+                                        <field name="invoice_custom_discountrate"/>
+
+                                        <field name="invoice_custom_salesunitprice"/>
+                                        <field name="invoice_custom_lineamount"/>
+                                        <field name="tax_ids" widget="many2many_tags" domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]" context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}" options="{'no_create': True}"/>
+                                        <field name="invoice_custom_Description"/>
+
+                                        <field name="move_name" invisible="1"/>
+                                        <field name="account_id" groups="account.group_account_user" domain="[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id)]" attrs="{'required': [('display_type', '=', False)]}"/>
+                                        <field name="analytic_account_id" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting" optional="show"/>
+                                        <field name="analytic_tag_ids" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_tags" optional="show" widget="many2many_tags"/>
+
+                                        <!-- Others fields -->
+                                        <field name="partner_id" invisible="1"/>
+                                        <field name="amount_currency" invisible="1"/>
+                                        <field name="currency_id" invisible="1"/>
+                                        <field name="debit" invisible="1"/>
+                                        <field name="credit" invisible="1"/>
+                                        <field name="date" invisible="1"/>
+                                        <field name="date_maturity" invisible="1"/>
+
+                                        <field name="tax_line_id" invisible="1"/>
+                                        <field name="tax_repartition_line_id" invisible="1"/>
+                                        <field name="tag_ids" invisible="1"/>
+                                        <field name="tax_base_amount" invisible="1"/>
+                                        <field name="tax_exigible" invisible="1"/>
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="company_currency_id" invisible="1"/>
+                                        <field name="recompute_tax_line" invisible="1" force_save="1"/>
+                                        <field name="display_type" force_save="1" invisible="1"/>
+                                        <field name="is_rounding_line" invisible="1"/>
+                                        <field name="exclude_from_invoice_tab" invisible="1"/>
+                                        <field name="account_internal_type" invisible="1"/>
+                                        <field name="always_set_currency_id" invisible="1"/>
+                                    </tree>
+                            </xpath>
+                            <xpath expr = "//field[@name='line_ids']/tree/field[@name='account_id']" position = "before" >
+								<field name="invoice_custom_line_no"/>
+								<field name="invoice_custom_detaildivide"/>
+								<field name="invoice_custom_standardnumber"/>
+								<field name="invoice_custom_FreightCategory"/>
+								<field name="invoice_custom_discountunitprice"/>
+								<field name="invoice_custom_discountrate"/>
+								<field name="invoice_custom_uom_cost_value"/>
+								<field name="invoice_custom_salesunitprice"/>
+								<field name="invoice_custom_lineamount"/>
+								<field name="invoice_custom_Description"/>
+                            </xpath>
+<!--                            <xpath expr = "//page[@id='aml_tab']" position = "after" >-->
+<!--                            <page id="invoice_tax" string="Invoice Tax" name="invoice_tax" >-->
+<!--                                <field name="invoice_line_ids_tax" >-->
+<!--                                    <tree editable="bottom" string="Journal Items1">-->
+<!--                                        <field name="move_name" />-->
+<!--                                        <field name="taxGroup" />-->
+<!--                                        <field name="tax_base_amount" />-->
+<!--                                        <field name="tax_amount" />-->
+<!--                                        <field name="price_include_tax" />-->
+<!--                                        <field name="tax_provider" />-->
+<!--                                    </tree>-->
+<!--                                  </field>-->
+<!--                            </page>-->
+<!--                            </xpath>-->
+            </field>
+		</record>
+
+<!--        <record id="edit_partner_tree" model="ir.ui.view">-->
+<!--            <field name="name">account.move</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--              <field name="inherit_id" ref="account.view_invoice_tree"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <tree string="Invoices" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" banner_route="/account/account_invoice_onboarding" js_class="account_tree">-->
+<!--                    &lt;!&ndash;customize here&ndash;&gt;-->
+<!--                </tree>-->
+<!--            </field>-->
+<!--        </record>-->
+
+		<!-- Action -->
+		<record id="action_show_invoice_customer_view" model="ir.actions.act_window">
+			<field name="name">Invoice</field>
+			<field name="res_model">account.move</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+        <menuitem id="menu_ideas" parent="" name="売上請求伝票(VJ)" sequence="13"
+                  action="action_show_invoice_customer_view" groups="base.group_user"/>
+    </data>
+</odoo>

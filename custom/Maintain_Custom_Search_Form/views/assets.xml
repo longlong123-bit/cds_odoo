@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="HR Expense Assets assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/Maintain_Custom_Search_Form/static/src/js/search_custom.js"/>
+                <script type="text/javascript" src="/Maintain_Custom_Search_Form/static/src/js/search_filter_custom.js"/>
+		<!--                <script type="text/javascript" src="/Maintain_Custom_Search_Form/static/src/js/filter_menu_free.js"/>
+                <script type="text/javascript" src="/Maintain_Custom_Search_Form/static/src/js/search_filters_free.js"/>
+		<script type="text/javascript" src="/Maintain_Custom_Search_Form/static/src/js/search_filters_registry_free.js"/>-->
+                <script type="text/javascript" src="/Maintain_Custom_Search_Form/static/src/js/abstact_view_Custom.js"/>
+                <script type="text/javascript" src="/Maintain_Custom_Search_Form/static/src/js/control_panel_renderer_custom.js"/>
+
+<!--                <script type="text/javascript" src="/Maintain_Custom_Search_Form/static/src/js/filter_menu_free_search.js"/>-->
+<!--                <script type="text/javascript" src="/Maintain_Custom_Search_Form/static/src/js/search_filters_free_search.js"/>-->
+
+
+            </xpath>
+        </template>
+    </data>
+</odoo>

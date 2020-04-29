@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- Main form -->
+		<record model="ir.ui.view" id="printer_output_tree">
+			<field name="name">printer_output_tree</field>
+			<field name="model">printer.output</field>
+            <field name="arch" type="xml">
+				<tree>
+					<field name="computer_name"/>
+				</tree>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="printer_output_filter">
+			<field name="name">printer_output_filter</field>
+			<field name="model">printer.output</field>
+            <field name="arch" type="xml">
+				<search>
+					<field name="computer_name"/>
+				</search>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="printer_output_form">
+			<field name="name">printer_output</field>
+			<field name="model">printer.output</field>
+			<field name="arch" type="xml">
+				<form string="Form">
+					<sheet>
+						<group>
+							<field name="computer_name" string="Computer Name"/>
+							<field name="paperformat_id_1" string="Paper Format 1"/>
+							<field name="paperformat_id_2" string="Paper Format 2"/>
+							<field name="paperformat_id_3" string="Paper Format 3"/>
+							<field name="paperformat_id_4" string="Paper Format 4"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record model="ir.actions.act_window" id="action_printer_output">
+            <field name="name">Printer Output</field>
+            <field name="res_model">printer.output</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	
+        <menuitem id="menu_ideas" parent="" name="Printer" sequence="12"
+                  action="action_printer_output" groups="base.group_user"/>
+    </data>
+</odoo>

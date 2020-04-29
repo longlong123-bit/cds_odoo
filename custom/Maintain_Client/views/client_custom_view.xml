@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+		<record model="ir.ui.view" id="client_custom_tree">
+			<field name="name">client.custom.form</field>
+			<field name="model">client.custom</field>
+            <field name="arch" type="xml">
+				<tree>
+					<field name="search_key_client" string="Search Key"/>
+					<field name="name" string="Name"/>
+					<field name="description" string="Description"/>
+				</tree>
+            </field>
+        </record>
+
+		<record id="client_tree_search" model="ir.ui.view">
+            <field name="name">Client Search</field>
+			<field name="model">client.custom</field>
+			<field name="arch" type="xml">
+                <search>
+					<field name="search_key_client" string="Search Key"/>
+					<field name="name" string="Name"/>
+					<field name="description" string="Description"/>
+                </search>
+            </field>
+        </record>
+
+		<!-- Main form -->
+		<record model="ir.ui.view" id="edit_freight_category">
+			<field name="name">Module Client </field>
+			<field name="model">client.custom</field>
+			<field name="arch" type="xml">
+				<form string="Form" class="client_template">
+					<sheet>
+						<group>
+							<field name="search_key_client" string="Search Key"/>
+							<field name="name" string="Name*"/>
+							<field name="description" string="Description"/>
+							<field name="active" string="Active"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record model="ir.actions.act_window" id="action_list_ideas">
+            <field name="name">Client</field>
+            <field name="res_model">client.custom</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	
+        <menuitem id="menu_ideas" parent="" name="Client" sequence="12"
+                  action="action_list_ideas" groups="base.group_user"/>
+    </data>
+</odoo>

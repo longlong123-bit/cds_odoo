@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- Tree View-->
+		<record model="ir.ui.view" id="price_list_tree">
+			<field name="name">Pricelist Tree</field>
+			<field name="model">price.list.custom</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="applied_on" widget="radio"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="price_list_custom">
+			<field name="name">Pricelist Template</field>
+			<field name="model">price.list.custom</field>
+			<field name="arch" type="xml">
+				<form string="Products Price List">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="client" string="Client*"/>
+                            </group>
+                            <group>
+                                <field name="organization" string="Organization*"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="name_price" string="Name*"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                            <group>
+
+                            </group>
+                        </group>
+                        <group>
+                            <field name="currency_id"/>
+                        </group>
+                    </sheet>
+                </form>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record model="ir.actions.act_window" id="action_show_pricelist_custom_view" >
+			<field name="name">PriceList</field>
+			<field name="res_model">price.list.custom</field>
+			<field name="view_mode">tree,form</field>
+			<field name="target">inline</field>
+		</record>
+
+
+        <menuitem id="menu_ideas" parent='' name="Price List" sequence="13"
+                  action="action_show_pricelist_custom_view" groups="base.group_user"/>
+    </data>
+</odoo>

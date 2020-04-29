@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-extend="SearchView.extended_search.proposition1" name ="SearchView.extended_search.proposition_custom">
+        <t t-jquery=".o_filter_condition" t-operation="replace">
+            <tr>
+                <td style="text-align:right; padding: 5px 5px 5px 5px">
+                    <span class="o_searchview_extended_prop_field_lable"></span>
+<!--                    <select class="o_input o_searchview_extended_prop_field" >-->
+                        <select  class="o_input o_searchview_extended_prop_field" t-att="{'style': 'display:none'}" >
+                        <t t-foreach="widget.attrs.fields" t-as="field">
+                            <option t-att="{'selected': field === widget.attrs.selected ? 'selected' : null}"
+                                    t-att-value="field.name">
+
+                            </option>
+                        </t>
+                    </select>
+                </td>
+                <td style="text-align:right; padding: 5px 5px 5px 5px">
+                    <select class="o_input o_searchview_extended_prop_op"/>
+                </td>
+                <td style="text-align:right; padding: 5px 5px 5px 5px" >
+                    <span class="o_searchview_extended_prop_value"/>
+                </td>
+            </tr>
+        </t>
+    </t>
+</templates>

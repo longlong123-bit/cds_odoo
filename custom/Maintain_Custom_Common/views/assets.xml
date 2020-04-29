@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="HR Expense Assets assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/Maintain_Custom_Common/static/src/css/layout.css" />
+                <link rel="stylesheet" href="/Maintain_Custom_Common/static/src/css/dialog.css" />
+                <link rel="stylesheet" href="/Maintain_Custom_Common/static/src/css/form_table.css" />
+                <script type="text/javascript" src="/Maintain_Custom_Common/static/src/js/list_render_custom.js"/>
+                <script type="text/javascript" src="/Maintain_Custom_Common/static/src/js/pager.js"/>
+                <script type="text/javascript" src="/Maintain_Custom_Common/static/src/js/form_controller_custom.js"/>
+                <script type="text/javascript" src="/Maintain_Custom_Common/static/src/js/common.js"/>
+                <script type="text/javascript" src="/Maintain_Custom_Common/static/src/js/relation_fields_custom.js"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

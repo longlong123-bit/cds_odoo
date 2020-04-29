@@ -1,0 +1,321 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Maintain_Income_Payment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-24 12:12+0000\n"
+"PO-Revision-Date: 2020-04-24 12:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
+msgid "Account Payment"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_payment_address1
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Address 1"
+msgstr "住所１"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_payment_address2
+msgid "Address 2"
+msgstr "住所２"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_bank_account_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
+msgid "Bank Account"
+msgstr "アカウント"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
+msgid "Business Partner"
+msgstr "得意先コード"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Business Partner*"
+msgstr "得意先コード*"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Cancel"
+msgstr "取消"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__client_custom_id
+msgid "Client"
+msgstr "クライアント"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Client*"
+msgstr "クライアント*"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,help:Maintain_Income_Payment.field_account_payment__company_id
+msgid "Company related to this journal"
+msgstr "この仕訳帳と関係する会社"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Confirm"
+msgstr "確認"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__currency_id
+msgid "Currency"
+msgstr "通貨"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Currency*"
+msgstr "通貨*"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__description
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Description"
+msgstr "備考"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__document_no
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
+msgid "Document No"
+msgstr "伝票番号"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__state
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
+msgid "Document Status"
+msgstr "伝票ステータス"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Document Status*"
+msgstr "伝票ステータス*"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__id
+msgid "ID"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__account_invoice_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
+msgid "Invoice"
+msgstr "請求伝票"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__line_info
+msgid "Line info"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__company_id
+msgid "Organization"
+msgstr "組織"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Organization*"
+msgstr "組織*"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__payment_id
+msgid "Originator Payment"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__payment_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Payment Amount"
+msgstr "入金金額"
+
+#. module: Maintain_Income_Payment
+#: model:ir.actions.act_window,name:Maintain_Income_Payment.account_payment_action
+#: model:ir.ui.menu,name:Maintain_Income_Payment.menu_ideas
+msgid "Payment Custom"
+msgstr "入金入力"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,help:Maintain_Income_Payment.field_account_payment_line__payment_id
+msgid "Payment that created this entry"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__account_payment_line_ids
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "PaymentLine"
+msgstr "入金明細"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model,name:Maintain_Income_Payment.model_account_payment
+msgid "Payments"
+msgstr "支払"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Register Payment"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Reset To Draft"
+msgstr "ドラフトに再設定"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__sales_rep
+msgid "Sales Rep"
+msgstr "入力担当者"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Sales Rep*"
+msgstr "入力担当者*"
+
+#. module: Maintain_Income_Payment
+#: code:addons/Maintain_Income_Payment/models/income_payment_custom.py:0
+#, python-format
+msgid "The Document No has already been registered"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__payment_date
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
+msgid "Transaction Date"
+msgstr "入金日付"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Transaction Date*"
+msgstr "入金日付*"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model,name:Maintain_Income_Payment.model_account_payment_line
+msgid "account.payment.line"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__cb_partner_sales_rep_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "cbpartner_salesrep_id"
+msgstr "営業担当者"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__collection_method_date
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "collectionmethoddate"
+msgstr "回収月、回収日"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__comment_apply
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "commentapply"
+msgstr "適用"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_payment_name1
+msgid "paymentname1"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_payment_name2
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "paymentname2"
+msgstr "先名２"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__vj_c_payment_category
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "vj_c_payment_category"
+msgstr "入金区分"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__journal_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "vj_collection_method"
+msgstr "回収方法"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__vj_summary
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "vj_summary"
+msgstr "摘要"
+
+#. module: Maintain_Income_Payment
+#: code:addons/Maintain_Income_Payment/models/income_payment_custom.py:0
+#, python-format
+msgid "入金額合計："
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: code:addons/Maintain_Income_Payment/models/income_payment_custom.py:0
+#, python-format
+msgid "売掛残高："
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__vj_summary__vj_sum_1
+msgid "専伝・仮伝"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__vj_summary__vj_sum_2
+msgid "指定なし"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__vj_summary__vj_sum_3
+msgid "通常"
+msgstr ""

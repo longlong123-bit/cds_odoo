@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- Main form -->
+		<record model="ir.ui.view" id="discount_schema_form">
+			<field name="name">Module Discount Schema</field>
+			<field name="model">discount.schema</field>
+			<field name="arch" type="xml">
+				<form string="Form" class="discount_schema">
+					<sheet>
+						<group>
+							<field name="client" string="Client"/>
+							<field name="organization" string="Organization"/>
+							<field name="name" string="Name*"/>
+							<field name="description" string="Description"/>
+							<field name="active" string="Active"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record model="ir.actions.act_window" id="action_list_ideas">
+            <field name="name">Discount Schema</field>
+            <field name="res_model">discount.schema</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	
+<!--        <menuitem id="menu_ideas" parent="" name="Client" sequence="12"-->
+<!--                  action="action_list_ideas" groups="base.group_user"/>-->
+    </data>
+</odoo>

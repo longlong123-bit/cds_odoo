@@ -1,0 +1,24 @@
+.receipt_divide
+{
+    .o_inner_group{
+        margin: 0 !important;
+
+        > tbody > tr > td {
+            &.o_td_label {
+                padding: 0 !important;
+            }
+        }
+        }
+
+    .o_td_label {
+        border-right: none !important;
+        text-align: right !important;
+    }
+}
+.top_menu_group{
+    margin: 0 !important;
+}
+
+.bottom_menu_group{
+    margin: 0 !important;
+}

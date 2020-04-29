@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record model="ir.ui.view" id="invoice_custom_tree">
+      <field name="name">invoice.custom.form</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_invoice_tree"/>
+      <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                  <attribute name="class">forward_edit</attribute>
+            </xpath>
+          <xpath expr="//field[@name='name']" position="after">
+            <field name="x_studio_document_no" string="Document No"/>
+            <field name="ref" string="Order Reference"/>
+            <field name="x_studio_date_invoiced" string="Date Invoiced"/>
+              <field name="x_studio_date_shipment" string="shipmentdate"/>
+            <field name="x_studio_business_partner" string="Business Partner"/>
+            <field name="x_studio_userinput_id" string="userinput_id"/>
+            <field name="create_date" string="Updated"/>
+            <field name="state" string="Document Status"/>
+          </xpath>
+          <xpath expr="//field[@name='amount_residual_signed']" position="before">
+              <field name="invoice_total_paid" sum="Paid" string="Paid"></field>
+          </xpath>
+        <xpath expr="//field[@name='company_id']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+        <xpath expr="//field[@name='invoice_origin']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+        <xpath expr="//field[14]" position="replace">
+          <field name="x_studio_document_no" invisible="1"/>
+        </xpath>
+        <xpath expr="//field[@name='invoice_partner_icon']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+          <xpath expr="//field[@name='invoice_user_id']" position="attributes">
+              <attribute name="optional">hide</attribute>
+          </xpath>
+          <xpath expr="//field[@name='name']" position="attributes">
+              <attribute name="optional">hide</attribute>
+          </xpath>
+          <xpath expr="//field[@name='state'][2]" position="replace">
+              <field name="x_studio_document_no" invisible="1"/>
+          </xpath>
+      </field>
+  </record>
+
+  <!--        search-->
+  <record model="ir.ui.view" id="invoice_custom_search">
+      <field name="name">invoice.custom.search</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+      <field name="arch" type="xml">
+          <xpath expr="//field[@name='name']" position="before">
+            <field name="x_studio_document_no" string="Document No"/>
+            <field name="ref" string="Order Reference"/>
+            <field name="x_studio_date_invoiced" string="Date Invoiced"/>
+            <field name="x_studio_business_partner" string="Business Partner"/>
+            <field name="x_studio_userinput_id" string="userinput_id"/>
+            <field name="create_date" string="Updated"/>
+            <field name="state" string="Document Status"/>
+          </xpath>
+      </field>
+  </record>
+
+
+<record id="view_move_custom_form" model="ir.ui.view">
+    <field name="name">account.move.custom.form</field>
+    <field name="model">account.move</field>
+    <field name="mode">primary</field>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="priority">1</field>
+    <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//sheet/field[@name='invoice_sequence_number_next_prefix']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//sheet/field[@name='invoice_sequence_number_next']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+
+      <!-- BEGIN FORM -->
+      <xpath expr="//group[1]" position="replace">
+          <div style="text-align: right; font-weight: bold; font-size: 1.2rem; margin-bottom: 20px; margin-right: 80px;">
+            <field name="x_studio_line_info" readonly="1" class="no-border"/>
+          </div>
+        <table class="custom-form-table">
+          <tbody>
+            <!-- Row 1 -->
+            <tr>
+              <!-- Column 1 -->
+              <td class="col-label"><label for="x_studio_client_2" string="Client*"/></td>
+              <td class="col-field"><field name="x_studio_client_2" string="Client*" required="1" readonly="1" class="o_input"/></td>
+
+              <!-- Column 2 -->
+              <td class="col-label"><label for="x_studio_organization" string="Organization*"/></td>
+              <td class="col-field"><field name="x_studio_organization" string="Organization*" required="1"  readonly="1" class="o_input"/></td>
+
+              <!-- Column 3 -->
+              <td class="col-label"><label for="x_studio_userinput_id" string="userinput_id"/></td>
+              <td class="col-field"><field name="x_studio_userinput_id" string="userinput_id" z-index="91" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
+
+              <!-- Column 4 -->
+            </tr>
+
+            <!-- Row 2 -->
+            <tr>
+              <!-- Column 1 -->
+              <td class="col-label"><label for="x_studio_target_doc_type" string="Target Doc Type*"/></td>
+              <td class="col-field"><field name="x_studio_target_doc_type" string="Target Doc Type*" required="1" readonly="1" class="o_input"/></td>
+
+              <!-- Column 2 -->
+              <td class="col-label"><label for="x_studio_document_no" string="Document No"/></td>
+                <td class="col-field"><field name="x_studio_document_no" string="Document No" readonly="1" class="o_input"/></td>
+
+              <!-- Column 3 -->
+              <td class="col-label"><label for="ref" string="Order Reference"/></td>
+              <td class="col-field"><field name="ref" string="Order Reference" z-index="92" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
+
+              <!-- Column 4-->
+              <td class="col-label"><label for="x_studio_price_list" string="Price List*"/></td>
+              <td class="col-field"><field name="x_studio_price_list" string="Price List*" attrs="{'readonly': [('line_len', '!=', 0)]}" force_save="1" required="1" z-index="93"/></td>
+            </tr>
+
+            <!-- Row 3 -->
+            <tr>
+              <!-- Column 1 -->
+              <td class="col-label"><label for="x_studio_date_invoiced" string="Invoice Date*"/></td>
+              <td class="col-field"><field name="x_studio_date_invoiced" string="Invoice Date*" required="1" z-index="94" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+
+              <!-- Column 2 -->
+              <td class="col-label"><label for="x_studio_date_shipment" string="shipmentdate*"/></td>
+              <td class="col-field"><field name="x_studio_date_shipment" string="shipmentdate*" required="1" z-index="95" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+
+              <!-- Column 3 -->
+              <td class="col-label"><label for="x_studio_sales_rep" string="Sales Rep"/></td>
+              <td class="col-field"><field name="x_studio_sales_rep" string="Sales Rep" z-index="96" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
+
+              <!-- Column 4 -->
+              <td class="col-label"><label for="x_studio_payment_rule_1" string="Payment Rule*"/></td>
+              <td class="col-field"><field name="x_studio_payment_rule_1" string="Payment Rule*" attrs="{'readonly':[('state','in',['posted'])]}" required="1" z-index="97"/></td>
+            </tr>
+
+            <!-- Row 4 -->
+            <tr>
+              <!-- Column 1 -->
+              <td class="col-label"><label for="x_studio_business_partner" string="Business Partner*"/></td>
+              <td class="col-field">
+                <field name="x_studio_business_partner" widget="res_partner_many2one" required="1" domain="[('customer_rank','>', 0)]" default_focus="1"
+                     context="{'showemail': 'ok','res_partner_search_mode': 'customer'}" options='{"reload_on_button": True, "no_quick_create": True}'
+                     attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))], 'readonly':[('state','in',['posted'])]}" z-index="98"/>
+              </td>
+              <td colspan="4"><field name="x_studio_name" string="Name" class="o_address_street" style="width : 100%;"
+                   placeholder="Name..." force_save="1"  widget="input" z-index="99" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+
+              <!-- Column 2 -->
+              <td class="col-label"><label for="x_studio_date_printed" string="Date Printed"/></td>
+              <td class="col-field"><field name="x_studio_date_printed" string="Date Printed" z-index="100" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
+            </tr>
+
+            <!-- Row 5 -->
+            <tr>
+              <!-- Column 1 -->
+              <td class="col-label"><label for="x_studio_address_1" string="Address"/></td>
+              <td colspan="2" class="col-field"><field name="x_studio_address_1" string="Address 1" class="o_address_city"
+                   placeholder="Address 1..." force_save="1" widget="input" z-index="101" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+              <td colspan="2" class="col-field"><field name="x_studio_address_2" string="Address 2" class="o_address_city"
+                                                       placeholder="Address 2..." force_save="1"  widget="input" z-index="102" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+              <td class="col-field"><field name="x_studio_address_3" string="Address 3" class="o_address_city" placeholder="Address 3..." force_save="1"  widget="input" z-index="103" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+
+              <!-- Column 2 -->
+              <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term*"
+                                           attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit'])]} "/></td>
+              <td class="col-field">
+                  <field name="invoice_payment_terms_custom" required="1" class="o_input" readonly="1" force_save="1"
+                         attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit'])]} "/>
+              </td>
+            </tr>
+
+            <!-- Row 6 -->
+            <tr>
+              <!-- Column 1 -->
+              <td colspan="7" style="height: 31.82px"></td>
+              <!-- Column 2 -->
+              <td class="col-checkbox"><field name="x_studio_discount_printed" string="Discount Printed" z-index="104" attrs="{'readonly':[('state','!=','draft')]}"/><label for="x_studio_discount_printed" string="Discount Printed"/></td>
+            </tr>
+
+            <!-- Row 7 -->
+            <tr>
+              <!-- Column 1 -->
+              <td class="col-label"><label for="x_studio_cus_salesslipforms_table" string="cus_salesslipforms_Table"/></td>
+              <td class="col-field"><field name="x_studio_cus_salesslipforms_table" string="cus_salesslipforms_Table" z-index="105" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+
+              <!-- Column 2 -->
+              <td colspan="5"></td>
+              <td class="col-checkbox"><field class="printed_readonly" name="x_studio_printed" string="Printed"/><label for="x_studio_printed" string="Printed" /></td>
+            </tr>
+
+            <!-- Row 8 -->
+            <tr>
+              <!-- Column 1 -->
+              <td class="col-label"><label for="x_studio_description" string="Description"/></td>
+              <td colspan="5" class="col-field"><field name="x_studio_description" string="Description" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+
+              <!-- Column 2 -->
+              <td></td>
+              <!--<td class="col-checkbox"><field name="x_studio_price_includes_tax" string="Price includes Tax"/><label for="x_studio_price_includes_tax" string="Price includes Tax"/></td>-->
+            </tr>
+
+            <!-- Row 9 -->
+            <tr>
+              <!-- Column 1 -->
+              <td class="col-label"><label for="amount_untaxed" string="Total Lines*"/></td>
+              <td class="col-field"><field name="amount_untaxed" widget="float" string="Total Lines*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
+              <!-- Column 2 -->
+              <td class="col-label"><label for="amount_total" string="Grand Total*"/></td>
+              <td class="col-field"><field name="amount_total" string="Grand Total*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
+            </tr>
+
+            <!-- Row 10 -->
+            <tr>
+              <!-- Column 1 -->
+              <td class="col-label"><label for="state" string="Document Status*"/></td>
+              <td class="col-field"><field name="state" string="Document Status*" readonly="1" required="1" class="o_input"/></td>
+
+              <!-- Column 2 -->
+              <td></td>
+              <td class="col-field"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!--<field name="currency_id"
+                     groups="base.group_multi_currency"
+                     attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund'))]}"/>
+        <field name="journal_id"
+           invisible="context.get('default_journal_id') and context.get('type', 'entry') != 'entry'"
+           groups="account.group_account_user"
+           options="{'no_create': True}"
+           domain="[('type', '=?', invoice_filter_type_domain)]"
+           attrs="{'readonly': [('name', '!=', '/')]}"/>-->
+		<field name="currency_id" groups="base.group_multi_currency" invisible="1"/>
+        <field name="journal_id" invisible="1"/>
+        <field name="partner_id" invisible="1"/>
+          <field name="line_len" invisible="1"/>
+      </xpath>
+      <!-- END FORM -->
+      <xpath expr="//field[@name='invoice_line_ids']" poisition="attributes">
+		<attribute name="context">{'default_line_ids': line_ids, 'default_move_id': id,'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id != company_currency_id and currency_id or False}</attribute>
+	  </xpath>
+
+      <xpath expr = "//field[@name='invoice_line_ids']/tree" position = "replace" >
+            <tree editable="bottom" class="invoice_create" string="Journal Items" default_order="invoice_custom_line_no" widget="section_and_note_one2many">
+<!--                <control>-->
+<!--                    <create name="add_line_control" string="Add a line"/>-->
+<!--                </control>-->
+                <!-- Displayed fields -->
+                <field name="sequence" widget="handle"/>
+                <button name="button_update" type="object"
+                  style="background : url('/web/static/src/img/form-toolbar/EditRecord16.png') no-repeat center;background-size:contain;background-color: transparent; display: inline-block; margin-left: 1px; margin-right: 1px; width: 16px; height: 16px; padding: 1px;border: none;" >
+                </button>
+		<field name="invoice_custom_line_no" required="True"/>
+                <field name="invoice_custom_detaildivide" required="True" string="detaildivide"/>
+                <field name="product_id" string="Product" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
+                <field name="invoice_custom_standardnumber"/>
+                <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+                <field name="quantity" string="Quantity"/>
+                <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM" required="True"/>
+
+                <field name="price_unit" string="Price"/>
+                <field name="invoice_custom_uom_cost_value"/>
+
+                <field name="invoice_custom_discountunitprice"/>
+                <field name="discount" string="Discount(%)"/>
+<!--                <field name="invoice_custom_discountrate"/>-->
+
+                <field name="invoice_custom_salesunitprice"/>
+                <field name="invoice_custom_lineamount"/>
+                <field name="tax_ids" string="Taxes"  widget="many2many_tags" domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]" context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+                <field name="invoice_custom_Description"/>
+
+
+                <field name="move_name" invisible="1"/>
+                <field name="account_id" groups="account.group_account_user" domain="[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id)]" attrs="{'required': [('display_type', '=', False)]}"/>
+                <field name="analytic_account_id" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting" optional="show"/>
+                <field name="analytic_tag_ids" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_tags" optional="show" widget="many2many_tags"/>
+
+                <!-- Others fields -->
+                <field name="partner_id" invisible="1"/>
+                <field name="amount_currency" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="debit" invisible="1"/>
+                <field name="credit" invisible="1"/>
+                <field name="date" invisible="1"/>
+                <field name="date_maturity" invisible="1"/>
+
+                <field name="tax_line_id" invisible="1"/>
+                <field name="tax_repartition_line_id" invisible="1"/>
+                <field name="tag_ids" invisible="1"/>
+                <field name="tax_base_amount" invisible="1"/>
+                <field name="tax_exigible" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="company_currency_id" invisible="1"/>
+                <field name="recompute_tax_line" invisible="1" force_save="1"/>
+                <field name="display_type" force_save="1" invisible="1"/>
+                <field name="is_rounding_line" invisible="1"/>
+                <field name="exclude_from_invoice_tab" invisible="1"/>
+                <field name="account_internal_type" invisible="1"/>
+                <field name="always_set_currency_id" invisible="1"/>
+            </tree>
+        </xpath>
+      <xpath expr = "//field[@name='line_ids']/tree/field[@name='account_id']" position = "before" >
+	      <field name="invoice_custom_line_no"/>
+		  <field name="invoice_custom_detaildivide"/>
+		  <field name="invoice_custom_standardnumber"/>
+		  <field name="invoice_custom_FreightCategory"/>
+		  <field name="invoice_custom_discountunitprice"/>
+          <field name="discount" groups="base.group_no_one"/>
+		  <field name="invoice_custom_uom_cost_value"/>
+		  <field name="invoice_custom_salesunitprice"/>
+		  <field name="invoice_custom_lineamount"/>
+		  <field name="invoice_custom_Description"/>
+        </xpath>
+        <xpath expr="//field[@name='line_ids']" poisition="attributes">
+		    <attribute name="context">{'default_line_ids': line_ids, 'default_move_id': id,'line_ids': line_ids, 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id != company_currency_id and currency_id or False}</attribute>
+	    </xpath>
+
+        <xpath expr = "//field[@name='line_ids']/tree/field[@name='discount']" position = "attributes" >
+          <attribute name="invisible">0</attribute>
+        </xpath>
+        <xpath expr = "//page[@id='aml_tab']" position = "after" >
+          <page id="invoice_tax" string="Invoice Tax" name="invoice_tax" >
+              <field name="invoice_line_ids_tax" class="custom_template">
+                  <tree editable="bottom" create="false" delete="false" string="Journal Items1">
+                      <button name="button_update" type="object" class="oe_edit_only"
+                              style="background : url('/web/static/src/img/form-toolbar/EditRecord16.png')
+                              no-repeat center;
+                              background-size: contain;
+                              background-color: transparent;
+                              display: inline-block;
+                              margin-left: 1px;
+                              margin-right: 1px;
+                              width: 16px;
+                              height: 16px;
+                              padding: 1px;
+                              border: none;"/>
+                      <field name="move_name" readonly="True"/>
+                      <field name="taxGroup" readonly="True"/>
+                      <field name="tax_base_amount" readonly="True"/>
+                      <field name="tax_amount" readonly="True"/>
+                      <field name="price_include_tax" invisible="1" readonly="True"/>
+                      <field name="tax_provider" readonly="True"/>
+                  </tree>
+                </field>
+          </page>
+        </xpath>
+        <xpath expr = "//page[@id='other_tab']" position = "attributes" >
+          <attribute name="invisible">1</attribute>
+        </xpath>
+    </field>
+  </record>
+
+    <!--  Invoice Tax Tree  -->
+    <record id="account_tax_line_form" model="ir.ui.view">
+        <field name="name">account.tax.line.form</field>
+        <field name="model">account.tax.line</field>
+        <field name="mode">primary</field>
+        <field name="priority" eval="7"/>
+        <field name="arch" type="xml">
+            <form string="Invoice Tax" class="invoice_tax_custom custom_template">
+                <group>
+                    <group style="width: 33%;">
+                        <field name="client" readonly="True" string="Client*"/>
+                        <field name="move_name" readonly="True" string="Invoice*"/>
+                    </group>
+                    <group style="width: 33%;">
+                        <field name="organization" readonly="True" string="Organization*"/>
+                    </group>
+                    <group style="width: 33%;">
+                    </group>
+
+                    <group style="width: 33%;">
+                        <field name="taxGroup" readonly="True" string="Tax*"/>
+                        <field name="tax_base_amount" readonly="True" string="Tax base Amount*"/>
+                    </group>
+                    <group style="width: 33%;">
+                        <label for="price_include_tax" invisible="True"/>
+                        <div>
+                            <field name="price_include_tax" widget="boolean_tags" readonly="True"/>
+                            <label for="price_include_tax"/>
+                        </div>
+
+                        <field name="tax_amount" readonly="True" string="Tax Amount*"/>
+                    </group>
+                    <group style="width: 33%;">
+                        <field name="tax_provider" readonly="True"/>
+                    </group>
+                </group>
+                <footer>
+                    <button data-dismiss="modal" string="Close"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!--  Invoice Lines Tree  -->
+<!--    <record id="view_move_line_custom_form" model="ir.ui.view">-->
+<!--        <field name="name">account.move.line.custom.form</field>-->
+<!--        <field name="model">account.move.line</field>-->
+<!--        <field name="mode">primary</field>-->
+<!--        <field eval="1" name="priority"/>-->
+<!--        <field name="inherit_id" ref="account.view_move_line_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr='//form' position="replace">-->
+<!--                <form string="Invoice Lines">-->
+<!--                    <group>-->
+<!--                        <field name="invoice_custom_line_no" string="Line No*"/>-->
+<!--                        <field name="product_id" string="Product*"/>-->
+<!--                        <field name="invoice_custom_Description"/>-->
+<!--                        <field name="quantity" string="Quantity*"/>-->
+<!--                        <field name="price_unit" string="Price*"/>-->
+<!--                        <field name="tax_ids" widget="many2many_tags" string="Tax*"/>-->
+<!--                    </group>-->
+<!--                </form>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+  <record id="invoice_template_action" model="ir.actions.act_window">
+      <field name="name">Invoices</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.move</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
+  </record>
+</odoo>

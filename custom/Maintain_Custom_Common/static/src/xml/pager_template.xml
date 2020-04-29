@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <div t-extend="Pager">
+        <t t-jquery=".btn-group" t-operation="replace">
+            <!-- accesskeys not wanted in X2Many widgets -->
+            <t t-if="widget.options.withAccessKey">
+                <t t-set="att_prev" t-value="{'accesskey': 'p'}" />
+                <t t-set="att_next" t-value="{'accesskey': 'n'}" />
+                <t t-set="att_last" t-value="{'accesskey': 'z'}" />
+                <t t-set="att_first" t-value="{'accesskey': 'h'}" />
+
+            </t>
+            <button type="button" class="fa fa-backward btn btn-secondary o_pager_first" t-att="att_first" aria-label="First" title="First" tabindex="-1"/>
+            <button type="button" class="fa fa-chevron-left btn btn-secondary o_pager_previous" t-att="att_prev" aria-label="Previous" title="Previous" tabindex="-1"/>
+            <button type="button" class="fa fa-chevron-right btn btn-secondary o_pager_next" t-att="att_next" aria-label="Next" title="Next" tabindex="-1"/>
+            <button type="button" class="fa fa-forward btn btn-secondary o_pager_last" t-att="att_last" aria-label="Last" title="Last" tabindex="-1"/>
+        </t>
+    </div>
+</templates>

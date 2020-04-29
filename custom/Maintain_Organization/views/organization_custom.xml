@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- Main form -->
+<!--		<record model="ir.ui.view" id="organization_form">-->
+<!--			<field name="name">Module Organization </field>-->
+<!--			<field name="model">organization.custom</field>-->
+<!--			<field name="arch" type="xml">-->
+<!--				<form string="Form" >-->
+<!--					<sheet>-->
+<!--						<group>-->
+<!--							<field name="client" string="Client*" />-->
+<!--							<field name="searchkey" string="Search Key"/>-->
+<!--							<field name="name" string="Name*"/>-->
+<!--							<field name="description" string="Description"/>-->
+<!--							<field name="active" string="Active"/>-->
+<!--						</group>-->
+<!--					</sheet>-->
+<!--				</form>-->
+<!--			</field>-->
+<!--		</record>-->
+
+		<record model="ir.ui.view" id="organization_form_tree">
+			<field name="name">organization.custom.tree</field>
+			<field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+					<field name="client" string="Client"/>
+				</xpath>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="organization_form_search">
+			<field name="name">organization.custom.search</field>
+			<field name="model">res.company</field>
+            <field name="arch" type="xml">
+				<search string="Search Organization">
+					<field name="name"/>
+					<field name="client" string="Client"/>
+				</search>
+            </field>
+        </record>
+
+		 <record model="ir.ui.view" id="organization_form">
+            <field name="name">organization.custom.form</field>
+			<field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='partner_id']" position="after">
+					<field name="client" string="Client"/>
+				</xpath>
+			</field>
+		 </record>
+
+
+		<record model="ir.actions.act_window" id="action_list_ideas">
+            <field name="name">Organization</field>
+            <field name="res_model">res.company</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_ideas" parent="" name="Organization" sequence="12"
+                  action="action_list_ideas" groups="base.group_user"/>
+    </data>
+</odoo>

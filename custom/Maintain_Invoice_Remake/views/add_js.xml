@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="Maintain_Invoice_Remake css assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/Maintain_Invoice_Remake/static/src/css/common.css" />
+                <link rel="stylesheet" type="text/scss" href="/Maintain_Invoice_Remake/static/src/css/account_payment_term.scss" />
+                <link rel="stylesheet" type="text/scss" href="/Maintain_Invoice_Remake/static/src/css/invoice_tax.scss" />
+                <link rel="stylesheet" href="/Maintain_Invoice_Remake/static/src/main.css" />
+                <script type="text/javascript" src="/Maintain_Invoice_Remake/static/src/js/dialog.js"></script>
+                <script type="text/javascript" src="/Maintain_Invoice_Remake/static/src/js/report.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>
