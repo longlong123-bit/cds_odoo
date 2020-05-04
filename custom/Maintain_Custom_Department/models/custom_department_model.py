@@ -6,6 +6,4 @@ class ClassDepartmentCustom(models.Model):
     _inherit = ['hr.department']
 
     department_code = fields.Char('Department Code')
-
-
-
+    parent_department_code = fields.Many2one( 'company.office.custom','Parent Department Code')

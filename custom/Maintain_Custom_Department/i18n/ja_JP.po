@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-28 12:18+0000\n"
-"PO-Revision-Date: 2020-04-28 12:18+0000\n"
+"POT-Creation-Date: 2020-05-01 10:50+0000\n"
+"PO-Revision-Date: 2020-05-01 10:50+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr ""
 #: model:ir.ui.menu,name:Maintain_Custom_Department.menu_ideas
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department.custom_view_department_filter
 msgid "Department"
-msgstr ""
+msgstr "事業部マスタ"
 
 #. module: Maintain_Custom_Department
 #: model:ir.model.fields,field_description:Maintain_Custom_Department.field_hr_department__department_code
@@ -44,10 +44,15 @@ msgid "Department Code"
 msgstr "事業部コード"
 
 #. module: Maintain_Custom_Department
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department.custom_view_department_form
+msgid "Department Name"
+msgstr "事業部名"
+
+#. module: Maintain_Custom_Department
 #: model:ir.actions.act_window,name:Maintain_Custom_Department.open_module_tree_department
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department.custom_view_department_filter
 msgid "Departments"
-msgstr ""
+msgstr "事業部マスタ"
 
 #. module: Maintain_Custom_Department
 #: model:ir.model,name:Maintain_Custom_Department.model_hr_department
@@ -61,6 +66,17 @@ msgid ""
 "                related to employees by departments: expenses, timesheets,\n"
 "                leaves, recruitments, etc."
 msgstr ""
+
+#. module: Maintain_Custom_Department
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department.custom_view_department_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department.custom_view_department_tree
+msgid "Parent Code"
+msgstr "営業所コード"
+
+#. module: Maintain_Custom_Department
+#: model:ir.model.fields,field_description:Maintain_Custom_Department.field_hr_department__parent_department_code
+msgid "Parent Department Code"
+msgstr "営業所コード"
 
 #. module: Maintain_Custom_Department
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department.custom_view_department_filter
