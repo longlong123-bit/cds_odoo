@@ -9,8 +9,9 @@
                 <form string="Industry">
                     <sheet>
                         <group col="4">
-                            <field name="name"/>
-                            <field name="full_name"/>
+                            <field name="industry_code" string="Industry Code"/>
+                            <field name="name" string="Industry Name"/>
+                            <field name="full_name" string="Full Name"/>
                             <field name="active"/>
                         </group>
                     </sheet>
@@ -25,7 +26,7 @@
             <field name="arch" type="xml">
                 <tree string="Industry">
                     <field name="name"/>
-                    <field name="full_name"/>
+                    <field name="full_name" string="Full Name"/>
                     <field name="active" invisible="1"/>
                 </tree>
             </field>
