@@ -96,6 +96,26 @@ class QuotationsCustom(models.Model):
 
         return quotations_custom
 
+    def write(self, values):
+        # self._check_data(values)
+        if 'report_header' in values:
+            self.env.company.report_header = dict(self._fields['report_header'].selection).get(
+                values.get('report_header'))
+
+        quotations_custom = super(QuotationsCustom, self).write(values)
+
+        return quotations_custom
+
+    # def write(self, values):
+    #     # self._check_data(values)
+    #     if 'report_header' in values:
+    #         self.env.company.report_header = dict(self._fields['report_header'].selection).get(
+    #             values.get('report_header'))
+    #
+    #     quotations_custom = super(QuotationsCustom, self).create(values)
+    #
+    #     return quotations_custom
+
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"

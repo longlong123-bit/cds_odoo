@@ -11,7 +11,7 @@
     .cols-8 td {
         width: 12.5% !important;
 
-        div {
+        div:not(.field-checkbox) {
             width: 100%;
         }
     }
