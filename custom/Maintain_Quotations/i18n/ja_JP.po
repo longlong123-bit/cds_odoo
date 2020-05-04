@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-04 03:54+0000\n"
-"PO-Revision-Date: 2020-05-04 03:54+0000\n"
+"POT-Creation-Date: 2020-05-04 11:30+0000\n"
+"PO-Revision-Date: 2020-05-04 11:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -156,13 +156,6 @@ msgid "Freight Category"
 msgstr "メーカー"
 
 #. module: Maintain_Quotations
-#: code:addons/Maintain_Quotations/models/quotations_custom.py:0
-#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__report_header__invoice
-#, python-format
-msgid "Invoice"
-msgstr "請求書"
-
-#. module: Maintain_Quotations
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__name
 msgid "Name"
 msgstr "件名"
@@ -176,6 +169,11 @@ msgstr "件名*"
 #: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order_line__class_item__normal
 msgid "Normal"
 msgstr "通常"
+
+#. module: Maintain_Quotations
+#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__quotation_type__normal
+msgid "Normal Quotation"
+msgstr "通常見積"
 
 #. module: Maintain_Quotations
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__note
@@ -256,13 +254,6 @@ msgid "Product UOM Qty"
 msgstr "数量"
 
 #. module: Maintain_Quotations
-#: code:addons/Maintain_Quotations/models/quotations_custom.py:0
-#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__report_header__quotation
-#, python-format
-msgid "Quotation"
-msgstr "注文書"
-
-#. module: Maintain_Quotations
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "Quotation Date"
 msgstr "見積日付"
@@ -293,13 +284,6 @@ msgstr "見積タイトル変更"
 #: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order_line__class_item__returns
 msgid "Returns"
 msgstr "返品"
-
-#. module: Maintain_Quotations
-#: code:addons/Maintain_Quotations/models/quotations_custom.py:0
-#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__report_header__sale
-#, python-format
-msgid "Sale"
-msgstr "売上"
 
 #. module: Maintain_Quotations
 #: model:ir.model,name:Maintain_Quotations.model_sale_order
@@ -359,9 +343,14 @@ msgid "Total"
 msgstr "金額"
 
 #. module: Maintain_Quotations
-#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__is_unit_quotations
+#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__quotation_type__unit
+msgid "Unit Quotation"
+msgstr "単価見積"
+
+#. module: Maintain_Quotations
+#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__quotation_type
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
-msgid "Unit Quotations"
+msgid "Unit/Normal Quotation"
 msgstr "単価見積/通常見積選択"
 
 #. module: Maintain_Quotations
