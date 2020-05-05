@@ -63,7 +63,7 @@
                                 <td class="o_td_label"><label for="name" string="Name*"/></td>
                                 <td colspan="2"><field name="name" required="True"/></td>
                                 <td class="o_td_label"><label for="document_no" string="Document No*"/></td>
-                                <td><field name="document_no" required="True"/></td>
+                                <td><field name="document_no"/></td>
                                 <td class="o_td_label"><label for="order_id" string="Order ID"/></td>
                                 <td><field name="order_id" readonly="False"/></td>
                             </tr>
@@ -90,14 +90,16 @@
 
                             <!-- Row 4 -->
                             <tr>
-                                <td></td>
-                                <td colspan="2">
-                                    <field name="is_unit_quotations" widget="boolean_tags"/>
-                                    <label for="is_unit_quotations" string="Unit Quotations"/>
-                                </td>
+<!--                                <td></td>-->
+<!--                                <td colspan="2">-->
+<!--                                    <field name="is_unit_quotations" widget="boolean_tags" class="field-checkbox"/>-->
+<!--                                    <label for="is_unit_quotations" string="Unit Quotations"/>-->
+<!--                                </td>-->
+                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation"/></td>
+                                <td colspan="2"><field name="quotation_type" widget="radio"/></td>
                                 <td class="o_td_label"><label for="report_header" string="Report Title"/></td>
-                                <td><field name="report_header" widget="radio"/></td>
-                                <td class="o_td_label"><label for="paperformat_id" string="Document No"/></td>
+                                <td><field name="report_header"/></td>
+                                <td class="o_td_label"><label for="paperformat_id" string="Paper Format"/></td>
                                 <td><field name="paperformat_id" readonly="False"/></td>
                             </tr>
 
@@ -105,7 +107,7 @@
                             <tr>
                                 <td></td>
                                 <td colspan="2">
-                                    <field name="is_print_date" widget="boolean_tags"/>
+                                    <field name="is_print_date" widget="boolean_tags" class="field-checkbox"/>
                                     <label for="is_print_date" string="Print Date"/>
                                 </td>
                                 <td class="o_td_label"><label for="tax_method" string="Tax Method"/></td>
@@ -187,8 +189,8 @@
                                     <field name="product_list_price"/>
                                     <field name="cost"/>
                                     <field name="discount" string="Disc.%" groups="product.group_discount_per_so_line" optional="show"/>
-                                    <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                    <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included" invisible="False" string="Total"/>
+                                    <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded" string="Total"/>
+                                    <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included" invisible="False"/>
                                     <field name="description"/>
                                     <field name="tax_id" widget="many2many_tags"/>
                                 </tree>
@@ -259,14 +261,14 @@
 
     <menuitem id="menu_ideas" parent="" name="Quotations Custom" sequence="10" action="quotation_custom_action" groups="base.group_user"/>
 
-<!--    <data>-->
-<!--        &lt;!&ndash; Sequences for account.payment &ndash;&gt;-->
-<!--        <record id="seq_account_payment" model="ir.sequence">-->
-<!--            <field name="name">Account Payment</field>-->
-<!--            <field name="code">account.payment</field>-->
-<!--            <field name="padding">7</field>-->
-<!--            <field name="number_next">1000000</field>-->
-<!--            <field name="prefix">ARR-</field>-->
-<!--        </record>-->
-<!--    </data>-->
+    <data>
+        <!-- Sequences for sale.order -->
+        <record id="seq_quotations_custom" model="ir.sequence">
+            <field name="name">Quotations Custom</field>
+            <field name="code">sale.order</field>
+            <field name="padding">7</field>
+            <field name="number_next">1000000</field>
+            <field name="prefix">ARQ-</field>
+        </record>
+    </data>
 </odoo>

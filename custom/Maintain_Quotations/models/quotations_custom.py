@@ -32,15 +32,19 @@ class QuotationsCustom(models.Model):
     document_no = fields.Char(string='Document No')
     expiration_date = fields.Date(string='Expiration Date')
     comment = fields.Text(string='Comment')
-    is_unit_quotations = fields.Boolean(string='Unit Quotations')
+    # is_unit_quotations = fields.Boolean(string='Unit Quotations')
+    quotation_type = fields.Selection([
+        ('unit', 'Unit Quotation'),
+        ('normal', 'Normal Quotation')
+    ], string='Unit/Normal Quotation', default='unit')
     is_print_date = fields.Boolean(string='Print Date')
     tax_method = fields.Selection([
-            ('foreign_tax', '外税／明細'),
-            ('slip', '伝票'),
-            ('clam', '請求'),
-            ('tax', '内税／明細'),
-            ('custom_tax', '税調整別途')
-            ], string='Tax Method')
+        ('foreign_tax', '外税／明細'),
+        ('slip', '伝票'),
+        ('clam', '請求'),
+        ('tax', '内税／明細'),
+        ('custom_tax', '税調整別途')
+    ], string='Tax Method')
     quotations_date = fields.Date(string='Quotations Date')
     order_id = fields.Many2one('sale.order', string='Order')
     partner_id = fields.Many2one(string='Business Partner')
@@ -53,11 +57,12 @@ class QuotationsCustom(models.Model):
                                               domain="['|', ('company_id', '=', False), "
                                                      "('company_id', '=', company_id)]")
     comment_apply = fields.Text(string='Comment Apply', readonly=True, states={'draft': [('readonly', False)]})
-    report_header = fields.Selection([
-        ('quotation', 'Quotation'),
-        ('invoice', 'Invoice'),
-        ('sale', 'Sale')
-    ], string='Report Header', readonly=False, default='quotation')
+    report_header = fields.Char(string='Report Header')
+    # report_header = fields.Selection([
+    #     ('quotation', 'Quotation'),
+    #     ('invoice', 'Invoice'),
+    #     ('sale', 'Sale')
+    # ], string='Report Header', readonly=False, default='quotation')
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
 
     @api.onchange('partner_id')
@@ -69,32 +74,52 @@ class QuotationsCustom(models.Model):
 
     @api.model
     def create(self, values):
-        # if not ('document_no' in values):
-        #     # get all document no. is number
-        #     self._cr.execute('''
-        #                     SELECT document_no
-        #                     FROM account_payment
-        #                     WHERE SUBSTRING(document_no, 5) ~ '^[0-9\.]+$';
-        #                 ''')
-        #     query_res = self._cr.fetchall()
-        #
-        #     # generate new document no. by sequence
-        #     seq = self.env['ir.sequence'].next_by_code('account.payment')
-        #     # if new document no. already exits, do again
-        #     while seq in [res[0] for res in query_res]:
-        #         seq = self.env['ir.sequence'].next_by_code('account.payment')
-        #
-        #     values['document_no'] = seq
-        #     values['name'] = seq
-        #
+        # set document_no
+        if (not ('document_no' in values)) or (not values['document_no']):
+            # get all document no. is number
+            self._cr.execute('''
+                            SELECT document_no
+                            FROM sale_order
+                            WHERE SUBSTRING(document_no, 5) ~ '^[0-9\.]+$';
+                        ''')
+            query_res = self._cr.fetchall()
+
+            # generate new document no. by sequence
+            seq = self.env['ir.sequence'].next_by_code('sale.order')
+            # if new document no. already exits, do again
+            while seq in [res[0] for res in query_res]:
+                seq = self.env['ir.sequence'].next_by_code('sale.order')
+
+            values['document_no'] = seq
+
         # self._check_data(values)
+        # TODO set report header
         if 'report_header' in values:
-            self.env.company.report_header = dict(self._fields['report_header'].selection).get(
-                values.get('report_header'))
+            self.env.company.report_header = values.get('report_header')
+            # self.env.company.report_header = dict(self._fields['report_header'].selection).get(
+            #     values.get('report_header'))
+        else:
+            self.env.company.report_header = ''
 
         quotations_custom = super(QuotationsCustom, self).create(values)
 
         return quotations_custom
+
+    def write(self, values):
+        # self._check_data(values)
+        # TODO set report header
+        if 'report_header' in values:
+            self.env.company.report_header = values.get('report_header')
+            # self.env.company.report_header = dict(self._fields['report_header'].selection).get(
+            #     values.get('report_header'))
+
+        quotations_custom = super(QuotationsCustom, self).write(values)
+
+        return quotations_custom
+
+    # TODO get document no
+    # def _get_docment_no(self, document_no):
+    #     return ''
 
 
 class QuotationsLinesCustom(models.Model):
