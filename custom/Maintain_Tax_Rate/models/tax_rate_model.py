@@ -3,7 +3,7 @@ from odoo import api, fields, models
 
 
 class ClassBillSchema(models.Model):
-    _name = 'tax.rate'
+    _inherit = 'account.tax'
 
     tax_rate_code = fields.Char('Tax Rate Code')
     tax_rate_name = fields.Char('Tax Rate Name')

@@ -3,46 +3,100 @@
     <data>
 		<!-- Main form -->
 
-		<record model="ir.ui.view" id="tax_rate_tree">
-			<field name="name">tax.rate.tree</field>
-			<field name="model">tax.rate</field>
-            <field name="arch" type="xml">
-				<tree>
-					<field name="tax_rate_code" string="Tax Rate Code"/>
-					<field name="tax_rate_name" string="Tax Rate Name"/>
-				</tree>
-            </field>
-        </record>
+<!--		<record model="ir.ui.view" id="tax_rate_tree">-->
+<!--			<field name="name">tax.rate.tree</field>-->
+<!--			<field name="model">account.tax</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--				<tree>-->
+<!--					<field name="tax_rate_code" string="Tax Rate Code"/>-->
+<!--					<field name="tax_rate_name" string="Tax Rate Name"/>-->
+<!--				</tree>-->
+<!--            </field>-->
+<!--        </record>-->
 
 		<record model="ir.ui.view" id="closing_date_form">
 			<field name="name">tax.rate.form</field>
-			<field name="model">tax.rate</field>
+			<field name="model">account.tax</field>
+			<field name="inherit_id" ref="account.view_tax_form"/>
 			<field name="arch" type="xml">
-				<form string="Form" class="partner_class">
-					<sheet>
-						<group>
+				<xpath expr="//form" position="replace">
+					<form string="Account Tax">
+                    <sheet>
+                    <group>
+                        <group>
 							<field name="tax_rate_code" string="Tax Rate Code" required="1"/>
-							<field name="tax_rate_name" string="Tax Rate Name" required="1"/>
-						</group>
-					</sheet>
-				</form>
+                            <field name="name" string="Tax Rate Name"/>
+                            <field name="amount_type"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="type_tax_use"/>
+                            <label for="amount" attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}"/>
+                            <div attrs="{'invisible':[('amount_type','not in', ('fixed', 'percent', 'division'))]}">
+                                <field name="amount" class="oe_inline"/>
+                                <span class="o_form_label oe_inline" attrs="{'invisible':[('amount_type','=','fixed')]}">%</span>
+                            </div>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Definition">
+                            <div attrs="{'invisible': [('amount_type', '=', 'group')]}">
+                                <field name="country_id" invisible="1"/>
+                                <group string="Repartition for Invoices">
+                                    <field name="invoice_repartition_line_ids" nolabel="1" context="{'default_company_id': company_id}"/>
+                                </group>
+                                <group string="Repartition for Credit Notes">
+                                    <field name="refund_repartition_line_ids" nolabel="1" context="{'default_company_id': company_id}"/>
+                                </group>
+                            </div>
+                            <field name="children_tax_ids" attrs="{'invisible':['|', ('amount_type','!=','group'), ('type_tax_use','=','none')]}" domain="[('type_tax_use','in',('none',type_tax_use)), ('amount_type','!=','group')]">
+                                <tree string="Children Taxes">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="amount_type"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Advanced Options">
+                            <group>
+                                <group>
+                                    <field name="description" attrs="{'invisible':[('amount_type','=', 'group')]}"/>
+                                    <field name="tax_group_id"/>
+                                    <field name="analytic" attrs="{'invisible':[('amount_type','=', 'group')]}" groups="analytic.group_analytic_accounting" />
+                                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                </group>
+                                <group name="advanced_booleans">
+                                    <field name="price_include" attrs="{'invisible':[('amount_type','=', 'group')]}" />
+                                    <field name="include_base_amount" attrs="{'invisible':[('amount_type','=', 'group')]}" />
+                                    <field name="hide_tax_exigibility" invisible="1"/>
+                                    <field name="tax_exigibility" widget="radio" attrs="{'invisible':['|', ('amount_type','=', 'group'), ('hide_tax_exigibility', '=', False)]}" groups="account.group_account_user"/>
+                                    <field name="cash_basis_base_account_id" options="{'no_create': True}" attrs="{'invisible': [('tax_exigibility', '=', 'on_invoice')]}" groups="account.group_account_user"/>
+                                    <field name="cash_basis_transition_account_id" options="{'no_create': True}" attrs="{'invisible': [('tax_exigibility', '=', 'on_invoice')], 'required': [('tax_exigibility', '=', 'on_payment')]}" groups="account.group_account_user"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+				</xpath>
 			</field>
 		</record>
 
-		<record id="tax_rate_filter" model="ir.ui.view">
-            <field name="name">tax.rate.search</field>
-            <field name="model">tax.rate</field>
-            <field name="arch" type="xml">
-                <search string="Tax Rate">
-                    <field name="tax_rate_name" string="Tax Rate Name"/>
-                </search>
-             </field>
-        </record>
+<!--		<record id="tax_rate_filter" model="ir.ui.view">-->
+<!--            <field name="name">tax.rate.search</field>-->
+<!--            <field name="model">tax.rate</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search string="Tax Rate">-->
+<!--                    <field name="tax_rate_name" string="Tax Rate Name"/>-->
+<!--                </search>-->
+<!--             </field>-->
+<!--        </record>-->
 
 
 		<record model="ir.actions.act_window" id="action_tax_rate">
             <field name="name">Tax Rate</field>
-            <field name="res_model">tax.rate</field>
+            <field name="res_model">account.tax</field>
             <field name="view_mode">tree,form</field>
         </record>
 	
