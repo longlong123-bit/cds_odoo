@@ -8,7 +8,7 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'mail', 'hr', 'Maintain_Custom_Company_Office'
+        'base_setup', 'mail', 'hr', 'Maintain_Custom_Company_Office', 'Maintain_Custom_Department_Section'
     ],
     'website': '',
     'data': [

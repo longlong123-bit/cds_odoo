@@ -41,8 +41,8 @@
                     <form string="Employee Custom">
                         <group>
                             <group>
+                                <field name="employee_code" string="Employee Code" required="True"/>
                                 <field name="name" placeholder="Employee's Name" string="Employee Name" required="True"/>
-                                <field name="employee_code" string="Employee Code"/>
                                 <field name="mobile_phone" widget="phone"/>
                                 <field name="work_phone" widget="phone"/>
                                 <field name="work_email" widget="email"/>
