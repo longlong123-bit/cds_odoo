@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-28 12:28+0000\n"
-"PO-Revision-Date: 2020-04-28 12:28+0000\n"
+"POT-Creation-Date: 2020-05-01 09:35+0000\n"
+"PO-Revision-Date: 2020-05-01 09:35+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,12 +39,41 @@ msgstr ""
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
-msgid "Address"
-msgstr "住所"
+msgid "Address 1"
+msgstr "住所1"
+
+#. module: Maintain_Custom_Create_Company
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Address 2"
+msgstr "住所2"
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
 msgid "Bank Account"
+msgstr "銀行口座"
+
+#. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_bank_account_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Bank Account 1"
+msgstr "銀行口座"
+
+#. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_bank_account_2
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Bank Account 2"
+msgstr "銀行口座"
+
+#. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_bank_account_3
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Bank Account 3"
+msgstr "銀行口座"
+
+#. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_bank_account_4
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Bank Account 4"
 msgstr "銀行口座"
 
 #. module: Maintain_Custom_Create_Company
@@ -53,9 +82,39 @@ msgid "Bank Accounts"
 msgstr "銀行口座"
 
 #. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_bank_name_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Bank Name 1"
+msgstr "銀行名１"
+
+#. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_bank_name_2
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Bank Name 2"
+msgstr "銀行名２"
+
+#. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_bank_name_3
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Bank Name 3"
+msgstr "銀行名３"
+
+#. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_bank_name_4
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Bank Name 4"
+msgstr "銀行名４"
+
+#. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
 msgid "City"
-msgstr ""
+msgstr "市区町村"
+
+#. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_closing_date
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Closing Date"
+msgstr "締日"
 
 #. module: Maintain_Custom_Create_Company
 #: model:ir.actions.act_window,name:Maintain_Custom_Create_Company.custom_action_res_company_form
@@ -72,13 +131,13 @@ msgstr ""
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
-msgid "Contact"
-msgstr "連絡先"
+msgid "Company Name"
+msgstr "自社名"
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
 msgid "Country"
-msgstr ""
+msgstr "国"
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.actions.act_window,help:Maintain_Custom_Create_Company.custom_action_res_company_form
@@ -95,7 +154,13 @@ msgstr ""
 #. module: Maintain_Custom_Create_Company
 #: model:ir.ui.menu,name:Maintain_Custom_Create_Company.menu_ideas
 msgid "Custom Company"
-msgstr ""
+msgstr "自社マスタ設定"
+
+#. module: Maintain_Custom_Create_Company
+#: model:ir.model.fields,field_description:Maintain_Custom_Create_Company.field_res_company__company_fax
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Fax"
+msgstr "FAX番号"
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
@@ -110,28 +175,28 @@ msgstr "支払条件"
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
+msgid "Phone"
+msgstr "電話番号"
+
+#. module: Maintain_Custom_Create_Company
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
 msgid "State"
-msgstr ""
+msgstr "ステータス"
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
 msgid "Street 2..."
-msgstr ""
+msgstr "住所2..."
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
 msgid "Street..."
-msgstr ""
-
-#. module: Maintain_Custom_Create_Company
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
-msgid "View accounts detail"
-msgstr ""
+msgstr "住所1..."
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
 msgid "Website"
-msgstr ""
+msgstr "ウェブサイト"
 
 #. module: Maintain_Custom_Create_Company
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Create_Company.custom_view_company_form
