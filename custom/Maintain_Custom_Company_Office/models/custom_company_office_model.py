@@ -111,6 +111,19 @@ class ClassCompanyOffice(models.Model):
          ("Oswald", "Oswald"), ("Raleway", "Raleway")], default="Lato")
     primary_color = fields.Char()
     secondary_color = fields.Char()
+
+    office_code = fields.Char('Office Code')
+    # bank custom
+    office_closing_date = fields.Date('Closing Date')
+    office_bank_name_1 = fields.Char('Bank Name 1')
+    office_bank_name_2 = fields.Char('Bank Name 2')
+    office_bank_name_3 = fields.Char('Bank Name 3')
+    office_bank_name_4 = fields.Char('Bank Name 4')
+    office_bank_account_1 = fields.Integer('Bank Account 1')
+    office_bank_account_2 = fields.Integer('Bank Account 2')
+    office_bank_account_3 = fields.Integer('Bank Account 3')
+    office_bank_account_4 = fields.Integer('Bank Account 4')
+
     _sql_constraints = [
         ('name_uniq', 'unique (name)', 'The company name must be unique !')
     ]
