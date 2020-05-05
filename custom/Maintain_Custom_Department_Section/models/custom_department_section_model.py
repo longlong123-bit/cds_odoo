@@ -8,7 +8,7 @@ class ClassDepartmentCustom(models.Model):
     section_name = fields.Char('Section Name')
     department_section_code = fields.Char('Section Code')
     parent_department_code = fields.Char('Parent Department Code')
-    department_code1 = fields.Char('Department Code')
+    department_code1 = fields.Many2one('hr.department')
 
 
 
