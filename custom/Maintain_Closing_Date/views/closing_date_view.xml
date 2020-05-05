@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- Main form -->
+
+		<record model="ir.ui.view" id="closing_date_tree">
+			<field name="name">closing.date.tree</field>
+			<field name="model">closing.date</field>
+            <field name="arch" type="xml">
+				<tree>
+					<field name="closing_date_code" string="Closing Date Code"/>
+					<field name="closing_date_name" string="Closing Date Name"/>
+				</tree>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="closing_date_form">
+			<field name="name">Closing Date Form</field>
+			<field name="model">closing.date</field>
+			<field name="arch" type="xml">
+				<form string="Form" class="partner_class">
+					<sheet>
+						<group>
+							<field name="closing_date_code" string="Closing Date Code"/>
+							<field name="closing_date_name" string="Closing Date Name"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="closing_date_filter" model="ir.ui.view">
+            <field name="name">closing.date.search</field>
+            <field name="model">closing.date</field>
+            <field name="arch" type="xml">
+                <search string="Closing Date">
+                    <field name="closing_date_name" string="Closing Date Name"/>
+                </search>
+             </field>
+        </record>
+
+
+		<record model="ir.actions.act_window" id="action_list_ideas">
+            <field name="name">Closing Date</field>
+            <field name="res_model">closing.date</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	
+        <menuitem id="menu_ideas" parent="" name="Closing Date" sequence="12"
+                  action="action_list_ideas" groups="base.group_user"/>
+    </data>
+</odoo>
