@@ -7,9 +7,9 @@
             <field name="model">res.country.state</field>
             <field name="arch" type="xml">
                 <tree string="State">
-                    <field name="name"/>
-                    <field name="code"/>
-                    <field name="country_id" options="{'no_create': True}"/>
+                    <field name="name" string="State Name"/>
+                    <field name="code" string="State Code"/>
+<!--                    <field name="country_id" options="{'no_create': True}"/>-->
                 </tree>
             </field>
         </record>
@@ -21,8 +21,8 @@
                 <form string="State">
                     <sheet>
                         <group>
-                            <field name="name"/>
-                            <field name="code"/>
+                            <field name="name" string="State Name"/>
+                            <field name="code" string="State Code"/>
                             <field name="country_id" options='{"no_open": True}'/>
                         </group>
                     </sheet>
@@ -36,18 +36,20 @@
             <field name="arch" type="xml">
                 <search string="Country">
                     <field name="name"/>
-                    <field name="country_id"/>
-                    <group string="Group By">
-                        <filter name="groupby_country" string="Country" context="{'group_by': 'country_id'}"/>
-                    </group>
+                    <field name="country_id" />
+<!--                    <group string="Group By">-->
+<!--                        <filter name="groupby_country" string="Country" context="{'group_by': 'country_id'}"/>-->
+<!--                    </group>-->
+                    <filter string="Japan" name="japan" domain="[('country_id.code','=','JP')]"></filter>
                 </search>
             </field>
         </record>
 
         <record id="action_country_state" model="ir.actions.act_window">
-            <field name="name">Fed. States</field>
+            <field name="name">Country State</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.country.state</field>
+            <field name="context">{"search_default_japan":1}</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="custom_view_country_state_tree"/>
             <field name="help">You can manage the different federal states you are working on from here. Each state is attached to one country.</field>

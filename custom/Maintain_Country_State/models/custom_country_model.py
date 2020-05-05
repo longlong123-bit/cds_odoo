@@ -14,5 +14,7 @@ class ClassCountryState(models.Model):
     searchkey = fields.Char('searchkey')
     client = fields.Many2one('client.custom', required=True, default=_get_default_client_id)
     organization = fields.Many2one('res.company', required=True, default=_get_default_organization_id)
+    country_id = fields.Many2one('res.country', string='Country', required=True,
+                                 default=lambda self: self.env['res.country'].search([('code', '=', 'JP')]))
 
 
