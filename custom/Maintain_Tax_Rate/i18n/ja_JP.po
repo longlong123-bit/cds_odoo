@@ -1,0 +1,83 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Maintain_Tax_Rate
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-01 11:06+0000\n"
+"PO-Revision-Date: 2020-05-01 11:06+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: Maintain_Tax_Rate
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+msgid "Form"
+msgstr ""
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__id
+msgid "ID"
+msgstr ""
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: Maintain_Tax_Rate
+#: model:ir.actions.act_window,name:Maintain_Tax_Rate.action_list_ideas
+#: model:ir.ui.menu,name:Maintain_Tax_Rate.menu_ideas
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_filter
+msgid "Tax Rate"
+msgstr "税率マスタ"
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__tax_rate_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_tree
+msgid "Tax Rate Code"
+msgstr "税率コード"
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__tax_rate_name
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_filter
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_tree
+msgid "Tax Rate Name"
+msgstr "税率"
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model,name:Maintain_Tax_Rate.model_tax_rate
+msgid "tax.rate"
+msgstr ""
