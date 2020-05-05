@@ -54,6 +54,7 @@
                                 <field name="job_id"/>
                                 <field name="user_id" string="Related User"/>
 <!--                                <field name="employee_password" string="Password" widget="password" password="True"/>-->
+<!--                                <field name="image_1920" widget='image' class="oe_avatar" options='{"zoom": true, "preview_image":"image_128"}'/>-->
                             </group>
                         </group>
                     </form>
@@ -65,11 +66,12 @@
             <field name="model">hr.employee</field>
             <field name="arch" type="xml">
                 <tree string="Employees">
-                    <field name="name"/>
+                    <field name="employee_code" string="Employee Code"/>
+                    <field name="name" string="Employee Name"/>
                     <field name="work_phone"/>
                     <field name="work_email"/>
                     <field name="company_id" groups="base.group_multi_company"/>
-                    <field name="department_id"/>
+                    <field name="employee_section_id" string="Section Code"/>
                     <field name="job_id"/>
                     <field name="parent_id"/>
                     <field name="coach_id" invisible="1"/>
@@ -216,7 +218,7 @@
             </field>
         </record>
 
-        <menuitem id="menu_ideas" parent="" name="Custom Employee" sequence="10"
-          action="open_view_employee_list_my" groups="base.group_user"/>
+<!--        <menuitem id="menu_ideas" parent="" name="Custom Employee" sequence="10"-->
+<!--          action="open_view_employee_list_my" groups="base.group_user"/>-->
     </data>
 </odoo>

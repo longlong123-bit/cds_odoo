@@ -21,8 +21,10 @@
 				<form string="Form" class="partner_class">
 					<sheet>
 						<group>
-							<field name="closing_date_code" string="Closing Date Code"/>
-							<field name="closing_date_name" string="Closing Date Name"/>
+							<field name="closing_date_code" string="Closing Date Code" required="1"/>
+							<field name="closing_date_name" string="Closing Date Name" required="1"/>
+							<field name="start_day" string="Start Date"/>
+							<field name="closing_date_circle" string="Circle"/>
 						</group>
 					</sheet>
 				</form>
@@ -46,7 +48,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 	
-        <menuitem id="menu_ideas" parent="" name="Closing Date" sequence="12"
-                  action="action_closing_date" groups="base.group_user"/>
+<!--        <menuitem id="menu_ideas" parent="" name="Closing Date" sequence="12"-->
+<!--                  action="action_closing_date" groups="base.group_user"/>-->
     </data>
 </odoo>

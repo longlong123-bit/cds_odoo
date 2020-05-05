@@ -7,6 +7,8 @@ class ClassBillSchema(models.Model):
 
     closing_date_code = fields.Char('Closing Date Code')
     closing_date_name = fields.Char('Closing Date Name')
+    start_day = fields.Date('Start Date')
+    closing_date_circle = fields.Char('Closing Date Circle')
 
 
 

@@ -57,10 +57,21 @@ msgstr "担当者マスタ"
 msgid "Department"
 msgstr ""
 
+#. module: hr_timesheet
+#: model:ir.model.fields,field_description:hr_timesheet.field_account_analytic_line__department_id
+msgid "Department"
+msgstr "部門123123"
+
 #. module: Maintain_Custom_Employee
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_form
 msgid "Section Code"
 msgstr "課マスタ"
+
+#. module: Maintain_Custom_Employee
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_tree
+msgid "Section Code"
+msgstr "課"
+
 
 #. module: Maintain_Custom_Employee
 #: model:ir.model,name:Maintain_Custom_Employee.model_hr_employee
@@ -68,8 +79,22 @@ msgstr "課マスタ"
 msgid "Employee"
 msgstr "従業員"
 
+#. module: hr
+#: model:ir.model.fields,field_description:hr.field_hr_employee__department_id
+#: model:ir.model.fields,field_description:hr.field_hr_employee_base__department_id
+#: model:ir.model.fields,field_description:hr.field_hr_employee_public__department_id
+#: model:ir.model.fields,field_description:hr.field_hr_job__department_id
+#: model:ir.model.fields,field_description:hr.field_res_users__department_id
+#: model_terms:ir.ui.view,arch_db:hr.hr_employee_public_view_search
+#: model_terms:ir.ui.view,arch_db:hr.view_department_filter
+#: model_terms:ir.ui.view,arch_db:hr.view_employee_filter
+#: model_terms:ir.ui.view,arch_db:hr.view_job_filter
+msgid "Department"
+msgstr "事業部"
+
 #. module: Maintain_Custom_Employee
 #: model:ir.model.fields,field_description:Maintain_Custom_Employee.field_hr_employee__employee_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_form
 msgid "Employee Code"
 msgstr "担当者コード"
@@ -94,7 +119,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.view_partner_tree2
 msgid "Employees"
-msgstr ""
+msgstr "担当者マスタ"
 
 #. module: Maintain_Custom_Employee
 #: model:ir.actions.act_window,name:Maintain_Custom_Employee.open_view_employee_tree
@@ -139,6 +164,7 @@ msgstr "関連ユーザ"
 
 #. module: Maintain_Custom_Employee
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_tree
 msgid "Employee Name"
 msgstr "担当者名"
 

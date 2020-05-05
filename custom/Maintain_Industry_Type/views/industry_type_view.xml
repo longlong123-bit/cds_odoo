@@ -9,8 +9,8 @@
                 <form string="Industry">
                     <sheet>
                         <group col="4">
-                            <field name="industry_code" string="Industry Code"/>
-                            <field name="name" string="Industry Name"/>
+                            <field name="industry_code" string="Industry Code" required="1"/>
+                            <field name="name" string="Industry Name" required="1"/>
                             <field name="full_name" string="Full Name"/>
                             <field name="active"/>
                         </group>

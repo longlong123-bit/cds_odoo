@@ -29,7 +29,7 @@
 				<form string="Form">
 					<sheet>
 						<group>
-							<field name="computer_name" string="Computer Name"/>
+							<field name="computer_name" string="Computer Name" required="1"/>
 							<field name="paperformat_id_1" string="Paper Format 1"/>
 							<field name="paperformat_id_2" string="Paper Format 2"/>
 							<field name="paperformat_id_3" string="Paper Format 3"/>
@@ -47,7 +47,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 	
-        <menuitem id="menu_ideas" parent="" name="Printer" sequence="12"
-                  action="action_printer_output" groups="base.group_user"/>
+<!--        <menuitem id="menu_ideas" parent="" name="Printer" sequence="12"-->
+<!--                  action="action_printer_output" groups="base.group_user"/>-->
     </data>
 </odoo>

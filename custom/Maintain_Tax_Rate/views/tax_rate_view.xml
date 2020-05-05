@@ -21,8 +21,8 @@
 				<form string="Form" class="partner_class">
 					<sheet>
 						<group>
-							<field name="tax_rate_code" string="Tax Rate Code"/>
-							<field name="tax_rate_name" string="Tax Rate Name"/>
+							<field name="tax_rate_code" string="Tax Rate Code" required="1"/>
+							<field name="tax_rate_name" string="Tax Rate Name" required="1"/>
 						</group>
 					</sheet>
 				</form>
@@ -46,7 +46,7 @@
             <field name="view_mode">tree,form</field>
         </record>
 	
-        <menuitem id="menu_ideas" parent="" name="Tax Rate" sequence="12"
-                  action="action_tax_rate" groups="base.group_user"/>
+<!--        <menuitem id="menu_ideas" parent="" name="Tax Rate" sequence="12"-->
+<!--                  action="action_tax_rate" groups="base.group_user"/>-->
     </data>
 </odoo>
