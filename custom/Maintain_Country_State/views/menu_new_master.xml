@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="parent_menu_master" name="New Master" />
+        <menuitem id="menu_state" parent="parent_menu_master" name="Country State" sequence="2" action="action_country_state"/>
+        <menuitem id="menu_industry" parent="parent_menu_master" name="Industry" sequence="3" action="Maintain_Industry_Type.custom_industry_action"/>
+        <menuitem id="menu_department" parent="parent_menu_master" name="Department" sequence="4" action="Maintain_Custom_Department.open_module_tree_department"/>
+        <menuitem id="menu_section" parent="parent_menu_master" name="Section" sequence="5" action="Maintain_Custom_Department_Section.open_module_tree_department_section"/>
+        <menuitem id="menu_employee" parent="parent_menu_master" name="Employee" sequence="6" action="Maintain_Custom_Employee.open_view_employee_list_my"/>
+        <menuitem id="menu_closing_date" parent="parent_menu_master" name="Closing Date" sequence="7" action="Maintain_Closing_Date.action_closing_date"/>
+        <menuitem id="menu_tax_rate" parent="parent_menu_master" name="Tax Rate" sequence="8" action="Maintain_Tax_Rate.action_tax_rate"/>
+        <menuitem id="menu_print_output" parent="parent_menu_master" name="Printer" sequence="9" action="Maintain_Printer_Output.action_printer_output"/>
+        <menuitem id="menu_create_company" parent="parent_menu_master" name="Custom Company" sequence="10" action="Maintain_Custom_Create_Company.custom_action_res_company_form"/>
+        <menuitem id="menu_create_office" parent="parent_menu_master" name="Company Office" sequence="11" action="Maintain_Custom_Company_Office.custom_action_company_office_form"/>
+    </data>
+</odoo>

@@ -40,13 +40,13 @@
         </record>
 
 
-		<record model="ir.actions.act_window" id="action_list_ideas">
+		<record model="ir.actions.act_window" id="action_closing_date">
             <field name="name">Closing Date</field>
             <field name="res_model">closing.date</field>
             <field name="view_mode">tree,form</field>
         </record>
 	
         <menuitem id="menu_ideas" parent="" name="Closing Date" sequence="12"
-                  action="action_list_ideas" groups="base.group_user"/>
+                  action="action_closing_date" groups="base.group_user"/>
     </data>
 </odoo>

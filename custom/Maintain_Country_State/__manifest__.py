@@ -8,13 +8,15 @@
     'description': """
 """,
     'depends': [
-        'base_setup',  'Maintain_Client'
+        'base_setup',  'Maintain_Client', 'Maintain_Industry_Type', 'Maintain_Custom_Department', 'Maintain_Custom_Department_Section', 'Maintain_Custom_Employee',
+        'Maintain_Closing_Date', 'Maintain_Tax_Rate', 'Maintain_Printer_Output', 'Maintain_Custom_Create_Company'
     ],
     'website': '',
     'data': [
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/custom_country_state_view.xml',
+        'views/menu_new_master.xml'
     ],
     'demo': [],
     'installable': True,

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-29 06:56+0000\n"
-"PO-Revision-Date: 2020-04-29 06:56+0000\n"
+"POT-Creation-Date: 2020-05-05 09:11+0000\n"
+"PO-Revision-Date: 2020-05-05 09:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,12 +21,24 @@ msgid "Client"
 msgstr ""
 
 #. module: Maintain_Country_State
-#: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_search
-msgid "Country"
-msgstr ""
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_closing_date
+msgid "Closing Date"
+msgstr "締日"
 
 #. module: Maintain_Country_State
-#: model:ir.ui.menu,name:Maintain_Country_State.menu_ideas
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_create_office
+msgid "Company Office"
+msgstr "営業所マスタ"
+
+#. module: Maintain_Country_State
+#: model:ir.model.fields,field_description:Maintain_Country_State.field_res_country_state__country_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_search
+msgid "Country"
+msgstr "国"
+
+#. module: Maintain_Country_State
+#: model:ir.actions.act_window,name:Maintain_Country_State.action_country_state
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_state
 msgid "Country State"
 msgstr "地区マスタ"
 
@@ -36,19 +48,49 @@ msgid "Country state"
 msgstr "地区マスタ"
 
 #. module: Maintain_Country_State
-#: model:ir.actions.act_window,name:Maintain_Country_State.action_country_state
-msgid "Fed. States"
-msgstr ""
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_create_company
+msgid "Custom Company"
+msgstr "自社マスタ設定"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_department
+msgid "Department"
+msgstr "事業部マスタ"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_employee
+msgid "Employee"
+msgstr "担当者マスタ"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_industry
+msgid "Industry"
+msgstr "業種マスタ"
 
 #. module: Maintain_Country_State
 #: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_search
-msgid "Group By"
+msgid "Japan"
 msgstr ""
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.parent_menu_master
+msgid "New Master"
+msgstr "他各種マスタ"
 
 #. module: Maintain_Country_State
 #: model:ir.model.fields,field_description:Maintain_Country_State.field_res_country_state__organization
 msgid "Organization"
 msgstr ""
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_print_output
+msgid "Printer"
+msgstr "プリンタ出力先設定"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_section
+msgid "Section"
+msgstr "課マスタ"
 
 #. module: Maintain_Country_State
 #: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_form
@@ -59,14 +101,19 @@ msgstr ""
 #. module: Maintain_Country_State
 #: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_tree
-msgid "State Name"
-msgstr "地区名"
+msgid "State Code"
+msgstr "地区コード"
 
 #. module: Maintain_Country_State
 #: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_tree
-msgid "State Code"
-msgstr "地区コード"
+msgid "State Name"
+msgstr "地区名"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_tax_rate
+msgid "Tax Rate"
+msgstr "税率マスタ"
 
 #. module: Maintain_Country_State
 #: model_terms:ir.actions.act_window,help:Maintain_Country_State.action_country_state
