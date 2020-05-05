@@ -11,9 +11,10 @@
                         <field name="active" invisible="1"/>
                         <group col="4">
                             <field name="department_code" string="Department Code"/>
-                            <field name="name"/>
+                            <field name="name" string="Department Name"/>
                             <field name="manager_id"/>
                             <field name="parent_id"/>
+                            <field name="parent_department_code" string="Parent Code"/>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                         </group>
                     </sheet>
@@ -33,7 +34,7 @@
                     <field name="display_name"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                     <field name="manager_id"/>
-                    <field name="parent_id"/>
+                    <field name="parent_department_code" string="Parent Code"/>
                 </tree>
             </field>
         </record>
