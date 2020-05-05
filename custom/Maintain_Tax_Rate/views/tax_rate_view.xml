@@ -40,13 +40,13 @@
         </record>
 
 
-		<record model="ir.actions.act_window" id="action_list_ideas">
+		<record model="ir.actions.act_window" id="action_tax_rate">
             <field name="name">Tax Rate</field>
             <field name="res_model">tax.rate</field>
             <field name="view_mode">tree,form</field>
         </record>
 	
         <menuitem id="menu_ideas" parent="" name="Tax Rate" sequence="12"
-                  action="action_list_ideas" groups="base.group_user"/>
+                  action="action_tax_rate" groups="base.group_user"/>
     </data>
 </odoo>
