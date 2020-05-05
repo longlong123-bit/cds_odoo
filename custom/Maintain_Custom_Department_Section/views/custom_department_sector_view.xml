@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="custom_view_department_section_form" model="ir.ui.view">
+            <field name="name">custom.section.form</field>
+            <field name="model">section.model</field>
+            <field name="arch" type="xml">
+                <form string="section">
+                    <sheet>
+                        <group col="4">
+                            <field name="department_section_code" string="Section Code"/>
+                            <field name="section_name" string="Section Name"/>
+                            <field name="department_code1" string="Department Code"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="custom_view_department_children_tree" model="ir.ui.view">
+            <field name="name">custom.section.tree</field>
+            <field name="model">section.model</field>
+            <field name="arch" type="xml">
+                <tree string="Companies">
+                    <field name="section_name"/>
+                    <field name="department_section_code" string="Section Code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="custom_view_department_section_filter" model="ir.ui.view">
+            <field name="name">custom.section.search</field>
+            <field name="model">section.model</field>
+            <field name="arch" type="xml">
+                <search string="Section">
+                    <field name="section_name" string="Section Name"/>
+                </search>
+             </field>
+        </record>
+
+
+        <record id="open_module_tree_department_section" model="ir.actions.act_window">
+            <field name="name">Section</field>
+            <field name="res_model">section.model</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new department
+              </p><p>
+                Odoo's department structure is used to manage all documents
+                related to employees by departments: expenses, timesheets,
+                leaves, recruitments, etc.
+              </p>
+            </field>
+        </record>
+        <menuitem id="menu_ideas" parent="" name="Section" sequence="12"
+          action="open_module_tree_department_section" groups="base.group_user"/>
+    </data>
+</odoo>
