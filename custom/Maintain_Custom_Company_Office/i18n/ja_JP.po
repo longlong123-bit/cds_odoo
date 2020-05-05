@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-28 12:33+0000\n"
-"PO-Revision-Date: 2020-04-28 12:33+0000\n"
+"POT-Creation-Date: 2020-05-01 09:49+0000\n"
+"PO-Revision-Date: 2020-05-01 09:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -44,8 +44,13 @@ msgstr ""
 
 #. module: Maintain_Custom_Company_Office
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
-msgid "Address"
-msgstr "住所"
+msgid "Address 1"
+msgstr "住所1"
+
+#. module: Maintain_Custom_Company_Office
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+msgid "Address 2"
+msgstr "住所2"
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,help:Maintain_Custom_Company_Office.field_company_office_custom__report_header
@@ -60,10 +65,54 @@ msgid "Bank Account"
 msgstr "銀行口座"
 
 #. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_bank_account_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+msgid "Bank Account 1"
+msgstr "銀行口座"
+
+#. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_bank_account_2
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+msgid "Bank Account 2"
+msgstr "銀行口座"
+
+#. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_bank_account_3
+msgid "Bank Account 3"
+msgstr "銀行口座"
+
+#. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_bank_account_4
+msgid "Bank Account 4"
+msgstr "銀行口座"
+
+#. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__bank_ids
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
 msgid "Bank Accounts"
 msgstr "銀行口座"
+
+#. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_bank_name_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+msgid "Bank Name 1"
+msgstr "銀行名１"
+
+#. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_bank_name_2
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+msgid "Bank Name 2"
+msgstr "銀行名２"
+
+#. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_bank_name_3
+msgid "Bank Name 3"
+msgstr "銀行名３"
+
+#. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_bank_name_4
+msgid "Bank Name 4"
+msgstr "銀行名４"
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,help:Maintain_Custom_Company_Office.field_company_office_custom__bank_ids
@@ -79,14 +128,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__city
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
 msgid "City"
-msgstr ""
+msgstr "市区町村"
+
+#. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_closing_date
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+msgid "Closing Date"
+msgstr "締日"
+
+#. module: Maintain_Custom_Company_Office
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_view_company_tree
+msgid "Companies"
+msgstr "会社"
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.actions.act_window,name:Maintain_Custom_Company_Office.custom_action_company_office_form
 #: model:ir.actions.act_window,name:Maintain_Custom_Company_Office.custom_company_normal_action_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_view_company_tree
-msgid "Companies"
-msgstr ""
+msgid "Companies Office"
+msgstr "営業所マスタ"
 
 #. module: Maintain_Custom_Company_Office
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
@@ -105,13 +164,13 @@ msgstr ""
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__name
-msgid "Company name"
-msgstr "会社名"
+msgid "Company Name"
+msgstr ""
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.ui.menu,name:Maintain_Custom_Company_Office.menu_ideas
 msgid "Company Office"
-msgstr ""
+msgstr "営業所マスタ"
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__company_registry
@@ -122,11 +181,6 @@ msgstr "会社登記"
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__report_header
 msgid "Company Tagline"
 msgstr ""
-
-#. module: Maintain_Custom_Company_Office
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
-msgid "Contact"
-msgstr "連絡先"
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__country_id
@@ -260,6 +314,17 @@ msgid "Not done"
 msgstr ""
 
 #. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+msgid "Office Code"
+msgstr "営業所コード"
+
+#. module: Maintain_Custom_Company_Office
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+msgid "Office Name"
+msgstr "営業所名"
+
+#. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields.selection,name:Maintain_Custom_Company_Office.selection__company_office_custom__font__open_sans
 msgid "Open Sans"
 msgstr ""
@@ -328,7 +393,7 @@ msgstr ""
 #. module: Maintain_Custom_Company_Office
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
 msgid "State"
-msgstr ""
+msgstr "ステータス"
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__base_onboarding_company_state
@@ -338,17 +403,17 @@ msgstr ""
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__street
 msgid "Street"
-msgstr ""
+msgstr "住所"
 
 #. module: Maintain_Custom_Company_Office
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
 msgid "Street 2..."
-msgstr ""
+msgstr "住所2..."
 
 #. module: Maintain_Custom_Company_Office
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
 msgid "Street..."
-msgstr ""
+msgstr "住所1..."
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__street2
@@ -393,11 +458,6 @@ msgstr ""
 
 #. module: Maintain_Custom_Company_Office
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
-msgid "View accounts detail"
-msgstr ""
-
-#. module: Maintain_Custom_Company_Office
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
 msgid "Website"
 msgstr "ウェブサイト"
 
@@ -415,12 +475,12 @@ msgstr "再帰会社を作成することはできません。"
 #. module: Maintain_Custom_Company_Office
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
 msgid "ZIP"
-msgstr ""
+msgstr "郵便番号"
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__zip
 msgid "Zip"
-msgstr ""
+msgstr "郵便番号"
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model,name:Maintain_Custom_Company_Office.model_company_office_custom

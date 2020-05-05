@@ -9,7 +9,7 @@
                   <sheet>
                     <field name="logo" widget="image"  class="oe_avatar"/>
                     <div class="oe_title">
-                        <label for="name" class="oe_edit_only"/>
+                        <label for="name" string="Office Name" class="oe_edit_only"/>
                         <h1>
                             <field name="name"/>
                         </h1>
@@ -18,14 +18,15 @@
                         <page string="General Information">
                             <group>
                                 <group>
-                                    <field name="partner_id" string="Contact" readonly="1" required="0" groups="base.group_no_one"/>
-                                    <label for="street" string="Address"/>
+                                    <field name="office_code" string="Office Code"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip" widget="mask" data-inputmask-mask="〒999_9999"/>
+<!--                                    <field name="partner_id" string="Contact" readonly="1" required="0" groups="base.group_no_one"/>-->
+                                    <field name="street" placeholder="Street..." string="Address 1"/>
+                                    <field name="street2" placeholder="Street 2..." string="Address 2"/>
+                                    <label for="city" string="City"/>
                                     <div class="o_address_format">
-                                        <field name="street" placeholder="Street..." class="o_address_street"/>
-                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
                                         <field name="city" placeholder="City" class="o_address_city"/>
                                         <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
-                                        <field name="zip" placeholder="ZIP" class="o_address_zip" widget="mask" data-inputmask-mask="〒999_9999"/>
                                         <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True}'/>
                                     </div>
                                     <field name="phone"/>
@@ -35,32 +36,28 @@
                                 </group>
                                 <group>
                                     <field name="vat"/>
+                                    <field name="office_closing_date" string="Closing Date"/>
                                     <field name="company_payment_term" string="Payment Term"/>
                                     <field name="company_registry"/>
-                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}" id="company_currency" context="{'active_test': False}"/>
-                                    <field name="parent_id"  groups="base.group_multi_company"/>
+<!--                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}" id="company_currency" context="{'active_test': False}"/>-->
+<!--                                    <field name="parent_id"  groups="base.group_multi_company"/>-->
                                     <field name="sequence" invisible="1"/>
-                                    <field name="favicon" widget="image" class="float-left oe_avatar" groups="base.group_no_one"/>
+<!--                                    <field name="favicon" widget="image" class="float-left oe_avatar" groups="base.group_no_one"/>-->
                                 </group>
                                 <group name="social_media"/>
                             </group>
                         </page>
                         <page string="Bank Account">
                             <group string="Bank Accounts" name="banks">
-                                <field name="bank_ids" nolabel="1">
-                                    <tree editable="bottom">
-                                        <field name="sequence" widget="handle"/>
-                                        <field name="bank_id"/>
-                                        <field name="acc_number"/>
-                                        <field name="acc_holder_name" invisible="1"/>
-                                    </tree>
-                                </field>
-                                <button type="action" class="btn-link"
-                                    name="%(base.action_res_partner_bank_account_form)d"
-                                    context="{'search_default_partner_id': active_id, 'default_partner_id': active_id, 'form_view_ref': 'account.view_company_partner_bank_form'}"
-                                    string="View accounts detail"
-                                    colspan="2"
-                                />
+                                <group>
+                                    <field name="office_bank_name_1" string="Bank Name 1"/>
+                                    <field name="office_bank_name_2" string="Bank Name 2"/>
+                                </group>
+                                <group>
+                                    <field name="office_bank_account_1" string="Bank Account 1"/>
+                                    <field name="office_bank_account_2" string="Bank Account 2"/>
+                                </group>
+
                             </group>
                         </page>
                     </notebook>
@@ -125,14 +122,14 @@
             </field>
         </record>
         <record id="custom_company_normal_action_tree" model="ir.actions.act_window">
-            <field name="name">Companies</field>
+            <field name="name">Companies Office</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">company.office.custom</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('id','=',active_id)]</field>
         </record>
         <record id="custom_action_company_office_form" model="ir.actions.act_window">
-            <field name="name">Companies</field>
+            <field name="name">Companies Office</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">company.office.custom</field>
             <field name="view_mode">tree,kanban,form</field>
