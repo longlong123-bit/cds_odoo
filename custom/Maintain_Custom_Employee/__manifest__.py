@@ -8,7 +8,7 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'hr'
+        'base_setup', 'hr', 'Maintain_Custom_Department_Section'
     ],
     'website': '',
     'data': [
