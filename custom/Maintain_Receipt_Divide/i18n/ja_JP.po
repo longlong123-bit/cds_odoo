@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-25 09:05+0000\n"
-"PO-Revision-Date: 2020-03-25 09:05+0000\n"
+"POT-Creation-Date: 2020-05-06 07:33+0000\n"
+"PO-Revision-Date: 2020-05-06 07:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: Maintain_Receipt_Divide
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_Receipt_Divide
+#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_receipt_divide
 msgid "Active"
 msgstr "アクティブ"
 
@@ -27,14 +27,9 @@ msgid "Client"
 msgstr "クライアント"
 
 #. module: Maintain_Receipt_Divide
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_Receipt_Divide
+#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_receipt_divide
 msgid "Client*"
 msgstr "クライアント*"
-
-#. module: Maintain_Receipt_Divide
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_Receipt_Divide
-msgid "Comment/Help"
-msgstr "コメント"
 
 #. module: Maintain_Receipt_Divide
 #: model_terms:ir.actions.act_window,help:Maintain_Receipt_Divide.action_list_ideas
@@ -52,7 +47,12 @@ msgid "Created on"
 msgstr ""
 
 #. module: Maintain_Receipt_Divide
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_Receipt_Divide
+#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_receipt_divide
+msgid "Default"
+msgstr "デフォルト"
+
+#. module: Maintain_Receipt_Divide
+#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_receipt_divide
 #: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.receipt_tree_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.receipt_tree_view
 msgid "Description"
@@ -64,7 +64,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: Maintain_Receipt_Divide
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_Receipt_Divide
+#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_receipt_divide
 msgid "Form"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgid "Name"
 msgstr "名称"
 
 #. module: Maintain_Receipt_Divide
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_Receipt_Divide
+#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_receipt_divide
 msgid "Name*"
 msgstr "名称*"
 
@@ -106,9 +106,7 @@ msgid "Organization"
 msgstr "組織"
 
 #. module: Maintain_Receipt_Divide
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_Receipt_Divide
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.receipt_tree_filter
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.receipt_tree_view
+#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_receipt_divide
 msgid "Organization*"
 msgstr "組織*"
 
@@ -118,11 +116,17 @@ msgid "Product"
 msgstr ""
 
 #. module: Maintain_Receipt_Divide
-#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_Receipt_Divide
+#: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.edit_receipt_divide
 #: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.receipt_tree_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Receipt_Divide.receipt_tree_view
 msgid "Search Key"
 msgstr "検索キー"
+
+#. module: Maintain_Receipt_Divide
+#: code:addons/Maintain_Receipt_Divide/models/receipt_divide_custom.py:0
+#, python-format
+msgid "The Search Key has already been registered"
+msgstr "その検索キーの値は既に登録されています。"
 
 #. module: Maintain_Receipt_Divide
 #: model:ir.model.fields,field_description:Maintain_Receipt_Divide.field_receipt_divide_custom__comment
@@ -135,12 +139,8 @@ msgid "description"
 msgstr "説明"
 
 #. module: Maintain_Receipt_Divide
-#: model:ir.model,name:Maintain_Receipt_Divide.model_receipt_divide_custom
-msgid "receipt.divide.custom"
-msgstr ""
-
-#. module: Maintain_Receipt_Divide
-#: model:ir.model.fields,field_description:Maintain_Receipt_Divide.field_receipt_divide_custom__isactive
+#: model:ir.model.fields,field_description:Maintain_Receipt_Divide.field_receipt_divide_custom__active
+#: model:ir.model.fields,field_description:Maintain_Receipt_Divide.field_receipt_divide_custom__default
 msgid "isactive"
 msgstr ""
 
@@ -150,12 +150,17 @@ msgid "name"
 msgstr ""
 
 #. module: Maintain_Receipt_Divide
-#: model:ir.model.fields,field_description:Maintain_Receipt_Divide.field_receipt_divide_custom__searchkey
+#: model:ir.model,name:Maintain_Receipt_Divide.model_receipt_divide_custom
+msgid "receipt.divide.custom"
+msgstr ""
+
+#. module: Maintain_Receipt_Divide
+#: model:ir.model.fields,field_description:Maintain_Receipt_Divide.field_receipt_divide_custom__search_key_receipt
 msgid "searchkey"
 msgstr ""
 
 #. module: Maintain_Receipt_Divide
 #: model:ir.actions.act_window,name:Maintain_Receipt_Divide.action_list_ideas
 #: model:ir.ui.menu,name:Maintain_Receipt_Divide.menu_ideas
-msgid "メーカーマスタ"
+msgid "入金区分"
 msgstr ""
