@@ -21,6 +21,7 @@ class ReceiptDivide(models.Model):
     description =fields.Char('description')
     comment = fields.Char('comment')
     active = fields.Boolean('isactive', default=True)
+    default = fields.Boolean('isactive', default=True)
 
     @api.constrains('search_key_receipt')
     def _check_unique_searchkey(self):
