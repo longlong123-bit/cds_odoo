@@ -81,3 +81,15 @@ msgstr "税率"
 #: model:ir.model,name:Maintain_Tax_Rate.model_tax_rate
 msgid "tax.rate"
 msgstr ""
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_account_tag__active
+#: model:ir.model.fields,field_description:account.field_account_fiscal_position__active
+#: model:ir.model.fields,field_description:account.field_account_incoterms__active
+#: model:ir.model.fields,field_description:account.field_account_journal__active
+#: model:ir.model.fields,field_description:account.field_account_payment_term__active
+#: model:ir.model.fields,field_description:account.field_account_tax__active
+#: model:ir.model.fields,field_description:account.field_account_tax_template__active
+#: model_terms:ir.ui.view,arch_db:account.view_account_tax_search
+msgid "Active"
+msgstr "アクティブ"

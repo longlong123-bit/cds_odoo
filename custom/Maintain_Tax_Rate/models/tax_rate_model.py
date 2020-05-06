@@ -7,6 +7,7 @@ class ClassBillSchema(models.Model):
 
     tax_rate_code = fields.Char('Tax Rate Code')
     tax_rate_name = fields.Char('Tax Rate Name')
+    active = fields.Boolean('Active', default=True)
 
 
 

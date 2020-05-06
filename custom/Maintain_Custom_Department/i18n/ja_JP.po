@@ -49,6 +49,11 @@ msgid "Department Name"
 msgstr "事業部名"
 
 #. module: Maintain_Custom_Department
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department.custom_view_department_form
+msgid "Active"
+msgstr "アクティブ"
+
+#. module: Maintain_Custom_Department
 #: model:ir.actions.act_window,name:Maintain_Custom_Department.open_module_tree_department
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department.custom_view_department_filter
 msgid "Departments"

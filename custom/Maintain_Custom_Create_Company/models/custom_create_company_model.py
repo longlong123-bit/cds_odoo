@@ -17,5 +17,5 @@ class ClassCreateCompany(models.Model):
     company_bank_account_2 = fields.Integer('Bank Account 2')
     company_bank_account_3 = fields.Integer('Bank Account 3')
     company_bank_account_4 = fields.Integer('Bank Account 4')
-
+    active = fields.Boolean('Active', default=True)
 
