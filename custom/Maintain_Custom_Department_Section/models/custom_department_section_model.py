@@ -6,9 +6,9 @@ from odoo.exceptions import ValidationError
 class ClassDepartmentSectionCustom(models.Model):
     _name = 'section.model'
 
-    name = fields.Char('Section Name')
-    department_section_code = fields.Char('Section Code')
-    parent_department_code = fields.Char('Parent Department Code')
+    name = fields.Char(string='Section Name')
+    department_section_code = fields.Char(string='Section Code')
+    parent_department_code = fields.Char(string='Parent Department Code')
     department_code1 = fields.Many2one('hr.department')
     department_fake_id = fields.Char('id')
     active = fields.Boolean('Active', default=True)
