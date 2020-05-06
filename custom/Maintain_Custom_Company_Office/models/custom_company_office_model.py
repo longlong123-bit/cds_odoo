@@ -112,6 +112,7 @@ class ClassCompanyOffice(models.Model):
     primary_color = fields.Char()
     secondary_color = fields.Char()
 
+    active = fields.Boolean('Active', default=True)
     office_code = fields.Char('Office Code')
     # bank custom
     office_closing_date = fields.Date('Closing Date')

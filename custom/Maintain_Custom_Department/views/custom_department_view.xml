@@ -13,9 +13,10 @@
                             <field name="department_code" string="Department Code" required="1"/>
                             <field name="name" string="Department Name" required="1"/>
                             <field name="manager_id"/>
-                            <field name="parent_id"/>
+<!--                            <field name="parent_id"/>-->
                             <field name="parent_department_code" string="Parent Code"/>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="active" string="Active"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -49,6 +50,7 @@
                     <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>
                     <separator/>
                     <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                    <filter string="Department" name="department_parent" domain="[('parent_id','=', False)]"/>
                 </search>
              </field>
         </record>
@@ -69,6 +71,7 @@
             <field name="res_model">hr.department</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="custom_view_department_filter"/>
+            <field name="context">{"search_default_department_parent":1}</field>
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">
                 Create a new department

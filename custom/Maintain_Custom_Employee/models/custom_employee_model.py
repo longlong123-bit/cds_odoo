@@ -8,6 +8,7 @@ class ClassEmployeeCusstom(models.Model):
     employee_code = fields.Char('Employee Code')
     employee_password = fields.Char('Password')
     employee_section_id = fields.Many2one('section.model', string='Section Code')
+    active = fields.Boolean('Active', default=True)
 
     @api.model
     def create(self, vals):

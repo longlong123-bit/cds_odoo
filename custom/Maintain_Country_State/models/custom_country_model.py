@@ -16,5 +16,6 @@ class ClassCountryState(models.Model):
     organization = fields.Many2one('res.company', required=True, default=_get_default_organization_id)
     country_id = fields.Many2one('res.country', string='Country', required=True,
                                  default=lambda self: self.env['res.country'].search([('code', '=', 'JP')]))
+    active = fields.Boolean('Active', default=True)
 
 

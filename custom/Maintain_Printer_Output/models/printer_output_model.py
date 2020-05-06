@@ -10,5 +10,6 @@ class ClassPrinterOutput(models.Model):
     paperformat_id_2 = fields.Many2one('report.paperformat', 'Paper Format 1')
     paperformat_id_3 = fields.Many2one('report.paperformat', 'Paper Format 2')
     paperformat_id_4 = fields.Many2one('report.paperformat', 'Paper Format 3')
+    active = fields.Boolean('Active', default=True)
 
 
