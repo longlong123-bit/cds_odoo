@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-01 11:12+0000\n"
-"PO-Revision-Date: 2020-05-01 11:12+0000\n"
+"POT-Creation-Date: 2020-05-07 10:35+0000\n"
+"PO-Revision-Date: 2020-05-07 10:35+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: Maintain_Custom_Employee
+#: code:addons/Maintain_Custom_Employee/models/custom_employee_model.py:0
+#, python-format
+msgid "%s (copy)"
+msgstr "%s (コピー)"
 
 #. module: Maintain_Custom_Employee
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_kanban_view_employees
@@ -37,6 +43,12 @@ msgid ""
 msgstr ""
 
 #. module: Maintain_Custom_Employee
+#: model:ir.model.fields,field_description:Maintain_Custom_Employee.field_hr_employee__active
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_form
+msgid "Active"
+msgstr "有効"
+
+#. module: Maintain_Custom_Employee
 #: model_terms:ir.actions.act_window,help:Maintain_Custom_Employee.act_employee_from_department
 #: model_terms:ir.actions.act_window,help:Maintain_Custom_Employee.open_view_employee_list_my
 msgid "Add a new employee"
@@ -48,54 +60,20 @@ msgid "Archived"
 msgstr ""
 
 #. module: Maintain_Custom_Employee
-#: model:ir.ui.menu,name:Maintain_Custom_Employee.menu_ideas
-msgid "Custom Employee"
-msgstr "担当者マスタ"
-
-#. module: Maintain_Custom_Employee
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_filter
 msgid "Department"
 msgstr ""
 
-#. module: hr_timesheet
-#: model:ir.model.fields,field_description:hr_timesheet.field_account_analytic_line__department_id
-msgid "Department"
-msgstr "部門123123"
-
-#. module: Maintain_Custom_Employee
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_form
-msgid "Section Code"
-msgstr "課マスタ"
-
-#. module: Maintain_Custom_Employee
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_tree
-msgid "Section Code"
-msgstr "課"
-
-
 #. module: Maintain_Custom_Employee
 #: model:ir.model,name:Maintain_Custom_Employee.model_hr_employee
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_filter
 msgid "Employee"
 msgstr "従業員"
 
-#. module: hr
-#: model:ir.model.fields,field_description:hr.field_hr_employee__department_id
-#: model:ir.model.fields,field_description:hr.field_hr_employee_base__department_id
-#: model:ir.model.fields,field_description:hr.field_hr_employee_public__department_id
-#: model:ir.model.fields,field_description:hr.field_hr_job__department_id
-#: model:ir.model.fields,field_description:hr.field_res_users__department_id
-#: model_terms:ir.ui.view,arch_db:hr.hr_employee_public_view_search
-#: model_terms:ir.ui.view,arch_db:hr.view_department_filter
-#: model_terms:ir.ui.view,arch_db:hr.view_employee_filter
-#: model_terms:ir.ui.view,arch_db:hr.view_job_filter
-msgid "Department"
-msgstr "事業部"
-
 #. module: Maintain_Custom_Employee
 #: model:ir.model.fields,field_description:Maintain_Custom_Employee.field_hr_employee__employee_code
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_tree
 msgid "Employee Code"
 msgstr "担当者コード"
 
@@ -105,9 +83,12 @@ msgid "Employee Custom"
 msgstr ""
 
 #. module: Maintain_Custom_Employee
+#: model:ir.model.fields,field_description:Maintain_Custom_Employee.field_hr_employee__name
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_form
-msgid "Active"
-msgstr "アクティブ"
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_tree
+msgid "Employee Name"
+msgstr "従業員名"
 
 #. module: Maintain_Custom_Employee
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_kanban_view_employees
@@ -142,6 +123,13 @@ msgid "Group By"
 msgstr ""
 
 #. module: Maintain_Custom_Employee
+#: model:ir.model.fields,help:Maintain_Custom_Employee.field_hr_employee__active
+msgid ""
+"If the active field is set to False, it will allow you to hide the resource "
+"record without removing it."
+msgstr "アクティブ項目をFalse にセットすると、リソースレコードは削除することなく非表示にできます。"
+
+#. module: Maintain_Custom_Employee
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_filter
 msgid "Job"
 msgstr ""
@@ -158,7 +146,6 @@ msgstr ""
 
 #. module: Maintain_Custom_Employee
 #: model:ir.model.fields,field_description:Maintain_Custom_Employee.field_hr_employee__employee_password
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_form
 msgid "Password"
 msgstr "担当者PW"
 
@@ -168,10 +155,19 @@ msgid "Related User"
 msgstr "関連ユーザ"
 
 #. module: Maintain_Custom_Employee
+#: model:ir.model.fields,field_description:Maintain_Custom_Employee.field_hr_employee__employee_section_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_tree
-msgid "Employee Name"
-msgstr "担当者名"
+msgid "Section Code"
+msgstr "課マスタ"
+
+#. module: Maintain_Custom_Employee
+#: code:addons/Maintain_Custom_Employee/models/custom_employee_model.py:0
+#: model:ir.model.constraint,message:Maintain_Custom_Employee.constraint_hr_employee_name_code_uniq
+#, python-format
+msgid "The code must be unique!"
+msgstr "コードが既に登録されています。"
 
 #. module: Maintain_Custom_Employee
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Employee.custom_view_employee_filter
