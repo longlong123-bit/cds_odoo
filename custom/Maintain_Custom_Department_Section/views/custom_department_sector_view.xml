@@ -23,8 +23,9 @@
             <field name="model">section.model</field>
             <field name="arch" type="xml">
                 <tree string="Companies">
-                    <field name="name"/>
                     <field name="department_section_code" string="Section Code"/>
+                    <field name="name"/>
+                    <field name="department_code1" string="Department Code"/>
                 </tree>
             </field>
         </record>
@@ -34,7 +35,9 @@
             <field name="model">section.model</field>
             <field name="arch" type="xml">
                 <search string="Section">
+                    <field name="department_section_code" string="Section Code"/>
                     <field name="name" string="Section Name"/>
+                    <field name="department_code1" string="Department Code"/>
                 </search>
              </field>
         </record>

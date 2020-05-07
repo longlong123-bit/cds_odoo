@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
 
@@ -9,9 +9,27 @@ class ClassDepartmentSectionCustom(models.Model):
     name = fields.Char(string='Section Name')
     department_section_code = fields.Char(string='Section Code')
     parent_department_code = fields.Char(string='Parent Department Code')
-    department_code1 = fields.Many2one('hr.department')
+    department_code1 = fields.Many2one('hr.department', string='Department Code')
     department_fake_id = fields.Char('id')
     active = fields.Boolean('Active', default=True)
+
+    _sql_constraints = [
+        ('name_code_uniq', 'unique(department_section_code)', 'The code must be unique!')
+    ]
+
+    @api.constrains('department_section_code')
+    def _check_unique_searchkey(self):
+        exists = self.env['section.model'].search(
+            [('department_section_code', '=', self.department_section_code), ('id', '!=', self.id)])
+        if exists:
+            raise ValidationError(_('The code must be unique!'))
+
+    def copy(self, default=None):
+        default = dict(default or {})
+        default.update({'department_section_code': ''})
+        if 'name' not in default:
+            default['name'] = _("%s (copy)") % (self.name)
+        return super(ClassDepartmentSectionCustom, self).copy(default)
 
     @api.model
     def create(self, values):
