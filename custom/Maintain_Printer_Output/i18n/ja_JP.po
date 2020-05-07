@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-28 12:21+0000\n"
-"PO-Revision-Date: 2020-04-28 12:21+0000\n"
+"POT-Creation-Date: 2020-05-07 03:23+0000\n"
+"PO-Revision-Date: 2020-05-07 03:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__active
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
+msgid "Active"
+msgstr "アクティブ"
 
 #. module: Maintain_Printer_Output
 #: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__computer_name
@@ -45,6 +51,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__id
 msgid "ID"
 msgstr ""
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__invoice
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_2__invoice
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_3__invoice
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_4__invoice
+msgid "Invoice"
+msgstr "請求書"
 
 #. module: Maintain_Printer_Output
 #: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output____last_update
@@ -90,26 +104,37 @@ msgid "Paper Format 4"
 msgstr "伝票選択4"
 
 #. module: Maintain_Printer_Output
+#: model:ir.actions.act_window,name:Maintain_Printer_Output.action_printer_output
+#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
 msgid "Printer Output"
-msgstr "出力プリンタ"
-
-#. module: Maintain_Printer_Output
-#: model:ir.ui.menu,name:Maintain_Printer_Output.menu_ideas
-msgid "Printer"
 msgstr "プリンタ出力先設定"
 
 #. module: Maintain_Printer_Output
-#: model:ir.actions.act_window,name:Maintain_Printer_Output.action_printer_output
-msgid "Printer Output"
-msgstr "プリンタ出力先設定"
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__quotation
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_2__quotation
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_3__quotation
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_4__quotation
+msgid "Quotation"
+msgstr "見積書"
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__report
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_2__report
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_3__report
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_4__report
+msgid "Report"
+msgstr "帳票系"
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__voucher
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_2__voucher
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_3__voucher
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_4__voucher
+msgid "Voucher"
+msgstr "売上伝票"
 
 #. module: Maintain_Printer_Output
 #: model:ir.model,name:Maintain_Printer_Output.model_printer_output
 msgid "printer.output"
 msgstr ""
-
-#. module: Maintain_Printer_Output
-#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
-msgid "Active"
-msgstr "アクティブ"
