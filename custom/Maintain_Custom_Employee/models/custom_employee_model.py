@@ -26,7 +26,7 @@ class ClassEmployeeCustom(models.Model):
 
     def copy(self, default=None):
         default = dict(default or {})
-        default.update({'department_code': ''})
+        default.update({'employee_code': ''})
         if 'name' not in default:
             default['name'] = _("%s (copy)") % (self.name)
         return super(ClassEmployeeCustom, self).copy(default)
