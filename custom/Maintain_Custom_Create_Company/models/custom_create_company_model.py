@@ -7,6 +7,7 @@ class ClassCreateCompany(models.Model):
     _inherit = ['res.company']
 
     name = fields.Char('Company Name')
+    street = fields.Char(compute='_compute_address', inverse='_inverse_street', size=41)
     company_payment_term = fields.Many2one('account.payment.term', string='Payment Term')
     company_fax = fields.Char('Fax')
     company_closing_date = fields.Date('Closing Date')

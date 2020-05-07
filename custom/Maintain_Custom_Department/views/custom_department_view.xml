@@ -13,7 +13,7 @@
                             <field name="department_code" string="Department Code" required="1"/>
                             <field name="name" string="Department Name" required="1"/>
                             <field name="manager_id"/>
-                            <field name="parent_department_code" string="Parent Code"/>
+                            <field name="parent_department_code" string="Parent Code" required="1"/>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                             <field name="active" string="Active"/>
                         </group>
