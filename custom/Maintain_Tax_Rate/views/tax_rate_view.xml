@@ -3,16 +3,21 @@
     <data>
 		<!-- Main form -->
 
-<!--		<record model="ir.ui.view" id="tax_rate_tree">-->
-<!--			<field name="name">tax.rate.tree</field>-->
-<!--			<field name="model">account.tax</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--				<tree>-->
-<!--					<field name="tax_rate_code" string="Tax Rate Code"/>-->
-<!--					<field name="tax_rate_name" string="Tax Rate Name"/>-->
-<!--				</tree>-->
-<!--            </field>-->
-<!--        </record>-->
+		<record model="ir.ui.view" id="tax_rate_tree">
+			<field name="name">tax.rate.tree</field>
+			<field name="model">account.tax</field>
+			<field name="inherit_id" ref="account.account_tax_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree>
+                        <field name="tax_rate_code" string="Tax Rate Code"/>
+                        <field name="name" string="Tax Rate Name"/>
+                        <field name="amount"/>
+                        <field name="description"/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
 
 		<record model="ir.ui.view" id="closing_date_form">
 			<field name="name">tax.rate.form</field>
@@ -84,15 +89,22 @@
 			</field>
 		</record>
 
-<!--		<record id="tax_rate_filter" model="ir.ui.view">-->
-<!--            <field name="name">tax.rate.search</field>-->
-<!--            <field name="model">tax.rate</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <search string="Tax Rate">-->
-<!--                    <field name="tax_rate_name" string="Tax Rate Name"/>-->
-<!--                </search>-->
-<!--             </field>-->
-<!--        </record>-->
+		<record id="tax_rate_filter" model="ir.ui.view">
+            <field name="name">tax.rate.search</field>
+			<field name="model">account.tax</field>
+			<field name="inherit_id" ref="account.view_account_tax_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="replace">
+                    <search string="Tax Rate">
+                        <field name="tax_rate_code" string="Tax Rate Code"/>
+                        <field name="name" string="Tax Rate Name"/>
+                        <field name="amount"/>
+                        <field name="description"/>
+                    </search>
+                </xpath>
+
+             </field>
+        </record>
 
 
 		<record model="ir.actions.act_window" id="action_tax_rate">
