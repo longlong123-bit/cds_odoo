@@ -20,7 +20,7 @@
 
     # any module necessary for this one to work correctly
     'depends': [
-        'base', 'base_setup', 'Maintain_Client', 'Maintain_Organization','Maintain_Invoice_Remake', 'Maintain_Custom_Company_Office'
+        'base', 'base_setup', 'Maintain_Client', 'Maintain_Organization','Maintain_Invoice_Remake'
     ],
 
     # always loaded
@@ -28,13 +28,10 @@
         'security/ir.model.access.csv',
         'views/assets.xml',
         'views/bill.xml',
-        'views/history.xml',
-        'views/office.xml'
+        'views/invoice.xml',
+        'views/fields.xml',
+        'views/ir.ui.menu.xml'
     ],
-    'qweb': [
-        'views/templates.xml'
-    ],
-
     # only loaded in demonstration mode
     'demo': [
         'demo.xml',

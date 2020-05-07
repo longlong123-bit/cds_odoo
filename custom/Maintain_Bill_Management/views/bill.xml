@@ -6,36 +6,30 @@
         <field name="model">bm.bill</field>
         <field name="arch" type="xml">
             <tree string="Product" class="forward_edit">
-                <field name="office_code" string="Office code"/>
-                <field name="office_name" string="Office name"/>
-                <field name="office_closing_date" string="Closing date"/>
-                <field name="status" invisible="1"/>
-                <button name="cancel_bill" type="object" string="Cancel" class="btn-sm btn btn-primary" attrs="{'invisible': [('status', '=', 'cancel')]}"/>
+                <field name="bill_code" string="Billing code"/>
+                <field name="bill_party_name" string="Billing party name"/>
+                <field name="closing_date" string="Close date"/>
+                <field name="sale_number" string="Sale number"/>
             </tree>
         </field>
     </record>
-    <!-- END TREE BILL -->
 
-    <!-- BEGIN SEARCH BILL -->
     <record model="ir.ui.view" id="bm_bill_search">
         <field name="name">bm.bill.search</field>
         <field name="model">bm.bill</field>
         <field name="arch" type="xml">
             <search string="Bill">
-                <filter string="Not canceled" name="not_cancel" domain="[('status', '!=', 'cancel')]"/>
-<!--                <field name="customer" string="Customer"/>-->
-<!--                <field name="request_category" string="Request category"/>-->
-<!--                <field name="deadline" string="Deadline"/>-->
-<!--                <field name="division" string="Division"/>-->
-<!--                <field name="sale_representative" string="Sale representative"/>-->
-<!--                <field name="supplier_group" string="Supplier group"/>-->
-<!--                <field name="bill_address" string="Billing address"/>-->
+                <field name="customer" string="Customer"/>
+                <field name="request_category" string="Request category"/>
+                <field name="deadline" string="Deadline"/>
+                <field name="division" string="Division"/>
+                <field name="sale_representative" string="Sale representative"/>
+                <field name="supplier_group" string="Supplier group"/>
+                <field name="bill_address" string="Billing address"/>
             </search>
         </field>
     </record>
-    <!-- END SEARCH BILL -->
 
-    <!-- BEGIN FORM BILL -->
     <record model="ir.ui.view" id="bm_bill_form">
         <field name="name">bm.bill.form</field>
         <field name="model">bm.bill</field>
@@ -44,60 +38,37 @@
                 <table class="custom-form-table">
                     <tbody>
                         <tr>
-                            <td class="col-label"><label for="office_code" string="Office code"/></td>
-                            <td class="col-field"><field name="office_code"/></td>
-                            <td class="col-label"><label for="office_name" string="Office name"/></td>
-                            <td class="col-field"><field name="office_name"/></td>
-                            <td class="col-label"><label for="office_closing_date" string="Closing date"/></td>
-                            <td class="col-field"><field name="office_closing_date"/></td>
+                            <td class="col-label"><label for="bill_code" string="bill_code"/></td>
+                            <td class="col-field"><field name="bill_code"/></td>
+                            <td class="col-label"><label for="bill_party_name" string="bill_party_name"/></td>
+                            <td class="col-field"><field name="bill_party_name"/></td>
+                            <td class="col-label"><label for="closing_date" string="closing_date"/></td>
+                            <td class="col-field"><field name="closing_date"/></td>
                         </tr>
                     </tbody>
                 </table>
                 <group>
                     <notebook>
                         <page string="Invoice Line">
-                            <field name="bill_vouchers" widget="one2many" nolabel="1" mode="tree">
+                            <field class="newtest" name="bill_detail" widget="one2many" nolabel="1" mode="tree">
                                 <tree editable="bottom" delete="true">
-                                    <field name="invoice_date" string="Invoice date"/>
-                                    <field name="invoice_no" string="Invoice no"/>
-                                    <field name="customer_code" string="Customer code"/>
-                                    <field name="customer_name" string="Customer name"/>
+                                    <control>
+                                        <create name="add_line_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                    </control>
+
+                                    <field name="customer_code" class="my_class"/>
+                                    <field name="customer_name" class="my_class"/>
                                 </tree>
                             </field>
                         </page>
                     </notebook>
                 </group>
-                <footer>
-                    <button name="action_list_bill_management" string="My Button"/>
-                </footer>
             </form>
+
         </field>
     </record>
-    <!-- END FORM BILL -->
 
-    <!-- BEGIN TREE BILL DETAIL -->
-    <record model="ir.ui.view" id="bm_bill_voucher_tree">
-        <field name="name">bm.bill_voucher.tree</field>
-        <field name="model">bm.bill_voucher</field>
-        <field name="arch" type="xml">
-            <tree string="Product" class="forward_edit">
-<!--                <field name="office_code" string="Office code"/>-->
-<!--                <field name="office_name" string="Office name"/>-->
-<!--                <field name="office_closing_date" string="Closing date"/>-->
-            </tree>
-        </field>
-    </record>
-    <!-- END TREE BILL DETAIL -->
-
-    <!-- MENU -->
-    <record model="ir.actions.act_window" id="action_list_bill_management">
-        <field name="name">Bill management</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">bm.bill</field>
-        <field name="view_mode">tree,kanban,form</field>
-        <field name="view_id" ref="bm_bill_tree"/>
-        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'search_default_filter_name': 1, 'search_default_not_cancel': 1}</field>
-        <field name="search_view_id" ref="bm_bill_search"/>
-    </record>
-    <menuitem id="menu_bill_management" parent="menu_bm_office" name="Bill list" sequence="11" action="action_list_bill_management"/>
+    <!-- END MAIN FORM -->
 </odoo>

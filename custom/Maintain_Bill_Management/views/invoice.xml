@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- BEGIN MAIN FORM -->
+    <record model="ir.ui.view" id="bm_invoice_tree">
+        <field name="name">bm.invoice.tree</field>
+        <field name="model">account.move</field>
+        <field name="arch" type="xml">
+            <tree string="Product" class="forward_edit">
+                <field name="display_name" string="Name"/>
+                <field name="invoice_date" string="Invoice date"/>
+
+                <button name="create_bill" type="object" string="Excerpt"/>
+<!--                <field name="bill_party_name" string="Billing party name"/>-->
+<!--                <field name="closing_date" string="Close date"/>-->
+<!--                <field name="sale_number" string="Sale number"/>-->
+            </tree>
+        </field>
+    </record>
+
+<!--    <record model="ir.ui.view" id="bm_invoice_search">-->
+<!--        <field name="name">bm.invoice.search</field>-->
+<!--        <field name="model">bm.invoice</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Bill">-->
+<!--                <field name="customer" string="Customer"/>-->
+<!--                <field name="request_category" string="Request category"/>-->
+<!--                <field name="deadline" string="Deadline"/>-->
+<!--                <field name="division" string="Division"/>-->
+<!--                <field name="sale_representative" string="Sale representative"/>-->
+<!--                <field name="supplier_group" string="Supplier group"/>-->
+<!--                <field name="bill_address" string="Billing address"/>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record model="ir.ui.view" id="bm_invoice_form">-->
+<!--        <field name="name">bm.invoice.form</field>-->
+<!--        <field name="model">bm.bill</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form>-->
+<!--                <table class="custom-form-table">-->
+<!--                    <tbody>-->
+<!--                        <tr>-->
+<!--                            <td class="col-label"><label for="bill_code" string="bill_code"/></td>-->
+<!--                            <td class="col-field"><field name="bill_code"/></td>-->
+<!--                            <td class="col-label"><label for="bill_party_name" string="bill_party_name"/></td>-->
+<!--                            <td class="col-field"><field name="bill_party_name"/></td>-->
+<!--                            <td class="col-label"><label for="closing_date" string="closing_date"/></td>-->
+<!--                            <td class="col-field"><field name="closing_date"/></td>-->
+<!--                        </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--                <group>-->
+<!--                    <notebook>-->
+<!--                        <page string="Invoice Line">-->
+<!--                            <field class="newtest" name="bill_detail" widget="one2many" nolabel="1" mode="tree">-->
+<!--                                <tree editable="bottom" delete="true">-->
+<!--                                    <control>-->
+<!--                                        <create name="add_line_control" string="Add a line"/>-->
+<!--                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>-->
+<!--                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>-->
+<!--                                    </control>-->
+
+<!--                                    <field name="customer_code" class="my_class"/>-->
+<!--                                    <field name="customer_name" class="my_class"/>-->
+<!--                                </tree>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                    </notebook>-->
+<!--                </group>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- END MAIN FORM -->
+</odoo>
