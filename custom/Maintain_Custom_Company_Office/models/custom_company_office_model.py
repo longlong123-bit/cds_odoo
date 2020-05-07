@@ -345,3 +345,17 @@ class ClassCompanyOffice(models.Model):
         # Deprecated, to be deleted in master
         return ''
 
+
+    @api.constrains('office_code')
+    def _check_unique_searchkey(self):
+        exists = self.env['company.office.custom'].search(
+            [('office_code', '=', self.office_code), ('id', '!=', self.id)])
+        if exists:
+            raise ValidationError(_('The code must be unique!'))
+
+    def copy(self, default=None):
+        default = dict(default or {})
+        default.update({'office_code': ''})
+        if 'name' not in default:
+            default['name'] = _("%s (copy)") % (self.name)
+        return super(ClassCompanyOffice, self).copy(default)
