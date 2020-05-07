@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-01 11:06+0000\n"
-"PO-Revision-Date: 2020-05-01 11:06+0000\n"
+"POT-Creation-Date: 2020-05-07 11:33+0000\n"
+"PO-Revision-Date: 2020-05-07 11:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,48 +16,59 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: Maintain_Tax_Rate
-#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__create_uid
-msgid "Created by"
+#: code:addons/Maintain_Tax_Rate/models/tax_rate_model.py:0
+#, python-format
+msgid "%s (copy)"
+msgstr "%s (コピー)"
+
+#. module: Maintain_Tax_Rate
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+msgid "Account Tax"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
-#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__create_date
-msgid "Created on"
-msgstr ""
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_account_tax__active
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+msgid "Active"
+msgstr "アクティブ"
 
 #. module: Maintain_Tax_Rate
-#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__display_name
-msgid "Display Name"
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+msgid "Advanced Options"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
-msgid "Form"
+msgid "Children Taxes"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
-#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__id
-msgid "ID"
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+msgid "Definition"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
-#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate____last_update
-msgid "Last Modified on"
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+msgid "Repartition for Credit Notes"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
-#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__write_uid
-msgid "Last Updated by"
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+msgid "Repartition for Invoices"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
-#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__write_date
-msgid "Last Updated on"
+#: model:ir.model.fields,help:Maintain_Tax_Rate.field_account_tax__active
+msgid "Set active to false to hide the tax without removing it."
 msgstr ""
+
+#. module: Maintain_Tax_Rate
+#: model:ir.model,name:Maintain_Tax_Rate.model_account_tax
+msgid "Tax"
+msgstr "税"
 
 #. module: Maintain_Tax_Rate
 #: model:ir.actions.act_window,name:Maintain_Tax_Rate.action_tax_rate
-#: model:ir.ui.menu,name:Maintain_Tax_Rate.menu_ideas
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_filter
 msgid "Tax Rate"
 msgstr "税率マスタ"
@@ -65,12 +76,13 @@ msgstr "税率マスタ"
 #. module: Maintain_Tax_Rate
 #: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_account_tax__tax_rate_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_tree
 msgid "Tax Rate Code"
 msgstr "税率コード"
 
 #. module: Maintain_Tax_Rate
-#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_tax_rate__tax_rate_name
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_account_tax__name
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_tree
@@ -78,18 +90,8 @@ msgid "Tax Rate Name"
 msgstr "税率"
 
 #. module: Maintain_Tax_Rate
-#: model:ir.model,name:Maintain_Tax_Rate.model_tax_rate
-msgid "tax.rate"
-msgstr ""
-
-#. module: account
-#: model:ir.model.fields,field_description:account.field_account_account_tag__active
-#: model:ir.model.fields,field_description:account.field_account_fiscal_position__active
-#: model:ir.model.fields,field_description:account.field_account_incoterms__active
-#: model:ir.model.fields,field_description:account.field_account_journal__active
-#: model:ir.model.fields,field_description:account.field_account_payment_term__active
-#: model:ir.model.fields,field_description:account.field_account_tax__active
-#: model:ir.model.fields,field_description:account.field_account_tax_template__active
-#: model_terms:ir.ui.view,arch_db:account.view_account_tax_search
-msgid "Active"
-msgstr "アクティブ"
+#: code:addons/Maintain_Tax_Rate/models/tax_rate_model.py:0
+#: model:ir.model.constraint,message:Maintain_Tax_Rate.constraint_account_tax_name_code_uniq
+#, python-format
+msgid "The code must be unique!"
+msgstr "コードが既に登録されています。"
