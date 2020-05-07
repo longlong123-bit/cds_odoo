@@ -13,7 +13,6 @@
                             <field name="department_code" string="Department Code" required="1"/>
                             <field name="name" string="Department Name" required="1"/>
                             <field name="manager_id"/>
-<!--                            <field name="parent_id"/>-->
                             <field name="parent_department_code" string="Parent Code"/>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                             <field name="active" string="Active"/>
@@ -32,7 +31,8 @@
             <field name="model">hr.department</field>
             <field name="arch" type="xml">
                 <tree string="Companies">
-                    <field name="display_name"/>
+                    <field name="department_code" string="Department Code"/>
+                    <field name="name" string="Department Name"/>
                     <field name="company_id" groups="base.group_multi_company"/>
                     <field name="manager_id"/>
                     <field name="parent_department_code" string="Parent Code"/>
@@ -45,8 +45,10 @@
             <field name="model">hr.department</field>
             <field name="arch" type="xml">
                 <search string="Departments">
-                    <field name="name" string="Department"/>
+                    <field name="department_code" string="Department Code"/>
+                    <field name="name" string="Department Name"/>
                     <field name="manager_id" />
+                    <field name="parent_department_code" string="Parent Code"/>
                     <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction','=',True)]"/>
                     <separator/>
                     <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
@@ -75,10 +77,6 @@
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">
                 Create a new department
-              </p><p>
-                Odoo's department structure is used to manage all documents
-                related to employees by departments: expenses, timesheets,
-                leaves, recruitments, etc.
               </p>
             </field>
         </record>
