@@ -1,0 +1,511 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Maintain_Business_Partners
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-23 09:17+0000\n"
+"PO-Revision-Date: 2020-04-23 09:17+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Maintain_Business_Partners
+#: code:addons/Maintain_Business_Partners/models/partner_custom.py:0
+#, python-format
+msgid "%s (copy)"
+msgstr "%s (コピー)"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__active
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Active"
+msgstr "アクティブ"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__actual_life_time_value
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__actual_life_time_value
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Actual Life Time Value"
+msgstr "売上実績"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Address 1"
+msgstr "住所1"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Address 2"
+msgstr "住所2"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Address 3"
+msgstr "住所3"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_tree
+msgid "BPartner Group"
+msgstr "取引先グループ"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "BPartner Group*"
+msgstr "取引先グループ*"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__bill_schema
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__bill_schema
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Bill Schema"
+msgstr "まとめ請求書作成条件"
+
+#. module: Maintain_Business_Partners
+#: model:ir.ui.menu,name:Maintain_Business_Partners.menu_ideas
+msgid "Business Partner Custom"
+msgstr "取引先マスタ(VJ)"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__payment_rule__rule_cash
+msgid "Cash"
+msgstr "現金"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__payment_rule__rule_check
+msgid "Check"
+msgstr "銀行振込・小切手"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model,name:Maintain_Business_Partners.model_res_partner
+msgid "Contact"
+msgstr "連絡先"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.actions.act_window,help:Maintain_Business_Partners.res_partner_action_customer
+msgid "Create a new customer in your address book"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__payment_rule__rule_credit
+msgid "Credit Card"
+msgstr "クレジットカード"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__credit_status__credit_hold
+msgid "Credit Hold"
+msgstr "与信限度額オーバー"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__credit_limit
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__credit_limit
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Credit Limit"
+msgstr "与信限度額"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__credit_status__credit_ok
+msgid "Credit Ok"
+msgstr "与信良好"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__credit_status
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__credit_status
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Credit Status"
+msgstr "与信管理ステータス"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__credit_status__credit_stop
+msgid "Credit Stop"
+msgstr "出荷停止"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__credit_status__credit_watch
+msgid "Credit Watch"
+msgstr "要警戒"
+
+#. module: Maintain_Business_Partners
+#: model:ir.actions.act_window,name:Maintain_Business_Partners.res_partner_action_customer
+msgid "Customers"
+msgstr "取引先"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__description
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__description
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_tree
+msgid "Description"
+msgstr "説明"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__payment_rule__rule_direct_debit
+msgid "Direct Debit"
+msgstr "口座引落"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__payment_rule__rule_deposit
+msgid "Direct Deposit"
+msgstr "口座振替"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__discount_printed
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__discount_printed
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Discount Printed"
+msgstr "割引印刷"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__discount_schema
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__discount_schema
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Discount Schema"
+msgstr "割引スキーマ"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__document_copies
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__document_copies
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Document Copies"
+msgstr "印刷部数"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Fax"
+msgstr "FAX番号"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Flat Discount %"
+msgstr "割引率 %"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__flat_discount
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__flat_discount
+msgid "Float Discount"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Greeting"
+msgstr "敬称"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__invoice_print_format
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__invoice_print_format
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Invoice Print Format"
+msgstr "請求書印刷書式"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_tree
+msgid "Name"
+msgstr "表示名称"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_tree
+msgid "Name 2"
+msgstr "正式名称"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__customer_display_name
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__customer_display_name
+msgid "Name 3"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Name 4"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_search
+msgid "Namef"
+msgstr "フリガナ"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__credit_status__credit_no_check
+msgid "No Credit Check"
+msgstr "与信管理しない"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.actions.act_window,help:Maintain_Business_Partners.res_partner_action_customer
+msgid "Odoo helps you easily track all activities related to a customer."
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__payment_rule__rule_on_credit
+msgid "On Credit"
+msgstr "後払い"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__open_balance
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__open_balance
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Open Balance"
+msgstr "債権債務残高"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__partner_group
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__partner_group
+msgid "Partner Group"
+msgstr "取引先グループ"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Payment Rule"
+msgstr "支払方法"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Payment Term"
+msgstr "支払条件"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Phone"
+msgstr "電話番号"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Price List"
+msgstr "プライスリスト"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__property_product_pricelist
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__property_product_pricelist
+msgid "Pricelist"
+msgstr "プライスリスト"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__user_id
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__user_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Representative/Agent"
+msgstr "社内担当者"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "SO Tax Rounding"
+msgstr "仮受消費税の端数処理"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "SO Tax exempt"
+msgstr "税金免除"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__sale_person
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__sale_person
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Salesperson"
+msgstr "販売担当者"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_tree
+msgid "Search Key"
+msgstr "検索キー"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__customer_tax
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__customer_tax
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Tax"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: code:addons/Maintain_Business_Partners/models/partner_custom.py:0
+#, python-format
+msgid "The Search Key has already been registered"
+msgstr "その検索キーの値は既に登録されています。"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,help:Maintain_Business_Partners.field_res_partner__user_id
+#: model:ir.model.fields,help:Maintain_Business_Partners.field_res_users__user_id
+msgid "The internal user in charge of this contact."
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,help:Maintain_Business_Partners.field_res_partner__property_product_pricelist
+#: model:ir.model.fields,help:Maintain_Business_Partners.field_res_users__property_product_pricelist
+msgid ""
+"This pricelist will be used, instead of the default one, for sales to the "
+"current partner"
+msgstr "この価格リストは現在のパートナに販売するために、デフォルトのそれに代って使用されます。"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__write_date
+msgid "Update"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "Updated"
+msgstr "更新日"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.constraint,message:Maintain_Business_Partners.constraint_res_partner_search_key_partner_uniq
+msgid "You can not have two users with the same search key !"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__address3
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__address3
+msgid "address3"
+msgstr "住所3"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__action_view_invoice
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__action_view_invoice
+msgid "avi"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__billformrequireflag
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__billformrequireflag
+msgid "billformrequireflag"
+msgstr "請求書出力要"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__customer_class_rate
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__customer_class_rate
+msgid "class rate"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "class_rate"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__customer_classification_rate
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__customer_classification_rate
+msgid "classification rate"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__exchangeenddate
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__exchangeenddate
+msgid "exchangeenddate"
+msgstr "取引終了日"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__fax
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__fax
+msgid "fax"
+msgstr "FAX番号"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__first_sale
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__first_sale
+msgid "first_sale"
+msgstr "初回注文日"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__customer_isdateprinted
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__customer_isdateprinted
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "isdateprinted"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "name3"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__customer_extra_name
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__customer_extra_name
+msgid "nameextra"
+msgstr "正式名称"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__customer_namef
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__customer_namef
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_tree
+msgid "namef"
+msgstr "フリガナ"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__payment_rule
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__payment_rule
+msgid "payment_rule"
+msgstr "支払方法"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__payment_terms
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__payment_terms
+msgid "payment_terms"
+msgstr "支払条件"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__pricelist_custom
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__pricelist_custom
+msgid "price_list_custom"
+msgstr "プライスリスト"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__salesslipformcd
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__salesslipformcd
+msgid "salesslipformcd"
+msgstr "売伝用紙"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__search_key_partner
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__search_key_partner
+msgid "search_key"
+msgstr "検索キー"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__is_so_tax_exempt
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__is_so_tax_exempt
+msgid "so tax exempt"
+msgstr "税金免除"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__so_tax_rounding
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__so_tax_rounding
+msgid "so tax rounding"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "vj_classification_rate"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_partner__zip_code
+#: model:ir.model.fields,field_description:Maintain_Business_Partners.field_res_users__zip_code
+msgid "zip_code"
+msgstr "郵便番号"
+
+#. module: Maintain_Business_Partners
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners.partner_custom_template
+msgid "zipcd"
+msgstr "郵便番号"
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__salesslipformcd__form_3
+msgid "専伝・仮伝"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__salesslipformcd__form_1
+msgid "指定なし"
+msgstr ""
+
+#. module: Maintain_Business_Partners
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners.selection__res_partner__salesslipformcd__form_2
+msgid "通常"
+msgstr ""
