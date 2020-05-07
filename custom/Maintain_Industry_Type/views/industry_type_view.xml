@@ -25,7 +25,8 @@
             <field eval="6" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Industry">
-                    <field name="name"/>
+                    <field name="industry_code" string="Industry Code"/>
+                    <field name="name" string="Industry Name" />
                     <field name="full_name" string="Full Name"/>
                     <field name="active" invisible="1"/>
                 </tree>
@@ -37,8 +38,9 @@
             <field name="model">res.partner.industry</field>
             <field name="arch" type="xml">
                 <search string="Search Partner Industry">
-                    <field name="name"/>
-                    <field name="full_name"/>
+                    <field name="industry_code" string="Industry Code"/>
+                    <field name="name" string="Industry Name" />
+                    <field name="full_name" string="Full Name"/>
                     <separator/>
                     <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
                 </search>
