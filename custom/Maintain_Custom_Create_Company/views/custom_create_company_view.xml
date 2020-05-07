@@ -48,20 +48,6 @@
                         </page>
                         <page string="Bank Account">
                             <group string="Bank Accounts" name="banks">
-<!--                                <field name="bank_ids" nolabel="1">-->
-<!--                                    <tree editable="bottom">-->
-<!--                                        <field name="sequence" widget="handle"/>-->
-<!--                                        <field name="bank_id"/>-->
-<!--                                        <field name="acc_number"/>-->
-<!--                                        <field name="acc_holder_name" invisible="1"/>-->
-<!--                                    </tree>-->
-<!--                                </field>-->
-<!--                                <button type="action" class="btn-link"-->
-<!--                                    name="%(base.action_res_partner_bank_account_form)d"-->
-<!--                                    context="{'search_default_partner_id': active_id, 'default_partner_id': active_id, 'form_view_ref': 'account.view_company_partner_bank_form'}"-->
-<!--                                    string="View accounts detail"-->
-<!--                                    colspan="2"-->
-<!--                                />-->
                                 <group>
                                     <field name="company_bank_name_1" string="Bank Name 1"/>
                                     <field name="company_bank_name_2" string="Bank Name 2"/>
@@ -81,6 +67,7 @@
                 </form>
             </field>
         </record>
+        
         <record id="custom_view_company_tree" model="ir.ui.view">
             <field name="name">custom.company.tree</field>
             <field name="model">res.company</field>
@@ -92,6 +79,7 @@
                 </tree>
             </field>
         </record>
+
         <record id="custom_view_res_company_kanban" model="ir.ui.view">
             <field name="name">custom.company.kanban</field>
             <field name="model">res.company</field>

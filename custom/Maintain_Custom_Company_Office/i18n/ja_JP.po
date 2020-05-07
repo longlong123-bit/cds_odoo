@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-01 09:49+0000\n"
-"PO-Revision-Date: 2020-05-01 09:49+0000\n"
+"POT-Creation-Date: 2020-05-07 12:00+0000\n"
+"PO-Revision-Date: 2020-05-07 12:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: Maintain_Custom_Company_Office
+#: code:addons/Maintain_Custom_Company_Office/models/custom_company_office_model.py:0
+#, python-format
+msgid "%s (copy)"
+msgstr "%s (コピー)"
 
 #. module: Maintain_Custom_Company_Office
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_view_res_company_kanban
@@ -41,6 +47,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__account_no
 msgid "Account No."
 msgstr ""
+
+#. module: Maintain_Custom_Company_Office
+#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__active
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+msgid "Active"
+msgstr "アクティブ"
 
 #. module: Maintain_Custom_Company_Office
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
@@ -161,16 +173,6 @@ msgstr "会社ファビコン"
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__logo
 msgid "Company Logo"
 msgstr ""
-
-#. module: Maintain_Custom_Company_Office
-#: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__name
-msgid "Company Name"
-msgstr ""
-
-#. module: Maintain_Custom_Company_Office
-#: model:ir.ui.menu,name:Maintain_Custom_Company_Office.menu_ideas
-msgid "Company Office"
-msgstr "営業所マスタ"
 
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__company_registry
@@ -316,6 +318,8 @@ msgstr ""
 #. module: Maintain_Custom_Company_Office
 #: model:ir.model.fields,field_description:Maintain_Custom_Company_Office.field_company_office_custom__office_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_view_company_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_view_company_tree
 msgid "Office Code"
 msgstr "営業所コード"
 
@@ -434,6 +438,12 @@ msgid ""
 msgstr ""
 
 #. module: Maintain_Custom_Company_Office
+#: code:addons/Maintain_Custom_Company_Office/models/custom_company_office_model.py:0
+#, python-format
+msgid "The code must be unique!"
+msgstr "コードが既に登録されています。"
+
+#. module: Maintain_Custom_Company_Office
 #: model:ir.model.constraint,message:Maintain_Custom_Company_Office.constraint_company_office_custom_name_uniq
 msgid "The company name must be unique !"
 msgstr ""
@@ -492,8 +502,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
 msgid "e.g. https://www.odoo.com"
 msgstr ""
-
-#. module: Maintain_Custom_Company_Office
-#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Company_Office.custom_company_office_form
-msgid "Active"
-msgstr "アクティブ"
