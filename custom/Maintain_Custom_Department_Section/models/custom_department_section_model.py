@@ -17,6 +17,14 @@ class ClassDepartmentSectionCustom(models.Model):
         ('name_code_uniq', 'unique(department_section_code)', 'The code must be unique!')
     ]
 
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.name
+            search_key_show =  str(record.department_section_code) + " - " + name
+            result.append((record.id, search_key_show))
+        return result
+
     @api.constrains('department_section_code')
     def _check_unique_searchkey(self):
         exists = self.env['section.model'].search(
