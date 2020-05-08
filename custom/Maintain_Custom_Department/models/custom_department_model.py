@@ -31,3 +31,11 @@ class ClassDepartmentCustom(models.Model):
         if 'name' not in default:
             default['name'] = _("%s (copy)") % (self.name)
         return super(ClassDepartmentCustom, self).copy(default)
+
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.name
+            search_key_show =  str(record.department_code) + " - " + name
+            result.append((record.id, search_key_show))
+        return result
