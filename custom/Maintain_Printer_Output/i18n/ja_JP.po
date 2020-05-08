@@ -53,6 +53,14 @@ msgid "ID"
 msgstr ""
 
 #. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__all
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_2__all
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_3__all
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_4__all
+msgid "All"
+msgstr "全て"
+
+#. module: Maintain_Printer_Output
 #: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__invoice
 #: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_2__invoice
 #: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_3__invoice
@@ -133,6 +141,26 @@ msgstr "帳票系"
 #: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_4__voucher
 msgid "Voucher"
 msgstr "売上伝票"
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output__printer1
+msgid "Printer 1"
+msgstr "プリンタ 1"
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output__printer2
+msgid "Printer 2"
+msgstr "プリンタ 2"
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output__printer3
+msgid "Printer 3"
+msgstr "プリンタ 3"
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output__printer4
+msgid "Printer 4"
+msgstr "プリンタ 4"
 
 #. module: Maintain_Printer_Output
 #: model:ir.model,name:Maintain_Printer_Output.model_printer_output
