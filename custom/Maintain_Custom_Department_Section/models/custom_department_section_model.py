@@ -36,7 +36,8 @@ class ClassDepartmentSectionCustom(models.Model):
 
         department = self.env['hr.department'].create({
             'name': values['name'],
-            'parent_id': values['department_code1']
+            'parent_id': values['department_code1'],
+            'department_code': values['department_section_code']
         })
         values['department_fake_id'] = department.id
 
@@ -52,11 +53,21 @@ class ClassDepartmentSectionCustom(models.Model):
         code_department = self.department_code1
         if 'department_code1' in vals:
             code_department = vals['department_code1']
+        code_section = self.department_section_code
+        if 'department_section_code' in vals:
+            code_section = vals['department_section_code']
+
         department = self.env['hr.department'].search([('id', '=', self.department_fake_id)])
         department.write({
             'name': name_department,
             'parent_id': code_department,
+            'department_code': code_section
         })
         section = super(ClassDepartmentSectionCustom, self).write(vals)
         return section
+
+    def unlink(self):
+        # OPW-2181568: Delete the chatter message too
+        self.env['hr.department'].search([('id', '=', self.department_fake_id)]).unlink()
+        return super(ClassDepartmentSectionCustom, self).unlink()
 
