@@ -60,3 +60,8 @@ class ClassDepartmentSectionCustom(models.Model):
         section = super(ClassDepartmentSectionCustom, self).write(vals)
         return section
 
+    def unlink(self):
+        # OPW-2181568: Delete the chatter message too
+        self.env['hr.department'].search([('id', '=', self.department_fake_id)]).unlink()
+        return super(ClassDepartmentSectionCustom, self).unlink()
+
