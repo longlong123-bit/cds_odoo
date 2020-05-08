@@ -42,7 +42,7 @@ class ClassEmployeeCustom(models.Model):
         return employee
 
     def write(self, vals):
-        if 'manager_id' in vals:
+        if 'employee_section_id' in vals:
             section = self.env['section.model'].search([('id', '=', vals['employee_section_id'])])
             vals['department_id'] = int(section.department_fake_id)
 
