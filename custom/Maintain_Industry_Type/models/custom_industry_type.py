@@ -6,6 +6,7 @@ from odoo.exceptions import ValidationError
 class ClassIndustry(models.Model):
     _inherit = 'res.partner.industry'
 
+    name = fields.Char(string='Industry Name', translate=True)
     industry_code = fields.Char('Industry Code')
     active = fields.Boolean('Active', default=True)
 
