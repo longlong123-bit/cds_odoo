@@ -36,8 +36,7 @@ class ClassDepartmentSectionCustom(models.Model):
 
         department = self.env['hr.department'].create({
             'name': values['name'],
-            'parent_id': values['department_code1'],
-            'department_code': values['department_section_code']
+            'parent_id': values['department_code1']
         })
         values['department_fake_id'] = department.id
 
@@ -59,5 +58,5 @@ class ClassDepartmentSectionCustom(models.Model):
             'parent_id': code_department,
         })
         section = super(ClassDepartmentSectionCustom, self).write(vals)
-
         return section
+
