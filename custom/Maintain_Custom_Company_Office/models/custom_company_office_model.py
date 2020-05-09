@@ -80,7 +80,7 @@ class ClassCompanyOffice(models.Model):
                                   default=lambda self: self._get_user_currency())
     # user_ids = fields.Many2many('res.users', 'res_company_users_rel', 'cid', 'user_id', string='Accepted Users')
     account_no = fields.Char(string='Account No.')
-    street = fields.Char(compute='_compute_address', inverse='_inverse_street')
+    street = fields.Char(compute='_compute_address', inverse='_inverse_street', size=41)
     street2 = fields.Char(compute='_compute_address', inverse='_inverse_street2')
     zip = fields.Char(compute='_compute_address', inverse='_inverse_zip')
     city = fields.Char(compute='_compute_address', inverse='_inverse_city')
@@ -345,3 +345,17 @@ class ClassCompanyOffice(models.Model):
         # Deprecated, to be deleted in master
         return ''
 
+
+    @api.constrains('office_code')
+    def _check_unique_searchkey(self):
+        exists = self.env['company.office.custom'].search(
+            [('office_code', '=', self.office_code), ('id', '!=', self.id)])
+        if exists:
+            raise ValidationError(_('The code must be unique!'))
+
+    def copy(self, default=None):
+        default = dict(default or {})
+        default.update({'office_code': ''})
+        if 'name' not in default:
+            default['name'] = _("%s (copy)") % (self.name)
+        return super(ClassCompanyOffice, self).copy(default)

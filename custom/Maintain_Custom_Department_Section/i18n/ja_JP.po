@@ -37,6 +37,8 @@ msgstr ""
 
 #. module: Maintain_Custom_Department_Section
 #: model:ir.model.fields,field_description:Maintain_Custom_Department_Section.field_section_model__department_code1
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department_Section.custom_view_department_children_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department_Section.custom_view_department_section_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department_Section.custom_view_department_section_form
 msgid "Department Code"
 msgstr "事業部コード"
@@ -89,9 +91,11 @@ msgstr "課マスタ"
 #. module: Maintain_Custom_Department_Section
 #: model:ir.model.fields,field_description:Maintain_Custom_Department_Section.field_section_model__department_section_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department_Section.custom_view_department_children_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department_Section.custom_view_department_section_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Custom_Department_Section.custom_view_department_section_form
 msgid "Section Code"
 msgstr "課コード"
+
 
 #. module: Maintain_Custom_Department_Section
 #: model:ir.model.fields,field_description:Maintain_Custom_Department_Section.field_section_model__name
@@ -114,3 +118,10 @@ msgstr "アクティブ"
 #: model:ir.model,name:Maintain_Custom_Department_Section.model_section_model
 msgid "section.model"
 msgstr ""
+
+#. module: Maintain_Custom_Department_Section
+#: code:addons/Maintain_Custom_Department_Section/models/custom_department_section_model.py:0
+#: model:ir.model.constraint,message:Maintain_Custom_Department_Section.constraint_section_model_name_code_uniq
+#, python-format
+msgid "The code must be unique!"
+msgstr "コードが既に登録されています。"

@@ -7,9 +7,11 @@
             <field name="model">hr.employee</field>
             <field name="arch" type="xml">
                 <search string="Employees">
-                    <field name="name" string="Employee" filter_domain="['|', ('work_email', 'ilike', self), ('name', 'ilike', self)]"/>
+                    <field name="employee_code" string="Employee Code"/>
+                    <field name="name" string="Employee Name" filter_domain="['|', ('work_email', 'ilike', self), ('name', 'ilike', self)]"/>
                     <field name="category_ids" groups="hr.group_hr_user"/>
                     <field name="job_id"/>
+                    <field name="employee_section_id" string="Section Code"/>
                     <separator/>
                     <filter string="Unread Messages" name="message_needaction" domain="[('message_needaction', '=', True)]"/>
                     <separator/>
@@ -55,7 +57,7 @@
                                 <field name="user_id" string="Related User"/>
                                 <field name="active" string="Active"/>
 <!--                                <field name="employee_password" string="Password" widget="password" password="True"/>-->
-<!--                                <field name="image_1920" widget='image' class="oe_avatar" options='{"zoom": true, "preview_image":"image_128"}'/>-->
+                                <field name="image_1920" widget='image' class="oe_avatar" options='{"zoom": true, "preview_image":"image_128"}'/>
                             </group>
                         </group>
                     </form>

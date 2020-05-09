@@ -18,7 +18,7 @@
                         <page string="General Information">
                             <group>
                                 <group>
-                                    <field name="office_code" string="Office Code"/>
+                                    <field name="office_code" string="Office Code" required="1"/>
                                     <field name="zip" placeholder="ZIP" class="o_address_zip" widget="mask" data-inputmask-mask="〒999_9999"/>
 <!--                                    <field name="partner_id" string="Contact" readonly="1" required="0" groups="base.group_no_one"/>-->
                                     <field name="street" placeholder="Street..." string="Address 1"/>
@@ -72,9 +72,21 @@
             <field name="arch" type="xml">
                 <tree string="Companies">
                     <field name="sequence" widget="handle"/>
+                    <field name="office_code" string="Office Code"/>
                     <field name="name"/>
                     <field name="partner_id"/>
                 </tree>
+            </field>
+        </record>
+        <record id="custom_view_company_search" model="ir.ui.view">
+            <field name="name">custom.company.search</field>
+            <field name="model">company.office.custom</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="office_code" string="Office Code"/>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                </search>
             </field>
         </record>
         <record id="custom_view_res_company_kanban" model="ir.ui.view">

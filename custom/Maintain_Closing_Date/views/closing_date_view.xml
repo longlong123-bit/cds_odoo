@@ -9,7 +9,9 @@
             <field name="arch" type="xml">
 				<tree>
 					<field name="closing_date_code" string="Closing Date Code"/>
-					<field name="closing_date_name" string="Closing Date Name"/>
+					<field name="name" string="Closing Date Name"/>
+					<field name="start_day" string="Start Date"/>
+					<field name="closing_date_circle" string="Circle"/>
 				</tree>
             </field>
         </record>
@@ -22,7 +24,7 @@
 					<sheet>
 						<group>
 							<field name="closing_date_code" string="Closing Date Code" required="1"/>
-							<field name="closing_date_name" string="Closing Date Name" required="1"/>
+							<field name="name" string="Closing Date Name" required="1"/>
 							<field name="start_day" string="Start Date"/>
 							<field name="closing_date_circle" string="Circle"/>
 							<field name="active" string="Active"/>
@@ -37,7 +39,10 @@
             <field name="model">closing.date</field>
             <field name="arch" type="xml">
                 <search string="Closing Date">
-                    <field name="closing_date_name" string="Closing Date Name"/>
+					<field name="closing_date_code" string="Closing Date Code"/>
+                    <field name="name" string="Closing Date Name"/>
+					<field name="start_day" string="Start Date"/>
+					<field name="closing_date_circle" string="Circle"/>
                 </search>
              </field>
         </record>

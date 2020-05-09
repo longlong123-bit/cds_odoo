@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <tree string="State">
                     <field name="name" string="State Name"/>
-                    <field name="state_code" string="State Code"/>
+                    <field name="code" string="State Code"/>
 <!--                    <field name="country_id" options="{'no_create': True}"/>-->
                 </tree>
             </field>
@@ -21,7 +21,7 @@
                 <form string="State">
                     <sheet>
                         <group>
-                            <field name="state_code" string="State Code" required="1"/>
+                            <field name="code" string="State Code" required="1"/>
                             <field name="name" string="State Name" required="1"/>
                             <field name="country_id" options='{"no_open": True}' invisible="1"/>
                             <field name="active" string="Active"/>
