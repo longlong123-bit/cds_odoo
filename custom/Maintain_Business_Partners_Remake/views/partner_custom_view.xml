@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="partner_custom_tree">
+			<field name="name">partner.custom.form</field>
+			<field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree string="Partner Custom" duplicate="false" class="forward_edit">
+                        <field name="customer_code" string="Customer Code"/>
+                        <field name="name" string="Customer Name"/>
+                        <field name="customer_name_kana" string="Customer Name Kana"/>
+                        <field name="street" string="Address 1"/>
+                        <field name="customer_phone" string="Phone"/>
+                        <field name="customer_state" string='State'/>
+                        <field name="customer_supplier_group_code" string='Supplier Group Code'/>
+                        <field name="customer_industry_code" string='Industry Code'/>
+                        <field name="customer_agent" string='Representative/Agent'/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="partner_custom_template" model="ir.ui.view">
+            <field name="name">partner.custom.form</field>
+            <field name="model">res.partner</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority">1</field>
+
+            <field name="arch" type="xml">
+                <!-- BEGIN FORM -->
+                <xpath expr="//group[1]" position="replace">
+                    <table class="custom-form-table partner-table-form">
+                        <tbody>
+                        <!-- Row 1 -->
+<!--                        <tr>-->
+<!--                            <td class="col-label"><label for="search_key_partner" string="Search Key"/></td>-->
+<!--                            <td class="col-field"><field name="search_key_partner"/></td>-->
+<!--                        </tr>-->
+
+                        <!-- Row 2 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_code" string="Customer Code"/></td>
+                            <td colspan="2"><field name="customer_code" required="1"/></td>
+                            <td></td>
+                            <td class="col-label"><label for="customer_closing_date" string="Closing Date"/></td>
+                            <td colspan="3"><field name="customer_closing_date"/></td>
+                        </tr>
+
+                        <!-- Row 3 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_code_bill" string="Billing Code"/></td>
+                            <td colspan="2"><field name="customer_code_bill"/></td>
+                            <td></td>
+                            <td class="col-label"><label for="customer_payment_method" string="Payment Method"/></td>
+                            <td class="col-field"><field name="customer_payment_method"/></td>
+                        </tr>
+
+                        <!-- Row 4 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_name_short" string="Customer Name Short"/></td>
+                            <td colspan="2"><field name="customer_name_short"/></td>
+                            <td></td>
+                            <td class="col-label"><label for="customer_collect_method" string="Collect Method"/></td>
+                            <td class="col-field col-number"><field name="customer_collect_method"/></td>
+                        </tr>
+
+                        <!-- Row 5 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_name_kana" string="Customer Name Kana"/></td>
+                            <td colspan="3"><field name="customer_name_kana"/></td>
+                            <td class="col-label"><label for="customer_collect_circle" string="Collect Circle"/></td>
+                            <td class="col-field"><field name="customer_collect_circle"/></td>
+                        </tr>
+
+                        <!-- Row 6 -->
+                        <tr>
+                            <td class="col-label"><label for="title" string="Greeting"/></td>
+                            <td class="col-field"><field name="title"/></td>
+<!--                            <td colspan="2"></td>-->
+                            <td class="col-label"><label for="customer_apply_rate" string="Apply Rate"/></td>
+                            <td class="col-field"><field name="customer_apply_rate"/></td>
+                            <td class="col-label"><label for="customer_rate" string="Hang Rate"/></td>
+                            <td class="col-field col-number"><field name="customer_rate"/></td>
+                        </tr>
+
+                        <!-- Row 7 -->
+                        <tr>
+                            <td class="col-label"><label for="zip_code" string="Zip"/></td>
+                            <td colspan="2"><field name="zip_code" widget="mask" data-inputmask-mask="〒999_9999"/></td>
+                            <td></td>
+                            <td class="col-label"><label for="customer_bill_discount" string="Bill Discount"/></td>
+                            <td class="col-field"><field name="customer_bill_discount"/></td>
+                            <td></td>
+                            <td class="col-checkbox">
+                                <field name="customer_print_invoice"/>
+                                <label for="customer_print_invoice" string="Print Invoice"/>
+                            </td>
+                        </tr>
+
+                        <!-- Row 8 -->
+                        <tr>
+                            <td class="col-label"><label for="street" string="Address 1"/></td>
+                            <td colspan="3"><field name="street"/></td>
+                            <td class="col-label"><label for="customer_bill_discount_rate" string="Bill Discount Rate"/></td>
+                            <td class="col-field"><field name="customer_bill_discount_rate"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="customer_except_request"/><label for="customer_except_request" string="Excerpt Request"/></td>
+                        </tr>
+
+                        <!-- Row 9 -->
+                        <tr>
+                            <td class="col-label"><label for="street2" string="Address 2"/></td>
+                            <td colspan="3"><field name="street2"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="customer_select_invoice"/><label for="customer_select_invoice" string="Select Invoice"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="customer_print_invoice_date"/><label for="customer_print_invoice_date" string="Print Invoice Date"/></td>
+                        </tr>
+
+                        <!-- Row 10 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_phone" string="Phone"/></td>
+                            <td class="col-field"><field name="customer_phone"/></td>
+                            <td class="col-label"><label for="customer_fax" string="Fax"/></td>
+                            <td class="col-field"><field name="customer_fax"/></td>
+                            <td class="col-label"><label for="customer_other_cd" string="Customer CD"/></td>
+                            <td class="col-field"><field name="customer_other_cd"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="customer_print_sales_slip_date"/><label for="customer_print_sales_slip_date" string="Print Sales Slip Date"/></td>
+                        </tr>
+
+                        <!-- Row 11 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_state" string="State"/></td>
+                            <td colspan="3"><field name="customer_state"/></td>
+                            <td class="col-label"><label for="customer_comment" string="Comment"/></td>
+                            <td colspan="3"><field name="customer_comment"/></td>
+                        </tr>
+
+                        <!-- Row 12 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_supplier_group_code" string="Supplier Group Code"/></td>
+                            <td colspan="3"><field name="customer_supplier_group_code"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="customer_print_voucher"/><label for="customer_print_voucher" string="Print Voucher"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="customer_select_sales_slip"/><label for="customer_select_sales_slip" string="Sales Slip"/></td>
+
+                        </tr>
+
+                        <!-- Row 13 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_industry_code" string="Industry Code"/></td>
+                            <td class="col-field"><field name="customer_industry_code"/></td>
+                            <td class="col-label"><label for="customer_agent" string="Representative/Agent"/></td>
+                            <td class="col-field"><field name="customer_agent"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="active"/><label for="active" string="Active"/></td>
+                        </tr>
+
+                        <!-- Row 14 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_trans_classification_code" string="Transaction classification"/></td>
+                            <td class="col-field"><field name="customer_trans_classification_code"/></td>
+                            <td class="col-label"><label for="customer_tax_rounding" string="Tax Rounding"/></td>
+                            <td class="col-field"><field name="customer_tax_rounding"/></td>
+                        </tr>
+
+                        <!-- Row 15 -->
+                        <tr>
+                            <td class="col-label"><label for="customer_tax_category" string="Consumption Tax Category"/></td>
+                            <td class="col-field"><field name="customer_tax_category"/></td>
+                            <td class="col-label"><label for="customer_tax_unit" string="Consumption Tax Calculation Category"/></td>
+                            <td class="col-field"><field name="customer_tax_unit"/></td>
+                        </tr>
+
+                        <!-- Row 16 -->
+                        <tr>
+
+                            <td colspan="2"></td>
+                        </tr>
+
+                        <!-- Row 17 -->
+                        </tbody>
+
+                    </table>
+
+                    <field name="city" invisible="1"/>
+                    <field name="state_id" invisible="1"/>
+                    <field name="zip" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="type" invisible="1"/>
+                    <field name="lang" invisible="1"/>
+                </xpath>
+                <!-- END FORM -->
+
+                <xpath expr="/form/sheet/notebook" position="replace"></xpath>
+            </field>
+        </record>
+
+<!--        search-->
+        <record model="ir.ui.view" id="partner_custom_search">
+			<field name="name">partner.custom.search</field>
+			<field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="replace">
+                    <search string="Search Partner">
+                        <field name="customer_code" string="Customer Code"/>
+                        <field name="name" string="Customer Name"/>
+                        <field name="customer_name_kana" string="Customer Name Kana"/>
+                        <field name="street" string="Address 1"/>
+                        <field name="customer_phone" string="Phone"/>
+                        <field name="customer_state" string='State'/>
+                        <field name="customer_supplier_group_code" string='Supplier Group Code'/>
+                        <field name="customer_industry_code" string='Industry Code'/>
+                        <field name="customer_agent" string='Representative/Agent'/>
+                    </search>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_partner_action_customer" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1,
+                'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}
+            </field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new customer in your address book
+              </p><p>
+                Odoo helps you easily track all activities related to a customer.
+              </p>
+            </field>
+        </record>
+
+        <record id="readonly_when_field_boolean_is_false" model="ir.rule">
+            <field name="name">readonly_when_field_boolean_is_false</field>
+            <field ref="model_res_partner" name="model_id"/>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_read" eval="0"/>
+        </record>
+
+
+
+<!--		&lt;!&ndash; Action &ndash;&gt;-->
+<!--		<record id="action_show_partner_view" model="ir.actions.act_window">-->
+<!--			<field name="name">Business Partner Custom</field>-->
+<!--			<field name="res_model">res.partner</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--		</record>-->
+
+	
+        <menuitem id="menu_ideas" parent="" name="Business Partner Remake" sequence="10"
+                  action="res_partner_action_customer" groups="base.group_user"/>
+    </data>
+</odoo>
