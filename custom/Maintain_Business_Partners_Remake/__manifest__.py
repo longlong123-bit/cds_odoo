@@ -8,7 +8,7 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'Maintain_Discount_Schema', 'Maintain_Invoice_Print', 'Maintain_Bill_Schema', 'account', 'Maintain_Business_Partner_Group'
+        'base_setup', 'Maintain_Discount_Schema', 'Maintain_Invoice_Print', 'Maintain_Bill_Schema', 'account', 'Maintain_Business_Partner_Group', 'Maintain_Closing_Date'
     ],
     'website': '',
     'data': [
