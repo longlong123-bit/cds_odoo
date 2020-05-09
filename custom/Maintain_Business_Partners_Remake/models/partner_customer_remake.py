@@ -73,3 +73,22 @@ class NewClassPartnerCustom(models.Model):
     customer_other_cd = fields.Char('Customer CD')
     # 備考
     customer_comment = fields.Char('Comment')
+
+
+    _sql_constraints = [
+        ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
+    ]
+
+    @api.constrains('customer_code')
+    def _check_unique_searchkey(self):
+        exists = self.env['res.partner'].search(
+            [('customer_code', '=', self.customer_code), ('id', '!=', self.id)])
+        if exists:
+            raise ValidationError(_('The code must be unique!'))
+
+    def copy(self, default=None):
+        default = dict(default or {})
+        default.update({'customer_code': ''})
+        if 'name' not in default:
+            default['name'] = _("%s (copy)") % (self.name)
+        return super(NewClassPartnerCustom, self).copy(default)
