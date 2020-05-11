@@ -218,6 +218,8 @@
                         <field name="customer_supplier_group_code" string='Supplier Group Code'/>
                         <field name="customer_industry_code" string='Industry Code'/>
                         <field name="customer_agent" string='Representative/Agent'/>
+                        <filter string="Customers" name="customer" domain="[('customer_rank','>', 0)]"/>
+                        <filter string="Vendors" name="supplier" domain="[('supplier_rank','>', 0)]"/>
                     </search>
                 </xpath>
             </field>

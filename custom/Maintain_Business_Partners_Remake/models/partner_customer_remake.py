@@ -50,7 +50,7 @@ class NewClassPartnerCustom(models.Model):
     # 掛率設定
     customer_apply_rate = fields.Selection([('category', 'Category'), ('customer', 'Customer')],'Apply Rate')
     # 掛率
-    customer_rate = fields.Char('Hang Rate')
+    customer_rate = fields.Integer('Hang Rate')
     # 請求値引区分
     customer_bill_discount = fields.Char('Bill Discount')
     # 請求値引率
