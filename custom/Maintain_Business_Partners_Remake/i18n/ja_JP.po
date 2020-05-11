@@ -183,6 +183,7 @@ msgstr "得意先略称"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.actions.act_window,name:Maintain_Business_Partners_Remake.res_partner_action_customer
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 msgid "Customers"
 msgstr "取引先"
 
@@ -401,3 +402,10 @@ msgstr "伝票単位"
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Zip"
 msgstr "郵便番号"
+
+#. module: Maintain_Business_Partners_Remake
+#: code:addons/Maintain_Business_Partners_Remake/models/partner_customer_remake.py:0
+#: model:ir.model.constraint,message:Maintain_Business_Partners_Remake.constraint_res_partner_name_code_uniq
+#, python-format
+msgid "The code must be unique!"
+msgstr "コードが既に登録されています。"
