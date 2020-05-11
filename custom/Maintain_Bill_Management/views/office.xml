@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- BEGIN MAIN FORM -->
-    <record model="ir.ui.view" id="bm_invoice_tree">
-        <field name="name">bm.invoice.tree</field>
-        <field name="model">account.move</field>
+    <record model="ir.ui.view" id="bm_office_tree">
+        <field name="name">bm.office.tree</field>
+        <field name="model">company.office.custom</field>
         <field name="arch" type="xml">
             <tree string="Product" class="forward_edit">
-                <field name="display_name" string="Name"/>
-                <field name="invoice_date" string="Invoice date"/>
-
+                <field name="office_code" string="Office code"/>
+                <field name="name" string="Name"/>
+                <field name="office_closing_date" string="Closing date"/>
+                <field name="voucher_number" string="Voucher"/>
                 <button name="create_bill" type="object" string="Excerpt"/>
-<!--                <field name="bill_party_name" string="Billing party name"/>-->
-<!--                <field name="closing_date" string="Close date"/>-->
-<!--                <field name="sale_number" string="Sale number"/>-->
             </tree>
         </field>
     </record>
@@ -53,7 +51,7 @@
 <!--                <group>-->
 <!--                    <notebook>-->
 <!--                        <page string="Invoice Line">-->
-<!--                            <field class="newtest" name="bill_detail" widget="one2many" nolabel="1" mode="tree">-->
+<!--                            <field class="newtest" name="bill_voucher" widget="one2many" nolabel="1" mode="tree">-->
 <!--                                <tree editable="bottom" delete="true">-->
 <!--                                    <control>-->
 <!--                                        <create name="add_line_control" string="Add a line"/>-->
