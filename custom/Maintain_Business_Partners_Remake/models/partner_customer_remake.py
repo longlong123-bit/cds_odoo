@@ -23,7 +23,7 @@ class NewClassPartnerCustom(models.Model):
     customer_name_short = fields.Char(string='Customer Name Short')
     customer_name_kana = fields.Char(string='Customer Name Kana')
     zip_code = fields.Char('Zip')
-    street = fields.Char('Address 1')
+    street = fields.Char('Address 1', size=40)
     street2 = fields.Char('Address 2')
     customer_fax = fields.Char('Fax')
     customer_phone = fields.Char('Phone')
