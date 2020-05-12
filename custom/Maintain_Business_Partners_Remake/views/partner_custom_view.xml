@@ -35,10 +35,6 @@
                     <table class="custom-form-table partner-table-form">
                         <tbody>
                         <!-- Row 1 -->
-<!--                        <tr>-->
-<!--                            <td class="col-label"><label for="search_key_partner" string="Search Key"/></td>-->
-<!--                            <td class="col-field"><field name="search_key_partner"/></td>-->
-<!--                        </tr>-->
 
                         <!-- Row 2 -->
                         <tr>
@@ -46,7 +42,7 @@
                             <td colspan="2"><field name="customer_code" required="1"/></td>
                             <td></td>
                             <td class="col-label"><label for="customer_closing_date" string="Closing Date"/></td>
-                            <td colspan="3"><field name="customer_closing_date"/></td>
+                            <td class="col-field"><field name="customer_closing_date"/></td>
                         </tr>
 
                         <!-- Row 3 -->
@@ -63,8 +59,8 @@
                             <td class="col-label"><label for="customer_name_short" string="Customer Name Short"/></td>
                             <td colspan="2"><field name="customer_name_short"/></td>
                             <td></td>
-                            <td class="col-label"><label for="customer_collect_method" string="Collect Method"/></td>
-                            <td class="col-field col-number"><field name="customer_collect_method"/></td>
+                            <td class="col-label"><label for="payment_rule" string="Collect Method"/></td>
+                            <td class="col-field col-number"><field name="payment_rule"/></td>
                         </tr>
 
                         <!-- Row 5 -->
@@ -135,7 +131,9 @@
                         <!-- Row 11 -->
                         <tr>
                             <td class="col-label"><label for="customer_state" string="State"/></td>
-                            <td colspan="3"><field name="customer_state"/></td>
+                            <td class="col-field"><field name="customer_state"/></td>
+                            <td></td>
+                            <td></td>
                             <td class="col-label"><label for="customer_comment" string="Comment"/></td>
                             <td colspan="3"><field name="customer_comment"/></td>
                         </tr>
@@ -143,7 +141,7 @@
                         <!-- Row 12 -->
                         <tr>
                             <td class="col-label"><label for="customer_supplier_group_code" string="Supplier Group Code"/></td>
-                            <td colspan="3"><field name="customer_supplier_group_code"/></td>
+                            <td class="col-field"><field name="customer_supplier_group_code"/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="customer_print_voucher"/><label for="customer_print_voucher" string="Print Voucher"/></td>
                             <td></td>
@@ -187,7 +185,6 @@
                         </tbody>
 
                     </table>
-
                     <field name="city" invisible="1"/>
                     <field name="state_id" invisible="1"/>
                     <field name="zip" invisible="1"/>
@@ -197,7 +194,29 @@
                 </xpath>
                 <!-- END FORM -->
 
-                <xpath expr="/form/sheet/notebook" position="replace"></xpath>
+                <xpath expr="/form/sheet/notebook" position="replace">
+                    <notebook>
+                        <!-- Relation -->
+                        <page name="relation" string="Relation">
+                            <field name="relation_id" widget="section_and_note_one2many" attrs="{'readonly': [('id', '=', False)]}">
+                                <tree editable="bottom">
+                                    <button name="button_details" string="Detail" type="object" class="oe_edit_only"/>
+                                    <field name="relate_customer_organization" string="Organization"/>
+                                    <field name="name" string="Name"/>
+                                    <field name="relate_business_partner" string="Business Partner"/>
+                                    <field name="relate_partner_location" string="Partner Location"/>
+                                    <field name="relate_related_partner" string="Related Partner"/>
+                                    <field name="relate_related_partner_location" string="Related Partner Location"/>
+                                    <field name="relate_ship_address" string="Ship Address"/>
+                                    <field name="relate_invoic_address" string="Invoice Address"/>
+                                    <field name="relate_payfrom_address" string="Pay-From Address"/>
+                                    <field name="relate_remitto_address" string="Remit-To Address"/>
+                                    <field name="active" string="Active"/>
+                                </tree>
+                          </field>
+                        </page>
+                    </notebook>
+                </xpath>
             </field>
         </record>
 
@@ -224,6 +243,25 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="relation_partner_custom_template" model="ir.ui.view">
+        <field name="name">relation.partner.form</field>
+        <field name="model">relation.partner.model</field>
+        <field name="mode">primary</field>
+        <field name="priority" eval="7"/>
+        <field name="arch" type="xml">
+            <form class="product_custom_template custom_template" string="Products Cost">
+                <group>
+                    <field name="name" string="Name"/>
+                </group>
+                <footer>
+                    <button string="Save" name="action_close_dialog" type="object" class="btn-primary oe_edit_only"/>
+<!--                    <button string="Discard" name="cancel" special="cancel" class="oe_edit_only"/>-->
+                    <button data-dismiss="modal" string="Discard"/>
+                </footer>
+            </form>
+        </field>
+    </record>
 
         <record id="res_partner_action_customer" model="ir.actions.act_window">
             <field name="name">Customers</field>
