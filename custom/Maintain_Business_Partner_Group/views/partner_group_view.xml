@@ -24,7 +24,7 @@
 			<field name="name">Partner Group Tree</field>
 			<field name="model">business.partner.group.custom</field>
 			<field name="arch" type="xml">
-				<tree string="Tree" class="partner_class">
+				<tree string="Tree">
 					<field name="partner_group_code" string="Partner Group Code"/>
 					<field name="name" string="Name*"/>
 					<field name="description" string="Description"/>
@@ -38,7 +38,7 @@
 			<field name="name">Partner Group Search</field>
 			<field name="model">business.partner.group.custom</field>
 			<field name="arch" type="xml">
-				<search string="Search" class="partner_class">
+				<search string="Search">
 					<field name="partner_group_code" string="Partner Group Code"/>
 					<field name="name" string="Name"/>
 					<field name="description" string="Description"/>
@@ -47,7 +47,7 @@
 		</record>
 
 		<record model="ir.actions.act_window" id="action_list_ideas">
-            <field name="name">Discount Schema</field>
+            <field name="name">Partner Group</field>
             <field name="res_model">business.partner.group.custom</field>
             <field name="view_mode">tree,form</field>
         </record>
