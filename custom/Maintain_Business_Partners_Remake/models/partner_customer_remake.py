@@ -25,6 +25,12 @@ class NewClassPartnerCustom(models.Model):
     zip_code = fields.Char('Zip')
     street = fields.Char('Address 1', size=40)
     street2 = fields.Char('Address 2')
+    # Add to do
+    payment_terms = fields.Many2one('account.payment.term', 'Payment Terms', company_dependent=True,
+                                    default=lambda self: self.env['account.payment.term'].search([('id', '=', 1)]))
+    address3 = fields.Char('Address 3')
+    search_key_partner = fields.Char('Search Key', default=lambda self: _(''))
+
     customer_fax = fields.Char('Fax')
     customer_phone = fields.Char('Phone')
     customer_state = fields.Many2one('res.country.state', string='State')
