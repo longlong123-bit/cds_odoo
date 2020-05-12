@@ -42,7 +42,7 @@
                             <td colspan="2"><field name="customer_code" required="1"/></td>
                             <td></td>
                             <td class="col-label"><label for="customer_closing_date" string="Closing Date"/></td>
-                            <td class="col-field"><field name="customer_closing_date"/></td>
+                            <td class="col-field"><field name="customer_closing_date" required="1"/></td>
                         </tr>
 
                         <!-- Row 3 -->
@@ -51,7 +51,7 @@
                             <td colspan="2"><field name="customer_code_bill" required="1"/></td>
                             <td></td>
                             <td class="col-label"><label for="customer_payment_method" string="Payment Method"/></td>
-                            <td class="col-field"><field name="customer_payment_method"/></td>
+                            <td class="col-field"><field name="customer_payment_method" required="1"/></td>
                         </tr>
 
                         <!-- Row 4 -->
@@ -101,7 +101,7 @@
                             <td class="col-label"><label for="street" string="Address 1"/></td>
                             <td colspan="3"><field name="street"/></td>
                             <td class="col-label"><label for="customer_bill_discount_rate" string="Bill Discount Rate"/></td>
-                            <td class="col-field"><field name="customer_bill_discount_rate"/></td>
+                            <td class="col-field"><field name="customer_bill_discount_rate" required="1"/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="customer_except_request"/><label for="customer_except_request" string="Excerpt Request"/></td>
                         </tr>
@@ -141,7 +141,7 @@
                         <!-- Row 12 -->
                         <tr>
                             <td class="col-label"><label for="customer_supplier_group_code" string="Supplier Group Code"/></td>
-                            <td class="col-field"><field name="customer_supplier_group_code"/></td>
+                            <td class="col-field"><field name="customer_supplier_group_code" required="1"/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="customer_print_voucher"/><label for="customer_print_voucher" string="Print Voucher"/></td>
                             <td></td>
@@ -154,7 +154,7 @@
                             <td class="col-label"><label for="customer_industry_code" string="Industry Code"/></td>
                             <td class="col-field"><field name="customer_industry_code"/></td>
                             <td class="col-label"><label for="customer_agent" string="Representative/Agent"/></td>
-                            <td class="col-field"><field name="customer_agent"/></td>
+                            <td class="col-field"><field name="customer_agent" required="1"/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="active"/><label for="active" string="Active"/></td>
                         </tr>
@@ -162,17 +162,17 @@
                         <!-- Row 14 -->
                         <tr>
                             <td class="col-label"><label for="customer_trans_classification_code" string="Transaction classification"/></td>
-                            <td class="col-field"><field name="customer_trans_classification_code"/></td>
+                            <td class="col-field"><field name="customer_trans_classification_code" required="1"/></td>
                             <td class="col-label"><label for="customer_tax_rounding" string="Tax Rounding"/></td>
-                            <td class="col-field"><field name="customer_tax_rounding"/></td>
+                            <td class="col-field"><field name="customer_tax_rounding" required="1"/></td>
                         </tr>
 
                         <!-- Row 15 -->
                         <tr>
                             <td class="col-label"><label for="customer_tax_category" string="Consumption Tax Category"/></td>
-                            <td class="col-field"><field name="customer_tax_category"/></td>
+                            <td class="col-field"><field name="customer_tax_category" required="1"/></td>
                             <td class="col-label"><label for="customer_tax_unit" string="Consumption Tax Calculation Category"/></td>
-                            <td class="col-field"><field name="customer_tax_unit"/></td>
+                            <td class="col-field"><field name="customer_tax_unit" required="1"/></td>
                         </tr>
 
                         <!-- Row 16 -->
