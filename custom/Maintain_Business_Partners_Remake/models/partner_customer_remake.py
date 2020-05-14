@@ -16,7 +16,7 @@ class NewClassPartnerCustom(models.Model):
     # relation customer
     relation_id = fields.One2many('relation.partner.model', 'partner_id', string='Relation')
     # name
-    name = fields.Char(string='Customer Name')
+    name = fields.Char(string='Customer Name', size=50)
     customer_code = fields.Char(string='Customer Code')
     # 請求先コード
     customer_code_bill = fields.Char(string='Billing Code')
@@ -37,7 +37,7 @@ class NewClassPartnerCustom(models.Model):
     customer_supplier_group_code = fields.Many2one('business.partner.group.custom','Supplier Group Code')
     customer_industry_code = fields.Many2one('res.partner.industry', string='Industry Code')
     # 担当者
-    customer_agent = fields.Many2one('res.users', string='Representative/Agent')
+    customer_agent = fields.Many2one('res.users', string='Representative/Agent', default=lambda self: self.env.user)
     # 取引区分コード
     customer_trans_classification_code = fields.Selection([('sale','Sale'),('cash','Cash'), ('account','Account')], string='Transaction classification')
     # 消費税区分
