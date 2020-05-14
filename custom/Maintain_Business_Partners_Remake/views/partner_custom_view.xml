@@ -143,7 +143,7 @@
                         <!-- Row 11 -->
                         <tr>
                             <td class="col-label"><label for="customer_state" string="State"/></td>
-                            <td class="col-field"><field name="customer_state" context="{'res_partner_search_mode': 'customer'}"/></td>
+                            <td class="col-field"><field name="customer_state"/></td>
                             <td></td>
                             <td></td>
                             <td class="col-label"><label for="customer_comment" string="Comment"/></td>
@@ -312,7 +312,7 @@
 <!--		</record>-->
 
 	
-        <menuitem id="menu_ideas" parent="" name="Business Partner Remake" sequence="10"
+        <menuitem id="menu_ideas" parent="" name="Customer Master" sequence="10"
                   action="res_partner_action_customer" groups="base.group_user"/>
     </data>
 </odoo>
