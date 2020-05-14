@@ -9,6 +9,8 @@
                 <field name="office_code" string="Office code"/>
                 <field name="office_name" string="Office name"/>
                 <field name="office_closing_date" string="Closing date"/>
+                <field name="status" invisible="1"/>
+                <button name="cancel_bill" type="object" string="Cancel" class="btn-sm btn btn-primary" attrs="{'invisible': [('status', '=', 'cancel')]}"/>
             </tree>
         </field>
     </record>
@@ -20,6 +22,7 @@
         <field name="model">bm.bill</field>
         <field name="arch" type="xml">
             <search string="Bill">
+                <filter string="Not canceled" name="not_cancel" domain="[('status', '!=', 'cancel')]"/>
 <!--                <field name="customer" string="Customer"/>-->
 <!--                <field name="request_category" string="Request category"/>-->
 <!--                <field name="deadline" string="Deadline"/>-->
@@ -59,14 +62,14 @@
                                     <field name="invoice_no" string="Invoice no"/>
                                     <field name="customer_code" string="Customer code"/>
                                     <field name="customer_name" string="Customer name"/>
-                                    <tree>
-                                        <field widget="one2many" name="voucher_lines"/>
-                                    </tree>
                                 </tree>
                             </field>
                         </page>
                     </notebook>
                 </group>
+                <footer>
+                    <button name="action_list_bill_management" string="My Button"/>
+                </footer>
             </form>
         </field>
     </record>
@@ -84,4 +87,17 @@
             </tree>
         </field>
     </record>
+    <!-- END TREE BILL DETAIL -->
+
+    <!-- MENU -->
+    <record model="ir.actions.act_window" id="action_list_bill_management">
+        <field name="name">Bill management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bm.bill</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="bm_bill_tree"/>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'search_default_filter_name': 1, 'search_default_not_cancel': 1}</field>
+        <field name="search_view_id" ref="bm_bill_search"/>
+    </record>
+    <menuitem id="menu_bill_management" parent="menu_bm_office" name="Bill list" sequence="11" action="action_list_bill_management"/>
 </odoo>
