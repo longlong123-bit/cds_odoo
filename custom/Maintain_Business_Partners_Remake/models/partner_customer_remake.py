@@ -33,7 +33,7 @@ class NewClassPartnerCustom(models.Model):
 
     customer_fax = fields.Char('Fax')
     customer_phone = fields.Char('Phone')
-    customer_state = fields.Many2one('res.country.state', string='State')
+    customer_state = fields.Many2one('res.country.state', string='State', domain=[('country_id', '=', 113)])
     customer_supplier_group_code = fields.Many2one('business.partner.group.custom','Supplier Group Code')
     customer_industry_code = fields.Many2one('res.partner.industry', string='Industry Code')
     # 担当者
@@ -140,3 +140,15 @@ class ClassRelationPartnerCustom(models.Model):
 
     def action_close_dialog(self):
         return {'type': 'ir.actions.act_window_close'}
+
+    @api.onchange('relate_business_partner')
+    def _get_location_business_partner(self):
+        for rec in self:
+            if rec.relate_business_partner:
+                rec.relate_partner_location = rec.relate_business_partner.street
+
+    @api.onchange('relate_related_partner')
+    def _get_location_related_business_partner(self):
+        for rec in self:
+            if rec.relate_related_partner:
+                rec.relate_related_partner_location = rec.relate_related_partner.street
