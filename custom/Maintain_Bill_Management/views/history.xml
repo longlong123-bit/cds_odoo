@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- BEGIN MAIN FORM -->
+    <record model="ir.ui.view" id="bm_bill_history_tree">
+        <field name="name">bm.bill.tree</field>
+        <field name="model">bm.bill</field>
+        <field name="arch" type="xml">
+            <tree string="Product" class="forward_edit">
+                <field name="office_code" string="Office code"/>
+                <field name="office_name" string="Office name"/>
+                <field name="office_closing_date" string="Closing date"/>
+            </tree>
+        </field>
+    </record>
+    <!-- END TREE BILL -->
+
+    <!-- MENU -->
+    <record model="ir.actions.act_window" id="action_bill_history">
+        <field name="name">Bill history</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bm.bill</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="bm_bill_history_tree"/>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'search_default_filter_name': 1}</field>
+<!--        <field name="search_view_id" ref="bm_bill_search"/>-->
+    </record>
+    <menuitem id="menu_bill_history" parent="menu_bm_office" name="Bill history" sequence="11" action="action_bill_history"/>
+</odoo>

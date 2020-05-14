@@ -28,8 +28,8 @@
         'security/ir.model.access.csv',
         'views/assets.xml',
         'views/bill.xml',
-        'views/office.xml',
-        'views/ir.ui.menu.xml'
+        'views/history.xml',
+        'views/office.xml'
     ],
     'qweb': [
         'views/templates.xml'

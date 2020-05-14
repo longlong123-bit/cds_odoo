@@ -3,11 +3,9 @@
   <t t-extend="ListView.buttons">
     <t t-jquery="button.o_list_button_add" t-operation="before">
       <button
-         t-if="widget.modelName == 'company.office.custom'"
-        class="oe_stat_button"
-        type="action"
-        attrs="{'invisible':[('use_tasks','=', False)]}"
-        name="%(action_list_bill_management)d">Bill List</button>
+        t-if="widget.name == 'bm.office.tree'"
+        class="o_button_billtree btn btn-primary"
+        type="button">Bill List</button>
     </t>
   </t>
 </template>
