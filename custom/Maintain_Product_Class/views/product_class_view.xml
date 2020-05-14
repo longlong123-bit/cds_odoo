@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- Main form -->
+		<record model="ir.ui.view" id="product_class_tree">
+			<field name="name">product_class_tree</field>
+			<field name="model">product.class</field>
+            <field name="arch" type="xml">
+				<tree>
+					<field name="name" string="Class Name"/>
+					<field name="product_class_code" string="Class Code"/>
+					<field name="product_class_rate" string="Discount Rate"/>
+				</tree>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="product_class_filter">
+			<field name="name">product_class_filter</field>
+			<field name="model">product.class</field>
+            <field name="arch" type="xml">
+				<search>
+					<field name="name" string="Class Name"/>
+					<field name="product_class_code" string="Class Code"/>
+					<field name="product_class_rate" string="Discount Rate"/>
+				</search>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="product_class_form">
+			<field name="name">product_class_form</field>
+			<field name="model">product.class</field>
+			<field name="arch" type="xml">
+				<form string="Form">
+					<sheet>
+						<group>
+							<field name="product_class_code" string="Class Code" required="1"/>
+							<field name="name" string="Class Name" required="1"/>
+							<field name="product_class_rate" string="Discount Rate"/>
+							<field name="active" string="Active"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record model="ir.actions.act_window" id="action_product_class">
+            <field name="name">Product Class</field>
+            <field name="res_model">product.class</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	
+<!--        <menuitem id="menu_ideas" parent="" name="Printer" sequence="12"-->
+<!--                  action="action_printer_output" groups="base.group_user"/>-->
+    </data>
+</odoo>

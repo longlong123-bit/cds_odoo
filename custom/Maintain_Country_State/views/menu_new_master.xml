@@ -12,5 +12,7 @@
         <menuitem id="menu_print_output" parent="parent_menu_master" name="Printer" sequence="9" action="Maintain_Printer_Output.action_printer_output"/>
         <menuitem id="menu_create_company" parent="parent_menu_master" name="Custom Company" sequence="10" action="Maintain_Custom_Create_Company.custom_action_res_company_form"/>
         <menuitem id="menu_create_office" parent="parent_menu_master" name="Company Office" sequence="11" action="Maintain_Custom_Company_Office.custom_action_company_office_form"/>
+        <menuitem id="menu_partner_group" parent="parent_menu_master" name="Partner Group" sequence="12" action="Maintain_Business_Partner_Group.action_partner_group"/>
+        <menuitem id="menu_product_class" parent="parent_menu_master" name="Product Class" sequence="13" action="Maintain_Product_Class.action_product_class"/>
     </data>
 </odoo>

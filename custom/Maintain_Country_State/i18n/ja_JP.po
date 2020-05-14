@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-05 09:11+0000\n"
-"PO-Revision-Date: 2020-05-05 09:11+0000\n"
+"POT-Creation-Date: 2020-05-14 10:43+0000\n"
+"PO-Revision-Date: 2020-05-14 10:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,9 +16,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: Maintain_Country_State
-#: model:ir.model.fields,field_description:Maintain_Country_State.field_res_country_state__client
-msgid "Client"
-msgstr ""
+#: model:ir.model.fields,field_description:Maintain_Country_State.field_res_country_state__active
+#: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_form
+msgid "Active"
+msgstr "アクティブ"
+
+#. module: Maintain_Country_State
+#: model:ir.model.fields,help:Maintain_Country_State.field_res_country_state__name
+msgid ""
+"Administrative divisions of a country. E.g. Fed. State, Departement, Canton"
+msgstr "国の行政区画。たとえば連邦、省、州。"
 
 #. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_closing_date
@@ -70,7 +77,7 @@ msgstr "業種マスタ"
 #. module: Maintain_Country_State
 #: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_search
 msgid "Japan"
-msgstr ""
+msgstr "日本"
 
 #. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.parent_menu_master
@@ -78,14 +85,19 @@ msgid "New Master"
 msgstr "他各種マスタ"
 
 #. module: Maintain_Country_State
-#: model:ir.model.fields,field_description:Maintain_Country_State.field_res_country_state__organization
-msgid "Organization"
-msgstr ""
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_partner_group
+msgid "Partner Group"
+msgstr "取引先グループマスタ"
 
 #. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_print_output
 msgid "Printer"
 msgstr "プリンタ出力先設定"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_product_class
+msgid "Product Class"
+msgstr "商品分類マスタ"
 
 #. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_section
@@ -97,11 +109,6 @@ msgstr "課マスタ"
 #: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_tree
 msgid "State"
 msgstr ""
-
-#. module: Maintain_Country_State
-#: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_form
-msgid "Active"
-msgstr "アクティブ"
 
 #. module: Maintain_Country_State
 #: model:ir.model.fields,field_description:Maintain_Country_State.field_res_country_state__code
@@ -123,13 +130,13 @@ msgid "Tax Rate"
 msgstr "税率マスタ"
 
 #. module: Maintain_Country_State
+#: model:ir.model.fields,help:Maintain_Country_State.field_res_country_state__code
+msgid "The state code."
+msgstr "都道府県/州コード"
+
+#. module: Maintain_Country_State
 #: model_terms:ir.actions.act_window,help:Maintain_Country_State.action_country_state
 msgid ""
 "You can manage the different federal states you are working on from here. "
 "Each state is attached to one country."
-msgstr ""
-
-#. module: Maintain_Country_State
-#: model:ir.model.fields,field_description:Maintain_Country_State.field_res_country_state__searchkey
-msgid "searchkey"
 msgstr ""
