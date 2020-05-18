@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _,tools
 import uuid
 from odoo.exceptions import RedirectWarning, UserError, ValidationError
 from odoo.tools import float_is_zero, float_compare, safe_eval, date_utils, email_split, email_escape_char, email_re
 from odoo.tools.misc import formatLang, format_date, get_lang
-
 from datetime import timedelta
 from odoo.exceptions import ValidationError
 from datetime import date, timedelta
@@ -142,6 +141,7 @@ class ClassInvoiceCustom(models.Model):
     invoice_document_no_custom = fields.Char(string="Document", readonly=True, copy=False, default=_get_default_document_no)
     x_studio_cus_salesslipforms_table = fields.Selection([('cus_1', '指定なし'), ('cus_2', '通常'), ('cus_3', '専伝・仮伝')])
     x_studio_date_invoiced = fields.Date(string='Date Invoiced*', default=date.today())
+    x_studio_date_printed = fields.Date(string='Date Printed', default=date.today())
     x_studio_date_shipment = fields.Date(string='Shipment Date*', default=date.today())
     x_current_date = fields.Date(string='', default=date.today(), store=False)
     x_studio_payment_rule_1 = fields.Selection([('rule_cash', 'Cash'), ('rule_check', 'Check'),
@@ -162,6 +162,74 @@ class ClassInvoiceCustom(models.Model):
     x_due_date = fields.Date('', default=_get_due_date, store=False)
     line_len = fields.Integer('', default=_get_line_len, store=False)
 
+    x_transaction_type = fields.Selection([('掛売', '掛売'), ('現金売', '現金売')],default='掛売')
+    x_voucher_tax_amount = fields.Float('消費税額')
+    # x_voucher_tax_transfer = fields.Selection([('外税／明細', '伝票', '請求', '内税／明細','税調整別途','伝票単位／内税','請求単位／内税'), ('外税／明細', '伝票', '請求', '内税／明細','税調整別途','伝票単位／内税','請求単位／内税')])
+    # x_voucher_deadline = fields.Selection([('今回', '次回','通常','来月勘定'), ('今回', '次回','通常','来月勘定')],default='今回')
+    x_voucher_tax_transfer = fields.Selection(  [('外税／明細', '外税／明細'),
+                                                ('内税／明細', '内税／明細'),
+                                                ('税調整別途', '税調整別途'),
+                                                ('伝票単位／内税', '伝票単位／内税'),
+                                                ('請求単位／内税', '請求単位／内税')])
+
+    x_voucher_deadline = fields.Selection([('今回', '今回'),('次回', '次回')],default='今回')
+    x_bussiness_partner_name_2 = fields.Char('名称2')
+    x_studio_description = fields.Text('説明')
+    x_userinput_id = fields.Many2one('res.users','Current User', default=lambda self: self.env.uid)
+    x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
+                              index=True, auto_join=True,
+                              help="The move of this entry line.")
+
+    @api.onchange('x_history_voucher')
+    def _onchange_x_test(self):
+        print('ahchehhasdasdasdadsad')
+        for voucher in self:
+            if voucher.x_history_voucher._origin.id:
+                voucher.x_studio_business_partner = voucher.x_history_voucher.x_studio_business_partner
+                voucher.invoice_line_ids = voucher.x_history_voucher.invoice_line_ids
+                voucher.x_studio_client_2 = voucher.x_history_voucher.x_studio_client_2
+                voucher.x_studio_organization = voucher.x_history_voucher.x_studio_organization
+                voucher.x_studio_name = voucher.x_history_voucher.x_studio_name
+                voucher.x_studio_address_1 =voucher.x_history_voucher.x_studio_address_1
+                voucher.x_studio_address_2 = voucher.x_history_voucher.x_studio_address_2
+                voucher.x_studio_address_3 = voucher.x_history_voucher.x_studio_address_3
+                voucher.search_key = voucher.x_history_voucher.search_key
+                voucher.x_studio_target_doc_type = voucher.x_history_voucher.x_studio_target_doc_type
+                voucher.invoice_document_no_custom = voucher.x_history_voucher.invoice_document_no_custom
+                voucher.x_studio_cus_salesslipforms_table = voucher.x_history_voucher.x_studio_cus_salesslipforms_table
+                voucher.x_studio_date_invoiced = voucher.x_history_voucher.x_studio_date_invoiced
+                voucher.x_studio_date_printed = voucher.x_history_voucher.x_studio_date_printed
+                voucher.x_studio_date_shipment = voucher.x_history_voucher.x_studio_date_shipment
+                voucher.x_current_date = voucher.x_history_voucher.x_current_date
+                voucher.x_studio_payment_rule_1 = voucher.x_history_voucher.x_studio_payment_rule_1
+                voucher.invoice_payment_terms_custom = voucher.x_history_voucher.invoice_payment_terms_custom
+                voucher.x_studio_printed = voucher.x_history_voucher.x_studio_printed
+                voucher.invoice_total_paid = voucher.x_history_voucher.invoice_total_paid
+                voucher.x_studio_line_info = voucher.x_history_voucher.x_studio_line_info
+                voucher.x_due_date = voucher.x_history_voucher.x_due_date
+                voucher.line_len = voucher.x_history_voucher.line_len
+                voucher.x_transaction_type = voucher.x_history_voucher.x_transaction_type
+                voucher.x_voucher_tax_amount = voucher.x_history_voucher.x_voucher_tax_amount
+                voucher.x_studio_description = voucher.x_history_voucher.x_studio_description
+                voucher.x_studio_price_list = voucher.x_history_voucher.x_studio_price_list
+                voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.x_bussiness_partner_name_2
+
+
+
+
+    def action_view_form_modelname(self):
+        view = self.env.ref('Maintain_Invoice_Remake.view_move_custom_form')
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'account.move',
+            'views': [(view.id, 'form')],
+            'view_id': view.id,
+            'res_id': self.id,
+            'context': self.env.context,
+        }
+
     @api.onchange('x_studio_business_partner')
     def _get_detail_business_partner(self):
         for rec in self:
@@ -176,6 +244,7 @@ class ClassInvoiceCustom(models.Model):
                 rec.x_studio_payment_rule_1 = rec.x_studio_business_partner.payment_rule
                 rec.x_studio_price_list = rec.x_studio_business_partner.property_product_pricelist
                 rec.invoice_payment_terms_custom = rec.x_studio_business_partner.payment_terms
+                rec.x_bussiness_partner_name_2 = rec.x_studio_business_partner.customer_display_name
 
     @api.onchange('x_studio_payment_rule_1')
     def _get_payment_terms_by_rules(self):
@@ -315,14 +384,60 @@ class ClassInvoiceCustom(models.Model):
                 })
         return reconciled_vals
 
+    # @api.model
+    # def name_search1(self):
+    #     return {
+    #         'name': _('test'),
+    #         'view_type': 'tree',
+    #         'view_mode': 'tree',
+    #         'view_id': 'self.env.ref('account.move').id',
+    #         'res_model': 'account.move',
+    #         'context': "{'type':'out_invoice'}",
+    #         'type': 'ir.actions.act_window',
+    #         'target': 'new',
+    #     }
+
     # Custom preview invoice
     def preview_invoice(self):
+        print ('test asdasdads')
         return {
             'type': 'ir.actions.report',
             'report_name': 'Maintain_Invoice_Remake.report_invoice_format1',
             'model': 'account.move',
             'report_type': "qweb-html",
         }
+
+    def action_confirm(self):
+        print('click aaaaaaaaaaaaaaaaa')
+        for order in self:
+            #params = order.check_credit_limit()
+            #view_id = self.env['sale.control.limit.wizard']
+            #new = view_id.create(params[0])
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Warning : Customer is about or exceeded their credit limit',
+                'res_model': 'account.move',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_id': id,
+                'view_id': self.env.ref('Maintain_Invoice_Remake.view_move_custom_form', False).id,
+                'target': 'new',
+            }
+
+    def button_sale_history(self):
+        view = {
+            'name': _('Invoice Lines'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'account.move',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            # 'readonly': False,
+            # 'create': True,
+            'res_id': self.id,
+        }
+        return view
 
 class AccountTaxLine(models.Model):
     _name = 'account.tax.line'
@@ -401,18 +516,34 @@ class AccountMoveLine(models.Model):
         for id in list_final:
             if max < list_final[id]:
                 max = list_final[id]
-        return max + 10
+        return max + 1
+
+    def generate_selection(self):
+        return 'abc'
+    @api.onchange('x_crm_purchased_products')
+    def _onchange_x_crm_purchased_products(self):
+        for p in self:
+            p.x_crm_purchased_products._rec_name = 'aaaaaa'
 
     invoice_custom_line_no = fields.Integer('Line No', default=get_default_line_no)
-    invoice_custom_detaildivide = fields.Selection([('通常', '通常'), ('返品', '返品'), ], default='通常')
+    # Update 2020/04/28 - START
+    x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品')], default='通常')
+    x_product_barcode = fields.Many2one('product.product', string='JAN/UPC/EAN')
+    x_product_modelnumber = fields.Char('Product')
+    x_product_name = fields.Char('mproductname')
+    x_product_name2 = fields.Char('mproductname2')
+    x_product_list_price = fields.Float('List Price')
+    # x_crm_purchased_products = fields.Many2one('crm.purchased_products', selection='generate_selection', string='Purchased products')
+
+    # Update 2020/04/28 - END
     invoice_custom_standardnumber = fields.Char('standardnumber')
     invoice_custom_uom_cost_value = fields.Float('Cost Value')
-    invoice_custom_discountunitprice = fields.Float('discountunitprice', compute='compute_discount_unit_price',
-                                                    readonly=True)
+    invoice_custom_discountunitprice = fields.Float('discountunitprice', compute='compute_discount_unit_price')
     invoice_custom_discountrate = fields.Float('discountrate')
-    invoice_custom_salesunitprice = fields.Float('salesunitprice', compute='compute_sale_unit_price', readonly=True)
-    invoice_custom_lineamount = fields.Float('Line Amount', compute='compute_line_amount', readonly=True)
+    invoice_custom_salesunitprice = fields.Float('salesunitprice', compute='compute_sale_unit_price')
+    invoice_custom_lineamount = fields.Float('Line Amount', compute='compute_line_amount')
     invoice_custom_Description = fields.Char('Description')
+    invoice_custom_FreightCategory = fields.Many2one('freight.category.custom', string='FreightCategory')
     invoice_custom_FreightCategory = fields.Many2one('freight.category.custom', string='FreightCategory')
     price_unit = fields.Float(string='Unit Price', digits='Product Price')
     quantity = fields.Float(string='Quantity', digits='(12,0)',
@@ -479,16 +610,16 @@ class AccountMoveLine(models.Model):
         for line in self:
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity)
 
-    @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'invoice_custom_detaildivide')
+    @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype')
     def _onchange_price_subtotal(self):        
         for line in self:
             if line.exclude_from_invoice_tab == False:
                 self._validate_price_unit()
                 self._validate_discountrate()
             print('test detail')
-            print(line.invoice_custom_detaildivide)
+            print(line.x_invoicelinetype)
             print('end test')
-            if line.invoice_custom_detaildivide == '通常':
+            if line.x_invoicelinetype == '通常':
                 if line.quantity < 0:
                     line.quantity = line.quantity * (-1)
             else:
@@ -515,6 +646,27 @@ class AccountMoveLine(models.Model):
         if self.product_id:
             return self.product_id.product_custom_standardnumber
         return False
+    # def _get_computed_name(self):
+    #     self.ensure_one()
+    #
+    #     if not self.product_id:
+    #         return ''
+    #
+    #     if self.partner_id.lang:
+    #         product = self.product_id.with_context(lang=self.partner_id.lang)
+    #     else:
+    #         product = self.product_id
+    #
+    #     values = []
+    #     if product.partner_ref:
+    #         values.append(product.partner_ref)
+    #     if self.journal_id.type == 'sale':
+    #         if product.description_sale:
+    #             values.append(product.description_sale)
+    #     elif self.journal_id.type == 'purchase':
+    #         if product.description_purchase:
+    #             values.append(product.description_purchase)
+    #     return '\n'.join(values)
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
@@ -523,6 +675,9 @@ class AccountMoveLine(models.Model):
                 continue
 
             line.name = line._get_computed_name()
+            line.x_product_name = line.product_id.name
+            line.x_product_list_price = line.product_id.list_price
+            line.x_product_barcode = line.product_id
             line.account_id = line._get_computed_account()
             line.tax_ids = line._get_computed_taxes()
             line.product_uom_id = line._get_computed_uom()
@@ -568,15 +723,5 @@ class AccountMoveLine(models.Model):
         }
         return view
 
-# class CPartner(models.Model):
-#     _inherit = 'res.partner'
-#
-#     def name_get(self):
-#         super(CPartner, self).name_get()
-#         data = []
-#         for row in self:
-#             display_value = "" \
-#                 if 'showemail' in self.env.context \
-#                 else row.search_key_partner
-#             data.append((row.id, display_value))
-#         return data
+
+

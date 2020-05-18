@@ -1,6 +1,7 @@
 .product_custom_template {
     .o_inner_group {
         margin: 0 !important;
+        /*overflow: auto;*/
     }
 
     .o_group .o_form_label {
@@ -9,5 +10,14 @@
 
     .o_group.o_inner_group > tbody > tr > td.o_td_label {
         min-width: 182px;
+    }
+
+    .table-responsive {
+        min-height: .01%;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+    .product_edit {
+        width: auto;
     }
 }
