@@ -1227,7 +1227,10 @@ var ListRenderer = BasicRenderer.extend({
             if (!ev.target.closest('.o_list_record_selector') && !$(ev.target).prop('special_click')) {
                 var id = $(ev.currentTarget).data('id');
                 if (id) {
-                    if(ev.delegateTarget.className.startsWith("forward_edit")===true){
+                    if(ev.delegateTarget.className.includes("dialog_show")===true){
+                        return;
+                    }
+                    else if(ev.delegateTarget.className.startsWith("forward_edit")===true){
                         this.trigger_up('open_record', { id: id, mode: 'edit', context: {'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'} });
                     }else{
                         this.trigger_up('open_record', { id: id, target: ev.target });

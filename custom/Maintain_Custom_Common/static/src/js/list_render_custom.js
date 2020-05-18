@@ -61,20 +61,21 @@ odoo.define('web.ListRender_Custom', function (require) {
 
                 var $td_0 =  $('<td>').append($cells1[1]);
                 var $td_1 =  $('<td>').append($cells1[2]);
-                var $td_2 =  $('<td>').append($cells1[3]);
-                    $td_2.append($cells1[4]);
-                var $td_3 =  $('<td>').append($cells1[5]);
-                $td_3.append($cells1[6]);
-                var $td_4 =  $('<td>').append($cells1[7]);
-                $td_4.append($cells1[8]);
-                var $td_5 =  $('<td>').append($cells1[9]);
-                $td_5.append($cells1[10]);
-                var $td_6 =  $('<td>').append($cells1[11]);
-                $td_6.append($cells1[12]);
-                var $td_7 =  $('<td>').append($cells1[13]);
-                $td_7.append($cells1[14]);
-                var $td_8 =  $('<td>').append($cells1[15]);
-                $td_8.append($cells1[16]);
+                    $td_1.append($cells1[3]);
+                var $td_2 =  $('<td>').append($cells1[4]);
+                    $td_2.append($cells1[5]);
+                var $td_3 =  $('<td>').append($cells1[6]);
+                    $td_3.append($cells1[7]);
+                var $td_4 =  $('<td>').append($cells1[8]);
+                $td_4.append($cells1[9]);
+                var $td_5 =  $('<td>').append($cells1[10]);
+                $td_5.append($cells1[11]);
+                var $td_6 =  $('<td>').append($cells1[12]);
+                $td_6.append($cells1[13]);
+                var $td_7 =  $('<td>').append($cells1[14]);
+                $td_7.append($cells1[15]);
+                var $td_8 =  $('<td>').append($cells1[16]);
+                $td_8.append($cells1[17]);
 
                 var $tr = $('<tr>', { class: 'o_data_row' })
                     .attr('data-id', record.id)
@@ -276,22 +277,23 @@ odoo.define('web.ListRender_Custom', function (require) {
             var HEADER1 = [
                 'button_update',
                 'invoice_custom_line_no',
-                'invoice_custom_detaildivide',
+                'product_id',
+                'x_product_name',
                 'invoice_custom_standardnumber',
-                'quantity',
+                'x_product_list_price',
                 'price_unit',
-                'invoice_custom_discountunitprice',
-                'invoice_custom_salesunitprice',
-                'tax_ids'
+                'invoice_custom_lineamount',
+                'invoice_custom_Description',
                ];
             var HEADER2 = [
-                'product_id',
-                'invoice_custom_FreightCategory',
-                'product_uom_id',
-                'invoice_custom_uom_cost_value',
-                'discount',
-                'invoice_custom_lineamount',
-                'invoice_custom_Description'
+               'x_invoicelinetype',
+               'x_product_barcode',
+               'x_product_name2',
+               'invoice_custom_FreightCategory',
+               'quantity',
+               'product_uom_id',
+               'invoice_custom_uom_cost_value',
+               'tax_ids',
             ];
             var headerCol1 = [];
             var headerCol2 = [];
@@ -315,10 +317,10 @@ odoo.define('web.ListRender_Custom', function (require) {
                 var $tr_th= $('<tr>');
                 var $tr_header =$('<th>')
                 for(var i =0; i<$tr1.length;i++){
-                    if(i>1){
+                    if(i>=1){
                         $tr_header = $('<th>').append($tr1[i])
                             .append($hr)
-                            .append($tr2[i-2]);
+                            .append($tr2[i-1]);
                     }else{
                         $tr_header = $('<th>').append($tr1[i]);
                     }
@@ -644,9 +646,9 @@ odoo.define('web.ListRender_Custom', function (require) {
             }
         });
         if(hasChecked === true){
-            $('.o_field_x2many_list_row_delete_m').show();
+            this.$el.find('.o_field_x2many_list_row_delete_m').show();
         }else{
-            $('.o_field_x2many_list_row_delete_m').hide();
+            this.$el.find('.o_field_x2many_list_row_delete_m').hide();
         }
         this.$('thead .o_list_record_selector input').prop('checked', allChecked);
         this.trigger_up('selection_changed', { selection: this.selection });

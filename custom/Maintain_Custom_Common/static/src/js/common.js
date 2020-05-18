@@ -1,10 +1,10 @@
 odoo.define('common.js', function (require) {
 "use strict";
 
-    $(document).on('change',$("invoice_create select[name='invoice_custom_detaildivide']"),function(){
+    $(document).on('change',$("invoice_create select[name='x_invoicelinetype']"),function(){
 
         var amount = $(".invoice_create span[name='invoice_custom_lineamount']");
-        var dv =  $(".invoice_create select[name='invoice_custom_detaildivide']");
+        var dv =  $(".invoice_create select[name='x_invoicelinetype']");
         var q = $("input[name='quantity']");
         if('"通常"'.localeCompare(dv.val())){
             amount.css("color", "red");

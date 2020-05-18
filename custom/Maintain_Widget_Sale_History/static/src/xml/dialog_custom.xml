@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+<!-- These templates are accessible in backend and frontend -->
+
+<div role="dialog" t-name="Dialog" t-attf-class="modal#{technical ? ' o_technical_modal' : ''}#{fullscreen ? ' o_modal_full': ''}" tabindex="-1" data-backdrop="static" t-att-id="_.uniqueId('modal_')" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <header t-if="renderHeader" class="modal-header">
+                <h4 class="modal-title"><t t-raw="title"/><span class="o_subtitle text-muted small"><t t-esc="subtitle"/></span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="-1">×</button>
+            </header>
+            <div class="search_form" style="padding:20px 20px 20px 20px">
+                <table style="width:100%!important; padding:20px 20px 20px 20px" class="custom-form-table">
+                    <tr>
+                        <td class="col-label" >売上伝票No &gt;=</td>
+                        <td>
+                                <input type="text" name="search_document_no_from"/>
+                        </td>
+
+                        <td class="col-label">売上伝票No &lt;= </td>
+                        <td><input type="text" name="search_document_no_to" ></input></td>
+
+                        <td class="col-label">入力担当者</td>
+                        <td>
+                            <input type="text" name="search_input_person"></input>
+                        </td>
+                        <td>
+                            <span id="oC5Zk0" class="z-checkbox z-checkbox-default" style="padding-left:10px!important"><input type="checkbox" id="oC5Zk0-real"/>
+                                <label for="oC5Zk0-real" id="oC5Zk0-cnt" class="z-checkbox-content">AND/OR</label></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-label" >売上日付 &gt;=</td>
+                        <td>
+                            <span class="search_sale_date_from" />
+                        </td>
+
+                        <td class="col-label">売上日付 &lt;= </td>
+                        <td><span class="search_sale_date_to" /></td>
+
+                        <td class="col-label">得意先コード</td>
+                        <td><input type="text" name="search_customer_code" ></input></td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-label" >商品コード</td>
+                        <td><input type="text" name="search_product_code" ></input></td>
+
+                        <td class="col-label">JANコード</td>
+                        <td><input type="text" name="search_jan_code"></input></td>
+
+                        <td class="col-label">得意先名</td>
+                        <td><input type="text" name="search_customer_name"></input></td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-label" >商品名</td>
+                        <td><input type="text" name="search_product_name"></input></td>
+
+                        <td class="col-label">メーカー名</td>
+                        <td><input type="text" name="search_category_name"></input></td>
+
+                        <td class="col-label">品番/型番</td>
+                        <td><input type="text" name="search_standard_number"></input></td>
+                    </tr>
+                </table>
+            </div>
+
+            <main class="modal-body aaa" >
+            </main>
+            <footer t-if="renderFooter" class="modal-footer"/>
+        </div>
+    </div>
+</div>
+
+</templates>
