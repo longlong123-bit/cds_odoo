@@ -35,6 +35,7 @@ var customW = FieldMany2One.extend({
     },
 
     open: function(){
+        var context = this.record.getContext(this.recordParams);
 
         new SelectCreateDialog(this, {
                 no_create: true,
@@ -43,6 +44,7 @@ var customW = FieldMany2One.extend({
                 domain: null,
                 view_type:'list',
                 xmlDependencies: ['/Maintain_Widget_Sale_History/static/src/xml/dialog_custom.xml'],
+                context: context,
             }).open();
     }
 });
@@ -62,7 +64,7 @@ var ViewDialog = Dialog.extend({
         var self = this;
         return this._super.apply(this, arguments).then(function () {
             // Render modal once xml dependencies are loaded
-            self.$modal = $(QWeb.render('Dialog', {
+            self.$modal = $(QWeb.render('Dialog_Custom', {
                 fullscreen: self.fullscreen,
                 title: self.title,
                 subtitle: self.subtitle,

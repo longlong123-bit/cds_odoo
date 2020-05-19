@@ -232,7 +232,7 @@
                   style="background : url('/web/static/src/img/form-toolbar/EditRecord16.png') no-repeat center;background-size:contain;background-color: transparent; display: inline-block; margin-left: 1px; margin-right: 1px; width: 16px; height: 16px; padding: 1px;border: none;" >
                 </button>
 		        <field name="invoice_custom_line_no" required="True"/>
-                <field name="x_invoicelinetype" required="True" string="invoicelinetype"/>
+                <field name="x_invoicelinetype" required="True" string="区分"/>
 <!--                <field name="x_crm_purchased_products" context="{'show_address': 1}" string="Product">-->
 <!--                    <tree string="Most purchased products">-->
 <!--                                <field name="id" />-->
@@ -244,12 +244,12 @@
 <!--                <field name="x_crm_purchased_products" string="Product" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>-->
 <!--                <field name="x_product_modelnumber"/>-->
                 <field name="x_product_barcode" widget="product_many2one" context="{'show_product_jan': 1}"/>
-                <field name="x_product_name"/>
-                <field name="x_product_name2"/>
+                <field name="x_product_name" string="商品名"/>
+                <field name="x_product_name2" string="商品名2"/>
 
                 <field name="invoice_custom_standardnumber"/>
                 <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
-                <field name="x_product_list_price" readonly="1" />
+                <field name="x_product_list_price" string="定価" readonly="1" />
                 <field name="quantity" string="Quantity"/>
                 <field name="price_unit" string="Price"/>
                 <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM" required="True"/>
