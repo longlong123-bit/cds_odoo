@@ -35,6 +35,7 @@ var customW = FieldMany2One.extend({
     },
 
     open: function(){
+        var context = this.record.getContext(this.recordParams);
 
         new SelectCreateDialog(this, {
                 no_create: true,
@@ -43,6 +44,7 @@ var customW = FieldMany2One.extend({
                 domain: null,
                 view_type:'list',
                 xmlDependencies: ['/Maintain_Widget_Sale_History/static/src/xml/dialog_custom.xml'],
+                context: context,
             }).open();
     }
 });
