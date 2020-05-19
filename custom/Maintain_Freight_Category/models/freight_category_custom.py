@@ -36,6 +36,12 @@ class FreightCategory(models.Model):
             vals['search_key_freight'] = self.env['ir.sequence'].next_by_code('search.key.freight.sequence') or _(' ')
         return super(FreightCategory, self).create(vals)
 
+    def name_get(self):
+        result = []
+        for record in self:
+            search_key_show = str(record.search_key_freight)
+            result.append((record.id, search_key_show))
+        return result
 
 
 

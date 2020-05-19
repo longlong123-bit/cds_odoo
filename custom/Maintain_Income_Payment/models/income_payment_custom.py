@@ -19,8 +19,33 @@ class IncomePaymentCustom(models.Model):
     _rec_name = 'document_no'
     _order = 'document_no'
 
+    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
+    payment_amount = fields.Float(string='Payment Amount')
+
+    many_payment_id = fields.Many2one('many.payment', string="Many payment", ondelete='cascade', required=True,
+                                      index=True)
+    payment_type = fields.Char(string="Payment type")
+    payment_method_id = fields.Many2one('account.payment.method', string='Payment Method')
+    description = fields.Char(string='Description')
+
+    payment_id = fields.Many2one('account.payment.line', string="Originator Payment", copy=False,
+                                 help="Payment that created this entry")
+    # journal_id = fields.Many2one('account.journal', string='Journal', required=True, readonly=True,
+    #                              states={'draft': [('readonly', False)]}, tracking=True,
+    #                              domain="[('type', 'in', ('bank', 'cash')), ('company_id', '=', company_id)]")
+
+    # payment_method_id = fields.Many2one('account.payment.method', string='Payment Method', required=True, readonly=True,
+    #                                     states={'draft': [('readonly', False)]})
+
+    # payment_date_detail = fields.Date(string='Transaction Date', readonly=True, states={'draft': [('readonly', False)]})
+
+    # def _get_payment_date(self):
+    #     payment_date_detail =
+    # many_payment_date = fields.Many2one('many.payment', 'Many payment date')
+
     def _get_default_client_id(self):
         return self.env['client.custom'].search([], limit=1, order='id').id
+
 
     client_custom_id = fields.Many2one('client.custom', default=_get_default_client_id, string='Client')
 
@@ -28,7 +53,8 @@ class IncomePaymentCustom(models.Model):
     company_id = fields.Many2one('res.company', 'Organization', default=lambda self: self.env.company.id, index=1)
     account_invoice_id = fields.Many2one('account.move', string="Invoice", readonly=True,
                                          states={'draft': [('readonly', False)]})
-    payment_date = fields.Date(string='Transaction Date', readonly=True, states={'draft': [('readonly', False)]})
+    payment_date = fields.Date(string='Transaction Date', readonly=True, states={'draft': [('readonly', False)]}
+                               , related='many_payment_id.payment_date', default='')
     partner_bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account",
                                               states={'draft': [('readonly', False)]})
     partner_id = fields.Many2one(string='Business Partner')
@@ -47,7 +73,7 @@ class IncomePaymentCustom(models.Model):
     comment_apply = fields.Text(string='commentapply', readonly=True, states={'draft': [('readonly', False)]})
     vj_summary = fields.Selection([('vj_sum_1', '専伝・仮伝'), ('vj_sum_2', '指定なし'), ('vj_sum_3', '通常')],
                                   string='vj_summary', readonly=True, states={'draft': [('readonly', False)]})
-    journal_id = fields.Many2one(string='vj_collection_method')
+    journal_id = fields.Many2one(string='vj_collection_method', required=False)
     collection_method_date = fields.Date(string='collectionmethoddate', readonly=True,
                                          states={'draft': [('readonly', False)]})
     state = fields.Selection(string='Document Status')
@@ -55,6 +81,10 @@ class IncomePaymentCustom(models.Model):
     account_payment_line_ids = fields.One2many('account.payment.line', 'payment_id', string='PaymentLine', copy=True)
 
     line_info = fields.Char(string='Line info', compute='_set_line_info')
+
+    display_type = fields.Selection([
+        ('line_section', "Section"),
+        ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
 
     @api.onchange('partner_id')
     def _get_detail_business_partner(self):
@@ -162,12 +192,191 @@ class IncomePaymentCustom(models.Model):
 
         return True
 
+    def unlink(self):
+        print('------------------------------ DELETE -------------------------')
+        print(self.partner_id)
+        query_res = False
+        for rec in self:
+            if rec.partner_id:
+                query = "SELECT partner_id " \
+                        "FROM account_payment " \
+                        "WHERE partner_id IN " \
+                        "(SELECT ACM.partner_id " \
+                        "FROM account_move AS ACM " \
+                        "WHERE is_billed is True)"
+                self._cr.execute(query)
+                query_res = self._cr.fetchall()
+                print(query_res)
+                if len(query_res) == 0:
+                    raise ValidationError(_('Voucher is not billed'))
+                else:
+                    print('------------------------------ PRINT -------------------------')
+                    total_invoiced = float([res[0] for res in query_res][0])
+                    print(total_invoiced)
+                    return super(IncomePaymentCustom, self).unlink()
+
+    def check_bill(self):
+        print('------------------------------ check_bill -------------------------')
+        print(self.partner_id)
+        query_res = False
+        for rec in self:
+            if rec.partner_id:
+                query = "SELECT partner_id " \
+                        "FROM account_payment " \
+                        "WHERE partner_id IN " \
+                        "(SELECT ACM.partner_id " \
+                        "FROM account_move AS ACM " \
+                        "WHERE is_billed is True)"
+                self._cr.execute(query)
+                query_res = self._cr.fetchall()
+                print(query_res)
+                # if len(query_res) == 0:
+                #     raise ValidationError(_('Voucher is not billed'))
+                # else:
+                print('------------------------------ PRINT -------------------------')
+                total_invoiced = float([res[0] for res in query_res][0])
+                print(total_invoiced)
+                # return super(IncomePaymentCustom, self).unlink()
+
+    def edit_description(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'many.payment.tree',
+            'view_type': 'tree',
+            'view_mode': 'tree',
+            'res_model': 'many.payment',
+            'views': [(self.env.ref('Maintain_Income_Payment.receipt_tree_view').id, 'tree')],
+            'target': 'current'
+        }
+
+        # self.description = self.name
+        #
+        # view_id = self.env.ref('account.view_account_payment_form').id
+        #
+        # context = self._context.copy()
+        #
+        # my_view = {
+        #
+        #     'name': 'view_edithtml_description',
+        #
+        #     'view_type': 'form',
+        #
+        #     'view_mode': 'form',
+        #
+        #     'views': [(view_id, 'form')],
+        #
+        #     'res_model': 'many.payment',
+        #
+        #     'view_id': view_id,
+        #
+        #     'type': 'ir.actions.act_window',
+        #
+        #     'res_id': self.id,
+        #
+        #     'target': 'new',
+        #
+        #     'context': context,
+        #
+        # }
+        #
+        # return my_view
+
 
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
 
-    payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
+    payment_id = fields.Many2one('many.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
+
     vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
+
+    # partner_id = fields.Many2one(string='Business Partner')
+    payment_date = fields.Date(string='Transaction Date')
+    # partner_payment_name1 = fields.Char(string='paymentname1', readonly=True)
+
+    account_invoice_id = fields.Many2one('account.move', string="Invoice", readonly=True,
+                                         states={'draft': [('readonly', False)]})
+    partner_id = fields.Many2one(string='Business Partner')
+    partner_payment_name1 = fields.Char(string='paymentname1', readonly=True)
+                                        # , states={'draft': [('readonly', False)]})
+    partner_payment_name2 = fields.Char(string='paymentname2', readonly=True)
+                                        # , states={'draft': [('readonly', False)]})
+    partner_payment_address1 = fields.Char(string='Address 1', readonly=True)
+                                           # , states={'draft': [('readonly', False)]})
+    partner_payment_address2 = fields.Char(string='Address 2', readonly=True)
+                                           # , states={'draft': [('readonly', False)]})
+
+    many_payment_ids = fields.One2many('many.payment', 'many_payment_id', string='PaymentLine', copy=True)
+
+    line_info = fields.Char(string='Line info', compute='_set_line_info')
+
+    @api.onchange('partner_id')
+    def _get_detail_business_partner(self):
+        # for rec in self:
+        if self.partner_id:
+            self._set_partner_info(self.partner_id)
+
+    @api.onchange('account_invoice_id')
+    def _get_detail_business_partner_by_invoice(self):
+        # for rec in self:
+        if self.account_invoice_id:
+            self._set_partner_info(self.account_invoice_id.partner_id)
+
+    @api.onchange('many_payment_ids')
+    def _get_detail_account_payment_line(self):
+        self._set_line_info()
+
+    # when change partner or invoice, reset other information of partner
+    def _set_partner_info(self, values):
+        for rec in self:
+            rec.partner_id = values or ''
+            rec.partner_payment_name1 = values.name or ''
+            # TODO set name 4
+            rec.partner_payment_name2 = values.customer_namef or ''
+            rec.partner_payment_address1 = values.street or ''
+            rec.partner_payment_address2 = values.street2 or ''
+
+            self._set_line_info()
+
+    # set account amount info
+    def _set_line_info(self):
+        for rec in self:
+            rec.line_info = ''
+            total_payment_amounts = 0.00
+            total_invoiced = 0.00
+
+            amount_lines = rec.many_payment_ids.filtered(lambda line: line.payment_id)
+            for line in amount_lines:
+                total_payment_amounts += float(line.payment_amount)
+
+            # ---- Count total_invoiced ----
+            # set query
+            query_res = False
+            if rec.account_invoice_id:
+                total_invoiced = rec.partner_id.total_invoiced or 0.00
+                query = "SELECT amount_residual_signed " \
+                        "FROM account_move " \
+                        "WHERE state='posted' " \
+                        "AND id=%s" % (rec.account_invoice_id.id)
+                self._cr.execute(query)
+                query_res = self._cr.fetchall()
+            elif rec.partner_id:
+                query = "SELECT SUM(amount_residual_signed) " \
+                        "FROM account_move " \
+                        "WHERE state='posted' " \
+                        "AND partner_id=%s " \
+                        "GROUP BY partner_id" % (rec.partner_id.id)
+                self._cr.execute(query)
+                query_res = self._cr.fetchall()
+
+            if query_res:
+                total_invoiced = float([res[0] for res in query_res][0])
+
+            receivable = (float(total_invoiced) - float(total_payment_amounts)) or 0.00
+            if receivable < 0:
+                receivable = 0
+
+            rec.line_info = _('売掛残高：') + str("{:,.2f}".format(receivable)) + '　' \
+                            + _('入金額合計：') + str("{:,.2f}".format(total_payment_amounts))
