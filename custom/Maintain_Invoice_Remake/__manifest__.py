@@ -21,10 +21,6 @@ It contains the apps created with Studio and the customizations of existing apps
         'views/account_payment_custom_view.xml',
 #        'views/invoice_customer_custom_view.xml',
         'views/report_invoice.xml',
-
-        # Report layout
-        'report/layouts/format1.xml',
-
         'report/report_format1.xml',
         'report/report_format2.xml',
         'report/report_format3.xml',

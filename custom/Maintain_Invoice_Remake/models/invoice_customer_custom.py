@@ -244,7 +244,7 @@ class ClassInvoiceCustom(models.Model):
                 rec.x_studio_payment_rule_1 = rec.x_studio_business_partner.payment_rule
                 rec.x_studio_price_list = rec.x_studio_business_partner.property_product_pricelist
                 rec.invoice_payment_terms_custom = rec.x_studio_business_partner.payment_terms
-                rec.x_bussiness_partner_name_2 = rec.x_studio_business_partner.customer_display_name
+                rec.x_bussiness_partner_name_2 = rec.x_studio_business_partner.customer_name_kana
 
     @api.onchange('x_studio_payment_rule_1')
     def _get_payment_terms_by_rules(self):
