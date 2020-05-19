@@ -212,7 +212,7 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_voucher_tax_amount = voucher.x_history_voucher.x_voucher_tax_amount
                 voucher.x_studio_description = voucher.x_history_voucher.x_studio_description
                 voucher.x_studio_price_list = voucher.x_history_voucher.x_studio_price_list
-                voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.x_bussiness_partner_name_2
+                voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.customer_name_kana
 
 
 
