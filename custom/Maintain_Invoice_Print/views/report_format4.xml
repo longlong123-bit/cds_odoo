@@ -1,63 +1,71 @@
 <!--Custom report.-->
 <odoo>
 <data>
-    <template id="report_invoice_format3">
+    <template id="report_invoice_format4">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
-                <t t-call="Maintain_Invoice_Remake.report_invoice_document3" t-lang="lang"/>
+                <t t-call="Maintain_Invoice_Print.report_invoice_document4" t-lang="lang"/>
             </t>
         </t>
     </template>
-    <template id="report_invoice_document3">
+    <template id="report_invoice_document4">
         <div class="page">
             <t t-set="o" t-value="o.with_context(lang=lang)" />
 
             <!-- LOGO AND TITLE -->
-            <div>
-                <div style="display: inline-block; width: 25%; text-align: center">西暦 <span t-field="o.x_studio_date_invoiced"/></div>
-                <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px"><h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">　売　　上　　票　</h4></div>
-                <div style="display: inline-block; width: 25%; text-align: center"><span t-field="o.x_studio_document_no"/></div>
-            </div>
+            <div style="text-align: center; font-size: 28px"><h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">　納　　品　　書　</h4></div>
 
             <!-- HEADER OF CONTENT -->
-            <div style="margin-top: 30px;">
+            <div>
                 <!-- LEFT -->
-                <div style="float: left; font-size: 20px">
+                <div style="float: left; margin-top: 30px; font-size: 20px">
                     <div style="border-bottom: 1px solid #000; width: 300px;padding: 0 0 5px 0;"><span t-field="o.partner_id.name"/>　<span t-field="o.partner_id.title"/></div>
-                    <div>
-                        <div style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-top: 30px; display: inline-block; width: 300px">
-                            合計金額　　<span t-field="o.amount_total"/>
-                        </div>
-                        <span>（税込）</span>
+                    <div style="border-bottom: 1px solid #000; width: 350px; margin-top: 30px; padding: 0 0 5px 0;">
+    <!--                    <span t-field="o.partner_id.customer_extra_name"/>-->
+                        <span>下記のとおり納品いたします。 </span>
                     </div>
                 </div>
 
                 <!-- RIGHT -->
-                <div style="float: right; font-size: 20px">
-                    <div style="font-size: 28px; text-align: right">
-                        <span t-field="o.x_studio_client_2"/> <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo" style="height: 40px"/></div>
-                    <div style="text-align: right;"><span t-field="o.x_studio_organization"/></div>
-                    <div style="text-align: right; margin-bottom: 20px"><span t-field="o.x_studio_organization.street"/><span t-field="o.x_studio_organization.street2"/></div>
-                    <div style="text-align: right">TEL　<span t-field="o.x_studio_organization.phone"/>　FAX　<span t-field="o.x_studio_organization.phone"/></div>
+                <div style="float: right; margin-top: -35px; font-size: 18px">
+                    <div align="right">
+                        <div style="border-bottom: 1px solid #000; width: 200px; text-align: center; padding: 0 0 5px 0;"><span t-field="o.x_studio_document_no"/></div>
+                        <div style="border-bottom: 1px solid #000; width: 200px; text-align: center; margin-top: 8px; padding: 0 0 3px 0;">西暦 <span t-field="o.x_studio_date_invoiced"/></div>
+                    </div>
+                    <div style="font-size: 28px; margin-top: 15px; text-align: right"><span t-field="o.x_studio_client_2"/></div>
+                    <div style="text-align: right; margin-top: 15px; margin-bottom: 10px"><span t-field="o.x_studio_organization"/></div>
+                    <div style="text-align: right"><span t-field="o.x_studio_organization.street"/></div>
+                    <div style="text-align: right"><span t-field="o.x_studio_organization.street2"/></div>
+                    <div style="text-align: right">電話　<span t-field="o.x_studio_organization.phone"/></div>
+                    <div style="text-align: right">FAX　<span t-field="o.x_studio_organization.phone"/></div>
                 </div>
 
                 <div style="clear: both"/>
             </div>
 
+            <!-- PRICE -->
+            <div class="price" style="margin-right: 10px; margin-bottom: 20px; font-size: 20px">
+                <div>
+                    <div style="border-bottom: 1px solid #000; padding-bottom: 5px; display: inline-block; width: 300px">
+                        合計金額　　<span t-field="o.amount_total"/>
+                    </div>
+                    <span>（税込）</span>
+                </div>
+            </div>
 
             <!-- TABLE -->
             <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
-            <div class="content-table" style="border: 1px solid #000; margin-top: 15px">
+            <div class="content-table" style="border: 1px solid #000;">
                 <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">
                     <thead>
                         <tr>
                             <td style="border: 1px solid #000; border-left: 0; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; padding: 5px"><span>品　　　　名</span></td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 130px; padding: 5px; width: 80px"><span>数量</span></td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 80px; padding: 5px; width: 50px"><span>単位</span></td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 180px; padding: 5px; width: 100px"><span>単　　価</span></td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 180px; padding: 5px; width: 100px"><span>金　　額</span></td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 180px; padding: 5px; width: 100px"><span>備　　考</span></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 100px; padding: 5px; width: 80px"><span>数量</span></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 50px; padding: 5px; width: 50px"><span>単位</span></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 150px; padding: 5px; width: 100px"><span>単　　価</span></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 150px; padding: 5px; width: 100px"><span>金　　額</span></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; width: 150px; padding: 5px; width: 100px"><span>備　　考</span></td>
                         </tr>
                     </thead>
                     <tbody class="invoice_tbody">
@@ -81,7 +89,7 @@
                             </tr>
                         </t>
 
-                        <t t-set="empty_lines" t-value="6 - len(lines)"/>
+                        <t t-set="empty_lines" t-value="14 - len(lines)"/>
                         <t t-foreach="empty_lines" t-as="emline">
                             <tr>
                                 <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-left: 0; border-bottom-style: dashed; text-align: left; padding: 5px">
@@ -96,30 +104,38 @@
                         </t>
 
                         <tr>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-left: 0; border-bottom-style: dashed; padding: 5px; text-align: center">小　計</td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-left: 0; border-bottom-style: dashed; padding: 5px 5px 5px 40px">合　計</td>
                             <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; padding: 5px"><div style="height: 35px"/></td>
                             <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed"></td>
                             <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed"></td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: right; padding: 5px"><span t-field="o.amount_untaxed"/></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; padding: 5px"><span t-field="o.amount_untaxed"/></td>
                             <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed"></td>
                         </tr>
 
                         <tr>
-                            <td style="border: 0; padding: 5px; text-align: center">消費税</td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom: 0; padding: 5px"><div style="height: 35px"/></td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom: 0"></td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom: 0"></td>
-                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom: 0; text-align: right; padding: 5px">
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-left: 0; border-bottom-style: dashed; padding: 5px 5px 5px 40px">消費税</td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; padding: 5px"><div style="height: 35px"/></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed"></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed"></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed; text-align: center; padding: 5px">
                                 <t t-foreach="o.amount_by_group" t-as="tax">
                                     <div><span t-esc="tax[3]"/></div>
                                 </t>
                             </td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom-style: dashed"></td>
+                        </tr>
+
+                        <tr>
+                            <td style="border: 0; padding: 5px 5px 5px 40px">税込合計</td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom: 0; padding: 5px"><div style="height: 35px"/></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom: 0"></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom: 0"></td>
+                            <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom: 0; text-align: center; padding: 5px"><span t-field="o.amount_total"/></td>
                             <td style="border: 1px solid #000; border-top: 0; border-right: 0; border-bottom: 0"></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div style="margin-top: 15px">　事　務　機　・　事　務　用　品　・　オ　フ　ィ　ス　家　具　・　教　育　機　器　</div>
         </div>
     </template>
 </data>

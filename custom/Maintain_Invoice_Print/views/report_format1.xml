@@ -5,7 +5,7 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
-                <t t-call="Maintain_Invoice_Remake.report_invoice_document1" t-lang="lang"/>
+                <t t-call="Maintain_Invoice_Print.report_invoice_document1" t-lang="lang"/>
             </t>
         </t>
     </template>
