@@ -10,7 +10,7 @@
         </t>
     </template>
     <template id="report_invoice_document1">
-        <div class="page">
+        <div class="page" style="page-break-before: always;">
             <t t-set="o" t-value="o.with_context(lang=lang)" />
 
             <!-- LOGO AND TITLE -->
@@ -40,7 +40,7 @@
                     </div>
                     <div>
                        TEL <span t-field="o.partner_id.phone"/>
-    <!--                    / FAX <span t-field="o.partner_id.fax"/>-->
+                        / FAX <span t-field="o.partner_id.customer_fax"/>
                     </div>
                     <div>
                         <span t-field="o.partner_id.customer_name_short"/> 様

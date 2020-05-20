@@ -10,7 +10,7 @@
         </t>
     </template>
     <template id="report_invoice_document4">
-        <div class="page">
+        <div class="page" style="page-break-before: always;">
             <t t-set="o" t-value="o.with_context(lang=lang)" />
 
             <!-- LOGO AND TITLE -->
