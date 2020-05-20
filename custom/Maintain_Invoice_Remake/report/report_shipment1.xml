@@ -32,7 +32,7 @@
             </div>
             <div style="display: inline-block; width: 25%; float: right; font-size: 16px">
                 <div name="date_printed">
-                    <span>発行日: <span class="m-0" t-field="o.x_printed_date"/></span>
+                    <span>発行日: <span class="m-0" t-field="o.x_studio_date_printed"/></span>
                 </div>
                 <div name="document_no">
                     <span>請求書番号: <span class="m-0" t-field="o.x_studio_document_no"/></span>
