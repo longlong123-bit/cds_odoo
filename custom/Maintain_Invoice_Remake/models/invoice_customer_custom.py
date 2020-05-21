@@ -312,7 +312,7 @@ class ClassInvoiceCustom(models.Model):
                     done_taxes.add(tax_key_add_base)
             print(res.keys())
             for x in res:
-                result.append((0, False, {'move_id': move.id, 'move_name': self.x_studio_document_no, 'taxGroup': x.name,
+                result.append((0, False, {'move_id': move.id, 'move_name': move.x_studio_document_no, 'taxGroup': x.name,
                                           'tax_base_amount': res[x]['base'], 'tax_amount': res[x]['amount']}))
                 # self.invoice_line_ids_tax = [
                 #     (0, False, {'move_id': move.id, 'move_name': move.name, 'taxGroup': x.name, 'tax_base_amount': res[x]['base'],'tax_amount':res[x]['amount']})]
