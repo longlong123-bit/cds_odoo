@@ -5,48 +5,48 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
-                <t t-call="Maintain_Invoice_Remake.report_invoice_document3" t-lang="lang"/>
+                <t t-call="Maintain_Invoice_Print.report_invoice_document3" t-lang="lang"/>
             </t>
         </t>
     </template>
     <template id="report_invoice_document3">
-        <t t-set="o" t-value="o.with_context(lang=lang)" />
+        <div class="page" style="page-break-before: always;">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
 
-        <!-- LOGO AND TITLE -->
-        <div>
-            <div style="display: inline-block; width: 25%; text-align: center">西暦 <span t-field="o.x_studio_date_invoiced"/></div>
-            <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px"><h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">　売　　上　　票　</h4></div>
-            <div style="display: inline-block; width: 25%; text-align: center"><span t-field="o.x_studio_document_no"/></div>
-        </div>
+            <!-- LOGO AND TITLE -->
+            <div>
+                <div style="display: inline-block; width: 25%; text-align: center">西暦 <span t-field="o.x_studio_date_invoiced"/></div>
+                <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px"><h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">　売　　上　　票　</h4></div>
+                <div style="display: inline-block; width: 25%; text-align: center"><span t-field="o.x_studio_document_no"/></div>
+            </div>
 
-        <!-- HEADER OF CONTENT -->
-        <div style="margin-top: 30px;">
-            <!-- LEFT -->
-            <div style="float: left; font-size: 20px">
-                <div style="border-bottom: 1px solid #000; width: 300px;padding: 0 0 5px 0;"><span t-field="o.partner_id.name"/>　<span t-field="o.partner_id.title"/></div>
-                <div>
-                    <div style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-top: 30px; display: inline-block; width: 300px">
-                        合計金額　　<span t-field="o.amount_total"/>
+            <!-- HEADER OF CONTENT -->
+            <div style="margin-top: 30px;">
+                <!-- LEFT -->
+                <div style="float: left; font-size: 20px">
+                    <div style="border-bottom: 1px solid #000; width: 300px;padding: 0 0 5px 0;"><span t-field="o.partner_id.name"/>　<span t-field="o.partner_id.title"/></div>
+                    <div>
+                        <div style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-top: 30px; display: inline-block; width: 300px">
+                            合計金額　　<span t-field="o.amount_total"/>
+                        </div>
+                        <span>（税込）</span>
                     </div>
-                    <span>（税込）</span>
                 </div>
+
+                <!-- RIGHT -->
+                <div style="float: right; font-size: 20px">
+                    <div style="font-size: 28px; text-align: right">
+                        <span t-field="o.x_studio_client_2"/> <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo" style="height: 40px"/></div>
+                    <div style="text-align: right;"><span t-field="o.x_studio_organization"/></div>
+                    <div style="text-align: right; margin-bottom: 20px"><span t-field="o.x_studio_organization.street"/><span t-field="o.x_studio_organization.street2"/></div>
+                    <div style="text-align: right">TEL　<span t-field="o.x_studio_organization.phone"/>　FAX　<span t-field="o.x_studio_organization.phone"/></div>
+                </div>
+
+                <div style="clear: both"/>
             </div>
 
-            <!-- RIGHT -->
-            <div style="float: right; font-size: 20px">
-                <div style="font-size: 28px; text-align: right">
-                    <span t-field="o.x_studio_client_2"/> <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo" style="height: 40px"/></div>
-                <div style="text-align: right;"><span t-field="o.x_studio_organization"/></div>
-                <div style="text-align: right; margin-bottom: 20px"><span t-field="o.x_studio_organization.street"/><span t-field="o.x_studio_organization.street2"/></div>
-                <div style="text-align: right">TEL　<span t-field="o.x_studio_organization.phone"/>　FAX　<span t-field="o.x_studio_organization.phone"/></div>
-            </div>
 
-            <div style="clear: both"/>
-        </div>
-
-
-        <!-- TABLE -->
-        <div class="page">
+            <!-- TABLE -->
             <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
             <div class="content-table" style="border: 1px solid #000; margin-top: 15px">
                 <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">
