@@ -15,6 +15,7 @@
         'security/ir.model.access.csv',
         # 'views/add_js.xml',
         # 'views/invoice_print_view.xml',
+        # 'views/report_view.xml',
         'views/report_invoice.xml',
         'views/report_format1.xml',
         'views/report_format2.xml',

@@ -398,16 +398,6 @@ class ClassInvoiceCustom(models.Model):
     #         'target': 'new',
     #     }
 
-    # Custom preview invoice
-    def preview_invoice(self):
-        print ('test asdasdads')
-        return {
-            'type': 'ir.actions.report',
-            'report_name': 'Maintain_Invoice_Remake.report_invoice_format1',
-            'model': 'account.move',
-            'report_type': "qweb-html",
-        }
-
     def action_confirm(self):
         print('click aaaaaaaaaaaaaaaaa')
         for order in self:

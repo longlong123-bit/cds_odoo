@@ -7,3 +7,12 @@ class PrintInvoice(models.Model):
         return {
             'type': ''
         }
+
+    # Custom preview invoice
+    def preview_invoice(self):
+        return {
+            'type': 'ir.actions.report',
+            'report_name': 'Maintain_Invoice_Print.report_invoice_format1',
+            'model': 'account.move',
+            'report_type': "qweb-html",
+        }
