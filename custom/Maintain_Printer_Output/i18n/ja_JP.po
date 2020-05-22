@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-07 03:23+0000\n"
-"PO-Revision-Date: 2020-05-07 03:23+0000\n"
+"POT-Creation-Date: 2020-05-22 07:14+0000\n"
+"PO-Revision-Date: 2020-05-22 07:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
 msgid "Active"
 msgstr "アクティブ"
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__all
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_2__all
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_3__all
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_4__all
+msgid "All"
+msgstr "全て"
 
 #. module: Maintain_Printer_Output
 #: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__computer_name
@@ -53,14 +61,6 @@ msgid "ID"
 msgstr ""
 
 #. module: Maintain_Printer_Output
-#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__all
-#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_2__all
-#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_3__all
-#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_4__all
-msgid "All"
-msgstr "全て"
-
-#. module: Maintain_Printer_Output
 #: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__invoice
 #: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_2__invoice
 #: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_3__invoice
@@ -85,36 +85,77 @@ msgstr ""
 
 #. module: Maintain_Printer_Output
 #: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__paperformat_id_1
-msgid "Paper Format"
-msgstr "伝票選択"
-
-#. module: Maintain_Printer_Output
-#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__paperformat_id_2
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_tree
 msgid "Paper Format 1"
 msgstr "伝票選択1"
 
 #. module: Maintain_Printer_Output
-#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__paperformat_id_3
+#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__paperformat_id_2
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_tree
 msgid "Paper Format 2"
 msgstr "伝票選択2"
 
 #. module: Maintain_Printer_Output
-#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__paperformat_id_4
+#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__paperformat_id_3
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_tree
 msgid "Paper Format 3"
 msgstr "伝票選択3"
 
 #. module: Maintain_Printer_Output
+#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__paperformat_id_4
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_tree
 msgid "Paper Format 4"
 msgstr "伝票選択4"
 
 #. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_1__printer1
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_2__printer1
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_3__printer1
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_4__printer1
+msgid "Printer 1"
+msgstr ""
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_1__printer2
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_2__printer2
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_3__printer2
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_4__printer2
+msgid "Printer 2"
+msgstr ""
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_1__printer3
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_2__printer3
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_3__printer3
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_4__printer3
+msgid "Printer 3"
+msgstr ""
+
+#. module: Maintain_Printer_Output
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_1__printer4
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_2__printer4
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_3__printer4
+#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output_4__printer4
+msgid "Printer 4"
+msgstr ""
+
+#. module: Maintain_Printer_Output
 #: model:ir.actions.act_window,name:Maintain_Printer_Output.action_printer_output
-#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output
+#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output_1
+#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output_2
+#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output_3
+#: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output_4
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_tree
 msgid "Printer Output"
 msgstr "プリンタ出力先設定"
 
@@ -141,26 +182,6 @@ msgstr "帳票系"
 #: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_4__voucher
 msgid "Voucher"
 msgstr "売上伝票"
-
-#. module: Maintain_Printer_Output
-#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output__printer1
-msgid "Printer 1"
-msgstr "プリンタ 1"
-
-#. module: Maintain_Printer_Output
-#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output__printer2
-msgid "Printer 2"
-msgstr "プリンタ 2"
-
-#. module: Maintain_Printer_Output
-#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output__printer3
-msgid "Printer 3"
-msgstr "プリンタ 3"
-
-#. module: Maintain_Printer_Output
-#: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__printer_output__printer4
-msgid "Printer 4"
-msgstr "プリンタ 4"
 
 #. module: Maintain_Printer_Output
 #: model:ir.model,name:Maintain_Printer_Output.model_printer_output
