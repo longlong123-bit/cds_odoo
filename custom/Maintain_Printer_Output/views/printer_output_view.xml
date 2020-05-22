@@ -8,6 +8,14 @@
             <field name="arch" type="xml">
 				<tree>
 					<field name="computer_name"/>
+					<field name="paperformat_id_1" string="Paper Format 1"/>
+					<field name="printer_output_1" string="Printer Output"/>
+					<field name="paperformat_id_2" string="Paper Format 2"/>
+					<field name="printer_output_2" string="Printer Output"/>
+					<field name="paperformat_id_3" string="Paper Format 3"/>
+					<field name="printer_output_3" string="Printer Output"/>
+					<field name="paperformat_id_4" string="Paper Format 4"/>
+					<field name="printer_output_4" string="Printer Output"/>
 				</tree>
             </field>
         </record>
@@ -18,6 +26,14 @@
             <field name="arch" type="xml">
 				<search>
 					<field name="computer_name"/>
+					<field name="paperformat_id_1" string="Paper Format 1"/>
+					<field name="printer_output_1" string="Printer Output"/>
+					<field name="paperformat_id_2" string="Paper Format 2"/>
+					<field name="printer_output_2" string="Printer Output"/>
+					<field name="paperformat_id_3" string="Paper Format 3"/>
+					<field name="printer_output_3" string="Printer Output"/>
+					<field name="paperformat_id_4" string="Paper Format 4"/>
+					<field name="printer_output_4" string="Printer Output"/>
 				</search>
             </field>
         </record>
@@ -31,13 +47,13 @@
 						<group>
 							<field name="computer_name" string="Computer Name" required="1"/>
 							<field name="paperformat_id_1" string="Paper Format 1"/>
-							<field name="printer_output" string="Printer Output"/>
+							<field name="printer_output_1" string="Printer Output"/>
 							<field name="paperformat_id_2" string="Paper Format 2"/>
-							<field name="printer_output" string="Printer Output"/>
+							<field name="printer_output_2" string="Printer Output"/>
 							<field name="paperformat_id_3" string="Paper Format 3"/>
-							<field name="printer_output" string="Printer Output"/>
+							<field name="printer_output_3" string="Printer Output"/>
 							<field name="paperformat_id_4" string="Paper Format 4"/>
-							<field name="printer_output" string="Printer Output"/>
+							<field name="printer_output_4" string="Printer Output"/>
 							<field name="active" string="Active"/>
 						</group>
 					</sheet>

@@ -9,7 +9,7 @@
                 <search string="Employees">
                     <field name="employee_code" string="Employee Code"/>
                     <field name="name" string="Employee Name" filter_domain="['|', ('work_email', 'ilike', self), ('name', 'ilike', self)]"/>
-                    <field name="category_ids" groups="hr.group_hr_user"/>
+<!--                    <field name="category_ids" groups="hr.group_hr_user"/>-->
                     <field name="job_id"/>
                     <field name="employee_section_id" string="Section Code"/>
                     <separator/>
@@ -49,7 +49,7 @@
                                 <field name="work_phone" widget="phone"/>
                                 <field name="work_email" widget="email"/>
                                 <field name="work_location"/>
-                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="company_id" groups="base.group_multi_company" invisible="1"/>
                             </group>
                             <group>
                                 <field name="employee_section_id" string="Section Code"/>
