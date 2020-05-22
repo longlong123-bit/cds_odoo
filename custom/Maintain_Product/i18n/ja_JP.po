@@ -6,20 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-20 11:29+0000\n"
-"PO-Revision-Date: 2020-05-20 11:29+0000\n"
+"POT-Creation-Date: 2020-05-11 09:51+0000\n"
+"PO-Revision-Date: 2020-05-11 09:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: Maintain_Product
-#: code:addons/Maintain_Product/models/product_custom.py:0
-#, python-format
-msgid "%s (copy)"
-msgstr "%s (コピー)"
 
 #. module: Maintain_Product
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
@@ -67,9 +61,13 @@ msgstr "属性情報"
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__name
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "Business Partner"
 msgstr "取引先"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
+msgid "Business Partner*"
+msgstr "取引先*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code
@@ -90,7 +88,7 @@ msgstr "分類名"
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_attribute_line_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
-msgid "Client"
+msgid "Client*"
 msgstr "クライアント*"
 
 #. module: Maintain_Product
@@ -249,11 +247,6 @@ msgid "Discontinued At"
 msgstr "取扱終了日"
 
 #. module: Maintain_Product
-#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__display_default_code
-msgid "Display Default Code"
-msgstr ""
-
-#. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__display_name
 msgid "Display Name"
 msgstr "表示名"
@@ -314,11 +307,6 @@ msgid "Item"
 msgstr "アイテム"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
-msgid "JANコード"
-msgstr ""
-
-#. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_purchasing_last_invoice_price
 msgid "Last Invoice Price"
 msgstr "最終請求価格"
@@ -345,17 +333,25 @@ msgstr "最終更新日"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_limit_price
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
 msgid "Limit Price"
 msgstr "限度価格"
 
 #. module: Maintain_Product
-#: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__fixed_price
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
+msgid "Limit Price*"
+msgstr "限度価格*"
+
+#. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__fixed_price
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "List Price"
 msgstr "定価"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
+msgid "List Price*"
+msgstr "定価*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_maker_code
@@ -396,10 +392,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__name
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_template__name
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_search_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
 msgid "Name"
 msgstr "商品名"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "Name*"
+msgstr "商品名*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_purchasing_order_pack_qty
@@ -408,12 +408,16 @@ msgstr "注文パック数量"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_company_id
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_attribute_line_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "Organization"
 msgstr "組織"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_attribute_line_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
+msgid "Organization*"
+msgstr "組織*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__original_price_include_tax
@@ -437,9 +441,13 @@ msgstr "仕入先の品目カテゴリ"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_code
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "Partner Product Key"
 msgstr "仕入先の品目コード"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
+msgid "Partner Product Key*"
+msgstr "仕入先の品目コード*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_percent
@@ -453,10 +461,14 @@ msgstr "プライスリスト"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__pricelist_id
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Price List Version"
 msgstr "プライスリストバージョン"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
+msgid "Price List Version*"
+msgstr "プライスリストバージョン*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_purchasing_price_effective
@@ -550,9 +562,6 @@ msgstr "処理済み"
 
 #. module: Maintain_Product
 #: model:ir.model,name:Maintain_Product.model_product_product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_attribute_line_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "Product"
 msgstr "プロダクト"
 
@@ -560,6 +569,11 @@ msgstr "プロダクト"
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__custom_attribute_line_ids
 msgid "Product Attributes"
 msgstr "プロダクト属性"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "Product Category"
+msgstr "品目カテゴリ"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_client
@@ -570,7 +584,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:Maintain_Product.product_template_action
 #: model:ir.ui.menu,name:Maintain_Product.menu_ideas
 msgid "Product Custom"
-msgstr "商品マスタ"
+msgstr "品目マスタ(VJ)"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_client
@@ -609,11 +623,6 @@ msgid "Product Variants"
 msgstr "プロダクトバリアント"
 
 #. module: Maintain_Product
-#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_code
-msgid "Product code"
-msgstr ""
-
-#. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_code_1
 msgid "Product code 1"
 msgstr "商品コード1"
@@ -646,26 +655,11 @@ msgstr "商品コード6"
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_product_name
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_product_name
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_attribute_line_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "Product*"
 msgstr "品目*"
-
-#. module: Maintain_Product
-#: code:addons/Maintain_Product/models/product_custom.py:0
-#, python-format
-msgid "Product_code has already been registered"
-msgstr "商品コードは既に登録されています。"
-
-#. module: Maintain_Product
-#: code:addons/Maintain_Product/models/product_custom.py:0
-#, python-format
-msgid "Product_code is the same"
-msgstr "商品コードは同じです。"
-
-#. module: Maintain_Product
-#: code:addons/Maintain_Product/models/product_custom.py:0
-#, python-format
-msgid "Product_code must be unique"
-msgstr "商品コードは一意である必要があります。"
 
 #. module: Maintain_Product
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_attribute_line_form
@@ -727,10 +721,14 @@ msgstr "価格設定"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_standard_price
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Standard Price"
 msgstr "標準価格"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
+msgid "Standard Price*"
+msgstr "標準価格*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__standard_price
@@ -748,8 +746,13 @@ msgid "Supplier Pricelist"
 msgstr "仕入先価格リスト"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
 msgid "Tax Category"
+msgstr "税カテゴリ"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "Tax Category*"
 msgstr "税カテゴリ*"
 
 #. module: Maintain_Product
@@ -757,11 +760,6 @@ msgstr "税カテゴリ*"
 #, python-format
 msgid "The Search Key has already been registered"
 msgstr "その検索キーの値は既に登録されています。"
-
-#. module: Maintain_Product
-#: model:ir.model.constraint,message:Maintain_Product.constraint_product_product_name_code_uniq
-msgid "The code must be unique!"
-msgstr ""
 
 #. module: Maintain_Product
 #: model:ir.model.fields,help:Maintain_Product.field_product_supplierinfo__product_code
@@ -774,18 +772,28 @@ msgstr "見積依頼を印刷する場合、このベンダーの製品コード
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__uom_id
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__uom_id
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "UOM"
 msgstr "単位"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
+msgid "UOM*"
+msgstr "単位*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__barcode
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_purchasing_barcode
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_search_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "UPC/EAN"
 msgstr "JAN/UPC/EANコード"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "UPC/EAN*"
+msgstr "JAN/UPC/EANコード*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__write_date
@@ -820,48 +828,39 @@ msgstr ""
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_custom_standardnumber
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_search_view
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
 msgid "standardnumber"
 msgstr "品番/規格"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_search_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
-msgid "品番/型番"
+#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__商品1
+msgid "商品1"
 msgstr ""
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_search_view
-msgid "商品コード"
+#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__商品2
+msgid "商品2"
 msgstr ""
 
 #. module: Maintain_Product
-#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__code_1
-msgid "商品コード1"
+#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__商品3
+msgid "商品3"
 msgstr ""
 
 #. module: Maintain_Product
-#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__code_2
-msgid "商品コード2"
+#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__商品4
+msgid "商品4"
 msgstr ""
 
 #. module: Maintain_Product
-#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__code_3
-msgid "商品コード3"
+#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__商品5
+msgid "商品5"
 msgstr ""
 
 #. module: Maintain_Product
-#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__code_4
-msgid "商品コード4"
-msgstr ""
-
-#. module: Maintain_Product
-#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__code_5
-msgid "商品コード5"
-msgstr ""
-
-#. module: Maintain_Product
-#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__code_6
-msgid "商品コード6"
+#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__商品6
+msgid "商品6"
 msgstr ""
 
 #. module: Maintain_Product
@@ -870,12 +869,21 @@ msgstr ""
 msgid "既に登録されています。"
 msgstr ""
 
-#. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
-msgid "標準定価"
-msgstr ""
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
-msgid "税率"
-msgstr ""
+#: code:addons/Maintain_Product/models/product_custom.py:1
+#, python-format
+msgid "Product_code is the same"
+msgstr "商品コードは同じです。"
+
+#. module: Maintain_Product
+#: code:addons/Maintain_Product/models/product_custom.py:2
+#, python-format
+msgid "Product_code has already been registered"
+msgstr "商品コードは既に登録されています。"
+
+#. module: Maintain_Product
+#: code:addons/Maintain_Product/models/product_custom.py:3
+#, python-format
+msgid "Product_code must be unique"
+msgstr "商品コードは一意である必要があります。"

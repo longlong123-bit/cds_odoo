@@ -18,11 +18,11 @@
                     </group>
                     <group>
                         <group>
-                            <label for="barcode" string="UPC/EAN"/>
+                            <label for="barcode" string="UPC/EAN*"/>
                             <div>
                                 <field name="barcode" widget="char_tags" required="True" style="width: 100%%"/>
                             </div>
-                            <label for="name" string="Name"/>
+                            <label for="name" string="Name*"/>
                             <div>
                                 <field name="name" widget="char_tags" required="True" style="width: 100%%"/>
                             </div>
@@ -33,14 +33,14 @@
                             <field name="product_class_code"/>
                             <field name="product_class_name" readonly="True"/>
                             <field name="product_code_1"/>
-                            <field name="price_no_tax_1" widget="float"/>
-                            <field name="price_include_tax_1" widget="float"/>
+                            <field name="price_no_tax_1"/>
+                            <field name="price_include_tax_1"/>
                             <field name="product_code_2"/>
-                            <field name="price_no_tax_2" widget="float"/>
-                            <field name="price_include_tax_2" widget="float"/>
+                            <field name="price_no_tax_2"/>
+                            <field name="price_include_tax_2"/>
                             <field name="product_code_3"/>
-                            <field name="price_no_tax_3" widget="float"/>
-                            <field name="price_include_tax_3" widget="float"/>
+                            <field name="price_no_tax_3"/>
+                            <field name="price_include_tax_3"/>
                             <label for="uom_id" string="UOM"/>
                             <div>
                                 <field name="uom_id" widget="many2one_tags" style="width: 100%%"/>
@@ -51,7 +51,7 @@
                             <div>
                                 <field name="type" widget="selection_tags" style="width: 100%%"/>
                             </div>
-                            <label for="taxes_id" string='Tax Category'/>
+                            <label for="taxes_id" string='Tax Category*'/>
                             <div>
                                 <field name="taxes_id" widget="many2many_tags" style="width: 100%%" required="True"/>
                             </div>
@@ -63,7 +63,12 @@
                             <field name="list_price" widget="selection_tags"/>
                         </group>
                         <group>
+                            <label for="categ_id" string="Product Category"/>
+                            <div>
+                                <field name="categ_id" widget="many2one_tags" style="width: 100%%" required="False"/>
+                            </div>
                             <field name="product_custom_modelnumber"/>
+                            <field name="product_custom_freight_category"/>
                             <field name="description"/>
                             <field name="product_custom_comment_help"/>
                             <field name="product_custom_document_note"/>
@@ -74,14 +79,14 @@
                             </div>
                             <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"/>
                             <field name="product_code_4"/>
-                            <field name="price_no_tax_4" widget="float"/>
-                            <field name="price_include_tax_4" widget="float"/>
+                            <field name="price_no_tax_4"/>
+                            <field name="price_include_tax_4"/>
                             <field name="product_code_5"/>
-                            <field name="price_no_tax_5" widget="float"/>
-                            <field name="price_include_tax_5" widget="float"/>
+                            <field name="price_no_tax_5"/>
+                            <field name="price_include_tax_5"/>
                             <field name="product_code_6"/>
-                            <field name="price_no_tax_6" widget="float"/>
-                            <field name="price_include_tax_6" widget="float"/>
+                            <field name="price_no_tax_6"/>
+                            <field name="price_include_tax_6"/>
                             <field name="price_no_tax"/>
                             <field name="price_include_tax"/>
                             <field name="original_price_no_tax"/>
@@ -109,7 +114,7 @@
                                     <field name="name" string="Business Partner" domain="[('customer_rank','>', 0)]"
                                            context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
                                            options='{"reload_on_button": True, "no_quick_create": True}'/>
-                                    <field name="company_id" string="Client" readonly="True" invisible="True"/>
+                                    <field name="company_id" string="Client*" readonly="True" invisible="True"/>
                                     <field name="product_purchasing_is_current_vendor"/>
                                     <field name="product_purchasing_barcode" string="UPC/EAN"/>
                                     <field name="currency_id" required="False"/>
@@ -176,14 +181,14 @@
                 <form class="product_custom_template custom_template" string="Product Purchasing">
                     <group>
                         <group>
-                            <field name="product_purchasing_client" string="Client" readonly="True"/>
-                            <field name="product_name" readonly="True" string="Product"/>
+                            <field name="product_purchasing_client" string="Client*" readonly="True"/>
+                            <field name="product_name" readonly="True" string="Product*"/>
                         </group>
                         <group>
-                            <field name="company_id" readonly="True" string="Organization"/>
+                            <field name="company_id" readonly="True" string="Organization*"/>
                         </group>
                         <group>
-                            <label for="name" string="Business Partner"/>
+                            <label for="name" string="Business Partner*"/>
                             <div>
                                 <field name="name" widget="many2one_tags" required="True" style="width: 100%%"
                                        domain="[('customer_rank','=', 1)]"
@@ -215,7 +220,7 @@
                             <field name="product_purchasing_po_price"/>
                             <field name="product_purchasing_last_po_price"/>
 
-                            <label for="uom_id" string="UOM"/>
+                            <label for="uom_id" string="UOM*"/>
                             <div>
                                 <field name="uom_id" widget="many2one_tags" readonly="False" style="width: 100%%"/>
                             </div>
@@ -235,7 +240,7 @@
                             <field name="product_purchasing_actual_delivery_time"/>
                         </group>
                         <group>
-                            <label for="product_code" string="Partner Product Key"/>
+                            <label for="product_code" string="Partner Product Key*"/>
                             <div>
                                 <field name="product_code" widget="char_tags" required="True" style="width: 100%%"/>
                             </div>
@@ -275,31 +280,31 @@
                 <form class="product_custom_template custom_template" string="Products Price List">
                     <group>
                         <group>
-                            <field name="product_price_client" string="Client" readonly="True"/>
-                            <field name="product_price_product_name" readonly="True" string="Product"/>
-                            <field name="pricelist_id" string="Price List Version"/>
+                            <field name="product_price_client" string="Client*" readonly="True"/>
+                            <field name="product_price_product_name" readonly="True" string="Product*"/>
+                            <field name="pricelist_id" string="Price List Version*"/>
                             <label for="product_price_is_active" invisible="True"/>
                             <div>
                                 <field name="product_price_is_active" widget="boolean_tags"/>
                                 <label for="product_price_is_active"/>
                             </div>
-                            <label for="fixed_price" string="List Price"/>
+                            <label for="fixed_price" string="List Price*"/>
                             <div>
                                 <field name="fixed_price" widget="float_tags" required="True" style="width: 100%%"/>
                             </div>
 
-                            <label for="product_price_standard_price" string="Standard Price"/>
+                            <label for="product_price_standard_price" string="Standard Price*"/>
                             <div>
                                 <field name="product_price_standard_price" widget="float_tags" required="True" style="width: 100%%"/>
                             </div>
 
-                            <label for="product_price_limit_price" string="Limit Price"/>
+                            <label for="product_price_limit_price" string="Limit Price*"/>
                             <div>
                                 <field name="product_price_limit_price" widget="float_tags" required="True" style="width: 100%%"/>
                             </div>
                         </group>
                         <group>
-                            <field name="product_price_company_id" readonly="True" string="Organization"/>
+                            <field name="product_price_company_id" readonly="True" string="Organization*"/>
                         </group>
                     </group>
                     <footer>
@@ -321,13 +326,13 @@
             <form class="product_custom_template custom_template" string="Products Cost">
                 <group>
                     <group>
-                        <field name="product_cost_client" string="Client" readonly="True"/>
-                        <field name="product_cost_product_name" readonly="True" string="Product"/>
+                        <field name="product_cost_client" string="Client*" readonly="True"/>
+                        <field name="product_cost_product_name" readonly="True" string="Product*"/>
                         <field name="product_cost_accounting_schema" readonly="True"/>
                         <field name="product_cost_cost_element" readonly="True"/>
                     </group>
                     <group>
-                        <field name="company_id" readonly="True" string="Organization"/>
+                        <field name="company_id" readonly="True" string="Organization*"/>
                         <field name="product_cost_attribute_info" readonly="True"/>
                         <field name="product_cost_cost_type" readonly="True"/>
                     </group>
