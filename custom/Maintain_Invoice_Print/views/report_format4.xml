@@ -5,56 +5,56 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
-                <t t-call="Maintain_Invoice_Remake.report_invoice_document4" t-lang="lang"/>
+                <t t-call="Maintain_Invoice_Print.report_invoice_document4" t-lang="lang"/>
             </t>
         </t>
     </template>
     <template id="report_invoice_document4">
-        <t t-set="o" t-value="o.with_context(lang=lang)" />
+        <div class="page" style="page-break-before: always;">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
 
-        <!-- LOGO AND TITLE -->
-        <div style="text-align: center; font-size: 28px"><h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">　納　　品　　書　</h4></div>
+            <!-- LOGO AND TITLE -->
+            <div style="text-align: center; font-size: 28px"><h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">　納　　品　　書　</h4></div>
 
-        <!-- HEADER OF CONTENT -->
-        <div>
-            <!-- LEFT -->
-            <div style="float: left; margin-top: 30px; font-size: 20px">
-                <div style="border-bottom: 1px solid #000; width: 300px;padding: 0 0 5px 0;"><span t-field="o.partner_id.name"/>　<span t-field="o.partner_id.title"/></div>
-                <div style="border-bottom: 1px solid #000; width: 350px; margin-top: 30px; padding: 0 0 5px 0;">
-<!--                    <span t-field="o.partner_id.customer_extra_name"/>-->
-                    <span>下記のとおり納品いたします。 </span>
-                </div>
-            </div>
-
-            <!-- RIGHT -->
-            <div style="float: right; margin-top: -35px; font-size: 18px">
-                <div align="right">
-                    <div style="border-bottom: 1px solid #000; width: 200px; text-align: center; padding: 0 0 5px 0;"><span t-field="o.x_studio_document_no"/></div>
-                    <div style="border-bottom: 1px solid #000; width: 200px; text-align: center; margin-top: 8px; padding: 0 0 3px 0;">西暦 <span t-field="o.x_studio_date_invoiced"/></div>
-                </div>
-                <div style="font-size: 28px; margin-top: 15px; text-align: right"><span t-field="o.x_studio_client_2"/></div>
-                <div style="text-align: right; margin-top: 15px; margin-bottom: 10px"><span t-field="o.x_studio_organization"/></div>
-                <div style="text-align: right"><span t-field="o.x_studio_organization.street"/></div>
-                <div style="text-align: right"><span t-field="o.x_studio_organization.street2"/></div>
-                <div style="text-align: right">電話　<span t-field="o.x_studio_organization.phone"/></div>
-                <div style="text-align: right">FAX　<span t-field="o.x_studio_organization.phone"/></div>
-            </div>
-
-            <div style="clear: both"/>
-        </div>
-
-        <!-- PRICE -->
-        <div class="price" style="margin-right: 10px; margin-bottom: 20px; font-size: 20px">
+            <!-- HEADER OF CONTENT -->
             <div>
-                <div style="border-bottom: 1px solid #000; padding-bottom: 5px; display: inline-block; width: 300px">
-                    合計金額　　<span t-field="o.amount_total"/>
+                <!-- LEFT -->
+                <div style="float: left; margin-top: 30px; font-size: 20px">
+                    <div style="border-bottom: 1px solid #000; width: 300px;padding: 0 0 5px 0;"><span t-field="o.partner_id.name"/>　<span t-field="o.partner_id.title"/></div>
+                    <div style="border-bottom: 1px solid #000; width: 350px; margin-top: 30px; padding: 0 0 5px 0;">
+    <!--                    <span t-field="o.partner_id.customer_extra_name"/>-->
+                        <span>下記のとおり納品いたします。 </span>
+                    </div>
                 </div>
-                <span>（税込）</span>
-            </div>
-        </div>
 
-        <!-- TABLE -->
-        <div class="page">
+                <!-- RIGHT -->
+                <div style="float: right; margin-top: -35px; font-size: 18px">
+                    <div align="right">
+                        <div style="border-bottom: 1px solid #000; width: 200px; text-align: center; padding: 0 0 5px 0;"><span t-field="o.x_studio_document_no"/></div>
+                        <div style="border-bottom: 1px solid #000; width: 200px; text-align: center; margin-top: 8px; padding: 0 0 3px 0;">西暦 <span t-field="o.x_studio_date_invoiced"/></div>
+                    </div>
+                    <div style="font-size: 28px; margin-top: 15px; text-align: right"><span t-field="o.x_studio_client_2"/></div>
+                    <div style="text-align: right; margin-top: 15px; margin-bottom: 10px"><span t-field="o.x_studio_organization"/></div>
+                    <div style="text-align: right"><span t-field="o.x_studio_organization.street"/></div>
+                    <div style="text-align: right"><span t-field="o.x_studio_organization.street2"/></div>
+                    <div style="text-align: right">電話　<span t-field="o.x_studio_organization.phone"/></div>
+                    <div style="text-align: right">FAX　<span t-field="o.x_studio_organization.phone"/></div>
+                </div>
+
+                <div style="clear: both"/>
+            </div>
+
+            <!-- PRICE -->
+            <div class="price" style="margin-right: 10px; margin-bottom: 20px; font-size: 20px">
+                <div>
+                    <div style="border-bottom: 1px solid #000; padding-bottom: 5px; display: inline-block; width: 300px">
+                        合計金額　　<span t-field="o.amount_total"/>
+                    </div>
+                    <span>（税込）</span>
+                </div>
+            </div>
+
+            <!-- TABLE -->
             <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
             <div class="content-table" style="border: 1px solid #000;">
                 <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">

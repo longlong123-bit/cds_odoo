@@ -80,7 +80,7 @@ class ClassCompanyOffice(models.Model):
                                   default=lambda self: self._get_user_currency())
     # user_ids = fields.Many2many('res.users', 'res_company_users_rel', 'cid', 'user_id', string='Accepted Users')
     account_no = fields.Char(string='Account No.')
-    street = fields.Char(compute='_compute_address', inverse='_inverse_street', size=41)
+    street = fields.Char(compute='_compute_address', inverse='_inverse_street', size=40)
     street2 = fields.Char(compute='_compute_address', inverse='_inverse_street2')
     zip = fields.Char(compute='_compute_address', inverse='_inverse_zip')
     city = fields.Char(compute='_compute_address', inverse='_inverse_city')

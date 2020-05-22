@@ -1,0 +1,184 @@
+<!--Custom report.-->
+<odoo>
+<data>
+    <template id="report_invoice_format1">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                <t t-call="Maintain_Invoice_Print.report_invoice_document1" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+    <template id="report_invoice_document1">
+        <div class="page" style="page-break-before: always;">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
+
+            <!-- LOGO AND TITLE -->
+            <div style="border-bottom: 3px solid #439eb2;">
+                <div style="float: left; width: 33.3333333%; margin-bottom: 5px">
+                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" alt="Logo" style="height: 50px"/>
+                </div>
+                <div style="float: left; width: 33.3333333%; text-align: center">
+                    <h4 class="mt0" style="font-size: 32px; color: #439eb2; line-height: 50px; margin: 0; padding: 0">御　請　求　書</h4>
+                </div>
+                <div style="clear: both;"/>
+            </div>
+
+            <!-- HEADER OF CONTENT -->
+            <div>
+                <div style="display: inline-block; width: 50%; margin-top: 60px">
+                    <div class="mt-5" style="border-bottom: 2px solid #439eb2">
+                        <strong><span t-field="o.partner_id.name"/> <span t-field="o.partner_id.title"/></strong>
+                    </div>
+                    <div>
+                       <span t-field="o.partner_id.zip"/>
+                    </div>
+                    <div>
+                        <span t-field="o.x_studio_address_1"/>
+                        <span t-field="o.x_studio_address_2"/>
+                        <span t-field="o.x_studio_address_3"/>
+                    </div>
+                    <div>
+                       TEL <span t-field="o.partner_id.phone"/>
+                        / FAX <span t-field="o.partner_id.customer_fax"/>
+                    </div>
+                    <div>
+                        <span t-field="o.partner_id.customer_name_short"/> 様
+                    </div>
+                </div>
+                <div style="display: inline-block; width: 25%; float: right">
+                    <div name="date_printed">
+                        <span>発行日: <span class="m-0" t-field="o.x_current_date"/></span>
+                    </div>
+                    <div name="invoice_date">
+                        <span>請求日: <span class="m-0" t-field="o.x_studio_date_invoiced"/></span>
+                    </div>
+                    <div name="document_no">
+                        <span>請求書番号: <span class="m-0" t-field="o.x_studio_document_no"/></span>
+                    </div>
+                    <div>
+    <!--                    <span>ページ: <span class="o.page" />/<span class="o.topage" /></span>-->
+                        <span>ページ: 1 / 1</span>
+                    </div>
+                </div>
+                <div style="clear: both"/>
+            </div>
+
+            <!-- PRICE -->
+            <div class="price" style="margin-right: 10px; margin-bottom: 10px; margin-top: 10px">
+                <div style="width: 50%; float: right">
+                    <div  style="border-bottom: 2px solid #439eb2; padding-bottom: 5px">
+                        <div  style="border-bottom: 2px solid #439eb2">
+                            <strong style="font-size: 32px;">御請求金額 <span t-field="o.amount_total"/></strong>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear: both"/>
+            </div>
+
+            <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>
+            <div class="content-table" style="border: 2px solid #439eb2;">
+                <div style="min-height: 400px">
+                    <table border="0" cellspacing="0" style="width: 100%; font-size: 12px;">
+                        <thead>
+                            <tr>
+                                <td style="border: 1px solid #439eb2; border-left: 0; border-top: 0; border-right: 0; text-align: left; width: 60px; background-color: #e0e0e0" name="th_id"><span>明細</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: left; width: 500px; background-color: #e0e0e0" name="th_description"><span>品目コード:品目名称<br/>説明/備考</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0" name="th_priceunit" ><span>数量<br/>単位</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0" name="th_taxes"><span>単価<br/>定価</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0" name="th_subtotal">行合計<br/>税金情報</td>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-set="current_subtotal" t-value="0"/>
+                            <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.invoice_custom_line_no), reverse=True)"/>
+
+                            <t t-foreach="lines" t-as="line">
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                                <tr>
+                                    <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; border-left: 0; text-align: left; width: 60px">
+                                        <span t-field="line.invoice_custom_line_no"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: left; width: 500px" class="text-right">
+                                        <span t-field="line.product_id.product_custom_search_key"/>: <span t-field="line.product_id.name"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
+                                        <span t-field="line.quantity"/><br/>
+                                        <span t-field="line.product_id.uom_id"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
+                                        <span t-field="line.price_unit"/><br/>
+                                        <span t-field="line.product_id.list_price"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
+                                        <span t-field="line.price_subtotal"/><br/>
+                                        <t t-foreach="line.tax_ids" t-as="tax">
+                                            <span t-field="tax.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="height: 42px"/>
+                <table border="0" cellspacing="0" style="width: 100%; font-size: 12px">
+                    <tbody>
+                        <tr>
+                            <td colspan="2" style="border: 1px solid #439eb2; border-right: 0; border-left: 0; border-bottom: 0; width: 400px">備考: <span t-field="o.x_studio_description"/></td>
+                            <td colspan="3" style="padding: 0">
+                                <table style="width: 100%" border="0" cellspacing="0">
+                                    <tr>
+                                        <td style="border: 1px solid #439eb2; border-right: 0; border-bottom: 0; width: 150px; background-color: #e0e0e0; text-align: center">
+                                            <span>明細行合計</span>
+                                        </td>
+                                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; text-align: right;">
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #439eb2; border-right: 0; border-bottom: 0; background-color: #e0e0e0; text-align: center;"><span>税　額</span></td>
+                                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; text-align: right;">
+                                            <t t-foreach="o.amount_by_group" t-as="tax">
+                                                <div><span t-esc="tax[3]"/></div>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #439eb2; border-right: 0; border-bottom: 0; background-color: #e0e0e0; text-align: center;"><span>総　合　計</span></td>
+                                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; text-align: right;"><span t-field="o.amount_total"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; background-color: #e0e0e0; text-align: center"><span>支払期日</span></td>
+                                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; text-align: right;"><span t-field="o.x_due_date"/></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- FOOTER -->
+            <div class="pdf-footer" style="margin-top: 20px; position: relative">
+                <img style="width: 100px; height: 100px; position: absolute; right: 20px; top: 30px" src="data:image/png;base64,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"/>
+                <div style="width: 39%; float: left; padding-right: 10px; position: relative; z-index: 2">
+                    <div>お振込先</div>
+                    <div>ジゃパンネット銀行すずめ支店 (002)</div>
+                    <div>普通預金XXXXX</div>
+                    <div>カ）オープンソース。イーアールピー。ソリューションズ</div>
+                </div>
+                <div style="width: 59%; float: left; z-index: 2; position: relative">
+                    <div t-field="o.x_studio_client_2"/>
+                    <div><span t-field="o.x_studio_organization.zip"/></div>
+                    <div><span t-field="o.x_studio_organization.street"/><span t-field="o.x_studio_organization.street2"/></div>
+                    <div>担当: <span t-field="o.x_studio_sales_rep"/></div>
+                </div>
+                <div style="clear: both"/>
+            </div>
+        </div>
+    </template>
+</data>
+</odoo>

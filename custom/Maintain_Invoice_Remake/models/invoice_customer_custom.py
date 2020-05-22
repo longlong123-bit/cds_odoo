@@ -56,7 +56,8 @@ class ClassInvoiceCustom(models.Model):
 
 
     # 4明細 - (JPY)明細行合計:3,104.00 / 総合計: 3,104.00 = 3,104.00
-    def _get_default_num_line(self):
+    def get_default_num_line(self):
+        # for l in self:
         amount_untaxed_format = "${:,.2f}".format(self.amount_untaxed)
         amount_total_format = "${:,.2f}".format(self.amount_total)
 
@@ -116,7 +117,7 @@ class ClassInvoiceCustom(models.Model):
         return False
 
     # Compute line len
-    def _get_line_len(self):
+    def get_line_len(self):
         return len(self.invoice_line_ids)
         
     @api.onchange('state')
@@ -160,9 +161,9 @@ class ClassInvoiceCustom(models.Model):
     x_studio_printed = fields.Boolean('printed', compute=_get_printed_boolean)
     invoice_total_paid = fields.Monetary('invoice_total_paid', compute='_compute_invoice_total_paid')
 
-    x_studio_line_info = fields.Char('', default=_get_default_num_line, store=False)
+    x_studio_line_info = fields.Char('', default=get_default_num_line, store=False)
     x_due_date = fields.Date('', default=_get_due_date, store=False)
-    line_len = fields.Integer('', default=_get_line_len, store=False)
+    line_len = fields.Integer('', default=get_line_len, store=False)
 
     x_transaction_type = fields.Selection([('掛売', '掛売'), ('現金売', '現金売')],default='掛売')
     x_voucher_tax_amount = fields.Float('消費税額')
@@ -246,7 +247,7 @@ class ClassInvoiceCustom(models.Model):
                 rec.x_studio_payment_rule_1 = rec.x_studio_business_partner.payment_rule
                 rec.x_studio_price_list = rec.x_studio_business_partner.property_product_pricelist
                 rec.invoice_payment_terms_custom = rec.x_studio_business_partner.payment_terms
-                rec.x_bussiness_partner_name_2 = rec.x_studio_business_partner.customer_display_name
+                rec.x_bussiness_partner_name_2 = rec.x_studio_business_partner.customer_name_kana
 
     @api.onchange('x_studio_payment_rule_1')
     def _get_payment_terms_by_rules(self):
@@ -313,7 +314,7 @@ class ClassInvoiceCustom(models.Model):
                     done_taxes.add(tax_key_add_base)
             print(res.keys())
             for x in res:
-                result.append((0, False, {'move_id': move.id, 'move_name': self.x_studio_document_no, 'taxGroup': x.name,
+                result.append((0, False, {'move_id': move.id, 'move_name': move.x_studio_document_no, 'taxGroup': x.name,
                                           'tax_base_amount': res[x]['base'], 'tax_amount': res[x]['amount']}))
                 # self.invoice_line_ids_tax = [
                 #     (0, False, {'move_id': move.id, 'move_name': move.name, 'taxGroup': x.name, 'tax_base_amount': res[x]['base'],'tax_amount':res[x]['amount']})]
@@ -338,8 +339,8 @@ class ClassInvoiceCustom(models.Model):
                 group.id
             ) for group, amounts in res]
 
-            self.x_studio_line_info = self._get_default_num_line()
-            self.line_len = self._get_line_len()
+            move.x_studio_line_info = move.get_default_num_line()
+            move.line_len = move.get_line_len()
 
     def _get_reconciled_info_JSON_values(self):
         self.ensure_one()
@@ -398,16 +399,6 @@ class ClassInvoiceCustom(models.Model):
     #         'type': 'ir.actions.act_window',
     #         'target': 'new',
     #     }
-
-    # Custom preview invoice
-    def preview_invoice(self):
-        print ('test asdasdads')
-        return {
-            'type': 'ir.actions.report',
-            'report_name': 'Maintain_Invoice_Remake.report_invoice_format1',
-            'model': 'account.move',
-            'report_type': "qweb-html",
-        }
 
     def action_confirm(self):
         print('click aaaaaaaaaaaaaaaaa')
