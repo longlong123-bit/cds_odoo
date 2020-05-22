@@ -39,6 +39,8 @@ class ClassInvoiceCustom(models.Model):
     invoice_line_ids_tax = fields.One2many('account.tax.line', 'move_id', string='Invoice lines', index=True,
                                            auto_join=True, help="The move of this entry line.")
 
+    is_billed = fields.Boolean(default=True)
+
     def _get_default_partner_id(self):
         return self.env["res.partner"].search([], limit=1, order='id').id
 

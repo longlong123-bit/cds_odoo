@@ -19,6 +19,18 @@ class IncomePaymentCustom(models.Model):
     _rec_name = 'document_no'
     _order = 'document_no'
 
+    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
+    payment_amount = fields.Float(string='Payment Amount')
+
+    many_payment_id = fields.Many2one('many.payment', string="Many payment", ondelete='cascade', required=True,
+                                      index=True)
+    payment_type = fields.Char(string="Payment type")
+    payment_method_id = fields.Many2one('account.payment.method', string='Payment Method')
+    description = fields.Char(string='Description')
+
+    payment_id = fields.Many2one('account.payment.line', string="Originator Payment", copy=False,
+                                 help="Payment that created this entry")
+
     def _get_default_client_id(self):
         return self.env['client.custom'].search([], limit=1, order='id').id
 
@@ -47,14 +59,20 @@ class IncomePaymentCustom(models.Model):
     comment_apply = fields.Text(string='commentapply', readonly=True, states={'draft': [('readonly', False)]})
     vj_summary = fields.Selection([('vj_sum_1', '専伝・仮伝'), ('vj_sum_2', '指定なし'), ('vj_sum_3', '通常')],
                                   string='vj_summary', readonly=True, states={'draft': [('readonly', False)]})
-    journal_id = fields.Many2one(string='vj_collection_method')
+    journal_id = fields.Many2one(string='vj_collection_method', required=False)
     collection_method_date = fields.Date(string='collectionmethoddate', readonly=True,
                                          states={'draft': [('readonly', False)]})
     state = fields.Selection(string='Document Status')
-
     account_payment_line_ids = fields.One2many('account.payment.line', 'payment_id', string='PaymentLine', copy=True)
 
     line_info = fields.Char(string='Line info', compute='_set_line_info')
+
+    display_type = fields.Selection([
+        ('line_section', "Section"),
+        ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
+    x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
+                                        index=True, auto_join=True,
+                                        help="The move of this entry line.")
 
     @api.onchange('partner_id')
     def _get_detail_business_partner(self):
@@ -104,7 +122,7 @@ class IncomePaymentCustom(models.Model):
             rec.partner_id = values or ''
             rec.partner_payment_name1 = values.name or ''
             # TODO set name 4
-            rec.partner_payment_name2 = values.customer_namef or ''
+            rec.partner_payment_name2 = values.customer_name_kana or ''
             rec.partner_payment_address1 = values.street or ''
             rec.partner_payment_address2 = values.street2 or ''
 
@@ -162,12 +180,102 @@ class IncomePaymentCustom(models.Model):
 
         return True
 
+    def unlink(self):
+        print('------------------------------ DELETE -------------------------')
+        print(self.partner_id)
+        query_res = False
+        for rec in self:
+            if rec.partner_id:
+                query = "SELECT partner_id " \
+                        "FROM account_payment " \
+                        "WHERE partner_id IN " \
+                        "(SELECT ACM.partner_id " \
+                        "FROM account_move AS ACM " \
+                        "WHERE is_billed is True)"
+                self._cr.execute(query)
+                query_res = self._cr.fetchall()
+                print(query_res)
+                if len(query_res) == 0:
+                    raise ValidationError(_('Voucher is not billed'))
+                else:
+                    print('------------------------------ PRINT -------------------------')
+                    total_invoiced = float([res[0] for res in query_res][0])
+                    print(total_invoiced)
+                    return super(IncomePaymentCustom, self).unlink()
+
+    def check_bill(self):
+        print('------------------------------ check_bill -------------------------')
+        print(self.partner_id)
+        query_res = False
+        for rec in self:
+            if rec.partner_id:
+                query = "SELECT partner_id " \
+                        "FROM account_payment " \
+                        "WHERE partner_id IN " \
+                        "(SELECT ACM.partner_id " \
+                        "FROM account_move AS ACM " \
+                        "WHERE is_billed is True)"
+                self._cr.execute(query)
+                query_res = self._cr.fetchall()
+                print(query_res)
+                # if len(query_res) == 0:
+                #     raise ValidationError(_('Voucher is not billed'))
+                # else:
+                print('------------------------------ PRINT -------------------------')
+                total_invoiced = float([res[0] for res in query_res][0])
+                print(total_invoiced)
+                # return super(IncomePaymentCustom, self).unlink()
+
+    def edit_description(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'many.payment.tree',
+            'view_type': 'tree',
+            'view_mode': 'tree',
+            'res_model': 'many.payment',
+            'views': [(self.env.ref('Maintain_Income_Payment.receipt_tree_view').id, 'tree')],
+            'target': 'current'
+        }
+
+        # self.description = self.name
+        #
+        # view_id = self.env.ref('account.view_account_payment_form').id
+        #
+        # context = self._context.copy()
+        #
+        # my_view = {
+        #
+        #     'name': 'view_edithtml_description',
+        #
+        #     'view_type': 'form',
+        #
+        #     'view_mode': 'form',
+        #
+        #     'views': [(view_id, 'form')],
+        #
+        #     'res_model': 'many.payment',
+        #
+        #     'view_id': view_id,
+        #
+        #     'type': 'ir.actions.act_window',
+        #
+        #     'res_id': self.id,
+        #
+        #     'target': 'new',
+        #
+        #     'context': context,
+        #
+        # }
+        #
+        # return my_view
+
 
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
 
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
+
     vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')

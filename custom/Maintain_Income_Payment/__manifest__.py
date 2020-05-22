@@ -15,6 +15,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/add_js.xml',
+        'views/many_payment_view.xml',
         'views/income_payment_view.xml',
     ],
     'demo': [],
