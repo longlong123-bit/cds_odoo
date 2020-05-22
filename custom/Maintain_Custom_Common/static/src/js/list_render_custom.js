@@ -40,11 +40,19 @@ odoo.define('web.ListRender_Custom', function (require) {
             // event for 2 line invoice
             'click tbody tr td div.o_data_cell': '_onCellClick',
             'click thead tr th div.o_column_sortable': '_onSortColumn',
+            'keydown tbody tr td div.o_data_cell': '_show_history_detail',
             'click .o_field_x2many_list_row_delete_m': 'onRemoveMultiClick',
+
 
         }),
         init: function () {
             this._super.apply(this, arguments);
+
+        },
+        _show_history_detail: function(){
+            if (event.code == 'KeyS' && event.ctrlKey && event.shiftKey) {
+                $('.show_detail_history_dialog').click();
+            }
         },
 
         // Add custom
@@ -60,22 +68,23 @@ odoo.define('web.ListRender_Custom', function (require) {
                 });
 
                 var $td_0 =  $('<td>').append($cells1[1]);
-                var $td_1 =  $('<td>').append($cells1[2]);
-                    $td_1.append($cells1[3]);
-                var $td_2 =  $('<td>').append($cells1[4]);
-                    $td_2.append($cells1[5]);
-                var $td_3 =  $('<td>').append($cells1[6]);
-                    $td_3.append($cells1[7]);
-                var $td_4 =  $('<td>').append($cells1[8]);
-                $td_4.append($cells1[9]);
-                var $td_5 =  $('<td>').append($cells1[10]);
-                $td_5.append($cells1[11]);
-                var $td_6 =  $('<td>').append($cells1[12]);
-                $td_6.append($cells1[13]);
-                var $td_7 =  $('<td>').append($cells1[14]);
-                $td_7.append($cells1[15]);
-                var $td_8 =  $('<td>').append($cells1[16]);
-                $td_8.append($cells1[17]);
+                    $td_0.append($cells1[2]);
+                var $td_1 =  $('<td>').append($cells1[3]);
+                    $td_1.append($cells1[4]);
+                var $td_2 =  $('<td>').append($cells1[5]);
+                    $td_2.append($cells1[6]);
+                var $td_3 =  $('<td>').append($cells1[7]);
+                    $td_3.append($cells1[8]);
+                var $td_4 =  $('<td>').append($cells1[9]);
+                $td_4.append($cells1[10]);
+                var $td_5 =  $('<td>').append($cells1[11]);
+                $td_5.append($cells1[12]);
+                var $td_6 =  $('<td>').append($cells1[13]);
+                $td_6.append($cells1[14]);
+                var $td_7 =  $('<td>').append($cells1[15]);
+                $td_7.append($cells1[16]);
+                var $td_8 =  $('<td>').append($cells1[17]);
+                $td_8.append($cells1[18]);
 
                 var $tr = $('<tr>', { class: 'o_data_row' })
                     .attr('data-id', record.id)
@@ -107,6 +116,16 @@ odoo.define('web.ListRender_Custom', function (require) {
                 return $tr;
             }
         },
+
+        _renderSelector_radio: function (tag, disableInput) {
+        var $content = dom.renderCheckbox();
+        if (disableInput) {
+            $content.find("input[type='checkbox']").prop('disabled', disableInput);
+        }
+        return $('<' + tag + '>')
+            .addClass('o_list_record_selector')
+            .append($content);
+    },
 
         // Add custom
         /**
@@ -632,6 +651,7 @@ odoo.define('web.ListRender_Custom', function (require) {
      * @private
      */
     _updateSelection: function () {
+
         this.selection = [];
         var self = this;
         var $inputs = this.$('tbody .o_list_record_selector input:visible:not(:disabled)');
@@ -653,7 +673,7 @@ odoo.define('web.ListRender_Custom', function (require) {
         this.$('thead .o_list_record_selector input').prop('checked', allChecked);
         this.trigger_up('selection_changed', { selection: this.selection });
         this._updateFooter();
-    },
+        }
     });
     ListRender.include(My_ListRender);
 });

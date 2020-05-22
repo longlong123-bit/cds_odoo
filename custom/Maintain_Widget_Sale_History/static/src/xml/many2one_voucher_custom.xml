@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <templates id="template" xml:space="preserve">
-    <t t-name="template_name">
+    <t t-name="template_many2one_history_widget_voucher">
         <div style="width:120px!important;float:right!important">
-            <button class = 'class_ex' style="width:120px!important;margin-right:0px!important;float:right!important">
+            <button class = 'show_voucher_history_dialog' style="width:120px!important;margin-right:0px!important;float:right!important">
+                売上履歴問合せ
+            </button>
+        </div>
+    </t>
+
+    <t t-name="template_many2one_history_widget_detail">
+        <div style="width:120px!important;float:right!important">
+            <button class = 'show_detail_history_dialog' style="width:120px!important;margin-right:0px!important;float:right!important">
                 売上履歴問合せ
             </button>
         </div>
