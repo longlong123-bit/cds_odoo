@@ -16,14 +16,9 @@ _logger = logging.getLogger(__name__)
 class ManyPaymentCustom(models.Model):
 
     _name = "many.payment"
-    # _inherit = "account.payment"
-    # _rec_name = 'document_no'
-    # _order = 'document_no'
 
     name = fields.Char(string='Name')
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
-                                 help="Payment that created this entry")
-    many_payment_id = fields.Many2one('account.payment.line', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
 
 
@@ -122,30 +117,5 @@ class ManyPaymentCustom(models.Model):
 
             rec.line_info = _('売掛残高：') + str("{:,.2f}".format(receivable)) + '　' \
                             + _('入金額合計：') + str("{:,.2f}".format(total_payment_amounts))
-
-    # @api.multi
-    # def _name_get(self):
-    #     result = []
-    #     for record in self:
-    #         many_payment_date = str(record.payment_date)
-    #         result.append((record.id, many_payment_date))
-    #     return result
-
-
-
-# class ManyPaymentLineCustom(models.Model):
-#
-#     _inherit = "account.payment"
-#
-#     payment_id = fields.Many2one('many.payment', string="Originator Payment", copy=False,
-#                                  help="Payment that created this entry")
-#     vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
-#     payment_amount = fields.Float(string='Payment Amount')
-#     description = fields.Char(string='Description')
-#     search_key_receipt = fields.Char('searchkey', default=lambda self:_(''))
-#     name = fields.Char('name', required=True)
-#     comment = fields.Char('comment')
-#     active = fields.Boolean('isactive', default=True)
-#     default = fields.Boolean('isactive', default=True)
 
 

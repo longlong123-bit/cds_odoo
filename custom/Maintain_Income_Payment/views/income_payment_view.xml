@@ -145,10 +145,10 @@
 <!--                                    <label for="name" string="Payment Amount"/>-->
 <!--                                    <label for="name" string="Description" attrs="{'invisible': [('display_type', '!=', 'line_note')]}"/>-->
                                     <tree editable="bottom" >
-                                        <control>
-                                            <create  string="Add a line"/>
-                                            <create  string="Add a note" context="{'default_display_type': 'line_note'}"/>
-                                        </control>
+<!--                                        <control>-->
+<!--                                            <create  string="Add a line"/>-->
+<!--                                            <create  string="Add a note" context="{'default_display_type': 'line_note'}"/>-->
+<!--                                        </control>-->
                                         <field name="vj_c_payment_category" string="vj_c_payment_category" required="True"/>
                                         <field name="payment_amount" string="Payment Amount"/>
                                         <field name="description" string="Description"/>

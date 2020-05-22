@@ -8,11 +8,7 @@
 				<field name="model">many.payment</field>
 				<field name="arch" type="xml">
 					<tree string="Product" class="forward_edit">
-<!--						<field name="search_key_receipt" string="Search Key"/>-->
 						<field name="name" string="Name"/>
-<!--						<field name="description" string="Description"/>-->
-<!--						<field name="client" string="Client"/>-->
-<!--						<field name="organization" string="Organization"/>-->
 					</tree>
 				</field>
 			</record>
@@ -24,8 +20,6 @@
 			<field name="arch" type="xml">
                 <search>
 					<field name="name" string="Name"/>
-<!--					<field name="search_key_receipt" string="Search Key"/>-->
-<!--					<field name="description" string="Description"/>-->
                 </search>
             </field>
         </record>
@@ -37,8 +31,7 @@
 			<field name="name">Module 1 </field>
 			<field name="model">many.payment</field>
 			<field name="arch" type="xml">
-				<xpath expr="//form" position="replace">
-                <form string="Register Payment" class="custom_template payment_custom">
+                <form string="Many Payment">
                     <header>
 <!--                        <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>-->
 <!--&lt;!&ndash;                        <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '=', 'draft')]}" string="Reset To Draft" type="object"/>&ndash;&gt;-->
@@ -46,16 +39,6 @@
                     </header>
                     <table class="custom-form-table cols-8">
                         <tbody>
-                            <!-- Row 1 -->
-<!--                            <tr>-->
-<!--                                <td class="o_td_label"><label for="client_custom_id" string="Client*"/></td>-->
-<!--                                <td colspan="2"><field name="client_custom_id" readonly="True" required="True"/></td>-->
-<!--                                <td class="o_td_label"><label for="document_no" string="Document No"/></td>-->
-<!--                                <td><field name="document_no" readonly="True" style="font-weight: bold;"/></td>-->
-<!--                                <td class="o_td_label"><label for="company_id" string="Organization*"/></td>-->
-<!--                                <td colspan="2"><field name="company_id" readonly="True"/></td>-->
-<!--                            </tr>-->
-                            <!-- Row 2 -->
                             <tr>
                                 <td class="o_td_label">
                                     <tr>
@@ -71,11 +54,7 @@
 
                         </tbody>
                     </table>
-<!--					</sheet>-->
                     <notebook>
-<!--                        <page name="detail" string="Detail">-->
-<!--                            <field name="account_payment_line_ids" widget="section_and_note_one2many"/>-->
-<!--                        </page>-->
                         <page name="many_payment_line" string="ManyPaymentLine">
                             <field name="many_payment_line_ids" widget="section_and_note_one2many" context="{'default_payment_date' : payment_date}">
 <!--                                   attrs="{'readonly': ['|', ('id', '=', True), ('state', '!=', 'draft')]}">-->
@@ -102,7 +81,6 @@
                         </page>
                     </notebook>
 				</form>
-                </xpath>
 			</field>
 		</record>
 
