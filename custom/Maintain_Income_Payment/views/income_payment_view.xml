@@ -13,26 +13,23 @@
                         <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>
                         <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '=', 'draft')]}" string="Reset To Draft" type="object"/>
                         <button name="cancel" states="draft" string="Cancel" type="object"/>
-<!--                        <button name="%(edit_receipt_divide)d" states="draft" string="Refer"-->
-<!--                                groups="base.group_user" type="action" class="btn-primary"/>-->
-<!--                        <button name="edit_description" string="Edit description" type="object" />-->
-
                     </header>
                     <table class="custom-form-table cols-8">
                         <tbody>
                             <tr>
                                 <td colspan="8"><field class="line_info no-border" name="line_info" readonly="True"/></td>
                             </tr>
-                            <tr></tr>
 
                             <!-- Row 0 -->
                             <tr>
-                                <td class="o_td_label"><label for="refer" string="Refer"/></td>
-                                <td colspan="2">
-                                    <button name="edit_description" type="object" string="Excerpt"
-                                            class="btn-sm btn btn-primary" />
-<!--                                    attrs="{'invisible': [('voucher_number', '=', 0)]}"/>-->
-                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
 
                             <!-- Row 1 -->
@@ -118,42 +115,19 @@
                                 <td colspan="2"><field name="state" readonly="True"/></td>
 
                             </tr>
-<!--                            <tr>-->
-<!--                                <td class="o_td_label"><label for="description" string="Description"/></td>-->
-<!--                                <td colspan="2"><field name="description" readonly="True"/></td>-->
-<!--                            </tr>-->
                         </tbody>
                     </table>
 
                     <notebook>
-<!--                        <page string="Products">-->
-<!--                            <field name="order_line" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state', 'in', ('done', 'cancel'))]}">-->
-<!--                                <tree string="Purchase Order Lines" editable="bottom">-->
-<!--                                    <control>-->
-<!--                                        <create name="add_product_control" string="Add a product"/>-->
-<!--                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>-->
-<!--                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>-->
-<!--                                    </control>-->
                         <!-- PaymentLine -->
                         <page name="payment_line" string="PaymentLine">
                             <field name="account_payment_line_ids" widget="section_and_note_one2many"
-                                   mode="tree,kanban" attrs="{'readonly': [('state', 'in', ('done', 'cancel'))]}">
-<!--                                   attrs="{'readonly': ['|', ('id', '=', True), ('state', '!=', 'draft')]}">-->
-                                <form>
-<!--                                    <field name="display_type" invisible="1"/>-->
-<!--                                    <label for="name" string="vj_c_payment_category" attrs="{'invisible': [('display_type', '!=', False)]}"/>-->
-<!--                                    <label for="name" string="Payment Amount"/>-->
-<!--                                    <label for="name" string="Description" attrs="{'invisible': [('display_type', '!=', 'line_note')]}"/>-->
-                                    <tree editable="bottom" >
-<!--                                        <control>-->
-<!--                                            <create  string="Add a line"/>-->
-<!--                                            <create  string="Add a note" context="{'default_display_type': 'line_note'}"/>-->
-<!--                                        </control>-->
-                                        <field name="vj_c_payment_category" string="vj_c_payment_category" required="True"/>
-                                        <field name="payment_amount" string="Payment Amount"/>
-                                        <field name="description" string="Description"/>
+                                   attrs="{'readonly': ['|', ('id', '=', True), ('state', '!=', 'draft')]}">
+                                <tree editable="bottom">
+                                    <field name="vj_c_payment_category" string="vj_c_payment_category" required="True"/>
+                                    <field name="payment_amount" string="Payment Amount"/>
+                                    <field name="description" string="Description"/>
                                 </tree>
-                                </form>
                           </field>
                         </page>
                     </notebook>
