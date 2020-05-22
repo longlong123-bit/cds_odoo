@@ -116,13 +116,6 @@ class NewClassPartnerCustom(models.Model):
             default['name'] = _("%s (copy)") % (self.name)
         return super(NewClassPartnerCustom, self).copy(default)
 
-    def code_get(self):
-        result = []
-        for rec in self:
-            code = str(record.customer_code)
-            result.append((rec.id, code))
-        return result
-
     @api.onchange('name')
     def _get_location_related_business_partner(self):
         for rec in self:

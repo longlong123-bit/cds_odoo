@@ -122,7 +122,7 @@
                         <!-- PaymentLine -->
                         <page name="payment_line" string="PaymentLine">
                             <field name="account_payment_line_ids" widget="section_and_note_one2many"
-                                   attrs="{'readonly': ['|', ('id', '=', True), ('state', '!=', 'draft')]}">
+                                   attrs="{'readonly': ['|', ('id', '=', False), ('state', '!=', 'draft')]}">
                                 <tree editable="bottom">
                                     <field name="vj_c_payment_category" string="vj_c_payment_category" required="True"/>
                                     <field name="payment_amount" string="Payment Amount"/>
