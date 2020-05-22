@@ -8,13 +8,18 @@ class ClassClosingDate(models.Model):
 
     closing_date_code = fields.Char('Closing Date Code')
     name = fields.Char('Closing Date Name')
-    start_day = fields.Integer('Start Date')
+    start_day = fields.Integer('Start Date', size=2)
     closing_date_circle = fields.Integer('Closing Date Circle')
     active = fields.Boolean('Active', default=True)
 
     _sql_constraints = [
         ('name_code_uniq', 'unique(closing_date_code)', 'The code must be unique!')
     ]
+
+    @api.constrains('start_day')
+    def _check_maximum_day(self):
+        if self.start_day > 31 or self.start_day < 1:
+            raise ValidationError(_('The day must be 1 to 31!'))
 
     @api.constrains('closing_date_code')
     def _check_unique_searchkey(self):
@@ -29,6 +34,10 @@ class ClassClosingDate(models.Model):
         if 'name' not in default:
             default['name'] = _("%s (copy)") % (self.name)
         return super(ClassClosingDate, self).copy(default)
+
+    # def create(self, vals):
+    #     if vals['closing_date_code'] == False:
+    #         raise ValidationError(_('The code must be create!'))
 
 
 
