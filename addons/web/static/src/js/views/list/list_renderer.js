@@ -1232,7 +1232,8 @@ var ListRenderer = BasicRenderer.extend({
                     }
                     else if(ev.delegateTarget.className.startsWith("forward_edit")===true){
                         this.trigger_up('open_record', { id: id, mode: 'edit', context: {'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'} });
-                    }else{
+                    }
+                    else {
                         this.trigger_up('open_record', { id: id, target: ev.target });
                     }
                 }

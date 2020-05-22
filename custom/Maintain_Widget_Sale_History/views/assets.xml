@@ -3,7 +3,8 @@
     <data>
         <template id="assets_backend" name="HR Expense Assets assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <script type="text/javascript" src="/Maintain_Widget_Sale_History/static/src/js/widget_sale_history.js"/>
+                <script type="text/javascript" src="/Maintain_Widget_Sale_History/static/src/js/widget_sale_history_voucher.js"/>
+                <script type="text/javascript" src="/Maintain_Widget_Sale_History/static/src/js/widget_sale_history_detail.js"/>
             </xpath>
         </template>
     </data>
