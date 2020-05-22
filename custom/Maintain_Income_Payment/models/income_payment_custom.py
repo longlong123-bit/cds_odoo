@@ -34,7 +34,6 @@ class IncomePaymentCustom(models.Model):
     def _get_default_client_id(self):
         return self.env['client.custom'].search([], limit=1, order='id').id
 
-
     client_custom_id = fields.Many2one('client.custom', default=_get_default_client_id, string='Client')
 
     document_no = fields.Char(string='Document No')
@@ -42,7 +41,6 @@ class IncomePaymentCustom(models.Model):
     account_invoice_id = fields.Many2one('account.move', string="Invoice", readonly=True,
                                          states={'draft': [('readonly', False)]})
     payment_date = fields.Date(string='Transaction Date', readonly=True, states={'draft': [('readonly', False)]})
-                               # , related='many_payment_id.payment_date', default='')
     partner_bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account",
                                               states={'draft': [('readonly', False)]})
     partner_id = fields.Many2one(string='Business Partner')
@@ -65,7 +63,6 @@ class IncomePaymentCustom(models.Model):
     collection_method_date = fields.Date(string='collectionmethoddate', readonly=True,
                                          states={'draft': [('readonly', False)]})
     state = fields.Selection(string='Document Status')
-
     account_payment_line_ids = fields.One2many('account.payment.line', 'payment_id', string='PaymentLine', copy=True)
 
     line_info = fields.Char(string='Line info', compute='_set_line_info')
@@ -73,6 +70,9 @@ class IncomePaymentCustom(models.Model):
     display_type = fields.Selection([
         ('line_section', "Section"),
         ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
+    x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
+                                        index=True, auto_join=True,
+                                        help="The move of this entry line.")
 
     @api.onchange('partner_id')
     def _get_detail_business_partner(self):
@@ -273,25 +273,9 @@ class IncomePaymentCustom(models.Model):
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
 
-    payment_id = fields.Many2one('many.payment', string="Originator Payment", copy=False,
+    payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
 
     vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
-
-    payment_date = fields.Date(string='Transaction Date')
-
-    account_invoice_id = fields.Many2one('account.move', string="Invoice", readonly=True,
-                                         states={'draft': [('readonly', False)]})
-    partner_id = fields.Many2one(string='Business Partner')
-    partner_payment_name1 = fields.Char(string='paymentname1', readonly=True)
-                                        # , states={'draft': [('readonly', False)]})
-    partner_payment_name2 = fields.Char(string='paymentname2', readonly=True)
-                                        # , states={'draft': [('readonly', False)]})
-    partner_payment_address1 = fields.Char(string='Address 1', readonly=True)
-                                           # , states={'draft': [('readonly', False)]})
-    partner_payment_address2 = fields.Char(string='Address 2', readonly=True)
-                                           # , states={'draft': [('readonly', False)]})
-
-    line_info = fields.Char(string='Line info', compute='_set_line_info')
