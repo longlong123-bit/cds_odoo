@@ -23,12 +23,12 @@ It contains the apps created with Studio and the customizations of existing apps
         'views/add_js.xml',
         'views/account_payment_custom_view.xml',
 #        'views/invoice_customer_custom_view.xml',
-        'views/report_invoice.xml',
-        'report/report_format1.xml',
-        'report/report_format2.xml',
-        'report/report_format3.xml',
-        'report/report_format4.xml',
-        'report/report_shipment1.xml'
+#         'views/report_invoice.xml',
+#         'report/report_format1.xml',
+#         'report/report_format2.xml',
+#         'report/report_format3.xml',
+#         'report/report_format4.xml',
+#         'report/report_shipment1.xml'
     ],
     'qweb': [
         'static/src/xml/report_template.xml'
