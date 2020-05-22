@@ -66,7 +66,7 @@ class ClassCompanyOffice(models.Model):
     sequence = fields.Integer(help='Used to order Companies in the company switcher', default=10)
     parent_id = fields.Many2one('res.company', string='Parent Company', index=True)
     child_ids = fields.One2many('res.company', 'parent_id', string='Child Companies')
-    partner_id = fields.Many2one('res.partner', string='Partner', required=True)
+    partner_id = fields.Many2one('res.partner', string='Partner')
     company_payment_term = fields.Many2one('account.payment.term', string='Payment Term')
     report_header = fields.Text(string='Company Tagline',
                                 help="Appears by default on the top right corner of your printed documents (report header).")

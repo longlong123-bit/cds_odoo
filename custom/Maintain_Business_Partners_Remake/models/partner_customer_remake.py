@@ -95,7 +95,7 @@ class NewClassPartnerCustom(models.Model):
     # 備考
     customer_comment = fields.Char('Comment')
     # 取引区分コード
-    customer_office = fields.Char('Customer Office')
+    # customer_office = fields.Char('Customer Office')
 
 
     _sql_constraints = [

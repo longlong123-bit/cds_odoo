@@ -12,7 +12,7 @@
     'demo': [],
     'qweb': [
             "static/src/xml/many2one_voucher_custom.xml",
-            "static/src/xml/dialog_custom.xml",
+            "static/src/xml/dialog_custom_voucher.xml",
      ],
     'installable': True,
     'application': True,

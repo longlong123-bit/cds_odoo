@@ -1,4 +1,4 @@
-odoo.define('Maintain_Widget_Button', function (require) {
+odoo.define('Maintain_Sale_History.Detail', function (require) {
 'use strict';
 var select_create_controllers_registry = require('web.select_create_controllers_registry');
 var FieldMany2One = require('web.relational_fields').FieldMany2One;
@@ -19,11 +19,13 @@ var QWeb = core.qweb;
 
 var _t = core._t;
 
-var customW = FieldMany2One.extend({
-    template : "template_name",
+
+// Custom field many2one
+var DetailHistory = FieldMany2One.extend({
+    template : "template_many2one_history_widget_detail",
     //Binding Events
         events : {
-            'click .class_ex' : 'open',
+            'click .show_detail_history_dialog' : 'open',
         },
 
     /**
@@ -31,26 +33,29 @@ var customW = FieldMany2One.extend({
      */
     init: function () {
         this._super.apply(this, arguments);
-        this.additionalContext['show_vat'] = true;
     },
 
-    open: function(){
+    // method when click button show dialog sale history
+    open: function(event){
+        event.stopPropagation();
+        // get current context (language, param,...)
         var context = this.record.getContext(this.recordParams);
 
+        // new dialog and show
         new SelectCreateDialog(this, {
                 no_create: true,
                 readonly: true,
-                res_model: 'account.move',
-                domain: null,
+                res_model: 'account.move.line',
+                domain:[['exclude_from_invoice_tab', '=', false]],
                 view_type:'list',
-                xmlDependencies: ['/Maintain_Widget_Sale_History/static/src/xml/dialog_custom.xml'],
                 context: context,
             }).open();
     }
 });
 
+// custom ViewDialog
 var ViewDialog = Dialog.extend({
-    xmlDependencies: ['/Maintain_Widget_Button/static/src/xml/dialog_custom.xml'],
+    xmlDependencies: ['/Maintain_Widget_Sale_History/static/src/xml/dialog_custom_voucher.xml'],
     custom_events: _.extend({}, Dialog.prototype.custom_events, {
         push_state: '_onPushState',
     }),
@@ -64,7 +69,7 @@ var ViewDialog = Dialog.extend({
         var self = this;
         return this._super.apply(this, arguments).then(function () {
             // Render modal once xml dependencies are loaded
-            self.$modal = $(QWeb.render('Dialog_Custom', {
+            self.$modal = $(QWeb.render('Dialog_Detail_Custom', {
                 fullscreen: self.fullscreen,
                 title: self.title,
                 subtitle: self.subtitle,
@@ -126,8 +131,12 @@ var ViewDialog = Dialog.extend({
         event.stopPropagation();
     },
 
-    _setButtonsTo($target, buttons) {
-//        alert('set button');
+    set_buttons: function (buttons,cp) {
+        var self = this;
+        self._setButtonsTo(this.$footer, buttons,cp);
+    },
+
+    _setButtonsTo($target, buttons,cp) {
         var self = this;
         $target.empty();
         _.each(buttons, function (buttonData) {
@@ -149,38 +158,34 @@ var ViewDialog = Dialog.extend({
                     Promise.resolve(def).then(self.close.bind(self)).guardedCatch(self.close.bind(self));
                 }
             });
-            if(buttonData.classes!='btn-secondary test1'){
+            if(buttonData.classes!='btn-secondary o_search_button_search'){
                 if (self.technical) {
                     $target.append($button);
                 } else {
                     $target.prepend($button);
                 }
             }else{
-                var hasButtonSearch = $('.search_form').find('.test1');
+                var hasButtonSearch = $('.search_form').find('.o_search_button_search');
                 if(hasButtonSearch.length==0){
                     $('.search_form').append($button);
                     self.render_datepicker('search_sale_date_from');
                     self.render_datepicker('search_sale_date_to');
                 }
             }
+            $('.cp_paging').html(cp);
+
         });
     },
 });
 
 var SelectCreateDialog = ViewDialog.extend({
-    xmlDependencies: ['/Maintain_Widget_Sale_History/static/src/xml/dialog_custom.xml'],
-    test1: function(){
-        var self = this;
-        self.reload({offset: 0});
-    },
-
     custom_events: _.extend({}, ViewDialog.prototype.custom_events, {
         select_record: function (event) {
             var args = [
                     [['id', '=',event.data.id]]
                 ];
             rpc.query({
-                    model: 'account.move',
+                    model: 'account.move.line',
                     method: 'search_read',
                     args: args,
                 })
@@ -209,111 +214,148 @@ var SelectCreateDialog = ViewDialog.extend({
         this.viewType = arguments[1].view_type;
         this.size = 'extra-large';
         this.ending = false;
-        this.xmlDependencies= ['/Maintain_Widget_Sale_History/static/src/xml/dialog_custom.xml'];
-
-
-
     },
+
+    // render date picker
     render_datepicker: function(name){
         this.create_new_widget(name);
 
     },
+
+    // create new widget date picker
     create_new_widget: function (name) {
         this[name] = new (this._get_widget_class())(this,{format: "YYYY-MM-DD"});
         this[name].appendTo($('.'+name));
     },
+
+    // create new Class date picker
     _get_widget_class: function () {
-//    t-field-options='{"format": "dd-MM-yyyy"}'
         return datepicker.DateTimeWidget;
     },
+
+    // get condition search in form (in dialog_custom_voucher.xml)
     _getSearchFilter_Sale_History: function(){
         var domain = [];
 
-        var f_search_document_no_from_val = $('input[name="search_document_no_from"]').val();
-        if (f_search_document_no_from_val!=''){
-            var f_document_no_from = ["x_studio_document_no", ">=",f_search_document_no_from_val];
-            domain.push(f_document_no_from)
+        var search_product_code = $('input[name="search_product_code"]').val();
+        if (search_product_code!=''){
+            var f_search_product_code = ["x_product_code_show_in_tree", "ilike",search_product_code];
+            domain.push(f_search_product_code)
         }
 
-        var f_document_no_to_val = $('input[name="search_document_no_to"]').val();
-        if (f_document_no_to_val!=''){
-            var f_document_no_to = ["x_studio_document_no", "<=",f_document_no_to_val];
-            domain.push(f_document_no_to)
+        var search_jan_code = $('input[name="search_jan_code"]').val();
+        if (search_jan_code!=''){
+            var f_search_jan_code = ["x_product_barcode_show_in_tree", "ilike",search_jan_code];
+            domain.push(f_search_jan_code)
         }
 
-        var f_userinput_id_val = $('input[name="search_input_person"]').val();
-        if (f_userinput_id_val!=''){
-            var f_userinput_id = ["userinput_id", ">=",f_userinput_id_val];
-            domain.push(f_userinput_id)
+        var search_standard_number = $('input[name="search_standard_number"]').val();
+        if (search_standard_number!=''){
+            var f_search_standard_number = ["invoice_custom_standardnumber", "ilike",search_standard_number];
+            domain.push(f_search_standard_number)
         }
 
-        var f_sale_date_from_val = $('.search_sale_date_from').find('input').val()
-        if (f_sale_date_from_val!=''){
-            var f_sale_date_from = ["x_studio_date_invoiced", ">=",f_sale_date_from_val];
-            domain.push(f_sale_date_from)
+        var search_product_name = $('input[name="search_product_name"]').val();
+        if (search_product_name!=''){
+            var f_search_product_name = ["x_product_name", "ilike",search_product_name];
+            domain.push(f_search_product_name)
         }
 
-        var f_sale_date_to_val = $('.search_sale_date_to').find('input').val()
-        if (f_sale_date_to_val!=''){
-            var f_sale_date_to = ["x_studio_date_invoiced", ">=",f_sale_date_to_val];
-            domain.push(f_sale_date_to)
+        var search_category_name = $('input[name="search_category_name"]').val();
+        if (search_category_name!=''){
+            var f_search_category_name = ["invoice_custom_FreightCategory", "ilike",search_category_name];
+            domain.push(f_search_category_name)
         }
 
-//      ko biet customer code field
-//        var f_customer_code_val = $('input[name="search_customer_code"]').val();
-//        if (f_customer_code_val!=''){
-//            var f_customer_code = ["x_studio_document_no", ">=",f_customer_code_val];
-//            domain.push(f_customer_code)
-//        }
+        domain.push(['exclude_from_invoice_tab', '=', false])
 
-        var f_customer_name_val = $('input[name="search_customer_name"]').val();
-        if (f_customer_name_val!=''){
-            var f_customer_name = ["x_studio_name", ">=",f_customer_name_val];
-            domain.push(f_customer_name)
-        }
+        // return domain
+        // domain example: [['filed','operator','search condition data'],[...],....]
         return domain;
     },
 
-
+    // method search
     _search_sale_history: function () {
+        event.stopPropagation();
         var self = this;
+        // remove all body dialog
         $('.o_act_window').html('');
+
+        // get search domain
         this.domain = this._getSearchFilter_Sale_History();
 
-
+        // get viewRefID
         var viewRefID = this.viewType === 'kanban' ?
             (this.options.kanban_view_ref && JSON.parse(this.options.kanban_view_ref) || false) : false;
+
+        // loadview
         return this.loadViews(this.res_model, this.context, [[viewRefID, this.viewType], [false, 'search']], {})
             .then(this.setup.bind(this))
             .then(function (fragment) {
                 self.opened().then(function () {
-                  var temp;
+                    var _o_paging;
+
+                    // get paging DOM
                     fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
-                        temp = c;
+                        _o_paging = c;
+                        _o_paging.style.cssFloat = 'right';
+                        c.parentNode.removeChild(c);
                     });
+
+                    // remove all control DOM
                     fragment.querySelectorAll(".o_control_panel").forEach(function(c){
                         c.parentNode.removeChild(c);
                     });
 
-                    fragment.querySelectorAll(".o_cp_controller").forEach(function(c){
-                        temp.style.cssFloat = 'right';
-                        c.append(temp);
+                    // custom change checkbox --> radio
+                    fragment.querySelectorAll("input").forEach(function(c){
+                        //var t = c;
+                        c.type ='radio';
+                        c.name = 'radio_custom';
+                        c.className='';
+                        var label_remove = c.parentNode.getElementsByTagName("label")[0];
+                        c.parentNode.removeChild(label_remove);
                     });
 
+                    // custom remove footer table
+                    fragment.querySelectorAll("th").forEach(function(c){
+                        if(c.className==='o_list_record_selector'){
+                            c.innerHTML='';
+                        }
+                        c.style.padding = '0px';
+
+                    });
+                    fragment.querySelectorAll(".o_list_record_selector").forEach(function(c){
+                       c.style.padding = '3px';
+                    });
+
+                    // custom remove footer table
+                     fragment.querySelectorAll("tfoot").forEach(function(c){
+                        c.parentNode.removeChild(c);
+                    });
+
+                    // add class dialog_show (to handle event (click,...) in list)
                     fragment.querySelectorAll(".forward_edit").forEach(function(c){
                         c.classList.add('dialog_show');
 
                     });
 
+                    // append all DOM to dialog
                     dom.append(self.$el, fragment, {
                         callbacks: [{widget: self.viewController}],
                         in_DOM: true,
                     });
-                    self.set_buttons(self.__buttons);
+
+                    // set button
+                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
+                         c.style.cssFloat = 'right';
+                    });
+                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
                 });
             });
     },
 
+    // open dialig
     open: function () {
 
         if (this.options.initial_view !== "search") {
@@ -329,36 +371,73 @@ var SelectCreateDialog = ViewDialog.extend({
             .then(this.setup.bind(this))
             .then(function (fragment) {
                 self.opened().then(function () {
+                    // this block code and  _search_sale_history...loadviews block code are the same --> need refactor to function
+                    var _o_paging;
 
-                    var temp;
+                    // get paging DOM
                     fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
-                        temp = c;
+                        _o_paging = c;
+                        _o_paging.style.cssFloat = 'right';
+                        c.parentNode.removeChild(c);
                     });
+
+                    // remove all control DOM
                     fragment.querySelectorAll(".o_control_panel").forEach(function(c){
                         c.parentNode.removeChild(c);
                     });
 
-                    fragment.querySelectorAll(".o_cp_controller").forEach(function(c){
-                        temp.style.cssFloat = 'right';
-                        c.append(temp);
+                    // custom change checkbox --> radio
+                    fragment.querySelectorAll("input").forEach(function(c){
+                        //var t = c;
+                        c.type ='radio';
+                        c.name = 'radio_custom';
+                        c.className='';
+                        var label_remove = c.parentNode.getElementsByTagName("label")[0];
+                        c.parentNode.removeChild(label_remove);
                     });
 
+                    // custom remove footer table
+                    fragment.querySelectorAll("th").forEach(function(c){
+                        if(c.className==='o_list_record_selector'){
+                            c.innerHTML='';
+                        }
+                        c.style.padding = '0px';
+
+                    });
+                    fragment.querySelectorAll(".o_list_record_selector").forEach(function(c){
+                       c.style.padding = '3px';
+                    });
+
+                    // custom remove footer table
+                     fragment.querySelectorAll("tfoot").forEach(function(c){
+                        c.parentNode.removeChild(c);
+                    });
+
+                    // add class dialog_show (to handle event (click,...) in list)
                     fragment.querySelectorAll(".forward_edit").forEach(function(c){
                         c.classList.add('dialog_show');
 
                     });
 
+                    // append all DOM to dialog
                     dom.append(self.$el, fragment, {
                         callbacks: [{widget: self.viewController}],
                         in_DOM: true,
                     });
-                    self.set_buttons(self.__buttons);
+
+                    // set button
+                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
+                         c.style.cssFloat = 'right';
+                    });
+                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
                 });
                 return _super();
             });
     },
 
     setup: function (fieldsViews) {
+
+        // this block does not need --> refactor
         var vt ='';
         if(typeof fieldsViews.form!= 'undefined'){
             vt = 'form';
@@ -459,7 +538,7 @@ var SelectCreateDialog = ViewDialog.extend({
         },
         {
             text: _t("Search"),
-            classes: 'btn-secondary test1',
+            classes: 'btn-secondary o_search_button_search',
             click: this._search_sale_history.bind(this),
 
         }
@@ -477,14 +556,21 @@ var SelectCreateDialog = ViewDialog.extend({
                 classes: 'btn-primary o_select_button',
                 disabled: true,
                 close: true,
+
+                // event when click select button to return data to parent
                 click: function () {
+                    // get records
                     var records = this.viewController.getSelectedRecords();
+
+                    // get id
                     var values = _.map(records, function (record) {
                         return {
                             id: record.res_id,
                             display_name: record.data.display_name,
                         };
                     });
+
+                    // reinitialize parent
                     this.getParent().reinitialize(values[0]);
                 },
             });
@@ -492,8 +578,9 @@ var SelectCreateDialog = ViewDialog.extend({
     },
 });
 
-field_registry.add('Widget_Sale_History_Button', customW);
+// registry widget
+field_registry.add('Maintain_Sale_History.Detail', DetailHistory);
 
-return customW;
+// return widget
+return DetailHistory;
 });
-

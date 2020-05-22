@@ -1,5 +1,39 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
+  <record model="ir.ui.view" id="view_move_line_tree_custom">
+      <field name="name">invoice.line.custom.tree</field>
+      <field name="model">account.move.line</field>
+      <field name="inherit_id" ref="account.view_move_line_tree_grouped_general"></field>
+<!--      <field name="domain">[('exclude_from_invoice_tab', '=', 'False')]</field>-->
+      <field name="arch" type="xml">
+<!--          <xpath expr="//field[@name='date']" position="after">-->
+          <xpath expr="//tree" position="replace">
+              <tree>
+<!--                  <field name="move_id" optional="show" readonly="1"/>-->
+                  <field name="date" optional="show" readonly="1"/>
+                  <field name="invoice_no" optional="show" readonly="1"/>
+                  <field name="x_invoicelinetype" optional="show" readonly="1"/>
+                  <field name="x_customer_show_in_tree" optional="show" readonly="1"/>
+                  <field name="x_product_barcode_show_in_tree" optional="show" readonly="1"/>
+                  <field name="x_product_code_show_in_tree" optional="show" readonly="1"/>
+                  <field name="invoice_custom_standardnumber" optional="show" readonly="1"/>
+                  <field name="invoice_custom_FreightCategory" optional="show" readonly="1"/>
+                  <field name="x_product_name" optional="show" readonly="1"/>
+                  <field name="quantity" optional="show" readonly="1"/>
+                  <field name="product_uom_id" optional="show" readonly="1"/>
+                  <field name="price_unit" optional="show" readonly="1"/>
+                  <field name="invoice_custom_lineamount" optional="show" readonly="1"/>
+                  <field name="tax_ids" widget="many2many_tags"
+                                               domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
+                                               context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+                                               options="{'no_create': True}"
+                                               optional="show" readonly="1"/>
+                  <field name="x_tax_transfer_show_tree" optional="show" readonly="1"/>
+              </tree>
+            </xpath>
+      </field>
+  </record>
+
   <record model="ir.ui.view" id="invoice_custom_tree">
       <field name="name">invoice.custom.form</field>
       <field name="model">account.move</field>
@@ -102,7 +136,11 @@
               <td class="col-label"><label for="x_studio_document_no" string="Document No"/></td>
               <td class="col-field">
                   <field style="width:90px!important;float:left!important;" name="x_studio_document_no" string="Document No" readonly="1" class="o_input"/>
-                  <field name="x_history_voucher" widget="Widget_Sale_History_Button" z-index="92"/>
+                  <field name="x_history_voucher" widget="Maintain_Sale_History.Voucher" z-index="92"/>
+
+<!--                        <attribute name="context">{'tree_view_ref': 'inherit_view_account_move_line_tree'}</attribute>-->
+<!--                  </field>-->
+
               </td>
             </tr>
             <tr>
@@ -231,6 +269,7 @@
                 <button name="button_update" type="object"
                   style="background : url('/web/static/src/img/form-toolbar/EditRecord16.png') no-repeat center;background-size:contain;background-color: transparent; display: inline-block; margin-left: 1px; margin-right: 1px; width: 16px; height: 16px; padding: 1px;border: none;" >
                 </button>
+                <field name="x_history_detail" style="display:none" domain="[('exclude_from_invoice_tab', '=', False)]" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
 		        <field name="invoice_custom_line_no" required="True"/>
                 <field name="x_invoicelinetype" required="True" string="区分"/>
 <!--                <field name="x_crm_purchased_products" context="{'show_address': 1}" string="Product">-->
@@ -308,6 +347,7 @@
                 <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM" required="True"/>
                 <field name="invoice_custom_lineamount"/>
                 <field name="invoice_custom_uom_cost_value"/>
+                <field name="x_history_detail" domain="[('exclude_from_invoice_tab', '=', False)]" invisible="1" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
 		  <field name="invoice_custom_Description"/>
         </xpath>
         <xpath expr="//field[@name='line_ids']" poisition="attributes">

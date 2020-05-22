@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _,tools
+from suds.client import Client
+import json
 import uuid
 from odoo.exceptions import RedirectWarning, UserError, ValidationError
 from odoo.tools import float_is_zero, float_compare, safe_eval, date_utils, email_split, email_escape_char, email_re
@@ -185,11 +187,25 @@ class ClassInvoiceCustom(models.Model):
 
     @api.onchange('x_history_voucher')
     def _onchange_x_test(self):
-        print('ahchehhasdasdasdadsad')
+        result_l1 = []
+        result_l2 = []
         for voucher in self:
+            # print(voucher.x_history_voucher.invoice_line_ids)
+            # for l in voucher.x_history_voucher.invoice_line_ids:
+            #     fields_line = l.fields_get()
+            #     line_data = {attr: getattr(l, attr) for attr in fields_line}
+            #     del line_data['move_id']
+            #     result_l1.append((0, False, line_data))
+
+            #for l in voucher.x_history_voucher.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab):
+            for l in voucher.x_history_voucher.line_ids:
+                fields_line = l.fields_get()
+                line_data = {attr: getattr(l, attr) for attr in fields_line}
+                del line_data['move_id']
+                result_l2.append((0, False, line_data))
             if voucher.x_history_voucher._origin.id:
                 voucher.x_studio_business_partner = voucher.x_history_voucher.x_studio_business_partner
-                voucher.invoice_line_ids = voucher.x_history_voucher.invoice_line_ids
+
                 voucher.x_studio_client_2 = voucher.x_history_voucher.x_studio_client_2
                 voucher.x_studio_organization = voucher.x_history_voucher.x_studio_organization
                 voucher.x_studio_name = voucher.x_history_voucher.x_studio_name
@@ -216,9 +232,14 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_studio_description = voucher.x_history_voucher.x_studio_description
                 voucher.x_studio_price_list = voucher.x_history_voucher.x_studio_price_list
                 voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.x_bussiness_partner_name_2
+                # voucher.invoice_line_ids = voucher.x_history_voucher.invoice_line_ids
+                # for l in invoice_line_ids:
+                #     voucher.invoice_line_ids
 
-
-
+                # voucher.invoice_line_ids |= voucher.invoice_line_ids.new(voucher.invoice_line_ids)
+            #voucher.invoice_line_ids = result_l1
+            voucher.line_ids = result_l2
+            voucher.invoice_line_ids = voucher.x_history_voucher.invoice_line_ids
 
     def action_view_form_modelname(self):
         view = self.env.ref('Maintain_Invoice_Remake.view_move_custom_form')
@@ -472,6 +493,35 @@ class AccountTaxLine(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
+    @api.onchange('x_history_detail')
+    def _onchange_x_test(self):
+        result_l1 = []
+        result_l2 = []
+        for line in self:
+            print('line')
+            print(line)
+            detail_history = line.x_history_detail
+            if detail_history.id:
+                print('start set')
+
+                line.x_invoicelinetype = detail_history.x_invoicelinetype
+                line.x_product_barcode = detail_history.x_product_barcode
+                line.x_product_modelnumber = detail_history.x_product_modelnumber
+                line.x_product_name = detail_history.x_product_name
+                line.x_product_name2 = detail_history.x_product_name2
+                line.x_product_list_price = detail_history.x_product_list_price
+                line.invoice_custom_standardnumber = detail_history.invoice_custom_standardnumber
+                line.invoice_custom_uom_cost_value = detail_history.invoice_custom_uom_cost_value
+                line.invoice_custom_discountunitprice = detail_history.invoice_custom_discountunitprice
+                line.invoice_custom_discountrate = detail_history.invoice_custom_discountrate
+                line.invoice_custom_lineamount = detail_history.invoice_custom_lineamount
+                line.invoice_custom_Description = detail_history.invoice_custom_Description
+                line.invoice_custom_salesunitprice = detail_history.invoice_custom_salesunitprice
+                line.invoice_custom_FreightCategory = detail_history.invoice_custom_FreightCategory
+                line.price_unit = detail_history.price_unit
+                line.quantity = detail_history.quantity
+                line.product_id = detail_history.product_id
+
     def get_default_line_no(self):
         context = dict(self._context or {})
         line_ids = context.get('default_line_ids')
@@ -522,6 +572,9 @@ class AccountMoveLine(models.Model):
     # Update 2020/04/28 - START
     x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品')], default='通常')
     x_product_barcode = fields.Many2one('product.product', string='JAN/UPC/EAN')
+    x_product_barcode_show_in_tree = fields.Char(string='JANコード',related='x_product_barcode.barcode')
+    x_product_code_show_in_tree = fields.Char(string='商品コード',related='x_product_barcode.product_code_1')
+
     x_product_modelnumber = fields.Char('Product')
     x_product_name = fields.Char('mproductname')
     x_product_name2 = fields.Char('mproductname2')
@@ -537,7 +590,6 @@ class AccountMoveLine(models.Model):
     invoice_custom_lineamount = fields.Float('Line Amount', compute='compute_line_amount')
     invoice_custom_Description = fields.Char('Description')
     invoice_custom_FreightCategory = fields.Many2one('freight.category.custom', string='FreightCategory')
-    invoice_custom_FreightCategory = fields.Many2one('freight.category.custom', string='FreightCategory')
     price_unit = fields.Float(string='Unit Price', digits='Product Price')
     quantity = fields.Float(string='Quantity', digits='(12,0)',
                             default=1.0,
@@ -547,6 +599,28 @@ class AccountMoveLine(models.Model):
     move_id = fields.Many2one('account.move', string='Journal Entry',
                               index=True, required=True, readonly=True, auto_join=True,
                               help="The move of this entry line.")
+    move_name = fields.Char(compute='compute_move_name')
+    invoice_no = fields.Char(string='伝票Ｎｏ', related='move_id.x_studio_document_no', store=True, index=True)
+    x_tax_transfer_show_tree = fields.Selection(string='税転嫁',related='move_id.x_voucher_tax_transfer',store=True, index=True)
+    x_customer_show_in_tree = fields.Char(string='得意先名', compute='compute_x_customer_show_in_tree')
+    x_history_detail = fields.Many2one('account.move.line', string='Journal Entry',
+                                       index=True, auto_join=True,
+                                       help="The move of this entry line.")
+
+
+
+    def compute_x_customer_show_in_tree(self):
+        for line in self:
+            line.x_customer_show_in_tree = line.move_id.x_studio_business_partner.name
+
+
+    def compute_product_barcode_show_in_tree(self):
+        for line in self:
+            line.x_product_barcode_show_in_tree = line.x_product_barcode.barcode
+
+    def compute_product_code_show_in_tree(self):
+        for line in self:
+            line.x_product_code_show_in_tree = line.x_product_barcode.product_code_1
 
     def _validate_price_unit(self):
         for p in self:
@@ -631,14 +705,22 @@ class AccountMoveLine(models.Model):
     def _get_computed_freigth_category(self):
         self.ensure_one()
         if self.product_id:
-            return self.product_id.product_custom_freight_category
-        return False
+            if self.product_id.product_custom_freight_category:
+                return self.product_id.product_custom_freight_category
+            else:
+                return self.invoice_custom_FreightCategory
+        else:
+            return False
 
     def _get_computed_stantdard_number(self):
         self.ensure_one()
         if self.product_id:
-            return self.product_id.product_custom_standardnumber
-        return False
+            if self.product_id.product_custom_standardnumber:
+                return self.product_id.product_custom_standardnumber
+            else:
+                return self.invoice_custom_standardnumber
+        else:
+            return False
     # def _get_computed_name(self):
     #     self.ensure_one()
     #

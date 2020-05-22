@@ -20,7 +20,7 @@
                                 <group>
                                     <field name="office_code" string="Office Code" required="1"/>
                                     <field name="zip" placeholder="ZIP" class="o_address_zip" widget="mask" data-inputmask-mask="〒999_9999"/>
-<!--                                    <field name="partner_id" string="Contact" readonly="1" required="0" groups="base.group_no_one"/>-->
+                                    <field name="partner_id" string="Contact" readonly="1" required="0" groups="base.group_no_one" invisible="1"/>
                                     <field name="street" placeholder="Street..." string="Address 1"/>
                                     <field name="street2" placeholder="Street 2..." string="Address 2"/>
                                     <label for="city" string="City"/>
@@ -66,26 +66,34 @@
                 </form>
             </field>
         </record>
-        <record id="custom_view_company_tree" model="ir.ui.view">
+        <record id="custom_view_company_office_tree" model="ir.ui.view">
             <field name="name">custom.company.tree</field>
             <field name="model">company.office.custom</field>
             <field name="arch" type="xml">
                 <tree string="Companies">
-                    <field name="sequence" widget="handle"/>
+<!--                    <field name="sequence" widget="handle"/>-->
                     <field name="office_code" string="Office Code"/>
                     <field name="name"/>
-                    <field name="partner_id"/>
+                    <field name="street" string="Address 1"/>
+                    <field name="street2" string="Address 2"/>
+                    <field name="phone"/>
+                    <field name="company_office_fax" string="Fax"/>
+                    <field name="email"/>
                 </tree>
             </field>
         </record>
-        <record id="custom_view_company_search" model="ir.ui.view">
+        <record id="custom_view_company_office_search" model="ir.ui.view">
             <field name="name">custom.company.search</field>
             <field name="model">company.office.custom</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="office_code" string="Office Code"/>
                     <field name="name"/>
-                    <field name="partner_id"/>
+                    <field name="street" string="Address 1"/>
+                    <field name="street2" string="Address 2"/>
+                    <field name="phone"/>
+                    <field name="company_office_fax" string="Fax"/>
+                    <field name="email"/>
                 </search>
             </field>
         </record>

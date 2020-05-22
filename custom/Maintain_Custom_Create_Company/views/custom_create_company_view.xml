@@ -5,7 +5,7 @@
             <field name="name">custom.company.form</field>
             <field name="model">res.company</field>
             <field name="arch" type="xml">
-                <form string="Company">
+                <form string="Company" create="false">
                   <sheet>
                     <field name="logo" widget="image"  class="oe_avatar"/>
                     <div class="oe_title">
@@ -72,11 +72,31 @@
             <field name="name">custom.company.tree</field>
             <field name="model">res.company</field>
             <field name="arch" type="xml">
-                <tree string="Companies">
-                    <field name="sequence" widget="handle"/>
+                <tree string="Companies" create="false" import="false">
+<!--                    <field name="sequence" widget="handle"/>-->
                     <field name="name"/>
-                    <field name="partner_id"/>
+                    <field name="street" string="Address 1"/>
+                    <field name="street2" string="Address 2"/>
+                    <field name="phone" string="Phone"/>
+                    <field name="company_fax" string="Fax"/>
+                    <field name="email"/>
                 </tree>
+            </field>
+        </record>
+
+        <record id="custom_view_company_search" model="ir.ui.view">
+            <field name="name">custom.company.search</field>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <search>
+<!--                    <field name="sequence" widget="handle"/>-->
+                    <field name="name"/>
+                    <field name="street" string="Address 1"/>
+                    <field name="street2" string="Address 2"/>
+                    <field name="phone" string="Phone"/>
+                    <field name="company_fax" string="Fax"/>
+                    <field name="email"/>
+                </search>
             </field>
         </record>
 
@@ -84,7 +104,7 @@
             <field name="name">custom.company.kanban</field>
             <field name="model">res.company</field>
             <field name="arch" type="xml">
-                <kanban>
+                <kanban create="false">
                     <field name="name"/>
                     <field name="email"/>
                     <field name="phone"/>
