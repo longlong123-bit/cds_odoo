@@ -20,7 +20,7 @@
                                 <group>
                                     <field name="office_code" string="Office Code" required="1"/>
                                     <field name="zip" placeholder="ZIP" class="o_address_zip" widget="mask" data-inputmask-mask="〒999_9999"/>
-<!--                                    <field name="partner_id" string="Contact" readonly="1" required="0" groups="base.group_no_one"/>-->
+                                    <field name="partner_id" string="Contact" readonly="1" required="0" groups="base.group_no_one" invisible="1"/>
                                     <field name="street" placeholder="Street..." string="Address 1"/>
                                     <field name="street2" placeholder="Street 2..." string="Address 2"/>
                                     <label for="city" string="City"/>
