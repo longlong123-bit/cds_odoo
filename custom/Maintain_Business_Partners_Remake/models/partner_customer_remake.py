@@ -13,6 +13,14 @@ class NewClassPartnerCustom(models.Model):
     # _name = 'partner.customer.custom'
     _inherit = 'res.partner'
 
+    @api.model
+    def _default_closing_date(self):
+        return self.env['closing.date'].search([], limit=1)
+
+    @api.model
+    def _default_partner_group(self):
+        return self.env['business.partner.group.custom'].search([], limit=1)
+
     # relation customer
     relation_id = fields.One2many('relation.partner.model', 'partner_id', string='Relation')
     # name
@@ -26,7 +34,7 @@ class NewClassPartnerCustom(models.Model):
     street = fields.Char('Address 1', size=40)
     street2 = fields.Char('Address 2')
     # Add to do
-    payment_terms = fields.Many2one('account.payment.term', 'Payment Terms', company_dependent=True,
+    payment_terms = fields.Many2one('account.payment.term', 'Payment Terms', company_dependent=True, required=True,
                                     default=lambda self: self.env['account.payment.term'].search([('id', '=', 1)]))
     address3 = fields.Char('Address 3')
     search_key_partner = fields.Char('Search Key', default=lambda self: _(''))
@@ -34,24 +42,24 @@ class NewClassPartnerCustom(models.Model):
     customer_fax = fields.Char('Fax')
     customer_phone = fields.Char('Phone')
     customer_state = fields.Many2one('res.country.state', string='State', domain=[('country_id', '=', 113)])
-    customer_supplier_group_code = fields.Many2one('business.partner.group.custom','Supplier Group Code')
+    customer_supplier_group_code = fields.Many2one('business.partner.group.custom','Supplier Group Code', default=_default_partner_group)
     customer_industry_code = fields.Many2one('res.partner.industry', string='Industry Code')
     # 担当者
     customer_agent = fields.Many2one('res.users', string='Representative/Agent', default=lambda self: self.env.user)
     # 取引区分コード
-    customer_trans_classification_code = fields.Selection([('sale','Sale'),('cash','Cash'), ('account','Account')], string='Transaction classification')
+    customer_trans_classification_code = fields.Selection([('sale','Sale'),('cash','Cash'), ('account','Account')], string='Transaction classification', default='sale')
     # 消費税区分
-    customer_tax_category = fields.Selection([('foreign','Foreign Tax'),('internal','Internal Tax'), ('exempt','Tax Exempt')], string='Consumption Tax Category')
+    customer_tax_category = fields.Selection([('foreign','Foreign Tax'),('internal','Internal Tax'), ('exempt','Tax Exempt')], string='Consumption Tax Category', default='foreign')
     # 消費税計算区分
     customer_tax_unit = fields.Selection(
         [('detail', 'Detail Unit'), ('voucher', 'Voucher Unit'), ('invoice', 'Invoice Unit')],
-        string='Consumption Tax Calculation Category')
+        string='Consumption Tax Calculation Category', default='detail')
     # 消費税端数処理
-    customer_tax_rounding = fields.Selection([('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')] ,'Tax Rounding')
+    customer_tax_rounding = fields.Selection([('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')], 'Tax Rounding', default='round')
      # 締日
-    customer_closing_date = fields.Many2one( 'closing.date' ,'Closing Date')
+    customer_closing_date = fields.Many2one( 'closing.date', 'Closing Date', default=_default_closing_date)
     # 入金方法
-    customer_payment_method = fields.Selection([('normal', 'Normal'), ('deposit', 'Deposit')], 'Payment Method')
+    customer_payment_method = fields.Selection([('normal', 'Normal'), ('deposit', 'Deposit')], 'Payment Method', default='normal')
     # 回収方法
     customer_collect_method = fields.Char('Collect Method')
     payment_rule = fields.Selection(
@@ -86,6 +94,8 @@ class NewClassPartnerCustom(models.Model):
     customer_other_cd = fields.Char('Customer CD')
     # 備考
     customer_comment = fields.Char('Comment')
+    # 取引区分コード
+    customer_office = fields.Char('Customer Office')
 
 
     _sql_constraints = [
@@ -106,6 +116,12 @@ class NewClassPartnerCustom(models.Model):
             default['name'] = _("%s (copy)") % (self.name)
         return super(NewClassPartnerCustom, self).copy(default)
 
+    @api.onchange('name')
+    def _get_location_related_business_partner(self):
+        for rec in self:
+            if rec.name and not rec.customer_name_short:
+                rec.customer_name_short = rec.name
+
     # Relation Partner Class
 class ClassRelationPartnerCustom(models.Model):
     _name = 'relation.partner.model'
@@ -116,7 +132,7 @@ class ClassRelationPartnerCustom(models.Model):
     name = fields.Char('Name')
     relate_business_partner = fields.Many2one('res.partner', string='Business Partner')
     relate_partner_location = fields.Char('Partner Location')
-    relate_related_partner = fields.Many2one('res.partner', string='Related Partner')
+    relate_related_partner = fields.Many2one('company.office.custom', string='Related Partner')
     relate_related_partner_location = fields.Char('Related Partner Location')
     relate_ship_address = fields.Boolean('Ship Address')
     relate_invoic_address = fields.Boolean('Invoice Address')
@@ -152,3 +168,5 @@ class ClassRelationPartnerCustom(models.Model):
         for rec in self:
             if rec.relate_related_partner:
                 rec.relate_related_partner_location = rec.relate_related_partner.street
+
+
