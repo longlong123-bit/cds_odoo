@@ -68,7 +68,7 @@
                             <td colspan="2"><field name="customer_name_short"/></td>
                             <td></td>
                             <td class="col-label"><label for="payment_rule" string="Collect Method"/></td>
-                            <td class="col-field col-number"><field name="payment_rule"/></td>
+                            <td class="col-field col-number"><field name="payment_rule" required="1"/></td>
                         </tr>
 
                         <!-- Row 5 -->

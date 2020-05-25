@@ -64,7 +64,7 @@ class NewClassPartnerCustom(models.Model):
     customer_collect_method = fields.Char('Collect Method')
     payment_rule = fields.Selection(
         [('rule_cash', 'Cash'),('rule_check', 'Check'),('rule_credit','Credit Card'),('rule_direct_debit','Direct Debit'),
-         ('rule_deposit','Direct Deposit'),('rule_on_credit','On Credit')], 'Collect Method', store=True,
+         ('rule_deposit','Direct Deposit'),('rule_on_credit','On Credit')], 'Collect Method', store=True, default='rule_cash'
          )
     # 回収月、回収日
     customer_collect_circle = fields.Char('Collect Circle')
