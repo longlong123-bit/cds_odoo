@@ -10,6 +10,7 @@ class ClassTaxRate(models.Model):
     tax_rate_code = fields.Char(string='Tax Rate Code')
     name = fields.Char('Tax Rate Name')
     active = fields.Boolean('Active', default=True)
+    amount = fields.Float(required=True, digits=(16, 4), string='Rate')
 
     _sql_constraints = [
         ('name_code_uniq', 'unique(employee_code)', 'The code must be unique!')

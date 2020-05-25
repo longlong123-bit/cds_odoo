@@ -79,6 +79,7 @@ class ClassInvoiceCustom(models.Model):
         return str(len(self.invoice_line_ids)) + '明細 - (JPY)明細行合計:' + str(amount_untaxed_format) + ' / 総合計:' + str(
             amount_total_format) + ' = ' + str(amount_total_format)
 
+    # Thay đổi tên hiển thị trên breadcum Invoices
     def _get_move_display_name(self, show_ref=False):
         ''' Helper to get the display name of an invoice depending of its type.
         :param show_ref:    A flag indicating of the display name must include or not the journal entry reference.
@@ -97,12 +98,30 @@ class ClassInvoiceCustom(models.Model):
                 'entry': _('Draft Entry'),
             }[self.type]
             if not self.name or self.name == '/':
-                draft_name += ' (* %s)' % str(self.id)
+                if self.type == 'out_invoice':
+                    draft_name += ' / %s' % str(self.x_studio_document_no)
+                else:
+                    draft_name += ' (* %s)' % str(self.id)
             else:
-                draft_name += ' ' + self.name
+                if self.type == 'out_invoice':
+                    draft_name += ' ' + self.x_studio_document_no
+                else:
+                    draft_name += ' ' + self.name
+        # trường hợp state
+        if self.state == 'posted':
+            if not self.name or self.name == '/':
+                if self.type == 'out_invoice':
+                    draft_name += ' / %s' % str(self.x_studio_document_no)
+                else:
+                    draft_name += ' (* %s)' % str(self.id)
+            else:
+                if self.type == 'out_invoice':
+                    draft_name += ' ' + self.x_studio_document_no
+                else:
+                    draft_name += ' ' + self.name
 
         return (draft_name or self.name) + (
-                show_ref and self.ref and ' (%s%s)' % (self.ref[:50], '...' if len(self.ref) > 50 else '') or '')
+                    show_ref and self.ref and ' (%s%s)' % (self.ref[:50], '...' if len(self.ref) > 50 else '') or '')
 
     # Calculate due date
     def _get_due_date(self):
