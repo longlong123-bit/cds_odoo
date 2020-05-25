@@ -31,7 +31,7 @@ class ProductTemplate(models.Model):
 
     product_maker_code = fields.Many2one('freight.category.custom', 'Maker code')
 
-    product_maker_name = fields.Char('Maker name')
+    product_maker_name = fields.Char('Maker name', readonly=True)
 
     barcode = fields.Char(string='UPC/EAN', size=30, required=True)
 
@@ -62,20 +62,20 @@ class ProductTemplate(models.Model):
     product_code_4 = fields.Char('Product code 4')
     product_code_5 = fields.Char('Product code 5')
     product_code_6 = fields.Char('Product code 6')
-    price_no_tax_1 = fields.Char('Price no tax 1')
-    price_no_tax_2 = fields.Char('Price no tax 2')
-    price_no_tax_3 = fields.Char('Price no tax 3')
-    price_no_tax_4 = fields.Char('Price no tax 4')
-    price_no_tax_5 = fields.Char('Price no tax 5')
-    price_no_tax_6 = fields.Char('Price no tax 6')
-    price_include_tax_1 = fields.Char('Price include tax 1')
-    price_include_tax_2 = fields.Char('Price include tax 2')
-    price_include_tax_3 = fields.Char('Price include tax 3')
-    price_include_tax_4 = fields.Char('Price include tax 4')
-    price_include_tax_5 = fields.Char('Price include tax 5')
-    price_include_tax_6 = fields.Char('Price include tax 6')
-    setting_price = fields.Selection([('code_1', '商品1'), ('code_2', '商品2'), ('code_3', '商品3'),
-                                      ('code_4', '商品4'), ('code_5', '商品5'), ('code_6', '商品6')],
+    price_no_tax_1 = fields.Float('Price no tax 1')
+    price_no_tax_2 = fields.Float('Price no tax 2')
+    price_no_tax_3 = fields.Float('Price no tax 3')
+    price_no_tax_4 = fields.Float('Price no tax 4')
+    price_no_tax_5 = fields.Float('Price no tax 5')
+    price_no_tax_6 = fields.Float('Price no tax 6')
+    price_include_tax_1 = fields.Float('Price include tax 1')
+    price_include_tax_2 = fields.Float('Price include tax 2')
+    price_include_tax_3 = fields.Float('Price include tax 3')
+    price_include_tax_4 = fields.Float('Price include tax 4')
+    price_include_tax_5 = fields.Float('Price include tax 5')
+    price_include_tax_6 = fields.Float('Price include tax 6')
+    setting_price = fields.Selection([('code_1', '商品コード1'), ('code_2', '商品コード2'), ('code_3', '商品コード3'),
+                                      ('code_4', '商品コード4'), ('code_5', '商品コード5'), ('code_6', '商品コード6')],
                                      string='Setting price', default='code_1')
     standard_price = fields.Char('Standard price')
     price_no_tax = fields.Char('Price no tax')
@@ -336,7 +336,7 @@ class ProductTemplate(models.Model):
 
         self.env['product.custom.template.attribute.line'].create({
             'product_id': product.id,
-            'product_cost_product_name': product.product_custom_search_key + '_' + product.name
+            'product_cost_product_name': (product.product_custom_search_key or '') + '_' + (product.name or '')
         })
 
         return product
@@ -361,7 +361,7 @@ class ProductTemplate(models.Model):
                 }
                 return switcher.get(index, 'price_no_tax_1')
 
-            values['list_price'] = float(values[setting_value(values['setting_price'])])
+            values['list_price'] = values[setting_value(values['setting_price'])]
         return True
 
         self._check_data(values)
@@ -386,6 +386,25 @@ class ProductTemplate(models.Model):
                 raise ValidationError(_('既に登録されています。'))
 
         return True
+
+    @api.onchange('product_code_1', 'price_no_tax_1', 'price_include_tax_1',
+                  'product_code_2', 'price_no_tax_2', 'price_include_tax_2',
+                  'product_code_3', 'price_no_tax_3', 'price_include_tax_3',
+                  'product_code_4', 'price_no_tax_4', 'price_include_tax_4',
+                  'product_code_5', 'price_no_tax_5', 'price_include_tax_5',
+                  'product_code_6', 'price_no_tax_6', 'price_include_tax_6')
+    def _onchange_tax(self):
+        for rec in self:
+            tax = 0
+            if len(rec.taxes_id) > 0:
+                tax = rec.taxes_id[0].amount / 100
+            for i in range(1, 7):
+                if rec['product_code_' + str(i)]:
+                    if rec['price_no_tax_' + str(i)] and not rec['price_include_tax_' + str(i)]:
+                        rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (tax + 1)
+                    if rec['price_include_tax_' + str(i)] and not rec['price_no_tax_' + str(i)]:
+                        rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (tax + 1)
+
 
 class ProductCustomTemplate(models.Model):
     _inherit = "product.template"
