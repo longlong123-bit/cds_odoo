@@ -200,7 +200,8 @@
               <td></td>
               <td></td>
               <td class="col-label"><label for="x_voucher_tax_transfer" string="税転嫁"/></td>
-              <td class="col-field"><field name="x_voucher_tax_transfer" string="税転嫁" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+              <td class="col-field"><field name="x_voucher_tax_transfer" string="税転嫁" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}" required="True"/></td>
+              <td class="col-field"><field name="customer_tax_rounding" string="消費税端数処理" z-index="107" invisible="True"/></td>
             </tr>
             <tr>
               <!-- Column 1 -->
@@ -288,11 +289,11 @@
 
                 <field name="invoice_custom_standardnumber"/>
                 <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
-                <field name="x_product_list_price" string="定価" readonly="1" />
-                <field name="quantity" string="Quantity"/>
                 <field name="price_unit" string="Price"/>
-                <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM" required="True"/>
+                <field name="quantity" string="Quantity"/>
                 <field name="invoice_custom_lineamount"/>
+                <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM" required="True"/>
+                <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
                 <field name="invoice_custom_uom_cost_value"/>
 
 <!--                <field name="invoice_custom_discountunitprice"/>-->
@@ -300,7 +301,12 @@
 
 <!--                <field name="invoice_custom_salesunitprice"/>-->
                 <field name="invoice_custom_Description"/>
-                <field name="tax_ids" string="Taxes"  widget="many2many_tags" domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]" context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+                <field name="tax_ids" string="Taxes"
+                       widget="many2many_tags"
+                       domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
+                       context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+                       options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"
+                       attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
 
 
                 <field name="move_name" invisible="1"/>
@@ -341,7 +347,7 @@
 
                 <field name="invoice_custom_standardnumber"/>
                 <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
-                <field name="x_product_list_price"/>
+                <field name="line_tax_amount"/>
                 <field name="quantity" string="Quantity"/>
                 <field name="price_unit" string="Price"/>
                 <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM" required="True"/>

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, _,tools
+from odoo import api, fields, models, _, tools
 from suds.client import Client
 import json
 import uuid
@@ -18,6 +18,7 @@ from json import dumps
 import json
 import re
 import calendar
+import math
 
 # forbidden fields
 INTEGRITY_HASH_MOVE_FIELDS = ('date', 'journal_id', 'company_id')
@@ -31,6 +32,20 @@ def calc_check_digits(number):
     number_base10 = ''.join(str(int(x, 36)) for x in number)
     checksum = int(number_base10) % 97
     return '%02d' % ((98 - 100 * checksum) % 97)
+
+
+def rounding(number, pre=0, type_rounding='round'):
+    """Rounding number by type rounding(round, roundup, rounddown)."""
+    if number != 0:
+        multiplier = 10 ** pre
+        if type_rounding == 'roundup':
+            return math.ceil(number * multiplier) / multiplier
+        elif type_rounding == 'rounddown':
+            return math.floor(number * multiplier) / multiplier
+        else:
+            return round(number, pre)
+    else:
+        return 0
 
 
 class ClassInvoiceCustom(models.Model):
@@ -53,7 +68,6 @@ class ClassInvoiceCustom(models.Model):
 
     def _get_default_document_no(self):
         return self.env["account.payment"].search([], limit=1, order='id desc').name
-
 
     # 4明細 - (JPY)明細行合計:3,104.00 / 総合計: 3,104.00 = 3,104.00
     def get_default_num_line(self):
@@ -86,7 +100,8 @@ class ClassInvoiceCustom(models.Model):
             else:
                 draft_name += ' ' + self.name
 
-        return (draft_name or self.name) + (show_ref and self.ref and ' (%s%s)' % (self.ref[:50], '...' if len(self.ref) > 50 else '') or '')
+        return (draft_name or self.name) + (
+                show_ref and self.ref and ' (%s%s)' % (self.ref[:50], '...' if len(self.ref) > 50 else '') or '')
 
     # Calculate due date
     def _get_due_date(self):
@@ -119,7 +134,7 @@ class ClassInvoiceCustom(models.Model):
     # Compute line len
     def get_line_len(self):
         return len(self.invoice_line_ids)
-        
+
     @api.onchange('state')
     def _get_printed_boolean(self):
         self.x_studio_printed = self.state == 'posted'
@@ -130,8 +145,7 @@ class ClassInvoiceCustom(models.Model):
         next = sequence.get_next_char(sequence.number_next_actual)
         return next
 
-
-    x_studio_client_2 = fields.Many2one('client.custom', string='Client' ,default=_get_default_client_id)
+    x_studio_client_2 = fields.Many2one('client.custom', string='Client', default=_get_default_client_id)
     x_studio_organization = fields.Many2one('res.company', default=_get_default_organization_id)
     x_studio_business_partner = fields.Many2one('res.partner')
     x_studio_name = fields.Char('name')
@@ -141,7 +155,8 @@ class ClassInvoiceCustom(models.Model):
     search_key = fields.Char('search key')
     x_studio_target_doc_type = fields.Many2one('account.journal', default=_get_default_target_doctype_id)
     x_studio_document_no = fields.Char(string="Document No", readonly=True, copy=False, default=_get_latest_document_no)
-    invoice_document_no_custom = fields.Char(string="Document", readonly=True, copy=False, default=_get_default_document_no)
+    invoice_document_no_custom = fields.Char(string="Document", readonly=True, copy=False,
+                                             default=_get_default_document_no)
     x_studio_cus_salesslipforms_table = fields.Selection([('cus_1', '指定なし'), ('cus_2', '通常'), ('cus_3', '専伝・仮伝')])
     x_studio_date_invoiced = fields.Date(string='Date Invoiced*', default=date.today())
     x_studio_date_printed = fields.Date(string='Date Printed', default=date.today())
@@ -165,23 +180,155 @@ class ClassInvoiceCustom(models.Model):
     x_due_date = fields.Date('', default=_get_due_date, store=False)
     line_len = fields.Integer('', default=get_line_len, store=False)
 
-    x_transaction_type = fields.Selection([('掛売', '掛売'), ('現金売', '現金売')],default='掛売')
+    x_transaction_type = fields.Selection([('掛売', '掛売'), ('現金売', '現金売')], default='掛売')
     x_voucher_tax_amount = fields.Float('消費税額')
-    # x_voucher_tax_transfer = fields.Selection([('外税／明細', '伝票', '請求', '内税／明細','税調整別途','伝票単位／内税','請求単位／内税'), ('外税／明細', '伝票', '請求', '内税／明細','税調整別途','伝票単位／内税','請求単位／内税')])
     # x_voucher_deadline = fields.Selection([('今回', '次回','通常','来月勘定'), ('今回', '次回','通常','来月勘定')],default='今回')
-    x_voucher_tax_transfer = fields.Selection(  [('外税／明細', '外税／明細'),
-                                                ('内税／明細', '内税／明細'),
-                                                ('税調整別途', '税調整別途'),
-                                                ('伝票単位／内税', '伝票単位／内税'),
-                                                ('請求単位／内税', '請求単位／内税')])
+    x_voucher_tax_transfer = fields.Selection([
+        ('no_tax', '非課税'),
+        ('foreign_tax', '外税／明細'),
+        ('voucher', '伝票'),
+        ('invoice', '請求'),
+        ('internal_tax', '内税／明細'),
+        ('custom_tax', '税調整別途')
+    ], string='税転嫁', default='no_tax')
 
-    x_voucher_deadline = fields.Selection([('今回', '今回'),('次回', '次回')],default='今回')
+    # 消費税端数処理
+    customer_tax_rounding = fields.Selection(
+        [('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')],
+        string='Tax Rounding', default='round')
+
+    x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
     x_bussiness_partner_name_2 = fields.Char('名称2')
     x_studio_description = fields.Text('説明')
-    x_userinput_id = fields.Many2one('res.users','Current User', default=lambda self: self.env.uid)
+    x_userinput_id = fields.Many2one('res.users', 'Current User', default=lambda self: self.env.uid)
     x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
-                              index=True, auto_join=True,
-                              help="The move of this entry line.")
+                                        index=True, auto_join=True,
+                                        help="The move of this entry line.")
+
+    # TODO recounting
+    @api.depends(
+        'line_ids.debit',
+        'line_ids.credit',
+        'line_ids.currency_id',
+        'line_ids.amount_currency',
+        'line_ids.amount_residual',
+        'line_ids.amount_residual_currency',
+        'line_ids.payment_id.state',
+        'line_ids.x_invoicelinetype')
+    def _compute_amount(self):
+        invoice_ids = [move.id for move in self if move.id and move.is_invoice(include_receipts=True)]
+        self.env['account.payment'].flush(['state'])
+        if invoice_ids:
+            self._cr.execute(
+                '''
+                    SELECT move.id
+                    FROM account_move move
+                    JOIN account_move_line line ON line.move_id = move.id
+                    JOIN account_partial_reconcile part ON part.debit_move_id = line.id OR part.credit_move_id = line.id
+                    JOIN account_move_line rec_line ON
+                        (rec_line.id = part.credit_move_id AND line.id = part.debit_move_id)
+                        OR
+                        (rec_line.id = part.debit_move_id AND line.id = part.credit_move_id)
+                    JOIN account_payment payment ON payment.id = rec_line.payment_id
+                    JOIN account_journal journal ON journal.id = rec_line.journal_id
+                    WHERE payment.state IN ('posted', 'sent')
+                    AND journal.post_at = 'bank_rec'
+                    AND move.id IN %s
+                ''', [tuple(invoice_ids)]
+            )
+            in_payment_set = set(res[0] for res in self._cr.fetchall())
+        else:
+            in_payment_set = {}
+
+        for move in self:
+            total_voucher_tax_amount = 0.0
+            total_untaxed = 0.0
+            total_untaxed_currency = 0.0
+            total_tax = 0.0
+            total_tax_currency = 0.0
+            total_residual = 0.0
+            total_residual_currency = 0.0
+            total = 0.0
+            total_currency = 0.0
+            currencies = set()
+
+            for line in move.line_ids:
+                if line.currency_id:
+                    currencies.add(line.currency_id)
+
+                if move.is_invoice(include_receipts=True):
+                    # === Invoices ===
+
+                    if not line.exclude_from_invoice_tab:
+                        # Untaxed amount.
+                        if (line.x_invoicelinetype != 'サンプル'):
+                            if move.x_voucher_tax_transfer == 'voucher':
+                                total_line_tax = sum(
+                                    tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
+                                line_tax_amount = (total_line_tax * line.price_unit) / 100
+                                if line.x_invoicelinetype in ('通常', 'サンプル', '消費税'):
+                                    if line.quantity < 0:
+                                        line_tax_amount = line_tax_amount * (-1)
+                                else:
+                                    if line.quantity > 0:
+                                        line_tax_amount = line_tax_amount * (-1)
+
+                                total_voucher_tax_amount += line_tax_amount
+                            else:
+                                total_voucher_tax_amount += line.line_tax_amount
+                            total_untaxed += line.balance
+                        # total_untaxed += line.balance
+                        total_untaxed_currency += line.amount_currency
+                        total += line.balance
+                        total_currency += line.amount_currency
+                    elif line.tax_line_id:
+                        # Tax amount.
+                        total_tax += line.balance
+                        total_tax_currency += line.amount_currency
+                        total += line.balance
+                        total_currency += line.amount_currency
+                    elif line.account_id.user_type_id.type in ('receivable', 'payable'):
+                        # Residual amount.
+                        total_residual += line.amount_residual
+                        total_residual_currency += line.amount_residual_currency
+                else:
+                    # === Miscellaneous journal entry ===
+                    if line.debit:
+                        total += line.balance
+                        total_currency += line.amount_currency
+
+            if move.type == 'entry' or move.is_outbound():
+                sign = 1
+            else:
+                sign = -1
+            if move.x_voucher_tax_transfer == 'voucher':
+                move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 2, move.customer_tax_rounding)
+            else:
+                move.x_voucher_tax_amount = total_voucher_tax_amount
+            move.amount_untaxed = sign * (total_untaxed_currency if len(currencies) == 1 else total_untaxed)
+            # move.amount_tax = sign * (total_tax_currency if len(currencies) == 1 else total_tax)
+            # move.amount_total = sign * (total_currency if len(currencies) == 1 else total)
+            move.amount_tax = move.x_voucher_tax_amount
+            move.amount_total = move.amount_untaxed + move.amount_tax
+            move.amount_residual = -sign * (total_residual_currency if len(currencies) == 1 else total_residual)
+            move.amount_untaxed_signed = -total_untaxed
+            move.amount_tax_signed = -total_tax
+            move.amount_total_signed = abs(total) if move.type == 'entry' else -total
+            move.amount_residual_signed = total_residual
+
+            currency = len(currencies) == 1 and currencies.pop() or move.company_id.currency_id
+            is_paid = currency and currency.is_zero(move.amount_residual) or not move.amount_residual
+
+            # Compute 'invoice_payment_state'.
+            if move.type == 'entry':
+                move.invoice_payment_state = False
+            elif move.state == 'posted' and is_paid:
+                if move.id in in_payment_set:
+                    move.invoice_payment_state = 'in_payment'
+                else:
+                    move.invoice_payment_state = 'paid'
+            else:
+                move.invoice_payment_state = 'not_paid'
 
     @api.onchange('x_history_voucher')
     def _onchange_x_test(self):
@@ -195,7 +342,7 @@ class ClassInvoiceCustom(models.Model):
             #     del line_data['move_id']
             #     result_l1.append((0, False, line_data))
 
-            #for l in voucher.x_history_voucher.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab):
+            # for l in voucher.x_history_voucher.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab):
             for l in voucher.x_history_voucher.line_ids:
                 fields_line = l.fields_get()
                 line_data = {attr: getattr(l, attr) for attr in fields_line}
@@ -207,7 +354,7 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_studio_client_2 = voucher.x_history_voucher.x_studio_client_2
                 voucher.x_studio_organization = voucher.x_history_voucher.x_studio_organization
                 voucher.x_studio_name = voucher.x_history_voucher.x_studio_name
-                voucher.x_studio_address_1 =voucher.x_history_voucher.x_studio_address_1
+                voucher.x_studio_address_1 = voucher.x_history_voucher.x_studio_address_1
                 voucher.x_studio_address_2 = voucher.x_history_voucher.x_studio_address_2
                 voucher.x_studio_address_3 = voucher.x_history_voucher.x_studio_address_3
                 voucher.search_key = voucher.x_history_voucher.search_key
@@ -230,14 +377,14 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_studio_description = voucher.x_history_voucher.x_studio_description
                 voucher.x_studio_price_list = voucher.x_history_voucher.x_studio_price_list
                 voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.x_bussiness_partner_name_2
-                # voucher.invoice_line_ids = voucher.x_history_voucher.invoice_line_ids
-                # for l in invoice_line_ids:
-                #     voucher.invoice_line_ids
+                voucher.x_voucher_tax_transfer = voucher.x_history_voucher.x_voucher_tax_transfer
+                voucher.customer_tax_rounding = voucher.x_history_voucher.customer_tax_rounding
 
-                # voucher.invoice_line_ids |= voucher.invoice_line_ids.new(voucher.invoice_line_ids)
-            #voucher.invoice_line_ids = result_l1
             voucher.line_ids = result_l2
             voucher.invoice_line_ids = voucher.x_history_voucher.invoice_line_ids
+
+        self._set_tax_counting()
+        self._onchange_invoice_line_ids()
 
     def action_view_form_modelname(self):
         view = self.env.ref('Maintain_Invoice_Remake.view_move_custom_form')
@@ -267,6 +414,49 @@ class ClassInvoiceCustom(models.Model):
                 rec.x_studio_price_list = rec.x_studio_business_partner.property_product_pricelist
                 rec.invoice_payment_terms_custom = rec.x_studio_business_partner.payment_terms
                 rec.x_bussiness_partner_name_2 = rec.x_studio_business_partner.customer_name_kana
+                rec.customer_tax_rounding = rec.x_studio_business_partner.customer_tax_rounding
+
+                # set default 税転嫁 by 消費税区分 & 消費税計算区分
+                customer_tax_category = rec.x_studio_business_partner.customer_tax_category
+                customer_tax_unit = rec.x_studio_business_partner.customer_tax_unit
+
+                # 消費税区分 = ３．非課税 or 消費税区分 is null or 消費税計算区分 is null ==> 税転嫁 = 非課税
+                if (customer_tax_category == 'exempt') or (not customer_tax_category) or (not customer_tax_unit):
+                    rec.x_voucher_tax_transfer = 'no_tax'
+                else:
+                    # 消費税計算区分 = １．明細単位
+                    if customer_tax_unit == 'detail':
+                        # 消費税区分 = １．外税 ==> 税転嫁 = 外税／明細
+                        if customer_tax_category == 'foreign':
+                            rec.x_voucher_tax_transfer = 'foreign_tax'
+                        # 消費税区分 = 2．内税 ==> 税転嫁 = 内税／明細
+                        else:
+                            rec.x_voucher_tax_transfer = 'internal_tax'
+                    # 消費税計算区分 = ２．伝票単位、３．請求単位 ==> 税転嫁 = 伝票、請求
+                    else:
+                        rec.x_voucher_tax_transfer = customer_tax_unit
+
+                # call onchange of 税転嫁
+                if rec.x_voucher_tax_transfer:
+                    self._set_tax_counting()
+
+    @api.onchange('x_voucher_tax_transfer')
+    def _set_tax_counting(self):
+        self._onchange_invoice_line_ids()
+        for line in self.invoice_line_ids:
+            line._onchange_product_id()
+            line._onchange_price_subtotal()
+
+    @api.onchange('invoice_line_ids')
+    def _onchange_invoice_line_ids(self):
+        for line in self.invoice_line_ids:
+            line.compute_tax_ids()
+        current_invoice_lines = self.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab)
+        others_lines = self.line_ids - current_invoice_lines
+        if others_lines and current_invoice_lines - self.invoice_line_ids:
+            others_lines[0].recompute_tax_line = True
+        self.line_ids = others_lines + self.invoice_line_ids
+        self._onchange_recompute_dynamic_lines()
 
     @api.onchange('x_studio_payment_rule_1')
     def _get_payment_terms_by_rules(self):
@@ -317,10 +507,17 @@ class ClassInvoiceCustom(models.Model):
             count = 0
             # self.env["account.tax.line"].search([('move_id', '=', move.id)]).unlink()
             # print(move.id)
+            tax_base_amount = 0.00
+            tax_amount = 0.00
+            for line in move.invoice_line_ids:
+                tax_base_amount = line.invoice_custom_lineamount
+                tax_amount = line.line_tax_amount
+
             self.invoice_line_ids_tax = [(5, 0, 0)]
             for line in tax_lines:
                 res.setdefault(line.tax_line_id.tax_group_id, {'base': 0.0, 'amount': 0.0})
-                res[line.tax_line_id.tax_group_id]['amount'] += line.price_subtotal
+                # res[line.tax_line_id.tax_group_id]['amount'] += line.price_subtotal
+                res[line.tax_line_id.tax_group_id]['amount'] = tax_amount
                 tax_key_add_base = tuple(move._get_tax_key_for_group_add_base(line))
                 if tax_key_add_base not in done_taxes:
                     if line.currency_id != self.company_id.currency_id:
@@ -328,13 +525,16 @@ class ClassInvoiceCustom(models.Model):
                                                                       self.company_id, line.date or fields.Date.today())
                     else:
                         amount = line.tax_base_amount
-                    res[line.tax_line_id.tax_group_id]['base'] += amount
+
+                    # res[line.tax_line_id.tax_group_id]['base'] += amount
+                    res[line.tax_line_id.tax_group_id]['base'] = tax_base_amount
                     # The base should be added ONCE
                     done_taxes.add(tax_key_add_base)
             print(res.keys())
             for x in res:
-                result.append((0, False, {'move_id': move.id, 'move_name': move.x_studio_document_no, 'taxGroup': x.name,
-                                          'tax_base_amount': res[x]['base'], 'tax_amount': res[x]['amount']}))
+                result.append(
+                    (0, False, {'move_id': move.id, 'move_name': self.x_studio_document_no, 'taxGroup': x.name,
+                                'tax_base_amount': res[x]['base'], 'tax_amount': res[x]['amount']}))
                 # self.invoice_line_ids_tax = [
                 #     (0, False, {'move_id': move.id, 'move_name': move.name, 'taxGroup': x.name, 'tax_base_amount': res[x]['base'],'tax_amount':res[x]['amount']})]
                 #     (0, False, {'move_id': move.id, 'move_name': move.name, 'taxGroup': x.name})]
@@ -422,9 +622,9 @@ class ClassInvoiceCustom(models.Model):
     def action_confirm(self):
         print('click aaaaaaaaaaaaaaaaa')
         for order in self:
-            #params = order.check_credit_limit()
-            #view_id = self.env['sale.control.limit.wizard']
-            #new = view_id.create(params[0])
+            # params = order.check_credit_limit()
+            # view_id = self.env['sale.control.limit.wizard']
+            # new = view_id.create(params[0])
             return {
                 'type': 'ir.actions.act_window',
                 'name': 'Warning : Customer is about or exceeded their credit limit',
@@ -450,6 +650,7 @@ class ClassInvoiceCustom(models.Model):
             'res_id': self.id,
         }
         return view
+
 
 class AccountTaxLine(models.Model):
     _name = 'account.tax.line'
@@ -544,11 +745,11 @@ class AccountMoveLine(models.Model):
                     # 2: delete
                     # 4: no change
                     if l_v[0] == 0:
-                        if  'exclude_from_invoice_tab' in l_v[2]:
+                        if 'exclude_from_invoice_tab' in l_v[2]:
                             if l_v[2]['exclude_from_invoice_tab'] == False:
                                 list_final[l_v[1]] = l_v[2]['invoice_custom_line_no']
                     if l_v[0] == 1 and 'invoice_custom_line_no' in l_v[2]:
-                        if  'exclude_from_invoice_tab' in l_v[2]:
+                        if 'exclude_from_invoice_tab' in l_v[2]:
                             if l_v[2]['exclude_from_invoice_tab'] == False:
                                 list_final[l_v[1]] = l_v[2]['invoice_custom_line_no']
                     if l_v[0] == 2:
@@ -561,6 +762,7 @@ class AccountMoveLine(models.Model):
 
     def generate_selection(self):
         return 'abc'
+
     @api.onchange('x_crm_purchased_products')
     def _onchange_x_crm_purchased_products(self):
         for p in self:
@@ -568,10 +770,11 @@ class AccountMoveLine(models.Model):
 
     invoice_custom_line_no = fields.Integer('Line No', default=get_default_line_no)
     # Update 2020/04/28 - START
-    x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品')], default='通常')
+    x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品'), ('値引', '値引'), ('サンプル', 'サンプル'), ('消費税', '消費税')],
+                                         default='通常')
     x_product_barcode = fields.Many2one('product.product', string='JAN/UPC/EAN')
-    x_product_barcode_show_in_tree = fields.Char(string='JANコード',related='x_product_barcode.barcode')
-    x_product_code_show_in_tree = fields.Char(string='商品コード',related='x_product_barcode.product_code_1')
+    x_product_barcode_show_in_tree = fields.Char(string='JANコード', related='x_product_barcode.barcode')
+    x_product_code_show_in_tree = fields.Char(string='商品コード', related='x_product_barcode.product_code_1')
 
     x_product_modelnumber = fields.Char('Product')
     x_product_name = fields.Char('mproductname')
@@ -599,18 +802,21 @@ class AccountMoveLine(models.Model):
                               help="The move of this entry line.")
     move_name = fields.Char(compute='compute_move_name')
     invoice_no = fields.Char(string='伝票Ｎｏ', related='move_id.x_studio_document_no', store=True, index=True)
-    x_tax_transfer_show_tree = fields.Selection(string='税転嫁',related='move_id.x_voucher_tax_transfer',store=True, index=True)
+    x_tax_transfer_show_tree = fields.Selection(string='税転嫁', related='move_id.x_voucher_tax_transfer', store=True,
+                                                index=True)
     x_customer_show_in_tree = fields.Char(string='得意先名', compute='compute_x_customer_show_in_tree')
     x_history_detail = fields.Many2one('account.move.line', string='Journal Entry',
                                        index=True, auto_join=True,
                                        help="The move of this entry line.")
 
+    line_tax_amount = fields.Float('Tax Amount', compute='compute_line_tax_amount')
 
+    tax_ids = fields.Many2many('account.tax', string='Taxes', help="Taxes that apply on the base amount",
+                               compute='compute_tax_ids')
 
     def compute_x_customer_show_in_tree(self):
         for line in self:
             line.x_customer_show_in_tree = line.move_id.x_studio_business_partner.name
-
 
     def compute_product_barcode_show_in_tree(self):
         for line in self:
@@ -623,18 +829,18 @@ class AccountMoveLine(models.Model):
     def _validate_price_unit(self):
         for p in self:
             if p.price_unit < 0:
-                #self.price_unit = self._origin.price_unit
-                raise ValidationError(_("最小制限価格: "+ str(p.price_unit)+", PriceLimit=0"))
+                # self.price_unit = self._origin.price_unit
+                raise ValidationError(_("最小制限価格: " + str(p.price_unit) + ", PriceLimit=0"))
         return
 
     def _validate_discountrate(self):
         for p in self:
 
             if p.discount < 0:
-                #self.discount = self._origin.discount
+                # self.discount = self._origin.discount
                 raise ValidationError(_("入力された値は最小値(0)の制限より小さくなっています。: 値引率%"))
             if p.discount > 100:
-                #self.discount = self._origin.discount
+                # self.discount = self._origin.discount
                 raise ValidationError(_("入力された値は最大値(100)の制限より大きくなっています。: 値引率%"))
 
     def get_compute_lineamount(self, price_unit, discount, quantity):
@@ -645,6 +851,7 @@ class AccountMoveLine(models.Model):
         if quantity is None:
             quantity = 0
         result = price_unit * quantity - (discount * price_unit / 100) * quantity
+        # TODO recounting rounding
         return round(result, 2)
 
     def get_compute_sale_unit_price(self, price_unit, discount):
@@ -652,7 +859,8 @@ class AccountMoveLine(models.Model):
             price_unit = 0
         if discount is None:
             discount = 0
-        result = price_unit - discount * price_unit / 100;
+        result = price_unit - discount * price_unit / 100
+        # TODO recounting rounding
         return round(result, 2)
 
     def get_compute_discount_unit_price(self, price_unit, discount):
@@ -661,7 +869,26 @@ class AccountMoveLine(models.Model):
         if discount is None:
             discount = 0
         result = - price_unit * discount / 100
+        # TODO recounting rounding
         return round(result, 2)
+
+    def _get_compute_line_tax_amount(self, line_amount, line_taxes, line_rounding, line_type):
+        if line_amount != 0:
+            return rounding(line_amount * line_taxes / 100, 2, line_rounding)
+        else:
+            return 0
+
+    def compute_tax_ids(self):
+        for line in self:
+            line.tax_ids = line.product_id.taxes_id
+
+    # def _get_computed_taxes(self):
+    #     self.ensure_one()
+    #     if self.product_id.taxes_id:
+    #         tax_ids = self.product_id.taxes_id.filtered(lambda tax: tax.company_id == self.move_id.company_id)
+    #     else:
+    #         tax_ids = False
+    #     return tax_ids
 
     def compute_sale_unit_price(self):
         for line in self:
@@ -675,16 +902,27 @@ class AccountMoveLine(models.Model):
         for line in self:
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity)
 
+    def compute_line_tax_amount(self):
+        for line in self:
+            if line.move_id.x_voucher_tax_transfer in ('foreign_tax', 'custom_tax'):
+                total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
+                line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
+                                                                         total_line_tax,
+                                                                         line.move_id.customer_tax_rounding,
+                                                                         line.x_invoicelinetype)
+            else:
+                line.line_tax_amount = 0
+
     @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype')
-    def _onchange_price_subtotal(self):        
+    def _onchange_price_subtotal(self):
         for line in self:
             if line.exclude_from_invoice_tab == False:
                 self._validate_price_unit()
                 self._validate_discountrate()
-            print('test detail')
-            print(line.x_invoicelinetype)
-            print('end test')
-            if line.x_invoicelinetype == '通常':
+            # print('test detail')
+            # print(line.x_invoicelinetype)
+            # print('end test')
+            if line.x_invoicelinetype in ('通常', 'サンプル', '消費税'):
                 if line.quantity < 0:
                     line.quantity = line.quantity * (-1)
             else:
@@ -699,6 +937,15 @@ class AccountMoveLine(models.Model):
             line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount)
             line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount)
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity)
+
+            if line.move_id.x_voucher_tax_transfer in ('foreign_tax', 'custom_tax'):
+                total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
+                line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
+                                                                         total_line_tax,
+                                                                         line.move_id.customer_tax_rounding,
+                                                                         line.x_invoicelinetype)
+            else:
+                line.line_tax_amount = 0
 
     def _get_computed_freigth_category(self):
         self.ensure_one()
@@ -719,6 +966,7 @@ class AccountMoveLine(models.Model):
                 return self.invoice_custom_standardnumber
         else:
             return False
+
     # def _get_computed_name(self):
     #     self.ensure_one()
     #
@@ -749,12 +997,26 @@ class AccountMoveLine(models.Model):
 
             line.name = line._get_computed_name()
             line.x_product_name = line.product_id.name
-            line.x_product_list_price = line.product_id.list_price
+
+            # line.x_product_list_price = line.product_id.list_price
+            # todo set price follow product code
+            # line.x_product_list_price = line.product_id.price_no_tax_1
+
+            # todo set price follow product code
+            if line.move_id.x_voucher_tax_transfer == 'internal_tax':
+                line.price_unit = line.product_id.price_include_tax_1
+            else:
+                line.price_unit = line.product_id.price_no_tax_1
+
             line.x_product_barcode = line.product_id
             line.account_id = line._get_computed_account()
-            line.tax_ids = line._get_computed_taxes()
+
+            # line.tax_ids = line._get_computed_taxes()
+            # line.tax_ids = line.product_id.taxes_id
+            line.compute_tax_ids()
+
             line.product_uom_id = line._get_computed_uom()
-            #line.price_unit = line._get_computed_price_unit()
+            # line.price_unit = line._get_computed_price_unit()
             line.invoice_custom_FreightCategory = line._get_computed_freigth_category()
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
             # Manage the fiscal position after that and adapt the price_unit.
@@ -775,8 +1037,8 @@ class AccountMoveLine(models.Model):
 
             # Convert the unit price to the invoice's currency.
             company = line.move_id.company_id
-            line.price_unit = company.currency_id._convert(line.price_unit, line.move_id.currency_id, company,
-                                                           line.move_id.date)
+            # line.price_unit = company.currency_id._convert(line.price_unit, line.move_id.currency_id, company,
+            #                                                line.move_id.date)
 
         if len(self) == 1:
             return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
@@ -795,6 +1057,3 @@ class AccountMoveLine(models.Model):
             'res_id': self.id,
         }
         return view
-
-
-
