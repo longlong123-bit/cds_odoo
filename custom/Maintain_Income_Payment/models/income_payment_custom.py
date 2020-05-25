@@ -104,7 +104,7 @@ class IncomePaymentCustom(models.Model):
             rec.partner_id = values or ''
             rec.partner_payment_name1 = values.name or ''
             # TODO set name 4
-            rec.partner_payment_name2 = values.customer_namef or ''
+            rec.partner_payment_name2 = values.customer_name_kana or ''
             rec.partner_payment_address1 = values.street or ''
             rec.partner_payment_address2 = values.street2 or ''
 
