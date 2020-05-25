@@ -8,6 +8,7 @@ from odoo.tools import float_is_zero, float_compare, safe_eval, date_utils, emai
 from odoo.tools.misc import formatLang, format_date, get_lang
 from datetime import timedelta
 from odoo.exceptions import ValidationError
+import time
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 from itertools import groupby
@@ -196,6 +197,14 @@ class ClassInvoiceCustom(models.Model):
     customer_tax_rounding = fields.Selection(
         [('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')],
         string='Tax Rounding', default='round')
+    # from customer master
+    customer_office = fields.Char('Customer Office', compute='get_office')
+    customer_group = fields.Char('Customer Group')
+    customer_state = fields.Char('Customer State')
+    customer_industry = fields.Char('Customer Industry')
+    customer_closing_date = fields.Date('Closing Date')
+    customer_trans_classification_code = fields.Selection([('sale','掛売'),('cash','現金'), ('account','諸口')], string='Transaction classification')
+    closing_date_compute = fields.Integer('Temp')
 
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
     x_bussiness_partner_name_2 = fields.Char('名称2')
@@ -415,6 +424,11 @@ class ClassInvoiceCustom(models.Model):
                 rec.invoice_payment_terms_custom = rec.x_studio_business_partner.payment_terms
                 rec.x_bussiness_partner_name_2 = rec.x_studio_business_partner.customer_name_kana
                 rec.customer_tax_rounding = rec.x_studio_business_partner.customer_tax_rounding
+                # Add customer info
+                rec.customer_group = rec.x_studio_business_partner.customer_supplier_group_code.name
+                rec.customer_state = rec.x_studio_business_partner.customer_state.name
+                rec.customer_industry = rec.x_studio_business_partner.customer_industry_code.name
+                rec.customer_trans_classification_code = rec.x_studio_business_partner.customer_trans_classification_code
 
                 # set default 税転嫁 by 消費税区分 & 消費税計算区分
                 customer_tax_category = rec.x_studio_business_partner.customer_tax_category
@@ -447,6 +461,19 @@ class ClassInvoiceCustom(models.Model):
             line._onchange_product_id()
             line._onchange_price_subtotal()
 
+    # Get customer office
+    def get_office(self):
+        for rec in self:
+            temp = ''
+            partner = rec.x_studio_business_partner
+            for line in partner.relation_id:
+                print('111111111111111111111232323')
+                if line.relate_related_partner.name:
+                    print('ffffffffffffffff')
+                    temp = line.relate_related_partner.name
+                    # break
+            rec.customer_office = temp
+
     @api.onchange('invoice_line_ids')
     def _onchange_invoice_line_ids(self):
         for line in self.invoice_line_ids:
@@ -471,6 +498,43 @@ class ClassInvoiceCustom(models.Model):
                     or self.x_studio_payment_rule_1 == 'rule_on_credit':
                 self.invoice_payment_terms_custom = 1
 
+    # tính ngày closing date dựa theo start day của customer
+    @api.onchange('closing_date_compute', 'x_studio_date_invoiced', 'x_voucher_deadline', 'x_studio_business_partner')
+    def _get_closing_date(self):
+        for rec in self:
+            rec.closing_date_compute = rec.x_studio_business_partner.customer_closing_date.start_day
+            day = int(rec.x_studio_date_invoiced.strftime('%d'))
+            closing_date = rec.closing_date_compute
+            invoice_year = rec.x_studio_date_invoiced.year
+            invoice_month = rec.x_studio_date_invoiced.month
+            if int(day) > int(rec.closing_date_compute):
+                if rec.x_voucher_deadline == '今回':
+                    try:
+                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(months=1)
+                    except ValueError:
+                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(months=1)
+                else:
+                    try:
+                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(months=2)
+                    except ValueError:
+                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(months=2)
+            else:
+                if rec.x_voucher_deadline == '今回':
+                    try:
+                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date)
+                    except ValueError:
+                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day)
+
+                else:
+                    try:
+                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(months=1)
+                    except ValueError:
+                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(months=1)
+
     @api.constrains('x_studio_date_invoiced')
     def _validate_plate(self):
         res = self.env['account.move'].sudo().search([('x_studio_date_invoiced', '=', self.x_studio_date_invoiced)])
@@ -483,6 +547,17 @@ class ClassInvoiceCustom(models.Model):
             vals['x_studio_document_no'] = self.env['ir.sequence'].next_by_code('document.sequence') or _('New')
         result = super(ClassInvoiceCustom, self).create(vals)
         return result
+
+    # lấy thông tin office từ khách hàng
+    def _compute_get_customer_office(self):
+        for rec in self:
+            temp = ''
+            partner = rec.x_studio_business_partner
+            for line in partner.relation_id:
+                if line.relate_related_partner.name:
+                    temp = line.relate_related_partner.name
+                    break
+            rec.customer_office = temp
 
     # tính tiền khách trả trước
     def _compute_invoice_total_paid(self):
