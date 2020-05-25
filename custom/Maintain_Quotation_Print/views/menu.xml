@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <report
+      id="report_format1"
+      model="sale.order"
+      string="Price quotation"
+      report_type="qweb-pdf"
+      attachment_use="False"
+      name="Maintain_Quotation_Print.report_format1"
+      file="Maintain_Quotation_Print.report_format1"
+  />
+</odoo>
