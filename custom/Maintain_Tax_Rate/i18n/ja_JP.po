@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-07 11:33+0000\n"
-"PO-Revision-Date: 2020-05-07 11:33+0000\n"
+"POT-Creation-Date: 2020-05-25 10:42+0000\n"
+"PO-Revision-Date: 2020-05-25 10:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,38 +22,45 @@ msgid "%s (copy)"
 msgstr "%s (コピー)"
 
 #. module: Maintain_Tax_Rate
-#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 msgid "Account Tax"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
 #: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_account_tax__active
-#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 msgid "Active"
-msgstr "アクティブ"
+msgstr "有効"
 
 #. module: Maintain_Tax_Rate
-#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 msgid "Advanced Options"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
-#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 msgid "Children Taxes"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
-#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 msgid "Definition"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
-#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_account_tax__amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_tree
+msgid "Rate"
+msgstr "税率"
+
+#. module: Maintain_Tax_Rate
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 msgid "Repartition for Credit Notes"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
-#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 msgid "Repartition for Invoices"
 msgstr ""
 
@@ -75,19 +82,19 @@ msgstr "税率マスタ"
 
 #. module: Maintain_Tax_Rate
 #: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_account_tax__tax_rate_code
-#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_filter
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_tree
 msgid "Tax Rate Code"
 msgstr "税率コード"
 
 #. module: Maintain_Tax_Rate
 #: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_account_tax__name
-#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.closing_date_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_filter
+#: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_tree
 msgid "Tax Rate Name"
-msgstr "税率"
+msgstr "税率名"
 
 #. module: Maintain_Tax_Rate
 #: code:addons/Maintain_Tax_Rate/models/tax_rate_model.py:0
@@ -95,9 +102,3 @@ msgstr "税率"
 #, python-format
 msgid "The code must be unique!"
 msgstr "コードが既に登録されています。"
-
-#. module: account
-#: model:ir.model.constraint,message:account.constraint_account_tax_name_company_uniq
-#: model:ir.model.constraint,message:account.constraint_account_tax_template_name_company_uniq
-msgid "Tax names must be unique !"
-msgstr "名前税は一意である必要があります。"
