@@ -43,6 +43,7 @@
                   <attribute name="class">forward_edit</attribute>
             </xpath>
           <xpath expr="//field[@name='name']" position="after">
+            <button class="o_button_line" string="" icon="fa-toggle-right"/>
             <field name="x_studio_document_no" string="Document No"/>
             <field name="ref" string="Order Reference"/>
             <field name="x_studio_date_invoiced" string="Date Invoiced"/>
