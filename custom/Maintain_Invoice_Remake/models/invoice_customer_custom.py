@@ -232,6 +232,8 @@ class ClassInvoiceCustom(models.Model):
     x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
                                         index=True, auto_join=True,
                                         help="The move of this entry line.")
+    sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, states={'draft': [('readonly', False)]},
+                                domain="[('share', '=', False)]", default=lambda self: self.env.user)
 
     # TODO recounting
     @api.depends(
@@ -370,11 +372,11 @@ class ClassInvoiceCustom(models.Model):
         result_l2 = []
         for voucher in self:
             # print(voucher.x_history_voucher.invoice_line_ids)
-            # for l in voucher.x_history_voucher.invoice_line_ids:
-            #     fields_line = l.fields_get()
-            #     line_data = {attr: getattr(l, attr) for attr in fields_line}
-            #     del line_data['move_id']
-            #     result_l1.append((0, False, line_data))
+            for l in voucher.x_history_voucher.invoice_line_ids:
+                fields_line = l.fields_get()
+                line_data = {attr: getattr(l, attr) for attr in fields_line}
+                del line_data['move_id']
+                result_l1.append((0, False, line_data))
 
             # for l in voucher.x_history_voucher.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab):
             for l in voucher.x_history_voucher.line_ids:
@@ -384,6 +386,7 @@ class ClassInvoiceCustom(models.Model):
                 result_l2.append((0, False, line_data))
             if voucher.x_history_voucher._origin.id:
                 voucher.x_studio_business_partner = voucher.x_history_voucher.x_studio_business_partner
+                voucher.partner_id = voucher.x_studio_business_partner
 
                 voucher.x_studio_client_2 = voucher.x_history_voucher.x_studio_client_2
                 voucher.x_studio_organization = voucher.x_history_voucher.x_studio_organization
@@ -413,9 +416,11 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.x_bussiness_partner_name_2
                 voucher.x_voucher_tax_transfer = voucher.x_history_voucher.x_voucher_tax_transfer
                 voucher.customer_tax_rounding = voucher.x_history_voucher.customer_tax_rounding
-
+            voucher.line_ids = []
             voucher.line_ids = result_l2
-            voucher.invoice_line_ids = voucher.x_history_voucher.invoice_line_ids
+            voucher.invoice_line_ids = []
+            voucher.invoice_line_ids = result_l1
+            # voucher.x_history_voucher.invoice_line_ids
 
         self._set_tax_counting()
         self._onchange_invoice_line_ids()
@@ -492,9 +497,7 @@ class ClassInvoiceCustom(models.Model):
             temp = ''
             partner = rec.x_studio_business_partner
             for line in partner.relation_id:
-                print('111111111111111111111232323')
                 if line.relate_related_partner.name:
-                    print('ffffffffffffffff')
                     temp = line.relate_related_partner.name
                     # break
             rec.customer_office = temp

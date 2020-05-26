@@ -52,7 +52,7 @@
                     <field name="customer_industry" string="Customer Industry"/>
 <!--                    <field name="customer_closing_date" string="Closing Date"/>-->
                     <field name="x_userinput_id" string="userinput_id"/>
-                    <field name="x_userinput_id" string="userinput_id"/>
+                    <field name="sales_rep" string="Sales Rep"/>
                     <field name="create_date" string="Updated"/>
                     <field name="state" string="Document Status"/>
                     <field name="invoice_date" optional="show" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')" string="Bill Date"/>
