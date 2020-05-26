@@ -356,12 +356,11 @@ var FormController = BasicController.extend({
      */
     _confirmSave: function (id) {
         if (id === this.handle) {
-//            if (this.mode === 'readonly') {
-//                return this.reload();
-//            } else {
-//                return this._setMode('readonly');
-//            }
-            return this.reload();
+            if (this.mode === 'readonly') {
+                return this.reload();
+            } else {
+                return this._setMode('readonly');
+            }
         } else {
             // A subrecord has changed, so update the corresponding relational field
             // i.e. the one whose value is a record with the given id or a list

@@ -121,9 +121,6 @@ var Dialog = Widget.extend({
                 renderFooter: self.renderFooter,
             }));
             switch (self.size) {
-                case 'ultra-large':
-                    self.$modal.find('.modal-dialog').addClass('modal-ultra');
-                    break;
                 case 'extra-large':
                     self.$modal.find('.modal-dialog').addClass('modal-xl');
                     break;
