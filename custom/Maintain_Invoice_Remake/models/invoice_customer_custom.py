@@ -235,7 +235,6 @@ class ClassInvoiceCustom(models.Model):
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, states={'draft': [('readonly', False)]},
                                 domain="[('share', '=', False)]", default=lambda self: self.env.user)
 
-    # TODO recounting
     @api.depends(
         'line_ids.debit',
         'line_ids.credit',
@@ -246,10 +245,6 @@ class ClassInvoiceCustom(models.Model):
         'line_ids.payment_id.state',
         'line_ids.x_invoicelinetype')
     def _compute_amount(self):
-        # for line in self.invoice_line_ids:
-        #     print('-------------------------------------------')
-        #     print(line.display_type)
-        #     print(line.account_id.name)
         invoice_ids = [move.id for move in self if move.id and move.is_invoice(include_receipts=True)]
         self.env['account.payment'].flush(['state'])
         if invoice_ids:
@@ -302,11 +297,9 @@ class ClassInvoiceCustom(models.Model):
                                     tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                                 line_tax_amount = (total_line_tax * line.price_unit) / 100
                                 if line.x_invoicelinetype in ('通常', 'サンプル', '消費税'):
-                                    if line.quantity < 0:
-                                        line_tax_amount = line_tax_amount * (-1)
+                                    line_tax_amount = line_tax_amount * (-1)
                                 else:
-                                    if line.quantity > 0:
-                                        line_tax_amount = line_tax_amount * (-1)
+                                    line_tax_amount = line_tax_amount * (-1)
 
                                 total_voucher_tax_amount += line_tax_amount
                             else:
