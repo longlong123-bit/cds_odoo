@@ -32,7 +32,7 @@ class QuotationsCustom(models.Model):
     # partner_id = fields.Many2one(string='Partner Order')
 
     document_no = fields.Char(string='Document No')
-    document_reference = fields.Char(string='Document No Reference', store=False)
+    document_reference = fields.Char(string='Document No Reference')
 
     expiration_date = fields.Date(string='Expiration Date')
     comment = fields.Text(string='Comment')
@@ -69,8 +69,6 @@ class QuotationsCustom(models.Model):
     #     ('sale', 'Sale')
     # ], string='Report Header', readonly=False, default='quotation')
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
-
-    sale_custom_id = fields.Many2one('sale.custom', string="Sale Custom", ondelete='cascade', required=True, index=True)
 
     @api.onchange('partner_id')
     def _get_detail_product(self):
@@ -222,34 +220,25 @@ class QuotationsCustom(models.Model):
     def set_order(self, order_id):
         # TODO set order
         sale_order = self.env['sale.order'].search([('id', '=', order_id)])
-        # action = self.env.ref('sale.order').read()[0]
-        # action['context'] = {'id': order_id,}
-        # action['context']['form_view_initial_mode'] = 'edit'
-        # action['context']['view_no_maturity'] = False
-        # action['views'] = [(self.env.ref('sale.order.custom.form').id, 'form')]
-        # action['res_id'] = self.copy().id
-        # return action
-        # vals = self.with_context(active_test=False).copy_data(sale_order[0])[0]
-        print(order_id)
-        print(sale_order)
-        # for r in sale_order:
-        #     print('-----------------------')
-        #     print(r.order_line)
-        #     for rec in self:
-        #         rec.order_line = r.order_line or ''
-        #         rec.comment_apply = r.comment_apply
-        # sale_order1 = sale_order.copy()
-        # if sale_order:
-        #     # print(type(sale_order))
-        #     print('-----------------------')
-        #     print(sale_order[0].order_line)
-        #     for rec in self:
-        #         rec.order_line = sale_order[0].order_line or ()
-        #         rec.comment_apply = sale_order[0].comment_apply or ''
-        # raise ValidationError(
-        #     _('on change'))
-        # args = [('id', '=', order_id)]
-        # quotations_custom = super(QuotationsCustom, self).search(args)
+
+        self.document_reference = sale_order.document_reference
+        self.name = sale_order.name
+        self.partner_id = sale_order.partner_id
+        self.partner_name = sale_order.partner_name
+        self.cb_partner_sales_rep_id = sale_order.cb_partner_sales_rep_id
+        self.shipping_address = sale_order.shipping_address
+        self.sales_rep = sale_order.sales_rep
+        self.expected_date = sale_order.expected_date
+        self.expiration_date = sale_order.expiration_date
+        self.note = sale_order.note
+        self.comment = sale_order.comment
+        self.quotation_type = sale_order.quotation_type
+        self.report_header = sale_order.report_header
+        self.paperformat_id = sale_order.paperformat_id
+        self.is_print_date = sale_order.is_print_date
+        self.tax_method = sale_order.tax_method
+        self.comment_apply = sale_order.comment_apply
+
         default = dict(None or [])
         if sale_order:
             lines = [rec.copy_data()[0] for rec in sale_order[0].order_line.sorted(key='id')]
@@ -257,13 +246,6 @@ class QuotationsCustom(models.Model):
             for rec in self:
                 rec.order_line = default['order_line'] or ()
                 rec.comment_apply = sale_order[0].comment_apply or ''
-
-        # return quotations_custom
-
-
-def attrsetter(attr, value):
-    """ Return a function that sets ``attr`` on its argument and returns it. """
-    return lambda method: setattr(method, attr, value) or method
 
 
 class QuotationsLinesCustom(models.Model):
@@ -307,11 +289,3 @@ class QuotationReportHeaderCustom(models.Model):
     _rec_name = 'name'
 
     name = fields.Char(string='Report Header')
-
-
-class SaleCustom(models.Model):
-    _name = "sale.custom"
-
-    sale_order_ids = fields.One2many('sale.order', 'sale_custom_id', 'Sale Order', copy=True)
-    # custom_attribute_line_ids = fields.One2many('product.custom.template.attribute.line', 'product_id',
-    #                                             'Product Attributes', copy=True)
