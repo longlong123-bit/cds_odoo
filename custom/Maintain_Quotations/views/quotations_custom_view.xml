@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="replace">
-                <form string="Quotations Custom" class="custom_template quotations_custom">
+                <form string="Quotations Custom" class="custom_template quotations_custom" js_class="quotation-custom">
                     <header>
                         <field name="authorized_transaction_ids" invisible="1"/>
                         <button name="payment_action_capture" type="object"
@@ -42,9 +42,16 @@
                     </header>
                     <table class="custom-form-table cols-8">
                         <tbody>
-                            <tr>
+<!--                            <tr>-->
+<!--                                <button name="open_popup" string="test popup" type="object"/>-->
+<!--                                <button class="button-test" string="test popup 2" type="object"/>-->
 <!--                                <td colspan="8"><field class="line_info no-border" name="line_info" readonly="True"/></td>-->
-                            </tr>
+<!--                            </tr>-->
+
+<!--                            <tr>-->
+<!--                                <td><input id="test-input-form" placeholder="input field"></input></td>-->
+<!--                                <td><button class="button-test-form">button test form</button></td>-->
+<!--                            </tr>-->
 
                             <!-- Row 0 -->
                             <tr>
@@ -60,66 +67,24 @@
 
                             <!-- Row 1 -->
                             <tr>
-                                <td class="o_td_label"><label for="name" string="Name*"/></td>
-                                <td colspan="2"><field name="name" required="True"/></td>
-                                <td class="o_td_label"><label for="document_no" string="Document No*"/></td>
-                                <td><field name="document_no"/></td>
-                                <td class="o_td_label"><label for="order_id" string="Order ID"/></td>
-                                <td><field name="order_id" readonly="False"/></td>
-                            </tr>
-
-                            <!-- Row 2 -->
-                            <tr>
-                                <td class="o_td_label"><label for="shipping_address" string="Shipping Address*"/></td>
-                                <td colspan="2"><field name="shipping_address"/></td>
-                                <td class="o_td_label"><label for="expected_date" string="Expected Date*"/></td>
-                                <td><field name="expected_date" required="True"/></td>
-                                <td class="o_td_label"><label for="expiration_date" string="Expiration Date*"/></td>
-                                <td><field name="expiration_date" required="True"/></td>
-                                <td><field name="state" invisible="True"/></td>
-                                <td><field name="company_id" invisible="True"/></td>
-                            </tr>
-
-                            <!-- Row 3 -->
-                            <tr>
-                                <td class="o_td_label"><label for="note" string="Note"/></td>
-                                <td colspan="2"><field name="note"/></td>
-                                <td class="o_td_label"><label for="comment" string="Comment"/></td>
-                                <td colspan="4"><field name="comment"/></td>
-                            </tr>
-
-                            <!-- Row 4 -->
-                            <tr>
-<!--                                <td></td>-->
-<!--                                <td colspan="2">-->
-<!--                                    <field name="is_unit_quotations" widget="boolean_tags" class="field-checkbox"/>-->
-<!--                                    <label for="is_unit_quotations" string="Unit Quotations"/>-->
-<!--                                </td>-->
-                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation"/></td>
-                                <td colspan="2"><field name="quotation_type" widget="radio"/></td>
-                                <td class="o_td_label"><label for="report_header" string="Report Title"/></td>
-                                <td><field name="report_header"/></td>
-                                <td class="o_td_label"><label for="paperformat_id" string="Paper Format"/></td>
-                                <td><field name="paperformat_id" readonly="False"/></td>
-                            </tr>
-
-                            <!-- Row 5 -->
-                            <tr>
-                                <td></td>
-                                <td colspan="2">
-                                    <field name="is_print_date" widget="boolean_tags" class="field-checkbox"/>
-                                    <label for="is_print_date" string="Print Date"/>
-                                </td>
-                                <td class="o_td_label"><label for="tax_method" string="Tax Method"/></td>
-                                <td><field name="tax_method"/></td>
+                                <td class="o_td_label"><label for="document_reference" string="Document Reference*"/></td>
+                                <td><field name="document_reference"/></td>
+                                <td><field name="order_id" widget="Maintain_Quotation_History.Order" z-index="92"/></td>
+<!--                                <td class="o_td_label"><label for="order_id" string="Order ID"/></td>-->
+<!--                                <td><field name="document_no_reference" readonly="False" options="{'no_create_edit': True, 'no_open': True}"/></td>-->
+<!--                                <td><button class="quotation-history btn btn-secondary">Search</button></td>-->
+                                <td class="o_td_label"><label for="document_no" string="Document No"/></td>
+                                <td><field name="document_no" readonly="True"/></td>
                                 <td class="o_td_label"><label for="quotations_date" string="Quotation Date"/></td>
                                 <td><field name="quotations_date" readonly="False"/></td>
                             </tr>
 
-                            <!-- Row 6 -->
+                            <!-- Row 2 -->
                             <tr>
+                                <td class="o_td_label"><label for="name" string="Name*"/></td>
+                                <td colspan="2"><field name="name" required="True"/></td>
                                 <td class="o_td_label"><label for="partner_id" string="Business Partner"/></td>
-                                <td colspan="2"><field name="partner_id" widget="res_partner_many2one" required="1"
+                                <td><field name="partner_id" widget="res_partner_many2one" required="1"
                                            domain="[('customer_rank','>', 0)]" default_focus="1"
                                            context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
                                            options='{"reload_on_button": True, "no_quick_create": True}'
@@ -127,12 +92,58 @@
                                 <td colspan="2"><field name="partner_name"/></td>
                             </tr>
 
-                            <!-- Row 7 -->
+                            <!-- Row 3 -->
+                            <tr>
+                                <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="CB Partner Sales Rep"/></td>
+                                <td colspan="2"><field name="cb_partner_sales_rep_id" required="True"/></td>
+                                <td class="o_td_label"><label for="shipping_address" string="Shipping Address"/></td>
+                                <td colspan="2"><field name="shipping_address"/></td>
+                            </tr>
+
+                            <!-- Row 4 -->
                             <tr>
                                 <td class="o_td_label"><label for="sales_rep" string="Sales Rep"/></td>
-                                <td colspan="2"><field name="sales_rep"/></td>
-                                <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="CB Partner Sales Rep"/></td>
-                                <td colspan="2"><field name="cb_partner_sales_rep_id"/></td>
+                                <td colspan="2"><field name="sales_rep" required="True"/></td>
+                                <td class="o_td_label"><label for="expected_date" string="Expected Date*"/></td>
+                                <td><field name="expected_date"/></td>
+                                <td class="o_td_label"><label for="expiration_date" string="Expiration Date*"/></td>
+                                <td><field name="expiration_date"/></td>
+                                <td><field name="state" invisible="True"/></td>
+                                <td><field name="company_id" invisible="True"/></td>
+                            </tr>
+
+                            <!-- Row 5 -->
+                            <tr>
+                                <td class="o_td_label"><label for="note" string="Note"/></td>
+                                <td colspan="2"><field name="note"/></td>
+                                <td class="o_td_label"><label for="comment" string="Comment"/></td>
+                                <td colspan="4"><field name="comment"/></td>
+                            </tr>
+
+                            <!-- Row 6 -->
+                            <tr>
+<!--                                <td></td>-->
+<!--                                <td colspan="2">-->
+<!--                                    <field name="is_unit_quotations" widget="boolean_tags" class="field-checkbox"/>-->
+<!--                                    <label for="is_unit_quotations" string="Unit Quotations"/>-->
+<!--                                </td>-->
+                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation"/></td>
+                                <td colspan="2"><field name="quotation_type" required="True"/></td>
+                                <td class="o_td_label"><label for="report_header" string="Report Title"/></td>
+                                <td><field name="report_header" required="True"/></td>
+                                <td class="o_td_label"><label for="paperformat_id" string="Paper Format"/></td>
+                                <td><field name="paperformat_id" readonly="False" required="True"/></td>
+                            </tr>
+
+                            <!-- Row 7 -->
+                            <tr>
+                                <td></td>
+                                <td colspan="2">
+                                    <field name="is_print_date" class="field-checkbox"/>
+                                    <label for="is_print_date" string="Print Date"/>
+                                </td>
+                                <td class="o_td_label"><label for="tax_method" string="Tax Method"/></td>
+                                <td><field name="tax_method" required="True"/></td>
                             </tr>
 
                             <!-- Row 8 -->
@@ -177,7 +188,7 @@
                                     <field name="tax_id" invisible="True"/>
                                     <field name="name" invisible="True"/>
 
-                                    <field name="class_item"/>
+                                    <field name="class_item" required="True"/>
                                     <field name="product_id" required="True"/>
                                     <field name="product_uom_qty"/>
                                     <field name="product_uom"/>
@@ -191,8 +202,8 @@
                                     <field name="discount" string="Disc.%" groups="product.group_discount_per_so_line" optional="show"/>
                                     <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded" string="Total"/>
                                     <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included" invisible="False"/>
-                                    <field name="description"/>
                                     <field name="tax_id" widget="many2many_tags"/>
+                                    <field name="description"/>
                                 </tree>
                             </field>
 
@@ -213,25 +224,59 @@
         </field>
     </record>
 
-<!--    <record id="view_account_payment_custom_tree" model="ir.ui.view">-->
-<!--        <field name="name">account.payment.custom.tree</field>-->
-<!--        <field name="model">account.payment</field>-->
-<!--        <field name="inherit_id" ref="account.view_account_payment_tree"/>-->
-<!--        <field name="mode">primary</field>-->
-<!--        <field eval="1" name="priority"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <xpath expr="//tree" position="replace">-->
-<!--                <tree string="Account Payment" multi_edit="1" duplicate="false" class="forward_edit">-->
-<!--                    <field name="document_no" string="Document No"/>-->
-<!--                    <field name="payment_date" string="Transaction Date"/>-->
-<!--                    <field name="partner_id" string="Business Partner"/>-->
-<!--                    <field name="partner_bank_account_id" string="Bank Account"/>-->
-<!--                    <field name="state" string="Document Status"/>-->
-<!--                    <field name="account_invoice_id" string="Invoice"/>-->
-<!--                </tree>-->
-<!--            </xpath>-->
-<!--        </field>-->
-<!--    </record>-->
+    <record id="view_quotations_custom_tree" model="ir.ui.view">
+        <field name="name">sale.order.custom.tree</field>
+        <field name="model">sale.order</field>
+<!--        <field name="inherit_id" ref="sale.view_quotation_tree"/>-->
+        <field name="mode">primary</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+<!--            <header>-->
+<!--                <div>abcd</div>-->
+<!--            </header>-->
+<!--            <h1>abcdef</h1>-->
+<!--            <attribute name="banner_route">/sales/sale_quotation_onboarding_panel</attribute>-->
+            <tree string="Quotations Custom" class="o_sale_order forward_edit"
+                  decoration-bf="message_needaction==True" decoration-muted="state=='cancel'"
+                  banner_route="/sales/sale_quotation_onboarding_panel"
+                  multi_edit="1">
+                <field name="document_no"/>
+                <field name="name"/>
+                <field name="message_needaction" invisible="1"/>
+<!--                <field name="name" string="Quotation Number" readonly="1"/>-->
+<!--                <field name="create_date" string="Create Date"/>-->
+<!--                <field name="commitment_date"/>-->
+<!--                <field name="expected_date"/>-->
+<!--                <field name="partner_id" readonly="1" />-->
+<!--                <field name="user_id" optional="show"/>-->
+<!--                <field name="team_id" optional="hide"/>-->
+<!--                <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/>-->
+<!--                <field name="amount_untaxed" sum="Total Tax Excluded" widget="monetary" optional="hide"/>-->
+<!--                <field name="amount_tax" sum="Tax Total" widget="monetary" optional="hide"/>-->
+<!--                <field name="amount_total" sum="Total Tax Included" widget="monetary" optional="show"/>-->
+<!--                <field name="currency_id" invisible="1"/>-->
+                <field name="state" optional="show"/>
+<!--                <field name="invoice_status" optional="hide"/>-->
+<!--                <field name="activity_exception_decoration" widget="activity_exception"/>-->
+            </tree>
+<!--            <tree string="Quotations Custom" multi_edit="1" duplicate="false" class="forward_edit">-->
+<!--                <field name="document_no"/>-->
+<!--                <field name="name"/>-->
+<!--            </tree>-->
+        </field>
+    </record>
+
+    <record id="product_custom_template_search_view" model="ir.ui.view">
+        <field name="name">sale.order.custom.search</field>
+        <field name="model">sale.order</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="document_no"/>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
 
 <!--    <record id="view_account_payment_custom_search" model="ir.ui.view">-->
 <!--        <field name="name">account.payment.custom.search</field>-->
@@ -254,9 +299,9 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree,kanban,form</field>
-<!--        <field name="view_id" ref="view_account_payment_custom_tree"/>-->
+        <field name="view_id" ref="view_quotations_custom_tree"/>
         <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
-<!--        <field name="search_view_id" ref="view_account_payment_custom_search"/>-->
+        <field name="search_view_id" ref="product_custom_template_search_view"/>
     </record>
 
     <menuitem id="menu_ideas" parent="" name="Quotations Custom" sequence="10" action="quotation_custom_action" groups="base.group_user"/>
