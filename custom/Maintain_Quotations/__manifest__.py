@@ -16,6 +16,10 @@
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/quotations_custom_view.xml',
+        'views/helloworld_template.xml',
+    ],
+    'qweb': [
+        'static/src/xml/quotation_custom_template.xml',
     ],
     'demo': [],
     'installable': True,

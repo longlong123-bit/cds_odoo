@@ -7,3 +7,7 @@
         font-weight: bold;
     }
 }
+
+@include media-breakpoint-up(ultra) {
+  .modal-ultra { max-width: 1500px; }
+}

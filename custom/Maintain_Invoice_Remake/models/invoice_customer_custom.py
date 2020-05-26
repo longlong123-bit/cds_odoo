@@ -244,6 +244,10 @@ class ClassInvoiceCustom(models.Model):
         'line_ids.payment_id.state',
         'line_ids.x_invoicelinetype')
     def _compute_amount(self):
+        # for line in self.invoice_line_ids:
+        #     print('-------------------------------------------')
+        #     print(line.display_type)
+        #     print(line.account_id.name)
         invoice_ids = [move.id for move in self if move.id and move.is_invoice(include_receipts=True)]
         self.env['account.payment'].flush(['state'])
         if invoice_ids:
@@ -279,6 +283,7 @@ class ClassInvoiceCustom(models.Model):
             total = 0.0
             total_currency = 0.0
             currencies = set()
+            total_untaxed_custom = 0.0
 
             for line in move.line_ids:
                 if line.currency_id:
@@ -304,8 +309,8 @@ class ClassInvoiceCustom(models.Model):
                                 total_voucher_tax_amount += line_tax_amount
                             else:
                                 total_voucher_tax_amount += line.line_tax_amount
-                            total_untaxed += line.balance
-                        # total_untaxed += line.balance
+                            total_untaxed_custom += line.invoice_custom_lineamount
+                        total_untaxed += line.balance
                         total_untaxed_currency += line.amount_currency
                         total += line.balance
                         total_currency += line.amount_currency
@@ -333,9 +338,10 @@ class ClassInvoiceCustom(models.Model):
                 move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 2, move.customer_tax_rounding)
             else:
                 move.x_voucher_tax_amount = total_voucher_tax_amount
-            move.amount_untaxed = sign * (total_untaxed_currency if len(currencies) == 1 else total_untaxed)
+            # move.amount_untaxed = sign * (total_untaxed_currency if len(currencies) == 1 else total_untaxed)
             # move.amount_tax = sign * (total_tax_currency if len(currencies) == 1 else total_tax)
             # move.amount_total = sign * (total_currency if len(currencies) == 1 else total)
+            move.amount_untaxed = total_untaxed_custom
             move.amount_tax = move.x_voucher_tax_amount
             move.amount_total = move.amount_untaxed + move.amount_tax
             move.amount_residual = -sign * (total_residual_currency if len(currencies) == 1 else total_residual)

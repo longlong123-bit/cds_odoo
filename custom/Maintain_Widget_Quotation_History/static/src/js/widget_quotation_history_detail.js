@@ -1,4 +1,4 @@
-odoo.define('Maintain_Sale_History.Detail', function (require) {
+odoo.define('Maintain_Quotation_History.Detail', function (require) {
 'use strict';
 var select_create_controllers_registry = require('web.select_create_controllers_registry');
 var FieldMany2One = require('web.relational_fields').FieldMany2One;
@@ -22,7 +22,7 @@ var _t = core._t;
 
 // Custom field many2one
 var DetailHistory = FieldMany2One.extend({
-    template : "template_many2one_history_widget_detail",
+    template : "template_many2one_history_widget_quotation_detail",
     //Binding Events
         events : {
             'click .show_detail_history_dialog' : 'open',
