@@ -102,6 +102,13 @@ class NewClassPartnerCustom(models.Model):
         ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
     ]
 
+    def name_get(self):
+        result = []
+        for record in self:
+            search_key_show =  str(record.customer_code)
+            result.append((record.id, search_key_show))
+        return result
+
     @api.constrains('customer_code')
     def _check_unique_searchkey(self):
         exists = self.env['res.partner'].search(

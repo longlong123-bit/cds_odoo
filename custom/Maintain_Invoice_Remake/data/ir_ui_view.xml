@@ -124,7 +124,7 @@
               <td class="col-label"><label for="x_studio_document_no" string="Document No"/></td>
               <td class="col-field">
                   <field style="width:90px!important;float:left!important;" name="x_studio_document_no" string="Document No" readonly="1" class="o_input"/>
-                  <field name="x_history_voucher" widget="Maintain_Sale_History.Voucher" z-index="92"/>
+                  <field name="x_history_voucher" widget="Maintain_Sale_History.Voucher" z-index="92" attrs="{'readonly':[('state','in',['posted'])]}"/>
 
 <!--                        <attribute name="context">{'tree_view_ref': 'inherit_view_account_move_line_tree'}</attribute>-->
 <!--                  </field>-->
@@ -271,7 +271,7 @@
                 </button>
                 <field name="x_history_detail" style="display:none" domain="[('exclude_from_invoice_tab', '=', False)]" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
 		        <field name="invoice_custom_line_no" required="True"/>
-                <field name="x_invoicelinetype" required="True" string="区分"/>
+                <field name="x_invoicelinetype" required="True" string="内訳区分"/>
 <!--                <field name="x_crm_purchased_products" context="{'show_address': 1}" string="Product">-->
 <!--                    <tree string="Most purchased products">-->
 <!--                                <field name="id" />-->
@@ -391,6 +391,9 @@
         <xpath expr = "//page[@id='other_tab']" position = "attributes" >
           <attribute name="invisible">1</attribute>
         </xpath>
+        <xpath expr = "//group[@class='oe_subtotal_footer']" position = "attributes" >
+          <attribute name="invisible">1</attribute>
+        </xpath>
     </field>
   </record>
 
@@ -438,27 +441,21 @@
     </record>
 
     <!--  Invoice Lines Tree  -->
-<!--    <record id="view_move_line_custom_form" model="ir.ui.view">-->
-<!--        <field name="name">account.move.line.custom.form</field>-->
-<!--        <field name="model">account.move.line</field>-->
-<!--        <field name="mode">primary</field>-->
-<!--        <field eval="1" name="priority"/>-->
-<!--        <field name="inherit_id" ref="account.view_move_line_form"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <xpath expr='//form' position="replace">-->
-<!--                <form string="Invoice Lines">-->
-<!--                    <group>-->
-<!--                        <field name="invoice_custom_line_no" string="Line No*"/>-->
-<!--                        <field name="product_id" string="Product*"/>-->
-<!--                        <field name="invoice_custom_Description"/>-->
-<!--                        <field name="quantity" string="Quantity*"/>-->
-<!--                        <field name="price_unit" string="Price*"/>-->
-<!--                        <field name="tax_ids" widget="many2many_tags" string="Tax*"/>-->
-<!--                    </group>-->
-<!--                </form>-->
-<!--            </xpath>-->
-<!--        </field>-->
-<!--    </record>-->
+    <record id="view_move_line_custom_form" model="ir.ui.view">
+        <field name="name">account.move.line.custom.form</field>
+        <field name="model">account.move.line</field>
+        <field name="mode">primary</field>
+        <field eval="1" name="priority"/>
+        <field name="inherit_id" ref="account.view_move_line_form"/>
+        <field name="arch" type="xml">
+            <xpath expr='//sheet' position="after">
+                <footer>
+                    <button string="Save" class="btn btn-primary o_form_button_save" special="save"/>
+                    <button data-dismiss="modal" string="Close"/>
+                </footer>
+            </xpath>
+        </field>
+    </record>
 <!--  <record id="view_crm_purchased_products_tree" model="ir.ui.view">-->
 <!--        <field name="name">crm.purchased_products.tree</field>-->
 <!--        <field name="model">crm.purchased_products</field>-->
