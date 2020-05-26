@@ -20,6 +20,15 @@
                         <field name="customer_supplier_group_code" string='Supplier Group Code'/>
                         <field name="customer_industry_code" string='Industry Code'/>
                         <field name="customer_agent" string='Representative/Agent'/>
+                        <!--invisible-->
+                        <field name="customer_tax_rounding" optional="hide"/>
+                        <field name="customer_trans_classification_code" optional="hide"/>
+                        <field name="customer_tax_unit" optional="hide"/>
+                        <field name="customer_tax_rounding" optional="hide"/>
+                        <field name="customer_closing_date" optional="hide"/>
+                        <field name="customer_payment_method" optional="hide"/>
+                        <field name="payment_terms" optional="hide"/>
+                        <field name="payment_rule" optional="hide"/>
                     </tree>
                 </xpath>
             </field>
