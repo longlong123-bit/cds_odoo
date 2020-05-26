@@ -30,3 +30,10 @@ class ClassProductClass(models.Model):
         if not self.product_class_code:
             raise ValidationError(_('The code must input!'))
         return super(ClassProductClass, self).copy(default)
+
+    def name_get(self):
+        result = []
+        for rec in self:
+            code = str(rec.product_class_code)
+            result.append((rec.id, code))
+        return result
