@@ -78,6 +78,9 @@ var ViewDialog = Dialog.extend({
                 renderFooter: self.renderFooter,
             }));
             switch (self.size) {
+                case 'ultra-large':
+                    self.$modal.find('.modal-dialog').addClass('modal-ultra');
+                    break;
                 case 'extra-large':
                     self.$modal.find('.modal-dialog').addClass('modal-xl');
                     break;
@@ -212,7 +215,7 @@ var SelectCreateDialog = ViewDialog.extend({
         this.on_closed = this.options.on_closed || (function () {});
         this.initialIDs = this.options.initial_ids;
         this.viewType = arguments[1].view_type;
-        this.size = 'extra-large';
+        this.size = 'ultra-large';
         this.ending = false;
     },
 

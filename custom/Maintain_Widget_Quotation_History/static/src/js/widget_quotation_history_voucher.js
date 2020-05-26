@@ -1,4 +1,4 @@
-odoo.define('Maintain_Sale_History.Detail', function (require) {
+odoo.define('Maintain_Quotation_History.Order', function (require) {
 'use strict';
 var select_create_controllers_registry = require('web.select_create_controllers_registry');
 var FieldMany2One = require('web.relational_fields').FieldMany2One;
@@ -21,11 +21,11 @@ var _t = core._t;
 
 
 // Custom field many2one
-var DetailHistory = FieldMany2One.extend({
-    template : "template_many2one_history_widget_detail",
+var VoucherHistory = FieldMany2One.extend({
+    template : "template_many2one_history_widget_quotation",
     //Binding Events
         events : {
-            'click .show_detail_history_dialog' : 'open',
+            'click .show_quotation_history_dialog' : 'open',
         },
 
     /**
@@ -45,8 +45,8 @@ var DetailHistory = FieldMany2One.extend({
         new SelectCreateDialog(this, {
                 no_create: true,
                 readonly: true,
-                res_model: 'account.move.line',
-                domain:[['exclude_from_invoice_tab', '=', false]],
+                res_model: 'sale.order',
+                domain: null,
                 view_type:'list',
                 context: context,
             }).open();
@@ -55,7 +55,7 @@ var DetailHistory = FieldMany2One.extend({
 
 // custom ViewDialog
 var ViewDialog = Dialog.extend({
-    xmlDependencies: ['/Maintain_Widget_Sale_History/static/src/xml/dialog_custom_voucher.xml'],
+    xmlDependencies: ['/Maintain_Widget_Quotation_History/static/src/xml/dialog_custom_voucher.xml'],
     custom_events: _.extend({}, Dialog.prototype.custom_events, {
         push_state: '_onPushState',
     }),
@@ -69,7 +69,7 @@ var ViewDialog = Dialog.extend({
         var self = this;
         return this._super.apply(this, arguments).then(function () {
             // Render modal once xml dependencies are loaded
-            self.$modal = $(QWeb.render('Dialog_Detail_Custom', {
+            self.$modal = $(QWeb.render('Dialog_Voucher_Custom', {
                 fullscreen: self.fullscreen,
                 title: self.title,
                 subtitle: self.subtitle,
@@ -171,8 +171,8 @@ var ViewDialog = Dialog.extend({
                 var hasButtonSearch = $('.search_form').find('.o_search_button_search');
                 if(hasButtonSearch.length==0){
                     $('.search_form').append($button);
-                    self.render_datepicker('search_sale_date_from');
-                    self.render_datepicker('search_sale_date_to');
+                    self.render_datepicker('search_quotations_date_from');
+                    self.render_datepicker('search_quotations_date_to');
                 }
             }
             $('.cp_paging').html(cp);
@@ -188,7 +188,7 @@ var SelectCreateDialog = ViewDialog.extend({
                     [['id', '=',event.data.id]]
                 ];
             rpc.query({
-                    model: 'account.move.line',
+                    model: 'sale.order',
                     method: 'search_read',
                     args: args,
                 })
@@ -240,37 +240,59 @@ var SelectCreateDialog = ViewDialog.extend({
     _getSearchFilter_Sale_History: function(){
         var domain = [];
 
-        var search_product_code = $('input[name="search_product_code"]').val();
-        if (search_product_code!=''){
-            var f_search_product_code = ["x_product_code_show_in_tree", "ilike",search_product_code];
-            domain.push(f_search_product_code)
+        var f_search_document_reference_from_val = $('input[name="search_document_reference_from"]').val();
+        if (f_search_document_reference_from_val!=''){
+            var f_document_reference_from = ["document_reference", ">=",f_search_document_reference_from_val];
+            domain.push(f_document_reference_from)
         }
 
-        var search_jan_code = $('input[name="search_jan_code"]').val();
-        if (search_jan_code!=''){
-            var f_search_jan_code = ["x_product_barcode_show_in_tree", "ilike",search_jan_code];
-            domain.push(f_search_jan_code)
+        var f_document_reference_to_val = $('input[name="search_document_reference_to"]').val();
+        if (f_document_reference_to_val!=''){
+            var f_document_reference_to = ["document_reference", "<=",f_document_reference_to_val];
+            domain.push(f_document_reference_to)
         }
 
-        var search_standard_number = $('input[name="search_standard_number"]').val();
-        if (search_standard_number!=''){
-            var f_search_standard_number = ["invoice_custom_standardnumber", "ilike",search_standard_number];
-            domain.push(f_search_standard_number)
+        var f_search_document_no_from_val = $('input[name="search_document_no_from"]').val();
+        if (f_search_document_no_from_val!=''){
+            var f_document_no_from = ["document_no", ">=",f_search_document_no_from_val];
+            domain.push(f_document_no_from)
         }
 
-        var search_product_name = $('input[name="search_product_name"]').val();
-        if (search_product_name!=''){
-            var f_search_product_name = ["x_product_name", "ilike",search_product_name];
-            domain.push(f_search_product_name)
+        var f_document_no_to_val = $('input[name="search_document_no_to"]').val();
+        if (f_document_no_to_val!=''){
+            var f_document_no_to = ["document_no", "<=",f_document_no_to_val];
+            domain.push(f_document_no_to)
         }
 
-        var search_category_name = $('input[name="search_category_name"]').val();
-        if (search_category_name!=''){
-            var f_search_category_name = ["invoice_custom_FreightCategory", "ilike",search_category_name];
-            domain.push(f_search_category_name)
+        var f_quotations_date_from_val = $('.search_quotations_date_from').find('input').val()
+        if (f_quotations_date_from_val!=''){
+            var f_quotations_date_from = ["quotations_date", ">=",f_quotations_date_from_val];
+            domain.push(f_quotations_date_from)
         }
 
-        domain.push(['exclude_from_invoice_tab', '=', false])
+        var f_quotations_date_to_val = $('.search_quotations_date_to').find('input').val()
+        if (f_quotations_date_to_val!=''){
+            var f_quotations_date_to = ["quotations_date", ">=",f_quotations_date_to_val];
+            domain.push(f_quotations_date_to)
+        }
+
+        var f_customer_code_val = $('input[name="search_customer_code"]').val();
+        if (f_customer_code_val!=''){
+            var f_customer_code = ["partner_id", "ilike",f_customer_code_val];
+            domain.push(f_customer_code)
+        }
+
+        var f_customer_name_val = $('input[name="search_customer_name"]').val();
+        if (f_customer_name_val!=''){
+            var f_customer_name = ["partner_name", "ilike",f_customer_name_val];
+            domain.push(f_customer_name)
+        }
+
+        var f_userinput_id_val = $('input[name="search_input_person"]').val();
+        if (f_userinput_id_val!=''){
+            var f_userinput_id = ["sales_rep", "ilike",f_userinput_id_val];
+            domain.push(f_userinput_id)
+        }
 
         // return domain
         // domain example: [['filed','operator','search condition data'],[...],....]
@@ -326,7 +348,6 @@ var SelectCreateDialog = ViewDialog.extend({
                             c.innerHTML='';
                         }
                         c.style.padding = '0px';
-
                     });
                     fragment.querySelectorAll(".o_list_record_selector").forEach(function(c){
                        c.style.padding = '3px';
@@ -582,8 +603,8 @@ var SelectCreateDialog = ViewDialog.extend({
 });
 
 // registry widget
-field_registry.add('Maintain_Sale_History.Detail', DetailHistory);
+field_registry.add('Maintain_Quotation_History.Order', VoucherHistory);
 
 // return widget
-return DetailHistory;
+return VoucherHistory;
 });

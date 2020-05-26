@@ -28,7 +28,7 @@
                             </div>
                             <field name="product_custom_goodsnamef"/>
                             <field name="product_custom_standardnumber"/>
-                            <field name="product_maker_code"/>
+                            <field name="product_custom_freight_category"/>
                             <field name="product_maker_name"/>
                             <field name="product_class_code"/>
                             <field name="product_class_name" readonly="True"/>
@@ -68,7 +68,6 @@
                                 <field name="categ_id" widget="many2one_tags" style="width: 100%%" required="False"/>
                             </div>
                             <field name="product_custom_modelnumber"/>
-<!--                            <field name="product_custom_freight_category"/>-->
                             <field name="description"/>
                             <field name="product_custom_comment_help"/>
                             <field name="product_custom_document_note"/>
@@ -390,7 +389,7 @@
         <field name="arch" type="xml">
             <tree string="Product Variants" multi_edit="1" duplicate="false" class="forward_edit" create="true" >
                 <field name="barcode" required="True" string="JANコード"/>
-                <field name="product_maker_code" string="Maker code"/>
+                <field name="product_custom_freight_category" string="Maker code"/>
                 <field name="product_maker_name" string="Maker name" readonly='True'/>
                 <field name="product_class_code" string="Class code"/>
                 <field name="product_class_name" string="Class name"/>
@@ -432,7 +431,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="barcode" required="True" string="UPC/EAN"/>
-                <field name="product_maker_code" string="Maker code"/>
+                <field name="product_custom_freight_category" string="Maker code"/>
                 <field name="product_maker_name" string="Maker name"/>
                 <field name="product_class_code" string="Class code"/>
                 <field name="product_class_name" string="Class name"/>

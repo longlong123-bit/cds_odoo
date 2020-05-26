@@ -8,6 +8,7 @@ from odoo.tools import float_is_zero, float_compare, safe_eval, date_utils, emai
 from odoo.tools.misc import formatLang, format_date, get_lang
 from datetime import timedelta
 from odoo.exceptions import ValidationError
+import time
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 from itertools import groupby
@@ -78,6 +79,7 @@ class ClassInvoiceCustom(models.Model):
         return str(len(self.invoice_line_ids)) + '明細 - (JPY)明細行合計:' + str(amount_untaxed_format) + ' / 総合計:' + str(
             amount_total_format) + ' = ' + str(amount_total_format)
 
+    # Thay đổi tên hiển thị trên breadcum Invoices
     def _get_move_display_name(self, show_ref=False):
         ''' Helper to get the display name of an invoice depending of its type.
         :param show_ref:    A flag indicating of the display name must include or not the journal entry reference.
@@ -96,12 +98,30 @@ class ClassInvoiceCustom(models.Model):
                 'entry': _('Draft Entry'),
             }[self.type]
             if not self.name or self.name == '/':
-                draft_name += ' (* %s)' % str(self.id)
+                if self.type == 'out_invoice':
+                    draft_name += ' / %s' % str(self.x_studio_document_no)
+                else:
+                    draft_name += ' (* %s)' % str(self.id)
             else:
-                draft_name += ' ' + self.name
+                if self.type == 'out_invoice':
+                    draft_name += ' ' + self.x_studio_document_no
+                else:
+                    draft_name += ' ' + self.name
+        # trường hợp state
+        if self.state == 'posted':
+            if not self.name or self.name == '/':
+                if self.type == 'out_invoice':
+                    draft_name += ' / %s' % str(self.x_studio_document_no)
+                else:
+                    draft_name += ' (* %s)' % str(self.id)
+            else:
+                if self.type == 'out_invoice':
+                    draft_name += ' ' + self.x_studio_document_no
+                else:
+                    draft_name += ' ' + self.name
 
         return (draft_name or self.name) + (
-                show_ref and self.ref and ' (%s%s)' % (self.ref[:50], '...' if len(self.ref) > 50 else '') or '')
+                    show_ref and self.ref and ' (%s%s)' % (self.ref[:50], '...' if len(self.ref) > 50 else '') or '')
 
     # Calculate due date
     def _get_due_date(self):
@@ -196,6 +216,14 @@ class ClassInvoiceCustom(models.Model):
     customer_tax_rounding = fields.Selection(
         [('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')],
         string='Tax Rounding', default='round')
+    # from customer master
+    customer_office = fields.Char('Customer Office', compute='get_office')
+    customer_group = fields.Char('Customer Group')
+    customer_state = fields.Char('Customer State')
+    customer_industry = fields.Char('Customer Industry')
+    customer_closing_date = fields.Date('Closing Date')
+    customer_trans_classification_code = fields.Selection([('sale','掛売'),('cash','現金'), ('account','諸口')], string='Transaction classification')
+    closing_date_compute = fields.Integer('Temp')
 
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
     x_bussiness_partner_name_2 = fields.Char('名称2')
@@ -204,8 +232,9 @@ class ClassInvoiceCustom(models.Model):
     x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
                                         index=True, auto_join=True,
                                         help="The move of this entry line.")
+    sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, states={'draft': [('readonly', False)]},
+                                domain="[('share', '=', False)]", default=lambda self: self.env.user)
 
-    # TODO recounting
     @api.depends(
         'line_ids.debit',
         'line_ids.credit',
@@ -251,6 +280,7 @@ class ClassInvoiceCustom(models.Model):
             total = 0.0
             total_currency = 0.0
             currencies = set()
+            total_untaxed_custom = 0.0
 
             for line in move.line_ids:
                 if line.currency_id:
@@ -267,17 +297,15 @@ class ClassInvoiceCustom(models.Model):
                                     tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                                 line_tax_amount = (total_line_tax * line.price_unit) / 100
                                 if line.x_invoicelinetype in ('通常', 'サンプル', '消費税'):
-                                    if line.quantity < 0:
-                                        line_tax_amount = line_tax_amount * (-1)
+                                    line_tax_amount = line_tax_amount * (-1)
                                 else:
-                                    if line.quantity > 0:
-                                        line_tax_amount = line_tax_amount * (-1)
+                                    line_tax_amount = line_tax_amount * (-1)
 
                                 total_voucher_tax_amount += line_tax_amount
                             else:
                                 total_voucher_tax_amount += line.line_tax_amount
-                            total_untaxed += line.balance
-                        # total_untaxed += line.balance
+                            total_untaxed_custom += line.invoice_custom_lineamount
+                        total_untaxed += line.balance
                         total_untaxed_currency += line.amount_currency
                         total += line.balance
                         total_currency += line.amount_currency
@@ -305,9 +333,10 @@ class ClassInvoiceCustom(models.Model):
                 move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 2, move.customer_tax_rounding)
             else:
                 move.x_voucher_tax_amount = total_voucher_tax_amount
-            move.amount_untaxed = sign * (total_untaxed_currency if len(currencies) == 1 else total_untaxed)
+            # move.amount_untaxed = sign * (total_untaxed_currency if len(currencies) == 1 else total_untaxed)
             # move.amount_tax = sign * (total_tax_currency if len(currencies) == 1 else total_tax)
             # move.amount_total = sign * (total_currency if len(currencies) == 1 else total)
+            move.amount_untaxed = total_untaxed_custom
             move.amount_tax = move.x_voucher_tax_amount
             move.amount_total = move.amount_untaxed + move.amount_tax
             move.amount_residual = -sign * (total_residual_currency if len(currencies) == 1 else total_residual)
@@ -336,11 +365,11 @@ class ClassInvoiceCustom(models.Model):
         result_l2 = []
         for voucher in self:
             # print(voucher.x_history_voucher.invoice_line_ids)
-            # for l in voucher.x_history_voucher.invoice_line_ids:
-            #     fields_line = l.fields_get()
-            #     line_data = {attr: getattr(l, attr) for attr in fields_line}
-            #     del line_data['move_id']
-            #     result_l1.append((0, False, line_data))
+            for l in voucher.x_history_voucher.invoice_line_ids:
+                fields_line = l.fields_get()
+                line_data = {attr: getattr(l, attr) for attr in fields_line}
+                del line_data['move_id']
+                result_l1.append((0, False, line_data))
 
             # for l in voucher.x_history_voucher.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab):
             for l in voucher.x_history_voucher.line_ids:
@@ -350,6 +379,7 @@ class ClassInvoiceCustom(models.Model):
                 result_l2.append((0, False, line_data))
             if voucher.x_history_voucher._origin.id:
                 voucher.x_studio_business_partner = voucher.x_history_voucher.x_studio_business_partner
+                voucher.partner_id = voucher.x_studio_business_partner
 
                 voucher.x_studio_client_2 = voucher.x_history_voucher.x_studio_client_2
                 voucher.x_studio_organization = voucher.x_history_voucher.x_studio_organization
@@ -379,9 +409,11 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.x_bussiness_partner_name_2
                 voucher.x_voucher_tax_transfer = voucher.x_history_voucher.x_voucher_tax_transfer
                 voucher.customer_tax_rounding = voucher.x_history_voucher.customer_tax_rounding
-
+            voucher.line_ids = []
             voucher.line_ids = result_l2
-            voucher.invoice_line_ids = voucher.x_history_voucher.invoice_line_ids
+            voucher.invoice_line_ids = []
+            voucher.invoice_line_ids = result_l1
+            # voucher.x_history_voucher.invoice_line_ids
 
         self._set_tax_counting()
         self._onchange_invoice_line_ids()
@@ -415,6 +447,11 @@ class ClassInvoiceCustom(models.Model):
                 rec.invoice_payment_terms_custom = rec.x_studio_business_partner.payment_terms
                 rec.x_bussiness_partner_name_2 = rec.x_studio_business_partner.customer_name_kana
                 rec.customer_tax_rounding = rec.x_studio_business_partner.customer_tax_rounding
+                # Add customer info
+                rec.customer_group = rec.x_studio_business_partner.customer_supplier_group_code.name
+                rec.customer_state = rec.x_studio_business_partner.customer_state.name
+                rec.customer_industry = rec.x_studio_business_partner.customer_industry_code.name
+                rec.customer_trans_classification_code = rec.x_studio_business_partner.customer_trans_classification_code
 
                 # set default 税転嫁 by 消費税区分 & 消費税計算区分
                 customer_tax_category = rec.x_studio_business_partner.customer_tax_category
@@ -447,6 +484,17 @@ class ClassInvoiceCustom(models.Model):
             line._onchange_product_id()
             line._onchange_price_subtotal()
 
+    # Get customer office
+    def get_office(self):
+        for rec in self:
+            temp = ''
+            partner = rec.x_studio_business_partner
+            for line in partner.relation_id:
+                if line.relate_related_partner.name:
+                    temp = line.relate_related_partner.name
+                    # break
+            rec.customer_office = temp
+
     @api.onchange('invoice_line_ids')
     def _onchange_invoice_line_ids(self):
         for line in self.invoice_line_ids:
@@ -471,6 +519,43 @@ class ClassInvoiceCustom(models.Model):
                     or self.x_studio_payment_rule_1 == 'rule_on_credit':
                 self.invoice_payment_terms_custom = 1
 
+    # tính ngày closing date dựa theo start day của customer
+    @api.onchange('closing_date_compute', 'x_studio_date_invoiced', 'x_voucher_deadline', 'x_studio_business_partner')
+    def _get_closing_date(self):
+        for rec in self:
+            rec.closing_date_compute = rec.x_studio_business_partner.customer_closing_date.start_day
+            day = int(rec.x_studio_date_invoiced.strftime('%d'))
+            closing_date = rec.closing_date_compute
+            invoice_year = rec.x_studio_date_invoiced.year
+            invoice_month = rec.x_studio_date_invoiced.month
+            if int(day) > int(rec.closing_date_compute):
+                if rec.x_voucher_deadline == '今回':
+                    try:
+                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(months=1)
+                    except ValueError:
+                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(months=1)
+                else:
+                    try:
+                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(months=2)
+                    except ValueError:
+                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(months=2)
+            else:
+                if rec.x_voucher_deadline == '今回':
+                    try:
+                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date)
+                    except ValueError:
+                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day)
+
+                else:
+                    try:
+                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(months=1)
+                    except ValueError:
+                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(months=1)
+
     @api.constrains('x_studio_date_invoiced')
     def _validate_plate(self):
         res = self.env['account.move'].sudo().search([('x_studio_date_invoiced', '=', self.x_studio_date_invoiced)])
@@ -483,6 +568,17 @@ class ClassInvoiceCustom(models.Model):
             vals['x_studio_document_no'] = self.env['ir.sequence'].next_by_code('document.sequence') or _('New')
         result = super(ClassInvoiceCustom, self).create(vals)
         return result
+
+    # lấy thông tin office từ khách hàng
+    def _compute_get_customer_office(self):
+        for rec in self:
+            temp = ''
+            partner = rec.x_studio_business_partner
+            for line in partner.relation_id:
+                if line.relate_related_partner.name:
+                    temp = line.relate_related_partner.name
+                    break
+            rec.customer_office = temp
 
     # tính tiền khách trả trước
     def _compute_invoice_total_paid(self):

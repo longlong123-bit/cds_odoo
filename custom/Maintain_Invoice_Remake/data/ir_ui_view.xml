@@ -39,44 +39,32 @@
       <field name="model">account.move</field>
       <field name="inherit_id" ref="account.view_invoice_tree"/>
       <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
-                  <attribute name="class">forward_edit</attribute>
+            <xpath expr="//tree" position="replace">
+                <tree class="forward_edit">
+                    <button class="o_button_line" string="" icon="fa-toggle-right"/>
+                    <field name="x_studio_document_no" string="Document No"/>
+                    <field name="ref" string="Order Reference"/>
+                    <field name="x_studio_date_invoiced" string="Date Invoiced"/>
+                    <field name="x_studio_date_shipment" string="shipmentdate"/>
+                    <field name="x_studio_business_partner" string="Business Partner"/>
+                    <field name="customer_trans_classification_code" string="Transaction classification"/>
+                    <field name="customer_group" string="Customer Group"/>
+                    <field name="customer_state" string="Customer State"/>
+                    <field name="customer_industry" string="Customer Industry"/>
+<!--                    <field name="customer_closing_date" string="Closing Date"/>-->
+                    <field name="x_userinput_id" string="userinput_id"/>
+                    <field name="sales_rep" string="Sales Rep"/>
+                    <field name="create_date" string="Updated"/>
+                    <field name="state" string="Document Status"/>
+                    <field name="invoice_date" optional="show" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')" string="Bill Date"/>
+                    <field name="invoice_date" optional="show" invisible="context.get('default_type') not in ('out_invoice', 'out_refund','out_receipt')" string="Invoice Date"/>
+                    <field name="invoice_date_due"/>
+                    <field name="amount_untaxed_signed" string="Tax Excluded" sum="Total" optional="show"/>
+                    <field name="amount_total_signed" string="Total" sum="Total" optional="show"/>
+                    <field name="invoice_total_paid" sum="Paid" string="Paid"/>
+                    <field name="amount_residual_signed" string="Amount Due" sum="Amount Due" optional="show"/>
+                </tree>
             </xpath>
-          <xpath expr="//field[@name='name']" position="after">
-            <button class="o_button_line" string="" icon="fa-toggle-right"/>
-            <field name="x_studio_document_no" string="Document No"/>
-            <field name="ref" string="Order Reference"/>
-            <field name="x_studio_date_invoiced" string="Date Invoiced"/>
-              <field name="x_studio_date_shipment" string="shipmentdate"/>
-            <field name="x_studio_business_partner" string="Business Partner"/>
-            <field name="x_userinput_id" string="userinput_id"/>
-            <field name="create_date" string="Updated"/>
-            <field name="state" string="Document Status"/>
-          </xpath>
-          <xpath expr="//field[@name='amount_residual_signed']" position="before">
-              <field name="invoice_total_paid" sum="Paid" string="Paid"></field>
-          </xpath>
-        <xpath expr="//field[@name='company_id']" position="attributes">
-          <attribute name="optional">hide</attribute>
-        </xpath>
-        <xpath expr="//field[@name='invoice_origin']" position="attributes">
-          <attribute name="optional">hide</attribute>
-        </xpath>
-        <xpath expr="//field[14]" position="replace">
-          <field name="x_studio_document_no" invisible="1"/>
-        </xpath>
-        <xpath expr="//field[@name='invoice_partner_icon']" position="attributes">
-          <attribute name="optional">hide</attribute>
-        </xpath>
-          <xpath expr="//field[@name='invoice_user_id']" position="attributes">
-              <attribute name="optional">hide</attribute>
-          </xpath>
-          <xpath expr="//field[@name='name']" position="attributes">
-              <attribute name="optional">hide</attribute>
-          </xpath>
-          <xpath expr="//field[@name='state'][2]" position="replace">
-              <field name="x_studio_document_no" invisible="1"/>
-          </xpath>
       </field>
   </record>
 
@@ -227,6 +215,10 @@
               <!-- Column 3 -->
               <td class="col-label"><label for="amount_total" string="Grand Total*"/></td>
               <td class="col-field"><field name="amount_total" string="Grand Total*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
+                <!-- Column 4-->
+                <td class="col-label"><label for="customer_closing_date" string="Closing Date" invisible="1"/></td>
+                <td class="col-field"><field name="customer_closing_date" string="Closing Date" invisible="1"/></td>
+                <field name="customer_office" string="Customer Office" invisible="1"/>
             </tr>
 
             <!-- Row 10 -->
@@ -236,8 +228,15 @@
               <td class="col-field"><field name="state" string="Document Status*" readonly="1" required="1" class="o_input"/></td>
 
               <!-- Column 2 -->
+                <field name="customer_group" string="Customer Group" invisible="1"/>
+                <field name="customer_state" string="Customer State" invisible="1"/>
+                <field name="customer_industry" string="Customer Industry" invisible="1"/>
+                <field name="customer_trans_classification_code" string="Transaction classification" invisible="1"  force_save="1"/>
+<!--                <field name="customer_closing_date" string="Closing Date" invisible="1"/>-->
               <td></td>
               <td class="col-field"></td>
+                <td class="col-label"><label for="closing_date_compute" string="Closing Date Compute" invisible="1"/></td>
+                <td class="col-field"><field name="closing_date_compute" string="Closing Date Compute" invisible="1"/></td>
             </tr>
           </tbody>
         </table>

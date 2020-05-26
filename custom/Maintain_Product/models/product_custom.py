@@ -29,7 +29,7 @@ class ProductTemplate(models.Model):
     uom_id = fields.Many2one('uom.uom', 'UOM', default=_get_default_uom_id,
                              help="Default unit of measure used for all stock operations.")
 
-    product_maker_code = fields.Many2one('freight.category.custom', 'Maker code')
+    product_custom_freight_category = fields.Many2one('freight.category.custom', 'Maker code')
 
     product_maker_name = fields.Char('Maker name', readonly=True)
 
@@ -45,7 +45,6 @@ class ProductTemplate(models.Model):
     product_custom_goodsnamef = fields.Char('goodsnamef', size=30)
     product_custom_is_stocked = fields.Boolean('Stocked')
     product_custom_modelnumber = fields.Char('modelnumber')
-    product_custom_freight_category = fields.Many2one('freight.category.custom', 'Freight Category')
     product_custom_comment_help = fields.Char('Comment/Help')
     product_custom_document_note = fields.Char('Document Note')
     product_custom_is_active = fields.Boolean('Active', default=True)
@@ -53,7 +52,7 @@ class ProductTemplate(models.Model):
     product_custom_is_discontinued = fields.Boolean('Discontinued')
     product_custom_discontinued_at = fields.Date('Discontinued At')
 
-    product_class_code = fields.Char('Class code')
+    product_class_code = fields.Many2one('product.class', string='Class code')
     product_class_name = fields.Char('Class name')
     product_code = fields.Char('Product code')
     product_code_1 = fields.Char('Product code 1')
@@ -258,11 +257,11 @@ class ProductTemplate(models.Model):
             default['name'] = _("%s (copy)") % (self.name)
         return super(ProductTemplate, self).copy(default)
 
-    @api.onchange('product_maker_code')
-    def _get_product_maker_code(self):
+    @api.onchange('product_custom_freight_category')
+    def _get_product_custom_freight_category(self):
         for rec in self:
-            if rec.product_maker_code:
-                rec.product_maker_name = rec.product_maker_code.name
+            if rec.product_custom_freight_category:
+                rec.product_maker_name = rec.product_custom_freight_category.name
 
     @api.model
     def create(self, values):
@@ -404,6 +403,12 @@ class ProductTemplate(models.Model):
                         rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (tax + 1)
                     if rec['price_include_tax_' + str(i)] and not rec['price_no_tax_' + str(i)]:
                         rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (tax + 1)
+
+    @api.onchange('product_class_code')
+    def _get_product_class_name(self):
+        for rec in self:
+            if rec.product_class_code:
+                rec.product_class_name = rec.product_class_code.name
 
 
 class ProductCustomTemplate(models.Model):

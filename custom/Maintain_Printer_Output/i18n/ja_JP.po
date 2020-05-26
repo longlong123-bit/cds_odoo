@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-22 07:14+0000\n"
-"PO-Revision-Date: 2020-05-22 07:14+0000\n"
+"POT-Creation-Date: 2020-05-26 02:57+0000\n"
+"PO-Revision-Date: 2020-05-26 02:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -149,15 +149,40 @@ msgstr ""
 
 #. module: Maintain_Printer_Output
 #: model:ir.actions.act_window,name:Maintain_Printer_Output.action_printer_output
+msgid "Printer Output"
+msgstr "プリンタ出力先設定"
+
+#. module: Maintain_Printer_Output
 #: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_filter
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_tree
+msgid "Printer Output 1"
+msgstr "出力プリンタ1"
+
+#. module: Maintain_Printer_Output
 #: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output_2
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_filter
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_tree
+msgid "Printer Output 2"
+msgstr "出力プリンタ2"
+
+#. module: Maintain_Printer_Output
 #: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output_3
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_filter
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_tree
+msgid "Printer Output 3"
+msgstr "出力プリンタ3"
+
+#. module: Maintain_Printer_Output
 #: model:ir.model.fields,field_description:Maintain_Printer_Output.field_printer_output__printer_output_4
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_filter
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Printer_Output.printer_output_tree
-msgid "Printer Output"
-msgstr "プリンタ出力先設定"
+msgid "Printer Output 4"
+msgstr "出力プリンタ4"
 
 #. module: Maintain_Printer_Output
 #: model:ir.model.fields.selection,name:Maintain_Printer_Output.selection__printer_output__paperformat_id_1__quotation
