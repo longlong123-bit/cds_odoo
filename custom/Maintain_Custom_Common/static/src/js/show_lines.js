@@ -4,45 +4,54 @@ odoo.define('Maintain_Custom_Common.show_lines', function(require){
 
     var control = require('web.ListController');
     var rpc = require('web.rpc');
+    var core = require('web.core');
+    var QWeb = core.qweb;
 
     control.include({
         /**
          * Render line
          */
         _renderLines: function($target, data){
-            // Table of line
-            var $tbody = $('<tbody></tbody>');
-            var $table = $('<table></table');
-            var $thead = $('<thead></thead>');
-            var $trHead = $('<tr></tr>');
-            $thead.append($trHead);
-            $table.attr({
-                'class': 'table-lines'
-            });
+            var $table = null;
 
-            // Get keys and generate header
-            var headers = Object.keys(data[0]);
+            if (data.template) {
+                $table = QWeb.render(data.template, {records: data.records});
+            } else {
+                // Table of line
+                $table = $('<table></table');
+                var $tbody = $('<tbody></tbody>');
+                var $thead = $('<thead></thead>');
+                var $trHead = $('<tr></tr>');
+                $thead.append($trHead);
+                $table.attr({
+                    'class': 'table-lines'
+                });
 
-            for (var i = 0; i < headers.length; i++) {
-                $trHead.append('<th>' + headers[i] + '</th>');
-            }
+                // Get keys and generate header
+                var headers = Object.keys(data[0]);
 
-            // Add line to table of line
-            for (var i = 0; i < data.length; i++) {
-                var $ltr = $('<tr></tr>');
-
-                for (var j = 0; j < headers.length; j++) {
-                    if (data[i][headers[j]] !== undefined) {
-                        $ltr.append('<td>' + data[i][headers[j]] + '</td>');
-                    }
+                for (var i = 0; i < headers.length; i++) {
+                    $trHead.append('<th>' + headers[i] + '</th>');
                 }
 
-                $tbody.append($ltr);
+                // Add line to table of line
+                for (var i = 0; i < data.length; i++) {
+                    var $ltr = $('<tr></tr>');
+
+                    for (var j = 0; j < headers.length; j++) {
+                        if (data[i][headers[j]] !== undefined) {
+                            $ltr.append('<td>' + data[i][headers[j]] + '</td>');
+                        }
+                    }
+
+                    $tbody.append($ltr);
+                }
+
+                // Add table of line to row
+                $table.append($thead);
+                $table.append($tbody);
             }
 
-            // Add table of line to row
-            $table.append($thead);
-            $table.append($tbody);
             $target.append($table);
         },
 
@@ -59,7 +68,7 @@ odoo.define('Maintain_Custom_Common.show_lines', function(require){
                 'style': 'display: none'
             });
 
-            if (data.length > 0) {
+            if (data.records.length > 0) {
                 $tr.append('<td></td>');
 
                 // Create column contains table lines

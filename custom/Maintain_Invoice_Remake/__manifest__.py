@@ -21,7 +21,7 @@ It contains the apps created with Studio and the customizations of existing apps
         'data/ir_ui_view.xml',
         'data/sequence.xml',
         'views/add_js.xml',
-        'views/account_payment_custom_view.xml',
+        'views/account_payment_custom_view.xml'
 #        'views/invoice_customer_custom_view.xml',
 #         'views/report_invoice.xml',
 #         'report/report_format1.xml',
@@ -31,7 +31,8 @@ It contains the apps created with Studio and the customizations of existing apps
 #         'report/report_shipment1.xml'
     ],
     'qweb': [
-        'static/src/xml/report_template.xml'
+        'static/src/xml/report_template.xml',
+        'static/src/xml/invoice_lines.xml'
     ],
     'application': False,
     'license': 'OPL-1',
