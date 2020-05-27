@@ -3,6 +3,7 @@
 import operator
 from datetime import timedelta, time, datetime
 from addons.account.models.product import ProductTemplate
+from custom.Maintain_Invoice_Remake.models.invoice_customer_custom import rounding
 from odoo.tools.float_utils import float_round
 
 import logging
@@ -50,6 +51,12 @@ class QuotationsCustom(models.Model):
         ('internal_tax', '内税／明細'),
         ('custom_tax', '税調整別途')
     ], string='Tax Method', default='no_tax')
+
+    # 消費税端数処理
+    customer_tax_rounding = fields.Selection(
+        [('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')],
+        string='Tax Rounding', default='round')
+
     quotations_date = fields.Date(string='Quotations Date')
     order_id = fields.Many2one('sale.order', string='Order', store=False)
     partner_id = fields.Many2one(string='Business Partner')
@@ -206,6 +213,9 @@ class QuotationsCustom(models.Model):
 
         return [res for res in query_res]
 
+    @api.onchange('tax_method')
+    def _onchange_tax_method(self):
+
     @api.onchange('document_reference')
     def set_caps(self):
         if self.document_reference:
@@ -221,40 +231,39 @@ class QuotationsCustom(models.Model):
         # TODO set order
         sale_order = self.env['sale.order'].search([('id', '=', order_id)])
 
-        self.document_reference = sale_order.document_reference
-        self.name = sale_order.name
-        self.partner_id = sale_order.partner_id
-        self.partner_name = sale_order.partner_name
-        self.cb_partner_sales_rep_id = sale_order.cb_partner_sales_rep_id
-        self.shipping_address = sale_order.shipping_address
-        self.sales_rep = sale_order.sales_rep
-        self.expected_date = sale_order.expected_date
-        self.expiration_date = sale_order.expiration_date
-        self.note = sale_order.note
-        self.comment = sale_order.comment
-        self.quotation_type = sale_order.quotation_type
-        self.report_header = sale_order.report_header
-        self.paperformat_id = sale_order.paperformat_id
-        self.is_print_date = sale_order.is_print_date
-        self.tax_method = sale_order.tax_method
-        self.comment_apply = sale_order.comment_apply
-
-        default = dict(None or [])
         if sale_order:
+            self.document_reference = sale_order.document_reference
+            self.name = sale_order.name
+            self.partner_id = sale_order.partner_id
+            self.partner_name = sale_order.partner_name
+            self.cb_partner_sales_rep_id = sale_order.cb_partner_sales_rep_id
+            self.shipping_address = sale_order.shipping_address
+            self.sales_rep = sale_order.sales_rep
+            self.expected_date = sale_order.expected_date
+            self.expiration_date = sale_order.expiration_date
+            self.note = sale_order.note
+            self.comment = sale_order.comment
+            self.quotation_type = sale_order.quotation_type
+            self.report_header = sale_order.report_header
+            self.paperformat_id = sale_order.paperformat_id
+            self.is_print_date = sale_order.is_print_date
+            self.tax_method = sale_order.tax_method
+            self.comment_apply = sale_order.comment_apply
+
+            default = dict(None or [])
             lines = [rec.copy_data()[0] for rec in sale_order[0].order_line.sorted(key='id')]
             default['order_line'] = [(0, 0, line) for line in lines if line]
             for rec in self:
                 rec.order_line = default['order_line'] or ()
-                rec.comment_apply = sale_order[0].comment_apply or ''
 
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
 
-    name = fields.Text(string='Description', default='New')
+    name = fields.Text(string='Description')
     tax_id = fields.Many2many(string='Taxes')
     product_id = fields.Many2one(string='Product')
-    product_uom_qty = fields.Float(string='Product UOM Qty')
+    product_uom_qty = fields.Float(string='Product UOM Qty', digits='(12,0)', default=1.0)
     product_uom = fields.Many2one(string='Product UOM')
     price_unit = fields.Float(string='Price Unit')
 
@@ -264,24 +273,48 @@ class QuotationsLinesCustom(models.Model):
         ('discount', 'Discount'),
         ('consumption_tax', 'Consumption Tax')
     ], string='Class Item', default='normal')
+
     product_barcode = fields.Char(string='Product Barcode')
     product_freight_category = fields.Many2one('freight.category.custom', 'Freight Category')
     product_name = fields.Char(string='Product Name')
     product_standard_number = fields.Char(string='Product Standard Number')
     product_list_price = fields.Float(string='Product List Price')
     cost = fields.Float(string='Cost')
-    # price_total = fields.Monetary(string='Total')
-    description = fields.Text(string='Description')
+
+    # TODO recounting tax amount
+    tax_amount = fields.Float(string='Tax Amount')
 
     @api.onchange('product_id')
     def _get_detail_product(self):
         if self.product_id:
             for rec in self:
                 rec.product_id = self.product_id or ''
+                rec.product_name = self.product_id.name or ''
                 rec.product_barcode = self.product_id.barcode or ''
                 rec.product_freight_category = self.product_id.product_custom_freight_category or ''
-                rec.product_name = self.product_id.name or ''
-                rec.product_list_price = self.product_id.list_price or ''
+                rec.product_standard_number = self.product_id.product_custom_standardnumber or ''
+
+                # todo set price follow product code
+                if rec.order_id.tax_method == 'internal_tax':
+                    rec.product_list_price = self.product_id.price_include_tax_1 or ''
+                    rec.price_unit = self.product_id.price_include_tax_1 or ''
+                else:
+                    rec.product_list_price = self.product_id.price_no_tax_1 or ''
+                    rec.price_unit = self.product_id.price_no_tax_1 or ''
+
+    @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id')
+    def _compute_amount(self):
+        """
+        Compute the amounts of the SO line.
+        """
+        for line in self:
+            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+            taxes = line.tax_id.compute_all(price, line.order_id.currency_id, line.product_uom_qty, product=line.product_id, partner=line.order_id.partner_shipping_id)
+            line.update({
+                'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
+                'price_total': taxes['total_included'],
+                'price_subtotal': taxes['total_excluded'],
+            })
 
 
 class QuotationReportHeaderCustom(models.Model):
