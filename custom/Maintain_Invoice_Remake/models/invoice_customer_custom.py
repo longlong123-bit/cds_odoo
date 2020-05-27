@@ -497,8 +497,8 @@ class ClassInvoiceCustom(models.Model):
 
     @api.onchange('invoice_line_ids')
     def _onchange_invoice_line_ids(self):
-        for line in self.invoice_line_ids:
-            line.compute_tax_ids()
+        # for line in self.invoice_line_ids:
+        #     line.compute_tax_ids()
         current_invoice_lines = self.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab)
         others_lines = self.line_ids - current_invoice_lines
         if others_lines and current_invoice_lines - self.invoice_line_ids:

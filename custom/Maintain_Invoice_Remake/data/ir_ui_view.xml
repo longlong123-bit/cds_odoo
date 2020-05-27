@@ -307,8 +307,8 @@
                        widget="many2many_tags"
                        domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
                        context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
-                       options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"
-                       attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
+                       options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+<!--                       attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
                 <field name="invoice_custom_uom_cost_value"/>
 
 <!--                <field name="invoice_custom_discountunitprice"/>-->
