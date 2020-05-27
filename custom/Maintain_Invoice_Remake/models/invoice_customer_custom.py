@@ -747,6 +747,12 @@ class ClassInvoiceCustom(models.Model):
         }
         return view
 
+    # Get lines
+    def get_lines(self):
+        return self.env['account.move.line'].search([
+            ('move_id', 'in', self._ids)
+        ]).read()
+
 
 class AccountTaxLine(models.Model):
     _name = 'account.tax.line'
