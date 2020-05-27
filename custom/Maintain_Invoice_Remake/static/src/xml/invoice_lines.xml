@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="invoice_lines">
+      <table>
+        <thead>
+          <tr>
+            <th>Line no</th>
+            <th>Product name</th>
+          </tr>
+        </thead>
+        <tr t-foreach="records" t-as="record">
+          <td><span t-esc="record.invoice_custom_line_no"/></td>
+          <td><span t-esc="record.product_id.name"/></td>
+        </tr>
+      </table>
+    </t>
+</template>
