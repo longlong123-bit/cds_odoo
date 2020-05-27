@@ -75,7 +75,7 @@ var ExtendedSearchProposition = Widget.extend({
                             if(this.__parentedParent.__parentedParent.context.lang ==='en_US'){
                                 this.attrs.selected.string = _t('Business Partner');
                             }else{
-                                this.attrs.selected.string = _t('取引先');
+                                this.attrs.selected.string = _t('得意先');
                             }
                             }
 

@@ -112,6 +112,17 @@
         <table style ="vertical-align: baseline;" class="custom-form-table">
           <tbody>
             <!-- Row 1 -->
+              <tr>
+                  <td class="col-label"><label for="x_studio_document_no" string="Document No"/></td>
+                   <td class="col-field">
+                  <field style="width:90px!important;float:left!important;" name="x_studio_document_no" string="Document No" readonly="1" class="o_input"/>
+                  <field name="x_history_voucher" widget="Maintain_Sale_History.Voucher" z-index="92" attrs="{'invisible':[('state','in',['posted'])]}"/>
+
+<!--                        <attribute name="context">{'tree_view_ref': 'inherit_view_account_move_line_tree'}</attribute>-->
+<!--                  </field>-->
+
+                </td>
+              </tr>
             <tr>
               <td class="col-label"><label for="x_studio_date_invoiced" string="Invoice Date*"/></td>
               <td class="col-field"><field name="x_studio_date_invoiced" string="Invoice Date*" required="1" z-index="94" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
@@ -122,14 +133,9 @@
               <td class="col-label"><label for="x_userinput_id" string="userinput_id"/></td>
               <td class="col-field"><field name="x_userinput_id" string="userinput_id" z-index="91" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
 
-              <td class="col-label"><label for="x_studio_document_no" string="Document No"/></td>
+              <td class="col-label"><label for="customer_trans_classification_code" string="Transaction classification"/></td>
               <td class="col-field">
-                  <field style="width:90px!important;float:left!important;" name="x_studio_document_no" string="Document No" readonly="1" class="o_input"/>
-                  <field name="x_history_voucher" widget="Maintain_Sale_History.Voucher" z-index="92" attrs="{'readonly':[('state','in',['posted'])]}"/>
-
-<!--                        <attribute name="context">{'tree_view_ref': 'inherit_view_account_move_line_tree'}</attribute>-->
-<!--                  </field>-->
-
+                  <field name="customer_trans_classification_code" string="Transaction classification" required="1"/>
               </td>
             </tr>
             <tr>
@@ -145,8 +151,11 @@
               <td class="col-label"><label for="ref" string="Order Reference"/></td>
               <td class="col-field"><field name="ref" string="Order Reference" z-index="92" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
 
-              <td class="col-label"><label for="x_studio_price_list" string="Price List*"/></td>
-              <td class="col-field"><field name="x_studio_price_list" string="Price List*" attrs="{'readonly':[('state','in',['posted'])]}" force_save="1" required="1" z-index="93"/></td>
+                <td class="col-label"><label for="x_studio_payment_rule_1" string="Payment Rule*"/></td>
+                <td class="col-field"><field name="x_studio_payment_rule_1" string="Payment Rule*" attrs="{'readonly':[('state','in',['posted'])]}" z-index="97"/></td>
+
+              <td class="col-label"><label for="x_studio_price_list" string="Price List*" invisible="1"/></td>
+              <td class="col-field"><field name="x_studio_price_list" string="Price List*" attrs="{'readonly':[('state','in',['posted'])]}" force_save="1" invisible="1" z-index="93"/></td>
 
             </tr>
             <tr>
@@ -155,8 +164,13 @@
                 <td colspan="2" class="col-field"><field name="x_bussiness_partner_name_2" string="名称2" attrs="{'readonly':[('state','in',['posted'])]}" force_save="1"  z-index="93"/></td>
                 <td class="col-label"><label for="x_studio_sales_rep" string="Sales Rep"/></td>
                 <td class="col-field"><field name="x_studio_sales_rep" string="Sales Rep" z-index="96" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
-                <td class="col-label"><label for="x_studio_payment_rule_1" string="Payment Rule*"/></td>
-                <td class="col-field"><field name="x_studio_payment_rule_1" string="Payment Rule*" attrs="{'readonly':[('state','in',['posted'])]}" required="1" z-index="97"/></td>
+
+                <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term*"
+                                           attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit'])]} "/></td>
+              <td class="col-field">
+                  <field name="invoice_payment_terms_custom" class="o_input" force_save="1"
+                         attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit'])]} "/>
+              </td>
             </tr>
             <tr>
               <td class="col-label"><label for="x_studio_address_1" string="Address"/></td>
@@ -164,12 +178,9 @@
                    placeholder="Address 1..." force_save="1" widget="input" z-index="101" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
               <td></td>
               <td></td>
-              <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term*"
-                                           attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit'])]} "/></td>
-              <td class="col-field">
-                  <field name="invoice_payment_terms_custom" required="1" class="o_input" readonly="1" force_save="1"
-                         attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit'])]} "/>
-              </td>
+
+              <td class="col-label"><label for="x_studio_date_printed" string="Date Printed"/></td>
+              <td class="col-field"><field autocomplete="off" name="x_studio_date_printed" string="Date Printed" z-index="100" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
             </tr>
             <tr>
               <td></td>
@@ -177,8 +188,8 @@
                                                        placeholder="Address 2..." force_save="1"  widget="input" z-index="102" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
               <td colspan="2" class="col-field"><field name="x_studio_address_3" string="Address 3" class="o_address_city" placeholder="Address 3..." force_save="1"  widget="input" z-index="103" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
 
-              <td class="col-label"><label for="x_studio_date_printed" string="Date Printed"/></td>
-              <td class="col-field"><field autocomplete="off" name="x_studio_date_printed" string="Date Printed" z-index="100" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
+             <td class="col-label"><label for="x_voucher_tax_transfer" string="税転嫁"/></td>
+              <td class="col-field"><field name="x_voucher_tax_transfer" string="税転嫁" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}" required="True"/></td>
             </tr>
             <tr>
               <!-- Column 1 -->
@@ -188,16 +199,14 @@
               <td></td>
               <td></td>
               <td></td>
-              <td class="col-label"><label for="x_voucher_tax_transfer" string="税転嫁"/></td>
-              <td class="col-field"><field name="x_voucher_tax_transfer" string="税転嫁" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}" required="True"/></td>
+                <td class="col-label"><label for="x_voucher_deadline" string="締切"/></td>
+              <td class="col-field"><field name="x_voucher_deadline" string="締切" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
               <td class="col-field"><field name="customer_tax_rounding" string="消費税端数処理" z-index="107" invisible="True"/></td>
             </tr>
             <tr>
               <!-- Column 1 -->
               <td class="col-label"><label for="x_studio_description" string="Description"/></td>
               <td colspan="5" class="col-field"><field name="x_studio_description" string="Description" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
-              <td class="col-label"><label for="x_voucher_deadline" string="締切"/></td>
-              <td class="col-field"><field name="x_voucher_deadline" string="締切" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
 
               <!-- Column 2 -->
               <td></td>
@@ -294,6 +303,12 @@
                 <field name="invoice_custom_lineamount"/>
                 <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM" required="True"/>
                 <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
+                <field name="tax_ids" string="Taxes"
+                       widget="many2many_tags"
+                       domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
+                       context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+                       options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"
+                       attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
                 <field name="invoice_custom_uom_cost_value"/>
 
 <!--                <field name="invoice_custom_discountunitprice"/>-->
@@ -301,12 +316,12 @@
 
 <!--                <field name="invoice_custom_salesunitprice"/>-->
                 <field name="invoice_custom_Description"/>
-                <field name="tax_ids" string="Taxes"
-                       widget="many2many_tags"
-                       domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
-                       context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
-                       options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"
-                       attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
+<!--                <field name="tax_ids" string="Taxes"-->
+<!--                       widget="many2many_tags"-->
+<!--                       domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"-->
+<!--                       context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"-->
+<!--                       options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"-->
+<!--                       attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
 
 
                 <field name="move_name" invisible="1"/>
