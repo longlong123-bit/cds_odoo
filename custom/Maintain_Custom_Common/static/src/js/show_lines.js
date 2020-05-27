@@ -118,7 +118,7 @@ odoo.define('Maintain_Custom_Common.show_lines', function(require){
                 // Call to server
                 rpc.query({
                     model: $ev.data.record.model,
-                    method: 'get_lines',
+                    method: $ev.data.attrs.name,
                     args: [
                        [$ev.data.record.res_id]
                     ]

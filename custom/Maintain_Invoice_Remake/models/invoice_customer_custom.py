@@ -753,6 +753,7 @@ class ClassInvoiceCustom(models.Model):
             ('move_id', 'in', self._ids)
         ]).read()
 
+
 class AccountTaxLine(models.Model):
     _name = 'account.tax.line'
     move_name = fields.Char('Invoice')
