@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- TREE VIEW -->
+    <record model="ir.ui.view" id="bm_seikyuu_tree">
+        <field name="name">bm.seikyuu.tree</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <tree string="Seikyuu" class="forward_edit" create="false">
+                <field name="customer_code" string="Seikyuu Code"/>
+                <field name="name" string="Seikyuu Name"/>
+                <field name="customer_closing_date" string="Last Closing Date"/>
+                <field name="voucher_number" string="Voucher"/>
+                <button name="bm_seikyuu_excerpt_button" type="object" string="Excerpt" class="btn-sm btn btn-primary"
+                        attrs="{'invisible': [('voucher_number', '=', 0)]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACTIONS -->
+    <record model="ir.actions.act_window" id="actions_bm_seikyuu">
+        <field name="name">Seikyuu</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="bm_seikyuu_tree"/>
+        <field name="domain">[('parent_id','=',False)]</field>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
+    </record>
+
+    <record id="model_action_seikyuu" model="ir.actions.server">
+        <field name="name">Share</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="state">code</field>
+        <field name="code">records.action_seikyuu()</field>
+    </record>
+
+    <!-- MENU ITEM -->
+    <menuitem id="menu_bm_seikyuu" parent="" name="Bill Management" sequence="10"
+              action="actions_bm_seikyuu" groups="base.group_user"/>
+</odoo>

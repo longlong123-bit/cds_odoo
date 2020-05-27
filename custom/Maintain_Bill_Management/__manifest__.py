@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Bill management",
+    'name': "Bill Management",
     'summary': """Manage bill""",
     'description': """
         Open Academy module for managing trainings:
@@ -20,7 +20,9 @@
 
     # any module necessary for this one to work correctly
     'depends': [
-        'base', 'base_setup', 'Maintain_Client', 'Maintain_Organization','Maintain_Invoice_Remake', 'Maintain_Custom_Company_Office'
+        'base', 'base_setup', 'Maintain_Client',
+        'Maintain_Organization', 'Maintain_Invoice_Remake',
+        'Maintain_Business_Partners_Remake'
     ],
 
     # always loaded
@@ -29,7 +31,9 @@
         'views/assets.xml',
         'views/bill.xml',
         'views/history.xml',
-        'views/office.xml'
+        'views/office.xml',
+        'views/seikyuu.xml',
+        'views/seikyuu_details.xml',
     ],
     'qweb': [
         'views/templates.xml'
