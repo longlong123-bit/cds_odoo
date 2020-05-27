@@ -746,9 +746,11 @@ class ClassInvoiceCustom(models.Model):
         return view
 
     # Get lines
+    # Method will be call when click on button (.O_button_line) show line in tree view
     def get_lines(self):
         records = self.env['account.move.line'].search([
-            ('move_id', 'in', self._ids)
+            ('move_id', 'in', self._ids),
+            ('product_id', '!=', False)
         ]).read()
 
         return {
