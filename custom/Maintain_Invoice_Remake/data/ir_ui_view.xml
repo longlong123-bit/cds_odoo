@@ -47,7 +47,7 @@
                     <field name="x_studio_date_invoiced" string="Date Invoiced"/>
                     <field name="x_studio_date_shipment" string="shipmentdate"/>
                     <field name="x_studio_business_partner" string="Business Partner"/>
-                    <field name="customer_trans_classification_code" string="Transaction classification"/>
+                    <field name="customer_trans_classification_code" string="Transaction Class"/>
                     <field name="customer_group" string="Customer Group"/>
                     <field name="customer_state" string="Customer State"/>
                     <field name="customer_industry" string="Customer Industry"/>
@@ -133,9 +133,9 @@
               <td class="col-label"><label for="x_userinput_id" string="userinput_id"/></td>
               <td class="col-field"><field name="x_userinput_id" string="userinput_id" z-index="91" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
 
-              <td class="col-label"><label for="customer_trans_classification_code" string="Transaction classification"/></td>
+              <td class="col-label"><label for="customer_trans_classification_code" string="Transaction Class*"/></td>
               <td class="col-field">
-                  <field name="customer_trans_classification_code" string="Transaction classification" required="1"/>
+                  <field name="customer_trans_classification_code" string="Transaction Class*" required="1" attrs="{'readonly':[('state','in',['posted'])]}"/>
               </td>
             </tr>
             <tr>
@@ -151,8 +151,8 @@
               <td class="col-label"><label for="ref" string="Order Reference"/></td>
               <td class="col-field"><field name="ref" string="Order Reference" z-index="92" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
 
-                <td class="col-label"><label for="x_studio_payment_rule_1" string="Payment Rule*"/></td>
-                <td class="col-field"><field name="x_studio_payment_rule_1" string="Payment Rule*" attrs="{'readonly':[('state','in',['posted'])]}" z-index="97"/></td>
+                <td class="col-label"><label for="x_studio_payment_rule_1" string="Payment Rule"/></td>
+                <td class="col-field"><field name="x_studio_payment_rule_1" string="Payment Rule" attrs="{'readonly':[('state','in',['posted'])]}" z-index="97"/></td>
 
               <td class="col-label"><label for="x_studio_price_list" string="Price List*" invisible="1"/></td>
               <td class="col-field"><field name="x_studio_price_list" string="Price List*" attrs="{'readonly':[('state','in',['posted'])]}" force_save="1" invisible="1" z-index="93"/></td>
@@ -165,7 +165,7 @@
                 <td class="col-label"><label for="x_studio_sales_rep" string="Sales Rep"/></td>
                 <td class="col-field"><field name="x_studio_sales_rep" string="Sales Rep" z-index="96" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
 
-                <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term*"
+                <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term"
                                            attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit'])]} "/></td>
               <td class="col-field">
                   <field name="invoice_payment_terms_custom" class="o_input" force_save="1"
@@ -464,6 +464,37 @@
         <field eval="1" name="priority"/>
         <field name="inherit_id" ref="account.view_move_line_form"/>
         <field name="arch" type="xml">
+            <xpath expr='//sheet/group[1]' position="replace">
+                <group>
+                    <group>
+                        <field name="name" invisible="1"/>
+                        <field name="partner_id"
+                            domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
+                            attrs="{'readonly': [('parent_state', '=', 'posted')]}" invisible="1"/>
+                        <field name="x_invoicelinetype" required="True" string="内訳区分"/>
+                        <field name="x_product_barcode" widget="product_many2one" context="{'show_product_jan': 1}"/>
+                        <field name="x_product_name" string="商品名"/>
+                        <field name="x_product_name2" string="商品名2"/>
+                        <field name="invoice_custom_standardnumber"/>
+                        <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+                    </group>
+                    <group>
+                        <field name="price_unit" string="Price"/>
+                        <field name="invoice_custom_lineamount"/>
+<!--                        <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM"/>-->
+<!--                        <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
+<!--                        <field name="tax_ids" string="Taxes"-->
+<!--                               widget="many2many_tags"-->
+<!--                               domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"-->
+<!--                               context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"-->
+<!--                               options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"-->
+<!--                               attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
+                        <field name="invoice_custom_uom_cost_value"/>
+                        <field name="invoice_custom_Description"/>
+                    </group>
+                </group>
+
+            </xpath>
             <xpath expr='//sheet' position="after">
                 <footer>
                     <button string="Save" class="btn btn-primary o_form_button_save" special="save"/>
