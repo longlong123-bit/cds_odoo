@@ -201,7 +201,7 @@ class ClassInvoiceCustom(models.Model):
     line_len = fields.Integer('', default=get_line_len, store=False)
 
     x_transaction_type = fields.Selection([('掛売', '掛売'), ('現金売', '現金売')], default='掛売')
-    x_voucher_tax_amount = fields.Float('消費税額')
+    x_voucher_tax_amount = fields.Monetary('消費税額')
     # x_voucher_deadline = fields.Selection([('今回', '次回','通常','来月勘定'), ('今回', '次回','通常','来月勘定')],default='今回')
     x_voucher_tax_transfer = fields.Selection([
         ('no_tax', '非課税'),
@@ -222,7 +222,7 @@ class ClassInvoiceCustom(models.Model):
     customer_state = fields.Char('Customer State')
     customer_industry = fields.Char('Customer Industry')
     customer_closing_date = fields.Date('Closing Date')
-    customer_trans_classification_code = fields.Selection([('sale','掛売'),('cash','現金'), ('account','諸口')], string='Transaction classification')
+    customer_trans_classification_code = fields.Selection([('sale','掛売'),('cash','現金'), ('account','諸口')], string='Transaction Class')
     closing_date_compute = fields.Integer('Temp')
 
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')

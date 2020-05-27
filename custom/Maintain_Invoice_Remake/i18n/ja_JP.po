@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-25 11:14+0000\n"
-"PO-Revision-Date: 2020-05-25 11:14+0000\n"
+"POT-Creation-Date: 2020-05-27 06:49+0000\n"
+"PO-Revision-Date: 2020-05-27 06:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -94,12 +94,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Business Partner"
-msgstr "得意先"
+msgstr "得意先名"
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Business Partner*"
-msgstr "得意先*"
+msgstr "得意先名*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_calendar
@@ -130,6 +130,7 @@ msgstr "クライアント*"
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.account_tax_line_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 msgid "Close"
 msgstr ""
 
@@ -271,7 +272,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Document No"
-msgstr "伝票番号"
+msgstr "伝票No"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_document_note
@@ -377,7 +378,7 @@ msgstr "支払猶予日数*"
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.new_integer_journal__f920972d-f81f-452d-9e5e-5569aaaeb446
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Grand Total*"
-msgstr "総合計*"
+msgstr "税込み金額*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__id
@@ -397,12 +398,12 @@ msgstr "請求伝票"
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Invoice Date"
-msgstr "請求日"
+msgstr "売上日付（請求）"
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Invoice Date*"
-msgstr "請求日付*"
+msgstr "売上日付（請求）*"
 
 #. module: Maintain_Invoice_Remake
 #: code:addons/Maintain_Invoice_Remake/models/invoice_customer_custom.py:0
@@ -595,8 +596,13 @@ msgstr "支払済"
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
-msgid "Payment Rule*"
-msgstr "支払方法*"
+msgid "Payment Rule"
+msgstr "支払方法"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Payment Term"
+msgstr "支払条件"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_id
@@ -612,11 +618,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_payment_term_usage
 msgid "Payment Term Usage*"
 msgstr "支払条件の使用*"
-
-#. module: Maintain_Invoice_Remake
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
-msgid "Payment Term*"
-msgstr "支払条件*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model,name:Maintain_Invoice_Remake.model_account_payment_term
@@ -691,7 +692,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Sales Rep"
-msgstr "社内担当者"
+msgstr "営業担当者"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
+msgid "Save"
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_search_key
@@ -701,7 +707,7 @@ msgstr "検索キー"
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_date_shipment
 msgid "Shipment Date*"
-msgstr ""
+msgstr "出荷日付*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__taxGroup
@@ -797,14 +803,24 @@ msgstr "合計"
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Total Lines*"
-msgstr "明細行合計*"
+msgstr "伝票合計額*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_trans_classification_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Transaction Class"
+msgstr "取引区分"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Transaction Class*"
+msgstr "取引区分*"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Transaction classification"
-msgstr "取引区分コード"
+msgstr "取引区分"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__price_unit
@@ -965,13 +981,13 @@ msgstr "検索キー"
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "shipmentdate"
-msgstr "出荷日"
+msgstr "出荷日付"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.new_date_journal_ent_9875a02b-46d0-44db-b505-1f672986acf1
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "shipmentdate*"
-msgstr "出荷日*"
+msgstr "出荷日付*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_standardnumber
@@ -988,7 +1004,7 @@ msgstr "登録日"
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "userinput_id"
-msgstr "入力者"
+msgstr "入力担当者"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move_line__x_invoicelinetype__サンプル
@@ -1034,8 +1050,8 @@ msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
-msgid "区分"
-msgstr "内訳区分"
+msgid "内訳区分"
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_bussiness_partner_name_2
@@ -1109,7 +1125,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_voucher_tax_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "消費税額"
-msgstr ""
+msgstr "消費税額"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__customer_trans_classification_code__cash
