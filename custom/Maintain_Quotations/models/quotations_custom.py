@@ -215,6 +215,7 @@ class QuotationsCustom(models.Model):
 
     @api.onchange('tax_method')
     def _onchange_tax_method(self):
+        print('éo hiểu cái gì')
 
     @api.onchange('document_reference')
     def set_caps(self):

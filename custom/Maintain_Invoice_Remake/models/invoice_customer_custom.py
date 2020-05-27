@@ -295,10 +295,8 @@ class ClassInvoiceCustom(models.Model):
                             if move.x_voucher_tax_transfer == 'voucher':
                                 total_line_tax = sum(
                                     tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
-                                line_tax_amount = (total_line_tax * line.price_unit) / 100
-                                if line.x_invoicelinetype in ('通常', 'サンプル', '消費税'):
-                                    line_tax_amount = line_tax_amount * (-1)
-                                else:
+                                line_tax_amount = (total_line_tax * line.price_unit * line.quantity) / 100
+                                if line.x_invoicelinetype not in ('通常', 'サンプル', '消費税'):
                                     line_tax_amount = line_tax_amount * (-1)
 
                                 total_voucher_tax_amount += line_tax_amount

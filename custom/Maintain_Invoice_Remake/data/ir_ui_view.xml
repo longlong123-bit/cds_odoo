@@ -304,7 +304,7 @@
                 <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM" required="True"/>
                 <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
                 <field name="tax_ids" string="Taxes"
-                       widget="many2many_tags"
+                       widget="many2many_tags" readonly="False"
                        domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
                        context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
                        options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
