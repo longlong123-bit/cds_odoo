@@ -302,7 +302,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                 'line_tax_amount',
                 'price_unit',
                 'invoice_custom_lineamount',
-                'invoice_custom_Description',
+                'invoice_custom_uom_cost_value',
                ];
             var HEADER2 = [
                'x_invoicelinetype',
@@ -311,8 +311,8 @@ odoo.define('web.ListRender_Custom', function (require) {
                'invoice_custom_FreightCategory',
                'quantity',
                'product_uom_id',
-               'invoice_custom_uom_cost_value',
                'tax_ids',
+               'invoice_custom_Description',
             ];
             var headerCol1 = [];
             var headerCol2 = [];
