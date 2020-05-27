@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-27 06:49+0000\n"
-"PO-Revision-Date: 2020-05-27 06:49+0000\n"
+"POT-Creation-Date: 2020-05-27 10:29+0000\n"
+"PO-Revision-Date: 2020-05-27 10:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -443,7 +443,7 @@ msgstr ""
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_barcode
 msgid "JAN/UPC/EAN"
-msgstr ""
+msgstr "JANコード"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_barcode_show_in_tree
@@ -507,6 +507,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_line_no
 msgid "Line No"
 msgstr "明細番号"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
+#, python-format
+msgid "Line no"
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_list_price
@@ -633,6 +640,7 @@ msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 msgid "Price"
 msgstr "単価"
 
@@ -662,8 +670,16 @@ msgstr "印刷"
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_modelnumber
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 msgid "Product"
 msgstr "商品コード"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
+#, python-format
+msgid "Product name"
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__quantity
@@ -759,6 +775,7 @@ msgstr "税率*"
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__tax_ids
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 msgid "Taxes"
 msgstr "税"
 
@@ -808,7 +825,6 @@ msgstr "伝票合計額*"
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_trans_classification_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Transaction Class"
 msgstr "取引区分"
 
@@ -1050,6 +1066,7 @@ msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 msgid "内訳区分"
 msgstr ""
 
@@ -1066,11 +1083,13 @@ msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 msgid "商品名"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 msgid "商品名2"
 msgstr ""
 
@@ -1125,7 +1144,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_voucher_tax_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "消費税額"
-msgstr "消費税額"
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__customer_trans_classification_code__cash

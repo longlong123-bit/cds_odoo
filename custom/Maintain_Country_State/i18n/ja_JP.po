@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-14 10:43+0000\n"
-"PO-Revision-Date: 2020-05-14 10:43+0000\n"
+"POT-Creation-Date: 2020-05-27 11:08+0000\n"
+"PO-Revision-Date: 2020-05-27 11:08+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,11 @@ msgstr "アクティブ"
 msgid ""
 "Administrative divisions of a country. E.g. Fed. State, Departement, Canton"
 msgstr "国の行政区画。たとえば連邦、省、州。"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_client
+msgid "Client"
+msgstr "クライアント"
 
 #. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_closing_date
@@ -60,6 +65,11 @@ msgid "Custom Company"
 msgstr "自社マスタ設定"
 
 #. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_customer
+msgid "Customer Master"
+msgstr "得意先マスタ"
+
+#. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_department
 msgid "Department"
 msgstr "事業部マスタ"
@@ -80,6 +90,11 @@ msgid "Japan"
 msgstr "日本"
 
 #. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_freight
+msgid "Maker"
+msgstr "メーカーマスタ"
+
+#. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.parent_menu_master
 msgid "New Master"
 msgstr "他各種マスタ"
@@ -93,6 +108,11 @@ msgstr "得意先グループマスタ"
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_print_output
 msgid "Printer"
 msgstr "プリンタ出力先設定"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_product
+msgid "Product"
+msgstr "商品マスタ"
 
 #. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_product_class

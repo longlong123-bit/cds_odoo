@@ -479,16 +479,17 @@
                         <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
                     </group>
                     <group>
-                        <field name="price_unit" string="Price"/>
+                        <field name="product_id" string="Product"  widget="product_many2one"
+                               />
+                        <field name="price_unit" string="Price" readonly="1"/>
                         <field name="invoice_custom_lineamount"/>
 <!--                        <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM"/>-->
 <!--                        <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
-<!--                        <field name="tax_ids" string="Taxes"-->
-<!--                               widget="many2many_tags"-->
-<!--                               domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"-->
-<!--                               context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"-->
-<!--                               options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"-->
-<!--                               attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
+                        <field name="tax_ids" string="Taxes"
+                               widget="many2many_tags" readonly="False"
+                               domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
+                               context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+                               options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
                         <field name="invoice_custom_uom_cost_value"/>
                         <field name="invoice_custom_Description"/>
                     </group>
@@ -500,6 +501,9 @@
                     <button string="Save" class="btn btn-primary o_form_button_save" special="save"/>
                     <button data-dismiss="modal" string="Close"/>
                 </footer>
+            </xpath>
+            <xpath expr='//sheet/notebook' position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
         </field>
     </record>
