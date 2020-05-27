@@ -73,13 +73,13 @@
         </record>
 
 
-		<record model="ir.actions.act_window" id="action_list_ideas">
+		<record model="ir.actions.act_window" id="action_freight_cate">
             <field name="name">メーカーマスタ</field>
             <field name="res_model">freight.category.custom</field>
             <field name="view_mode">tree,form</field>
         </record>
 	
-        <menuitem id="menu_ideas" parent="" name="メーカーマスタ" sequence="12"
-                  action="action_list_ideas" groups="base.group_user"/>
+<!--        <menuitem id="menu_ideas" parent="" name="メーカーマスタ" sequence="12"-->
+<!--                  action="action_list_ideas" groups="base.group_user"/>-->
     </data>
 </odoo>
