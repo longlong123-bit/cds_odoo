@@ -16,6 +16,7 @@
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/income_payment_view.xml',
+        'views/group_payment_master.xml'
     ],
     'demo': [],
     'installable': True,

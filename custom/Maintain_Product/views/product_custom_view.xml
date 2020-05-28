@@ -430,6 +430,7 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <search>
+                <field name="product_code_1" string="商品コード1"/>
                 <field name="barcode" required="True" string="UPC/EAN"/>
                 <field name="product_custom_freight_category" string="Maker code"/>
                 <field name="product_maker_name" string="Maker name"/>
@@ -438,7 +439,6 @@
                 <field name="product_custom_standardnumber" string="品番/型番"/>
                 <field name="name" string="Name"/>
                 <field name="product_custom_goodsnamef" string="goodsnamef"/>
-                <field name="product_code" string="商品コード"/>
 <!--                <field name="description"/>-->
 <!--                <field name="categ_id" string="Product Category"/>-->
 <!--                <field name="taxes_id"/>-->
