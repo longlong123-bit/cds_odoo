@@ -73,13 +73,13 @@
         </record>
 
 
-		<record model="ir.actions.act_window" id="action_list_ideas">
+		<record model="ir.actions.act_window" id="action_receipt_divide">
             <field name="name">入金区分</field>
             <field name="res_model">receipt.divide.custom</field>
             <field name="view_mode">tree,form</field>
         </record>
 	
-        <menuitem id="menu_ideas" parent="" name="入金区分" sequence="12"
-                  action="action_list_ideas" groups="base.group_user"/>
+<!--        <menuitem id="menu_ideas" parent="" name="入金区分" sequence="12"-->
+<!--                  action="action_list_ideas" groups="base.group_user"/>-->
     </data>
 </odoo>
