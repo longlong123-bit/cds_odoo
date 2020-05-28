@@ -97,6 +97,9 @@
         </xpath>
         <xpath expr="//sheet/field[@name='invoice_sequence_number_next']" position="attributes">
             <attribute name="invisible">1</attribute>
+        </xpath >
+        <xpath expr="//form/header/button[@name='action_invoice_register_payment']"  position="attributes">
+            <attribute name="invisible">1</attribute>
         </xpath>
 
       <!-- BEGIN FORM -->

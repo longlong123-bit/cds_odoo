@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-24 12:12+0000\n"
-"PO-Revision-Date: 2020-04-24 12:12+0000\n"
+"POT-Creation-Date: 2020-05-28 09:46+0000\n"
+"PO-Revision-Date: 2020-05-28 09:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
 msgid "Account Payment"
 msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.ui.menu,name:Maintain_Income_Payment.menu_account_payment
+msgid "Account Payment Master"
+msgstr "入金入力"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_payment_address1
@@ -163,7 +168,7 @@ msgstr ""
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__company_id
 msgid "Organization"
-msgstr "組織"
+msgstr ""
 
 #. module: Maintain_Income_Payment
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
@@ -183,9 +188,13 @@ msgstr "入金金額"
 
 #. module: Maintain_Income_Payment
 #: model:ir.actions.act_window,name:Maintain_Income_Payment.account_payment_action
-#: model:ir.ui.menu,name:Maintain_Income_Payment.menu_ideas
 msgid "Payment Custom"
 msgstr "入金入力"
+
+#. module: Maintain_Income_Payment
+#: model:ir.ui.menu,name:Maintain_Income_Payment.parent_menu_master
+msgid "Payment Group Master"
+msgstr "売掛管理"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,help:Maintain_Income_Payment.field_account_payment_line__payment_id
