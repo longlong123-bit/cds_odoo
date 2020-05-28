@@ -17,12 +17,14 @@ odoo.define('search.Custom', function (require) {
     var _lt = core._lt;
 
     var FilterMenu = require('web.FilterMenu_free');
+    var model = null;
 
     var My_FilterMenu = FilterMenu.include({
         events: _.extend({}, FilterMenu.prototype.events, {
         }),
-        init: function () {
+        init: function (a) {
             this._super.apply(this, arguments);
+            model = a.action.res_model;
         },
 
         /**
@@ -33,12 +35,18 @@ odoo.define('search.Custom', function (require) {
          */
         _appendProposition: function () {
             // make modern sear_filters code!!! It works but...
-            var list_td = $('.o_list_table thead tr th');
             var lV=[];
-            if(list_td){
-                for(var i = 0; i < list_td.length; i++){
-                    if($($('.o_list_table thead tr th')[i]).attr('data-name')){
-                        lV.push($($('.o_list_table thead tr th')[i]).attr('data-name'));
+
+            if (window.advancedSearch && window.advancedSearch[model]) {
+                lV = window.advancedSearch[model];
+            } else {
+                var list_td = $('.o_list_table thead tr th');
+
+                if(list_td){
+                    for(var i = 0; i < list_td.length; i++){
+                        if($($('.o_list_table thead tr th')[i]).attr('data-name')){
+                            lV.push($($('.o_list_table thead tr th')[i]).attr('data-name'));
+                        }
                     }
                 }
             }
