@@ -245,8 +245,14 @@
                   decoration-bf="message_needaction==True" decoration-muted="state=='cancel'"
                   banner_route="/sales/sale_quotation_onboarding_panel"
                   multi_edit="1">
+                <field name="quotations_date"/>
                 <field name="document_no"/>
+                <field name="document_reference"/>
+                <field name="partner_name"/>
                 <field name="name"/>
+                <field name="amount_untaxed"/>
+                <field name="amount_tax"/>
+                <field name="tax_method"/>
                 <field name="message_needaction" invisible="1"/>
 <!--                <field name="name" string="Quotation Number" readonly="1"/>-->
 <!--                <field name="create_date" string="Create Date"/>-->
@@ -260,7 +266,7 @@
 <!--                <field name="amount_tax" sum="Tax Total" widget="monetary" optional="hide"/>-->
 <!--                <field name="amount_total" sum="Total Tax Included" widget="monetary" optional="show"/>-->
 <!--                <field name="currency_id" invisible="1"/>-->
-                <field name="state" optional="show"/>
+                <field name="state" invisible="1" optional="show"/>
 <!--                <field name="invoice_status" optional="hide"/>-->
 <!--                <field name="activity_exception_decoration" widget="activity_exception"/>-->
             </tree>
