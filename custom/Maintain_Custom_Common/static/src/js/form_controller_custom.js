@@ -21,12 +21,34 @@ odoo.define('web.FormController.custom', function (require) {
             ev.stopPropagation(); // Prevent x2m lines to be auto-saved
             var self = this;
             this._disableButtons();
-            this.saveRecord(self.handle, {stayInEdit: true,}).then(this._enableButtons.bind(this)).then(function() {
+            this.saveRecord(self.handle, {stayInEdit: true, reload: true, savePoint: true,}).then(this._enableButtons.bind(this)).then(function() {
                     $("#success-alert").fadeTo(3000, 500).slideUp(500, function() {
                       $("#success-alert").slideUp(500);
                     });
 
                 }).guardedCatch(this._enableButtons.bind(this));
+        },
+
+        _confirmSave: function (id) {
+            if (id === this.handle) {
+                return this.reload();
+            } else {
+                // A subrecord has changed, so update the corresponding relational field
+                // i.e. the one whose value is a record with the given id or a list
+                // having a record with the given id in its data
+                var record = this.model.get(this.handle);
+
+                // Callback function which returns true
+                // if a value recursively contains a record with the given id.
+                // This will be used to determine the list of fields to reload.
+                var containsChangedRecord = function (value) {
+                    return _.isObject(value) &&
+                        (value.id === id || _.find(value.data, containsChangedRecord));
+                };
+
+                var changedFields = _.findKey(record.data, containsChangedRecord);
+                return this.renderer.confirmChange(record, record.id, [changedFields]);
+            }
         },
 
         _updateSidebar: function () {
