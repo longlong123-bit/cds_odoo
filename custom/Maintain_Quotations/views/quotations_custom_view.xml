@@ -195,22 +195,23 @@
                                     <field name="price_tax" invisible="True"/>
                                     <field name="company_id" invisible="True"/>
                                     <field name="price_subtotal" invisible="True"/>
+                                    <field name="discount" string="Disc.%" groups="product.group_discount_per_so_line" optional="show" invisible="True"/>
+                                    <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded" string="Total" invisible="True"/>
+                                    <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included" invisible="True"/>
 
                                     <field name="class_item" required="True"/>
-                                    <field name="product_id" attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"/>
+                                    <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"
+                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"/>
                                     <field name="product_name"/>
                                     <field name="product_barcode"/>
                                     <field name="product_freight_category"/>
                                     <field name="product_standard_number"/>
+                                    <field name="product_list_price" readonly="True"/>
                                     <field name="product_uom_qty"/>
                                     <field name="product_uom"/>
                                     <field name="price_unit"/>
-<!--                                    <field name="product_list_price"/>-->
                                     <field name="line_amount" widget="monetary"/>
                                     <field name="line_tax_amount" widget="monetary"/>
-                                    <field name="discount" string="Disc.%" groups="product.group_discount_per_so_line" optional="show" invisible="True"/>
-                                    <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded" string="Total" invisible="True"/>
-                                    <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included" invisible="True"/>
                                     <field name="tax_id" widget="many2many_tags"/>
                                     <field name="name" widget="section_and_note_text" optional="show" required="False" string="Description"/>
                                 </tree>
@@ -240,12 +241,7 @@
         <field name="mode">primary</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-<!--            <header>-->
-<!--                <div>abcd</div>-->
-<!--            </header>-->
-<!--            <h1>abcdef</h1>-->
-<!--            <attribute name="banner_route">/sales/sale_quotation_onboarding_panel</attribute>-->
-            <tree string="Quotations Custom" class="o_sale_order forward_edit"
+            <tree string="Quotations Custom" class="forward_edit o_sale_order"
                   decoration-bf="message_needaction==True" decoration-muted="state=='cancel'"
                   banner_route="/sales/sale_quotation_onboarding_panel"
                   multi_edit="1">
@@ -268,10 +264,6 @@
 <!--                <field name="invoice_status" optional="hide"/>-->
 <!--                <field name="activity_exception_decoration" widget="activity_exception"/>-->
             </tree>
-<!--            <tree string="Quotations Custom" multi_edit="1" duplicate="false" class="forward_edit">-->
-<!--                <field name="document_no"/>-->
-<!--                <field name="name"/>-->
-<!--            </tree>-->
         </field>
     </record>
 

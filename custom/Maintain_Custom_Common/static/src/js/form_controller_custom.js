@@ -21,11 +21,10 @@ odoo.define('web.FormController.custom', function (require) {
             ev.stopPropagation(); // Prevent x2m lines to be auto-saved
             var self = this;
             this._disableButtons();
-            this.saveRecord(self.handle, {stayInEdit: true, reload: true, savePoint: true,}).then(this._enableButtons.bind(this)).then(function() {
+            this.saveRecord(self.handle, {stayInEdit: true, reload: true,}).then(this._enableButtons.bind(this)).then(function() {
                     $("#success-alert").fadeTo(3000, 500).slideUp(500, function() {
                       $("#success-alert").slideUp(500);
                     });
-
                 }).guardedCatch(this._enableButtons.bind(this));
         },
 
