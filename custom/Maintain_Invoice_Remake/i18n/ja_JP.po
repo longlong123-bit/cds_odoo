@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-27 10:29+0000\n"
-"PO-Revision-Date: 2020-05-27 10:29+0000\n"
+"POT-Creation-Date: 2020-05-28 02:31+0000\n"
+"PO-Revision-Date: 2020-05-28 02:31+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -146,7 +146,10 @@ msgid "Closing Date Compute"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_uom_cost_value
+#, python-format
 msgid "Cost Value"
 msgstr "原価"
 
@@ -220,11 +223,14 @@ msgid "Default"
 msgstr "デフォルト"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_Description
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__note
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#, python-format
 msgid "Description"
-msgstr "備考"
+msgstr "説明"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__x_studio_payment_rule_1__rule_direct_debit
@@ -365,7 +371,10 @@ msgid "Fixed due date"
 msgstr "固定日付"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_FreightCategory
+#, python-format
 msgid "FreightCategory"
 msgstr "メーカー"
 
@@ -441,7 +450,10 @@ msgid "Invoices"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_barcode
+#, python-format
 msgid "JAN/UPC/EAN"
 msgstr "JANコード"
 
@@ -494,7 +506,10 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_lineamount
+#, python-format
 msgid "Line Amount"
 msgstr "金額"
 
@@ -513,7 +528,7 @@ msgstr "明細番号"
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #, python-format
 msgid "Line no"
-msgstr ""
+msgstr "明細番号"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_list_price
@@ -639,8 +654,11 @@ msgid "Payment Terms Custom"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
+#, python-format
 msgid "Price"
 msgstr "単価"
 
@@ -677,13 +695,9 @@ msgstr "商品コード"
 #. module: Maintain_Invoice_Remake
 #. openerp-web
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
-#, python-format
-msgid "Product name"
-msgstr ""
-
-#. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__quantity
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#, python-format
 msgid "Quantity"
 msgstr "数量"
 
@@ -731,9 +745,12 @@ msgid "Tax"
 msgstr "税率"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__line_tax_amount
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__tax_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#, python-format
 msgid "Tax Amount"
 msgstr "税額"
 
@@ -773,9 +790,12 @@ msgid "Tax*"
 msgstr "税率*"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__tax_ids
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
+#, python-format
 msgid "Taxes"
 msgstr "税"
 
@@ -844,7 +864,10 @@ msgid "Unit Price"
 msgstr "単価"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+#, python-format
 msgid "UoM"
 msgstr "単位"
 
@@ -1006,7 +1029,10 @@ msgid "shipmentdate*"
 msgstr "出荷日付*"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_standardnumber
+#, python-format
 msgid "standardnumber"
 msgstr "品番/型番"
 
@@ -1065,8 +1091,11 @@ msgid "内税／明細"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
+#, python-format
 msgid "内訳区分"
 msgstr ""
 
@@ -1082,14 +1111,20 @@ msgid "商品コード"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
+#, python-format
 msgid "商品名"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
+#, python-format
 msgid "商品名2"
 msgstr ""
 
