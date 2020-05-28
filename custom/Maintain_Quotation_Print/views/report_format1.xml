@@ -76,7 +76,13 @@
         <table border="0" cellspacing="0" cellpadding="5" style="width: 100%; border: 2px solid #ddd; border-bottom-width: 1px">
           <tbody>
             <t t-foreach="o.order_line" t-as="order">
-              <tr>
+              <tr t-if="order.display_type == 'line_note'">
+                <td colspan="6" style="border-bottom: 1px solid #ddd"><i><span t-field="order.name"/></i></td>
+              </tr>
+              <tr t-if="order.display_type == 'line_section'">
+                <td colspan="6" style="border-bottom: 1px solid #ddd; background-color: #ddd"><b><span t-field="order.name"/></b></td>
+              </tr>
+              <tr t-if="not order.display_type">
                 <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 270px"><span t-field="order.product_id.name"/></td>
                 <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 80px; text-align: right"><span t-field="order.product_uom_qty"/></td>
                 <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 50px; text-align: center"><span t-field="order.product_uom"/></td>
@@ -92,7 +98,7 @@
       <div style="box-sizing: border-box; margin-top: 8px">
         <table style="width: 100%" border="0" cellspacing="0" cellpadding="5">
           <tr>
-            <td style="border: 2px solid #ddd; width: 421px; vertical-align: top;" rowspan="4">備考／</td>
+            <td style="border: 2px solid #ddd; width: 421px; vertical-align: top;" rowspan="4">備考／<span t-field="o.note"/></td>
             <td style="border: 1px solid #ddd; border-left: 0; border-top-width: 2px; width: 90px; text-align: center">小　　計</td>
             <td style="border: 1px solid #ddd; border-left: 0; border-top-width: 2px; border-right-width: 2px; text-align: right; width: 99px">
               <span t-field="o.amount_untaxed"/>
@@ -103,12 +109,12 @@
 <!--                  <div style="max-height: 100%"></div>-->
 <!--                </div>-->
 <!--              </div>-->
-              <img src="/Maintain_Quotation_Print/static/src/sign.png" style="height: 100%;"/>
+              <img src="//Maintain_Quotation_Print/static/src/sign.png" style="height: 100%;"/>
             </td>
           </tr>
           <tr>
             <td style="border: 1px solid #ddd; border-left: 0; border-top: 0; text-align: center">税率</td>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0; border-right-width: 2px; text-align: right">s
+            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0; border-right-width: 2px; text-align: right">
               <span t-field="o.amount_tax"/>
             </td>
           </tr>
