@@ -144,6 +144,7 @@
                                 </td>
                                 <td class="o_td_label"><label for="tax_method" string="Tax Method"/></td>
                                 <td><field name="tax_method" required="True"/></td>
+                                <td><field name="customer_tax_rounding" invisible="True"/></td>
                             </tr>
 
                             <!-- Row 8 -->
@@ -193,7 +194,7 @@
                                     <field name="currency_id" invisible="True"/>
                                     <field name="price_tax" invisible="True"/>
                                     <field name="company_id" invisible="True"/>
-                                    <field name="price_subtotal" invisible="1"/>
+                                    <field name="price_subtotal" invisible="True"/>
 
                                     <field name="class_item" required="True"/>
                                     <field name="product_id" attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"/>
@@ -203,13 +204,13 @@
                                     <field name="product_standard_number"/>
                                     <field name="product_uom_qty"/>
                                     <field name="product_uom"/>
-<!--                                    <field name="price_unit"/>-->
-                                    <field name="product_list_price"/>
-                                    <field name="cost"/>
-                                    <field name="tax_amount" widget="monetary"/>
-                                    <field name="discount" string="Disc.%" groups="product.group_discount_per_so_line" optional="show"/>
-                                    <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded" string="Total"/>
-                                    <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included" invisible="False"/>
+                                    <field name="price_unit"/>
+<!--                                    <field name="product_list_price"/>-->
+                                    <field name="line_amount" widget="monetary"/>
+                                    <field name="line_tax_amount" widget="monetary"/>
+                                    <field name="discount" string="Disc.%" groups="product.group_discount_per_so_line" optional="show" invisible="True"/>
+                                    <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded" string="Total" invisible="True"/>
+                                    <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included" invisible="True"/>
                                     <field name="tax_id" widget="many2many_tags"/>
                                     <field name="name" widget="section_and_note_text" optional="show" required="False" string="Description"/>
                                 </tree>
