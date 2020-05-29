@@ -127,10 +127,31 @@ class QuotationsCustom(models.Model):
                 rec.customer_tax_rounding = self.partner_id.customer_tax_rounding or ''
                 rec.tax_method = get_tax_method(rec.partner_id.customer_tax_category, rec.partner_id.customer_tax_unit)
 
+    def get_lines(self):
+        records = self.env['sale.order.line'].search([
+            ('order_id', 'in', self._ids)
+        ]).read()
+
+        return {
+            'template': 'order_lines',
+            'records': records
+        }
+
+    # Check validate, duplicate data
+    def _check_data(self, values):
+        # check document no.
+        if values.get('document_no'):
+            sale_order_count = self.env['sale.order'].search_count(
+                [('document_no', '=', values.get('document_no'))])
+            if sale_order_count > 0:
+                raise ValidationError(_('The Document No has already been registered'))
+
+        return True
+
     @api.model
     def create(self, values):
         # set document_no
-        if (not ('document_no' in values)) or (not values['document_no']):
+        if not ('document_no' in values):
             # get all document no. is number
             self._cr.execute('''
                             SELECT document_no
@@ -147,7 +168,7 @@ class QuotationsCustom(models.Model):
 
             values['document_no'] = seq
 
-        # self._check_data(values)
+        self._check_data(values)
         # TODO set report header
         if 'report_header' in values:
             self.env.company.report_header = values.get('report_header')
@@ -161,7 +182,7 @@ class QuotationsCustom(models.Model):
         return quotations_custom
 
     def write(self, values):
-        # self._check_data(values)
+        self._check_data(values)
         # TODO set report header
         if 'report_header' in values:
             self.env.company.report_header = values.get('report_header')
@@ -308,11 +329,11 @@ class QuotationsLinesCustom(models.Model):
     price_unit = fields.Float(string='Price Unit')
 
     class_item = fields.Selection([
-        ('normal', 'Normal'),
-        ('returns', 'Returns'),
-        ('discount', 'Discount'),
-        ('consumption_tax', 'Consumption Tax')
-    ], string='Class Item', default='normal')
+        ('通常', '通常'),
+        ('返品', '返品'),
+        ('値引', '値引'),
+        ('消費税', '消費税')
+    ], string='Class Item', default='通常')
 
     product_barcode = fields.Char(string='Product Barcode')
     product_freight_category = fields.Many2one('freight.category.custom', 'Freight Category')
@@ -329,8 +350,8 @@ class QuotationsLinesCustom(models.Model):
             if not line.product_id or line.display_type in ('line_section', 'line_note'):
                 continue
 
-        # if self.product_id:
-        #     for rec in self:
+            # if self.product_id:
+            #     for rec in self:
             line.product_id = line.product_id or ''
             line.product_name = line.product_id.name or ''
             line.product_barcode = line.product_id.barcode or ''
@@ -356,14 +377,15 @@ class QuotationsLinesCustom(models.Model):
         """
         for line in self:
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
-            taxes = line.tax_id.compute_all(price, line.order_id.currency_id, line.product_uom_qty, product=line.product_id, partner=line.order_id.partner_shipping_id)
+            taxes = line.tax_id.compute_all(price, line.order_id.currency_id, line.product_uom_qty,
+                                            product=line.product_id, partner=line.order_id.partner_shipping_id)
             line.update({
                 'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
                 'price_total': taxes['total_included'],
                 'price_subtotal': taxes['total_excluded'],
             })
 
-            if line.class_item in ('normal', 'consumption_tax'):
+            if line.class_item in ('通常', '消費税'):
                 if line.product_uom_qty < 0:
                     line.product_uom_qty = line.product_uom_qty * (-1)
             else:
@@ -386,14 +408,14 @@ class QuotationsLinesCustom(models.Model):
         for line in self:
             if line.order_id.tax_method in ('foreign_tax', 'custom_tax'):
                 total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
-                line.line_tax_amount = self._get_compute_line_tax_amount(line.line_amount,
-                                                                         total_line_tax,
-                                                                         line.order_id.customer_tax_rounding,
-                                                                         line.class_item)
+                line.line_tax_amount = self.get_compute_line_tax_amount(line.line_amount,
+                                                                        total_line_tax,
+                                                                        line.order_id.customer_tax_rounding,
+                                                                        line.class_item)
             else:
                 line.line_tax_amount = 0
 
-    def _get_compute_line_tax_amount(self, line_amount, line_taxes, line_rounding, line_type):
+    def get_compute_line_tax_amount(self, line_amount, line_taxes, line_rounding, line_type):
         if line_amount != 0:
             return rounding(line_amount * line_taxes / 100, 2, line_rounding)
         else:

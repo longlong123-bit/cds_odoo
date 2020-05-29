@@ -20,6 +20,7 @@
     ],
     'qweb': [
         'static/src/xml/quotation_custom_template.xml',
+        'static/src/xml/order_lines.xml',
     ],
     'demo': [],
     'installable': True,
