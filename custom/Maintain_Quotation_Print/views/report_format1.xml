@@ -87,8 +87,8 @@
                 <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 80px; text-align: right"><span t-field="order.product_uom_qty"/></td>
                 <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 50px; text-align: center"><span t-field="order.product_uom"/></td>
                 <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 90px; text-align: right"><span t-field="order.price_unit"/></td>
-                <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 100px; text-align: right"><span t-field="order.product_list_price"/></td>
-                <td style="border-bottom: 1px solid #ddd"><span t-field="order.price_subtotal"/></td>
+                <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 100px; text-align: right"><span t-field="order.line_amount"/></td>
+                <td style="border-bottom: 1px solid #ddd; text-align: right"><span t-field="order.price_subtotal"/></td>
               </tr>
             </t>
           </tbody>
