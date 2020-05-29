@@ -1230,6 +1230,9 @@ var ListRenderer = BasicRenderer.extend({
                     if(ev.delegateTarget.className.includes("dialog_show")===true){
                         return;
                     }
+                    else if (ev.currentTarget.className.includes("history_voucher") === true && !ev.delegateTarget.className.includes("forward_edit") )  {
+                       return;
+                    }
                     else if(ev.delegateTarget.className.startsWith("forward_edit")===true){
                         this.trigger_up('open_record', { id: id, mode: 'edit', context: {'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'} });
                     }
