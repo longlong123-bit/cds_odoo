@@ -256,10 +256,6 @@ class QuotationsCustom(models.Model):
 
         return [res for res in query_res]
 
-    @api.onchange('tax_method')
-    def _onchange_tax_method(self):
-        print('éo hiểu cái gì')
-
     @api.onchange('document_reference')
     def set_caps(self):
         if self.document_reference:
@@ -322,11 +318,9 @@ class QuotationsLinesCustom(models.Model):
     product_freight_category = fields.Many2one('freight.category.custom', 'Freight Category')
     product_name = fields.Char(string='Product Name')
     product_standard_number = fields.Char(string='Product Standard Number')
-    # product_list_price = fields.Float(string='Product List Price')
-    # cost = fields.Float(string='Cost')
+    product_list_price = fields.Float(string='Product List Price')
     line_amount = fields.Float('Line Amount', compute='compute_line_amount')
 
-    # TODO recounting tax amount
     line_tax_amount = fields.Float('Tax Amount', compute='compute_line_tax_amount')
 
     @api.onchange('product_id')
@@ -345,11 +339,11 @@ class QuotationsLinesCustom(models.Model):
 
             # todo set price follow product code
             if line.order_id.tax_method == 'internal_tax':
-                # rec.product_list_price = self.product_id.price_include_tax_1 or ''
                 line.price_unit = line.product_id.price_include_tax_1 or ''
+                line.product_list_price = self.product_id.price_include_tax_1 or ''
             else:
-                # rec.product_list_price = self.product_id.price_no_tax_1 or ''
                 line.price_unit = line.product_id.price_no_tax_1 or ''
+                line.product_list_price = self.product_id.price_no_tax_1 or ''
 
             line.compute_line_amount()
             line.compute_line_tax_amount()
