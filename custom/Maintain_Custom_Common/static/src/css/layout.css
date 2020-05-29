@@ -1,18 +1,18 @@
-/* HEADER MENU
+/* HEADER MENU*/
+
 .o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item{
     display: none
 }
 
 .o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="account.menu_finance"],
-.o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="Maintain_Business_Partners.menu_ideas"],
-.o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="Maintain_Freight_Category.menu_ideas"],
+.o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="Maintain_Quotations.menu_ideas"],
+.o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="Maintain_Country_State.parent_menu_master"],
 .o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="base.menu_management"],
 .o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="base.menu_administration"],
-.o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="Maintain_Product.menu_ideas"],
+.o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="Maintain_Income_Payment.parent_menu_master"],
 .o_main_navbar .o_menu_apps .dropdown-menu .dropdown-item[data-menu-xmlid="Maintain_Income_Payment.menu_ideas"] {
     display: block
 }
-*/
 
 .o_form_view .o_form_sheet_bg > .o_form_sheet {
     max-width: 100% !important;

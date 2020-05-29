@@ -56,6 +56,10 @@
             <field name="help">You can manage the different federal states you are working on from here. Each state is attached to one country.</field>
         </record>
 
+        <record model="ir.ui.menu" id="purchase.menu_purchase_form_action">
+            <field name="action" eval="False"/>
+        </record>
+
 <!--        <menuitem id="menu_ideas" parent="parent_menu" name="Country State" sequence="10" action="action_country_state" groups="base.group_user"/>-->
 <!--        <menuitem id="parent_menu" parent="" name="New Master" sequence="10" groups="base.group_user"/>-->
     </data>

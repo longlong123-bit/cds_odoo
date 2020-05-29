@@ -83,7 +83,7 @@
                             <tr>
                                 <td class="o_td_label"><label for="name" string="Name*"/></td>
                                 <td colspan="2"><field name="name" required="True"/></td>
-                                <td class="o_td_label"><label for="partner_id" string="Business Partner"/></td>
+                                <td class="o_td_label"><label for="partner_id" string="Business Partner*"/></td>
                                 <td><field name="partner_id" widget="res_partner_many2one" required="1"
                                            domain="[('customer_rank','>', 0)]" default_focus="1"
                                            context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
@@ -94,7 +94,7 @@
 
                             <!-- Row 3 -->
                             <tr>
-                                <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="CB Partner Sales Rep"/></td>
+                                <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="CB Partner Sales Rep*"/></td>
                                 <td colspan="2"><field name="cb_partner_sales_rep_id" required="True"/></td>
                                 <td class="o_td_label"><label for="shipping_address" string="Shipping Address"/></td>
                                 <td colspan="2"><field name="shipping_address"/></td>
@@ -102,11 +102,11 @@
 
                             <!-- Row 4 -->
                             <tr>
-                                <td class="o_td_label"><label for="sales_rep" string="Sales Rep"/></td>
+                                <td class="o_td_label"><label for="sales_rep" string="Sales Rep*"/></td>
                                 <td colspan="2"><field name="sales_rep" required="True"/></td>
-                                <td class="o_td_label"><label for="expected_date" string="Expected Date*"/></td>
+                                <td class="o_td_label"><label for="expected_date" string="Expected Date"/></td>
                                 <td><field name="expected_date"/></td>
-                                <td class="o_td_label"><label for="expiration_date" string="Expiration Date*"/></td>
+                                <td class="o_td_label"><label for="expiration_date" string="Expiration Date"/></td>
                                 <td><field name="expiration_date"/></td>
                                 <td><field name="state" invisible="True"/></td>
                                 <td><field name="company_id" invisible="True"/></td>
@@ -127,11 +127,11 @@
 <!--                                    <field name="is_unit_quotations" widget="boolean_tags" class="field-checkbox"/>-->
 <!--                                    <label for="is_unit_quotations" string="Unit Quotations"/>-->
 <!--                                </td>-->
-                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation"/></td>
+                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation*"/></td>
                                 <td colspan="2"><field name="quotation_type" required="True"/></td>
-                                <td class="o_td_label"><label for="report_header" string="Report Title"/></td>
+                                <td class="o_td_label"><label for="report_header" string="Report Title*"/></td>
                                 <td><field name="report_header" required="True"/></td>
-                                <td class="o_td_label"><label for="paperformat_id" string="Paper Format"/></td>
+                                <td class="o_td_label"><label for="paperformat_id" string="Paper Format*"/></td>
                                 <td><field name="paperformat_id" readonly="False" required="True"/></td>
                             </tr>
 
@@ -142,7 +142,7 @@
                                     <field name="is_print_date" class="field-checkbox"/>
                                     <label for="is_print_date" string="Print Date"/>
                                 </td>
-                                <td class="o_td_label"><label for="tax_method" string="Tax Method"/></td>
+                                <td class="o_td_label"><label for="tax_method" string="Tax Method*"/></td>
                                 <td><field name="tax_method" required="True"/></td>
                                 <td><field name="customer_tax_rounding" invisible="True"/></td>
                             </tr>
