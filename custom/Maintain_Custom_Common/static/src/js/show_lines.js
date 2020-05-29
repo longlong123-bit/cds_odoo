@@ -79,6 +79,8 @@ odoo.define('Maintain_Custom_Common.show_lines', function(require){
          * on button clicked
          */
         _onButtonClicked: function($ev){
+            $ev.stopPropagation();
+
             if ($ev.data.attrs.class === 'o_button_line') {
                 // Check if row is exists
                 var $checkRow = $('tr.row-lines[data-ref="'+$ev.data.record.id+'"]');
