@@ -101,6 +101,8 @@ odoo.define('Maintain_Custom_Common.show_lines', function(require){
                 }).then(function(res){
                     self._renderRowOfLines($ev.data.record.id, res);
                 });
+            } else {
+                this._callButtonAction($ev.data.attrs, $ev.data.record);
             }
         }
     });
