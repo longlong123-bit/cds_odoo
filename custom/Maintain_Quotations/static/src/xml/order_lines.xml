@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="order_lines">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><span>Class Item</span></th>
+                    <th><span>Product</span></th>
+                    <th><span>Product Name</span></th>
+                    <th><span>Product Barcode</span></th>
+                    <th><span>Freight Category</span></th>
+                    <th><span>Product Standard Number</span></th>
+                    <th><span>Product List Price</span></th>
+                    <th><span>Product UOM Qty</span></th>
+                    <th><span>Product UOM</span></th>
+                    <th><span>Price Unit</span></th>
+                    <th><span>Line Amount</span></th>
+                    <th><span>Tax Amount</span></th>
+                    <th><span>Taxes</span></th>
+                    <th><span>Description</span></th>
+                </tr>
+            </thead>
+            <t t-foreach="records" t-as="record">
+                <tr>
+                    <td><span t-if="record.class_item" t-esc="record.class_item"/></td>
+                    <td><span t-if="record.product_id" t-esc="record.product_id[1]"/></td>
+                    <td><span t-if="record.product_name" t-esc="record.product_name"/></td>
+                    <td><span t-if="record.product_barcode" t-esc="record.product_barcode"/></td>
+                    <td><span t-if="record.product_freight_category" t-esc="record.product_freight_category"/></td>
+                    <td><span t-if="record.product_standard_number" t-esc="record.product_standard_number"/></td>
+                    <td><span t-if="record.product_list_price" t-esc="record.product_list_price"/></td>
+                    <td><span t-if="record.product_uom_qty" t-esc="record.product_uom_qty"/></td>
+                    <td><span t-if="record.product_uom" t-esc="record.product_uom[1]"/></td>
+                    <td><span t-if="record.price_unit" t-esc="record.price_unit"/></td>
+                    <td><span t-if="record.line_amount" t-esc="record.line_amount"/></td>
+                    <td><span t-if="record.line_tax_amount" t-esc="record.line_tax_amount"/></td>
+                    <td><span t-if="record.tax_id" t-esc="record.tax_id"/></td>
+                    <td><span t-if="record.name" t-esc="record.name"/></td>
+                </tr>
+          </t>
+        </table>
+    </t>
+</template>
