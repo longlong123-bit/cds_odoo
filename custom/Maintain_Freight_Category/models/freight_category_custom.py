@@ -39,10 +39,6 @@ class FreightCategory(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            search_key_show = str(record.search_key_freight)
+            search_key_show = str(record.name)
             result.append((record.id, search_key_show))
         return result
-
-
-
-

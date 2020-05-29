@@ -649,3 +649,15 @@ class ProductTemplateAttributeLine(models.Model):
 
     def action_close_dialog(self):
         return {'type': 'ir.actions.act_window_close'}
+
+
+class ClassFreightCategory(models.Model):
+    _inherit = 'freight.category.custom'
+
+    def name_get(self):
+        super(ClassFreightCategory, self).name_get()
+        data = []
+        for row in self:
+            display_value = row.search_key_freight if 'showcode' in self.env.context else row.name
+            data.append((row.id, display_value))
+        return data

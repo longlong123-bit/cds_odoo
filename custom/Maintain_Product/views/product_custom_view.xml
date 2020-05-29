@@ -28,7 +28,8 @@
                             </div>
                             <field name="product_custom_goodsnamef"/>
                             <field name="product_custom_standardnumber"/>
-                            <field name="product_custom_freight_category"/>
+<!--                            <field name="product_custom_freight_category"/>-->
+                            <field name="product_custom_freight_category" context="{'showcode': 'ok'}"  options="{'always_reload': True,'no_create': True, 'no_create_edit':True}"/>
                             <field name="product_maker_name"/>
                             <field name="product_class_code"/>
                             <field name="product_class_name" readonly="True"/>
