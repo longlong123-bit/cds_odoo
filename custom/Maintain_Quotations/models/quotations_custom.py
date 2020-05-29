@@ -151,22 +151,22 @@ class QuotationsCustom(models.Model):
     @api.model
     def create(self, values):
         # set document_no
-        if not ('document_no' in values):
-            # get all document no. is number
-            self._cr.execute('''
-                            SELECT document_no
-                            FROM sale_order
-                            WHERE SUBSTRING(document_no, 5) ~ '^[0-9\.]+$';
-                        ''')
-            query_res = self._cr.fetchall()
+        # if not ('document_no' in values):
+        # get all document no. is number
+        self._cr.execute('''
+                        SELECT document_no
+                        FROM sale_order
+                        WHERE SUBSTRING(document_no, 5) ~ '^[0-9\.]+$';
+                    ''')
+        query_res = self._cr.fetchall()
 
-            # generate new document no. by sequence
+        # generate new document no. by sequence
+        seq = self.env['ir.sequence'].next_by_code('sale.order')
+        # if new document no. already exits, do again
+        while seq in [res[0] for res in query_res]:
             seq = self.env['ir.sequence'].next_by_code('sale.order')
-            # if new document no. already exits, do again
-            while seq in [res[0] for res in query_res]:
-                seq = self.env['ir.sequence'].next_by_code('sale.order')
 
-            values['document_no'] = seq
+        values['document_no'] = seq
 
         self._check_data(values)
         # TODO set report header
