@@ -106,7 +106,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                     return self._renderBodyCell(record, node, index, { mode: 'readonly' });
                 });
 
-                var $tr = $('<tr/>', { class: 'o_data_row history_voucher' })
+                var $tr = $('<tr/>', { class: 'o_data_row' })
                     .attr('data-id', record.id)
                     .append($cells);
                 if (this.hasSelectors) {
