@@ -71,11 +71,11 @@ class NewClassPartnerCustom(models.Model):
     # 掛率設定
     customer_apply_rate = fields.Selection([('category', 'Category'), ('customer', 'Customer')],'Apply Rate')
     # 掛率
-    customer_rate = fields.Integer('Hang Rate')
+    customer_rate = fields.Float('Hang Rate')
     # 請求値引区分
-    customer_bill_discount = fields.Boolean('Bill Discount')
+    customer_bill_discount = fields.Boolean('Bill Discount', default=False)
     # 請求値引率
-    customer_bill_discount_rate = fields.Char('Bill Discount Rate')
+    customer_bill_discount_rate = fields.Float('Bill Discount Rate')
     # 抜粋請求区分
     customer_except_request = fields.Boolean('Excerpt Request')
     # 売上伝票印刷
@@ -96,6 +96,8 @@ class NewClassPartnerCustom(models.Model):
     customer_comment = fields.Char('Comment')
     # 取引区分コード
     # customer_office = fields.Char('Customer Office')
+
+
 
 
     _sql_constraints = [
@@ -129,6 +131,14 @@ class NewClassPartnerCustom(models.Model):
             if rec.name and not rec.customer_name_short:
                 rec.customer_name_short = rec.name
 
+    @api.constrains('customer_bill_discount', 'customer_bill_discount_rate', 'customer_rate')
+    def _check_min_max(self):
+        if not 0 < self.customer_bill_discount_rate < 100:
+            if self.customer_bill_discount is True:
+                raise ValidationError(_('Customer bill discount rate must be greater than 0 and less than 100 !'))
+        if not 0 < self.customer_rate < 100:
+            raise ValidationError(_('Customer rate must be greater than 0 and less than 100 !'))
+
     # Relation Partner Class
 class ClassRelationPartnerCustom(models.Model):
     _name = 'relation.partner.model'
@@ -137,7 +147,7 @@ class ClassRelationPartnerCustom(models.Model):
                                  required=True, index=True)
     relate_customer_organization = fields.Many2one('res.company', string='Organization')
     name = fields.Char('Name')
-    relate_business_partner = fields.Many2one('res.partner', string='Business Partner')
+    relate_business_partner = fields.Many2one('res.partner', string='Customer')
     relate_partner_location = fields.Char('Partner Location')
     relate_related_partner = fields.Many2one('company.office.custom', string='Related Partner')
     relate_related_partner_location = fields.Char('Related Partner Location')
