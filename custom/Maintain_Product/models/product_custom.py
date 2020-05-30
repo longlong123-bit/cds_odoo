@@ -76,11 +76,11 @@ class ProductTemplate(models.Model):
     setting_price = fields.Selection([('code_1', '商品コード1'), ('code_2', '商品コード2'), ('code_3', '商品コード3'),
                                       ('code_4', '商品コード4'), ('code_5', '商品コード5'), ('code_6', '商品コード6')],
                                      string='Setting price', default='code_1')
-    standard_price = fields.Char('Standard price')
-    price_no_tax = fields.Char('Price no tax')
-    price_include_tax = fields.Char('Price include tax')
-    original_price_no_tax = fields.Char('Original price no tax')
-    original_price_include_tax = fields.Char('Original price include tax')
+    standard_price = fields.Float('Standard price')
+    price_no_tax = fields.Float('Price no tax')
+    price_include_tax = fields.Float('Price include tax')
+    original_price_no_tax = fields.Float('Original price no tax')
+    original_price_include_tax = fields.Float('Original price include tax')
 
     flag_select = fields.Char('Flag select')
     model_number = fields.Char('Model number')
@@ -107,19 +107,19 @@ class ProductTemplate(models.Model):
                 if code:
                     name = '[%s] %s' % (code, name)
                 return (d['id'], name)
-                #name = '[%s] %s' % (code, name)
+                # name = '[%s] %s' % (code, name)
             else:
                 code = self._context.get('display_default_code', True) and d.get('default_code', False) or False
                 if code:
                     name = '[%s] %s' % (code, name)
                 return (d['id'], name)
-                #name = '[%s] %s' % (code, name)
-            #if code:
+                # name = '[%s] %s' % (code, name)
+            # if code:
             #    code = d.get('product_code_1')
             #    print('3434343434343434')
             #    print(d)
             #    name = '[%s] %s' % (code, name)
-            #return (d['id'], name)
+            # return (d['id'], name)
 
         partner_id = self._context.get('partner_id')
         if partner_id:
@@ -288,7 +288,6 @@ class ProductTemplate(models.Model):
             print('------------------------------')
             print(product_code)
             if product_code in values:
-
                 self._cr.execute('''
                             SELECT *
                             FROM
@@ -312,7 +311,7 @@ class ProductTemplate(models.Model):
                 print('------------------------------')
                 print(rec)
                 # print(res[1])
-            # if values['product_code_1'] in [res[0] for res in query_res]:
+                # if values['product_code_1'] in [res[0] for res in query_res]:
                 print('------------------------------')
             # print(values[product_code])
             if values[product_code] in [res[0] for res in query_res]:
@@ -410,6 +409,21 @@ class ProductTemplate(models.Model):
             if rec.product_class_code:
                 rec.product_class_name = rec.product_class_code.name
 
+    @api.constrains('price_no_tax_1', 'price_no_tax_2', 'price_no_tax_3', 'price_no_tax_4', 'price_no_tax_5',
+                    'price_no_tax_6', 'price_include_tax_1', 'price_include_tax_2', 'price_include_tax_3',
+                    'price_include_tax_4', 'price_include_tax_5', 'price_include_tax_6', 'original_price_no_tax',
+                    'original_price_include_tax', 'standard_price', 'list_price', 'price_no_tax', 'price_include_tax')
+    def _check_negative_price(self):
+        arr = [self.price_no_tax_1, self.price_no_tax_2, self.price_no_tax_3, self.price_no_tax_4, self.price_no_tax_5,
+               self.price_no_tax_6, self.price_include_tax_1, self.price_include_tax_2, self.price_include_tax_3,
+               self.price_include_tax_4, self.price_include_tax_5, self.price_include_tax_6, self.original_price_no_tax,
+               self.original_price_include_tax, self.standard_price, self.list_price, self.price_no_tax,
+               self.price_include_tax]
+        leng = len(arr)
+        for i in range(0, leng):
+            if arr[i] < 0:
+                raise ValidationError(_('Price must be greater than 0 !'))
+
 
 class ProductCustomTemplate(models.Model):
     _inherit = "product.template"
@@ -450,6 +464,23 @@ class ProductCustomPurchasingLine(models.Model):
     product_purchasing_is_active = fields.Boolean('Active', default=True)
     product_purchasing_is_discontinued = fields.Boolean('Discontinued')
     product_purchasing_discontinued_at = fields.Date('Discontinued At')
+
+    price = fields.Float('Price', default=0.0, digits='Product Price',
+                         required=True, help="The price to purchase a product")
+    delay = fields.Integer('Delivery Lead Time', default=1, required=True)
+    min_qty = fields.Float('Quantity', default=0.0, required=True)
+
+    # def _check_negative_price(self):
+    #     arr = [self.price, self.product_purchasing_po_price, self.min_qty,
+    #            self.delay, self.product_purchasing_order_pack_qty]
+    #     leng = len(arr)
+    #     for i in range(0, leng):
+    #         if arr[i] < 0:
+    #             raise ValidationError(_('Price must be greater than 0 !'))
+
+    def _checkprice_(self):
+        if self.product_purchasing_po_price < 0:
+            raise ValidationError(_('Price must be greater than 0 !'))
 
     def button_details(self):
         view = {
@@ -632,6 +663,13 @@ class ProductTemplateAttributeLine(models.Model):
     product_cost_costing_method = fields.Char('Costing Method', readonly=True)
     product_cost_percent = fields.Integer('Percent', readonly=True)
     product_cost_is_processed = fields.Boolean('Processed', readonly=True)
+
+    def _check_negative_price(self):
+        arr = [self.product_cost_future_cost_price]
+        leng = len(arr)
+        for i in range(0, leng):
+            if arr[i] < 0:
+                raise ValidationError(_('Price must be greater than 0 !'))
 
     def button_details(self):
         view = {
