@@ -75,10 +75,6 @@ class ClassInvoiceCustom(models.Model):
         # for l in self:
         amount_untaxed_format = "{:,.2f}".format(self.amount_untaxed)
         amount_total_format = "{:,.2f}".format(self.amount_total)
-        print('------------------------------------currency-----------------------------')
-        print(self.amount_total)
-        print(self.currency_id.symbol)
-
         return str(len(self.invoice_line_ids)) + '明細 - (JPY)明細行合計:'  + str(amount_untaxed_format) + str(self.currency_id.symbol) + ' / 総合計:'  \
                + str(amount_total_format) + str(self.currency_id.symbol) + ' = ' + str(amount_total_format) + str(self.currency_id.symbol)
 
@@ -173,7 +169,7 @@ class ClassInvoiceCustom(models.Model):
 
     x_studio_client_2 = fields.Many2one('client.custom', string='Client', default=_get_default_client_id)
     x_studio_organization = fields.Many2one('res.company', default=_get_default_organization_id)
-    x_studio_business_partner = fields.Many2one('res.partner')
+    x_studio_business_partner = fields.Many2one('res.partner', 'Customer')
     x_studio_name = fields.Char('name')
     x_studio_address_1 = fields.Char('address 1')
     x_studio_address_2 = fields.Char('address 2')
@@ -184,9 +180,9 @@ class ClassInvoiceCustom(models.Model):
     invoice_document_no_custom = fields.Char(string="Document", readonly=True, copy=False,
                                              default=_get_default_document_no)
     x_studio_cus_salesslipforms_table = fields.Selection([('cus_1', '指定なし'), ('cus_2', '通常'), ('cus_3', '専伝・仮伝')])
-    x_studio_date_invoiced = fields.Date(string='Date Invoiced*', default=date.today())
+    x_studio_date_invoiced = fields.Date(string='Invoice Date', default=date.today())
     x_studio_date_printed = fields.Date(string='Date Printed', default=date.today())
-    x_studio_date_shipment = fields.Date(string='Shipment Date*', default=date.today())
+    x_studio_date_shipment = fields.Date(string='Shipment Date', default=date.today())
     x_current_date = fields.Date(string='', default=date.today(), store=False)
     x_studio_payment_rule_1 = fields.Selection([('rule_cash', 'Cash'), ('rule_check', 'Check'),
                                                 ('rule_credit', 'Credit Card'), ('rule_direct_debit', 'Direct Debit'),
@@ -239,8 +235,7 @@ class ClassInvoiceCustom(models.Model):
     x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
                                         index=True, auto_join=True,
                                         help="The move of this entry line.")
-    sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, states={'draft': [('readonly', False)]},
-                                domain="[('share', '=', False)]", default=lambda self: self.env.user)
+    sales_rep = fields.Many2one('res.users', string='Sales Rep', domain="[('share', '=', False)]")
 
     @api.depends(
         'line_ids.debit',
@@ -443,8 +438,7 @@ class ClassInvoiceCustom(models.Model):
                 rec.x_studio_address_1 = rec.x_studio_business_partner.street
                 rec.x_studio_address_2 = rec.x_studio_business_partner.street2
                 rec.x_studio_address_3 = rec.x_studio_business_partner.address3
-                rec.search_key = rec.x_studio_business_partner.search_key_partner
-                rec.x_studio_sales_rep = rec.x_studio_business_partner.user_id
+                rec.x_userinput_id = rec.x_studio_business_partner.customer_agent
                 rec.x_studio_payment_rule_1 = rec.x_studio_business_partner.payment_rule
                 rec.x_studio_price_list = rec.x_studio_business_partner.property_product_pricelist
                 rec.invoice_payment_terms_custom = rec.x_studio_business_partner.payment_terms
@@ -527,43 +521,45 @@ class ClassInvoiceCustom(models.Model):
     def _get_closing_date(self):
         for rec in self:
             rec.closing_date_compute = rec.x_studio_business_partner.customer_closing_date.start_day
-            day = int(rec.x_studio_date_invoiced.strftime('%d'))
-            closing_date = rec.closing_date_compute
-            invoice_year = rec.x_studio_date_invoiced.year
-            invoice_month = rec.x_studio_date_invoiced.month
-            if int(day) > int(rec.closing_date_compute):
-                if rec.x_voucher_deadline == '今回':
-                    try:
-                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
-                            months=1)
-                    except ValueError:
-                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
-                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
-                            months=1)
+            # day = int(rec.x_studio_date_invoiced.strftime('%d'))
+            if rec.x_studio_date_invoiced:
+                day = int(rec.x_studio_date_invoiced.strftime('%d'))
+                closing_date = rec.closing_date_compute
+                invoice_year = rec.x_studio_date_invoiced.year
+                invoice_month = rec.x_studio_date_invoiced.month
+                if int(day) > int(rec.closing_date_compute):
+                    if rec.x_voucher_deadline == '今回':
+                        try:
+                            rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
+                                months=1)
+                        except ValueError:
+                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                            rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
+                                months=1)
+                    else:
+                        try:
+                            rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
+                                months=2)
+                        except ValueError:
+                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                            rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
+                                months=2)
                 else:
-                    try:
-                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
-                            months=2)
-                    except ValueError:
-                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
-                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
-                            months=2)
-            else:
-                if rec.x_voucher_deadline == '今回':
-                    try:
-                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date)
-                    except ValueError:
-                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
-                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day)
+                    if rec.x_voucher_deadline == '今回':
+                        try:
+                            rec.customer_closing_date = date(invoice_year, invoice_month, closing_date)
+                        except ValueError:
+                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                            rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day)
 
-                else:
-                    try:
-                        rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
-                            months=1)
-                    except ValueError:
-                        cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
-                        rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
-                            months=1)
+                    else:
+                        try:
+                            rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
+                                months=1)
+                        except ValueError:
+                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                            rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
+                                months=1)
 
     @api.constrains('x_studio_date_invoiced')
     def _validate_plate(self):
@@ -921,9 +917,9 @@ class AccountMoveLine(models.Model):
     # Update 2020/04/28 - START
     x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品'), ('値引', '値引'), ('サンプル', 'サンプル'), ('消費税', '消費税')],
                                          default='通常')
-    x_product_barcode = fields.Many2one('product.product', string='JAN/UPC/EAN')
-    x_product_barcode_show_in_tree = fields.Char(string='JANコード', related='x_product_barcode.barcode')
-    x_product_code_show_in_tree = fields.Char(string='商品コード', related='x_product_barcode.product_code_1')
+    x_product_barcode = fields.Char(string='JAN/UPC/EAN')
+    # x_product_barcode_show_in_tree = fields.Char(string='JANコード', related='x_product_barcode.barcode')
+    # x_product_code_show_in_tree = fields.Char(string='商品コード', related='x_product_barcode.product_code_1')
 
     x_product_modelnumber = fields.Char('Product')
     x_product_name = fields.Char('mproductname')
@@ -939,7 +935,7 @@ class AccountMoveLine(models.Model):
     invoice_custom_salesunitprice = fields.Float('salesunitprice', compute='compute_sale_unit_price')
     invoice_custom_lineamount = fields.Float('Line Amount', compute='compute_line_amount')
     invoice_custom_Description = fields.Char('Description')
-    invoice_custom_FreightCategory = fields.Many2one('freight.category.custom', string='FreightCategory')
+    invoice_custom_FreightCategory = fields.Many2one('freight.category.custom', string='Maker Code')
     price_unit = fields.Float(string='Unit Price', digits='Product Price')
     quantity = fields.Float(string='Quantity', digits='(12,0)',
                             default=1.0,
@@ -967,13 +963,13 @@ class AccountMoveLine(models.Model):
         for line in self:
             line.x_customer_show_in_tree = line.move_id.x_studio_business_partner.name
 
-    def compute_product_barcode_show_in_tree(self):
-        for line in self:
-            line.x_product_barcode_show_in_tree = line.x_product_barcode.barcode
-
-    def compute_product_code_show_in_tree(self):
-        for line in self:
-            line.x_product_code_show_in_tree = line.x_product_barcode.product_code_1
+    # def compute_product_barcode_show_in_tree(self):
+    #     for line in self:
+    #         line.x_product_barcode_show_in_tree = line.x_product_barcode.barcode
+    #
+    # def compute_product_code_show_in_tree(self):
+    #     for line in self:
+    #         line.x_product_code_show_in_tree = line.x_product_barcode.product_code_1
 
     def _validate_price_unit(self):
         for p in self:
@@ -1157,7 +1153,7 @@ class AccountMoveLine(models.Model):
             else:
                 line.price_unit = line.product_id.price_no_tax_1
 
-            line.x_product_barcode = line.product_id
+            line.x_product_barcode = line.product_id.barcode
             line.account_id = line._get_computed_account()
 
             # line.tax_ids = line._get_computed_taxes()

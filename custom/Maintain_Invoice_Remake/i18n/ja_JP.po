@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-29 02:19+0000\n"
-"PO-Revision-Date: 2020-05-29 02:19+0000\n"
+"POT-Creation-Date: 2020-05-30 11:33+0000\n"
+"PO-Revision-Date: 2020-05-30 11:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -86,17 +86,6 @@ msgid "Bank Statement"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
-msgid "Business Partner"
-msgstr "得意先コード"
-
-#. module: Maintain_Invoice_Remake
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
-msgid "Business Partner*"
-msgstr "得意先名*"
-
-#. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_calendar
 msgid "Calendar*"
 msgstr "カレンダー*"
@@ -164,9 +153,25 @@ msgid "Credit Card"
 msgstr "クレジットカード"
 
 #. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__currency_id
+msgid "Currency"
+msgstr "通貨"
+
+#. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_userinput_id
 msgid "Current User"
 msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_business_partner
+msgid "Customer"
+msgstr "得意先コード"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
+msgid "Customer"
+msgstr "得意先コード"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_group
@@ -201,15 +206,15 @@ msgid "Customer State"
 msgstr "地区コード"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Customer*"
+msgstr "得意先コード*"
+
+#. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Date Invoiced"
-msgstr "請求日付"
-
-#. module: Maintain_Invoice_Remake
-#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_date_invoiced
-msgid "Date Invoiced*"
-msgstr "請求日付*"
+msgstr "売上日付"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_date_printed
@@ -230,7 +235,7 @@ msgstr "デフォルト"
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #, python-format
 msgid "Description"
-msgstr "説明"
+msgstr "適用"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__x_studio_payment_rule_1__rule_direct_debit
@@ -278,7 +283,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Document No"
-msgstr "伝票No"
+msgstr "売上伝票No"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_document_note
@@ -373,7 +378,6 @@ msgstr "固定日付"
 #. module: Maintain_Invoice_Remake
 #. openerp-web
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
-#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_FreightCategory
 #, python-format
 msgid "FreightCategory"
 msgstr "メーカー"
@@ -403,6 +407,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__move_name
 msgid "Invoice"
 msgstr "請求伝票"
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_date_invoiced
+msgid "Invoice Date"
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
@@ -529,6 +538,12 @@ msgstr "明細番号"
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_list_price
 msgid "List Price"
 msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_FreightCategory
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Maker Code"
+msgstr "メーカー"
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
@@ -679,10 +694,14 @@ msgstr "印刷"
 #. openerp-web
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_modelnumber
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 #, python-format
 msgid "Product"
+msgstr "商品コード"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Product Code"
 msgstr "商品コード"
 
 #. module: Maintain_Invoice_Remake
@@ -710,7 +729,6 @@ msgid "Rounding"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
-#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.exports_journal_entr_6a0beb10-28d7-47c3-898d-49120ca6566a
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__sales_rep
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
@@ -729,8 +747,8 @@ msgstr "検索キー"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_date_shipment
-msgid "Shipment Date*"
-msgstr "出荷日付*"
+msgid "Shipment Date"
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__taxGroup
@@ -870,6 +888,11 @@ msgid "Updated"
 msgstr "登録日"
 
 #. module: Maintain_Invoice_Remake
+#: model:ir.model,name:Maintain_Invoice_Remake.model_res_users
+msgid "Users"
+msgstr "ユーザ"
+
+#. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_is_valid
 msgid "Valid"
 msgstr "有効"
@@ -892,11 +915,6 @@ msgstr ""
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_invoicelinetype
 msgid "X Invoicelinetype"
-msgstr ""
-
-#. module: Maintain_Invoice_Remake
-#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_business_partner
-msgid "X Studio Business Partner"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
@@ -1198,7 +1216,7 @@ msgstr ""
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_description
 msgid "説明"
-msgstr "備考"
+msgstr "適用 "
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__x_voucher_tax_transfer__invoice

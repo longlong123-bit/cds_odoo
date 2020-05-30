@@ -55,8 +55,6 @@
                             <td></td>
                             <td class="col-label"><label for="customer_closing_date" string="Closing Date"/></td>
                             <td class="col-field"><field name="customer_closing_date" required="1" options="{ 'no_quick_create' : True}"/></td>
-                            <td class="col-label"><label for="payment_terms" string="Payment Terms"/></td>
-                            <td class="col-field"><field name="payment_terms" required="1" options="{ 'no_quick_create' : True}"/></td>
                         </tr>
 
                         <!-- Row 3 -->
@@ -84,8 +82,8 @@
                         <tr>
                             <td class="col-label"><label for="customer_name_kana" string="Customer Name Kana"/></td>
                             <td colspan="3"><field name="customer_name_kana"/></td>
-                            <td class="col-label"><label for="customer_collect_circle" string="Collect Circle"/></td>
-                            <td class="col-field"><field name="customer_collect_circle"/></td>
+                            <td class="col-label"><label for="payment_terms" string="Payment Terms"/></td>
+                            <td class="col-field"><field name="payment_terms" required="1" options="{ 'no_quick_create' : True}"/></td>
                         </tr>
 
                         <!-- Row 6 -->
@@ -102,7 +100,7 @@
                         <!-- Row 7 -->
                         <tr>
                             <td class="col-label"><label for="zip_code" string="Zip"/></td>
-                            <td colspan="2"><field name="zip_code" widget="mask" data-inputmask-mask="〒999_9999"/></td>
+                            <td colspan="2"><field name="zip_code" widget="mask" data-inputmask-mask="〒999-9999"/></td>
                             <td></td>
                             <td></td>
                             <td class="col-checkbox">
@@ -120,8 +118,8 @@
                         <tr>
                             <td class="col-label"><label for="street" string="Address 1"/></td>
                             <td colspan="3"><field name="street"/></td>
-                            <td class="col-label"><label for="customer_bill_discount_rate" string="Bill Discount Rate"/></td>
-                            <td class="col-field"><field name="customer_bill_discount_rate" required="1"/></td>
+                            <td class="col-label"><label for="customer_bill_discount_rate" string="Bill Discount Rate" attrs="{'invisible': [('customer_bill_discount','!=',True)]}"/></td>
+                            <td class="col-field"><field name="customer_bill_discount_rate" required="1" attrs="{'invisible': [('customer_bill_discount','!=',True)]}"/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="customer_except_request"/><label for="customer_except_request" string="Excerpt Request"/></td>
                         </tr>
@@ -225,7 +223,7 @@
                                     <button name="button_details" string="Detail" type="object" class="oe_edit_only"/>
                                     <field name="relate_customer_organization" string="Organization" required="1" options="{ 'no_create_edit':True}"/>
                                     <field name="name" string="Name" required="1"/>
-                                    <field name="relate_business_partner" string="Business Partner"/>
+                                    <field name="relate_business_partner" string="Customer"/>
                                     <field name="relate_partner_location" string="Partner Location"/>
                                     <field name="relate_related_partner" string="Related Partner" options="{ 'no_create_edit':True}"/>
                                     <field name="relate_related_partner_location" string="Related Partner Location"/>
