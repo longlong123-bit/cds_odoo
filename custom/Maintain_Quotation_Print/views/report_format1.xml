@@ -31,7 +31,7 @@
               <tr>
                 <td style="border-right: 1px solid #ddd; text-align: center">見積日</td>
                 <td>
-                  <span t-if="o.is_print_date"><span t-field="o.expected_date.year"/>年<span t-field="o.expected_date.month"/>月<span t-field="o.expected_date.date"/>日</span>
+                  <span t-if="o.is_print_date"><span t-field="o.expected_date_year"/>年<span t-field="o.expected_date_month"/>月<span t-field="o.expected_date_day"/>日</span>
                   <span t-else="">　　　年　　月　　日</span>
                 </td>
               </tr>
