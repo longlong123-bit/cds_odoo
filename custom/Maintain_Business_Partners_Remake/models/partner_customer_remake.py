@@ -24,7 +24,7 @@ class NewClassPartnerCustom(models.Model):
     # relation customer
     relation_id = fields.One2many('relation.partner.model', 'partner_id', string='Relation')
     # name
-    name = fields.Char(string='Customer Name', size=50)
+    name = fields.Char(string='Name', size=50)
     customer_code = fields.Char(string='Customer Code')
     # 請求先コード
     customer_code_bill = fields.Char(string='Billing Code')
@@ -96,6 +96,11 @@ class NewClassPartnerCustom(models.Model):
     customer_comment = fields.Char('Comment')
     # 取引区分コード
     # customer_office = fields.Char('Customer Office')
+
+
+    _sql_constraints = [
+        ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
+    ]
 
     def name_get(self):
         result = []
