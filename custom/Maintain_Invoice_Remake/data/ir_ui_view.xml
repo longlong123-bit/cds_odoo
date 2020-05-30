@@ -542,4 +542,7 @@
       <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
   </record>
 
+    <menuitem action="invoice_template_action" id="menu_action_invoice" parent="base.menu_users" name="Invoicing"/>
+
+
 </odoo>
