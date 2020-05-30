@@ -29,4 +29,12 @@ class ClassPartnerGroup(models.Model):
             default['name'] = _("%s (copy)") % (self.name)
         return super(ClassPartnerGroup, self).copy(default)
 
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.name
+            code_show =  str(record.partner_group_code) + " - " + name
+            result.append((record.id, code_show))
+        return result
+
 
