@@ -97,13 +97,6 @@ class NewClassPartnerCustom(models.Model):
     # 取引区分コード
     # customer_office = fields.Char('Customer Office')
 
-
-
-
-    _sql_constraints = [
-        ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
-    ]
-
     def name_get(self):
         result = []
         for record in self:
