@@ -14,8 +14,8 @@
                   <field name="invoice_no" optional="show" readonly="1"/>
                   <field name="x_invoicelinetype" optional="show" readonly="1"/>
                   <field name="x_customer_show_in_tree" optional="show" readonly="1"/>
-                  <field name="x_product_barcode_show_in_tree" optional="show" readonly="1"/>
-                  <field name="x_product_code_show_in_tree" optional="show" readonly="1"/>
+                  <field name="x_product_barcode" optional="show" readonly="1"/>
+<!--                  <field name="x_product_code_show_in_tree" optional="show" readonly="1"/>-->
                   <field name="invoice_custom_standardnumber" optional="show" readonly="1"/>
                   <field name="invoice_custom_FreightCategory" optional="show" readonly="1"/>
                   <field name="x_product_name" optional="show" readonly="1"/>
@@ -290,16 +290,16 @@
                 <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
 <!--                <field name="x_crm_purchased_products" string="Product" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>-->
 <!--                <field name="x_product_modelnumber"/>-->
-                <field name="x_product_barcode" widget="product_many2one" context="{'show_product_jan': 1}"/>
+                <field name="x_product_barcode" string="JAN/UPC/EAN"/>
                 <field name="x_product_name" string="商品名"/>
                 <field name="x_product_name2" string="商品名2"/>
 
                 <field name="invoice_custom_standardnumber"/>
                 <field name="invoice_custom_FreightCategory" string="Maker Code" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
-                <field name="price_unit" string="Price"/>
                 <field name="quantity" string="Quantity"/>
-                <field name="invoice_custom_lineamount"/>
+                <field name="price_unit" string="Price"/>
                 <field name="product_uom_id" readonly="1" widget="selection" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}" string="UoM" required="True"/>
+                <field name="invoice_custom_lineamount"/>
 <!--                <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
                 <field name="tax_ids" string="Taxes"
                        widget="many2many_tags" readonly="False"

@@ -917,9 +917,9 @@ class AccountMoveLine(models.Model):
     # Update 2020/04/28 - START
     x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品'), ('値引', '値引'), ('サンプル', 'サンプル'), ('消費税', '消費税')],
                                          default='通常')
-    x_product_barcode = fields.Many2one('product.product', string='JAN/UPC/EAN')
-    x_product_barcode_show_in_tree = fields.Char(string='JANコード', related='x_product_barcode.barcode')
-    x_product_code_show_in_tree = fields.Char(string='商品コード', related='x_product_barcode.product_code_1')
+    x_product_barcode = fields.Char(string='JAN/UPC/EAN')
+    # x_product_barcode_show_in_tree = fields.Char(string='JANコード', related='x_product_barcode.barcode')
+    # x_product_code_show_in_tree = fields.Char(string='商品コード', related='x_product_barcode.product_code_1')
 
     x_product_modelnumber = fields.Char('Product')
     x_product_name = fields.Char('mproductname')
@@ -963,13 +963,13 @@ class AccountMoveLine(models.Model):
         for line in self:
             line.x_customer_show_in_tree = line.move_id.x_studio_business_partner.name
 
-    def compute_product_barcode_show_in_tree(self):
-        for line in self:
-            line.x_product_barcode_show_in_tree = line.x_product_barcode.barcode
-
-    def compute_product_code_show_in_tree(self):
-        for line in self:
-            line.x_product_code_show_in_tree = line.x_product_barcode.product_code_1
+    # def compute_product_barcode_show_in_tree(self):
+    #     for line in self:
+    #         line.x_product_barcode_show_in_tree = line.x_product_barcode.barcode
+    #
+    # def compute_product_code_show_in_tree(self):
+    #     for line in self:
+    #         line.x_product_code_show_in_tree = line.x_product_barcode.product_code_1
 
     def _validate_price_unit(self):
         for p in self:
@@ -1153,7 +1153,7 @@ class AccountMoveLine(models.Model):
             else:
                 line.price_unit = line.product_id.price_no_tax_1
 
-            line.x_product_barcode = line.product_id
+            line.x_product_barcode = line.product_id.barcode
             line.account_id = line._get_computed_account()
 
             # line.tax_ids = line._get_computed_taxes()
