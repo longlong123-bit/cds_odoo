@@ -19,20 +19,21 @@
             <div><span t-field="o.partner_id.name"/> 御中</div>
           </div>
           <div>下記のとおり、御見積もり申し上げます。</div>
-          <div>件名: <span t-field="o.name"/></div>
-          <div>納品場所: <span t-field="o.shipping_address"/></div>
         </div>
         <div style="float: right; width: 45%">
-          <h1 style="text-align: center; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin: 0">御　見　積　書</h1>
+          <h1 style="text-align: center; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin: 0"><span t-field="o.report_header.name"/></h1>
           <div style="text-align: right; margin-top: 10px; margin-bottom: 10px">
             <table style="border: 1px solid #ddd; display: inline-block" border="0" cellspacing="0" cellpadding="5">
               <tr>
                 <td style="border: 1px solid #ddd; border-top: 0; border-left: 0">見積No.</td>
-                <td style="border-bottom: 1px solid #ddd; text-align: center"><span t-field="o.name"/></td>
+                <td style="border-bottom: 1px solid #ddd; text-align: center"><span t-field="o.document_no"/></td>
               </tr>
               <tr>
                 <td style="border-right: 1px solid #ddd; text-align: center">見積日</td>
-                <td><span t-field="o.expected_date"/></td>
+                <td>
+                  <span t-if="o.is_print_date"><span t-field="o.expected_date.year"/>年<span t-field="o.expected_date.month"/>月<span t-field="o.expected_date.date"/>日</span>
+                  <span t-else="">　　　年　　月　　日</span>
+                </td>
               </tr>
             </table>
           </div>
@@ -47,8 +48,16 @@
       <div>
         <table style="border: 2px solid #ddd;" border="0" cellspacing="0" cellpadding="5">
           <tr>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0; width: 70px">合計金額</td>
-            <td style="border-bottom: 1px solid #ddd; width: 188px; font-weight: bold"><span t-field="o.amount_total"/></td>
+            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0; width: 70px">件名</td>
+            <td style="border-bottom: 1px solid #ddd; width: 188px; font-weight: bold"><span t-field="o.name"/></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0;">納品場所</td>
+            <td style="border-bottom: 1px solid #ddd"><span t-field="o.shipping_address"/></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0;">合計金額</td>
+            <td style="border-bottom: 1px solid #ddd; font-weight: bold"><span t-field="o.amount_total"/></td>
           </tr>
           <tr>
             <td style="border: 1px solid #ddd; border-left: 0; border-top: 0;">支払条件</td>
