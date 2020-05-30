@@ -11,4 +11,12 @@ class ClassCountryState(models.Model):
                                  default=lambda self: self.env['res.country'].search([('code', '=', 'JP')]))
     active = fields.Boolean('Active', default=True)
 
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.name
+            code_show =  str(record.code) + " - " + name
+            result.append((record.id, code_show))
+        return result
+
 

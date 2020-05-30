@@ -27,3 +27,11 @@ class ClassIndustry(models.Model):
         if 'name' not in default:
             default['name'] = _("%s (copy)") % (self.name)
         return super(ClassIndustry, self).copy(default)
+
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record.name
+            code_show =  str(record.industry_code) + " - " + name
+            result.append((record.id, code_show))
+        return result

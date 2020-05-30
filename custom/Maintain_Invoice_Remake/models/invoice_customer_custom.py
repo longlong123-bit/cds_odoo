@@ -73,11 +73,17 @@ class ClassInvoiceCustom(models.Model):
     # 4明細 - (JPY)明細行合計:3,104.00 / 総合計: 3,104.00 = 3,104.00
     def get_default_num_line(self):
         # for l in self:
-        amount_untaxed_format = "${:,.2f}".format(self.amount_untaxed)
-        amount_total_format = "${:,.2f}".format(self.amount_total)
+        amount_untaxed_format = "{:,.2f}".format(self.amount_untaxed)
+        amount_total_format = "{:,.2f}".format(self.amount_total)
+        print('------------------------------------currency-----------------------------')
+        print(self.amount_total)
+        print(self.currency_id.symbol)
 
-        return str(len(self.invoice_line_ids)) + '明細 - (JPY)明細行合計:' + str(amount_untaxed_format) + ' / 総合計:' + str(
-            amount_total_format) + ' = ' + str(amount_total_format)
+        return str(len(self.invoice_line_ids)) + '明細 - (JPY)明細行合計:'  + str(amount_untaxed_format) + str(self.currency_id.symbol) + ' / 総合計:'  \
+               + str(amount_total_format) + str(self.currency_id.symbol) + ' = ' + str(amount_total_format) + str(self.currency_id.symbol)
+
+    # get currency symbol
+    currency_id = fields.Many2one('res.currency', 'Currency', default=lambda self:self.env.user.company_id.currency_id.id)
 
     # Thay đổi tên hiển thị trên breadcum Invoices
     def _get_move_display_name(self, show_ref=False):
