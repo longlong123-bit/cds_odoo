@@ -45,7 +45,7 @@
                     <field name="x_studio_date_invoiced" string="Date Invoiced"/>
                     <field name="x_studio_document_no" string="Document No"/>
                     <field name="ref" string="Order Reference"/>
-                    <field name="x_studio_business_partner" string="Business Partner"/>
+                    <field name="x_studio_business_partner" string="Customer"/>
                     <field name="x_studio_name" string="Customer Name"/>
                     <field name="customer_trans_classification_code" string="Transaction Class"/>
                     <field name="customer_group" string="Customer Group"/>
@@ -73,7 +73,7 @@
             <field name="x_studio_document_no" string="Document No"/>
             <field name="ref" string="Order Reference"/>
             <field name="x_studio_date_invoiced" string="Date Invoiced"/>
-            <field name="x_studio_business_partner" string="Business Partner"/>
+            <field name="x_studio_business_partner" string="Customer"/>
             <field name="x_userinput_id" string="userinput_id"/>
             <field name="create_date" string="Updated"/>
             <field name="state" string="Document Status"/>
@@ -137,11 +137,11 @@
               </td>
             </tr>
             <tr>
-              <td class="col-label"><label for="x_studio_business_partner" string="Business Partner*"/></td>
+              <td class="col-label"><label for="x_studio_business_partner" string="Customer*"/></td>
               <td class="col-field">
-                <field name="x_studio_business_partner" widget="res_partner_many2one" required="1" domain="[('customer_rank','>', 0)]" default_focus="1"
-                     context="{'showemail': 'ok','res_partner_search_mode': 'customer'}" options='{"reload_on_button": True, "no_quick_create": True}'
-                     attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))], 'readonly':[('state','in',['posted'])]}" z-index="98"/>
+                <field name="x_studio_business_partner" required="1" domain="[('customer_rank','>', 0)]" default_focus="1"
+                       context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
+                       attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))], 'readonly':[('state','in',['posted'])]}" z-index="98"/>
               </td>
               <td colspan="2"><field name="x_studio_name" string="Name" class="o_address_street" style="width : 100%;"
                    placeholder="Name..." force_save="1"  widget="input" z-index="99" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
@@ -160,8 +160,8 @@
                 <td></td>
                 <td class="col-label"><label for="x_bussiness_partner_name_2" string="名称2"/></td>
                 <td colspan="2" class="col-field"><field name="x_bussiness_partner_name_2" string="名称2" attrs="{'readonly':[('state','in',['posted'])]}" force_save="1"  z-index="93"/></td>
-                <td class="col-label"><label for="x_studio_sales_rep" string="Sales Rep"/></td>
-                <td class="col-field"><field name="x_studio_sales_rep" string="Sales Rep" z-index="96" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
+                <td class="col-label"><label for="sales_rep" string="Sales Rep"/></td>
+                <td class="col-field"><field name="sales_rep" string="Sales Rep" z-index="96" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
 
                 <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term"
                                            attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]} "/></td>
@@ -287,7 +287,7 @@
 <!--                                <field name="barcode"/>-->
 <!--                    </tree>-->
 <!--                </field>-->
-                <field name="product_id" string="Product"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
+                <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
 <!--                <field name="x_crm_purchased_products" string="Product" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>-->
 <!--                <field name="x_product_modelnumber"/>-->
                 <field name="x_product_barcode" widget="product_many2one" context="{'show_product_jan': 1}"/>
@@ -295,7 +295,7 @@
                 <field name="x_product_name2" string="商品名2"/>
 
                 <field name="invoice_custom_standardnumber"/>
-                <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+                <field name="invoice_custom_FreightCategory" string="Maker Code" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
                 <field name="price_unit" string="Price"/>
                 <field name="quantity" string="Quantity"/>
                 <field name="invoice_custom_lineamount"/>

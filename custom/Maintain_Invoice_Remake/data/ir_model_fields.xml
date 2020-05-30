@@ -29,35 +29,6 @@
     <field name="translate" eval="True"/>
     <field name="ttype">date</field>
   </record>
-  <record id="Maintain_Invoice_Remake.exports_journal_entr_6a0beb10-28d7-47c3-898d-49120ca6566a" model="ir.model.fields" context="{'studio': True}">
-    <field name="complete_name" eval="False"/>
-    <field name="compute" eval="False"/>
-    <field name="copied" eval="False"/>
-    <field name="depends" eval="False"/>
-    <field name="domain">[('share', '=', False)]</field>
-    <field name="field_description">Sales Rep</field>
-    <field name="groups" eval="[(6, 0, [])]"/>
-    <field name="help" eval="False"/>
-    <field name="index" eval="False"/>
-    <field name="model">account.move</field>
-    <field name="model_id" ref="account.model_account_move"/>
-    <field name="name">x_studio_sales_rep</field>
-    <field name="on_delete">set null</field>
-    <field name="readonly" eval="False"/>
-    <field name="related" eval="False"/>
-    <field name="relation">res.users</field>
-    <field name="relation_field" eval="False"/>
-    <field name="relation_table" eval="False"/>
-    <field name="required" eval="False"/>
-    <field name="selectable" eval="True"/>
-    <field name="selection" eval="False"/>
-    <field name="size" eval="False"/>
-    <field name="state">manual</field>
-    <field name="store" eval="True"/>
-    <field name="tracking" eval="False"/>
-    <field name="translate" eval="True"/>
-    <field name="ttype">many2one</field>
-  </record>
   <record id="Maintain_Invoice_Remake.pricelist_journal_en_59503724-57f0-4b19-abe5-4ac655d02448" model="ir.model.fields" context="{'studio': True}">
     <field name="complete_name" eval="False"/>
     <field name="compute" eval="False"/>
