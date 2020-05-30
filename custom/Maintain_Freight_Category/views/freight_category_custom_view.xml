@@ -8,7 +8,7 @@
 				<field name="model">freight.category.custom</field>
 				<field name="arch" type="xml">
 					<tree string="Product" class="forward_edit">
-						<field name="search_key_freight" string="Search Key"/>
+						<field name="search_key_freight" string="Maker code"/>
 						<field name="name" string="Name"/>
 						<field name="description" string="Description"/>
 						<field name="client" string="Client"/>
@@ -24,7 +24,7 @@
 			<field name="arch" type="xml">
                 <search>
 					<field name="name" string="Name"/>
-					<field name="search_key_freight" string="Search Key"/>
+					<field name="search_key_freight" string="Maker code"/>
 					<field name="description" string="Description"/>
                 </search>
             </field>
@@ -42,7 +42,7 @@
 						<group class="top_menu_group">
 								<group>
 									<field name="client" string="Client*"/>
-									<field name="search_key_freight" string="Search Key"/>
+									<field name="search_key_freight" string="Maker code"/>
 								</group>
 								<group>
 									<field name="organization" string="Organization*"/>
