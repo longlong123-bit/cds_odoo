@@ -27,7 +27,7 @@
                     <td><span t-if="record.product_id" t-esc="record.product_id[1]"/></td>
                     <td><span t-if="record.product_name" t-esc="record.product_name"/></td>
                     <td><span t-if="record.product_barcode" t-esc="record.product_barcode"/></td>
-                    <td><span t-if="record.product_freight_category" t-esc="record.product_freight_category"/></td>
+                    <td><span t-if="record.product_freight_category" t-esc="record.product_freight_category[1]"/></td>
                     <td><span t-if="record.product_standard_number" t-esc="record.product_standard_number"/></td>
                     <td><span t-if="record.product_list_price" t-esc="record.product_list_price"/></td>
                     <td><span t-if="record.product_uom_qty" t-esc="record.product_uom_qty"/></td>
