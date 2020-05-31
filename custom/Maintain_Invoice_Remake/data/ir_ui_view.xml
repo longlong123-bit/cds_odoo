@@ -45,7 +45,7 @@
                     <field name="x_studio_date_invoiced" string="Date Invoiced"/>
                     <field name="x_studio_document_no" string="Document No"/>
                     <field name="ref" string="Order Reference"/>
-                    <field name="x_studio_business_partner" string="Customer"/>
+                    <field name="x_customer_code_for_search" string="Customer"/>
                     <field name="x_studio_name" string="Customer Name"/>
                     <field name="customer_trans_classification_code" string="Transaction Class"/>
                     <field name="customer_group" string="Customer Group"/>
@@ -55,9 +55,10 @@
                     <field name="x_userinput_id" string="userinput_id"/>
                     <field name="sales_rep" string="Sales Rep"/>
                     <field name="state" string="Document Status"/>
-                    <field name="amount_untaxed_signed" string="Tax Excluded" sum="Total" optional="show"/>
-                    <field name="amount_total_signed" string="Total" sum="Total" optional="show"/>
-                    <field name="amount_residual_signed" string="Amount Due" sum="Amount Due" optional="show"/>
+                    <field name="customer_trans_classification_code" string="Transaction Class"/>
+                    <field name="amount_untaxed" string="Total Lines" sum="Total" optional="show"/>
+                    <field name="x_voucher_tax_amount" string="消費税額" sum="Total" optional="show"/>
+                    <field name="amount_total" string="Grand Total" sum="Amount Due" optional="show"/>
                 </tree>
             </xpath>
       </field>
@@ -73,10 +74,13 @@
             <field name="x_studio_document_no" string="Document No"/>
             <field name="ref" string="Order Reference"/>
             <field name="x_studio_date_invoiced" string="Date Invoiced"/>
-            <field name="x_studio_business_partner" string="Customer"/>
+            <field name="x_customer_code_for_search" string="Customer"/>
+              <field name="x_studio_name" string="Customer Name"/>
             <field name="x_userinput_id" string="userinput_id"/>
+              <field name="sales_rep" string="Sales Rep"/>
             <field name="create_date" string="Updated"/>
             <field name="state" string="Document Status"/>
+            <field name="customer_trans_classification_code" string="Transaction Class"/>
           </xpath>
       </field>
   </record>
