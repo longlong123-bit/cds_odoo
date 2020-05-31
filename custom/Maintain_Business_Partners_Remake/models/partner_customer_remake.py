@@ -131,10 +131,10 @@ class NewClassPartnerCustom(models.Model):
 
     @api.constrains('customer_bill_discount', 'customer_bill_discount_rate', 'customer_rate')
     def _check_min_max(self):
-        if not 0 < self.customer_bill_discount_rate < 100:
+        if not 0 <= self.customer_bill_discount_rate <= 100:
             if self.customer_bill_discount is True:
                 raise ValidationError(_('Customer bill discount rate must be greater than 0 and less than 100 !'))
-        if not 0 < self.customer_rate < 100:
+        if not 0 <= self.customer_rate <= 100:
             raise ValidationError(_('Customer rate must be greater than 0 and less than 100 !'))
 
     # Relation Partner Class
