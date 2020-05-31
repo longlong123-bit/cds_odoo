@@ -54,7 +54,7 @@
                     <div><span t-field="o.x_studio_organization.zip"/></div>
                     <div><span t-field="o.x_studio_organization.street"/><span t-field="o.x_studio_organization.street2"/></div>
                     <div>TEL <span t-field="o.x_studio_organization.phone"/> / FAX <span t-field="o.x_studio_organization.phone"/></div>
-                    <div>担当 <span t-field="o.x_studio_sales_rep"/></div>
+                    <div>担当 <span t-field="o.sales_rep"/></div>
                 </div>
                 <div style="clear: both"/>
             </div>
