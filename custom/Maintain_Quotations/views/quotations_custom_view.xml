@@ -65,31 +65,42 @@
                                 <td></td>
                                 <td></td>
                             </tr>
+                            <tr>
+                                <td class="o_td_label"><label for="document_no" string="Document No"/></td>
+                                <td><field name="document_no" readonly="True"/></td>
+                                <td><field name="order_id" widget="Maintain_Quotation_History.Order" z-index="92"/></td>
+                            </tr>
 
                             <!-- Row 1 -->
                             <tr>
                                 <td class="o_td_label"><label for="document_reference" string="Document Reference*"/></td>
-                                <td><field name="document_reference"/></td>
-                                <td><field name="order_id" widget="Maintain_Quotation_History.Order" z-index="92"/></td>
+                                <td colspan="2"><field name="document_reference"/></td>
+<!--                                <td><field name="order_id" widget="Maintain_Quotation_History.Order" z-index="92"/></td>-->
 <!--                                <td class="o_td_label"><label for="order_id" string="Order ID"/></td>-->
 <!--                                <td><field name="document_no_reference" readonly="False" options="{'no_create_edit': True, 'no_open': True}"/></td>-->
 <!--                                <td><button class="quotation-history btn btn-secondary">Search</button></td>-->
-                                <td class="o_td_label"><label for="document_no" string="Document No"/></td>
-                                <td><field name="document_no" readonly="True"/></td>
+<!--                                <td class="o_td_label"><label for="document_no" string="Document No"/></td>-->
+<!--                                <td><field name="document_no" readonly="True"/></td>-->
                                 <td class="o_td_label"><label for="quotations_date" string="Quotation Date"/></td>
-                                <td><field name="quotations_date" readonly="False"/></td>
+                                <td colspan="2"><field name="quotations_date" readonly="False"/></td>
                             </tr>
 
                             <!-- Row 2 -->
                             <tr>
-                                <td class="o_td_label"><label for="name" string="Name*"/></td>
-                                <td colspan="2"><field name="name" required="True"/></td>
+<!--                                <td class="o_td_label"><label for="name" string="Name*"/></td>-->
+<!--                                <td colspan="2"><field name="name" required="True"/></td>-->
                                 <td class="o_td_label"><label for="partner_id" string="Business Partner*"/></td>
-                                <td><field name="partner_id" widget="res_partner_many2one" required="1"
+                                <td colspan="2"><field name="partner_id" widget="res_partner_many2one" required="1"
                                            domain="[('customer_rank','>', 0)]" default_focus="1"
                                            context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
                                            options='{"reload_on_button": True, "no_quick_create": True}'
                                            z-index="98"/></td>
+<!--                                <td colspan="2"><field name="partner_name"/></td>-->
+                                <td class="o_td_label"><label for="name" string="Name*"/></td>
+                                <td colspan="2"><field name="name" required="True"/></td>
+                            </tr>
+                            <tr>
+                                <td class="o_td_label"><label for="partner_name" string=""/></td>
                                 <td colspan="2"><field name="partner_name"/></td>
                             </tr>
 
