@@ -227,6 +227,7 @@ class ClassInvoiceCustom(models.Model):
     customer_trans_classification_code = fields.Selection([('sale', '掛売'), ('cash', '現金'), ('account', '諸口')],
                                                           string='Transaction Class')
     closing_date_compute = fields.Integer('Temp')
+    x_customer_code_for_search = fields.Char('Customer Code', related='x_studio_business_partner.customer_code')
 
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
     x_bussiness_partner_name_2 = fields.Char('名称2')

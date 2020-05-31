@@ -266,7 +266,7 @@ var SelectCreateDialog = ViewDialog.extend({
 
         var f_sale_date_to_val = $('.search_sale_date_to').find('input').val()
         if (f_sale_date_to_val!=''){
-            var f_sale_date_to = ["x_studio_date_invoiced", ">=",f_sale_date_to_val];
+            var f_sale_date_to = ["x_studio_date_invoiced", "<=",f_sale_date_to_val];
             domain.push(f_sale_date_to)
         }
 
