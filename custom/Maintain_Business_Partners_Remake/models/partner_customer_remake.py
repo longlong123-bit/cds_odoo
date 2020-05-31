@@ -79,17 +79,17 @@ class NewClassPartnerCustom(models.Model):
     # 抜粋請求区分
     customer_except_request = fields.Boolean('Excerpt Request')
     # 売上伝票印刷
-    customer_print_voucher = fields.Boolean('Print Voucher')
+    customer_print_voucher = fields.Boolean('Print Voucher', default=True)
     # 売上伝票選択
     customer_select_sales_slip = fields.Boolean('Sales Slip')
     # 売上伝票日付印字
-    customer_print_sales_slip_date = fields.Boolean('Print Sales Slip Date')
+    customer_print_sales_slip_date = fields.Boolean('Print Sales Slip Date', default=True)
     # 請求書印刷
-    customer_print_invoice = fields.Boolean('Print Invoice')
+    customer_print_invoice = fields.Boolean('Print Invoice', default=True)
     # 請求書選択
     customer_select_invoice = fields.Boolean('Select Invoice')
     # 請求書日付印刷
-    customer_print_invoice_date = fields.Boolean('Print Invoice Date')
+    customer_print_invoice_date = fields.Boolean('Print Invoice Date', default=True)
     # その他CD
     customer_other_cd = fields.Char('Customer CD')
     # 備考
