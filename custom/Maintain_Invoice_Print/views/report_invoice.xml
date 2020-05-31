@@ -24,24 +24,14 @@
 <!--            groups="account.group_account_invoice"-->
 <!--            menu="False"-->
 <!--        />-->
-
         <report
-            id="custom_report_format1"
+            id="custom_report_shipment_fm1"
             model="account.move"
-            string="Report format 1"
+            string="Report shipment 1"
             report_type="qweb-pdf"
             attachment_use="False"
-            name="Maintain_Invoice_Print.report_invoice_format1"
-            file="Maintain_Invoice_Print.report_invoice_format1"
-        />
-        <report
-            id="custom_report_format2"
-            model="account.move"
-            string="Report format 2"
-            report_type="qweb-pdf"
-            attachment_use="False"
-            name="Maintain_Invoice_Print.report_invoice_format2"
-            file="Maintain_Invoice_Print.report_invoice_format2"
+            name="Maintain_Invoice_Print.custom_report_shipment_format1"
+            file="Maintain_Invoice_Print.custom_report_shipment_format1"
         />
 
         <report
@@ -63,13 +53,23 @@
             name="Maintain_Invoice_Print.report_invoice_format4"
             file="Maintain_Invoice_Print.report_invoice_format4"
         />
+
         <report
-            id="custom_report_shipment_fm1"
+            id="custom_report_format1"
             model="account.move"
-            string="Report shipment 1"
+            string="Report format 1"
             report_type="qweb-pdf"
             attachment_use="False"
-            name="Maintain_Invoice_Print.custom_report_shipment_format1"
-            file="Maintain_Invoice_Print.custom_report_shipment_format1"
+            name="Maintain_Invoice_Print.report_invoice_format1"
+            file="Maintain_Invoice_Print.report_invoice_format1"
+        />
+        <report
+            id="custom_report_format2"
+            model="account.move"
+            string="Report format 2"
+            report_type="qweb-pdf"
+            attachment_use="False"
+            name="Maintain_Invoice_Print.report_invoice_format2"
+            file="Maintain_Invoice_Print.report_invoice_format2"
         />
 </odoo>

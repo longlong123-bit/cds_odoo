@@ -48,10 +48,17 @@
                 </div>
                 <div style="display: inline-block; width: 25%; float: right">
                     <div name="date_printed">
-                        <span>発行日: <span class="m-0" t-field="o.x_current_date"/></span>
+                        <span>発行日: <t t-if="o.x_current_date">
+                                <span t-field="o.x_current_date" t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                            </t>
+                            <span t-else="">　　　年　　月　　日</span></span>
                     </div>
                     <div name="invoice_date">
-                        <span>請求日: <span class="m-0" t-field="o.x_studio_date_invoiced"/></span>
+                        <span>請求日: <t t-if="o.x_studio_date_invoiced">
+                                <span t-field="o.x_studio_date_invoiced" t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                            </t>
+                            <span t-else="">　　　年　　月　　日</span>
+                        </span>
                     </div>
                     <div name="document_no">
                         <span>請求書番号: <span class="m-0" t-field="o.x_studio_document_no"/></span>
@@ -174,7 +181,7 @@
                     <div t-field="o.x_studio_client_2"/>
                     <div><span t-field="o.x_studio_organization.zip"/></div>
                     <div><span t-field="o.x_studio_organization.street"/><span t-field="o.x_studio_organization.street2"/></div>
-                    <div>担当: <span t-field="o.x_studio_sales_rep"/></div>
+                    <div>担当: <span t-field="o.sales_rep"/></div>
                 </div>
                 <div style="clear: both"/>
             </div>

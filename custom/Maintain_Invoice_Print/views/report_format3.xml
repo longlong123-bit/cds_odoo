@@ -15,7 +15,10 @@
 
             <!-- LOGO AND TITLE -->
             <div>
-                <div style="display: inline-block; width: 25%; text-align: center">西暦 <span t-field="o.x_studio_date_invoiced"/></div>
+                <div style="display: inline-block; width: 25%; text-align: center">西暦 <t t-if="o.x_studio_date_invoiced">
+                                <span t-field="o.x_studio_date_invoiced" t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                            </t>
+                            <span t-else="">　　　年　　月　　日</span></div>
                 <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px"><h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">　売　　上　　票　</h4></div>
                 <div style="display: inline-block; width: 25%; text-align: center"><span t-field="o.x_studio_document_no"/></div>
             </div>
