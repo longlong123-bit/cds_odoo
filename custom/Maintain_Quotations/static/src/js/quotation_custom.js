@@ -26,6 +26,7 @@ odoo.define('sale.order.custom', function (require) {
         'quotation_type',
         'report_header',
         'paperformat_id',
+        'paper_format',
         'is_print_date',
         'tax_method',
         'quotations_date',

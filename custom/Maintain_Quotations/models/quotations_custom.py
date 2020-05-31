@@ -94,6 +94,9 @@ class QuotationsCustom(models.Model):
     #     ('sale', 'Sale')
     # ], string='Report Header', readonly=False, default='quotation')
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
+    paper_format = fields.Selection([
+        ('report_format1', '見積管理')
+    ], string='Pager format', default='report_format1')
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
@@ -307,6 +310,7 @@ class QuotationsCustom(models.Model):
             self.quotation_type = sale_order.quotation_type
             self.report_header = sale_order.report_header
             self.paperformat_id = sale_order.paperformat_id
+            self.paper_format = sale_order.paper_format
             self.is_print_date = sale_order.is_print_date
             self.tax_method = sale_order.tax_method
             self.comment_apply = sale_order.comment_apply
