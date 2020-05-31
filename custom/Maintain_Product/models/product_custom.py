@@ -14,7 +14,6 @@ from odoo.exceptions import ValidationError, RedirectWarning, UserError
 import re
 from odoo.osv import expression
 from lxml import etree
-import odoo
 
 _logger = logging.getLogger(__name__)
 
