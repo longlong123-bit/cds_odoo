@@ -15,6 +15,7 @@
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/printer_output_view.xml',
+        'views/menu_master.xml',
     ],
     'demo': [],
     'installable': True,
