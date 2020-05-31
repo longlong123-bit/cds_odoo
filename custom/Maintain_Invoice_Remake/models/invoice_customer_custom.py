@@ -612,8 +612,8 @@ class ClassInvoiceCustom(models.Model):
             tax_base_amount = 0.00
             tax_amount = 0.00
             for line in move.invoice_line_ids:
-                tax_base_amount = line.invoice_custom_lineamount
-                tax_amount = line.line_tax_amount
+                tax_base_amount += line.invoice_custom_lineamount
+                tax_amount += line.line_tax_amount
 
             self.invoice_line_ids_tax = [(5, 0, 0)]
             for line in tax_lines:

@@ -75,7 +75,7 @@ class QuotationsCustom(models.Model):
         [('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')],
         string='Tax Rounding', default='round')
 
-    quotations_date = fields.Date(string='Quotations Date')
+    quotations_date = fields.Date(string='Quotations Date', default=fields.Date.today())
     order_id = fields.Many2one('sale.order', string='Order', store=False)
     partner_id = fields.Many2one(string='Business Partner')
     partner_name = fields.Char(string='Partner Name')
@@ -134,6 +134,20 @@ class QuotationsCustom(models.Model):
         records = self.env['sale.order.line'].search([
             ('order_id', 'in', self._ids)
         ]).read()
+
+        for record in records:
+            if record['tax_id']:
+                self._cr.execute('''
+                                    SELECT id, name
+                                    FROM account_tax
+                                    WHERE id IN %s
+                                ''', [tuple(record['tax_id'])])
+                query_res = self._cr.fetchall()
+                record['tax_id'] = ', '.join([str(res[1]) for res in query_res])
+
+            if record['display_type']:
+                record['class_item'] = record['name']
+                record['name'] = ''
 
         return {
             'template': 'order_lines',
