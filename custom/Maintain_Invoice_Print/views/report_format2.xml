@@ -36,7 +36,10 @@
                 <div style="display: inline-block; width: 45%; float: right">
                     <div style="padding-left: 100px">
                         <div name="invoice_date">
-                            <span>請求日付: <span class="m-0" t-field="o.x_studio_date_invoiced"/></span>
+                            <span>請求日付: <t t-if="o.x_studio_date_invoiced">
+                                <span t-field="o.x_studio_date_invoiced" t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                            </t>
+                            <span t-else="">　　　年　　月　　日</span>
                         </div>
                         <div name="document_no">
                             <span>請求書番号: <span class="m-0" t-field="o.x_studio_document_no"/></span>

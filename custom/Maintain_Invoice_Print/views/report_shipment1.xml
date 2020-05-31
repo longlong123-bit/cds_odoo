@@ -112,7 +112,10 @@
                         <tr>
                             <td style="border: 1px solid #439eb2; border-right: 0; border-bottom: 0; width: 100px; background-color: #e0e0e0; padding: 5px">注文日付</td>
                             <td style="border: 1px solid #439eb2; border-bottom: 0; border-left: 0; padding: 5px">
-                                <span t-field="o.x_studio_date_invoiced"/>
+                                <t t-if="o.x_studio_date_invoiced">
+                                    <span t-field="o.x_studio_date_invoiced" t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                </t>
+                                <span t-else="">　　　年　　月　　日</span>
                             </td>
                         </tr>
                         <tr>
