@@ -14,6 +14,7 @@ from odoo.exceptions import ValidationError, RedirectWarning, UserError
 import re
 from odoo.osv import expression
 from lxml import etree
+import odoo
 
 _logger = logging.getLogger(__name__)
 
@@ -470,17 +471,14 @@ class ProductCustomPurchasingLine(models.Model):
     delay = fields.Integer('Delivery Lead Time', default=1, required=True)
     min_qty = fields.Float('Quantity', default=0.0, required=True)
 
-    # def _check_negative_price(self):
-    #     arr = [self.price, self.product_purchasing_po_price, self.min_qty,
-    #            self.delay, self.product_purchasing_order_pack_qty]
-    #     leng = len(arr)
-    #     for i in range(0, leng):
-    #         if arr[i] < 0:
-    #             raise ValidationError(_('Price must be greater than 0 !'))
-
-    def _checkprice_(self):
-        if self.product_purchasing_po_price < 0:
-            raise ValidationError(_('Price must be greater than 0 !'))
+    @api.constrains('price', 'product_purchasing_po_price', 'min_qty', 'delay', 'product_purchasing_order_pack_qty')
+    def _check_negative_price(self):
+        arr = [self.price, self.product_purchasing_po_price, self.min_qty,
+               self.delay, self.product_purchasing_order_pack_qty]
+        leng = len(arr)
+        for i in range(0, leng):
+            if arr[i] < 0:
+                raise ValidationError(_('Price must be greater than 0 !'))
 
     def button_details(self):
         view = {
@@ -664,6 +662,7 @@ class ProductTemplateAttributeLine(models.Model):
     product_cost_percent = fields.Integer('Percent', readonly=True)
     product_cost_is_processed = fields.Boolean('Processed', readonly=True)
 
+    @api.constrains('product_cost_future_cost_price')
     def _check_negative_price(self):
         arr = [self.product_cost_future_cost_price]
         leng = len(arr)

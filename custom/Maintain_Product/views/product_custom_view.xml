@@ -77,7 +77,8 @@
                                 <field name="product_custom_is_active" widget="boolean_tags"/>
                                 <label for="product_custom_is_active"/>
                             </div>
-                            <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"/>
+                            <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"
+                                   readonly="True"/>
                             <field name="product_code_4"/>
                             <field name="price_no_tax_4"/>
                             <field name="price_include_tax_4"/>
