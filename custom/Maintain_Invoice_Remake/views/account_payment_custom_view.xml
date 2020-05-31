@@ -9,10 +9,10 @@
                 <form string="Payment Terms Custom" class="account_payment_term_custom custom_template">
                     <group>
                         <group>
-                            <field name="payment_term_custom_client" string="Client*" readonly="True"/>
+                            <field name="payment_term_custom_client" string="Client*"/>
                         </group>
                         <group>
-                            <field name="payment_term_company_id" string="Organization*" readonly="True"/>
+                            <field name="payment_term_company_id" string="Organization*"/>
                         </group>
 
                         <group style="width: 100%;">
