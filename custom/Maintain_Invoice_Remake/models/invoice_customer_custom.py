@@ -1203,3 +1203,15 @@ class AccountMoveLine(models.Model):
             'res_id': self.id,
         }
         return view
+
+
+class ClassGetProductCode(models.Model):
+    _inherit = 'product.product'
+
+    def name_get(self):
+        result = []
+        for record in self:
+            if self.env.context.get('show_product_code', True):
+                product_code_1 = str(record.product_code_1)
+                result.append((record.id, product_code_1))
+        return result
