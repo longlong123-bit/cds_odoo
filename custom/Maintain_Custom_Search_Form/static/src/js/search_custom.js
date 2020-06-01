@@ -28,9 +28,9 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
             this._super.apply(this, arguments);
 
             if (a.action.res_model !== undefined) {
-                model = a.action.res_model.replace('.', '__');
+                model = a.action.res_model;
             } else if (a.action.controlPanelFieldsView !== undefined) {
-                model = a.action.controlPanelFieldsView.model.replace('.', '__');
+                model = a.action.controlPanelFieldsView.model;
             }
         },
 
@@ -49,9 +49,8 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
          * Is advanced search model
          */
         _isAdvancedSearchModel: function(){
-            if (this._advancedSearch != undefined) {
-                var compareModel = this._advancedSearch.model.replace('.', '__');
-                return compareModel === model;
+            if (this.advancedSearch != undefined && this.advancedSearch[model] !== undefined) {
+                return true;
             }
 
             return false;
@@ -61,10 +60,11 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
          * Append proposition with template
          */
         _appendPropositionWithTemplate: function(){
-            this.$menu.find('>*:not(.o_add_filter_menu,.advanced_search_'+model+')').remove();
-            if (this.$menu.find('.advanced_search_' + model).length == 0) {
-                var html = QWeb.render(this._advancedSearch.template, {records: this._advancedSearch.records || []});
-                this.$menu.prepend('<div class="advanced_search_'+model+' advanced_search">' + html + '</div>');
+            var mdl = model.replace('.', '__');
+            this.$menu.find('>*:not(.o_add_filter_menu,.advanced_search_'+mdl+')').remove();
+            if (this.$menu.find('.advanced_search_' + mdl).length == 0) {
+                var html = QWeb.render(this.advancedSearch[model].template, {records: this.advancedSearch[model].records || []});
+                this.$menu.prepend('<div class="advanced_search_'+mdl+' advanced_search">' + html + '</div>');
             }
         },
 

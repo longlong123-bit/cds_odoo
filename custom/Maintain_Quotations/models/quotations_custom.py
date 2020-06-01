@@ -78,9 +78,11 @@ class QuotationsCustom(models.Model):
     quotations_date = fields.Date(string='Quotations Date', default=fields.Date.today())
     order_id = fields.Many2one('sale.order', string='Order', store=False)
     partner_id = fields.Many2one(string='Business Partner')
+    related_partner_code = fields.Char('Partner Code', related='partner_id.customer_code')
     partner_name = fields.Char(string='Partner Name')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, states={'draft': [('readonly', False)]},
                                 domain="[('share', '=', False)]", default=lambda self: self.env.user)
+    related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
     cb_partner_sales_rep_id = fields.Many2one('res.partner', string='cbpartner_salesrep_id', tracking=True,
                                               readonly=True,
                                               states={'draft': [('readonly', False)]},
@@ -97,6 +99,7 @@ class QuotationsCustom(models.Model):
     paper_format = fields.Selection([
         ('report_format1', '見積書（書式1）')
     ], string='Pager format', default='report_format1')
+    # related_product_name = fields.Char(related='order_line.product.product_code_1')
 
     @api.depends('order_line.price_total')
     def _amount_all(self):

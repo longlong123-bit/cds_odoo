@@ -21,6 +21,7 @@
     'qweb': [
         'static/src/xml/quotation_custom_template.xml',
         'static/src/xml/order_lines.xml',
+        'static/src/xml/advanced_search.xml'
     ],
     'demo': [],
     'installable': True,
