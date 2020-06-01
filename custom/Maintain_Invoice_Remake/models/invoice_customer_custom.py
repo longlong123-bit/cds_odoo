@@ -1048,12 +1048,16 @@ class AccountMoveLine(models.Model):
         for line in self:
             line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount)
 
+    @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding')
     def compute_line_amount(self):
         for line in self:
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity)
 
+    @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding')
     def compute_line_tax_amount(self):
         for line in self:
+            line.price_unit = line._get_computed_price_unit()
+            line.compute_line_amount()
             if line.move_id.x_voucher_tax_transfer in ('foreign_tax', 'custom_tax'):
                 total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
@@ -1063,7 +1067,8 @@ class AccountMoveLine(models.Model):
             else:
                 line.line_tax_amount = 0
 
-    @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype')
+    @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype',
+                  'move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding', )
     def _onchange_price_subtotal(self):
         for line in self:
             if line.exclude_from_invoice_tab == False:
@@ -1185,25 +1190,18 @@ class AccountMoveLine(models.Model):
             #                                                line.move_id.date)
 
             # todo set price follow product code
-            if line.move_id.x_voucher_tax_transfer == 'internal_tax':
-                line.price_unit = line.product_id.price_include_tax_1
-            else:
-                line.price_unit = line.product_id.price_no_tax_1
+            line.price_unit = line._get_computed_price_unit()
 
         if len(self) == 1:
             return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
 
     def _get_computed_price_unit(self):
-        self.ensure_one()
-
-        if not self.product_id:
-            return self.price_unit
         # todo set price follow product code
         if self.move_id.x_voucher_tax_transfer == 'internal_tax':
             price_unit = self.product_id.price_include_tax_1
         else:
             price_unit = self.product_id.price_no_tax_1
-        
+
         return price_unit
 
     def button_update(self):

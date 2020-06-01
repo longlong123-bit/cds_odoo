@@ -410,6 +410,14 @@ class QuotationsLinesCustom(models.Model):
                 if line.product_uom_qty > 0:
                     line.product_uom_qty = line.product_uom_qty * (-1)
 
+            # todo set price follow product code
+            if line.order_id.tax_method == 'internal_tax':
+                line.price_unit = line.product_id.price_include_tax_1 or ''
+                line.product_list_price = self.product_id.price_include_tax_1 or ''
+            else:
+                line.price_unit = line.product_id.price_no_tax_1 or ''
+                line.product_list_price = self.product_id.price_no_tax_1 or ''
+
             line.compute_line_amount()
             line.compute_line_tax_amount()
 
