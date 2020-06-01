@@ -231,15 +231,16 @@ class ClassInvoiceCustom(models.Model):
                                                           string='Transaction Class')
     closing_date_compute = fields.Integer('Temp')
     x_customer_code_for_search = fields.Char('Customer Code', related='x_studio_business_partner.customer_code')
-
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
     x_bussiness_partner_name_2 = fields.Char('名称2')
     x_studio_description = fields.Text('説明')
     x_userinput_id = fields.Many2one('res.users', 'Current User', default=lambda self: self.env.uid)
+    related_userinput_name = fields.Char('Sales rep name', related='x_userinput_id.name')
     x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
                                         index=True, auto_join=True,
                                         help="The move of this entry line.")
     sales_rep = fields.Many2one('res.users', string='Sales Rep', domain="[('share', '=', False)]")
+    related_sale_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
 
     @api.depends(
         'line_ids.debit',

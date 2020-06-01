@@ -21,8 +21,9 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
     var model = null;
 
     var My_FilterMenu = FilterMenu.include({
-        events: _.extend({}, FilterMenu.prototype.events, {
-        }),
+        /**
+         * Init
+         */
         init: function (a) {
             this._super.apply(this, arguments);
 
@@ -31,6 +32,17 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
             } else if (a.action.controlPanelFieldsView !== undefined) {
                 model = a.action.controlPanelFieldsView.model.replace('.', '__');
             }
+        },
+
+        /**
+         * Operators for search
+         */
+        _operations: {
+            'eq': {value: '='},
+            'lt': {value: '<'},
+            'lte': {value: '<='},
+            'gt': {value: '>'},
+            'gte': {value: '>='}
         },
 
         /**
@@ -46,6 +58,68 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
         },
 
         /**
+         * Append proposition with template
+         */
+        _appendPropositionWithTemplate: function(){
+            this.$menu.find('>*:not(.o_add_filter_menu,.advanced_search_'+model+')').remove();
+            if (this.$menu.find('.advanced_search_' + model).length == 0) {
+                var html = QWeb.render(this._advancedSearch.template, {records: this._advancedSearch.records || []});
+                this.$menu.prepend('<div class="advanced_search_'+model+' advanced_search">' + html + '</div>');
+            }
+        },
+
+        /**
+         * Append proposition without template
+         */
+        _appendPropositionWithoutTemplate: function(){
+            // make modern sear_filters code!!! It works but...
+            var lV=[];
+            var list_td = $('.o_list_table thead tr th');
+
+            if(list_td){
+                for(var i = 0; i < list_td.length; i++){
+                    if($($('.o_list_table thead tr th')[i]).attr('data-name')){
+                        lV.push($($('.o_list_table thead tr th')[i]).attr('data-name'));
+                    }
+                }
+            }
+
+            for (var key in this.fields) {
+                var field =  this.fields[key]
+                var hasHeader = lV.includes(key)?true:false;
+                if (lV.length==0){
+                    hasHeader = true;
+                }
+                if(field.searchable){
+                    if( typeof this.__parentedParent !== 'undefined'){
+                        if( typeof this.__parentedParent.searchBar !== 'undefined'){
+                            if( typeof this.__parentedParent.searchBar.filterFields !== 'undefined'){
+                                var listF = this.__parentedParent.searchBar.filterFields;
+                                for(var i = 0; i<listF.length; i++){
+                                    if((key === listF[i].attrs['name'] || field.type==='datetime')){
+                                        if (lV.length>0 && hasHeader){
+                                            var prop = new search_filters.ExtendedSearchProposition(this, this.fields);
+                                            this.propositions.push(prop);
+                                            this.$('.o_apply_filter').prop('disabled', false);
+                                            prop.insertBefore(this.$addFilterMenu);
+                                            for (var i =0; i< prop.attrs.fields.length; i++) {
+                                                if(prop.attrs.fields[i].name === key){
+                                                    prop.attrs.selected = prop.attrs.fields[i]
+                                                }
+                                            }
+
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        /**
          * Add a proposition inside the custom filter edition menu.
          *
          * @private
@@ -53,57 +127,9 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
          */
         _appendProposition: function () {
             if (this._isAdvancedSearchModel()) {
-                this.$menu.find('>*:not(.o_add_filter_menu,.advanced_search_'+model+')').remove();
-                if (this.$menu.find('.advanced_search_' + model).length == 0) {
-                    var html = QWeb.render(this._advancedSearch.template, {records: this._advancedSearch.records || []});
-                    this.$menu.prepend('<div class="advanced_search_'+model+' advanced_search" style="margin: 10px">' + html + '</div>');
-                }
+                this._appendPropositionWithTemplate();
             } else {
-				// make modern sear_filters code!!! It works but...
-				var lV=[];
-                var list_td = $('.o_list_table thead tr th');
 
-                if(list_td){
-                    for(var i = 0; i < list_td.length; i++){
-                        if($($('.o_list_table thead tr th')[i]).attr('data-name')){
-                            lV.push($($('.o_list_table thead tr th')[i]).attr('data-name'));
-                        }
-                    }
-                }
-
-				for (var key in this.fields) {
-					var field =  this.fields[key]
-					var hasHeader = lV.includes(key)?true:false;
-					if (lV.length==0){
-						hasHeader = true;
-					}
-					if(field.searchable){
-						if( typeof this.__parentedParent !== 'undefined'){
-							if( typeof this.__parentedParent.searchBar !== 'undefined'){
-								if( typeof this.__parentedParent.searchBar.filterFields !== 'undefined'){
-									var listF = this.__parentedParent.searchBar.filterFields;
-									for(var i = 0; i<listF.length; i++){
-										if((key === listF[i].attrs['name'] || field.type==='datetime')){
-											if (lV.length>0 && hasHeader){
-												var prop = new search_filters.ExtendedSearchProposition(this, this.fields);
-												this.propositions.push(prop);
-												this.$('.o_apply_filter').prop('disabled', false);
-												prop.insertBefore(this.$addFilterMenu);
-												for (var i =0; i< prop.attrs.fields.length; i++) {
-													if(prop.attrs.fields[i].name === key){
-														prop.attrs.selected = prop.attrs.fields[i]
-													}
-												}
-
-											}
-
-										}
-									}
-								}
-							}
-						}
-					}
-				}
 			}
         },
 
@@ -125,13 +151,7 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
             }
 
             var filters = [];
-            var operations = {
-                'eq': {value: '='},
-                'lt': {value: '<'},
-                'lte': {value: '<='},
-                'gt': {value: '>'},
-                'gte': {value: '>='}
-            };
+            var operations = this._operations;
             this.$menu.find('.filter-item').map(function(){
                 var item = $(this);
                 var val = item.val();
