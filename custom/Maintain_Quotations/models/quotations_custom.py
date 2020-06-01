@@ -339,7 +339,7 @@ class QuotationsCustom(models.Model):
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
 
-    name = fields.Text(string='Description')
+    name = fields.Text(string='Description', default=None)
     tax_id = fields.Many2many(string='Taxes')
     product_id = fields.Many2one(string='Product')
     product_uom_qty = fields.Float(string='Product UOM Qty', digits='(12,0)', default=1.0)
