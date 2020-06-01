@@ -22,7 +22,7 @@ class PaymentTermCustom(models.Model):
     payment_term_custom_id = fields.Many2one('account.payment.term')
 
     payment_term_custom_client = fields.Many2one('client.custom', required=True, default=_get_default_client_id)
-    payment_term_company_id = fields.Many2one('res.company', 'Organization', default=lambda self: self.env.company.id,
+    payment_term_company_id = fields.Many2one('res.company', 'Organization', default=lambda self: self.env.company.id, required=True,
                                               index=1)
 
     payment_term_custom_search_key = fields.Char(string="Search Key")

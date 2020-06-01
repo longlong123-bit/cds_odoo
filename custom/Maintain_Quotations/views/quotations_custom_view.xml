@@ -73,7 +73,7 @@
 
                             <!-- Row 1 -->
                             <tr>
-                                <td class="o_td_label"><label for="document_reference" string="Document Reference*"/></td>
+                                <td class="o_td_label"><label for="document_reference" string="Document Reference"/></td>
                                 <td colspan="2"><field name="document_reference"/></td>
 <!--                                <td><field name="order_id" widget="Maintain_Quotation_History.Order" z-index="92"/></td>-->
 <!--                                <td class="o_td_label"><label for="order_id" string="Order ID"/></td>-->
@@ -100,14 +100,16 @@
                                 <td colspan="2"><field name="name" required="True"/></td>
                             </tr>
                             <tr>
-                                <td class="o_td_label"><label for="partner_name" string=""/></td>
+                                <td class="o_td_label"><label for="partner_name" string="Partner Name"/></td>
                                 <td colspan="2"><field name="partner_name"/></td>
                             </tr>
 
                             <!-- Row 3 -->
                             <tr>
                                 <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="CB Partner Sales Rep*"/></td>
-                                <td colspan="2"><field name="cb_partner_sales_rep_id" required="True"/></td>
+                                <td colspan="2"><field name="cb_partner_sales_rep_id" required="True" domain="[('customer_rank','=', 1)]"
+                                                       context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
+                                                       options='{"reload_on_button": True, "no_quick_create": True}'/></td>
                                 <td class="o_td_label"><label for="shipping_address" string="Shipping Address"/></td>
                                 <td colspan="2"><field name="shipping_address"/></td>
                             </tr>
@@ -238,7 +240,10 @@
                                     <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                                         <label for="amount_total" string="Amount Total"/>
                                     </div>
-                                    <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_total" nolabel="1"
+                                           class="oe_subtotal_footer_separator" widget='monetary'
+                                           options="{'currency_field': 'currency_id'}"
+                                           attrs="{'invisible': [('quotation_type', '=', 'unit')]}"/>
                                 </group>
                             </group>
                         </page>
@@ -318,7 +323,7 @@
         <field name="search_view_id" ref="product_custom_template_search_view"/>
     </record>
 
-    <menuitem id="menu_ideas" parent="" name="Quotations Custom" sequence="10" action="quotation_custom_action" groups="base.group_user"/>
+    <menuitem id="menu_ideas" parent="" name="Quotations Custom" sequence="1" action="quotation_custom_action" groups="base.group_user"/>
 
     <data>
         <!-- Sequences for sale.order -->

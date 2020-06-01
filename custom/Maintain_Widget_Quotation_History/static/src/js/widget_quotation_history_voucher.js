@@ -272,7 +272,7 @@ var SelectCreateDialog = ViewDialog.extend({
 
         var f_quotations_date_to_val = $('.search_quotations_date_to').find('input').val()
         if (f_quotations_date_to_val!=''){
-            var f_quotations_date_to = ["quotations_date", ">=",f_quotations_date_to_val];
+            var f_quotations_date_to = ["quotations_date", "<=",f_quotations_date_to_val];
             domain.push(f_quotations_date_to)
         }
 

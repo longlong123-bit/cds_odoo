@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="parent_menu_master" sequence="41" name="請求管理"/>
+        <menuitem id="menu_print_output" parent="parent_menu_master" name="請求処理" sequence="2" action="Maintain_Printer_Output.action_printer_output"/>
+    </data>
+</odoo>

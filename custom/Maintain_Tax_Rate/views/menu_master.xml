@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="parent_menu_master" sequence="1" name="Tax Rate" />
+        <menuitem id="menu_tax_rate" parent="parent_menu_master" name="Tax Rate" sequence="2" action="Maintain_Tax_Rate.action_tax_rate"/>
+        <menuitem id="menu_print_output" parent="parent_menu_master" name="Printer" sequence="3" action="Maintain_Printer_Output.action_printer_output"/>
+    </data>
+</odoo>

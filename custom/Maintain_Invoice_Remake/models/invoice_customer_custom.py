@@ -227,6 +227,7 @@ class ClassInvoiceCustom(models.Model):
     customer_trans_classification_code = fields.Selection([('sale', '掛売'), ('cash', '現金'), ('account', '諸口')],
                                                           string='Transaction Class')
     closing_date_compute = fields.Integer('Temp')
+    x_customer_code_for_search = fields.Char('Customer Code', related='x_studio_business_partner.customer_code')
 
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
     x_bussiness_partner_name_2 = fields.Char('名称2')
@@ -611,8 +612,8 @@ class ClassInvoiceCustom(models.Model):
             tax_base_amount = 0.00
             tax_amount = 0.00
             for line in move.invoice_line_ids:
-                tax_base_amount = line.invoice_custom_lineamount
-                tax_amount = line.line_tax_amount
+                tax_base_amount += line.invoice_custom_lineamount
+                tax_amount += line.line_tax_amount
 
             self.invoice_line_ids_tax = [(5, 0, 0)]
             for line in tax_lines:
@@ -1202,3 +1203,15 @@ class AccountMoveLine(models.Model):
             'res_id': self.id,
         }
         return view
+
+
+class ClassGetProductCode(models.Model):
+    _inherit = 'product.product'
+
+    def name_get(self):
+        result = []
+        for record in self:
+            if self.env.context.get('show_product_code', True):
+                product_code_1 = str(record.product_code_1)
+                result.append((record.id, product_code_1))
+        return result

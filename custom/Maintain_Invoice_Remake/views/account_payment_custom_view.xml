@@ -9,10 +9,10 @@
                 <form string="Payment Terms Custom" class="account_payment_term_custom custom_template">
                     <group>
                         <group>
-                            <field name="payment_term_custom_client" string="Client*" readonly="True"/>
+                            <field name="payment_term_custom_client" string="Client*"/>
                         </group>
                         <group>
-                            <field name="payment_term_company_id" string="Organization*" readonly="True"/>
+                            <field name="payment_term_company_id" string="Organization*"/>
                         </group>
 
                         <group style="width: 100%;">
@@ -83,7 +83,7 @@
                             </div>
                         </group>
                         <group>
-                            <field name="payment_term_custom_id" string="Payment Terms" attrs="{'invisible': [('payment_term_custom_is_payment_terms', '=', True)]}"/>
+                            <field name="payment_term_custom_id" string="Payment Terms" invisible="1"/>
                         </group>
 
                         <group>
@@ -91,7 +91,7 @@
                             <field name="payment_term_custom_fix_month_offset"/>
                         </group>
                         <group>
-                            <field name="payment_term_custom_fix_month_cutoff"/>
+                            <field name="payment_term_custom_fix_month_cutoff" invisible="1"/>
                         </group>
 
                         <group>

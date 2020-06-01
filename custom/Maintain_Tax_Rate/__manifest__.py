@@ -8,13 +8,14 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'Maintain_Client', 'Maintain_Organization', 'account'
+        'base_setup', 'Maintain_Client', 'Maintain_Organization', 'account', 'Maintain_Printer_Output'
     ],
     'website': '',
     'data': [
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/tax_rate_view.xml',
+        'views/menu_master.xml',
     ],
     'demo': [],
     'installable': True,
