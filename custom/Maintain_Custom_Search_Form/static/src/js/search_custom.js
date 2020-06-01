@@ -25,7 +25,12 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
         }),
         init: function (a) {
             this._super.apply(this, arguments);
-            model = a.action.res_model.replace('.', '__');
+
+            if (a.action.res_model !== undefined) {
+                model = a.action.res_model.replace('.', '__');
+            } else if (a.action.controlPanelFieldsView !== undefined) {
+                model = a.action.controlPanelFieldsView.model.replace('.', '__');
+            }
         },
 
         /**
@@ -34,7 +39,6 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
         _isAdvancedSearchModel: function(){
             if (this._advancedSearch != undefined) {
                 var compareModel = this._advancedSearch.model.replace('.', '__');
-
                 return compareModel === model;
             }
 
