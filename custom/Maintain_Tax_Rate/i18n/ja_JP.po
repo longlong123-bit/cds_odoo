@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-01 03:59+0000\n"
-"PO-Revision-Date: 2020-06-01 03:59+0000\n"
+"POT-Creation-Date: 2020-06-01 07:39+0000\n"
+"PO-Revision-Date: 2020-06-01 07:39+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -43,6 +43,16 @@ msgid "Children Taxes"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
+#: model:ir.ui.menu,name:Maintain_Tax_Rate.menu_client
+msgid "Client"
+msgstr "クライアント"
+
+#. module: Maintain_Tax_Rate
+#: model:ir.ui.menu,name:Maintain_Tax_Rate.menu_state
+msgid "Country State"
+msgstr "地区マスタ"
+
+#. module: Maintain_Tax_Rate
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 msgid "Definition"
 msgstr ""
@@ -58,6 +68,11 @@ msgstr "プリンタマスタ"
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_tree
 msgid "Rate"
 msgstr "税率"
+
+#. module: Maintain_Tax_Rate
+#: model:ir.ui.menu,name:Maintain_Tax_Rate.menu_receipt_divide
+msgid "Receipt Divide"
+msgstr "入金区分"
 
 #. module: Maintain_Tax_Rate
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
