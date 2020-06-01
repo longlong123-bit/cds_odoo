@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-28 09:51+0000\n"
-"PO-Revision-Date: 2020-05-28 09:51+0000\n"
+"POT-Creation-Date: 2020-06-01 02:49+0000\n"
+"PO-Revision-Date: 2020-06-01 02:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -100,6 +100,11 @@ msgid "New Master"
 msgstr "マスタ管理"
 
 #. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.submenu_first
+msgid "Organization"
+msgstr "組織"
+
+#. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_partner_group
 msgid "Partner Group"
 msgstr "得意先グループマスタ"
@@ -123,6 +128,11 @@ msgstr "商品分類マスタ"
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_receipt_divide
 msgid "Receipt Divide"
 msgstr "入金区分"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.submenu_second
+msgid "Sales"
+msgstr "取引"
 
 #. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_section
