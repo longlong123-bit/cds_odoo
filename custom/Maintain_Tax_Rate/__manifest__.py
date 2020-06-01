@@ -8,7 +8,7 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'Maintain_Client', 'Maintain_Organization', 'account', 'Maintain_Printer_Output'
+        'base_setup', 'Maintain_Client', 'Maintain_Organization', 'account', 'Maintain_Printer_Output', 'Maintain_Receipt_Divide', 'Maintain_Country_State'
     ],
     'website': '',
     'data': [
