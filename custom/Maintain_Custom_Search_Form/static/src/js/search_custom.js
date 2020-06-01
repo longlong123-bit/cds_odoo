@@ -39,7 +39,6 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
         _isAdvancedSearchModel: function(){
             if (this._advancedSearch != undefined) {
                 var compareModel = this._advancedSearch.model.replace('.', '__');
-
                 return compareModel === model;
             }
 
