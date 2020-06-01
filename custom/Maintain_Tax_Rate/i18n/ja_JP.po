@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-25 10:42+0000\n"
-"PO-Revision-Date: 2020-05-25 10:42+0000\n"
+"POT-Creation-Date: 2020-06-01 03:59+0000\n"
+"PO-Revision-Date: 2020-06-01 03:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -48,6 +48,11 @@ msgid "Definition"
 msgstr ""
 
 #. module: Maintain_Tax_Rate
+#: model:ir.ui.menu,name:Maintain_Tax_Rate.menu_print_output
+msgid "Printer"
+msgstr "プリンタマスタ"
+
+#. module: Maintain_Tax_Rate
 #: model:ir.model.fields,field_description:Maintain_Tax_Rate.field_account_tax__amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_tree
@@ -70,12 +75,18 @@ msgid "Set active to false to hide the tax without removing it."
 msgstr ""
 
 #. module: Maintain_Tax_Rate
+#: model:ir.ui.menu,name:Maintain_Tax_Rate.parent_menu_master
+msgid "System"
+msgstr "システム管理"
+
+#. module: Maintain_Tax_Rate
 #: model:ir.model,name:Maintain_Tax_Rate.model_account_tax
 msgid "Tax"
 msgstr "税"
 
 #. module: Maintain_Tax_Rate
 #: model:ir.actions.act_window,name:Maintain_Tax_Rate.action_tax_rate
+#: model:ir.ui.menu,name:Maintain_Tax_Rate.menu_tax_rate
 #: model_terms:ir.ui.view,arch_db:Maintain_Tax_Rate.tax_rate_filter
 msgid "Tax Rate"
 msgstr "税率マスタ"
