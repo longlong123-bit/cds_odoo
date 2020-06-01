@@ -206,7 +206,7 @@ class ClassInvoiceCustom(models.Model):
     line_len = fields.Integer('', default=get_line_len, store=False)
 
     x_transaction_type = fields.Selection([('掛売', '掛売'), ('現金売', '現金売')], default='掛売')
-    x_voucher_tax_amount = fields.Monetary('消費税額')
+    x_voucher_tax_amount = fields.Monetary('Voucher Tax Amount')
     # x_voucher_deadline = fields.Selection([('今回', '次回','通常','来月勘定'), ('今回', '次回','通常','来月勘定')],default='今回')
     x_voucher_tax_transfer = fields.Selection([
         ('no_tax', '非課税'),
@@ -215,7 +215,7 @@ class ClassInvoiceCustom(models.Model):
         ('invoice', '請求'),
         ('internal_tax', '内税／明細'),
         ('custom_tax', '税調整別途')
-    ], string='税転嫁', default='no_tax')
+    ], string='Tax Transfer', default='no_tax')
 
     # 消費税端数処理
     customer_tax_rounding = fields.Selection(

@@ -50,22 +50,22 @@
 
                         <!-- Row 2 -->
                         <tr>
-                            <td class="col-label"><label for="customer_code" string="Customer Code"/></td>
+                            <td class="col-label"><label for="customer_code" string="Customer Code*"/></td>
                             <td colspan="2"><field name="customer_code" required="1"/></td>
                             <td></td>
-                            <td class="col-label"><label for="customer_closing_date" string="Closing Date"/></td>
+                            <td class="col-label"><label for="customer_closing_date" string="Closing Date*"/></td>
                             <td class="col-field"><field name="customer_closing_date" required="1" options="{ 'no_quick_create' : True}"/></td>
                         </tr>
 
                         <!-- Row 3 -->
                         <tr>
-                            <td class="col-label"><label for="customer_code_bill" string="Billing Code"/></td>
+                            <td class="col-label"><label for="customer_code_bill" string="Billing Code*"/></td>
                             <td colspan="2"><field name="customer_code_bill" required="1"/></td>
                             <td></td>
 <!--                            <td class="col-label"><label for="search_key_partner" string="Search Key"/></td>-->
 <!--                            <td class="col-field"><field name="search_key_partner" required="1"/></td>-->
 
-                            <td class="col-label"><label for="customer_payment_method" string="Payment Method"/></td>
+                            <td class="col-label"><label for="customer_payment_method" string="Payment Method*"/></td>
                             <td class="col-field"><field name="customer_payment_method" required="1"/></td>
                         </tr>
 
@@ -74,7 +74,7 @@
                             <td class="col-label"><label for="customer_name_short" string="Customer Name Short"/></td>
                             <td colspan="2"><field name="customer_name_short"/></td>
                             <td></td>
-                            <td class="col-label"><label for="payment_rule" string="Collect Method"/></td>
+                            <td class="col-label"><label for="payment_rule" string="Collect Method*"/></td>
                             <td class="col-field col-number"><field name="payment_rule" required="1"/></td>
                         </tr>
 
@@ -82,7 +82,7 @@
                         <tr>
                             <td class="col-label"><label for="customer_name_kana" string="Customer Name Kana"/></td>
                             <td colspan="3"><field name="customer_name_kana"/></td>
-                            <td class="col-label"><label for="payment_terms" string="Payment Terms"/></td>
+                            <td class="col-label"><label for="payment_terms" string="Payment Terms*"/></td>
                             <td class="col-field"><field name="payment_terms" required="1" options="{ 'no_quick_create' : True}"/></td>
                         </tr>
 
@@ -160,7 +160,7 @@
 
                         <!-- Row 12 -->
                         <tr>
-                            <td class="col-label"><label for="customer_supplier_group_code" string="Supplier Group Code"/></td>
+                            <td class="col-label"><label for="customer_supplier_group_code" string="Supplier Group Code*"/></td>
                             <td class="col-field"><field name="customer_supplier_group_code" required="1" options='{"no_quick_create": True}'/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="customer_print_voucher"/><label for="customer_print_voucher" string="Print Voucher"/></td>
@@ -173,7 +173,7 @@
                         <tr>
                             <td class="col-label"><label for="customer_industry_code" string="Industry Code"/></td>
                             <td class="col-field"><field name="customer_industry_code" options='{"no_quick_create": True}'/></td>
-                            <td class="col-label"><label for="customer_agent" string="Representative/Agent"/></td>
+                            <td class="col-label"><label for="customer_agent" string="Representative/Agent*"/></td>
                             <td class="col-field"><field name="customer_agent" required="1"/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="active"/><label for="active" string="Active"/></td>
@@ -181,17 +181,17 @@
 
                         <!-- Row 14 -->
                         <tr>
-                            <td class="col-label"><label for="customer_trans_classification_code" string="Transaction classification"/></td>
+                            <td class="col-label"><label for="customer_trans_classification_code" string="Transaction classification*"/></td>
                             <td class="col-field"><field name="customer_trans_classification_code" required="1"/></td>
-                            <td class="col-label"><label for="customer_tax_rounding" string="Tax Rounding"/></td>
+                            <td class="col-label"><label for="customer_tax_rounding" string="Tax Rounding*"/></td>
                             <td class="col-field"><field name="customer_tax_rounding" required="1"/></td>
                         </tr>
 
                         <!-- Row 15 -->
                         <tr>
-                            <td class="col-label"><label for="customer_tax_category" string="Consumption Tax Category"/></td>
+                            <td class="col-label"><label for="customer_tax_category" string="Consumption Tax Category*"/></td>
                             <td class="col-field"><field name="customer_tax_category" required="1"/></td>
-                            <td class="col-label"><label for="customer_tax_unit" string="Consumption Tax Calculation Category"/></td>
+                            <td class="col-label"><label for="customer_tax_unit" string="Consumption Tax Calculation Category*"/></td>
                             <td class="col-field"><field name="customer_tax_unit" required="1"/></td>
                         </tr>
 
