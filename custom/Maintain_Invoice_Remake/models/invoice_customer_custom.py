@@ -75,11 +75,14 @@ class ClassInvoiceCustom(models.Model):
         # for l in self:
         amount_untaxed_format = "{:,.2f}".format(self.amount_untaxed)
         amount_total_format = "{:,.2f}".format(self.amount_total)
-        return str(len(self.invoice_line_ids)) + '明細 - (JPY)明細行合計:'  + str(amount_untaxed_format) + str(self.currency_id.symbol) + ' / 総合計:'  \
-               + str(amount_total_format) + str(self.currency_id.symbol) + ' = ' + str(amount_total_format) + str(self.currency_id.symbol)
+        return str(len(self.invoice_line_ids)) + '明細 - (JPY)明細行合計:' + str(amount_untaxed_format) + str(
+            self.currency_id.symbol) + ' / 総合計:' \
+               + str(amount_total_format) + str(self.currency_id.symbol) + ' = ' + str(amount_total_format) + str(
+            self.currency_id.symbol)
 
     # get currency symbol
-    currency_id = fields.Many2one('res.currency', 'Currency', default=lambda self:self.env.user.company_id.currency_id.id)
+    currency_id = fields.Many2one('res.currency', 'Currency',
+                                  default=lambda self: self.env.user.company_id.currency_id.id)
 
     # Thay đổi tên hiển thị trên breadcum Invoices
     def _get_move_display_name(self, show_ref=False):
@@ -246,7 +249,9 @@ class ClassInvoiceCustom(models.Model):
         'line_ids.amount_residual',
         'line_ids.amount_residual_currency',
         'line_ids.payment_id.state',
-        'line_ids.x_invoicelinetype')
+        'line_ids.x_invoicelinetype',
+        'x_voucher_tax_transfer',
+        'customer_tax_rounding')
     def _compute_amount(self):
         invoice_ids = [move.id for move in self if move.id and move.is_invoice(include_receipts=True)]
         self.env['account.payment'].flush(['state'])
@@ -414,8 +419,8 @@ class ClassInvoiceCustom(models.Model):
             voucher.invoice_line_ids = result_l1
             # voucher.x_history_voucher.invoice_line_ids
 
-        self._set_tax_counting()
-        self._onchange_invoice_line_ids()
+        # self._set_tax_counting()
+        # self._onchange_invoice_line_ids()
 
     def action_view_form_modelname(self):
         view = self.env.ref('Maintain_Invoice_Remake.view_move_custom_form')
@@ -471,16 +476,16 @@ class ClassInvoiceCustom(models.Model):
                     else:
                         rec.x_voucher_tax_transfer = customer_tax_unit
 
-                # call onchange of 税転嫁
-                if rec.x_voucher_tax_transfer:
-                    self._set_tax_counting()
+                # # call onchange of 税転嫁
+                # if rec.x_voucher_tax_transfer:
+                #     self._set_tax_counting()
 
-    @api.onchange('x_voucher_tax_transfer')
-    def _set_tax_counting(self):
-        self._onchange_invoice_line_ids()
-        for line in self.invoice_line_ids:
-            line._onchange_product_id()
-            line._onchange_price_subtotal()
+    # @api.onchange('x_voucher_tax_transfer')
+    # def _set_tax_counting(self):
+    #     self._onchange_invoice_line_ids()
+    #     for line in self.invoice_line_ids:
+    #         line._onchange_product_id()
+    #         line._onchange_price_subtotal()
 
     # Get customer office
     def get_office(self):
@@ -495,8 +500,6 @@ class ClassInvoiceCustom(models.Model):
 
     @api.onchange('invoice_line_ids')
     def _onchange_invoice_line_ids(self):
-        # for line in self.invoice_line_ids:
-        #     line.compute_tax_ids()
         current_invoice_lines = self.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab)
         others_lines = self.line_ids - current_invoice_lines
         if others_lines and current_invoice_lines - self.invoice_line_ids:
@@ -797,6 +800,7 @@ class ClassInvoiceCustom(models.Model):
             # ids = [res[0] for res in query_res]
             # sums = [res[1] for res in query_res]
             # raise UserError(_("Cannot create unbalanced journal entry. Ids: %s\nDifferences debit - credit: %s") % (ids, sums))
+
 
 class AccountTaxLine(models.Model):
     _name = 'account.tax.line'
@@ -1148,12 +1152,6 @@ class AccountMoveLine(models.Model):
             # todo set price follow product code
             # line.x_product_list_price = line.product_id.price_no_tax_1
 
-            # todo set price follow product code
-            if line.move_id.x_voucher_tax_transfer == 'internal_tax':
-                line.price_unit = line.product_id.price_include_tax_1
-            else:
-                line.price_unit = line.product_id.price_no_tax_1
-
             line.x_product_barcode = line.product_id.barcode
             line.account_id = line._get_computed_account()
 
@@ -1186,8 +1184,27 @@ class AccountMoveLine(models.Model):
             # line.price_unit = company.currency_id._convert(line.price_unit, line.move_id.currency_id, company,
             #                                                line.move_id.date)
 
+            # todo set price follow product code
+            if line.move_id.x_voucher_tax_transfer == 'internal_tax':
+                line.price_unit = line.product_id.price_include_tax_1
+            else:
+                line.price_unit = line.product_id.price_no_tax_1
+
         if len(self) == 1:
             return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
+
+    def _get_computed_price_unit(self):
+        self.ensure_one()
+
+        if not self.product_id:
+            return self.price_unit
+        # todo set price follow product code
+        if self.move_id.x_voucher_tax_transfer == 'internal_tax':
+            price_unit = self.product_id.price_include_tax_1
+        else:
+            price_unit = self.product_id.price_no_tax_1
+        
+        return price_unit
 
     def button_update(self):
         view = {
