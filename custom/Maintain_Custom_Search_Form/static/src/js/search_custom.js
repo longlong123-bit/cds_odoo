@@ -1,4 +1,4 @@
-odoo.define('search.Custom', function (require) {
+odoo.define('Maintain.AdvancedSearch', function (require) {
 "use strict";
 
     var core = require('web.core');
@@ -17,6 +17,7 @@ odoo.define('search.Custom', function (require) {
     var _lt = core._lt;
 
     var FilterMenu = require('web.FilterMenu_free');
+    var QWeb = core.qweb;
     var model = null;
 
     var My_FilterMenu = FilterMenu.include({
@@ -24,7 +25,20 @@ odoo.define('search.Custom', function (require) {
         }),
         init: function (a) {
             this._super.apply(this, arguments);
-            model = a.action.res_model;
+            model = a.action.res_model.replace('.', '__');
+        },
+
+        /**
+         * Is advanced search model
+         */
+        _isAdvancedSearchModel: function(){
+            if (this._advancedSearch != undefined) {
+                var compareModel = this._advancedSearch.model.replace('.', '__');
+
+                return compareModel === model;
+            }
+
+            return false;
         },
 
         /**
@@ -34,12 +48,15 @@ odoo.define('search.Custom', function (require) {
          * @returns {Promise}
          */
         _appendProposition: function () {
-            // make modern sear_filters code!!! It works but...
-            var lV=[];
-
-            if (window.advancedSearch && window.advancedSearch[model]) {
-                lV = window.advancedSearch[model];
+            if (this._isAdvancedSearchModel()) {
+                this.$menu.find('>*:not(.o_add_filter_menu,.advanced_search_'+model+')').remove();
+                if (this.$menu.find('.advanced_search_' + model).length == 0) {
+                    var html = QWeb.render(this._advancedSearch.template, {records: this._advancedSearch.records || []});
+                    this.$menu.prepend('<div class="advanced_search_'+model+' advanced_search" style="margin: 10px">' + html + '</div>');
+                }
             } else {
+				// make modern sear_filters code!!! It works but...
+				var lV=[];
                 var list_td = $('.o_list_table thead tr th');
 
                 if(list_td){
@@ -49,59 +66,99 @@ odoo.define('search.Custom', function (require) {
                         }
                     }
                 }
-            }
 
-            for (var key in this.fields) {
-                var field =  this.fields[key]
-                var hasHeader = lV.includes(key)?true:false;
-                if (lV.length==0){
-                    hasHeader = true;
-                }
-                if(field.searchable){
-                    if( typeof this.__parentedParent !== 'undefined'){
-                        if( typeof this.__parentedParent.searchBar !== 'undefined'){
-                            if( typeof this.__parentedParent.searchBar.filterFields !== 'undefined'){
-                                var listF = this.__parentedParent.searchBar.filterFields;
-                                for(var i = 0; i<listF.length; i++){
-                                    if((key === listF[i].attrs['name'] || field.type==='datetime')){
-                                        if (lV.length>0 && hasHeader){
-                                            var prop = new search_filters.ExtendedSearchProposition(this, this.fields);
-                                            this.propositions.push(prop);
-                                            this.$('.o_apply_filter').prop('disabled', false);
-                                            prop.insertBefore(this.$addFilterMenu);
-                                            for (var i =0; i< prop.attrs.fields.length; i++) {
-                                                if(prop.attrs.fields[i].name === key){
-                                                    prop.attrs.selected = prop.attrs.fields[i]
-                                                }
-                                            }
+				for (var key in this.fields) {
+					var field =  this.fields[key]
+					var hasHeader = lV.includes(key)?true:false;
+					if (lV.length==0){
+						hasHeader = true;
+					}
+					if(field.searchable){
+						if( typeof this.__parentedParent !== 'undefined'){
+							if( typeof this.__parentedParent.searchBar !== 'undefined'){
+								if( typeof this.__parentedParent.searchBar.filterFields !== 'undefined'){
+									var listF = this.__parentedParent.searchBar.filterFields;
+									for(var i = 0; i<listF.length; i++){
+										if((key === listF[i].attrs['name'] || field.type==='datetime')){
+											if (lV.length>0 && hasHeader){
+												var prop = new search_filters.ExtendedSearchProposition(this, this.fields);
+												this.propositions.push(prop);
+												this.$('.o_apply_filter').prop('disabled', false);
+												prop.insertBefore(this.$addFilterMenu);
+												for (var i =0; i< prop.attrs.fields.length; i++) {
+													if(prop.attrs.fields[i].name === key){
+														prop.attrs.selected = prop.attrs.fields[i]
+													}
+												}
 
-                                        }
+											}
 
-                                    }
-                                }
-                            }
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+        },
+
+        /**
+         * Commit search with template
+         */
+        _commitSearchWithTemplate: function(){
+            var _description = _t('Advanced search');
+            if(typeof this.__parentedParent !== 'undefined'){
+                 if(typeof this.__parentedParent.context !== 'undefined'){
+                    if(typeof this.__parentedParent.context.lang !== 'undefined'){
+                        if(this.__parentedParent.context.lang ==='en_US'){
+                            _description = _t('Advanced search');
+                        }else{
+                            _description = _t('高度な検索');
                         }
                     }
-                }
+                 }
             }
 
+            var filters = [];
+            var operations = {
+                'eq': {value: '='},
+                'lt': {value: '<'},
+                'lte': {value: '<='},
+                'gt': {value: '>'},
+                'gte': {value: '>='}
+            };
+            this.$menu.find('.filter-item').map(function(){
+                var item = $(this);
+                var val = item.val();
+
+                if (val !== '') {
+                    var op = item.attr('data-operator');
+
+                    if (operations[op] !== undefined) {
+                        op = operations[op].value;
+                    }
+
+                    filters.push([item.attr('data-name'), op, val]);
+                }
+            });
+
+            if(filters.length > 0){
+                this.trigger_up('new_filters', {filters: [{
+                    type: 'filter',
+                    description: _description,
+                    subtype: 'filter1',
+                    domain: JSON.stringify(filters),
+                }]});
+            }
         },
-        _commitSearch: function () {
+
+        /**
+         * Commit search without template
+         */
+        _commitSearchWithoutTemplate: function(){
             var self = this;
             var filters = _.invoke(this.propositions, 'get_filter').map(function (preFilter) {
-                var _description = _t('Advanced search');
-                if(typeof self.__parentedParent !== 'undefined'){
-                     if(typeof self.__parentedParent.context !== 'undefined'){
-                        if(typeof self.__parentedParent.context.lang !== 'undefined'){
-                            if(self.__parentedParent.context.lang ==='en_US'){
-                                _description = _t('Advanced search');
-                            }else{
-                                _description = _t('高度な検索');
-                            }
-                        }
-                     }
-                }
-
                 return {
                     type: 'filter',
                     description: _description,
@@ -189,10 +246,18 @@ odoo.define('search.Custom', function (require) {
                  filters = filters.splice(0,1);
                  this.trigger_up('new_filters', {filters: filters});
             }
+        },
 
-
-
+        /**
+         * When click on Apply button
+         * Get all data in form search
+         */
+        _commitSearch: function () {
+            if (this._isAdvancedSearchModel()) {
+                this._commitSearchWithTemplate();
+            } else {
+                this._commitSearchWithoutTemplate();
+            }
         },
     });
-    FilterMenu.include(My_FilterMenu);
 });

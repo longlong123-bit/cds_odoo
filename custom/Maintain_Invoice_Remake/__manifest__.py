@@ -32,7 +32,8 @@ It contains the apps created with Studio and the customizations of existing apps
     ],
     'qweb': [
         'static/src/xml/report_template.xml',
-        'static/src/xml/invoice_lines.xml'
+        'static/src/xml/invoice_lines.xml',
+        'static/src/xml/advanced_search.xml'
     ],
     'application': False,
     'license': 'OPL-1',
