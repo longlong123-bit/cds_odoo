@@ -97,7 +97,7 @@ class QuotationsCustom(models.Model):
     # ], string='Report Header', readonly=False, default='quotation')
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
     paper_format = fields.Selection([
-        ('report_format1', '見積管理')
+        ('report_format1', '見積書（書式1）')
     ], string='Pager format', default='report_format1')
     # related_product_name = fields.Char(related='order_line.product.product_code_1')
 
