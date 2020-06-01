@@ -55,9 +55,8 @@
                     <field name="x_userinput_id" string="userinput_id"/>
                     <field name="sales_rep" string="Sales Rep"/>
                     <field name="state" string="Document Status"/>
-                    <field name="customer_trans_classification_code" string="Transaction Class"/>
                     <field name="amount_untaxed" string="Total Lines" sum="Total" optional="show"/>
-                    <field name="x_voucher_tax_amount" string="消費税額" sum="Total" optional="show"/>
+                    <field name="x_voucher_tax_amount" string="Voucher Tax Amount" sum="Total" optional="show"/>
                     <field name="amount_total" string="Grand Total" sum="Amount Due" optional="show"/>
                 </tree>
             </xpath>
@@ -145,7 +144,7 @@
               <td class="col-field">
                 <field name="x_studio_business_partner" required="1" domain="[('customer_rank','>', 0)]" default_focus="1"
                        context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
-                       attrs="{'invisible': [('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt'))], 'readonly':[('state','in',['posted'])]}" z-index="98"/>
+                       attrs="{'readonly':[('state','in',['posted'])]}" z-index="98"/>
               </td>
               <td colspan="2"><field name="x_studio_name" string="Name" class="o_address_street" style="width : 100%;"
                    placeholder="Name..." force_save="1"  widget="input" z-index="99" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
@@ -190,8 +189,8 @@
                                                        placeholder="Address 2..." force_save="1"  widget="input" z-index="102" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
               <td colspan="2" class="col-field"><field name="x_studio_address_3" string="Address 3" class="o_address_city" placeholder="Address 3..." force_save="1"  widget="input" z-index="103" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
 
-             <td class="col-label"><label for="x_voucher_tax_transfer" string="税転嫁"/></td>
-              <td class="col-field"><field name="x_voucher_tax_transfer" string="税転嫁" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}" required="True"/></td>
+             <td class="col-label"><label for="x_voucher_tax_transfer" string="Tax Transfer*"/></td>
+              <td class="col-field"><field name="x_voucher_tax_transfer" string="Tax Transfer*" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}" required="True"/></td>
             </tr>
             <tr>
               <!-- Column 1 -->
@@ -220,8 +219,8 @@
               <td class="col-field"><field name="amount_untaxed" widget="float" string="Total Lines*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
 
               <!-- Column 2 -->
-              <td class="col-label"><label for="x_voucher_tax_amount" string="消費税額"/></td>
-              <td class="col-field"><field name="x_voucher_tax_amount" string="消費税額" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
+              <td class="col-label"><label for="x_voucher_tax_amount" string="Voucher Tax Amount*"/></td>
+              <td class="col-field"><field name="x_voucher_tax_amount" string="Voucher Tax Amount*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
 
               <!-- Column 3 -->
               <td class="col-label"><label for="amount_total" string="Grand Total*"/></td>
@@ -546,7 +545,7 @@
       <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
   </record>
 
-    <menuitem action="invoice_template_action" id="menu_action_invoice" parent="base.menu_users" name="Invoicing"/>
+<!--    <menuitem action="invoice_template_action" sequence="2" id="menu_action_invoice" name="Invoicing"/>-->
 
 
 </odoo>

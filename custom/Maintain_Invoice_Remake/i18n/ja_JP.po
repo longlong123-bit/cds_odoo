@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-31 12:34+0000\n"
-"PO-Revision-Date: 2020-05-31 12:34+0000\n"
+"POT-Creation-Date: 2020-06-01 08:50+0000\n"
+"PO-Revision-Date: 2020-06-01 08:50+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -453,12 +453,7 @@ msgstr "請求伝票*"
 #. module: Maintain_Invoice_Remake
 #: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_action
 msgid "Invoices"
-msgstr ""
-
-#. module: account
-#: model:ir.ui.menu,name:account.menu_finance
-msgid "Invoicing"
-msgstr "売上管理"
+msgstr "売上入力"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.ui.menu,name:Maintain_Invoice_Remake.menu_action_invoice
@@ -701,6 +696,7 @@ msgstr "印刷"
 #. module: Maintain_Invoice_Remake
 #. openerp-web
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
+#: model:ir.model,name:Maintain_Invoice_Remake.model_product_product
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_modelnumber
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 #, python-format
@@ -743,6 +739,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Sales Rep"
 msgstr "営業担当者"
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__related_sale_rep_name
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__related_userinput_name
+msgid "Sales rep name"
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
@@ -788,6 +790,16 @@ msgstr "タックスプロバイダー"
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_tax_rounding
 msgid "Tax Rounding"
 msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_voucher_tax_transfer
+msgid "Tax Transfer"
+msgstr "税転嫁"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Tax Transfer*"
+msgstr "税転嫁*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__tax_base_amount
@@ -906,6 +918,17 @@ msgstr "有効"
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_payment_term_custom_form
 msgid "Validate"
 msgstr "バリデート"
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_voucher_tax_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
+msgid "Voucher Tax Amount"
+msgstr "消費税額"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Voucher Tax Amount*"
+msgstr "消費税額*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_current_date
@@ -1096,6 +1119,20 @@ msgid "入力された値は最小値(0)の制限より小さくなっていま�
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "入力担当者"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "入力（登録日付）"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__x_voucher_tax_transfer__internal_tax
 msgid "内税／明細"
 msgstr ""
@@ -1107,6 +1144,20 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
 #, python-format
 msgid "内訳区分"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "取引先グループコード"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "取引区分コード"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
@@ -1134,6 +1185,34 @@ msgid "商品名2"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "営業担当者"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "地区コード"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "売上伝票No"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "売上日付"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__x_voucher_tax_transfer__foreign_tax
 msgid "外税／明細"
 msgstr ""
@@ -1144,7 +1223,17 @@ msgid "専伝・仮伝"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "得意先コード"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_customer_show_in_tree
+#, python-format
 msgid "得意先名"
 msgstr ""
 
@@ -1166,6 +1255,13 @@ msgid "最小制限価格: , PriceLimit=0"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "業種コード"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__x_voucher_deadline__次回
 msgid "次回"
 msgstr ""
@@ -1178,13 +1274,6 @@ msgstr ""
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "消費税端数処理"
-msgstr ""
-
-#. module: Maintain_Invoice_Remake
-#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_voucher_tax_amount
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
-msgid "消費税額"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
@@ -1203,9 +1292,7 @@ msgid "税調整別途"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
-#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_voucher_tax_transfer
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_tax_transfer_show_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "税転嫁"
 msgstr ""
 
