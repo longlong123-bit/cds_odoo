@@ -24,9 +24,8 @@
 <!--            groups="account.group_account_invoice"-->
 <!--            menu="False"-->
 <!--        />-->
-
         <report
-            id="custom_report_format3"
+            id="custom_report_shipment_fm1"
             model="account.move"
             string="Report shipment 1"
             report_type="qweb-pdf"
@@ -36,10 +35,10 @@
         />
 
         <report
-            id="custom_report_shipment_fm1"
+            id="custom_report_format3"
             model="account.move"
-            report_type="qweb-pdf"
             string="Report format 3"
+            report_type="qweb-pdf"
             attachment_use="False"
             name="Maintain_Invoice_Print.custom_report_shipment_format1"
             file="Maintain_Invoice_Print.custom_report_shipment_format1"
