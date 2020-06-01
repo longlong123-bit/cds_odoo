@@ -159,7 +159,9 @@
                                     </tr>
                                     <tr>
                                         <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; background-color: #e0e0e0; text-align: center"><span>支払期日</span></td>
-                                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; text-align: right;"><span t-field="o.x_due_date"/></td>
+                                        <td style="border: 1px solid #439eb2; border-bottom: 0; border-right: 0; text-align: right;">
+                                            <span t-field="o.x_due_date" t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
