@@ -12,7 +12,7 @@
             <th><span>商品名</span></th>
             <th><span>商品名2</span></th>
             <th><span>standardnumber</span></th>
-            <th><span>FreightCategory</span></th>
+            <th><span>Maker Code</span></th>
             <th><span>Price</span></th>
             <th><span>Quantity</span></th>
             <th><span>Line Amount</span></th>
@@ -27,12 +27,12 @@
           <tr>
             <td><span t-esc="record.invoice_custom_line_no"/></td>
             <td><span t-esc="record.x_invoicelinetype"/></td>
-            <td><span t-if="record.product_id" t-esc="record.product_id[1]"/></td>
-            <td><span t-if="record.x_product_barcode" t-esc="record.x_product_barcode[1]"/></td>
+            <td><span t-if="record.product_id and record.product_id[1]" t-esc="record.product_id[1]"/></td>
+            <td><span t-if="record.x_product_barcode" t-esc="record.x_product_barcode"/></td>
             <td><span t-if="record.x_product_name" t-esc="record.x_product_name"/></td>
             <td><span t-if="record.x_product_name2" t-esc="record.x_product_name2"/></td>
             <td><span t-if="record.invoice_custom_standnumber" t-esc="record.invoice_custom_standnumber"/></td>
-            <td><span t-if="record.invoice_custom_FreightCategory" t-esc="record.invoice_custom_FreightCategory[1]"/></td>
+            <td><span t-if="record.invoice_custom_FreightCategory and record.invoice_custom_FreightCategory[1]" t-esc="record.invoice_custom_FreightCategory[1]"/></td>
             <td><span t-if="record.price_unit" t-esc="record.price_unit"/></td>
             <td><span t-if="record.quantity" t-esc="record.quantity"/></td>
             <td><span t-esc="record.invoice_custom_lineamount"/></td>

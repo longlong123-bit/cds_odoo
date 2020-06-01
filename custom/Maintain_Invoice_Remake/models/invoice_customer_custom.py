@@ -765,6 +765,17 @@ class ClassInvoiceCustom(models.Model):
             ('product_id', '!=', False)
         ]).read()
 
+        # Get tax
+        for record in records:
+            if record['tax_ids']:
+                self._cr.execute('''
+                                    SELECT id, name
+                                    FROM account_tax
+                                    WHERE id IN %s
+                                ''', [tuple(record['tax_ids'])])
+                query_res = self._cr.fetchall()
+                record['tax_ids'] = ', '.join([str(res[1]) for res in query_res])
+
         return {
             'template': 'invoice_lines',
             'records': records
