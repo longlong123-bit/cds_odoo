@@ -21,7 +21,7 @@
           <div>下記のとおり、御見積もり申し上げます。</div>
         </div>
         <div style="float: right; width: 45%">
-          <h1 style="text-align: center; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin: 0"><span t-field="o.report_header.name"/></h1>
+          <h1 style="text-align: center; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin: 0"><span style="letter-spacing: 1.5rem; margin-right: -1.5rem;" t-field="o.report_header.name"/></h1>
           <div style="text-align: right; margin-top: 10px; margin-bottom: 10px">
             <table style="border: 1px solid #ddd; display: inline-block" border="0" cellspacing="0" cellpadding="5">
               <tr>
@@ -31,8 +31,8 @@
               <tr>
                 <td style="border-right: 1px solid #ddd; text-align: center">見積日</td>
                 <td>
-                  <t t-if="o.is_print_date and o.expected_date">
-                      <span t-field="o.expected_date" t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                  <t t-if="o.is_print_date and o.quotations_date">
+                      <span t-field="o.quotations_date" t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
                   </t>
                   <span t-else="">　　　年　　月　　日</span>
                 </td>
@@ -122,7 +122,7 @@
 <!--                  <div style="max-height: 100%"></div>-->
 <!--                </div>-->
 <!--              </div>-->
-              <img src="/Maintain_Quotation_Print/static/src/sign.png" style="height: 100%;"/>
+<!--              <img src="/Maintain_Quotation_Print/static/src/sign.png" style="height: 100%;"/>-->
             </td>
           </tr>
           <tr>
