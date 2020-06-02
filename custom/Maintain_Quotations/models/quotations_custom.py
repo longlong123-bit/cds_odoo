@@ -60,7 +60,7 @@ class QuotationsCustom(models.Model):
         ('unit', 'Unit Quotation'),
         ('normal', 'Normal Quotation')
     ], string='Unit/Normal Quotation', default='normal')
-    is_print_date = fields.Boolean(string='Print Date')
+    is_print_date = fields.Boolean(string='Print Date', default=True)
     tax_method = fields.Selection([
         ('no_tax', '非課税'),
         ('foreign_tax', '外税／明細'),
