@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-01 04:28+0000\n"
-"PO-Revision-Date: 2020-06-01 04:28+0000\n"
+"POT-Creation-Date: 2020-06-02 08:21+0000\n"
+"PO-Revision-Date: 2020-06-02 08:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr "請求先コード"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Billing Code*"
-msgstr "請求先コード*"
+msgstr "請求先コード"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_trans_classification_code__cash
@@ -114,7 +114,7 @@ msgstr "締日"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Closing Date*"
-msgstr "締日*"
+msgstr "締日"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_collect_circle
@@ -133,7 +133,7 @@ msgstr "回収方法"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Collect Method*"
-msgstr "回収方法*"
+msgstr "回収方法"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_comment
@@ -151,7 +151,7 @@ msgstr "消費税計算区分"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Consumption Tax Calculation Category*"
-msgstr "消費税計算区分*"
+msgstr "消費税計算区分"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_tax_category
@@ -162,7 +162,7 @@ msgstr "消費税区分"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Consumption Tax Category*"
-msgstr "消費税区分*"
+msgstr "消費税区分"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model,name:Maintain_Business_Partners_Remake.model_res_partner
@@ -194,7 +194,7 @@ msgstr "クレジットカード"
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_apply_rate__customer
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Customer"
-msgstr "取引先"
+msgstr "得意先自身"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_other_cd
@@ -214,7 +214,7 @@ msgstr "得意先コード"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Customer Code*"
-msgstr "得意先コード*"
+msgstr "得意先コード"
 
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
@@ -242,19 +242,26 @@ msgstr "得意先略称"
 #: code:addons/Maintain_Business_Partners_Remake/models/partner_customer_remake.py:0
 #, python-format
 msgid "Customer bill discount rate must be greater than 0 and less than 100 !"
-msgstr ""
+msgstr "請求値引率0より大きく100未満でなければなりません！"
 
 #. module: Maintain_Business_Partners_Remake
 #: code:addons/Maintain_Business_Partners_Remake/models/partner_customer_remake.py:0
 #, python-format
 msgid "Customer rate must be greater than 0 and less than 100 !"
-msgstr ""
+msgstr "掛率0より大きく100未満でなければなりません！"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.actions.act_window,name:Maintain_Business_Partners_Remake.res_partner_action_customer
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 msgid "Customers"
 msgstr "取引先"
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_delivery_note
+#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_delivery_note
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
+msgid "Delivery Note"
+msgstr "納品書選択"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_payment_method__deposit
@@ -430,7 +437,7 @@ msgstr "入金方法"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Payment Method*"
-msgstr "入金方法*"
+msgstr "入金方法"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__payment_terms
@@ -441,7 +448,7 @@ msgstr "支払条件"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Payment Terms*"
-msgstr "支払条件*"
+msgstr "支払条件"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_phone
@@ -517,7 +524,7 @@ msgstr "担当者"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Representative/Agent*"
-msgstr "担当者*"
+msgstr "担当者"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_rounding__rounddown
@@ -595,7 +602,7 @@ msgstr "取引先グループコード"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Supplier Group Code*"
-msgstr "取引先グループコード*"
+msgstr "取引先グループコード"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_category__exempt
@@ -611,7 +618,7 @@ msgstr "消費税端数処理"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Tax Rounding*"
-msgstr "消費税端数処理*"
+msgstr "消費税端数処理"
 
 #. module: Maintain_Business_Partners_Remake
 #: code:addons/Maintain_Business_Partners_Remake/models/partner_customer_remake.py:0
@@ -629,7 +636,7 @@ msgstr "取引区分コード"
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Transaction classification*"
-msgstr "取引区分コード*"
+msgstr "取引区分コード"
 
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
@@ -652,4 +659,29 @@ msgstr "郵便番号"
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model,name:Maintain_Business_Partners_Remake.model_relation_partner_model
 msgid "relation.partner.model"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_select_sales_slip__slip1
+msgid "売上伝票(書式1)"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note1
+msgid "納品書(書式1)"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note2
+msgid "納品書(書式2)"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_select_invoice__form1
+msgid "請求書(書式1)"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_select_invoice__note2
+msgid "請求書(書式2)"
 msgstr ""

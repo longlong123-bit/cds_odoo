@@ -81,13 +81,15 @@ class NewClassPartnerCustom(models.Model):
     # 売上伝票印刷
     customer_print_voucher = fields.Boolean('Print Voucher', default=True)
     # 売上伝票選択
-    customer_select_sales_slip = fields.Boolean('Sales Slip')
+    customer_select_sales_slip = fields.Selection([('slip1','売上伝票(書式1)')],'Sales Slip')
+    # 納品書選択
+    customer_delivery_note = fields.Selection([('note1', '納品書(書式1)'),('note2', '納品書(書式2)')], 'Delivery Note')
     # 売上伝票日付印字
     customer_print_sales_slip_date = fields.Boolean('Print Sales Slip Date', default=True)
     # 請求書印刷
     customer_print_invoice = fields.Boolean('Print Invoice', default=True)
     # 請求書選択
-    customer_select_invoice = fields.Boolean('Select Invoice')
+    customer_select_invoice = fields.Selection([('form1','請求書(書式1)'),('note2','請求書(書式2)')],'Select Invoice')
     # 請求書日付印刷
     customer_print_invoice_date = fields.Boolean('Print Invoice Date', default=True)
     # その他CD
