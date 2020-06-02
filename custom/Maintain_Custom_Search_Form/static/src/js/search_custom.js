@@ -63,7 +63,12 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
             var mdl = model.replace('.', '__');
             this.$menu.find('>*:not(.o_add_filter_menu,.advanced_search_'+mdl+')').remove();
             if (this.$menu.find('.advanced_search_' + mdl).length == 0) {
-                var html = QWeb.render(this.advancedSearch[model].template, {records: this.advancedSearch[model].records || []});
+                var html = QWeb.render(this.advancedSearch[model].template, {
+                    records: this.advancedSearch[model].records || [],
+                    res: this,
+                    _t: _t,
+                    _lt: _lt
+                });
                 this.$menu.prepend('<div class="advanced_search_'+mdl+' advanced_search">' + html + '</div>');
             }
         },
@@ -129,7 +134,7 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
             if (this._isAdvancedSearchModel()) {
                 this._appendPropositionWithTemplate();
             } else {
-
+                this._appendPropositionWithoutTemplate();
 			}
         },
 
