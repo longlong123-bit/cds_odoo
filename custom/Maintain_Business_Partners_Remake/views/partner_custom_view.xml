@@ -95,6 +95,8 @@
                             <td class="col-field"><field name="customer_apply_rate"/></td>
                             <td class="col-label"><label for="customer_rate" string="Hang Rate"/></td>
                             <td class="col-field col-number"><field name="customer_rate"/></td>
+                            <td class="col-label"><label for="customer_bill_discount_rate" string="Bill Discount Rate" attrs="{'invisible': [('customer_bill_discount','!=',True)]}"/></td>
+                            <td class="col-field"><field name="customer_bill_discount_rate" required="1" attrs="{'invisible': [('customer_bill_discount','!=',True)]}"/></td>
                         </tr>
 
                         <!-- Row 7 -->
@@ -102,24 +104,22 @@
                             <td class="col-label"><label for="zip_code" string="Zip"/></td>
                             <td colspan="2"><field name="zip_code" widget="mask" data-inputmask-mask="〒999-9999"/></td>
                             <td></td>
+                            <td class="col-label"><label for="customer_select_sales_slip" string="Sales Slip"/></td>
+                            <td class="col-field"><field name="customer_select_sales_slip"/></td>
                             <td></td>
                             <td class="col-checkbox">
                                 <field name="customer_bill_discount"/>
                                 <label for="customer_bill_discount" string="Bill Discount"/>
                             </td>
-                            <td></td>
-                            <td class="col-checkbox">
-                                <field name="customer_print_invoice"/>
-                                <label for="customer_print_invoice" string="Print Invoice"/>
-                            </td>
+
                         </tr>
 
                         <!-- Row 8 -->
                         <tr>
                             <td class="col-label"><label for="street" string="Address 1"/></td>
                             <td colspan="3"><field name="street"/></td>
-                            <td class="col-label"><label for="customer_bill_discount_rate" string="Bill Discount Rate" attrs="{'invisible': [('customer_bill_discount','!=',True)]}"/></td>
-                            <td class="col-field"><field name="customer_bill_discount_rate" required="1" attrs="{'invisible': [('customer_bill_discount','!=',True)]}"/></td>
+                            <td class="col-label"><label for="customer_delivery_note" string="Delivery Note"/></td>
+                            <td class="col-field"><field name="customer_delivery_note"/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="customer_except_request"/><label for="customer_except_request" string="Excerpt Request"/></td>
                         </tr>
@@ -130,8 +130,10 @@
                             <td class="col-field"><field name="street2"/></td>
                             <td class="col-label"><label for="address3" string="Address 3"/></td>
                             <td class="col-field"><field name="address3"/></td>
-                            <td></td>
-                            <td class="col-checkbox"><field name="customer_select_invoice"/><label for="customer_select_invoice" string="Select Invoice"/></td>
+<!--                            <td></td>-->
+                            <td class="col-label"><label for="customer_select_invoice" string="Select Invoice"/></td>
+                            <td class="col-field"><field name="customer_select_invoice"/></td>
+<!--                            <td class="col-checkbox"><field name="customer_select_invoice"/><label for="customer_select_invoice" string="Select Invoice"/></td>-->
                             <td></td>
                             <td class="col-checkbox"><field name="customer_print_invoice_date"/><label for="customer_print_invoice_date" string="Print Invoice Date"/></td>
                         </tr>
@@ -165,8 +167,11 @@
                             <td></td>
                             <td class="col-checkbox"><field name="customer_print_voucher"/><label for="customer_print_voucher" string="Print Voucher"/></td>
                             <td></td>
-                            <td class="col-checkbox"><field name="customer_select_sales_slip"/><label for="customer_select_sales_slip" string="Sales Slip"/></td>
-
+                            <td class="col-checkbox">
+                                <field name="customer_print_invoice"/>
+                                <label for="customer_print_invoice" string="Print Invoice"/>
+                            </td>
+<!--                            <td class="col-checkbox"><field name="customer_select_sales_slip"/><label for="customer_select_sales_slip" string="Sales Slip"/></td>-->
                         </tr>
 
                         <!-- Row 13 -->
