@@ -382,10 +382,10 @@ class QuotationsLinesCustom(models.Model):
             # todo set price follow product code
             if line.order_id.tax_method == 'internal_tax':
                 line.price_unit = line.product_id.price_include_tax_1 or ''
-                line.product_list_price = self.product_id.price_include_tax_1 or ''
+                line.product_list_price = line.product_id.price_include_tax_1 or ''
             else:
                 line.price_unit = line.product_id.price_no_tax_1 or ''
-                line.product_list_price = self.product_id.price_no_tax_1 or ''
+                line.product_list_price = line.product_id.price_no_tax_1 or ''
 
             line.compute_line_amount()
             line.compute_line_tax_amount()
@@ -416,10 +416,10 @@ class QuotationsLinesCustom(models.Model):
             # todo set price follow product code
             if line.order_id.tax_method == 'internal_tax':
                 line.price_unit = line.product_id.price_include_tax_1 or ''
-                line.product_list_price = self.product_id.price_include_tax_1 or ''
+                line.product_list_price = line.product_id.price_include_tax_1 or ''
             else:
                 line.price_unit = line.product_id.price_no_tax_1 or ''
-                line.product_list_price = self.product_id.price_no_tax_1 or ''
+                line.product_list_price = line.product_id.price_no_tax_1 or ''
 
             line.compute_line_amount()
             line.compute_line_tax_amount()
