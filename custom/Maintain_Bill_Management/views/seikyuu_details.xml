@@ -29,17 +29,8 @@
 
                         <notebook>
                             <page string="Invoice Line">
-                                <field name="seikyuu_details_line" widget="section_and_note_one2many" nolabel="1">
-                                    <tree editable="bottom" create="0" delete="0">
-                                        <field name="selected"/>
-                                        <field name="invoice_date" readonly="1"/>
-                                        <field name="invoice_no" readonly="1"/>
-                                        <field name="customer_code" readonly="1"/>
-                                        <field name="customer_name" readonly="1"/>
-                                        <field name="invoice_line_ids"/>
-                                        <field name="total_price" readonly="1"/>
-                                    </tree>
-                                </field>
+                                <field name="seikyuu_details_line_ids"
+                                       context="{'tree_view_ref':'base.bm_seikyuu_details_line_tree'}"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -53,7 +44,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">seikyuu.details</field>
             <field name="view_mode">tree,kanban,form</field>
-            <field name="view_id" ref="bm_bill_tree"/>
+            <field name="target">inline</field>
             <field name="domain">[]</field>
             <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
         </record>

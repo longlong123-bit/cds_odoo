@@ -34,9 +34,10 @@
         'views/office.xml',
         'views/seikyuu.xml',
         'views/seikyuu_details.xml',
+        'views/seikyuu_details_line.xml',
     ],
     'qweb': [
-        'views/templates.xml'
+        'static/src/xml/*.xml'
     ],
 
     # only loaded in demonstration mode
