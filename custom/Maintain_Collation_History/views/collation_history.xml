@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="collation_history_form_view" model="ir.ui.view">
+            <field name="name">collation.history.form.view</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <form edit="false" create="false" action="false">
+                    <div class="oe_title">
+                        <label for="name" string="Invoicing Name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Kittie"/></h1>
+                        <label for="commercial_partner_id"/>
+                        <h3><field name="commercial_partner_id" string="伝票Ｎｏ"/></h3>
+                    </div>
+                    <group>
+                        <field name="date" string="日付"/>
+                        <field name="invoice_sequence_number_next" string="伝票Ｎｏ"/>
+                        <field name="state" string="税転嫁"/>
+                    </group>
+                    <notebook>
+                        <page name="product" string="Product">
+                            <field name="line_ids" widget="section_and_note_one2many" attrs="{'readonly': True}">
+                                <tree edit="false">
+                                    <field name="date" string="日付"/>
+                                    <field name="move_id" string="伝票Ｎｏ"/>
+                                    <field name="name" string="取引/内訳区分"/>  <!--I don't know field load data-->
+                                    <field name="partner_id" string="得意先コード"/>
+                                    <field name="partner_name" string="得意先名"/>
+                                    <field name="x_product_barcode" string="JANコード"/> <!-- product barcode-->
+                                    <field name="product_default_code"
+                                           string="商品コード"/> <!-- Product default code -->
+                                    <field name="product_custom_standardnumber"
+                                           string="品番/型番"/>  <!-- product_custom_standardnumber-->
+                                    <field name="product_maker_name" string="メーカー名"/> <!--product_maker_name-->
+                                    <field name="x_product_name" string="商品名"/> <!--product name-->
+                                    <field name="quantity" string="数量"/>
+                                    <field name="price_unit" string="単価"/>
+                                    <field name="invoice_custom_lineamount" string="金額"/>
+                                    <field name="tax_audit" string="税率"/>
+                                    <field name="parent_state" string="税転嫁"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="collation_history_tree_view" model="ir.ui.view">
+            <field name="name">collation.history.tree.view</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <tree string="Collation_history" create="false" import="false">
+                    <field name="state"/>
+                    <field name="x_studio_date_shipment" string="締切日"/>
+                    <field name="commercial_partner_id" string="請求No"/>
+                    <field name="amount_residual" string="前回請求金額"/>
+                    <field name="amount_total_signed" string="入金額"/>
+                    <field name="invoice_total_paid" string="繰越金額"/>
+                    <field name="amount_untaxed_signed" string="御買上金額"/>
+                    <field name="amount_tax" string="消費税"/>
+                    <!--                    <field name="amount_untaxed" string="請求値引額"/>-->
+                    <field name="amount_residual" string='今回請求金額'/>
+                    <field name="customer_other_cd" string='その他CD'/>
+                    <field name="invoice_sequence_number_next" string='売伝枚数'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="collation_history_action" model="ir.actions.act_window">
+            <field name="name">Collation History</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move</field>
+            <field name="view_mode">tree,form</field>
+            <!--            <field name="view_id" ref="collation_history_tree_view"/>-->
+            <field name="view_ids" eval="[(5, 0, 0),
+                            (0, 0, {'view_mode': 'tree', 'view_id': ref('collation_history_tree_view')}),
+                            (0, 0, {'view_mode': 'form', 'view_id': ref('collation_history_form_view')})]"/>
+
+            <!--            <field name="context">{'search_default_customer': 1, 'res_partner_search_mode': 'customer',-->
+            <!--                                   'default_is_company': True, 'default_customer_rank': 1,-->
+            <!--                                   'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}-->
+            <!--            </field>-->
+        </record>
+        <menuitem id="menu_ideas" name="Collation History" sequence="10"
+                  action="collation_history_action" groups="base.group_user"/>
+    </data>
+</odoo>
