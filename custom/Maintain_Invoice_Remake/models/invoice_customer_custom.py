@@ -1068,7 +1068,7 @@ class AccountMoveLine(models.Model):
     @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding')
     def compute_line_tax_amount(self):
         for line in self:
-            line.price_unit = line._get_computed_price_unit()
+            # line.price_unit = line._get_computed_price_unit()
             line.compute_line_amount()
             if line.move_id.x_voucher_tax_transfer in ('foreign_tax', 'custom_tax'):
                 total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
@@ -1078,6 +1078,10 @@ class AccountMoveLine(models.Model):
                                                                          line.x_invoicelinetype)
             else:
                 line.line_tax_amount = 0
+
+    @api.onchange('product_id')
+    def _onchange_product(self):
+        self.price_unit = self._get_computed_price_unit()
 
     @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype',
                   'move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding', )
@@ -1202,7 +1206,7 @@ class AccountMoveLine(models.Model):
             #                                                line.move_id.date)
 
             # todo set price follow product code
-            line.price_unit = line._get_computed_price_unit()
+            # line.price_unit = line._get_computed_price_unit()
 
         if len(self) == 1:
             return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
