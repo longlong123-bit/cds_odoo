@@ -187,6 +187,18 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
          */
         _commitSearchWithoutTemplate: function(){
             var self = this;
+            var _description = _t('Advanced search');
+            if(typeof this.__parentedParent !== 'undefined'){
+                 if(typeof this.__parentedParent.context !== 'undefined'){
+                    if(typeof this.__parentedParent.context.lang !== 'undefined'){
+                        if(this.__parentedParent.context.lang ==='en_US'){
+                            _description = _t('Advanced search');
+                        }else{
+                            _description = _t('高度な検索');
+                        }
+                    }
+                 }
+            }
             var filters = _.invoke(this.propositions, 'get_filter').map(function (preFilter) {
                 return {
                     type: 'filter',
