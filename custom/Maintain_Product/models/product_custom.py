@@ -51,9 +51,17 @@ class ProductTemplate(models.Model):
     write_date = fields.Datetime('Updated')
     product_custom_is_discontinued = fields.Boolean('Discontinued')
     product_custom_discontinued_at = fields.Date('Discontinued At')
-
-    product_class_code = fields.Many2one('product.class', string='Class code')
-    product_class_name = fields.Char('Class name')
+    # Product Class Code
+    product_class_code_lv1 = fields.Many2one('product.class', string='Class code')
+    product_class_code_lv2 = fields.Many2one('product.class', string='Class code')
+    product_class_code_lv3 = fields.Many2one('product.class', string='Class code')
+    product_class_code_lv4 = fields.Many2one('product.class', string='Class code')
+    # Prodcuct Class Name
+    product_class_name_lv1 = fields.Char('Class name', related="product_class_code_lv1.name")
+    product_class_name_lv2 = fields.Char('Class name', related="product_class_code_lv2.name")
+    product_class_name_lv3 = fields.Char('Class name', related="product_class_code_lv3.name")
+    product_class_name_lv4 = fields.Char('Class name', related="product_class_code_lv4.name")
+    # End
     product_code = fields.Char('Product code')
     product_code_1 = fields.Char('Product code 1')
     product_code_2 = fields.Char('Product code 2')
