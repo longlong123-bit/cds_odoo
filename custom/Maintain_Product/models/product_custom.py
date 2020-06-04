@@ -314,7 +314,7 @@ class ProductTemplate(models.Model):
                 # if values['product_code_1'] in [res[0] for res in query_res]:
                 print('------------------------------')
             # print(values[product_code])
-            if values[product_code] in [res[0] for res in query_res]:
+            if values.get(product_code) in [res[0] for res in query_res]:
                 print('trung')
                 raise ValidationError(_('Product_code has already been registered'))
             else:
@@ -429,6 +429,7 @@ class ProductCustomTemplate(models.Model):
     _inherit = "product.template"
 
     name = fields.Char(size=255, required=True)
+    product_code_1 = fields.Char('Product code 1')
 
 
 class ProductCustomPurchasingLine(models.Model):
