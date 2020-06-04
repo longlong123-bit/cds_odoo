@@ -50,25 +50,32 @@
 
                         <!-- Row 2 -->
                         <tr>
-                            <td class="col-label"><label for="customer_code" string="Customer Code*"/></td>
-                            <td colspan="2"><field name="customer_code" required="1"/></td>
+                            <td class="col-label"><label for="customer_name_2" string="Name 2"/></td>
+                            <td colspan="2"><field name="customer_name_2"/></td>
+
                             <td></td>
-                            <td class="col-label"><label for="customer_closing_date" string="Closing Date*"/></td>
-                            <td class="col-field"><field name="customer_closing_date" required="1" options="{ 'no_quick_create' : True}"/></td>
                         </tr>
 
                         <!-- Row 3 -->
                         <tr>
-                            <td class="col-label"><label for="customer_code_bill" string="Billing Code*"/></td>
-                            <td colspan="2"><field name="customer_code_bill" required="1"/></td>
+                            <td class="col-label"><label for="customer_code" string="Customer Code*"/></td>
+                            <td colspan="2"><field name="customer_code" required="1"/></td>
+
                             <td></td>
-<!--                            <td class="col-label"><label for="search_key_partner" string="Search Key"/></td>-->
-<!--                            <td class="col-field"><field name="search_key_partner" required="1"/></td>-->
+                            <td class="col-label"><label for="customer_closing_date" string="Closing Date*"/></td>
+                            <td class="col-field"><field name="customer_closing_date" required="1" options="{ 'no_quick_create' : True}"/></td>
 
-                            <td class="col-label"><label for="customer_payment_method" string="Payment Method*"/></td>
-                            <td class="col-field"><field name="customer_payment_method" required="1"/></td>
                         </tr>
+                        <!--row 3.5-->
+                            <tr>
+                                <td class="col-label"><label for="customer_code_bill" string="Billing Code*"/></td>
+                                <td colspan="2"><field name="customer_code_bill" widget="text" readonly="1"/></td>
+                                <td class="col-field"><field name="customer_get_billing_code"
+                                                             domain="[('customer_rank','>', 0)]"/></td>
 
+                                <td class="col-label"><label for="customer_payment_method" string="Payment Method*"/></td>
+                                <td class="col-field"><field name="customer_payment_method" required="1"/></td>
+                            </tr>
                         <!-- Row 4 -->
                         <tr>
                             <td class="col-label"><label for="customer_name_short" string="Customer Name Short"/></td>

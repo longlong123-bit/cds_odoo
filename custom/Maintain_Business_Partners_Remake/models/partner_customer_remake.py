@@ -25,9 +25,12 @@ class NewClassPartnerCustom(models.Model):
     relation_id = fields.One2many('relation.partner.model', 'partner_id', string='Relation')
     # name
     name = fields.Char(string='Name', size=50)
+    # name 2
+    customer_name_2 = fields.Char(string='Name 2')
     customer_code = fields.Char(string='Customer Code')
     # 請求先コード
-    customer_code_bill = fields.Char(string='Billing Code')
+    customer_code_bill = fields.Char(string='Billing Code', related='customer_code')
+    customer_get_billing_code = fields.Many2one('res.partner', 'Customer', store=False)
     customer_name_short = fields.Char(string='Customer Name Short')
     customer_name_kana = fields.Char(string='Customer Name Kana')
     zip_code = fields.Char('Zip')
@@ -45,7 +48,7 @@ class NewClassPartnerCustom(models.Model):
     customer_supplier_group_code = fields.Many2one('business.partner.group.custom','Supplier Group Code', default=_default_partner_group)
     customer_industry_code = fields.Many2one('res.partner.industry', string='Industry Code')
     # 担当者
-    customer_agent = fields.Many2one('res.users', string='Representative/Agent', default=lambda self: self.env.user)
+    customer_agent = fields.Many2one('hr.employee', string='Representative/Agent', default=lambda self: self.env.user)
     # 取引区分コード
     customer_trans_classification_code = fields.Selection([('sale','Sale'),('cash','Cash'), ('account','Account')], string='Transaction classification', default='sale')
     # 消費税区分
@@ -81,15 +84,15 @@ class NewClassPartnerCustom(models.Model):
     # 売上伝票印刷
     customer_print_voucher = fields.Boolean('Print Voucher', default=True)
     # 売上伝票選択
-    customer_select_sales_slip = fields.Selection([('slip1','売上伝票(書式1)')],'Sales Slip')
+    customer_select_sales_slip = fields.Selection([('slip1','売上伝票(書式1)')],'Sales Slip', default="slip1")
     # 納品書選択
-    customer_delivery_note = fields.Selection([('note1', '納品書(書式1)'),('note2', '納品書(書式2)')], 'Delivery Note')
+    customer_delivery_note = fields.Selection([('note1', '納品書(書式1)'),('note2', '納品書(書式2)')], 'Delivery Note', default="note1")
     # 売上伝票日付印字
     customer_print_sales_slip_date = fields.Boolean('Print Sales Slip Date', default=True)
     # 請求書印刷
     customer_print_invoice = fields.Boolean('Print Invoice', default=True)
     # 請求書選択
-    customer_select_invoice = fields.Selection([('form1','請求書(書式1)'),('note2','請求書(書式2)')],'Select Invoice')
+    customer_select_invoice = fields.Selection([('form1','請求書(書式1)'),('note2','請求書(書式2)')],'Select Invoice', default="form1")
     # 請求書日付印刷
     customer_print_invoice_date = fields.Boolean('Print Invoice Date', default=True)
     # その他CD
@@ -131,6 +134,12 @@ class NewClassPartnerCustom(models.Model):
             if rec.name and not rec.customer_name_short:
                 rec.customer_name_short = rec.name
 
+    @api.onchange('customer_code')
+    def _get_billing_code(self):
+        for rec in self:
+            if rec.customer_code and not rec.customer_code_bill:
+                rec.customer_code_bill = rec.customer_code
+
     @api.constrains('customer_bill_discount', 'customer_bill_discount_rate', 'customer_rate')
     def _check_min_max(self):
         if not 0 <= self.customer_bill_discount_rate <= 100:
@@ -138,6 +147,23 @@ class NewClassPartnerCustom(models.Model):
                 raise ValidationError(_('Customer bill discount rate must be greater than 0 and less than 100 !'))
         if not 0 <= self.customer_rate <= 100:
             raise ValidationError(_('Customer rate must be greater than 0 and less than 100 !'))
+
+    # todo filter res partner
+    def _get_customer_depend_billing_code(self):
+        self._cr.execute('''
+                    SELECT *
+                    FROM res_partner partner
+                    WHERE partner.customer_code = partner.customer_code_bill
+                ''', [tuple(self.ids)])
+        query_res = self._cr.fetchall()
+        return query_res
+
+    #  get billing code from combobox
+    @api.onchange('customer_get_billing_code')
+    def _get_billing_code(self):
+        for rec in self:
+            if rec.customer_get_billing_code:
+                rec.customer_code_bill = rec.customer_get_billing_code.customer_code_bill
 
     # Relation Partner Class
 class ClassRelationPartnerCustom(models.Model):
