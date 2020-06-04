@@ -10,23 +10,35 @@ class SeiKyuuClass(models.Model):
     def _compute_closing_date(customer_closing_date):
         today = date.today()
         days_in_month = calendar.monthrange(today.year, today.month)[1]
+        if today.month != 1:
+            days_in_last_month = calendar.monthrange(today.year, today.month - 1)[1]
+        else:
+            days_in_last_month = calendar.monthrange(today.year - 1, 12)[1]
         _start = customer_closing_date.start_day
         _circle = customer_closing_date.closing_date_circle
-        if _start <= today.day:
-            _current_closing_date = today.replace(day=days_in_month)
-            _last_closing_date = _current_closing_date.replace(day=_start) - timedelta(days=1)
-            if (_start + _circle) <= days_in_month:
-                while today.day >= (_start + _circle):
-                    _start = _start + _circle
-                if (_start + _circle) > days_in_month:
-                    _current_closing_date = _current_closing_date.replace(day=days_in_month)
-                    _last_closing_date = _current_closing_date.replace(day=_start) - timedelta(days=1)
-                else:
-                    _current_closing_date = _current_closing_date.replace(day=_start + _circle - 1)
-                    _last_closing_date = _current_closing_date - timedelta(days=_circle)
-        else:
+
+        # if _start <= today.day:
+        #     _current_closing_date = today.replace(day=days_in_month)
+        #     _last_closing_date = _current_closing_date.replace(day=_start) - timedelta(days=1)
+        #     if (_start + _circle) <= days_in_month:
+        #         while today.day >= (_start + _circle):
+        #             _start = _start + _circle
+        #         if (_start + _circle) > days_in_month:
+        #             _current_closing_date = _current_closing_date.replace(day=days_in_month)
+        #             _last_closing_date = _current_closing_date.replace(day=_start) - timedelta(days=1)
+        #         else:
+        #             _current_closing_date = _current_closing_date.replace(day=_start + _circle - 1)
+        #             _last_closing_date = _current_closing_date - timedelta(days=_circle)
+        # else:
+        #     _current_closing_date = today.replace(day=_start) - timedelta(days=1)
+        #     _last_closing_date = today.replace(day=days_in_month) - timedelta(days=days_in_month)
+
+        if today.day < _start:
             _current_closing_date = today.replace(day=_start) - timedelta(days=1)
-            _last_closing_date = today.replace(day=days_in_month) - timedelta(days=days_in_month)
+            _last_closing_date = _current_closing_date - timedelta(days=days_in_last_month)
+        else:
+            _last_closing_date = today.replace(day=_start) - timedelta(days=1)
+            _current_closing_date = _last_closing_date + timedelta(days=days_in_month)
 
         closing_date = {
             'last_closing_date': _last_closing_date,
@@ -41,7 +53,8 @@ class SeiKyuuClass(models.Model):
             ('partner_id', 'in', partner_id),
             ('x_studio_date_invoiced', '>', last_closing_date),
             ('x_studio_date_invoiced', '<=', deadline),
-            ('is_billed', '=', False)
+            ('is_seikyuu_created', '=', False),
+            ('state', '=', 'posted'),
         ])
 
     def _compute_voucher_number(self, record):
@@ -59,6 +72,7 @@ class SeiKyuuClass(models.Model):
                                                                    deadline=record.deadline))
         return number
 
+    @api.depends('customer_code', 'customer_code_bill')
     def _set_data_to_fields(self):
         for record in self:
 
@@ -66,21 +80,33 @@ class SeiKyuuClass(models.Model):
             if record.customer_closing_date:
                 _closing_date = self._compute_closing_date(customer_closing_date=record.customer_closing_date)
                 record.last_closing_date = _closing_date['last_closing_date']
-                record.deadline = date.today()
+                record.deadline = _closing_date['current_closing_date']
 
             # Set data for voucher_number field
             record.voucher_number = self._compute_voucher_number(record=record)
 
         return True
 
+    @api.constrains('customer_code', 'customer_code_bill')
+    def _check_seikyuu_place(self):
+        for record in self:
+            # Customer has customer_code equal with customer_code_bill. This is a Seikyuu Place
+            if record.customer_code == record.customer_code_bill:
+                record.is_seikyuu_place = True
+            else:
+                record.is_seikyuu_place = False
+
     # Last Closing Date
     last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
 
     # Deadline
-    deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=True)
+    deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
 
     # Voucher Number
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True, store=False)
+
+    # Check customer is Seikyuu Place
+    is_seikyuu_place = fields.Boolean(default=False)
 
     # Seikyuu Details ID
     seikyuu_details_id = fields.One2many('seikyuu.details', 'seikyuu_id', string="Seikyuu Details ID", index=True,
@@ -102,7 +128,7 @@ class SeiKyuuClass(models.Model):
         if seikyuu.customer_closing_date:
             _closing_date = self._compute_closing_date(customer_closing_date=seikyuu.customer_closing_date)
             last_closing_date = _closing_date['last_closing_date']
-            deadline = date.today()
+            deadline = _closing_date['current_closing_date']
 
         # Get invoices of seikyuu place
         invoices = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
@@ -159,3 +185,9 @@ class SeiKyuuClass(models.Model):
         print(self.ids)
         print(self.ids)
         return True
+
+
+class InvoiceClass(models.Model):
+    _inherit = 'account.move'
+
+    is_seikyuu_created = fields.Boolean()

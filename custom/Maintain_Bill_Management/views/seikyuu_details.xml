@@ -46,10 +46,8 @@
             <field name="view_mode">tree,kanban,form</field>
             <field name="target">inline</field>
             <field name="domain">[]</field>
-            <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
+            <field name="context">{}</field>
         </record>
 
-        <menuitem id="menu_bill_management" parent="menu_bm_seikyuu" name="Seikyuu List" sequence="11"
-                  action="actions_bm_seikyuu_details"/>
     </data>
 </odoo>

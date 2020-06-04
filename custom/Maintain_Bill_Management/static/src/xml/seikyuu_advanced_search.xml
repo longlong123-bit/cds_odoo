@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="seikyuu.advanced_search">
+        <table>
+            <tr>
+                <th>締日（締日グループ）</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="create_date" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>抜粋請求区分</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_industry"/>
+                </td>
+            </tr>
+            <tr>
+                <th>締切日</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_industry"/>
+                </td>
+            </tr>
+            <tr>
+                <th>事業部</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_industry"/>
+                </td>
+            </tr>
+            <tr>
+                <th>営業担当者</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_industry"/>
+                </td>
+            </tr>
+            <tr>
+                <th>取引先グループ</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_industry"/>
+                </td>
+            </tr>
+            <tr>
+                <th>請求先</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="x_studio_document_no"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="x_studio_document_no"/>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>

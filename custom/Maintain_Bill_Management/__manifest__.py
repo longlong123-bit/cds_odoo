@@ -22,19 +22,21 @@
     'depends': [
         'base', 'base_setup', 'Maintain_Client',
         'Maintain_Organization', 'Maintain_Invoice_Remake',
-        'Maintain_Business_Partners_Remake'
+        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake', 'Maintain_Custom_Common',
+        'Maintain_Tax_Rate', 'Maintain_Product', 'Maintain_Product_Class', 'Maintain_Quotations',
     ],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         'views/assets.xml',
-        'views/bill.xml',
-        'views/history.xml',
-        'views/office.xml',
+        # 'views/bill.xml',
+        # 'views/history.xml',
+        # 'views/office.xml',
         'views/seikyuu.xml',
         'views/seikyuu_details.xml',
         'views/seikyuu_details_line.xml',
+        'views/menu_seikyuu.xml',
     ],
     'qweb': [
         'static/src/xml/*.xml'

@@ -1,0 +1,8 @@
+<odoo>
+    <data>
+        <menuitem id="parent_menu_seikyuu" name="Seikyuu Management" sequence="16" action="actions_bm_seikyuu"
+                  groups="base.group_user"/>
+        <menuitem id="menu_seikyuu_list" parent="" name="Seikyuu List" sequence="11"
+                  action="actions_bm_seikyuu_details"/>
+    </data>
+</odoo>

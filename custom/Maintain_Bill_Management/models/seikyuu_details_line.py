@@ -34,3 +34,11 @@ class SeiKyuuDetailsLineClass(models.Model):
 
     # 金額
     total_price = fields.Float(string='Total Price')
+
+    # Show product lines
+    # Method will be call when click on button (.O_button_line) show line in tree view
+    def show_lines(self):
+        return {
+            'template': 'seikyuu.product_lines',
+            'records': self.invoice_line_ids.read()
+        }

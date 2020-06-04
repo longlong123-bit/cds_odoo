@@ -48,7 +48,7 @@
         <field name="view_mode">tree</field>
         <field name="view_id" ref="bm_seikyuu_tree"/>
         <field name="domain">
-            [('parent_id','=',False),('voucher_number','!=',False),('customer_closing_date','!=',False)]
+            [('is_seikyuu_place','=',True)]
         </field>
         <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
     </record>
@@ -62,7 +62,4 @@
         <field name="code">records.action_seikyuu()</field>
     </record>
 
-    <!-- MENU ITEM -->
-    <menuitem id="menu_bm_seikyuu" parent="" name="Bill Management" sequence="10"
-              action="actions_bm_seikyuu" groups="base.group_user"/>
 </odoo>
