@@ -445,7 +445,7 @@ class ClassInvoiceCustom(models.Model):
                 rec.x_studio_address_1 = rec.x_studio_business_partner.street
                 rec.x_studio_address_2 = rec.x_studio_business_partner.street2
                 rec.x_studio_address_3 = rec.x_studio_business_partner.address3
-                rec.x_userinput_id = rec.x_studio_business_partner.customer_agent
+                # rec.sales_rep = rec.x_studio_business_partner.customer_agent
                 rec.x_studio_payment_rule_1 = rec.x_studio_business_partner.payment_rule
                 rec.x_studio_price_list = rec.x_studio_business_partner.property_product_pricelist
                 rec.invoice_payment_terms_custom = rec.x_studio_business_partner.payment_terms
