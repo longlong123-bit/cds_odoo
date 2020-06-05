@@ -71,7 +71,7 @@
         <field name="domain">
             [('is_seikyuu_place','=',True)]
         </field>
-        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
+        <field name="context">{'seikyuu_module': True}</field>
     </record>
 
     <record id="model_action_seikyuu" model="ir.actions.server">

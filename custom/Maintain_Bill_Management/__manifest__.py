@@ -37,7 +37,7 @@
     'qweb': [
         'static/src/xml/seikyuu_advanced_search.xml',
         'static/src/xml/seikyuu_product_lines.xml',
-        'static/src/xml/seikyuu_tree_view_button.xml',
+        'static/src/xml/create_seikyuu_button.xml',
     ],
 
     # only loaded in demonstration mode
