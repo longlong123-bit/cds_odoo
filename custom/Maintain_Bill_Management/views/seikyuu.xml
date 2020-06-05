@@ -1,11 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <!-- FORM VIEW -->
+    <record model="ir.ui.view" id="bm_seikyuu_form">
+        <field name="name">bm.seikyuu.form</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Seikyuu Form">
+                <header>
+                    <button name="test_button" string="Check All" type="object"/>
+                    <button name="test_button" string="Uncheck All" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="customer_code" string="Seikyuu Code" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="name" string="Seikyuu Name" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="deadline"/>
+                        </group>
+                        <group>
+                            <button name="test_buttonCC" string="Test Button In Sheet" type="object"
+                                    class="btn btn-primary"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Invoice Line">
+                            <field name="account_move_ids">
+                                <tree string="Invoice Line" editable="bottom" create="0" delete="0">
+                                    <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
+                                    <field name="x_studio_date_invoiced" readonly="1"/>
+                                    <field name="x_studio_document_no" readonly="1"/>
+                                    <field name="x_customer_code_for_search" readonly="1"/>
+                                    <field name="x_studio_name" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <!-- TREE VIEW -->
     <record model="ir.ui.view" id="bm_seikyuu_tree">
         <field name="name">bm.seikyuu.tree</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
-            <tree string="Seikyuu" class="forward_edit">
+            <tree string="Seikyuu Tree" class="forward_edit">
                 <field name="customer_code" string="Seikyuu Code"/>
                 <field name="name" string="Seikyuu Name"/>
                 <field name="last_closing_date" string="Last Closing Date"/>
@@ -13,30 +58,6 @@
                 <button name="bm_seikyuu_excerpt_button" type="object" string="Excerpt" class="btn-sm btn btn-primary"
                         attrs="{'invisible': [('voucher_number', '=', 0)]}"/>
             </tree>
-        </field>
-    </record>
-
-    <!-- SEARCH VIEW -->
-    <record model="ir.ui.view" id="bm_seikyuu_search">
-        <field name="name">bm.seikyuu.search</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_res_partner_filter"/>
-        <field name="arch" type="xml">
-            <xpath expr="//search" position="replace">
-                <search string="Search Partner">
-                    <field name="customer_code" string="Customer Code"/>
-                    <field name="name" string="Customer Name"/>
-                    <field name="customer_name_kana" string="Customer Name Kana"/>
-                    <field name="street" string="Address 1"/>
-                    <field name="customer_phone" string="Phone"/>
-                    <field name="customer_state" string='State'/>
-                    <field name="customer_supplier_group_code" string='Supplier Group Code'/>
-                    <field name="customer_industry_code" string='Industry Code'/>
-                    <field name="customer_agent" string='Representative/Agent'/>
-                    <filter string="Customers" name="customer" domain="[('customer_rank','>', 0)]"/>
-                    <filter string="Vendors" name="supplier" domain="[('supplier_rank','>', 0)]"/>
-                </search>
-            </xpath>
         </field>
     </record>
 

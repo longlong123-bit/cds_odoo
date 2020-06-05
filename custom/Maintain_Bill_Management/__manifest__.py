@@ -21,9 +21,7 @@
     # any module necessary for this one to work correctly
     'depends': [
         'base', 'base_setup', 'Maintain_Client',
-        'Maintain_Organization', 'Maintain_Invoice_Remake',
-        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake', 'Maintain_Custom_Common',
-        'Maintain_Tax_Rate', 'Maintain_Product', 'Maintain_Product_Class', 'Maintain_Quotations',
+        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake'
     ],
 
     # always loaded
@@ -34,12 +32,12 @@
         # 'views/history.xml',
         # 'views/office.xml',
         'views/seikyuu.xml',
-        'views/seikyuu_details.xml',
-        'views/seikyuu_details_line.xml',
         'views/menu_seikyuu.xml',
     ],
     'qweb': [
-        'static/src/xml/*.xml'
+        'static/src/xml/seikyuu_advanced_search.xml',
+        'static/src/xml/seikyuu_product_lines.xml',
+        'static/src/xml/seikyuu_tree_view_button.xml',
     ],
 
     # only loaded in demonstration mode

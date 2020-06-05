@@ -17,22 +17,6 @@ class SeiKyuuClass(models.Model):
         _start = customer_closing_date.start_day
         _circle = customer_closing_date.closing_date_circle
 
-        # if _start <= today.day:
-        #     _current_closing_date = today.replace(day=days_in_month)
-        #     _last_closing_date = _current_closing_date.replace(day=_start) - timedelta(days=1)
-        #     if (_start + _circle) <= days_in_month:
-        #         while today.day >= (_start + _circle):
-        #             _start = _start + _circle
-        #         if (_start + _circle) > days_in_month:
-        #             _current_closing_date = _current_closing_date.replace(day=days_in_month)
-        #             _last_closing_date = _current_closing_date.replace(day=_start) - timedelta(days=1)
-        #         else:
-        #             _current_closing_date = _current_closing_date.replace(day=_start + _circle - 1)
-        #             _last_closing_date = _current_closing_date - timedelta(days=_circle)
-        # else:
-        #     _current_closing_date = today.replace(day=_start) - timedelta(days=1)
-        #     _last_closing_date = today.replace(day=days_in_month) - timedelta(days=days_in_month)
-
         if today.day < _start:
             _current_closing_date = today.replace(day=_start) - timedelta(days=1)
             _last_closing_date = _current_closing_date - timedelta(days=days_in_last_month)
@@ -53,8 +37,9 @@ class SeiKyuuClass(models.Model):
             ('partner_id', 'in', partner_id),
             ('x_studio_date_invoiced', '>', last_closing_date),
             ('x_studio_date_invoiced', '<=', deadline),
-            ('is_seikyuu_created', '=', False),
             ('state', '=', 'posted'),
+            ('type', '=', 'out_invoice'),
+            ('is_seikyuu_created', '=', False),
         ])
 
     def _compute_voucher_number(self, record):
@@ -63,7 +48,7 @@ class SeiKyuuClass(models.Model):
 
         # Get the records in the "res_partner" table with the same "請求先" as seikyuu_code
         res_partner_id = self.env["res.partner"].search(
-            ['|', ('id', '=', record.id), ('parent_id', '=', record.id)])
+            ['|', ('customer_code', '=', record.customer_code), ('customer_code_bill', '=', record.customer_code)])
 
         # Calculate voucher number
         for rec in res_partner_id:
@@ -87,19 +72,10 @@ class SeiKyuuClass(models.Model):
 
         return True
 
-    @api.constrains('customer_code', 'customer_code_bill')
-    def _check_seikyuu_place(self):
-        for record in self:
-            # Customer has customer_code equal with customer_code_bill. This is a Seikyuu Place
-            if record.customer_code == record.customer_code_bill:
-                record.is_seikyuu_place = True
-            else:
-                record.is_seikyuu_place = False
-
-    # Last Closing Date
+    # 前回締日
     last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
 
-    # Deadline
+    # 締切日
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
 
     # Voucher Number
@@ -108,74 +84,27 @@ class SeiKyuuClass(models.Model):
     # Check customer is Seikyuu Place
     is_seikyuu_place = fields.Boolean(default=False)
 
-    # Seikyuu Details ID
-    seikyuu_details_id = fields.One2many('seikyuu.details', 'seikyuu_id', string="Seikyuu Details ID", index=True,
-                                         auto_join=True, help="The move of this entry line.")
+    # Relational fields with account.move model
+    account_move_ids = fields.One2many('account.move', 'seikyuu_place_id', string='Invoices')
 
-    # Create record
-    def _create_seikyuu_details(self, seikyuu, status):
-        # Create data seikyuu details of seikyuu place
-        seikyuu_details = self.env['seikyuu.details'].create({
-            'seikyuu_id': seikyuu.id,
-            'status': status
-        })
-
-        # Get the records in the "res_partner" table with the same "請求先" as seikyuu_code
-        res_partner_id = self.env["res.partner"].search(
-            ['|', ('id', '=', seikyuu.id), ('parent_id', '=', seikyuu.id)])
-
-        # Get closing date
-        if seikyuu.customer_closing_date:
-            _closing_date = self._compute_closing_date(customer_closing_date=seikyuu.customer_closing_date)
-            last_closing_date = _closing_date['last_closing_date']
-            deadline = _closing_date['current_closing_date']
-
-        # Get invoices of seikyuu place
-        invoices = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
-                                                    last_closing_date=last_closing_date,
-                                                    deadline=deadline)
-
-        # For each invoice, create a seikyuu details line
-        for invoice in invoices:
-            # create a seikyuu details line
-            seikyuu_details_line = self.env['seikyuu.details.line'].create({
-                'seikyuu_details_id': seikyuu_details.id,
-                'invoice_id': invoice.id,
-            })
-
-        return seikyuu_details
-
-    def _get_seikyuu_details(self, seikyuu, status):
-        # Get seikyuu details of seikyuu place
-        seikyuu_details = self.env['seikyuu.details'].search([('seikyuu_id', '=', seikyuu.id), ('status', '=', status)])
-
-        # Get seikyuu details line
-        seikyuu_details_line = self.env['seikyuu.details.line'].search(
-            [('seikyuu_details_id', '=', seikyuu_details.id)])
-
-        return seikyuu_details
 
     # Button [抜粋/Excerpt]
     def bm_seikyuu_excerpt_button(self):
-        for seikyuu in self:
-            _closing_date = self._compute_closing_date(customer_closing_date=seikyuu.customer_closing_date)
-            if seikyuu.id in self.env['seikyuu.details'].search([]).seikyuu_id.ids:
-                seikyuu_details = self._get_seikyuu_details(seikyuu=seikyuu, status='draft')
-            else:
-                seikyuu_details = self._create_seikyuu_details(seikyuu=seikyuu, status='draft')
 
-        ctx = self._context.copy()
-        ctx['last_closing_date'] = self.last_closing_date
-        ctx['deadline'] = self.deadline
+        res_partner_id = self.env["res.partner"].search(
+            ['|', ('customer_code', '=', self.customer_code), ('customer_code_bill', '=', self.customer_code)])
+
+        self.account_move_ids = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
+                                                                 last_closing_date=self.last_closing_date,
+                                                                 deadline=self.deadline)
 
         return {
             'type': 'ir.actions.act_window',
             'name': 'Seikyuu Details',
-            'view_mode': 'form',
-            'res_model': 'seikyuu.details',
-            'res_id': seikyuu_details.id,
-            'views': [(self.env.ref('Maintain_Bill_Management.bm_seikyuu_details_form').id, 'form')],
-            'context': ctx
+            'view_mode': 'tree,form',
+            'res_model': 'res.partner',
+            'res_id': self.id,
+            'views': [(self.env.ref('Maintain_Bill_Management.bm_seikyuu_form').id, 'form')],
         }
 
     # Action
@@ -186,8 +115,36 @@ class SeiKyuuClass(models.Model):
         print(self.ids)
         return True
 
+    # Test button
+    def test_buttonCC(self):
+        return True
+
+    def get_lines(self):
+        records = self.env['account.move.line'].search([
+            ('move_id', 'in', self._ids),
+            ('product_id', '!=', False)
+        ]).read()
+
+        # Get tax
+        for record in records:
+            if record['tax_ids']:
+                self._cr.execute('''
+                                            SELECT id, name
+                                            FROM account_tax
+                                            WHERE id IN %s
+                                        ''', [tuple(record['tax_ids'])])
+                query_res = self._cr.fetchall()
+                record['tax_ids'] = ', '.join([str(res[1]) for res in query_res])
+
+        return {
+            'template': 'seikyuu.product_lines',
+            'records': records
+        }
+
 
 class InvoiceClass(models.Model):
     _inherit = 'account.move'
 
     is_seikyuu_created = fields.Boolean()
+
+    seikyuu_place_id = fields.Many2one('res.partner')
