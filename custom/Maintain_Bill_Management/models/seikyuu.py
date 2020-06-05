@@ -72,6 +72,15 @@ class SeiKyuuClass(models.Model):
 
         return True
 
+    @api.constrains('customer_code', 'customer_code_bill')
+    def _check_seikyuu_place(self):
+        for record in self:
+            # Customer has customer_code equal with customer_code_bill. This is a Seikyuu Place
+            if record.customer_code == record.customer_code_bill:
+                record.is_seikyuu_place = True
+            else:
+                record.is_seikyuu_place = False
+
     # 前回締日
     last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
 
@@ -86,7 +95,6 @@ class SeiKyuuClass(models.Model):
 
     # Relational fields with account.move model
     account_move_ids = fields.One2many('account.move', 'seikyuu_place_id', string='Invoices')
-
 
     # Button [抜粋/Excerpt]
     def bm_seikyuu_excerpt_button(self):
@@ -117,6 +125,7 @@ class SeiKyuuClass(models.Model):
 
     # Test button
     def test_buttonCC(self):
+        print(self.customer_code_bill)
         return True
 
     def get_lines(self):
