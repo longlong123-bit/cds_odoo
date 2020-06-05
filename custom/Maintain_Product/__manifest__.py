@@ -8,7 +8,7 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'sale_management', 'Maintain_Organization', 'Maintain_Client'
+        'base_setup', 'sale_management', 'Maintain_Organization', 'Maintain_Client', 'Maintain_Product_Class'
     ],
     'website': '',
     'depends':['product', 'purchase', 'sale'],

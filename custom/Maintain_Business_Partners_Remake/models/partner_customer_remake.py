@@ -48,7 +48,7 @@ class NewClassPartnerCustom(models.Model):
     customer_supplier_group_code = fields.Many2one('business.partner.group.custom','Supplier Group Code', default=_default_partner_group)
     customer_industry_code = fields.Many2one('res.partner.industry', string='Industry Code')
     # 担当者
-    customer_agent = fields.Many2one('hr.employee', string='Representative/Agent', default=lambda self: self.env.user)
+    customer_agent = fields.Many2one('res.users', string='Representative/Agent', default=lambda self: self.env.user)
     # 取引区分コード
     customer_trans_classification_code = fields.Selection([('sale','Sale'),('cash','Cash'), ('account','Account')], string='Transaction classification', default='sale')
     # 消費税区分

@@ -31,8 +31,22 @@
 <!--                            <field name="product_custom_freight_category"/>-->
                             <field name="product_custom_freight_category" context="{'showcode': 'ok'}"  options="{'always_reload': True}"/>
                             <field name="product_maker_name"/>
-                            <field name="product_class_code"/>
-                            <field name="product_class_name" readonly="True"/>
+<!--                            <field name="product_class_code"/>-->
+<!--                            <field name="product_class_name" readonly="True"/>-->
+                            <label for="product_class_code_lv1" string="Class code"/>
+                            <div>
+                                <field name="product_class_code_lv1" style="width: 25%" />
+                                <field name="product_class_code_lv2" style="width: 25%" widget="char_tags" domain="[('product_level', '=', 'lv2')]" attrs="{'readonly': [('product_class_code_lv1','=',False)]}"/>
+                                 <field name="product_class_code_lv3" style="width: 25%" widget="char_tags" attrs="{'readonly': [('product_class_code_lv2','=',False)]}"/>
+                                 <field name="product_class_code_lv4" style="width: 25%" widget="char_tags" attrs="{'readonly': [('product_class_code_lv3','=',False)]}"/>
+                            </div>
+                            <label for="product_class_name_lv1"/>
+                            <div>
+                                <field name="product_class_name_lv1" widget="char_tags" readonly="True" style="max-width: 25%"/>
+                                <field name="product_class_name_lv2" widget="char_tags" readonly="True" style="max-width: 25%"/>
+                                <field name="product_class_name_lv3" widget="char_tags" readonly="True" style="max-width: 25%"/>
+                                <field name="product_class_name_lv4" widget="char_tags" readonly="True" style="max-width: 25%"/>
+                            </div>
                             <field name="product_code_1"/>
                             <field name="price_no_tax_1"/>
                             <field name="price_include_tax_1"/>
@@ -393,8 +407,8 @@
                 <field name="barcode" required="True" string="JANコード"/>
                 <field name="product_custom_freight_category" string="Maker code"/>
                 <field name="product_maker_name" string="Maker name" readonly='True'/>
-                <field name="product_class_code" string="Class code"/>
-                <field name="product_class_name" string="Class name"/>
+<!--                <field name="product_class_code" string="Class code"/>-->
+<!--                <field name="product_class_name" string="Class name"/>-->
                 <field name="product_custom_standardnumber" string="品番/型番"/>
                 <field name="name" string="Name"/>
                 <field name="product_code_1" />
@@ -436,8 +450,8 @@
                 <field name="barcode" required="True" string="UPC/EAN"/>
                 <field name="product_custom_freight_category" string="Maker code"/>
                 <field name="product_maker_name" string="Maker name"/>
-                <field name="product_class_code" string="Class code"/>
-                <field name="product_class_name" string="Class name"/>
+<!--                <field name="product_class_code" string="Class code"/>-->
+<!--                <field name="product_class_name" string="Class name"/>-->
                 <field name="product_custom_standardnumber" string="品番/型番"/>
                 <field name="name" string="Name"/>
                 <field name="product_custom_goodsnamef" string="goodsnamef"/>
