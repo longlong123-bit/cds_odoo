@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- webpage record -->
 <template>
-    <t t-name="seikyuu.advanced_search">
+    <t t-name="bill.advanced_search">
         <table>
             <tr>
                 <th>締日（締日グループ）</th>
@@ -12,7 +12,8 @@
             <tr>
                 <th>抜粋請求区分</th>
                 <td>
-                    <select class="filter-item" data-operator="eq" data-name="customer_except_request" style="height:26px">
+                    <select class="filter-item" data-operator="eq" data-name="customer_except_request"
+                            style="height:26px">
                         <option value='0'>No</option>
                         <option value='1'>Yes</option>
                     </select>

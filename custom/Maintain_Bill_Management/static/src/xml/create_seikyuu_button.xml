@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<template id="create_seikyuu_button" xml:space="preserve">
-          <t t-extend="ListView.buttons">
-            <t t-jquery="button.o_list_button_add" t-operation="after">
-                <button t-if="widget.modelName == 'res.partner'" class="btn btn-primary btn_test"
-                        type="button">Create seikyuu</button>
-            </t>
-          </t>
-    </template>

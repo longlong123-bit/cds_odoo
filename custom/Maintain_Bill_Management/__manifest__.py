@@ -28,16 +28,13 @@
     'data': [
         'security/ir.model.access.csv',
         'views/assets.xml',
-        # 'views/bill.xml',
-        # 'views/history.xml',
-        # 'views/office.xml',
-        'views/seikyuu.xml',
-        'views/menu_seikyuu.xml',
+        'views/bill.xml',
+        'views/menu_bill_management.xml',
     ],
     'qweb': [
-        'static/src/xml/seikyuu_advanced_search.xml',
-        'static/src/xml/seikyuu_product_lines.xml',
-        'static/src/xml/create_seikyuu_button.xml',
+        'static/src/xml/bill_advanced_search.xml',
+        'static/src/xml/bill_product_lines.xml',
+        'static/src/xml/create_bill_button.xml',
     ],
 
     # only loaded in demonstration mode
