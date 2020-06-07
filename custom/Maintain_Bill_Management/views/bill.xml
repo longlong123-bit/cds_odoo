@@ -57,6 +57,7 @@
                 <field name="customer_except_request" invisible="1"/>
                 <button name="bm_bill_excerpt_button" type="object" string="Excerpt" class="btn-sm btn btn-primary"
                         attrs="{'invisible': ['|',('customer_except_request','=',False),('voucher_number','=',0)]}"/>
+                <field name="deadline" invisible="1"/>
             </tree>
         </field>
     </record>

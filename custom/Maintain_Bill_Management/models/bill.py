@@ -39,6 +39,7 @@ class BillingClass(models.Model):
             ('x_studio_date_invoiced', '<=', deadline),
             ('state', '=', 'posted'),
             ('type', '=', 'out_invoice'),
+            ('bill_status', '!=', 'billed')
         ])
 
     def _compute_voucher_number(self, record):
@@ -105,14 +106,14 @@ class BillingClass(models.Model):
                                                                  last_closing_date=self.last_closing_date,
                                                                  deadline=self.deadline)
 
-        # return {
-        #     'type': 'ir.actions.act_window',
-        #     'name': 'Billing Details',
-        #     'view_mode': 'tree,form',
-        #     'res_model': 'res.partner',
-        #     'res_id': self.id,
-        #     'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_form').id, 'form')],
-        # }
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Billing Details',
+            'view_mode': 'tree,form',
+            'res_model': 'res.partner',
+            'res_id': self.id,
+            'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_form').id, 'form')],
+        }
 
     # Action
     def action_bill(self):
@@ -149,16 +150,27 @@ class BillingClass(models.Model):
             'records': records
         }
 
-    def create_bill_for_invoice(self, args):
-        print('i am here')
-        print(args)
-        # Get invoice in account_move
-        account_move_ids = self.browse(self._ids)
+    def create_bill_for_invoice(self, argsSelectedData):
+        for rec in argsSelectedData:
+            res_partner_id = self.env["res.partner"].search(
+                ['|', ('customer_code', '=', rec['customer_code']), ('customer_code_bill', '=', rec['customer_code'])])
 
-        return True
+            invoice_ids = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
+                                                           last_closing_date=rec['last_closing_date'],
+                                                           deadline=rec['deadline'])
+            invoice_ids.write({
+                'bill_status': 'billed'
+            })
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
 
 
 class InvoiceClass(models.Model):
     _inherit = 'account.move'
 
     billing_place_id = fields.Many2one('res.partner')
+
+    bill_status = fields.Char(default="not yet")

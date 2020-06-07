@@ -10,7 +10,9 @@ odoo.define('bill.create_bill_button', function (require) {
             var model = this.modelName;
             this._super.apply(this, arguments);
             var context = this.model.get(this.handle).context;
-            if (context['model'] !== undefined) {
+            var data = this.model.get(this.handle).data;
+            if (context['model'] !== undefined
+            ) {
                 var model = context['model'];
             }
             if (context['bill_management_module'] === undefined) {
@@ -23,11 +25,18 @@ odoo.define('bill.create_bill_button', function (require) {
 
                 this.$buttons.on('click', '.create_bill_button', function (e) {
                     const def = new $.Deferred();
-                    console.log("model => ", model);
+                    var selected_data = [];
+                    if (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            if (self.getSelectedIds().includes(data[i].res_id)) {
+                                selected_data.push(data[i].data)
+                            }
+                        }
+                    }
                     rpc.query({
                         model: model,
                         method: 'create_bill_for_invoice',
-                        args: ['', model],
+                        args: ['', selected_data],
                         data: {
                             context: JSON.stringify(session.user_context),
                         }
