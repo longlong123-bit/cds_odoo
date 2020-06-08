@@ -38,7 +38,7 @@ class CollationPayment(models.Model):
     # @api.depends('product_id')
 
     # その他CD
-    customer_other_cd = fields.Char('Customer CD', readonly=True)
+    # customer_other_cd = fields.Char('Customer CD', readonly=True)
 
     # @api.depends('partner_id')
     def _get_res_partner_custom(self):
@@ -51,14 +51,14 @@ class CollationPayment(models.Model):
 
     def _get_customer_other_cd(self):
         for cd in self:
-            if self.partner_id:
-                cd.customer_other_cd = self.partner_id.customer_other_cd
+            # if self.partner_id:
+                cd.customer_other_cd = cd.partner_id.customer_other_cd
 
     # その他CD
     customer_other_cd = fields.Char('Customer CD', readonly=True, compute='_get_customer_other_cd')
 
-    def _get_customer_bill_discount_rate(selfs):
-        for rate in selfs:
+    def _get_customer_bill_discount_rate(self):
+        for rate in self:
             rate.customer_bill_discount_rate = rate.partner_id.customer_bill_discount_rate
 
     # 請求値引率

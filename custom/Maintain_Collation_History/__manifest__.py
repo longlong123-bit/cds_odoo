@@ -8,7 +8,7 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'Maintain_Invoice_Remake', 'account', 'Maintain_Client', 'Maintain_Organization',
+        'base_setup', 'Maintain_Invoice_Remake',
     ],
     'website': '',
     'data': [
@@ -16,6 +16,9 @@
         'views/add_js.xml',
         'views/collation_history.xml',
         # 'views/sequence.xml',
+    ],
+    'qweb': [
+        'static/src/xml/advanced_search.xml'
     ],
     'demo': [],
     'installable': True,
