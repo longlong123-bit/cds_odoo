@@ -34,11 +34,11 @@
 
                             <!-- Row 1 -->
                             <tr>
-                                <td class="o_td_label"><label for="client_custom_id" string="Client*"/></td>
+                                <td class="o_td_label"><label for="client_custom_id" string="Client"/></td>
                                 <td colspan="2"><field name="client_custom_id" readonly="True" required="True"/></td>
                                 <td class="o_td_label"><label for="document_no" string="Document No"/></td>
                                 <td><field name="document_no" readonly="True" style="font-weight: bold;"/></td>
-                                <td class="o_td_label"><label for="company_id" string="Organization*"/></td>
+                                <td class="o_td_label"><label for="company_id" string="Organization"/></td>
                                 <td colspan="2"><field name="company_id" readonly="True"/></td>
                             </tr>
 
@@ -46,7 +46,7 @@
                             <tr>
                                 <td class="o_td_label"><label for="account_invoice_id" string="Invoice"/></td>
                                 <td colspan="2"><field name="account_invoice_id" domain="[('state','=','posted')]"/></td>
-                                <td class="o_td_label"><label for="payment_date" string="Transaction Date*"/></td>
+                                <td class="o_td_label"><label for="payment_date" string="Transaction Date"/></td>
                                 <td><field name="payment_date" required="True"/></td>
                                 <td class="o_td_label"><label for="partner_bank_account_id" string="Bank Account"/></td>
                                 <td colspan="2"><field name="partner_bank_account_id"/></td>
@@ -54,7 +54,7 @@
 
                             <!-- Row 3 -->
                             <tr>
-                                <td class="o_td_label"><label for="partner_id" string="Business Partner*"/></td>
+                                <td class="o_td_label"><label for="partner_id" string="Business Partner"/></td>
                                 <td colspan="2">
 <!--                                <field name="partner_id" required="True"/>-->
                                     <field name="partner_id" widget="res_partner_many2one" required="1"
@@ -64,7 +64,7 @@
                                            z-index="98"/>
                                 </td>
                                 <td colspan="2"><field name="partner_payment_name1"/></td>
-                                <td class="o_td_label"><label for="currency_id" string="Currency*"/></td>
+                                <td class="o_td_label"><label for="currency_id" string="Currency"/></td>
                                 <td><field name="currency_id"/></td>
                             </tr>
 
@@ -111,7 +111,7 @@
 
                             <!-- Row 8 -->
                             <tr>
-                                <td class="o_td_label"><label for="state" string="Document Status*"/></td>
+                                <td class="o_td_label"><label for="state" string="Document Status"/></td>
                                 <td colspan="2"><field name="state" readonly="True"/></td>
 
                             </tr>

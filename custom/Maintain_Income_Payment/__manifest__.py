@@ -16,7 +16,15 @@
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/income_payment_view.xml',
-        'views/group_payment_master.xml'
+        'views/group_payment_master.xml',
+        'views/many_payment_view.xml',
+        'views/confirm_payment.xml',
+        'views/report_payment.xml',
+        'views/report_format1.xml',
+    ],
+    'qweb': [
+        # "static/src/xml/history_payment.xml",
+        'static/src/xml/advanced_search.xml'
     ],
     'demo': [],
     'installable': True,
