@@ -1,0 +1,84 @@
+<!--Custom report.-->
+<odoo>
+<data>
+    <template id="report_payment_format1">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="Maintain_Income_Payment.report_payment_document1" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+    <template id="report_payment_document1">
+        <div style="display: inline-block; width: 130px; float: right">
+            <div>
+                <span>ページ: 1 / 1</span><br/><br/><br/>
+            </div>
+        </div>
+        <div class="page" style="page-break-before: always;">
+            <t t-set="o" t-value="o.with_context(lang=lang)" />
+
+            <!-- TITLE -->
+            <div>
+                <div style="text-align: center">
+                    <h4 class="mt0" style="font-size: 28px; color: #439eb2; line-height: 50px; margin: 0; padding: 0; text-align: center">請求クライアント一覧</h4>
+                </div>
+                <div style="clear: both;"/>
+            </div>
+
+            <!-- HEADER OF CONTENT -->
+            <div>
+                <div style="display: inline-block; float: right; width:150px">
+                    <div>
+                        <span t-field="o.current_date" t-options="{&quot;format&quot;: &quot;yyyy/MM/dd HH:MM&quot;}"/><br/>
+                    </div>
+                </div>
+                <div style="display: inline-block; width: 50%; float: left">
+                    <div>
+                        <span></span><br/>
+                        <span>伝票Ｎｏ : </span><span t-field="o.document_no"/><br/>
+                        <span>入力（登録日付） : </span><span t-field="o.write_date"/><br/>
+                        <span>入金日付 : </span><span t-field="o.payment_date"/><br/>
+                        <span>得意先コード : </span><span t-field="o.partner_id"/><br/>
+                        <span>得意先名 : </span><span t-field="o.partner_payment_name1"/><br/>
+                        <span>入力担当者 : </span><span t-field="o.sales_rep"/><br/>
+                        <span>取引先グループコード : </span><span t-field="o.partner_group_code"/><br/>
+                        <span>業種コード : </span><span t-field="o.customer_industry_code"/><br/><br/><br/>
+                    </div>
+                </div>
+                <div style="clear: both"/>
+            </div>
+            <div class="content-table" style="border: 2px solid #439eb2;">
+                <div style="min-height: 400px">
+                    <table border="0" cellspacing="0" style="width: 100%; font-size: 12px;">
+                        <thead>
+                            <tr>
+<!--                                <td style="border: 1px solid #439eb2; border-left: 0; border-top: 0; border-right: 0; text-align: left; width: 60px; background-color: #e0e0e0" name="th_id"><span>No</span></td>-->
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: left;  background-color: #e0e0e0" name="th_category"><span>入金区分</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0" name="th_amount" ><span>入金金額</span></td>
+                                <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0" name="th_description"><span>備考</span></td>
+                            </tr>
+                        </thead>
+                        <tbody class="payment_tbody">
+                            <t t-set="current_subtotal" t-value="0"/>
+
+                            <t t-foreach="o.account_payment_line_ids" t-as="line">
+                                <tr>
+                                    <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0; border-left: 0; text-align: left; width: 60px">
+                                        <span t-field="line.vj_c_payment_category"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: left; width: 500px" class="text-right">
+                                        <span t-field="line.payment_amount"/>
+                                    </td>
+                                    <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
+                                        <span t-field="line.name"/><br/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </template>
+</data>
+</odoo>

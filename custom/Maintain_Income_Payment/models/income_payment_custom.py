@@ -19,6 +19,10 @@ class IncomePaymentCustom(models.Model):
     _rec_name = 'document_no'
     _order = 'document_no'
 
+    current_date = fields.Datetime(string='', default=datetime.now(), store=False)
+    _defaults = {
+        'current_date': lambda *a: time.strftime('%Y/%m/%d %H:%M:%S'),
+    }
     partner_group_code = fields.Many2one('business.partner.group.custom', string='partner_group_code')
     customer_industry_code = fields.Many2one('res.partner.industry', string='Industry Code')
     is_customer_supplier_group_code = fields.Boolean(string='is_customer_supplier_group_code', default=False)
