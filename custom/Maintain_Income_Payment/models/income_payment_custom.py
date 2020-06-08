@@ -19,6 +19,28 @@ class IncomePaymentCustom(models.Model):
     _rec_name = 'document_no'
     _order = 'document_no'
 
+    partner_group_code = fields.Many2one('business.partner.group.custom', string='partner_group_code')
+    customer_industry_code = fields.Many2one('res.partner.industry', string='Industry Code')
+    is_customer_supplier_group_code = fields.Boolean(string='is_customer_supplier_group_code', default=False)
+    is_industry_code = fields.Boolean(string='is_industry_code', default=False)
+    customer_other_cd = fields.Char(string='Customer CD')
+    write_date = fields.Date('Write Date')
+    display_type = fields.Selection([
+        ('line_section', 'Section'),
+        ('line_note', 'Note')], default=False, help="Technical field for UX purpose.")
+    many_code = fields.Char('Many_code')
+
+    payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
+                                 help="Payment that created this entry")
+    many_payment_id = fields.Many2one('many.payment', string="Many payment", ondelete='cascade', required=True,
+                                      index=True)
+    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
+    payment_amount = fields.Float(string='Payment Amount')
+    description = fields.Char(string='Description')
+    payment_type = fields.Selection(
+        [('outbound', 'Send Money'), ('inbound', 'Receive Money'), ('transfer', 'Internal Transfer')],
+        string='Payment Type', required=True, readonly=True, states={'draft': [('readonly', False)]}, default='inbound')
+
     def _get_default_client_id(self):
         return self.env['client.custom'].search([], limit=1, order='id').id
 
@@ -47,7 +69,7 @@ class IncomePaymentCustom(models.Model):
     comment_apply = fields.Text(string='commentapply', readonly=True, states={'draft': [('readonly', False)]})
     vj_summary = fields.Selection([('vj_sum_1', '専伝・仮伝'), ('vj_sum_2', '指定なし'), ('vj_sum_3', '通常')],
                                   string='vj_summary', readonly=True, states={'draft': [('readonly', False)]})
-    journal_id = fields.Many2one(string='vj_collection_method')
+    journal_id = fields.Many2one(string='vj_collection_method', default=1)
     collection_method_date = fields.Date(string='collectionmethoddate', readonly=True,
                                          states={'draft': [('readonly', False)]})
     state = fields.Selection(string='Document Status')
@@ -107,6 +129,11 @@ class IncomePaymentCustom(models.Model):
             rec.partner_payment_name2 = values.customer_name_kana or ''
             rec.partner_payment_address1 = values.street or ''
             rec.partner_payment_address2 = values.street2 or ''
+            rec.customer_other_cd = values.customer_other_cd or ''
+            if values.customer_supplier_group_code:
+                rec.is_customer_supplier_group_code = True
+            if values.customer_industry_code:
+                rec.is_industry_code = True
 
             self._set_line_info()
 
@@ -162,6 +189,40 @@ class IncomePaymentCustom(models.Model):
 
         return True
 
+    # check bill before delete
+    # def unlink(self):
+    #     print('------------------------------ DELETE -------------------------')
+    #     print(self.partner_id)
+    #     query_res = False
+    #     for rec in self:
+    #         if rec.partner_id:
+    #             query = "SELECT partner_id " \
+    #                     "FROM account_payment " \
+    #                     "WHERE partner_id IN " \
+    #                     "(SELECT ACM.partner_id " \
+    #                     "FROM account_move AS ACM " \
+    #                     "WHERE is_billed is True)"
+    #             self._cr.execute(query)
+    #             query_res = self._cr.fetchall()
+    #             print(query_res)
+    #             if len(query_res) == 0:
+    #                 raise ValidationError(_('Voucher is not billed'))
+    #             else:
+    #                 print('------------------------------ PRINT -------------------------')
+    #                 total_invoiced = float([res[0] for res in query_res][0])
+    #                 print(total_invoiced)
+    #                 return super(IncomePaymentCustom, self).unlink()
+
+    # def button_history(self):
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'product.product',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_id': self.id,
+    #         'target': 'new',
+    #     }
+
 
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
@@ -171,3 +232,20 @@ class IncomePaymentLineCustom(models.Model):
     vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
+    name = fields.Char(string='Name')
+    display_type = fields.Selection([
+                    ('line_section', 'Section'),
+                    ('line_note', 'Note')], default=False, help="Technical field for UX purpose.")
+    state = fields.Selection(
+        [('draft', 'Draft'), ('posted', 'Validated'), ('sent', 'Sent'), ('reconciled', 'Reconciled'),
+         ('cancelled', 'Cancelled')], readonly=True, default='draft', copy=False, string="Status")
+    payment_date = fields.Date(string='Transaction Date', readonly=True, states={'draft': [('readonly', False)]})
+    partner_id = fields.Many2one(string='Business Partner')
+    partner_payment_name1 = fields.Char(string='paymentname1', readonly=True, states={'draft': [('readonly', False)]})
+    company_id = fields.Many2one('res.company', 'Organization', default=lambda self: self.env.company.id, index=1)
+    journal_id = fields.Many2one(string='vj_collection_method', default=1)
+    payment_method_id = fields.Many2one('account.payment.method', string='Payment Method', required=True, readonly=True,
+                                        states={'draft': [('readonly', False)]}, default=1)
+    payment_type = fields.Selection(
+        [('outbound', 'Send Money'), ('inbound', 'Receive Money'), ('transfer', 'Internal Transfer')],
+        string='Payment Type', required=True, readonly=True, states={'draft': [('readonly', False)]}, default='inbound')
