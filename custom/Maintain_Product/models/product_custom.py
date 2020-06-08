@@ -31,7 +31,7 @@ class ProductTemplate(models.Model):
 
     product_custom_freight_category = fields.Many2one('freight.category.custom', 'Maker code')
 
-    product_maker_name = fields.Char('Maker name', readonly=True)
+    product_maker_name = fields.Char('Maker name', readonly=True, store=True)
 
     barcode = fields.Char(string='UPC/EAN', size=30, required=True)
 
@@ -260,7 +260,7 @@ class ProductTemplate(models.Model):
 
     def copy(self, default=None):
         default = dict(default or {})
-        default.update({'product_code_1': ''})
+        default.update({'product_code_1': '', 'barcode': '000000000'})
         if 'name' not in default:
             default['name'] = _("%s (copy)") % (self.name)
         return super(ProductTemplate, self).copy(default)
