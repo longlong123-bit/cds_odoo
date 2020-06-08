@@ -1,4 +1,4 @@
-odoo.define('bill.create_bill_button', function (require) {
+odoo.define('bill.cancel_bill_button', function (require) {
     "use strict";
 
     var ListController = require('web.ListController');
@@ -15,15 +15,11 @@ odoo.define('bill.create_bill_button', function (require) {
             ) {
                 var model = context['model'];
             }
-            if (context['bill_management_module'] === undefined) {
-                this.$buttons.find('button.create_bill_button').hide();
+            if (context['bill_management_module'] === undefined && context['view_name'] !== 'Cancel Billing') {
+                this.$buttons.find('button.cancel_bill_button').hide();
+                this.$pendingAction
             } else {
-                this.$buttons.find('button.o_list_button_add').hide();
-                this.$buttons.find('button.o_button_import').hide();
-                this.$buttons.find('button.o_list_button_save').hide();
-                this.$buttons.find('button.o_list_button_discard').hide();
-
-                this.$buttons.on('click', '.create_bill_button', function (e) {
+                this.$buttons.on('click', '.cancel_bill_button', function (e) {
                     const def = new $.Deferred();
                     var selected_data = [];
                     if (data) {
@@ -35,8 +31,8 @@ odoo.define('bill.create_bill_button', function (require) {
                     }
                     rpc.query({
                         model: model,
-                        method: 'create_bill_for_invoice',
-                        args: ['', selected_data],
+                        method: 'cancel_bill_for_invoice',
+                        args: ['', selected_data, self.getSelectedIds()],
                         data: {
                             context: JSON.stringify(session.user_context),
                         }

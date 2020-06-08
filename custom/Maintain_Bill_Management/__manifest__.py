@@ -30,11 +30,13 @@
         'views/assets.xml',
         'views/bill.xml',
         'views/menu_bill_management.xml',
+        'views/cancel_bill.xml',
     ],
     'qweb': [
         'static/src/xml/bill_advanced_search.xml',
         'static/src/xml/bill_product_lines.xml',
         'static/src/xml/create_bill_button.xml',
+        'static/src/xml/cancel_bill_button.xml',
     ],
 
     # only loaded in demonstration mode

@@ -162,6 +162,15 @@ class BillingClass(models.Model):
                 'bill_status': 'billed'
             })
 
+            for invoice in invoice_ids:
+                self.env['bill.header'].create({
+                    'billing_code': rec['customer_code'],
+                    'billing_name': rec['name'],
+                    'last_closing_date': rec['last_closing_date'],
+                    'deadline': rec['deadline'],
+                    'invoice_id': invoice.id,
+                })
+
         return {
             'type': 'ir.actions.client',
             'tag': 'reload',
