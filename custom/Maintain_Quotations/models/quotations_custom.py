@@ -78,7 +78,7 @@ class QuotationsCustom(models.Model):
     quotations_date = fields.Date(string='Quotations Date', default=fields.Date.today())
     order_id = fields.Many2one('sale.order', string='Order', store=False)
     partner_id = fields.Many2one(string='Business Partner')
-    related_partner_code = fields.Char('Partner Code', related='partner_id.customer_code')
+    related_partner_code = fields.Char('Partner Code')
     partner_name = fields.Char(string='Partner Name')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, states={'draft': [('readonly', False)]},
                                 domain="[('share', '=', False)]", default=lambda self: self.env.user)
