@@ -168,6 +168,7 @@ class BillingClass(models.Model):
                     'billing_name': rec['name'],
                     'last_closing_date': rec['last_closing_date'],
                     'deadline': rec['deadline'],
+                    'partner_id': self.env["res.partner"].search([('id', '=', rec['id'])]).id,
                     'invoice_id': invoice.id,
                 })
 
