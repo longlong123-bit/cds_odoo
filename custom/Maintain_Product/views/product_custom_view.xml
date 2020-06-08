@@ -30,7 +30,7 @@
                             <field name="product_custom_standardnumber"/>
 <!--                            <field name="product_custom_freight_category"/>-->
                             <field name="product_custom_freight_category" context="{'showcode': 'ok'}"  options="{'always_reload': True}"/>
-                            <field name="product_maker_name"/>
+                            <field name="product_maker_name" force_save="1"/>
 <!--                            <field name="product_class_code"/>-->
 <!--                            <field name="product_class_name" readonly="True"/>-->
                             <label for="product_class_code_lv1" string="Class code"/>
