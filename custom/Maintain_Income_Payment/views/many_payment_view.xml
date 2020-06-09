@@ -38,7 +38,8 @@
                     </table>
                     <notebook>
                         <page name="many_payment_line" string="ManyPaymentLine">
-                            <field name="many_payment_line_ids" widget="section_and_note_one2many" context="{'default_payment_date' : payment_date}">
+                            <field name="many_payment_line_ids" widget="section_and_note_one2many" context="{'default_payment_date' : payment_date}"
+                                   attrs="{'readonly': ['|', ('id', '=', True)]}">
 <!--                                   attrs="{'readonly': ['|', ('id', '=', True), ('state', '!=', 'draft')]}">-->
                                 <tree editable="bottom">
                                     <control>
@@ -51,7 +52,7 @@
                                     <field name="partner_payment_name1" attrs="{'invisible': [('display_type', '!=', False)]}"/>
                                     <field name="vj_c_payment_category" string="vj_c_payment_category" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"/>
                                     <field name="payment_amount" string="Payment Amount" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"/>
-                                    <field name="name" string="Description" readonly="False"/>
+                                    <field name="name" string="Description" attrs="{'required': [('display_type', '!=', False)]}" readonly="False"/>
                                     <field name="company_id" invisible="1"/>
                                     <field name="journal_id" invisible="1"/>
                                     <field name="amount" invisible="1"/>
