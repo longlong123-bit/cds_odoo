@@ -30,6 +30,7 @@ class ProductTemplate(models.Model):
                              help="Default unit of measure used for all stock operations.")
 
     product_custom_freight_category = fields.Many2one('freight.category.custom', 'Maker code')
+    product_maker_code = fields.Char('Maker code', related='product_custom_freight_category.search_key_freight')
 
     product_maker_name = fields.Char('Maker name', readonly=True, store=True)
 
