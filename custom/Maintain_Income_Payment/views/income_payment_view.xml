@@ -113,7 +113,7 @@
                             <tr>
                                 <td class="o_td_label"><label for="state" string="Document Status"/></td>
                                 <td colspan="2"><field name="state" readonly="True"/></td>
-
+                                <td colspan="2"><field name="customer_other_cd" force_save="1" invisible="1"/></td>
                             </tr>
                         </tbody>
                     </table>
