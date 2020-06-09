@@ -11,12 +11,6 @@
                 <form class="product_custom_template custom_template">
                     <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
                     <group>
-<!--                        <group>-->
-<!--                            <field name="product_custom_search_key" readonly="True"/>-->
-<!--                        </group>-->
-                        <group></group>
-                    </group>
-                    <group>
                         <group class="custom_group">
                             <label for="barcode" string="UPC/EAN*"/>
                             <div>
@@ -43,10 +37,10 @@
                                 </td>
                                 <td style="width: 12%; vertical-align: top; text-align: right"><label for="product_class_name_lv1"/></td>
                                 <td style="width: 44%; vertical-align: top;">
-                                    <field name="product_class_name_lv1" style="height: 27px;" readonly="True" />
-                                    <field name="product_class_name_lv2"  style="height: 27px;" readonly="True"/>
-                                    <field name="product_class_name_lv3" style="height: 27px;" readonly="True"/>
-                                    <field name="product_class_name_lv4" style="height: 27px;" readonly="True"/>
+                                    <field name="product_class_name_lv1" style="height: 27px;" attrs="{'invisible': [('product_class_code_lv1', '=', False)]}" readonly="True" />
+                                    <field name="product_class_name_lv2"  style="height: 27px;" attrs="{'invisible': [('product_class_code_lv2', '=', False)]}" readonly="True"/>
+                                    <field name="product_class_name_lv3" style="height: 27px;" attrs="{'invisible': [('product_class_code_lv3', '=', False)]}" readonly="True"/>
+                                    <field name="product_class_name_lv4" style="height: 27px;" attrs="{'invisible': [('product_class_code_lv4', '=', False)]}" readonly="True"/>
                                 </td>
                             </table>
                             <field name="product_code_1"/>
@@ -64,35 +58,12 @@
                             </div>
                             <field name="setting_price"/>
                             <field name="standard_price"/>
-                            <label for="type" string="Product Type"/>
-                            <div>
-                                <field name="type" widget="selection_tags" style="width: 100%%"/>
-                            </div>
                             <label for="taxes_id" string='Tax Category*'/>
                             <div>
                                 <field name="taxes_id" widget="many2many_tags" style="width: 100%%" required="True"/>
                             </div>
-                            <label for="product_custom_is_stocked" invisible="True"/>
-                            <div>
-                                <field name="product_custom_is_stocked" widget="boolean_tags"/>
-                                <label for="product_custom_is_stocked"/>
-                            </div>
-                            <field name="list_price" widget="selection_tags"/>
                         </group>
                         <group>
-                            <label for="categ_id" string="Product Category"/>
-                            <div>
-                                <field name="categ_id" widget="many2one_tags" style="width: 100%%" required="False"/>
-                            </div>
-                            <field name="product_custom_modelnumber"/>
-                            <field name="description"/>
-                            <field name="product_custom_comment_help"/>
-                            <field name="product_custom_document_note"/>
-                            <label for="product_custom_is_active" invisible="True"/>
-                            <div>
-                                <field name="product_custom_is_active" widget="boolean_tags"/>
-                                <label for="product_custom_is_active"/>
-                            </div>
                             <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"
                                    readonly="True"/>
                             <field name="product_code_4"/>
@@ -108,82 +79,19 @@
                             <field name="price_include_tax"/>
                             <field name="original_price_no_tax"/>
                             <field name="original_price_include_tax"/>
-                        </group>
-                        <group>
-                            <field name="product_custom_discontinued_at" attrs="{'invisible': [('product_custom_is_discontinued', '=', False)]}"/>
-                        </group>
-                        <group>
+                            <label for="product_custom_is_active" invisible="True"/>
+                            <div>
+                                <field name="product_custom_is_active" widget="boolean_tags"/>
+                                <label for="product_custom_is_active"/>
+                            </div>
                             <label for="product_custom_is_discontinued" invisible="True"/>
                             <div>
                                 <field name="product_custom_is_discontinued" widget="boolean_tags"/>
                                 <label for="product_custom_is_discontinued"/>
                             </div>
+                            <field name="product_custom_discontinued_at" attrs="{'invisible': [('product_custom_is_discontinued', '=', False)]}"/>
                         </group>
                     </group>
-
-                    <notebook>
-                        <!-- Purchasing -->
-                        <page name="purchase" string="Purchasing">
-                            <field name="seller_ids" widget="section_and_note_one2many" attrs="{'readonly': [('id', '=', False)]}">
-                                <tree editable="bottom">
-                                    <button name="button_details" string="Detail" type="object" class="oe_edit_only"/>
-                                    <field name="company_id" readonly="True" string="Organization"/>
-                                    <field name="name" string="Business Partner" domain="[('customer_rank','>', 0)]"
-                                           context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
-                                           options='{"reload_on_button": True, "no_quick_create": True}'/>
-                                    <field name="company_id" string="Client*" readonly="True" invisible="True"/>
-                                    <field name="product_purchasing_is_current_vendor"/>
-                                    <field name="product_purchasing_barcode" string="UPC/EAN"/>
-                                    <field name="currency_id" required="False"/>
-                                    <field name="price" string="List Price" required="False"/>
-                                    <field name="product_purchasing_po_price"/>
-                                    <field name="min_qty" required="False" string="Minimum Order Qty"/>
-                                    <field name="product_purchasing_order_pack_qty"/>
-                                    <field name="delay" required="False" string="Promised Delivery Time"/>
-                                    <field name="product_purchasing_partner_category"/>
-                                    <field name="product_purchasing_is_active"/>
-                                </tree>
-                          </field>
-                        </page>
-
-                        <!-- Price -->
-                        <page name="price" string="Price">
-                            <button name="open_pricelist" string="Extra Prices" type="object" class="oe_edit_only"/>
-                            <field name="item_ids" widget="section_and_note_one2many" attrs="{'readonly': [('id', '=', False)]}">
-                                <tree editable="bottom" create="false">
-                                    <button name="button_details" string="Detail" type="object" class="oe_edit_only"/>
-                                    <field name="pricelist_id" readonly="True" string="Price List Version"/>
-                                    <field name="fixed_price" string="List Price"/>
-                                    <field name="product_price_standard_price" string="Standard Price"/>
-                                </tree>
-                            </field>
-                        </page>
-
-                        <!-- Costs -->
-                        <page name="costs" string="Costs">
-                            <field name="custom_attribute_line_ids" widget="section_and_note_one2many" attrs="{'readonly': [('id', '=', False)]}">
-                                <tree editable="bottom" create="false" delete="false">
-                                    <button name="button_details" string="Detail" type="object" class="oe_edit_only"/>
-                                    <field name="company_id" readonly="True" string="Organization"/>
-                                    <field name="product_cost_attribute_info"/>
-                                    <field name="product_cost_accounting_schema" string="Accounting Schema" readonly="True"/>
-                                    <field name="product_cost_cost_type" string="Code Type" readonly="True"/>
-                                    <field name="product_cost_cost_element" string="Code Element" readonly="True"/>
-                                    <field name="product_cost_current_cost_price" string="Current Cost Price" readonly="True"/>
-                                    <field name="product_cost_current_cost_price_lower_level" string="Current Cost Price Lower Level"/>
-                                    <field name="product_cost_future_cost_price" string="Future Cost Price" attrs="{'readonly': [('product_cost_is_active', '=', False)]}"/>
-                                    <field name="product_cost_future_cost_price_lower_level"  widget="char"/>
-                                    <field name="product_cost_percent"/>
-                                    <field name="product_cost_current_quantity" string="Current Quantity"/>
-                                    <field name="product_cost_is_cost_frozen" readonly="True"/>
-                                    <field name="product_cost_accumulated_qty"/>
-                                    <field name="product_cost_accumulated_amt"/>
-                                    <field name="product_cost_is_processed" readonly="True"/>
-                                    <field name="product_cost_is_active"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
                 </form>
             </xpath>
         </field>

@@ -9,7 +9,6 @@ class ClassClosingDate(models.Model):
     closing_date_code = fields.Char('Closing Date Code')
     name = fields.Char('Closing Date Name')
     start_day = fields.Integer('Start Date', size=2)
-    closing_date_circle = fields.Integer('Closing Date Circle')
     active = fields.Boolean('Active', default=True)
 
     _sql_constraints = [
