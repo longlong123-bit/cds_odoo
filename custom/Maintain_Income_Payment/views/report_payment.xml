@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--        <report-->
+<!--            id="account_invoices_without_payment"-->
+<!--            model="account.move"-->
+<!--            string="Invoices without Payment"-->
+<!--            report_type="qweb-pdf"-->
+<!--            name="account.report_payment"-->
+<!--            file="account.report_payment"-->
+<!--            attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"-->
+<!--            print_report_name="(object._get_report_base_filename())"-->
+<!--            menu="False"-->
+<!--        />-->
+
+<!--        <report-->
+<!--            id="account_invoices"-->
+<!--            model="account.move"-->
+<!--            string="Invoices"-->
+<!--            report_type="qweb-pdf"-->
+<!--            name="account.report_payment_with_payments"-->
+<!--            file="account.report_payment_with_payments"-->
+<!--            attachment="(object.state == 'posted') and ((object.name or 'INV').replace('/','_')+'.pdf')"-->
+<!--            print_report_name="(object._get_report_base_filename())"-->
+<!--            groups="account.group_account_invoice"-->
+<!--            menu="False"-->
+<!--        />-->
+        <report
+            id="custom_report_shipment_fm1"
+            model="account.payment"
+            string="Report payment"
+            report_type="qweb-pdf"
+            attachment_use="False"
+            name="Maintain_Income_Payment.report_payment_format1"
+            file="Maintain_Income_Payment.report_payment_format1"
+        />
+</odoo>
