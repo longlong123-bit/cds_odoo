@@ -52,6 +52,9 @@
                             <field name="product_code_3"/>
                             <field name="price_no_tax_3"/>
                             <field name="price_include_tax_3"/>
+                            <field name="product_tax_rate" string="Tax Rate"/>
+                        </group>
+                        <group>
                             <label for="uom_id" string="UOM"/>
                             <div>
                                 <field name="uom_id" widget="many2one_tags" style="width: 100%%"/>
@@ -62,8 +65,6 @@
                             <div>
                                 <field name="taxes_id" widget="many2many_tags" style="width: 100%%" required="True"/>
                             </div>
-                        </group>
-                        <group>
                             <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"
                                    readonly="True"/>
                             <field name="product_code_4"/>
