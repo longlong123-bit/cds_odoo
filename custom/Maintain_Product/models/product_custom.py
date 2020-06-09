@@ -93,6 +93,8 @@ class ProductTemplate(models.Model):
     flag_select = fields.Char('Flag select')
     model_number = fields.Char('Model number')
     model_name = fields.Char('Model name')
+    # add extra field tax
+    product_tax_rate = fields.Integer('Tax Rate')
 
     type = fields.Selection(
         [('asset', 'Asset'), ('expense_type', 'Expense type'), ('item', 'Item'), ('resource', 'Resource'),
@@ -228,6 +230,12 @@ class ProductTemplate(models.Model):
         if not re.match("^[0-9]*$", self.barcode):
             raise ValidationError("JAN/UPC/EANに英数をしてください。")
         return {}
+
+    # Check validate tax rate
+    @api.constrains('product_tax_rate')
+    def _check_maximum_day(self):
+        if self.product_tax_rate < 0:
+            raise ValidationError(_('The Tax Rate must be more than 0'))
 
     _sql_constraints = [
         ('name_code_uniq', 'unique(product_code_1,product_code_2, product_code_3, product_code_4, '
