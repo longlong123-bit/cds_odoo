@@ -11,13 +11,13 @@
                 <form class="product_custom_template custom_template">
                     <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
                     <group>
-                        <group>
-                            <field name="product_custom_search_key" readonly="True"/>
-                        </group>
+<!--                        <group>-->
+<!--                            <field name="product_custom_search_key" readonly="True"/>-->
+<!--                        </group>-->
                         <group></group>
                     </group>
                     <group>
-                        <group>
+                        <group class="custom_group">
                             <label for="barcode" string="UPC/EAN*"/>
                             <div>
                                 <field name="barcode" widget="char_tags" required="True" style="width: 100%%"/>
@@ -33,20 +33,22 @@
                             <field name="product_maker_name" force_save="1"/>
 <!--                            <field name="product_class_code"/>-->
 <!--                            <field name="product_class_name" readonly="True"/>-->
-                            <label for="product_class_code_lv1" string="Class code"/>
-                            <div>
-                               <field name="product_class_code_lv1" style="width: 25%" domain="[('product_level', '=', 'lv1')]"/>
-                                <field name="product_class_code_lv2" style="width: 25%"  domain="[('product_level', '=', 'lv2')]"/>
-                                 <field name="product_class_code_lv3" style="width: 25%"  domain="[('product_level', '=', 'lv3')]"/>
-                                 <field name="product_class_code_lv4" style="width: 25%"  domain="[('product_level', '=', 'lv4')]"/>
-                            </div>
-                            <label for="product_class_name_lv1"/>
-                            <div>
-                               <field name="product_class_name_lv1" readonly="True" style="max-width: 25%"/>
-                                <field name="product_class_name_lv2" readonly="True" style="max-width: 25%"/>
-                                <field name="product_class_name_lv3" readonly="True" style="max-width: 25%"/>
-                                <field name="product_class_name_lv4" readonly="True" style="max-width: 25%"/>
-                            </div>
+                            <div style="text-align: right"><label for="product_class_code_lv1" string="Class code"/></div>
+                            <table style="margin-right: 36px; margin-left: 8px">
+                                <td style="width: 44%; vertical-align: top;">
+                                    <field name="product_class_code_lv1" domain="[('product_level', '=', 'lv1')]"/>
+                                    <field name="product_class_code_lv2"  domain="[('product_level', '=', 'lv2')]"/>
+                                    <field name="product_class_code_lv3"  domain="[('product_level', '=', 'lv3')]"/>
+                                    <field name="product_class_code_lv4"  domain="[('product_level', '=', 'lv4')]"/>
+                                </td>
+                                <td style="width: 12%; vertical-align: top; text-align: right"><label for="product_class_name_lv1"/></td>
+                                <td style="width: 44%; vertical-align: top;">
+                                    <field name="product_class_name_lv1" style="height: 27px;" readonly="True" />
+                                    <field name="product_class_name_lv2"  style="height: 27px;" readonly="True"/>
+                                    <field name="product_class_name_lv3" style="height: 27px;" readonly="True"/>
+                                    <field name="product_class_name_lv4" style="height: 27px;" readonly="True"/>
+                                </td>
+                            </table>
                             <field name="product_code_1"/>
                             <field name="price_no_tax_1"/>
                             <field name="price_include_tax_1"/>

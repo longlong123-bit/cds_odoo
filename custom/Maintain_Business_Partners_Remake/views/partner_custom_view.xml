@@ -329,7 +329,7 @@
             </field>
         </record>
 
-        <!--Customer Master Only Search-->
+<!--        Customer Master Only Search-->
 <!--         <record model="ir.ui.view" id="partner_custom_reference_tree">-->
 <!--			<field name="name">partner.custom.tree</field>-->
 <!--			<field name="model">res.partner</field>-->
@@ -345,6 +345,7 @@
 <!--            <field name="type">ir.actions.act_window</field>-->
 <!--            <field name="res_model">res.partner</field>-->
 <!--            <field name="view_mode">tree</field>-->
+<!--            <field name="mode">primary</field>-->
 <!--            <field name="view_id" ref="partner_custom_reference_tree"/>-->
 <!--            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1,-->
 <!--                'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}-->
