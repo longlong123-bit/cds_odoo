@@ -316,7 +316,7 @@
         <field name="arch" type="xml">
             <tree string="Product Variants" multi_edit="1" duplicate="false" class="forward_edit" create="true" >
                 <field name="barcode" required="True" string="JANコード"/>
-                <field name="product_custom_freight_category" string="Maker code"/>
+                <field name="product_maker_code" string="Maker code"/>
                 <field name="product_maker_name" string="Maker name" readonly='True'/>
 <!--                <field name="product_class_code" string="Class code"/>-->
 <!--                <field name="product_class_name" string="Class name"/>-->
