@@ -27,7 +27,7 @@ class IncomePaymentCustom(models.Model):
     customer_industry_code = fields.Many2one('res.partner.industry', string='Industry Code')
     is_customer_supplier_group_code = fields.Boolean(string='is_customer_supplier_group_code', default=False)
     is_industry_code = fields.Boolean(string='is_industry_code', default=False)
-    customer_other_cd = fields.Char(string='Customer CD')
+    customer_other_cd = fields.Char(string='Customer CD', store=True)
     write_date = fields.Date('Write Date')
     display_type = fields.Selection([
         ('line_section', 'Section'),
