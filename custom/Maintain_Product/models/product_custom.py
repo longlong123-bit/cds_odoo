@@ -229,7 +229,7 @@ class ProductTemplate(models.Model):
     @api.onchange('barcode')
     @api.constrains('barcode')
     def _check_barcode(self):
-        if not re.match("^[0-9]*$", self.barcode):
+        if not re.match("^[0-9]*$", self.barcode) or self.barcode == '000000000':
             raise ValidationError("JAN/UPC/EANに英数をしてください。")
 
         # check UPC/EAN
