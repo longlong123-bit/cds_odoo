@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-01 02:49+0000\n"
-"PO-Revision-Date: 2020-06-01 02:49+0000\n"
+"POT-Creation-Date: 2020-06-10 11:26+0000\n"
+"PO-Revision-Date: 2020-06-10 11:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,6 @@ msgid ""
 msgstr "国の行政区画。たとえば連邦、省、州。"
 
 #. module: Maintain_Country_State
-#: model:ir.ui.menu,name:Maintain_Country_State.menu_client
-msgid "Client"
-msgstr "クライアント"
-
-#. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_closing_date
 msgid "Closing Date"
 msgstr "締日"
@@ -50,7 +45,6 @@ msgstr "国"
 
 #. module: Maintain_Country_State
 #: model:ir.actions.act_window,name:Maintain_Country_State.action_country_state
-#: model:ir.ui.menu,name:Maintain_Country_State.menu_state
 msgid "Country State"
 msgstr "地区マスタ"
 
@@ -68,6 +62,11 @@ msgstr "自社マスタ設定"
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_customer
 msgid "Customer Master"
 msgstr "得意先マスタ"
+
+#. module: Maintain_Country_State
+#: model:ir.ui.menu,name:Maintain_Country_State.menu_customer_reference
+msgid "Customer Master Reference"
+msgstr "得意先マスタ一覧"
 
 #. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_department
@@ -110,11 +109,6 @@ msgid "Partner Group"
 msgstr "得意先グループマスタ"
 
 #. module: Maintain_Country_State
-#: model:ir.ui.menu,name:Maintain_Country_State.menu_print_output
-msgid "Printer"
-msgstr "プリンタ出力先設定"
-
-#. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_product
 msgid "Product"
 msgstr "商品マスタ"
@@ -123,11 +117,6 @@ msgstr "商品マスタ"
 #: model:ir.ui.menu,name:Maintain_Country_State.menu_product_class
 msgid "Product Class"
 msgstr "商品分類マスタ"
-
-#. module: Maintain_Country_State
-#: model:ir.ui.menu,name:Maintain_Country_State.menu_receipt_divide
-msgid "Receipt Divide"
-msgstr "入金区分"
 
 #. module: Maintain_Country_State
 #: model:ir.ui.menu,name:Maintain_Country_State.submenu_second
@@ -158,11 +147,6 @@ msgstr "地区コード"
 #: model_terms:ir.ui.view,arch_db:Maintain_Country_State.custom_view_country_state_tree
 msgid "State Name"
 msgstr "地区名"
-
-#. module: Maintain_Country_State
-#: model:ir.ui.menu,name:Maintain_Country_State.menu_tax_rate
-msgid "Tax Rate"
-msgstr "税率マスタ"
 
 #. module: Maintain_Country_State
 #: model:ir.model.fields,help:Maintain_Country_State.field_res_country_state__code

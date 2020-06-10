@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!--        Customer Master Only Search-->
+         <record id="partner_custom_reference_tree" model="ir.ui.view">
+			<field name="name">res.partner.confirm.tree</field>
+			<field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+             <field name="mode">primary</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree string="Partner Custom" multi_edit="1" create="false" delete="false" >
+                        <field name="customer_code" string="Customer Code"/>
+                        <field name="customer_code_bill" string="Billing Code"/>
+                        <field name="name" string="Customer Name"/>
+                        <field name="customer_name_kana" string="Customer Name Kana"/>
+                        <field name="zip_code" string="Zip"/>
+                        <field name="street" string="Address 1"/>
+                        <field name="street2" string="Address 2"/>
+                        <field name="customer_phone" string="Phone"/>
+                        <field name="customer_state" string='State'/>
+                        <field name="customer_supplier_group_code" string='Supplier Group Code'/>
+                        <field name="customer_industry_code" string='Industry Code'/>
+                        <field name="customer_agent" string='Representative/Agent'/>
+                        <!--invisible-->
+                        <field name="customer_tax_rounding" optional="hide"/>
+                        <field name="customer_trans_classification_code" optional="hide"/>
+                        <field name="customer_tax_unit" optional="hide"/>
+                        <field name="customer_tax_rounding" optional="hide"/>
+                        <field name="customer_closing_date" optional="hide"/>
+                        <field name="customer_payment_method" optional="hide"/>
+                        <field name="payment_terms" optional="hide"/>
+                        <field name="payment_rule" optional="hide"/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="res_partner_action_customer_reference" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="partner_custom_reference_tree"/>
+    <!--        <field name="x_history_voucher" widget="Maintain_Income_Payment.Search" z-index="92"/>-->
+            <field name="context">{'search_default_customer': 1,'res_partner_search_mode': 'customer', 'default_is_company': True, 'default_customer_rank': 1,
+                'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}
+            </field>
+        </record>
+
+
+
+
+<!--        <menuitem id="menu_ideas" parent="" name="Customer Master" sequence="10"-->
+<!--                  action="res_partner_action_customer" groups="base.group_user"/>-->
+    </data>
+</odoo>
