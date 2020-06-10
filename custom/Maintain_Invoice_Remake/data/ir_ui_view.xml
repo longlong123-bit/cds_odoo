@@ -105,6 +105,10 @@
             <attribute name="invisible">1</attribute>
         </xpath>
 
+        <xpath expr="//header" position="inside">
+            <button name="fill_data" string="Fill data" class="o_fill_data"/>
+        </xpath>
+
       <!-- BEGIN FORM -->
       <xpath expr="//group[1]" position="replace">
           <div style="text-align: right; font-weight: bold; font-size: 1.2rem; margin-bottom: 20px; margin-right: 80px;">
