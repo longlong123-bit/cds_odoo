@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- list tree -->
+		<record model="ir.ui.view" id="accounts_receivable_balance_list_tree">
+			<field name="name">accounts_receivable_balance_list_tree</field>
+			<field name="model">res.partner</field>
+            <field name="arch" type="xml">
+				<tree create="0" import="0" class="o_tree">
+					<field name="customer_code_bill"/>
+					<field name="name"/>
+                    <field name="accounts_receivable_last_month"/>
+					<field name="deposit_amount"/>
+					<field name="amount_carried_forward"/>
+					<field name="purchase_amount"/>
+					<field name="consumption_tax"/>
+					<field name="discount"/>
+                    <field name="liabilities"/>
+					<field name="input_target_month" invisible="1"/>
+					<field name="input_division" invisible="1"/>
+					<field name="input_sales_rep" invisible="1"/>
+					<field name="input_customer_supplier_group_code" invisible="1"/>
+					<field name="input_customer_code_bill_from" invisible="1"/>
+					<field name="input_customer_code_bill_to" invisible="1"/>
+					<field name="input_display_order" invisible="1"/>
+				</tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="action_accounts_receivable_balance_list">
+            <field name="name">Accounts Receivable Balance List</field>
+            <field name="res_model">res.partner</field>
+			<field name="view_id" ref="accounts_receivable_balance_list_tree"/>
+			<field name="domain">[('billing_liabilities_flg','=', True)]</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem id="menu_accounts_receivable_balance_list" parent="" name="Accounts Receivable Balance List" sequence="12"
+                  action="action_accounts_receivable_balance_list" groups="base.group_user"/>
+    </data>
+</odoo>
