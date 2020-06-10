@@ -16,6 +16,7 @@
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/partner_custom_view.xml',
+        'views/partner_custom_ref_view.xml',
         'views/sequence.xml',
     ],
     'demo': [],
