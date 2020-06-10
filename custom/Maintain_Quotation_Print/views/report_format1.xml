@@ -12,7 +12,7 @@
       <t t-set="o" t-value="o.with_context(lang=lang)" />
       <div>
         <div style="float: left; width: 45%;">
-          <div style="border: 3px solid #eee; padding: 10px; margin: 10px">
+          <div style="border: 2px solid #000; padding: 10px; margin-bottom: 10px">
             <div><span t-field="o.partner_id.zip_code"/></div>
             <div><span t-field="o.partner_id.street"/></div>
             <div><span t-field="o.partner_id.street2"/></div>
@@ -21,15 +21,15 @@
           <div>下記のとおり、御見積もり申し上げます。</div>
         </div>
         <div style="float: right; width: 45%">
-          <h1 style="text-align: center; border-bottom: 2px solid #ddd; padding-bottom: 5px; margin: 0"><span style="letter-spacing: 1.5rem; margin-right: -1.5rem;" t-field="o.report_header.name"/></h1>
+          <h1 style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin: 0"><span style="letter-spacing: 1.5rem; margin-right: -1.5rem;" t-field="o.report_header.name"/></h1>
           <div style="text-align: right; margin-top: 10px; margin-bottom: 10px">
-            <table style="border: 1px solid #ddd; display: inline-block" border="0" cellspacing="0" cellpadding="5">
+            <table style="border: 1px solid #000; display: inline-block" border="0" cellspacing="0" cellpadding="5">
               <tr>
-                <td style="border: 1px solid #ddd; border-top: 0; border-left: 0">見積No.</td>
-                <td style="border-bottom: 1px solid #ddd; text-align: center"><span t-field="o.document_no"/></td>
+                <td style="border: 1px solid #000; border-top: 0; border-left: 0">見積No.</td>
+                <td style="border-bottom: 1px solid #000; text-align: center"><span t-field="o.document_no"/></td>
               </tr>
               <tr>
-                <td style="border-right: 1px solid #ddd; text-align: center">見積日</td>
+                <td style="border-right: 1px solid #000; text-align: center">見積日</td>
                 <td>
                   <t t-if="o.is_print_date and o.quotations_date">
                       <span t-field="o.quotations_date" t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
@@ -48,60 +48,57 @@
       </div>
 
       <div>
-        <table style="border: 2px solid #ddd;" border="0" cellspacing="0" cellpadding="5">
+        <table style="border: 2px solid #000;" border="0" cellspacing="0" cellpadding="5">
           <tr>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0; width: 80px">件名</td>
-            <td style="border-bottom: 1px solid #ddd; width: 188px; font-weight: bold"><span t-field="o.name"/></td>
+            <td style="border: 1px solid #000; border-left: 0; border-top: 0; width: 80px">件名</td>
+            <td style="border-bottom: 1px solid #000; width: 168px; font-weight: bold"><span t-field="o.name"/></td>
           </tr>
           <tr>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0;">納品場所</td>
-            <td style="border-bottom: 1px solid #ddd"><span t-field="o.shipping_address"/></td>
+            <td style="border: 1px solid #000; border-left: 0; border-top: 0;">納品場所</td>
+            <td style="border-bottom: 1px solid #000"><span t-field="o.shipping_address"/></td>
           </tr>
           <tr>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0;">合計金額</td>
-            <td style="border-bottom: 1px solid #ddd; font-weight: bold"><span t-field="o.amount_total"/></td>
+            <td style="border: 1px solid #000; border-left: 0; border-top: 0;">合計金額</td>
+            <td style="border-bottom: 1px solid #000; font-weight: bold"><span t-field="o.amount_total"/></td>
           </tr>
           <tr>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0;">支払条件</td>
-            <td style="border-bottom: 1px solid #ddd"><span t-field="o.partner_id.payment_terms.name"/></td>
+            <td style="border: 1px solid #000; border-left: 0; border-top: 0;">支払条件</td>
+            <td style="border-bottom: 1px solid #000"><span t-field="o.partner_id.payment_terms.name"/></td>
           </tr>
           <tr>
-            <td style="border-right: 1px solid #ddd">有効期限</td>
+            <td style="border-right: 1px solid #000">有効期限</td>
             <td><span t-field="o.expiration_date"/></td>
           </tr>
         </table>
       </div>
 
       <div style="margin-top: 8px">
-        <table border="0" cellspacing="0" cellpadding="5" style="width: 100%; border: 2px solid #ddd; margin-bottom: 8px; box-sizing: border-box">
+        <table border="0" cellspacing="0" cellpadding="5" style="width: 100%; border: 2px solid #000; border-bottom-width: 1px">
           <thead>
             <tr>
-              <td style="border-right: 1px solid #ddd; text-align: center; width: 270px">品　　　　名</td>
-              <td style="border-right: 1px solid #ddd; text-align: center; width: 80px">数量</td>
-              <td style="border-right: 1px solid #ddd; text-align: center; width: 70px">単位</td>
-              <td style="border-right: 1px solid #ddd; text-align: center; width: 90px">単価</td>
-              <td style="border-right: 1px solid #ddd; text-align: center; width: 100px">金　　額</td>
-              <td style="text-align: center">摘要</td>
+              <td style="border: 1px solid #000; border-top: 0; border-left: 0; text-align: center; width: 270px">品　　　　名</td>
+              <td style="border: 1px solid #000; border-top: 0; border-left: 0; text-align: center; width: 80px">数量</td>
+              <td style="border: 1px solid #000; border-top: 0; border-left: 0; text-align: center; width: 70px">単位</td>
+              <td style="border: 1px solid #000; border-top: 0; border-left: 0; text-align: center; width: 90px">単価</td>
+              <td style="border: 1px solid #000; border-top: 0; border-left: 0; text-align: center; width: 100px">金　　額</td>
+              <td style="border-bottom: 1px solid #000; text-align: center">摘要</td>
             </tr>
           </thead>
-        </table>
-
-        <table border="0" cellspacing="0" cellpadding="5" style="width: 100%; border: 2px solid #ddd; border-bottom-width: 1px">
           <tbody>
             <t t-foreach="o.order_line" t-as="order">
               <tr t-if="order.display_type == 'line_note'">
-                <td colspan="6" style="border-bottom: 1px solid #ddd"><i><span t-field="order.name"/></i></td>
+                <td colspan="6" style="border-bottom: 1px solid #000"><i><span t-field="order.name"/></i></td>
               </tr>
               <tr t-if="order.display_type == 'line_section'">
-                <td colspan="6" style="border-bottom: 1px solid #ddd; background-color: #ddd"><b><span t-field="order.name"/></b></td>
+                <td colspan="6" style="border-bottom: 1px solid #000; background-color: #eee"><b><span t-field="order.name"/></b></td>
               </tr>
               <tr t-if="not order.display_type">
-                <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 270px"><span t-field="order.product_id.name"/></td>
-                <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 80px; text-align: right"><span t-field="order.product_uom_qty"/></td>
-                <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 70px; text-align: center"><span t-field="order.product_uom"/></td>
-                <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 90px; text-align: right"><span t-field="order.price_unit"/></td>
-                <td style="border: 1px solid #ddd; border-top: 0; border-left: 0; width: 100px; text-align: right"><span t-field="order.line_amount"/></td>
-                <td style="border-bottom: 1px solid #ddd; text-align: right"><span t-field="order.name"/></td>
+                <td style="border: 1px solid #000; border-top: 0; border-left: 0; width: 270px"><span t-field="order.product_id.name"/></td>
+                <td style="border: 1px solid #000; border-top: 0; border-left: 0; width: 80px; text-align: right"><span t-field="order.product_uom_qty"/></td>
+                <td style="border: 1px solid #000; border-top: 0; border-left: 0; width: 70px; text-align: center"><span t-field="order.product_uom"/></td>
+                <td style="border: 1px solid #000; border-top: 0; border-left: 0; width: 90px; text-align: right"><span t-field="order.price_unit"/></td>
+                <td style="border: 1px solid #000; border-top: 0; border-left: 0; width: 100px; text-align: right"><span t-field="order.line_amount"/></td>
+                <td style="border-bottom: 1px solid #000; text-align: right"><span t-field="order.name"/></td>
               </tr>
             </t>
           </tbody>
@@ -111,13 +108,13 @@
       <div style="box-sizing: border-box; margin-top: 8px">
         <table style="width: 100%" border="0" cellspacing="0" cellpadding="5">
           <tr>
-            <td style="border: 2px solid #ddd; width: 421px; vertical-align: top;" rowspan="3">備考／<span t-field="o.comment_apply"/></td>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top-width: 2px; width: 90px; text-align: center">小　　計</td>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top-width: 2px; border-right-width: 2px; text-align: right; width: 99px">
+            <td style="border: 2px solid #000; width: 421px; vertical-align: top;" rowspan="3">備考／<span t-field="o.comment_apply"/></td>
+            <td style="border: 1px solid #000; border-left: 0; border-top-width: 2px; width: 90px; text-align: center">小　　計</td>
+            <td style="border: 1px solid #000; border-left: 0; border-top-width: 2px; border-right-width: 2px; text-align: right; width: 99px">
               <span t-field="o.amount_untaxed"/>
             </td>
             <td rowspan="3" style="text-align: center; padding: 0">
-<!--              <div style="height: 100%; border: 1px solid #ddd; display: inline-block;">-->
+<!--              <div style="height: 100%; border: 1px solid #000; display: inline-block;">-->
 <!--                <div style="height: 100%; display: flex; padding: 8px">-->
 <!--                  <div style="max-height: 100%"></div>-->
 <!--                </div>-->
@@ -126,14 +123,14 @@
             </td>
           </tr>
           <tr>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0; text-align: center">消費税</td>
-            <td style="border: 1px solid #ddd; border-left: 0; border-top: 0; border-right-width: 2px; text-align: right">
+            <td style="border: 1px solid #000; border-left: 0; border-top: 0; text-align: center">消費税</td>
+            <td style="border: 1px solid #000; border-left: 0; border-top: 0; border-right-width: 2px; text-align: right">
                 <span t-field="o.amount_tax"/>
             </td>
           </tr>
           <tr>
-            <td style="border-right: 1px solid #ddd; border-bottom: 2px solid #ddd; text-align: center">合　　計</td>
-            <td style="border: 2px solid #ddd; border-top: 0; border-left: 0; text-align: right">
+            <td style="border-right: 1px solid #000; border-bottom: 2px solid #000; text-align: center">合　　計</td>
+            <td style="border: 2px solid #000; border-top: 0; border-left: 0; text-align: right">
               <span t-field="o.amount_total"/>
             </td>
           </tr>
