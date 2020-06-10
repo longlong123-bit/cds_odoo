@@ -128,49 +128,104 @@ class BillingClass(models.Model):
         print(self.account_move_ids)
         return True
 
-    def get_lines(self):
-        records = self.env['account.move.line'].search([
-            ('move_id', 'in', self._ids),
-            ('product_id', '!=', False)
-        ]).read()
-
-        # Get tax
-        for record in records:
-            if record['tax_ids']:
-                self._cr.execute('''
-                                            SELECT id, name
-                                            FROM account_tax
-                                            WHERE id IN %s
-                                        ''', [tuple(record['tax_ids'])])
-                query_res = self._cr.fetchall()
-                record['tax_ids'] = ', '.join([str(res[1]) for res in query_res])
-
-        return {
-            'template': 'bill.product_lines',
-            'records': records
-        }
-
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
+            # Create data for bill_info
+            partner_ids = self.env['res.partner'].search([('id', '=', rec['id'])])
+
             res_partner_id = self.env["res.partner"].search(
                 ['|', ('customer_code', '=', rec['customer_code']), ('customer_code_bill', '=', rec['customer_code'])])
 
             invoice_ids = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
                                                            last_closing_date=rec['last_closing_date'],
                                                            deadline=rec['deadline'])
+
             invoice_ids.write({
                 'bill_status': 'billed'
             })
 
+            _sum_amount_tax = 0
+            _sum_amount_total = 0
+            _sum_amount_untaxed = 0
+            _invoice_details_number = 0
+            _sum_amount_tax_cashed = 0
+            _sum_amount_untaxed_cashed = 0
+            _sum_amount_total_cashed = 0
             for invoice in invoice_ids:
-                self.env['bill.header'].create({
+                _sum_amount_untaxed = _sum_amount_untaxed + invoice.amount_untaxed
+                _sum_amount_tax = _sum_amount_tax + invoice.amount_tax
+                _sum_amount_total = _sum_amount_total + invoice.amount_total
+                _invoice_details_number = _invoice_details_number + self.env['account.move.line'].search_count(
+                    [('move_id', '=', invoice.id)])
+                if invoice.customer_trans_classification_code == 'cash':
+                    _sum_amount_untaxed_cashed = _sum_amount_untaxed_cashed + invoice.amount_untaxed
+                    _sum_amount_tax_cashed = _sum_amount_tax_cashed + invoice.amount_tax
+                    _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
+
+            _last_billed_amount = self.env['bill.info'].search([
+                ('billing_code', '=', rec['customer_code']),
+                ('closing_date', '=', rec['last_closing_date']),
+                ('active_flag', '=', True)
+            ])
+
+            payment_ids = self.env['account.payment'].search([
+                ('partner_id', 'in', res_partner_id.ids),
+                ('payment_date', '>', rec['last_closing_date']),
+                ('payment_date', '<=', rec['deadline']),
+                ('state', '=', 'posted')
+            ])
+
+            _deposit_amount = 0
+            for payment_id in payment_ids:
+                _deposit_amount = _deposit_amount + payment_id.payment_amount
+
+            self.env['bill.info'].create({
+                'billing_code': rec['customer_code'],
+                'billing_name': rec['name'],
+                'bill_no': 'BIL/',
+                'bill_date': date.today(),
+                'last_closing_date': rec['last_closing_date'],
+                'closing_date': rec['deadline'],
+                'invoices_number': rec['voucher_number'],
+                'invoices_details_number': _invoice_details_number,
+                'last_billed_amount': _last_billed_amount,
+                'deposit_amount': _deposit_amount,
+                'amount_untaxed': _sum_amount_untaxed,
+                'tax_amount': _sum_amount_tax,
+                'amount_total': _sum_amount_total,
+                'amount_untaxed_cashed': _sum_amount_tax_cashed,
+                'tax_amount_cashed': _sum_amount_tax_cashed,
+                'amount_total_cashed': _sum_amount_total_cashed,
+                'billed_amount': _sum_amount_total - _deposit_amount,
+                'partner_id': partner_ids.id,
+            })
+
+            for invoice in invoice_ids:
+                self.env['bill.invoice'].create({
                     'billing_code': rec['customer_code'],
                     'billing_name': rec['name'],
+                    'bill_no': 'BIL/',
+                    'bill_date': date.today(),
                     'last_closing_date': rec['last_closing_date'],
-                    'deadline': rec['deadline'],
-                    'partner_id': self.env["res.partner"].search([('id', '=', rec['id'])]).id,
-                    'invoice_id': invoice.id,
+                    'closing_date': rec['deadline'],
+                    'amount_untaxed': invoice.amount_untaxed,
+                    'amount_tax': invoice.amount_tax,
+                    'amount_total': invoice.amount_total,
+                    'customer_trans_classification_code': invoice.customer_trans_classification_code,
+                    'account_move_id': invoice.id,
                 })
+
+                for line in invoice.invoice_line_ids:
+                    self.env['bill.invoice.details'].create({
+                        'billing_code': rec['customer_code'],
+                        'billing_name': rec['name'],
+                        'bill_no': 'BIL/',
+                        'bill_date': date.today(),
+                        'last_closing_date': rec['last_closing_date'],
+                        'closing_date': rec['deadline'],
+                        'customer_trans_classification_code': invoice.customer_trans_classification_code,
+                        'account_move_line_id': line.id,
+                    })
 
         return {
             'type': 'ir.actions.client',
