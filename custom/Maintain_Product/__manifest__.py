@@ -16,6 +16,7 @@
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/product_custom_view.xml',
+        'views/product_confirm_view.xml'
     ],
     'demo': [],
     'installable': True,
