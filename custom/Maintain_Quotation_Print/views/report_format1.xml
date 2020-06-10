@@ -12,7 +12,7 @@
       <t t-set="o" t-value="o.with_context(lang=lang)" />
       <div>
         <div style="float: left; width: 45%;">
-          <div style="border: 2px solid #000; padding: 10px; margin-bottom: 10px">
+          <div style="margin-bottom: 10px">
             <div><span t-field="o.partner_id.zip_code"/></div>
             <div><span t-field="o.partner_id.street"/></div>
             <div><span t-field="o.partner_id.street2"/></div>
