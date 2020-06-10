@@ -20,4 +20,14 @@
     .product_edit {
         width: auto;
     }
+
+    .custom_group > tbody > tr{
+        > td:first-child{
+            width: auto !important;
+        }
+
+        > td:last-child{
+            width: 100% !important;
+        }
+    }
 }

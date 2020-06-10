@@ -99,8 +99,9 @@
                                     <td style="border: 0; border-bottom: 1px solid #439eb2; text-align: left; width: 60px; vertical-align: top" name="account_invoice_line_name">
                                         <span t-field="line.invoice_custom_line_no"/>
                                     </td>
+                                    <!--Minhnt switch product code-->
                                     <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: left; vertical-align: top" class="text-right">
-                                        <span t-field="line.product_id.product_custom_search_key"/>: <span t-field="line.product_id.name"/>
+                                        <span t-field="line.product_id.product_code_1"/>: <span t-field="line.product_id.name"/>
                                     </td>
                                     <td style="border: 1px solid #439eb2; width: 110px; border-right: 0; border-top: 0; text-align: right">
                                         <span t-field="line.quantity"/><br/>
