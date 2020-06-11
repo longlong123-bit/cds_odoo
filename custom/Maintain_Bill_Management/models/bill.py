@@ -156,11 +156,9 @@ class BillingClass(models.Model):
                     _sum_amount_tax_cashed = _sum_amount_tax_cashed + invoice.amount_tax
                     _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
 
-            _last_billed_amount = self.env['bill.info'].search([
-                ('billing_code', '=', rec['customer_code']),
-                ('closing_date', '=', rec['last_closing_date']),
-                ('active_flag', '=', True)
-            ]).billed_amount
+            _last_billed_amount = self.env['bill.info'].search([('billing_code', '=', rec['customer_code']),
+                                                                ('closing_date', '=', rec['last_closing_date']),
+                                                                ('active_flag', '=', True)]).billed_amount
 
             payment_ids = self.env['account.payment'].search([
                 ('partner_id', 'in', res_partner_id.ids),
@@ -214,19 +212,19 @@ class BillingClass(models.Model):
                     'account_move_id': invoice.id,
                 })
 
-                for line in invoice.invoice_line_ids:
-                    self.env['bill.invoice.details'].create({
-                        'billing_code': rec['customer_code'],
-                        'billing_name': rec['name'],
-                        'bill_no': 'BIL/',
-                        'bill_date': date.today(),
-                        'last_closing_date': rec['last_closing_date'],
-                        'closing_date': rec['deadline'],
-                        'customer_code': line.partner_id.customer_code,
-                        'customer_name': line.partner_id.name,
-                        'customer_trans_classification_code': invoice.customer_trans_classification_code,
-                        'account_move_line_id': line.id,
-                    })
+            for line in invoice.invoice_line_ids:
+                self.env['bill.invoice.details'].create({
+                    'billing_code': rec['customer_code'],
+                    'billing_name': rec['name'],
+                    'bill_no': 'BIL/',
+                    'bill_date': date.today(),
+                    'last_closing_date': rec['last_closing_date'],
+                    'closing_date': rec['deadline'],
+                    'customer_code': line.partner_id.customer_code,
+                    'customer_name': line.partner_id.name,
+                    'customer_trans_classification_code': invoice.customer_trans_classification_code,
+                    'account_move_line_id': line.id,
+                })
 
         return {
             'type': 'ir.actions.client',

@@ -33,6 +33,7 @@
     ],
     'qweb': [
         'static/src/xml/cancel_bill_button.xml',
+        'static/src/xml/cancel_bill_advanced_search.xml',
     ],
 
     # only loaded in demonstration mode

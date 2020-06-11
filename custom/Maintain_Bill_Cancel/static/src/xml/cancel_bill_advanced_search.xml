@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="cancel_bill.advanced_search">
+        <table>
+            <tr>
+                <th>締日（締日グループ）</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="partner_id.customer_closing_date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>抜粋請求区分</th>
+                <td>
+                    <select class="filter-item" data-operator="eq" data-name="customer_except_request"
+                            style="height:26px">
+                        <option value='0'>No</option>
+                        <option value='1'>Yes</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>締切日</th>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="closing_date" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>事業部</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="dept"/>
+                </td>
+            </tr>
+            <tr>
+                <th>営業担当者</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="account_move_ids.sales_rep"/>
+                </td>
+            </tr>
+            <tr>
+                <th>取引先グループ</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_supplier_group_code"/>
+                </td>
+            </tr>
+            <tr>
+                <th>請求先</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="customer_code_bill"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="customer_code_bill"/>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>

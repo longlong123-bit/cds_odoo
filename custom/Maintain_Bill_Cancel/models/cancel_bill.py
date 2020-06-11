@@ -22,7 +22,7 @@ class BillingClass(models.Model):
                 'bill_status': 'not yet'
             })
 
-        self.search([('id', 'in', argsSelectedIds)]).unlink()
+        self.env['bill.info'].search([('id', 'in', argsSelectedIds)]).unlink()
 
         self.env['bill.invoice'].search([
             ('billing_code', '=', rec['billing_code']),
@@ -34,7 +34,7 @@ class BillingClass(models.Model):
             ('billing_code', '=', rec['billing_code']),
             ('bill_date', '=', rec['bill_date']),
             ('last_closing_date', '=', rec['last_closing_date']),
-        ])
+        ]).unlink()
 
         return {
             'type': 'ir.actions.client',
