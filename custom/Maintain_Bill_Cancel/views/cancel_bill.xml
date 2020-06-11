@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record model="ir.ui.view" id="bm_cancel_bill_tree">
+        <field name="name">bm.cancel.bill.tree</field>
+        <field name="model">bill.info</field>
+        <field name="arch" type="xml">
+            <tree string="Bill Tree" class="forward_edit">
+                <field name="billing_code"/>
+                <field name="billing_name"/>
+                <field name="bill_no"/>
+                <field name="bill_date" invisible="1"/>
+                <field name="last_billed_amount" sum="total" widget="monetary"/>
+                <field name="deposit_amount" sum="total" widget="monetary"/>
+                <field name="balance_amount" sum="total" widget="monetary"/>
+                <field name="amount_untaxed" sum="total" widget="monetary"/>
+                <field name="tax_amount" sum="total" widget="monetary"/>
+                <field name="amount_total" sum="total" widget="monetary" invisible="1"/>
+                <field name="billed_amount" sum="total" widget="monetary"/>
+                <field name="last_closing_date"/>
+                <field name="closing_date" invisible="1"/>
+                <field name="invoices_number"/>
+                <field name="invoices_details_number" invisible="1"/>
+                <field name="amount_untaxed_cashed" invisible="1"/>
+                <field name="tax_amount_cashed" invisible="1"/>
+                <field name="amount_total_cashed" invisible="1"/>
+                <field name="partner_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACTIONS -->
+    <record model="ir.actions.act_window" id="actions_bm_cancel_bill">
+        <field name="name">Cancel Billing</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bill.info</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="bm_cancel_bill_tree"/>
+        <field name="domain">[]</field>
+        <field name="context">{'bill_management_module': True, 'view_name': 'Cancel Billing'}</field>
+    </record>
+</odoo>

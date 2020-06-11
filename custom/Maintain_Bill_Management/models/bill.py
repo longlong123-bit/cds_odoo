@@ -15,7 +15,6 @@ class BillingClass(models.Model):
         else:
             days_in_last_month = calendar.monthrange(today.year - 1, 12)[1]
         _start = customer_closing_date.start_day
-        _circle = customer_closing_date.closing_date_circle
 
         if today.day < _start:
             _current_closing_date = today.replace(day=_start) - timedelta(days=1)
@@ -166,7 +165,7 @@ class BillingClass(models.Model):
                 ('billing_code', '=', rec['customer_code']),
                 ('closing_date', '=', rec['last_closing_date']),
                 ('active_flag', '=', True)
-            ])
+            ]).billed_amount
 
             payment_ids = self.env['account.payment'].search([
                 ('partner_id', 'in', res_partner_id.ids),
@@ -179,6 +178,8 @@ class BillingClass(models.Model):
             for payment_id in payment_ids:
                 _deposit_amount = _deposit_amount + payment_id.payment_amount
 
+            _balance_amount = _last_billed_amount - _deposit_amount
+
             self.env['bill.info'].create({
                 'billing_code': rec['customer_code'],
                 'billing_name': rec['name'],
@@ -190,13 +191,14 @@ class BillingClass(models.Model):
                 'invoices_details_number': _invoice_details_number,
                 'last_billed_amount': _last_billed_amount,
                 'deposit_amount': _deposit_amount,
+                'balance_amount': _balance_amount,
                 'amount_untaxed': _sum_amount_untaxed,
                 'tax_amount': _sum_amount_tax,
                 'amount_total': _sum_amount_total,
                 'amount_untaxed_cashed': _sum_amount_tax_cashed,
                 'tax_amount_cashed': _sum_amount_tax_cashed,
                 'amount_total_cashed': _sum_amount_total_cashed,
-                'billed_amount': _sum_amount_total - _deposit_amount,
+                'billed_amount': _sum_amount_total + _balance_amount,
                 'partner_id': partner_ids.id,
             })
 
@@ -208,6 +210,8 @@ class BillingClass(models.Model):
                     'bill_date': date.today(),
                     'last_closing_date': rec['last_closing_date'],
                     'closing_date': rec['deadline'],
+                    'customer_code': 0,
+                    'customer_name': 0,
                     'amount_untaxed': invoice.amount_untaxed,
                     'amount_tax': invoice.amount_tax,
                     'amount_total': invoice.amount_total,

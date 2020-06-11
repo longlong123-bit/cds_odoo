@@ -16,6 +16,7 @@ class BillInfoClass(models.Model):
     invoices_details_number = fields.Integer(string='Number of Invoice Details', default=0)
     last_billed_amount = fields.Monetary(string='Last Billed Amount', currency_field='currency_id')
     deposit_amount = fields.Monetary(string='Deposit Amount', currency_field='currency_id')
+    balance_amount = fields.Monetary(string='Balance Amount', currency_field='currency_id')
     amount_untaxed = fields.Monetary(string='Amount Untaxed', currency_field='currency_id')
     tax_amount = fields.Monetary(string='Tax Amount', currency_field='currency_id')
     amount_total = fields.Monetary(string="Amount Total", currency_field='currency_id')

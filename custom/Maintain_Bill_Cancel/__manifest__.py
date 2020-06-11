@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Bill Management",
+    'name': "Bill Management - Cancel Bill",
     'summary': """Manage bill""",
     'description': """
         Open Academy module for managing trainings:
@@ -21,20 +21,18 @@
     # any module necessary for this one to work correctly
     'depends': [
         'base', 'base_setup', 'sale',
-        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake'
+        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake',
+        'Maintain_Bill_Management',
     ],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         'views/assets.xml',
-        'views/bill.xml',
-        'views/menu_bill_management.xml',
+        'views/cancel_bill.xml',
     ],
     'qweb': [
-        'static/src/xml/bill_advanced_search.xml',
-        'static/src/xml/bill_product_lines.xml',
-        'static/src/xml/create_bill_button.xml',
+        'static/src/xml/cancel_bill_button.xml',
     ],
 
     # only loaded in demonstration mode
@@ -43,5 +41,5 @@
     ],
     'installable': True,
     'application': True,
-    'auto_install': False
+    'auto_install': False,
 }
