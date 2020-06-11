@@ -19,9 +19,10 @@ odoo.define('Accounts_Receivable_Balance_List.Search', function(require){
             if (check_box_all.length > 0) {
                 check_box_all_id = check_box_all[0].id;
                 if (check_box_all_id) {
-                    $('#' + check_box_all_id).trigger('click');
-                    $('.o_list_record_selector').css('pointer-events', 'none');
-                    clearInterval(intervalCheckBox);
+                    if ($('#' + check_box_all_id).prop('checked') == false) {
+                        $('#' + check_box_all_id).trigger('click');
+                        $('.o_list_record_selector').css('pointer-events', 'none');
+                    }
                 }
             }
         }

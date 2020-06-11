@@ -33,6 +33,7 @@
 			<field name="view_id" ref="accounts_receivable_balance_list_tree"/>
 			<field name="domain">[('billing_liabilities_flg','=', True)]</field>
             <field name="view_mode">tree</field>
+			<field name="context">{'liabilities_module': True}</field>
         </record>
 
         <menuitem id="menu_accounts_receivable_balance_list" parent="" name="Accounts Receivable Balance List" sequence="12"

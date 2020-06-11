@@ -3,6 +3,7 @@ from odoo import api, fields, models
 from datetime import datetime, date, timedelta
 import calendar
 
+# initialize global variable
 # 対象月
 val_target_month = ''
 # 事業部
@@ -87,6 +88,12 @@ class AccountsReceivableBalanceList(models.Model):
 
         # set information Accounts receivable balance list
         for item in self:
+            item.accounts_receivable_last_month = 0
+            item.deposit_amount = 0
+            item.amount_carried_forward = 0
+            item.purchase_amount = 0
+            item.consumption_tax = 0
+            item.liabilities = 0
             if info_liabilities:
                 for item_info_liabilities in info_liabilities:
                     if item.id == item_info_liabilities[0]:
@@ -105,14 +112,8 @@ class AccountsReceivableBalanceList(models.Model):
                         item.purchase_amount = purchase_amount
                         item.consumption_tax = consumption_tax
                         item.liabilities = amount_carried_forward + purchase_amount + consumption_tax
-            else:
-                item.accounts_receivable_last_month = 0
-                item.deposit_amount = 0
-                item.amount_carried_forward = 0
-                item.purchase_amount = 0
-                item.consumption_tax = 0
-                item.liabilities = 0
 
+            # set the value to use for the program report
             item.input_target_month = val_target_month
             item.input_division = val_division
             item.input_sales_rep = val_sales_rep
@@ -126,52 +127,62 @@ class AccountsReceivableBalanceList(models.Model):
             Overriding function search from file models.py
             File path Override: /odoo/models.py
         """
-        global val_target_month
-        global val_division
-        global val_sales_rep
-        global val_customer_supplier_group_code
-        global val_customer_code_bill_from
-        global val_customer_code_bill_to
-        global val_display_order
-        val_target_month = ''
-        val_division = ''
-        val_sales_rep = ''
-        val_customer_supplier_group_code = ''
-        val_customer_code_bill_from = ''
-        val_customer_code_bill_to = ''
-        val_display_order = ''
+
+
 
         domain = []
-        val_display_order = '担当者請求先（コード）'
-        for record in args:
-            if record[0] == '&':
-                continue
-            if record[0] == 'target_month':
-                val_target_month = record[2]
-                continue
-            if record[0] == 'division':
-                val_division = record[2]
-                continue
-            if record[0] == 'sales_rep':
-                val_sales_rep = record[2]
-                continue
-            if record[0] == 'customer_supplier_group_code':
-                val_customer_supplier_group_code = record[2]
-                continue
-            if record[0] == 'customer_code_bill_from':
-                val_customer_code_bill_from = record[2]
-                record[0] = 'customer_code_bill'
-            if record[0] == 'customer_code_bill_to':
-                val_customer_code_bill_to = record[2]
-                record[0] = 'customer_code_bill'
-            if record[0] == 'display_order':
-                if record[2] == '0':
-                    order = 'user_id'
-                else:
-                    order = 'customer_code_bill'
-                    val_display_order = '請求先（コード）'
-                continue
-            domain += [record]
+        liabilities_context = self._context.copy()
+        if liabilities_context and 'liabilities_module' in liabilities_context:
+            # get closing current date
+            closing_date = self._compute_closing_date(year_month_selected='')
+
+            # using global keyword
+            global val_target_month
+            global val_division
+            global val_sales_rep
+            global val_customer_supplier_group_code
+            global val_customer_code_bill_from
+            global val_customer_code_bill_to
+            global val_display_order
+            # reset global keyword
+            val_target_month = closing_date['current_closing_date'].strftime('%Y-%m')
+            val_division = ''
+            val_sales_rep = ''
+            val_customer_supplier_group_code = ''
+            val_customer_code_bill_from = ''
+            val_customer_code_bill_to = ''
+            val_display_order = '担当者請求先（コード）'
+
+            for record in args:
+                if record[0] == '&':
+                    continue
+                if record[0] == 'target_month':
+                    val_target_month = record[2]
+                    continue
+                if record[0] == 'division':
+                    val_division = record[2]
+                    continue
+                if record[0] == 'sales_rep':
+                    val_sales_rep = record[2]
+                    continue
+                if record[0] == 'customer_supplier_group_code':
+                    val_customer_supplier_group_code = record[2]
+                if record[0] == 'customer_code_bill_from':
+                    val_customer_code_bill_from = record[2]
+                    record[0] = 'customer_code_bill'
+                if record[0] == 'customer_code_bill_to':
+                    val_customer_code_bill_to = record[2]
+                    record[0] = 'customer_code_bill'
+                if record[0] == 'display_order':
+                    if record[2] == '0':
+                        order = 'user_id'
+                    else:
+                        order = 'customer_code_bill'
+                        val_display_order = '請求先（コード）'
+                    continue
+                domain += [record]
+        else:
+            domain = args
 
         res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
