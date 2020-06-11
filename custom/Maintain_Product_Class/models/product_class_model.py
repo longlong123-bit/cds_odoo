@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, modules
+from odoo import api, fields, models, modules, _
 from odoo.exceptions import ValidationError
 
 
@@ -50,12 +50,6 @@ class ClassProductClass(models.Model):
         )
         return res
 
-    # @api.onchange('product_level')
-    #     # def _get_domain_parent_code(self):
-    #     #     for rec in self:
-    #     #         if rec.product_level == 'lv2':
-    #     #             res = "[('product_level','=','1')]"
-
     @api.onchange('product_level')
     def _onchange_project_ids(self):
         domain = {}
@@ -69,26 +63,6 @@ class ClassProductClass(models.Model):
                 # to assign parter_list value in domain
                 domain = {'product_parent_code': [('id', '=', class_list)]}
 
-        return {'domain': domain}
-
-        # if self.product_level == 'lv2':
-        #     parent_obj = self.env['product.class'].search([('product_level', '=', 'lv1')])
-        #     for partner_ids in parent_obj:
-        #         class_list.append(partner_ids.id)
-        #     # to assign parter_list value in domain
-        #     domain = {'product_parent_code': [('id', '=', class_list)]}
-        # if self.product_level == 'lv3':
-        #     parent_obj = self.env['product.class'].search([('product_level', '=', 'lv2')])
-        #     for partner_ids in parent_obj:
-        #         class_list.append(partner_ids.id)
-        #     # to assign parter_list value in domain
-        #     domain = {'product_parent_code': [('id', '=', class_list)]}
-        # if self.product_level == 'lv4':
-        #     parent_obj = self.env['product.class'].search([('product_level', '=', 'lv3')])
-        #     for partner_ids in parent_obj:
-        #         class_list.append(partner_ids.id)
-        #     # to assign parter_list value in domain
-        #     domain = {'product_parent_code': [('id', '=', class_list)]}
         return {'domain': domain}
 
     def set_values(self):
