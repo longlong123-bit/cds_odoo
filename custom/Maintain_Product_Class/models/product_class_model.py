@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, modules
+from odoo import api, fields, models, modules, _
 from odoo.exceptions import ValidationError
 
 
@@ -9,9 +9,9 @@ class ClassProductClass(models.Model):
     name = fields.Char('Class Name')
     product_class_code = fields.Char('Class Code')
     product_class_rate = fields.Char('Discount Rate')
-    product_level = fields.Selection([('lv1','1'), ('lv2','2'), ('lv3','3'), ('lv4','4')], string='Level')
-    parent_code = fields.Selection([('code1','大分類'), ('code2','中分類'), ('code3','中小分類'), ('code5','小分類')], string="Parent Code")
-    # product_parent_code = fields.Many2one('product.class', string="Parent Code")
+    product_level = fields.Selection([('lv1','大分類'), ('lv2','中分類'), ('lv3','中小分類'), ('lv4','小分類')], string='Level')
+    # parent_code = fields.Selection([('code1','大分類'), ('code2','中分類'), ('code3','中小分類'), ('code5','小分類')], string="Parent Code")
+    product_parent_code = fields.Many2one('product.class', string="Parent Code")
     active = fields.Boolean('Active', default=True)
 
     _sql_constraints = [
@@ -49,6 +49,21 @@ class ClassProductClass(models.Model):
                 'product_class.parent_code')
         )
         return res
+
+    @api.onchange('product_level')
+    def _onchange_project_ids(self):
+        domain = {}
+        class_list = []
+
+        for i in range(2, 5):
+            if self.product_level == 'lv' + str(i):
+                parent_obj = self.env['product.class'].search([('product_level', '=', 'lv' + str(i - 1))])
+                for partner_ids in parent_obj:
+                    class_list.append(partner_ids.id)
+                # to assign parter_list value in domain
+                domain = {'product_parent_code': [('id', '=', class_list)]}
+
+        return {'domain': domain}
 
     def set_values(self):
         super(ClassProductClass, self).set_values()

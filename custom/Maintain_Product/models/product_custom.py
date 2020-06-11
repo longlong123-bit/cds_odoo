@@ -226,17 +226,24 @@ class ProductTemplate(models.Model):
             }
         }
 
-    @api.onchange('barcode')
     @api.constrains('barcode')
     def _check_barcode(self):
-        if not re.match("^[0-9]*$", self.barcode) or self.barcode == '000000000':
+        if not re.match("^[0-9]*$", self.barcode):
             raise ValidationError("JAN/UPC/EANに英数をしてください。")
 
+        return {}
+
+    @api.onchange('barcode')
+    def _check_onchange_barcode(self):
         # check UPC/EAN
         if self.barcode:
+            if not re.match("^[0-9]*$", self.barcode) or self.barcode == '000000000':
+                raise ValidationError("JAN/UPC/EANに英数をしてください。")
+
             barcode_count = self.env['product.product'].search_count([('barcode', '=', self.barcode)])
             if barcode_count > 0:
                 raise ValidationError(_('既に登録されています。'))
+
         return {}
 
     # Check validate tax rate
@@ -447,6 +454,47 @@ class ProductTemplate(models.Model):
         for i in range(0, leng):
             if arr[i] < 0:
                 raise ValidationError(_('Price must be greater than 0 !'))
+
+    # Xử lý phân loại product
+    @api.onchange('product_class_code_lv1')
+    @api.depends('product_class_code_lv1')
+    def _get_chidren_class_lv1(self):
+        self.product_class_code_lv2 = False
+        domain = {}
+        class_list = []
+        if self.product_class_code_lv1:
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv1.product_class_code)])
+            for children_ids in children_obj:
+                class_list.append(children_ids.id)
+            # to assign parter_list value in domain
+            domain = {'product_class_code_lv2': [('id', '=', class_list)]}
+        return {'domain': domain}
+
+    @api.onchange('product_class_code_lv2')
+    def _get_chidren_class_lv2(self):
+        self.product_class_code_lv3 = False
+        domain = {}
+        class_list = []
+        if self.product_class_code_lv2:
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv2.product_class_code)])
+            for children_ids in children_obj:
+                class_list.append(children_ids.id)
+            # to assign parter_list value in domain
+            domain = {'product_class_code_lv3': [('id', '=', class_list)]}
+        return {'domain': domain}
+
+    @api.onchange('product_class_code_lv3')
+    def _get_chidren_class_lv3(self):
+        self.product_class_code_lv4 = False
+        domain = {}
+        class_list = []
+        if self.product_class_code_lv3:
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv3.product_class_code)])
+            for children_ids in children_obj:
+                class_list.append(children_ids.id)
+            # to assign parter_list value in domain
+            domain = {'product_class_code_lv4': [('id', '=', class_list)]}
+        return {'domain': domain}
 
 
 class ProductCustomTemplate(models.Model):

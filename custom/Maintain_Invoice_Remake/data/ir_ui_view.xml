@@ -208,7 +208,8 @@
               <!-- Column 1 -->
               <td class="col-label"><label for="x_studio_description" string="Description"/></td>
               <td colspan="5" class="col-field"><field name="x_studio_description" string="Description" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
-
+                <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>
+                <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1"/></td>
               <!-- Column 2 -->
               <td></td>
               <!--<td class="col-checkbox"><field name="x_studio_price_includes_tax" string="Price includes Tax"/><label for="x_studio_price_includes_tax" string="Price includes Tax"/></td>-->
@@ -226,8 +227,7 @@
               <td class="col-label"><label for="amount_total" string="Grand Total*"/></td>
               <td class="col-field"><field name="amount_total" string="Grand Total*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
                 <!-- Column 4-->
-                <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>
-                <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1"/></td>
+
                 <field name="customer_office" string="Customer Office" invisible="1"/>
             </tr>
 
