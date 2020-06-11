@@ -122,11 +122,6 @@ class BillingClass(models.Model):
         print(self.ids)
         return True
 
-    # Test button
-    def test_buttonCC(self):
-        print(self.account_move_ids)
-        return True
-
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
             # Create data for bill_info
@@ -210,8 +205,8 @@ class BillingClass(models.Model):
                     'bill_date': date.today(),
                     'last_closing_date': rec['last_closing_date'],
                     'closing_date': rec['deadline'],
-                    'customer_code': 0,
-                    'customer_name': 0,
+                    'customer_code': invoice.partner_id.customer_code,
+                    'customer_name': invoice.partner_id.name,
                     'amount_untaxed': invoice.amount_untaxed,
                     'amount_tax': invoice.amount_tax,
                     'amount_total': invoice.amount_total,
@@ -227,6 +222,8 @@ class BillingClass(models.Model):
                         'bill_date': date.today(),
                         'last_closing_date': rec['last_closing_date'],
                         'closing_date': rec['deadline'],
+                        'customer_code': line.partner_id.customer_code,
+                        'customer_name': line.partner_id.name,
                         'customer_trans_classification_code': invoice.customer_trans_classification_code,
                         'account_move_line_id': line.id,
                     })
