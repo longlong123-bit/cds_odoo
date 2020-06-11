@@ -14,7 +14,7 @@
             <t t-set="o" t-value="o.with_context(lang=lang)" />
 
             <!-- LOGO AND TITLE -->
-            <div style="margin-bottom: 220px">
+            <div>
                 <div><span t-field="o.partner_id.zip"/> <span t-field="o.x_studio_address_1"/></div>
                 <div><span t-field="o.x_studio_address_1"/><span t-field="o.x_studio_address_2"/><span t-field="o.x_studio_address_3"/></div>
                 <div><span t-field="o.x_studio_name"/></div>
