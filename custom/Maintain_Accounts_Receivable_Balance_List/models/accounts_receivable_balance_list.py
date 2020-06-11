@@ -129,7 +129,6 @@ class AccountsReceivableBalanceList(models.Model):
         """
 
 
-
         domain = []
         liabilities_context = self._context.copy()
         if liabilities_context and 'liabilities_module' in liabilities_context:
