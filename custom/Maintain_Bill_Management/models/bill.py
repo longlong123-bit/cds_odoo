@@ -156,9 +156,12 @@ class BillingClass(models.Model):
                     _sum_amount_tax_cashed = _sum_amount_tax_cashed + invoice.amount_tax
                     _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
 
-            _last_billed_amount = self.env['bill.info'].search([('billing_code', '=', rec['customer_code']),
-                                                                ('closing_date', '=', rec['last_closing_date']),
-                                                                ('active_flag', '=', True)]).billed_amount
+            bill_info_ids = self.env['bill.info'].search([('billing_code', '=', rec['customer_code']),
+                                                          ('closing_date', '=', rec['last_closing_date']),
+                                                          ('active_flag', '=', True)])
+            _last_billed_amount = 0
+            if bill_info_ids:
+                _last_billed_amount = bill_info_ids.billed_amount
 
             payment_ids = self.env['account.payment'].search([
                 ('partner_id', 'in', res_partner_id.ids),
@@ -193,6 +196,11 @@ class BillingClass(models.Model):
                 'amount_total_cashed': _sum_amount_total_cashed,
                 'billed_amount': _sum_amount_total + _balance_amount,
                 'partner_id': partner_ids.id,
+                'hr_employee_id': partner_ids.customer_agent.id,
+                'hr_department_id': partner_ids.customer_agent.department_id.id,
+                'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
+                'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                'customer_excerpt_request': partner_ids.customer_except_request,
             })
 
             for invoice in invoice_ids:
@@ -210,21 +218,29 @@ class BillingClass(models.Model):
                     'amount_total': invoice.amount_total,
                     'customer_trans_classification_code': invoice.customer_trans_classification_code,
                     'account_move_id': invoice.id,
+                    'hr_employee_id': partner_ids.customer_agent.id,
+                    'hr_department_id': partner_ids.customer_agent.department_id.id,
+                    'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
+                    'customer_closing_date_id': partner_ids.customer_closing_date.id,
                 })
 
-            for line in invoice.invoice_line_ids:
-                self.env['bill.invoice.details'].create({
-                    'billing_code': rec['customer_code'],
-                    'billing_name': rec['name'],
-                    'bill_no': 'BIL/',
-                    'bill_date': date.today(),
-                    'last_closing_date': rec['last_closing_date'],
-                    'closing_date': rec['deadline'],
-                    'customer_code': line.partner_id.customer_code,
-                    'customer_name': line.partner_id.name,
-                    'customer_trans_classification_code': invoice.customer_trans_classification_code,
-                    'account_move_line_id': line.id,
-                })
+                for line in invoice.invoice_line_ids:
+                    self.env['bill.invoice.details'].create({
+                        'billing_code': rec['customer_code'],
+                        'billing_name': rec['name'],
+                        'bill_no': 'BIL/',
+                        'bill_date': date.today(),
+                        'last_closing_date': rec['last_closing_date'],
+                        'closing_date': rec['deadline'],
+                        'customer_code': line.partner_id.customer_code,
+                        'customer_name': line.partner_id.name,
+                        'customer_trans_classification_code': invoice.customer_trans_classification_code,
+                        'account_move_line_id': line.id,
+                        'hr_employee_id': partner_ids.customer_agent.id,
+                        'hr_department_id': partner_ids.customer_agent.department_id.id,
+                        'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
+                        'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                    })
 
         return {
             'type': 'ir.actions.client',

@@ -23,3 +23,7 @@ class BillInvoiceClass(models.Model):
                                                           string='Transaction classification', default='sale')
     currency_id = fields.Many2one('res.currency', string='Currency')
     active_flag = fields.Boolean(default=True)
+    hr_employee_id = fields.Many2one('hr.employee', string='Customer Agent')
+    hr_department_id = fields.Many2one('hr.department', string='Department')
+    business_partner_group_custom_id = fields.Many2one('business.partner.group.custom', string='Supplier Group')
+    customer_closing_date_id = fields.Many2one('closing.date', string='Customer Closing Date')
