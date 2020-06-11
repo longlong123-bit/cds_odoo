@@ -127,8 +127,6 @@ class AccountsReceivableBalanceList(models.Model):
             Overriding function search from file models.py
             File path Override: /odoo/models.py
         """
-
-
         domain = []
         liabilities_context = self._context.copy()
         if liabilities_context and 'liabilities_module' in liabilities_context:
