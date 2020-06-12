@@ -90,9 +90,9 @@ class BillingClass(models.Model):
         for record in self:
             # Customer has customer_code equal with customer_code_bill. This is a Billing Place
             if record.customer_code == record.customer_code_bill:
-                record.is_billing_place = True
+                record.billing_liabilities_flg = True
             else:
-                record.is_billing_place = False
+                record.billing_liabilities_flg = False
 
     # 前回締日
     last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
@@ -104,7 +104,7 @@ class BillingClass(models.Model):
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True, store=False)
 
     # Check customer is Billing Place
-    is_billing_place = fields.Boolean(default=False)
+    billing_liabilities_flg = fields.Boolean(default=False)
 
     # Relational fields with account.move model
     account_move_ids = fields.One2many('account.move', 'billing_place_id', string='Invoices')
@@ -114,9 +114,6 @@ class BillingClass(models.Model):
 
     # Button [抜粋/Excerpt]
     def bm_bill_excerpt_button(self):
-        ctx = self._context.copy()
-        print(ctx)
-
         res_partner_id = self.env["res.partner"].search(
             ['|', ('customer_code', '=', self.customer_code), ('customer_code_bill', '=', self.customer_code)])
 

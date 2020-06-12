@@ -12,21 +12,29 @@
                 </header>
                 <sheet>
                     <group>
-                        <group>
-                            <field name="customer_code" string="Billing Code" readonly="1"/>
-                        </group>
-                        <group>
-                            <field name="name" string="Billing Name" readonly="1"/>
-                        </group>
-                        <group>
-                            <field name="deadline"/>
-                        </group>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <group>
+                                    <field name="customer_code" string="Billing Code" readonly="1"/>
+                                </group>
+                            </div>
+                            <div class="col-md-4">
+                                <group>
+                                    <field name="name" string="Billing Name" readonly="1"/>
+                                </group>
+                            </div>
+                            <div class="col-md-4">
+                                <group>
+                                    <field name="deadline"/>
+                                </group>
+                            </div>
+                        </div>
                     </group>
 
                     <notebook>
                         <page string="Detail Line">
                             <field name="account_move_ids">
-                                <tree string="Detail Lines" editable="bottom" create="0" delete="0">
+                                <tree string="Detail Lines" widget="one2many_delete" editable="bottom" create="0" delete="0">
                                     <field name="x_studio_date_invoiced" readonly="1"/>
                                     <field name="x_studio_document_no" readonly="1"/>
                                     <field name="x_customer_code_for_search" readonly="1"/>
@@ -70,7 +78,7 @@
         <field name="view_mode">tree</field>
         <field name="view_id" ref="bm_bill_tree"/>
         <field name="domain">
-            [('is_billing_place','=',True)]
+            [('billing_liabilities_flg','=',True)]
         </field>
         <field name="context">{'bill_management_module': True, 'view_name': 'Billing'}</field>
     </record>
