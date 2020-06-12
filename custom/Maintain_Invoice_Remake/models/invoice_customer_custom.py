@@ -48,6 +48,80 @@ def rounding(number, pre=0, type_rounding='round'):
     else:
         return 0
 
+# Copy data from partner
+def copy_data_from_partner(rec, partner):
+    if partner:
+        rec.partner_id = partner
+        rec.x_studio_name = partner.name
+        rec.x_studio_address_1 = partner.street
+        rec.x_studio_address_2 = partner.street2
+        rec.x_studio_address_3 = partner.address3
+        # rec.sales_rep = partner.customer_agent
+        rec.x_studio_payment_rule_1 = partner.payment_rule
+        rec.x_studio_price_list = partner.property_product_pricelist
+        rec.invoice_payment_terms_custom = partner.payment_terms
+        rec.x_bussiness_partner_name_2 = partner.customer_name_kana
+        rec.customer_tax_rounding = partner.customer_tax_rounding
+        # Add customer info
+        rec.customer_group = partner.customer_supplier_group_code.name
+        rec.customer_state = partner.customer_state.name
+        rec.customer_industry = partner.customer_industry_code.name
+        rec.customer_trans_classification_code = partner.customer_trans_classification_code
+
+        # set default 税転嫁 by 消費税区分 & 消費税計算区分
+        customer_tax_category = partner.customer_tax_category
+        customer_tax_unit = partner.customer_tax_unit
+
+        # 消費税区分 = ３．非課税 or 消費税区分 is null or 消費税計算区分 is null ==> 税転嫁 = 非課税
+        if (customer_tax_category == 'exempt') or (not customer_tax_category) or (not customer_tax_unit):
+            rec.x_voucher_tax_transfer = 'no_tax'
+        else:
+            # 消費税計算区分 = １．明細単位
+            if customer_tax_unit == 'detail':
+                # 消費税区分 = １．外税 ==> 税転嫁 = 外税／明細
+                if customer_tax_category == 'foreign':
+                    rec.x_voucher_tax_transfer = 'foreign_tax'
+                # 消費税区分 = 2．内税 ==> 税転嫁 = 内税／明細
+                else:
+                    rec.x_voucher_tax_transfer = 'internal_tax'
+            # 消費税計算区分 = ２．伝票単位、３．請求単位 ==> 税転嫁 = 伝票、請求
+            else:
+                rec.x_voucher_tax_transfer = customer_tax_unit
+
+# Copy data for lines from quotation
+def copy_data_from_quotation(rec, quotation, account):
+    if quotation:
+        invoice_line_ids = []
+        line_ids = []
+
+        for line in rec.invoice_line_ids:
+            line.move_id = ''
+            # line.unlink()
+
+        for line in rec.line_ids:
+            line.move_id = ''
+            # line.unlink()
+
+        # Copy line
+        for line in rec.trigger_quotation_history.order_line:
+            if line.product_id:
+                invoice_line_ids.append((0, False, {
+                    'product_id': line.product_id,
+                    'x_product_barcode': line.product_barcode,
+                    'x_product_name': line.product_name,
+                    'invoice_custom_standardnumber': line.product_standard_number,
+                    'invoice_custom_FreightCategory': line.product_freight_category,
+                    'quantity': line.product_uom_qty,
+                    'price_unit': line.price_unit,
+                    'product_uom_id': line.product_uom,
+                    'invoice_custom_lineamount': line.line_amount,
+                    'tax_ids': line.tax_id,
+                    'line_tax_amount': line.line_tax_amount,
+                    'account_id': account.id
+                }))
+
+        rec.invoice_line_ids = invoice_line_ids
+        rec.line_ids = line_ids
 
 class ClassInvoiceCustom(models.Model):
     _inherit = 'account.move'
@@ -241,6 +315,25 @@ class ClassInvoiceCustom(models.Model):
                                         help="The move of this entry line.")
     sales_rep = fields.Many2one('res.users', string='Sales Rep', domain="[('share', '=', False)]")
     related_sale_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
+
+    # Field for trigger onchange when fill data
+    # Just to trigger to change data, not store
+    trigger_quotation_history = fields.Many2one('sale.order', store=False)
+
+    @api.onchange('trigger_quotation_history')
+    def _compute_fill_data_with_quotation(self):
+        account = self.env.company.get_chart_of_accounts_or_fail()
+
+        for rec in self:
+            if rec.trigger_quotation_history:
+                # Call method to set data for lines
+                copy_data_from_quotation(rec, rec.trigger_quotation_history, account)
+
+                # Form info
+                rec.x_studio_business_partner = rec.trigger_quotation_history.partner_id
+
+                # Call method to set data when change partner
+                copy_data_from_partner(rec, rec.x_studio_business_partner)
 
     @api.depends(
         'line_ids.debit',
@@ -439,43 +532,7 @@ class ClassInvoiceCustom(models.Model):
     @api.onchange('x_studio_business_partner')
     def _get_detail_business_partner(self):
         for rec in self:
-            if rec.x_studio_business_partner:
-                rec.partner_id = rec.x_studio_business_partner
-                rec.x_studio_name = rec.x_studio_business_partner.name
-                rec.x_studio_address_1 = rec.x_studio_business_partner.street
-                rec.x_studio_address_2 = rec.x_studio_business_partner.street2
-                rec.x_studio_address_3 = rec.x_studio_business_partner.address3
-                # rec.sales_rep = rec.x_studio_business_partner.customer_agent
-                rec.x_studio_payment_rule_1 = rec.x_studio_business_partner.payment_rule
-                rec.x_studio_price_list = rec.x_studio_business_partner.property_product_pricelist
-                rec.invoice_payment_terms_custom = rec.x_studio_business_partner.payment_terms
-                rec.x_bussiness_partner_name_2 = rec.x_studio_business_partner.customer_name_kana
-                rec.customer_tax_rounding = rec.x_studio_business_partner.customer_tax_rounding
-                # Add customer info
-                rec.customer_group = rec.x_studio_business_partner.customer_supplier_group_code.name
-                rec.customer_state = rec.x_studio_business_partner.customer_state.name
-                rec.customer_industry = rec.x_studio_business_partner.customer_industry_code.name
-                rec.customer_trans_classification_code = rec.x_studio_business_partner.customer_trans_classification_code
-
-                # set default 税転嫁 by 消費税区分 & 消費税計算区分
-                customer_tax_category = rec.x_studio_business_partner.customer_tax_category
-                customer_tax_unit = rec.x_studio_business_partner.customer_tax_unit
-
-                # 消費税区分 = ３．非課税 or 消費税区分 is null or 消費税計算区分 is null ==> 税転嫁 = 非課税
-                if (customer_tax_category == 'exempt') or (not customer_tax_category) or (not customer_tax_unit):
-                    rec.x_voucher_tax_transfer = 'no_tax'
-                else:
-                    # 消費税計算区分 = １．明細単位
-                    if customer_tax_unit == 'detail':
-                        # 消費税区分 = １．外税 ==> 税転嫁 = 外税／明細
-                        if customer_tax_category == 'foreign':
-                            rec.x_voucher_tax_transfer = 'foreign_tax'
-                        # 消費税区分 = 2．内税 ==> 税転嫁 = 内税／明細
-                        else:
-                            rec.x_voucher_tax_transfer = 'internal_tax'
-                    # 消費税計算区分 = ２．伝票単位、３．請求単位 ==> 税転嫁 = 伝票、請求
-                    else:
-                        rec.x_voucher_tax_transfer = customer_tax_unit
+            copy_data_from_partner(rec, rec.x_studio_business_partner)
 
                 # # call onchange of 税転嫁
                 # if rec.x_voucher_tax_transfer:
