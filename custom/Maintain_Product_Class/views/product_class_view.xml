@@ -11,7 +11,7 @@
 					<field name="product_class_code" string="Class Code"/>
 					<field name="product_class_rate" string="Discount Rate"/>
 					<field name="product_level" string="Level"/>
-					<field name="parent_code" string="Parent Code"/>
+					<field name="product_parent_code" string="Parent Code"/>
 				</tree>
             </field>
         </record>
@@ -25,7 +25,7 @@
 					<field name="product_class_code" string="Class Code"/>
 					<field name="product_class_rate" string="Discount Rate"/>
 					<field name="product_level" string="Level"/>
-					<field name="parent_code" string="Parent Code"/>
+					<field name="product_parent_code" string="Parent Code"/>
 				</search>
             </field>
         </record>
@@ -40,8 +40,8 @@
 							<field name="product_class_code" string="Class Code" required="1"/>
 							<field name="name" string="Class Name" required="1"/>
 							<field name="product_class_rate" string="Discount Rate"/>
-							<field name="product_level" string="Level"/>
-							<field name="parent_code" string="Parent Code"/>
+							<field name="product_level" string="Level" required="1"/>
+							<field name="product_parent_code" string="Parent Code" attrs="{'invisible': ['|',('product_level','=',False),('product_level','=','lv1')]}"/>
 							<field name="active" string="Active"/>
 						</group>
 					</sheet>

@@ -455,6 +455,47 @@ class ProductTemplate(models.Model):
             if arr[i] < 0:
                 raise ValidationError(_('Price must be greater than 0 !'))
 
+    # Xử lý phân loại product
+    @api.onchange('product_class_code_lv1')
+    @api.depends('product_class_code_lv1')
+    def _get_chidren_class_lv1(self):
+        self.product_class_code_lv2 = False
+        domain = {}
+        class_list = []
+        if self.product_class_code_lv1:
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv1.product_class_code)])
+            for children_ids in children_obj:
+                class_list.append(children_ids.id)
+            # to assign parter_list value in domain
+            domain = {'product_class_code_lv2': [('id', '=', class_list)]}
+        return {'domain': domain}
+
+    @api.onchange('product_class_code_lv2')
+    def _get_chidren_class_lv2(self):
+        self.product_class_code_lv3 = False
+        domain = {}
+        class_list = []
+        if self.product_class_code_lv2:
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv2.product_class_code)])
+            for children_ids in children_obj:
+                class_list.append(children_ids.id)
+            # to assign parter_list value in domain
+            domain = {'product_class_code_lv3': [('id', '=', class_list)]}
+        return {'domain': domain}
+
+    @api.onchange('product_class_code_lv3')
+    def _get_chidren_class_lv3(self):
+        self.product_class_code_lv4 = False
+        domain = {}
+        class_list = []
+        if self.product_class_code_lv3:
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv3.product_class_code)])
+            for children_ids in children_obj:
+                class_list.append(children_ids.id)
+            # to assign parter_list value in domain
+            domain = {'product_class_code_lv4': [('id', '=', class_list)]}
+        return {'domain': domain}
+
 
 class ProductCustomTemplate(models.Model):
     _inherit = "product.template"

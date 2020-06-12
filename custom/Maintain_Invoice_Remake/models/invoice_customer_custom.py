@@ -313,7 +313,7 @@ class ClassInvoiceCustom(models.Model):
     x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
                                         index=True, auto_join=True,
                                         help="The move of this entry line.")
-    sales_rep = fields.Many2one('res.users', string='Sales Rep', domain="[('share', '=', False)]")
+    sales_rep = fields.Many2one('hr.employee', string='Sales Rep')
     related_sale_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
 
     # Field for trigger onchange when fill data
