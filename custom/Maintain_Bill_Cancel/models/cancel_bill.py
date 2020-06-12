@@ -43,7 +43,7 @@ class BillingClass(models.Model):
 
     def search(self, args, offset=0, limit=None, order=None, count=False):
         ctx = self._context.copy()
-        if ctx and ctx['view_name'] and ctx['view_name'] == 'Cancel Billing':
+        if 'Cancel Billing' == ctx.get('view_name'):
             for record in args:
                 if 'customer_excerpt_request' == record[0]:
                     if record[2] == 'True':

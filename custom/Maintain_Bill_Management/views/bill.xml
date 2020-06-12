@@ -54,6 +54,10 @@
                 <button name="bm_bill_excerpt_button" type="object" string="Excerpt" class="btn-sm btn btn-primary"
                         attrs="{'invisible': ['|',('customer_except_request','=',False),('voucher_number','=',0)]}"/>
                 <field name="deadline" invisible="1"/>
+                <field name="customer_agent" invisible="1"/>
+                <field name="department" invisible="1"/>
+                <field name="customer_supplier_group_code" invisible="1"/>
+                <field name="customer_except_request" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -68,7 +72,7 @@
         <field name="domain">
             [('is_billing_place','=',True)]
         </field>
-        <field name="context">{'bill_management_module': True}</field>
+        <field name="context">{'bill_management_module': True, 'view_name': 'Billing'}</field>
     </record>
 
     <record id="model_action_bill" model="ir.actions.server">

@@ -41,6 +41,17 @@ class BillingClass(models.Model):
             ('bill_status', '!=', 'billed')
         ])
 
+    def _get_invoices_sales_by_partner_id(self, partner_id, last_closing_date, deadline):
+        return self.env['account.move'].search([
+            ('partner_id', 'in', partner_id),
+            ('x_studio_date_invoiced', '>', last_closing_date),
+            ('x_studio_date_invoiced', '<=', deadline),
+            ('state', '=', 'posted'),
+            ('type', '=', 'out_invoice'),
+            ('bill_status', '!=', 'billed'),
+            ('customer_trans_classification_code', '!=', 'cash'),
+        ])
+
     def _compute_voucher_number(self, record):
         # Temporary variables are used to calculate voucher number
         number = 0
@@ -51,9 +62,9 @@ class BillingClass(models.Model):
 
         # Calculate voucher number
         for rec in res_partner_id:
-            number = number + len(self._get_invoices_by_partner_id(partner_id=rec.ids,
-                                                                   last_closing_date=record.last_closing_date,
-                                                                   deadline=record.deadline))
+            number = number + len(self._get_invoices_sales_by_partner_id(partner_id=rec.ids,
+                                                                         last_closing_date=record.last_closing_date,
+                                                                         deadline=record.deadline))
         return number
 
     @api.depends('customer_code', 'customer_code_bill')
@@ -68,6 +79,9 @@ class BillingClass(models.Model):
 
             # Set data for voucher_number field
             record.voucher_number = self._compute_voucher_number(record=record)
+
+            # Set data for department field
+            record.department = record.customer_agent.department_id.id
 
         return True
 
@@ -86,7 +100,7 @@ class BillingClass(models.Model):
     # 締切日
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
 
-    # Voucher Number
+    # 売伝枚数
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True, store=False)
 
     # Check customer is Billing Place
@@ -95,15 +109,20 @@ class BillingClass(models.Model):
     # Relational fields with account.move model
     account_move_ids = fields.One2many('account.move', 'billing_place_id', string='Invoices')
 
+    # 事業部
+    department = fields.Many2one('hr.department', compute=_set_data_to_fields, readonly=True, store=False)
+
     # Button [抜粋/Excerpt]
     def bm_bill_excerpt_button(self):
+        ctx = self._context.copy()
+        print(ctx)
 
         res_partner_id = self.env["res.partner"].search(
             ['|', ('customer_code', '=', self.customer_code), ('customer_code_bill', '=', self.customer_code)])
 
-        self.account_move_ids = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
-                                                                 last_closing_date=self.last_closing_date,
-                                                                 deadline=self.deadline)
+        self.account_move_ids = self._get_invoices_sales_by_partner_id(partner_id=res_partner_id.ids,
+                                                                       last_closing_date=self.last_closing_date,
+                                                                       deadline=self.deadline)
 
         return {
             'type': 'ir.actions.act_window',
@@ -183,7 +202,7 @@ class BillingClass(models.Model):
                 'bill_date': date.today(),
                 'last_closing_date': rec['last_closing_date'],
                 'closing_date': rec['deadline'],
-                'invoices_number': rec['voucher_number'],
+                'invoices_number': len(invoice_ids),
                 'invoices_details_number': _invoice_details_number,
                 'last_billed_amount': _last_billed_amount,
                 'deposit_amount': _deposit_amount,
@@ -246,6 +265,19 @@ class BillingClass(models.Model):
             'type': 'ir.actions.client',
             'tag': 'reload',
         }
+
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        ctx = self._context.copy()
+        if 'Billing' == ctx.get('view_name'):
+            for record in args:
+                if 'customer_except_request' == record[0]:
+                    if record[2] == 'True':
+                        record[2] = True
+                    else:
+                        record[2] = False
+
+        res = self._search(args, offset=offset, limit=limit, order=order, count=count)
+        return res if count else self.browse(res)
 
 
 class InvoiceClass(models.Model):
