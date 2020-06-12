@@ -5,6 +5,8 @@
 			<field name="name">partner.custom.form</field>
 			<field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="mode">primary</field>
+            <field eval="1" name="priority"/>
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="replace">
                     <tree string="Partner Custom" duplicate="false" class="forward_edit">
@@ -83,6 +85,8 @@
                             <td></td>
                             <td class="col-label"><label for="payment_rule" string="Collect Method*"/></td>
                             <td class="col-field col-number"><field name="payment_rule" required="1"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="customer_print_voucher"/><label for="customer_print_voucher" string="Print Voucher"/></td>
                         </tr>
 
                         <!-- Row 5 -->
@@ -91,6 +95,11 @@
                             <td colspan="3"><field name="customer_name_kana"/></td>
                             <td class="col-label"><label for="payment_terms" string="Payment Terms*"/></td>
                             <td class="col-field"><field name="payment_terms" required="1" options="{ 'no_quick_create' : True}"/></td>
+                            <td></td>
+                            <td class="col-checkbox">
+                                <field name="customer_print_invoice"/>
+                                <label for="customer_print_invoice" string="Print Invoice"/>
+                            </td>
                         </tr>
 
                         <!-- Row 6 -->
@@ -172,12 +181,9 @@
                             <td class="col-label"><label for="customer_supplier_group_code" string="Supplier Group Code*"/></td>
                             <td class="col-field"><field name="customer_supplier_group_code" required="1" options='{"no_quick_create": True}'/></td>
                             <td></td>
-                            <td class="col-checkbox"><field name="customer_print_voucher"/><label for="customer_print_voucher" string="Print Voucher"/></td>
                             <td></td>
-                            <td class="col-checkbox">
-                                <field name="customer_print_invoice"/>
-                                <label for="customer_print_invoice" string="Print Invoice"/>
-                            </td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="active"/><label for="active" string="Active"/></td>
 <!--                            <td class="col-checkbox"><field name="customer_select_sales_slip"/><label for="customer_select_sales_slip" string="Sales Slip"/></td>-->
                         </tr>
 
@@ -188,7 +194,6 @@
                             <td class="col-label"><label for="customer_agent" string="Representative/Agent*"/></td>
                             <td class="col-field"><field name="customer_agent" required="1"/></td>
                             <td></td>
-                            <td class="col-checkbox"><field name="active"/><label for="active" string="Active"/></td>
                         </tr>
 
                         <!-- Row 14 -->
@@ -225,30 +230,31 @@
                     <field name="lang" invisible="1"/>
                 </xpath>
                 <!-- END FORM -->
-
                 <xpath expr="/form/sheet/notebook" position="replace">
-                    <notebook>
-                        <!-- Relation -->
-                        <page name="relation" string="Relation" widget="section_and_note_one2many">
-                            <field name="relation_id" widget="section_and_note_one2many" attrs="{'readonly': [('id', '=', False)]}">
-                                <tree editable="bottom">
-                                    <button name="button_details" string="Detail" type="object" class="oe_edit_only"/>
-                                    <field name="relate_customer_organization" string="Organization" required="1" options="{ 'no_create_edit':True}"/>
-                                    <field name="name" string="Name" required="1"/>
-                                    <field name="relate_business_partner" string="Customer"/>
-                                    <field name="relate_partner_location" string="Partner Location"/>
-                                    <field name="relate_related_partner" string="Related Partner" options="{ 'no_create_edit':True}"/>
-                                    <field name="relate_related_partner_location" string="Related Partner Location"/>
-                                    <field name="relate_ship_address" string="Ship Address"/>
-                                    <field name="relate_invoic_address" string="Invoice Address"/>
-                                    <field name="relate_payfrom_address" string="Pay-From Address"/>
-                                    <field name="relate_remitto_address" string="Remit-To Address"/>
-                                    <field name="active" string="Active"/>
-                                </tree>
-                          </field>
-                        </page>
-                    </notebook>
                 </xpath>
+<!--                <xpath expr="/form/sheet/notebook" position="replace">-->
+<!--                    <notebook>-->
+<!--                        &lt;!&ndash; Relation &ndash;&gt;-->
+<!--                        <page name="relation" string="Relation" widget="section_and_note_one2many">-->
+<!--                            <field name="relation_id" widget="section_and_note_one2many" attrs="{'readonly': [('id', '=', False)]}">-->
+<!--                                <tree editable="bottom">-->
+<!--                                    <button name="button_details" string="Detail" type="object" class="oe_edit_only"/>-->
+<!--                                    <field name="relate_customer_organization" string="Organization" required="1" options="{ 'no_create_edit':True}"/>-->
+<!--                                    <field name="name" string="Name" required="1"/>-->
+<!--                                    <field name="relate_business_partner" string="Customer"/>-->
+<!--                                    <field name="relate_partner_location" string="Partner Location"/>-->
+<!--                                    <field name="relate_related_partner" string="Related Partner" options="{ 'no_create_edit':True}"/>-->
+<!--                                    <field name="relate_related_partner_location" string="Related Partner Location"/>-->
+<!--                                    <field name="relate_ship_address" string="Ship Address"/>-->
+<!--                                    <field name="relate_invoic_address" string="Invoice Address"/>-->
+<!--                                    <field name="relate_payfrom_address" string="Pay-From Address"/>-->
+<!--                                    <field name="relate_remitto_address" string="Remit-To Address"/>-->
+<!--                                    <field name="active" string="Active"/>-->
+<!--                                </tree>-->
+<!--                          </field>-->
+<!--                        </page>-->
+<!--                    </notebook>-->
+<!--                </xpath>-->
             </field>
         </record>
 
@@ -312,16 +318,6 @@
             </field>
         </record>
 
-        <record id="readonly_when_field_boolean_is_false" model="ir.rule">
-            <field name="name">readonly_when_field_boolean_is_false</field>
-            <field ref="model_res_partner" name="model_id"/>
-            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
-            <field name="perm_create" eval="0"/>
-            <field name="perm_write" eval="0"/>
-            <field name="perm_unlink" eval="1"/>
-            <field name="perm_read" eval="0"/>
-        </record>
-
         <record id="res_partner_view_purchase_account_buttons" model="ir.ui.view">
             <field name="name">res.partner.view.purchase.account.buttons</field>
             <field name="model">res.partner</field>
@@ -334,15 +330,6 @@
                 </div>
             </field>
         </record>
-
-
-<!--		&lt;!&ndash; Action &ndash;&gt;-->
-<!--		<record id="action_show_partner_view" model="ir.actions.act_window">-->
-<!--			<field name="name">Business Partner Custom</field>-->
-<!--			<field name="res_model">res.partner</field>-->
-<!--            <field name="view_mode">tree,form</field>-->
-<!--		</record>-->
-
 	
 <!--        <menuitem id="menu_ideas" parent="" name="Customer Master" sequence="10"-->
 <!--                  action="res_partner_action_customer" groups="base.group_user"/>-->

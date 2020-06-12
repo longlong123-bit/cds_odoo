@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="many_payment_form">
+			<field name="name">many.payment.custom.form</field>
+			<field name="model">many.payment</field>
+            <field name="mode">primary</field>
+            <field eval="1" name="priority"/>
+			<field name="arch" type="xml">
+                <form string="Many Payment" class="custom_template payment_custom">
+                    <table class="custom-form-table cols-8">
+                        <tbody>
+                                <tr>
+<!--                                    <td class="o_td_label"><label for="history_payment" string=""/></td>-->
+<!--                                    <field name="history_payment" widget="Maintain_Billing_History.Order" z-index="92"/>-->
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="o_td_label"><label for="payment_date" string="Transaction Date"/></td>
+                                    <td colspan="2"><field name="payment_date" required="True"/></td>
+
+                                    <td class="o_td_label"><label for="sales_rep" string="Sales Rep"/></td>
+                                    <td colspan="2"><field name="sales_rep" required="True"/></td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><field name="state" readonly="True" invisible="1"/></td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    <notebook>
+                        <page name="many_payment_line" string="ManyPaymentLine">
+                            <field name="many_payment_line_ids" widget="section_and_note_one2many" context="{'default_payment_date' : payment_date}"
+                                   attrs="{'readonly': ['|', ('id', '=', True)]}">
+<!--                                   attrs="{'readonly': ['|', ('id', '=', True), ('state', '!=', 'draft')]}">-->
+                                <tree editable="bottom">
+                                    <control>
+                                        <create name="add_product_control" string="Add a line"/>
+                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                    </control>
+                                    <field name="payment_date" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"/>
+                                    <field name="partner_id" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"/>
+                                    <field name="partner_payment_name1" attrs="{'invisible': [('display_type', '!=', False)]}"/>
+                                    <field name="vj_c_payment_category" string="vj_c_payment_category" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"/>
+                                    <field name="payment_amount" string="Payment Amount" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"/>
+                                    <field name="name" string="Description" attrs="{'required': [('display_type', '!=', False)]}" readonly="False"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="journal_id" invisible="1"/>
+                                    <field name="amount" invisible="1"/>
+                                    <field name="payment_method_id" string="Payment Method" invisible="1"/>
+                                    <field name="state" string="state" invisible="1"/>
+                                    <field name="payment_type" string="Payment Amount" invisible="1"/>
+                                    <field name="display_type" invisible="1"/>
+                                </tree>
+                          </field>
+                        </page>
+                    </notebook>
+				</form>
+			</field>
+		</record>
+
+    <record id="view_many_payment_tree" model="ir.ui.view">
+        <field name="name">many.payment.custom.tree</field>
+        <field name="model">many.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="mode">primary</field>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="replace">
+                <tree string="Many Payment" multi_edit="1" duplicate="false" class="forward_edit">
+                    <field name="payment_date" string="Transaction Date"/>
+                    <field name="sales_rep" string="sales_rep"/>
+                </tree>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="many_payment_action" model="ir.actions.act_window">
+        <field name="name">Many Payment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">many.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_many_payment_tree"/>
+    </record>
+
+    <menuitem id="menu_many_payment" parent="parent_menu_master" name="Many Payment" action="many_payment_action"/>
+
+</odoo>

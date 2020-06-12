@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-31 14:36+0000\n"
-"PO-Revision-Date: 2020-05-31 14:36+0000\n"
+"POT-Creation-Date: 2020-06-09 09:03+0000\n"
+"PO-Revision-Date: 2020-06-09 09:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,6 @@ msgstr ""
 #, python-format
 msgid "%s (copy)"
 msgstr "%s (コピー)"
-
-#. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Accounting Schema"
-msgstr "会計スキーマ"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_accounting_schema
@@ -66,7 +61,6 @@ msgstr "属性情報"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__name
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Business Partner"
 msgstr "取引先"
 
@@ -76,36 +70,28 @@ msgid "Business Partner*"
 msgstr "取引先*"
 
 #. module: Maintain_Product
-#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_search_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code_lv1
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code_lv2
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code_lv3
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code_lv4
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Class code"
 msgstr "分類CD"
 
 #. module: Maintain_Product
-#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_name
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_search_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_name_lv1
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_name_lv2
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_name_lv3
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_name_lv4
 msgid "Class name"
 msgstr "分類名"
 
 #. module: Maintain_Product
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_pricelist_item_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_attribute_line_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "Client*"
 msgstr "クライアント*"
-
-#. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Code Element"
-msgstr "原価要素"
-
-#. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Code Type"
-msgstr "原価タイプ"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_custom_comment_help
@@ -143,11 +129,6 @@ msgid "Costing Method"
 msgstr "在庫評価方法"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Costs"
-msgstr "品目原価"
-
-#. module: Maintain_Product
 #: code:addons/Maintain_Product/models/product_custom.py:0
 #, python-format
 msgid ""
@@ -174,16 +155,6 @@ msgid "Created on"
 msgstr "作成日"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Current Cost Price"
-msgstr "現在の原価"
-
-#. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Current Cost Price Lower Level"
-msgstr "現在の原価(構成品目合計)"
-
-#. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_current_cost_price_lower_level
 msgid "Current Cost Price Lower Level*"
 msgstr "現在の原価(構成品目合計)*"
@@ -192,11 +163,6 @@ msgstr "現在の原価(構成品目合計)*"
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_current_cost_price
 msgid "Current Cost Price*"
 msgstr "現在の原価*"
-
-#. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Current Quantity"
-msgstr "現在数量"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_current_quantity
@@ -220,6 +186,11 @@ msgid "Define vendor pricelists."
 msgstr "仕入先価格リストを定義"
 
 #. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__delay
+msgid "Delivery Lead Time"
+msgstr "配送リードタイム"
+
+#. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_description
 msgid "Description"
 msgstr "説明"
@@ -228,7 +199,6 @@ msgstr "説明"
 #: code:addons/Maintain_Product/models/product_custom.py:0
 #: code:addons/Maintain_Product/models/product_custom.py:0
 #: code:addons/Maintain_Product/models/product_custom.py:0
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #, python-format
 msgid "Detail"
 msgstr "詳細"
@@ -273,19 +243,9 @@ msgid "Expense type"
 msgstr "経費タイプ"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Extra Prices"
-msgstr "特別価格"
-
-#. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__flag_select
 msgid "Flag select"
 msgstr ""
-
-#. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Future Cost Price"
-msgstr "将来の原価"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_future_cost_price_lower_level
@@ -352,6 +312,14 @@ msgid "Last Updated on"
 msgstr "最終更新日"
 
 #. module: Maintain_Product
+#: model:ir.model.fields,help:Maintain_Product.field_product_supplierinfo__delay
+msgid ""
+"Lead time in days between the confirmation of the purchase order and the "
+"receipt of the products in your warehouse. Used by the scheduler for "
+"automatic computation of the purchase order planning."
+msgstr "発注書の確認と、倉庫内の製品の受領日の間のリードタイム。購買発注計画の自動計算のためのスケジューラによって使用されます。"
+
+#. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_limit_price
 msgid "Limit Price"
 msgstr "限度価格"
@@ -363,7 +331,6 @@ msgstr "限度価格*"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__fixed_price
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "List Price"
 msgstr "定価"
@@ -393,7 +360,6 @@ msgid "Manufacturer"
 msgstr "製造業者"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "Minimum Order Qty"
 msgstr "最小注文数量"
@@ -428,7 +394,6 @@ msgstr "注文パック数量"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_company_id
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Organization"
 msgstr "組織"
 
@@ -475,13 +440,12 @@ msgid "Percent"
 msgstr "パーセント"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__price
 msgid "Price"
-msgstr "プライスリスト"
+msgstr "価格"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__pricelist_id
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Price List Version"
 msgstr "プライスリストバージョン"
 
@@ -591,17 +555,12 @@ msgstr "処理済み"
 #. module: Maintain_Product
 #: model:ir.model,name:Maintain_Product.model_product_product
 msgid "Product"
-msgstr "プロダクト"
+msgstr "商品コード"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__custom_attribute_line_ids
 msgid "Product Attributes"
 msgstr "プロダクト属性"
-
-#. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Product Category"
-msgstr "品目カテゴリ"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__product_cost_client
@@ -640,7 +599,6 @@ msgstr "プロダクトテンプレート"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__type
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Product Type"
 msgstr "品目タイプ"
 
@@ -656,6 +614,7 @@ msgstr ""
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_code_1
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_template__product_code_1
 msgid "Product code 1"
 msgstr "商品コード1"
 
@@ -722,20 +681,19 @@ msgid "Products Price List"
 msgstr "プロダクト価格リスト"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "Promised Delivery Time"
 msgstr "納品予定日数"
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Purchasing"
-msgstr "購買情報"
-
-#. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_purchasing_quality_rating
 msgid "Quality rating"
 msgstr "品質レイティング"
+
+#. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__min_qty
+msgid "Quantity"
+msgstr "数量"
 
 #. module: Maintain_Product
 #: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__type__resource
@@ -755,11 +713,6 @@ msgid "Save"
 msgstr "保存"
 
 #. module: Maintain_Product
-#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_custom_search_key
-msgid "Search Key"
-msgstr "検索キー"
-
-#. module: Maintain_Product
 #: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__type__service
 msgid "Service"
 msgstr "サービス"
@@ -771,7 +724,6 @@ msgstr "価格設定"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_standard_price
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Standard Price"
 msgstr "標準価格"
 
@@ -801,15 +753,40 @@ msgid "Tax Category*"
 msgstr "税カテゴリ*"
 
 #. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_tax_rate
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "Tax Rate"
+msgstr "税率"
+
+#. module: Maintain_Product
 #: code:addons/Maintain_Product/models/product_custom.py:0
 #, python-format
 msgid "The Search Key has already been registered"
 msgstr "その検索キーの値は既に登録されています。"
 
 #. module: Maintain_Product
+#: code:addons/Maintain_Product/models/product_custom.py:0
+#, python-format
+msgid "The Tax Rate must be more than 0"
+msgstr "税率は0より大きくなければなりません。"
+
+#. module: Maintain_Product
 #: model:ir.model.constraint,message:Maintain_Product.constraint_product_product_name_code_uniq
 msgid "The code must be unique!"
 msgstr "商品コードは一意である必要があります"
+
+#. module: Maintain_Product
+#: model:ir.model.fields,help:Maintain_Product.field_product_supplierinfo__price
+msgid "The price to purchase a product"
+msgstr "プロダクト発注用価格"
+
+#. module: Maintain_Product
+#: model:ir.model.fields,help:Maintain_Product.field_product_supplierinfo__min_qty
+msgid ""
+"The quantity to purchase from this vendor to benefit from the price, "
+"expressed in the vendor Product Unit of Measure if not any, in the default "
+"unit of measure of the product otherwise."
+msgstr ""
 
 #. module: Maintain_Product
 #: model:ir.model.fields,help:Maintain_Product.field_product_supplierinfo__product_code
@@ -834,7 +811,6 @@ msgstr "単位*"
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__barcode
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_purchasing_barcode
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_search_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_supplierinfo_custom_form_view
 msgid "UPC/EAN"
 msgstr "JAN/UPC/EANコード"
@@ -858,6 +834,11 @@ msgstr "このプロダクトの仕入先"
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__seller_ids
 msgid "Vendors"
 msgstr "仕入先"
+
+#. module: Maintain_Product
+#: model:ir.model,name:Maintain_Product.model_freight_category_custom
+msgid "freight.category.custom"
+msgstr ""
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_custom_goodsnamef

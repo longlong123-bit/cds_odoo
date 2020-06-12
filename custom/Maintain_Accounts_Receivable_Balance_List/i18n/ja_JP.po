@@ -1,0 +1,254 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Maintain_Accounts_Receivable_Balance_List
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-10 12:02+0000\n"
+"PO-Revision-Date: 2020-06-10 12:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.actions.act_window,name:Maintain_Accounts_Receivable_Balance_List.action_accounts_receivable_balance_list
+#: model:ir.actions.report,name:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance
+#: model:ir.ui.menu,name:Maintain_Accounts_Receivable_Balance_List.menu_accounts_receivable_balance_list
+msgid "Accounts Receivable Balance List"
+msgstr "売掛残高一覧表"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__liabilities
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__liabilities
+msgid "Accounts Receivable Balance This Month"
+msgstr "今月売掛残高"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__accounts_receivable_last_month
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__accounts_receivable_last_month
+msgid "Accounts Receivable Last Month"
+msgstr "前月売掛残"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__amount_carried_forward
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__amount_carried_forward
+msgid "Amount Carried Forward"
+msgstr "繰越金額"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__billing_liabilities_flg
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__billing_liabilities_flg
+msgid "Billing Liabilities Flag"
+msgstr ""
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__consumption_tax
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__consumption_tax
+msgid "Consumption Tax"
+msgstr "消費税"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model,name:Maintain_Accounts_Receivable_Balance_List.model_res_partner
+msgid "Contact"
+msgstr "連絡先"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__deposit_amount
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__deposit_amount
+msgid "Deposit Amount"
+msgstr "入金額"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__discount
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__discount
+msgid "Discount"
+msgstr "値引額"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__input_customer_code_bill_from
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__input_customer_code_bill_from
+msgid "Input Customer Code Bill From"
+msgstr ""
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__input_customer_code_bill_to
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__input_customer_code_bill_to
+msgid "Input Customer Code Bill To"
+msgstr ""
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__input_customer_supplier_group_code
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__input_customer_supplier_group_code
+msgid "Input Customer Supplier Group Code"
+msgstr ""
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__input_display_order
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__input_display_order
+msgid "Input Display Order"
+msgstr ""
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__input_division
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__input_division
+msgid "Input Division"
+msgstr "事業部"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__input_sales_rep
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__input_sales_rep
+msgid "Input Sales Representative"
+msgstr ""
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__input_target_month
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__input_target_month
+msgid "Input Target Date"
+msgstr ""
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_partner__purchase_amount
+#: model:ir.model.fields,field_description:Maintain_Accounts_Receivable_Balance_List.field_res_users__purchase_amount
+msgid "Purchase Amount"
+msgstr "御買上金額"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#. openerp-web
+#: code:addons/Maintain_Accounts_Receivable_Balance_List/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Division"
+msgstr "事業部"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Division："
+msgstr "事業部："
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Liabilities"
+msgstr "今月売掛残高"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Discount"
+msgstr "値引額"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Deposit Amount"
+msgstr "入金額"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Accounts Receivable Last Month"
+msgstr "前月売掛残"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#. openerp-web
+#: code:addons/Maintain_Accounts_Receivable_Balance_List/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Supplier Group"
+msgstr "取引先グループ"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Supplier Group："
+msgstr "取引先グループ："
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#. openerp-web
+#: code:addons/Maintain_Accounts_Receivable_Balance_List/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Sales Representative"
+msgstr "営業担当者"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Sales Representative："
+msgstr "営業担当者"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Accounts Receivable Balance List"
+msgstr "売掛残高一覧表"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#. openerp-web
+#: code:addons/Maintain_Accounts_Receivable_Balance_List/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Target Month"
+msgstr "対象月"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Target Month："
+msgstr "対象月："
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Purchase Amount"
+msgstr "御買上金額"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#. openerp-web
+#: code:addons/Maintain_Accounts_Receivable_Balance_List/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Contact Person Billing Address (Code)"
+msgstr "担当者請求先（コード）"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Consumption Tax"
+msgstr "消費税"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Amount Carried Forward"
+msgstr "繰越金額"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#. openerp-web
+#: code:addons/Maintain_Accounts_Receivable_Balance_List/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Display Order"
+msgstr "表示順"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Display Order："
+msgstr "表示順："
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#. openerp-web
+#: code:addons/Maintain_Accounts_Receivable_Balance_List/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Customer Code Bill"
+msgstr "請求先"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Billing Code"
+msgstr "請求先コード"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Billing Name (Customer Name)"
+msgstr "請求先名（得意先名）"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#. openerp-web
+#: code:addons/Maintain_Accounts_Receivable_Balance_List/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Billing (Code)"
+msgstr "請求先（コード）"
+
+#. module: Maintain_Accounts_Receivable_Balance_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Accounts_Receivable_Balance_List.report_accounts_receivable_balance_list_document
+msgid "Customer Code Bill："
+msgstr "請求先："

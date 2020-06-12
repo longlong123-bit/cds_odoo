@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-04 04:15+0000\n"
-"PO-Revision-Date: 2020-06-04 04:15+0000\n"
+"POT-Creation-Date: 2020-06-10 11:23+0000\n"
+"PO-Revision-Date: 2020-06-10 11:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -35,6 +35,7 @@ msgstr "アクティブ"
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__street
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__street
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
@@ -44,6 +45,7 @@ msgstr "住所1"
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__street2
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__street2
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
 msgid "Address 2"
@@ -80,6 +82,7 @@ msgstr "請求値引率"
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_code_bill
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_code_bill
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
 msgid "Billing Code"
 msgstr "請求先コード"
@@ -194,7 +197,6 @@ msgstr "クレジットカード"
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_get_billing_code
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_get_billing_code
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_apply_rate__customer
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Customer"
 msgstr "得意先自身"
 
@@ -208,6 +210,7 @@ msgstr "その他CD"
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_code
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
 msgid "Customer Code"
@@ -219,6 +222,7 @@ msgid "Customer Code*"
 msgstr "得意先コード*"
 
 #. module: Maintain_Business_Partners_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
 msgid "Customer Name"
@@ -227,6 +231,7 @@ msgstr "得意先名称"
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_name_kana
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_name_kana
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
@@ -254,6 +259,7 @@ msgstr "掛率0より大きく100未満でなければなりません！"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.actions.act_window,name:Maintain_Business_Partners_Remake.res_partner_action_customer
+#: model:ir.actions.act_window,name:Maintain_Business_Partners_Remake.res_partner_action_customer_reference
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 msgid "Customers"
 msgstr "取引先"
@@ -272,7 +278,6 @@ msgstr "入金消込処理"
 
 #. module: Maintain_Business_Partners_Remake
 #: code:addons/Maintain_Business_Partners_Remake/models/partner_customer_remake.py:0
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #, python-format
 msgid "Detail"
 msgstr "詳細"
@@ -341,6 +346,7 @@ msgstr ""
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_industry_code
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_industry_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
@@ -354,7 +360,6 @@ msgstr "内税"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_invoic_address
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Invoice Address"
 msgstr "請求先"
 
@@ -382,7 +387,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__name
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__name
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__name
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.relation_partner_custom_template
 msgid "Name"
 msgstr "名称"
@@ -411,7 +415,6 @@ msgstr "後払い"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_customer_organization
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Organization"
 msgstr "組織"
 
@@ -421,19 +424,18 @@ msgid "Partner"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
 msgid "Partner Custom"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_partner_location
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Partner Location"
 msgstr "取引先住所"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_payfrom_address
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Pay-From Address"
 msgstr "入金先"
 
@@ -462,6 +464,7 @@ msgstr "支払条件*"
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_phone
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_phone
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
@@ -498,33 +501,30 @@ msgstr "売上伝票印刷"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_related_partner
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Related Partner"
 msgstr "関係取引先"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_related_partner_location
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Related Partner Location"
 msgstr "関係取引先住所"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__relation_id
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__relation_id
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.relation_partner_custom_template
 msgid "Relation"
 msgstr "取引先関係設定"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_remitto_address
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Remit-To Address"
 msgstr "支払先"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_agent
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_agent
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
 msgid "Representative/Agent"
@@ -587,13 +587,13 @@ msgstr "請求書選択"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_ship_address
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Ship Address"
 msgstr "出荷納品先"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_state
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_state
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
@@ -603,6 +603,7 @@ msgstr "地区コード"
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_supplier_group_code
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_supplier_group_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
 msgid "Supplier Group Code"
@@ -660,6 +661,7 @@ msgstr "伝票単位"
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__zip_code
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__zip_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
 msgid "Zip"

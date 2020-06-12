@@ -78,10 +78,9 @@ class QuotationsCustom(models.Model):
     quotations_date = fields.Date(string='Quotations Date', default=fields.Date.today())
     order_id = fields.Many2one('sale.order', string='Order', store=False)
     partner_id = fields.Many2one(string='Business Partner')
-    related_partner_code = fields.Char('Partner Code', related='partner_id.customer_code')
+    related_partner_code = fields.Char('Partner Code')
     partner_name = fields.Char(string='Partner Name')
-    sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, states={'draft': [('readonly', False)]},
-                                domain="[('share', '=', False)]", default=lambda self: self.env.user)
+    sales_rep = fields.Many2one('hr.employee', string='Sales Rep', readonly=True, states={'draft': [('readonly', False)]},)
     related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
     cb_partner_sales_rep_id = fields.Many2one('res.partner', string='cbpartner_salesrep_id', tracking=True,
                                               readonly=True,
@@ -131,6 +130,7 @@ class QuotationsCustom(models.Model):
                 rec.partner_id = self.partner_id or ''
                 rec.partner_name = self.partner_id.name or ''
                 rec.customer_tax_rounding = self.partner_id.customer_tax_rounding or ''
+                rec.sales_rep = self.partner_id.customer_agent or ''
                 rec.tax_method = get_tax_method(rec.partner_id.customer_tax_category, rec.partner_id.customer_tax_unit)
 
     def get_lines(self):

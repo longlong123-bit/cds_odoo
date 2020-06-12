@@ -20,8 +20,8 @@ _logger = logging.getLogger(__name__)
 
 class ProductTemplate(models.Model):
     _inherit = "product.product"
-    _rec_name = 'product_custom_search_key'
-    _order = 'product_custom_search_key'
+    _rec_name = 'product_code_1'
+    _order = 'product_code_1'
 
     def _get_default_uom_id(self):
         return self.env["uom.uom"].search([], limit=1, order='id').id
@@ -30,8 +30,9 @@ class ProductTemplate(models.Model):
                              help="Default unit of measure used for all stock operations.")
 
     product_custom_freight_category = fields.Many2one('freight.category.custom', 'Maker code')
+    product_maker_code = fields.Char('Maker code', related='product_custom_freight_category.search_key_freight')
 
-    product_maker_name = fields.Char('Maker name', readonly=True)
+    product_maker_name = fields.Char('Maker name', readonly=True, store=True)
 
     barcode = fields.Char(string='UPC/EAN', size=30, required=True)
 
@@ -40,7 +41,7 @@ class ProductTemplate(models.Model):
                                                 'Product Attributes', copy=True)
     seller_ids = fields.One2many('product.supplierinfo', 'product_id', 'Vendors', help="Define vendor pricelists.")
 
-    product_custom_search_key = fields.Char('Search Key')
+    # product_custom_search_key = fields.Char('Search Key')
     product_custom_standardnumber = fields.Char('standardnumber')
     product_custom_goodsnamef = fields.Char('goodsnamef', size=30)
     product_custom_is_stocked = fields.Boolean('Stocked')
@@ -93,6 +94,8 @@ class ProductTemplate(models.Model):
     flag_select = fields.Char('Flag select')
     model_number = fields.Char('Model number')
     model_name = fields.Char('Model name')
+    # add extra field tax
+    product_tax_rate = fields.Integer('Tax Rate')
 
     type = fields.Selection(
         [('asset', 'Asset'), ('expense_type', 'Expense type'), ('item', 'Item'), ('resource', 'Resource'),
@@ -219,7 +222,7 @@ class ProductTemplate(models.Model):
             'context': {
                 'default_product_id': self.id,
                 'default_applied_on': '0_product_variant',
-                'default_product_price_product_name': (self.product_custom_search_key or '') + '_' + (self.name or '')
+                'default_product_price_product_name': (self.product_code_1 or '') + '_' + (self.name or '')
             }
         }
 
@@ -227,7 +230,27 @@ class ProductTemplate(models.Model):
     def _check_barcode(self):
         if not re.match("^[0-9]*$", self.barcode):
             raise ValidationError("JAN/UPC/EANに英数をしてください。")
+
         return {}
+
+    @api.onchange('barcode')
+    def _check_onchange_barcode(self):
+        # check UPC/EAN
+        if self.barcode:
+            if not re.match("^[0-9]*$", self.barcode) or self.barcode == '000000000':
+                raise ValidationError("JAN/UPC/EANに英数をしてください。")
+
+            barcode_count = self.env['product.product'].search_count([('barcode', '=', self.barcode)])
+            if barcode_count > 0:
+                raise ValidationError(_('既に登録されています。'))
+
+        return {}
+
+    # Check validate tax rate
+    @api.constrains('product_tax_rate')
+    def _check_maximum_day(self):
+        if self.product_tax_rate < 0:
+            raise ValidationError(_('The Tax Rate must be more than 0'))
 
     _sql_constraints = [
         ('name_code_uniq', 'unique(product_code_1,product_code_2, product_code_3, product_code_4, '
@@ -260,7 +283,7 @@ class ProductTemplate(models.Model):
 
     def copy(self, default=None):
         default = dict(default or {})
-        default.update({'product_code_1': ''})
+        default.update({'product_code_1': '', 'barcode': '000000000'})
         if 'name' not in default:
             default['name'] = _("%s (copy)") % (self.name)
         return super(ProductTemplate, self).copy(default)
@@ -274,12 +297,12 @@ class ProductTemplate(models.Model):
     @api.model
     def create(self, values):
         # if create product without search key, generate new search key by sequence
-        if not ('product_custom_search_key' in values):
+        if not ('product_code_1' in values):
             # get all search key is number
             self._cr.execute('''
-                        SELECT product_custom_search_key
+                        SELECT product_code_1
                         FROM product_product
-                        WHERE product_custom_search_key ~ '^[0-9\.]+$';
+                        WHERE product_code_1 ~ '^[0-9\.]+$';
                     ''')
             query_res = self._cr.fetchall()
 
@@ -289,7 +312,7 @@ class ProductTemplate(models.Model):
             while seq in [res[0] for res in query_res]:
                 seq = self.env['ir.sequence'].next_by_code('product.product')
 
-            values['product_custom_search_key'] = seq
+            values['product_code_1'] = seq
         for i in range(1, 7):
             product_code = self._check_product_code(values, 'product_code_' + str(i))
             # product_code = self._check_product_code('product_code_' + str(i))
@@ -342,7 +365,7 @@ class ProductTemplate(models.Model):
 
         self.env['product.custom.template.attribute.line'].create({
             'product_id': product.id,
-            'product_cost_product_name': (product.product_custom_search_key or '') + '_' + (product.name or '')
+            'product_cost_product_name': (product.product_code_1 or '') + '_' + (product.name or '')
         })
 
         return product
@@ -379,9 +402,9 @@ class ProductTemplate(models.Model):
     # Check validate, duplicate data
     def _check_data(self, values):
         # check Search Key
-        if values.get('product_custom_search_key'):
+        if values.get('product_code_1'):
             search_key_count = self.env['product.product'].search_count(
-                [('product_custom_search_key', '=', values.get('product_custom_search_key'))])
+                [('product_code_1', '=', values.get('product_code_1'))])
             if search_key_count > 0:
                 raise ValidationError(_('The Search Key has already been registered'))
 
@@ -431,6 +454,47 @@ class ProductTemplate(models.Model):
         for i in range(0, leng):
             if arr[i] < 0:
                 raise ValidationError(_('Price must be greater than 0 !'))
+
+    # Xử lý phân loại product
+    @api.onchange('product_class_code_lv1')
+    @api.depends('product_class_code_lv1')
+    def _get_chidren_class_lv1(self):
+        self.product_class_code_lv2 = False
+        domain = {}
+        class_list = []
+        if self.product_class_code_lv1:
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv1.product_class_code)])
+            for children_ids in children_obj:
+                class_list.append(children_ids.id)
+            # to assign parter_list value in domain
+            domain = {'product_class_code_lv2': [('id', '=', class_list)]}
+        return {'domain': domain}
+
+    @api.onchange('product_class_code_lv2')
+    def _get_chidren_class_lv2(self):
+        self.product_class_code_lv3 = False
+        domain = {}
+        class_list = []
+        if self.product_class_code_lv2:
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv2.product_class_code)])
+            for children_ids in children_obj:
+                class_list.append(children_ids.id)
+            # to assign parter_list value in domain
+            domain = {'product_class_code_lv3': [('id', '=', class_list)]}
+        return {'domain': domain}
+
+    @api.onchange('product_class_code_lv3')
+    def _get_chidren_class_lv3(self):
+        self.product_class_code_lv4 = False
+        domain = {}
+        class_list = []
+        if self.product_class_code_lv3:
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv3.product_class_code)])
+            for children_ids in children_obj:
+                class_list.append(children_ids.id)
+            # to assign parter_list value in domain
+            domain = {'product_class_code_lv4': [('id', '=', class_list)]}
+        return {'domain': domain}
 
 
 class ProductCustomTemplate(models.Model):
@@ -507,8 +571,8 @@ class ProductCustomPurchasingLine(models.Model):
         self._check_data(values)
 
         search_product = self.env['product.product'].search([('id', '=', values['product_id'])], limit=1)
-        values['product_name'] = (search_product.product_custom_search_key or '') + '_' + (search_product.name or '')
-        values['product_code'] = search_product.product_custom_search_key or ''
+        values['product_name'] = (search_product.product_code_1 or '') + '_' + (search_product.name or '')
+        values['product_code'] = search_product.product_code_1 or ''
         purchasing = super(ProductCustomPurchasingLine, self).create(values)
 
         return purchasing

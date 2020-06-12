@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-14 10:38+0000\n"
-"PO-Revision-Date: 2020-05-14 10:38+0000\n"
+"POT-Creation-Date: 2020-06-11 09:05+0000\n"
+"PO-Revision-Date: 2020-06-11 09:05+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -90,6 +90,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Product_Class.field_product_class__write_date
 msgid "Last Updated on"
 msgstr ""
+
+#. module: Maintain_Product_Class
+#: model:ir.model.fields,field_description:Maintain_Product_Class.field_product_class__product_level
+#: model_terms:ir.ui.view,arch_db:Maintain_Product_Class.product_class_filter
+#: model_terms:ir.ui.view,arch_db:Maintain_Product_Class.product_class_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Product_Class.product_class_tree
+msgid "Level"
+msgstr "レベル"
+
+#. module: Maintain_Product_Class
+#: model:ir.model.fields,field_description:Maintain_Product_Class.field_product_class__product_parent_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Product_Class.product_class_filter
+#: model_terms:ir.ui.view,arch_db:Maintain_Product_Class.product_class_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Product_Class.product_class_tree
+msgid "Parent Code"
+msgstr "親コード"
 
 #. module: Maintain_Product_Class
 #: model:ir.actions.act_window,name:Maintain_Product_Class.action_product_class
