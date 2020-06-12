@@ -105,6 +105,10 @@
             <attribute name="invisible">1</attribute>
         </xpath>
 
+<!--        <xpath expr="//header" position="inside">-->
+<!--            <button name="fill_data" string="Fill data" class="o_fill_data"/>-->
+<!--        </xpath>-->
+
       <!-- BEGIN FORM -->
       <xpath expr="//group[1]" position="replace">
           <div style="text-align: right; font-weight: bold; font-size: 1.2rem; margin-bottom: 20px; margin-right: 80px;">
@@ -123,6 +127,7 @@
 <!--                  </field>-->
 
                 </td>
+                <td><field name="trigger_quotation_history" widget="Maintain_Quotation_History.Order" z-index="92"/></td>
               </tr>
             <tr>
               <td class="col-label"><label for="x_studio_date_invoiced" string="Invoice Date*"/></td>
