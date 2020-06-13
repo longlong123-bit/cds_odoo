@@ -8,17 +8,20 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'Maintain_Invoice_Remake',
+        'base_setup', 'Maintain_Bill_Management', 'Maintain_Invoice_Remake',
     ],
     'website': '',
     'data': [
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/collation_history.xml',
-        # 'views/sequence.xml',
+        'views/sequence.xml',
+        'views/collation_history_report.xml',
     ],
     'qweb': [
-        'static/src/xml/advanced_search.xml'
+        'static/src/xml/advanced_search.xml',
+        'static/src/xml/report_template.xml',
+        'static/src/xml/bill_invoice_detail.xml'
     ],
     'demo': [],
     'installable': True,

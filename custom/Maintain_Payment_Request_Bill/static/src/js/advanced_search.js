@@ -1,14 +1,13 @@
-odoo.define('Collation_History.Search', function(require){
+odoo.define('Payment_Request_Bill.Search', function(require){
     var FilterMenu = require('web.FilterMenu_free');
 
     FilterMenu.include({
         advancedSearch: _.extend({}, FilterMenu.prototype.advancedSearch || {}, {
             'bill.info': {
-                'collation.history.tree.view': {
-                    template: 'collation_history.advanced_search'
+                'payment.request.tree.view':{
+                    template: 'payment_request_bill.advanced_search'
                 }
             }
         })
     });
 });
-

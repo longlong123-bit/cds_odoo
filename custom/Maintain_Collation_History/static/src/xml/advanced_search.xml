@@ -6,35 +6,35 @@
           <tr>
             <th>売上日付</th>
             <td>
-              <input class="filter-item" data-operator="gte" data-name="x_studio_date_invoiced" type="date"/>
+              <input class="filter-item" data-operator="gte" data-name="last_closing_date" type="date"/>
             </td>
             <td><span>～</span></td>
             <td>
-              <input class="filter-item" data-operator="lte" data-name="x_studio_date_invoiced" type="date"/>
+              <input class="filter-item" data-operator="lte" data-name="last_closing_date" type="date"/>
             </td>
           </tr>
           <tr>
             <th>請求先コード</th>
             <td>
-              <input class="filter-item" data-operator="ilike" data-name="x_studio_document_no"/>
+              <input class="filter-item" data-operator="ilike" data-name="billing_code"/>
             </td>
           </tr>
           <tr>
             <th>請求先名</th>
             <td>
-              <input class="filter-item" data-operator="ilike" data-name="name"/>
+              <input class="filter-item" data-operator="ilike" data-name="billing_name"/>
             </td>
           </tr>
           <tr>
             <th>得意先コード</th>
             <td>
-              <input class="filter-item" data-operator="ilike" data-name="invoice_partner_display_name"/>
+              <input class="filter-item" data-operator="ilike" data-name="bill_no"/>
             </td>
           </tr>
           <tr>
             <th>得意先名</th>
             <td>
-              <input class="filter-item" data-operator="ilike" data-name="x_studio_name"/>
+              <input class="filter-item" data-operator="ilike" data-name="invoices_number"/>
             </td>
           </tr>
         </table>
