@@ -5,7 +5,7 @@
         <field name="name">bm.bill.form</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
-            <form string="Bill Form">
+            <form string="Bill Form" create="0" edit="0">
                 <header>
                     <button name="test_button" string="Check All" type="object"/>
                     <button name="test_button" string="Uncheck All" type="object"/>
@@ -33,12 +33,20 @@
 
                     <notebook>
                         <page string="Detail Line">
-                            <field name="account_move_ids">
-                                <tree string="Detail Lines" widget="one2many_delete" editable="bottom" create="0" delete="0">
-                                    <field name="x_studio_date_invoiced" readonly="1"/>
-                                    <field name="x_studio_document_no" readonly="1"/>
-                                    <field name="x_customer_code_for_search" readonly="1"/>
-                                    <field name="x_studio_name" readonly="1"/>
+                            <field name="bill_account_move_line_ids" widget="one2many_selectable">
+                                <tree string="Detail Lines" editable="bottom" create="0" delete="0">
+                                    <field name="date" string="Invoice Date" readonly="1"/>
+                                    <field name="invoice_no" string="Invoice No" readonly="1"/>
+                                    <field name="customer_code" string="Customer Code" readonly="1"/>
+                                    <field name="customer_name" string="Customer Name" readonly="1"/>
+                                    <field name="product_id" string="Product Code" readonly="1"/>
+                                    <field name="invoice_custom_FreightCategory" string="Product Maker Name" readonly="1"/>
+                                    <field name="invoice_custom_standardnumber" string="Standard Number" readonly="1"/>
+                                    <field name="x_product_name" string="Product Name" readonly="1"/>
+                                    <field name="quantity" string="Quantity" readonly="1"/>
+                                    <field name="price_unit" string="Price Unit" readonly="1"/>
+                                    <field name="invoice_custom_lineamount" string="Amount" readonly="1"/>
+                                    <field name="invoice_custom_Description" readonly="1"/>
                                 </tree>
                             </field>
                         </page>
@@ -81,15 +89,6 @@
             [('billing_liabilities_flg','=',True)]
         </field>
         <field name="context">{'bill_management_module': True, 'view_name': 'Billing'}</field>
-    </record>
-
-    <record id="model_action_bill" model="ir.actions.server">
-        <field name="name">Share</field>
-        <field name="model_id" ref="base.model_res_partner"/>
-        <field name="binding_model_id" ref="base.model_res_partner"/>
-        <field name="binding_view_types">list,form</field>
-        <field name="state">code</field>
-        <field name="code">records.action_bill()</field>
     </record>
 
 </odoo>

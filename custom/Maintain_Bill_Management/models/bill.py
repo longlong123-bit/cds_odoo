@@ -106,20 +106,25 @@ class BillingClass(models.Model):
     # Check customer is Billing Place
     billing_liabilities_flg = fields.Boolean(default=False)
 
-    # Relational fields with account.move model
-    account_move_ids = fields.One2many('account.move', 'billing_place_id', string='Invoices')
-
     # 事業部
     department = fields.Many2one('hr.department', compute=_set_data_to_fields, readonly=True, store=False)
+
+    # Relational fields with account.move model
+    bill_account_move_ids = fields.One2many('account.move', 'billing_place_id', string='Invoices')
+
+    # Relational fields with account.move.line model
+    bill_account_move_line_ids = fields.One2many('account.move.line', 'billing_place_id', string='Invoices Line')
 
     # Button [抜粋/Excerpt]
     def bm_bill_excerpt_button(self):
         res_partner_id = self.env["res.partner"].search(
             ['|', ('customer_code', '=', self.customer_code), ('customer_code_bill', '=', self.customer_code)])
 
-        self.account_move_ids = self._get_invoices_sales_by_partner_id(partner_id=res_partner_id.ids,
-                                                                       last_closing_date=self.last_closing_date,
-                                                                       deadline=self.deadline)
+        self.bill_account_move_ids = self._get_invoices_sales_by_partner_id(partner_id=res_partner_id.ids,
+                                                                            last_closing_date=self.last_closing_date,
+                                                                            deadline=self.deadline)
+
+        self.bill_account_move_line_ids = self.bill_account_move_ids.invoice_line_ids
 
         return {
             'type': 'ir.actions.act_window',
@@ -129,14 +134,6 @@ class BillingClass(models.Model):
             'res_id': self.id,
             'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_form').id, 'form')],
         }
-
-    # Action
-    def action_bill(self):
-        print(self.ids)
-        print(self.ids)
-        print(self.ids)
-        print(self.ids)
-        return True
 
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
@@ -285,3 +282,18 @@ class InvoiceClass(models.Model):
     billing_place_id = fields.Many2one('res.partner')
 
     bill_status = fields.Char(default="not yet")
+
+
+class InvoiceLineClass(models.Model):
+    _inherit = 'account.move.line'
+
+    billing_place_id = fields.Many2one('res.partner')
+
+    def compute_data(self):
+        for record in self:
+            record.customer_code = record.partner_id.customer_code
+            record.customer_name = record.partner_id.name
+
+    customer_code = fields.Char(compute=compute_data, string='Customer Code', store=False)
+    customer_name = fields.Char(compute=compute_data, string='Customer Name', store=False)
+
