@@ -192,7 +192,7 @@ class BillingClass(models.Model):
 
             _balance_amount = _last_billed_amount - _deposit_amount
 
-            self.env['bill.info'].create({
+            _bill_info_ids = self.env['bill.info'].create({
                 'billing_code': rec['customer_code'],
                 'billing_name': rec['name'],
                 'bill_no': 'BIL/',
@@ -220,7 +220,8 @@ class BillingClass(models.Model):
             })
 
             for invoice in invoice_ids:
-                self.env['bill.invoice'].create({
+                _bill_invoice_ids = self.env['bill.invoice'].create({
+                    'bill_info_id': _bill_info_ids.id,
                     'billing_code': rec['customer_code'],
                     'billing_name': rec['name'],
                     'bill_no': 'BIL/',
@@ -242,6 +243,7 @@ class BillingClass(models.Model):
 
                 for line in invoice.invoice_line_ids:
                     self.env['bill.invoice.details'].create({
+                        'bill_invoice_id': _bill_invoice_ids.id,
                         'billing_code': rec['customer_code'],
                         'billing_name': rec['name'],
                         'bill_no': 'BIL/',
