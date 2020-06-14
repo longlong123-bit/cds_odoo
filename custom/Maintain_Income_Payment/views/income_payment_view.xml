@@ -34,29 +34,20 @@
 
                             <!-- Row 1 -->
                             <tr>
-                                <td class="o_td_label"><label for="client_custom_id" string="Client"/></td>
-                                <td colspan="2"><field name="client_custom_id" readonly="True" required="True"/></td>
+                                <td class="o_td_label"><label for="payment_date" string="Transaction Date"/></td>
+<!--                                <td colspan="2"><field name="payment_date" required="True" attrs="{'readonly': [('set_read_only', '=', True)]}"/></td>-->
+                                <td colspan="2"><field name="payment_date" required="True"/></td>
                                 <td class="o_td_label"><label for="document_no" string="Document No"/></td>
                                 <td><field name="document_no" readonly="True" style="font-weight: bold;"/></td>
-                                <td class="o_td_label"><label for="company_id" string="Organization"/></td>
-                                <td colspan="2"><field name="company_id" readonly="True"/></td>
-                            </tr>
-
-                            <!-- Row 2 -->
-                            <tr>
                                 <td class="o_td_label"><label for="account_invoice_id" string="Invoice"/></td>
-                                <td colspan="2"><field name="account_invoice_id" domain="[('state','=','posted')]"/></td>
-                                <td class="o_td_label"><label for="payment_date" string="Transaction Date"/></td>
-                                <td><field name="payment_date" required="True"/></td>
-                                <td class="o_td_label"><label for="partner_bank_account_id" string="Bank Account"/></td>
-                                <td colspan="2"><field name="partner_bank_account_id"/></td>
+                                <td><field name="account_invoice_id" domain="[('state','=','posted')]"/></td>
+                                <td colspan="2"><field name="company_id" readonly="True" invisible="1"/></td>
+<!--                                <field name="set_read_only" invisible="True"/>-->
                             </tr>
 
-                            <!-- Row 3 -->
                             <tr>
                                 <td class="o_td_label"><label for="partner_id" string="Business Partner"/></td>
                                 <td colspan="2">
-<!--                                <field name="partner_id" required="True"/>-->
                                     <field name="partner_id" widget="res_partner_many2one" required="1"
                                            domain="[('customer_rank','>', 0)]" default_focus="1"
                                            context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
@@ -64,8 +55,8 @@
                                            z-index="98"/>
                                 </td>
                                 <td colspan="2"><field name="partner_payment_name1"/></td>
-                                <td class="o_td_label"><label for="currency_id" string="Currency"/></td>
-                                <td><field name="currency_id"/></td>
+                                <td class="o_td_label"><label for="sales_rep" string="Sales Rep"/></td>
+                                <td><field name="sales_rep"/></td>
                             </tr>
 
                             <!-- Row 4 -->
@@ -73,8 +64,12 @@
                                 <td colspan="2"/>
                                 <td class="o_td_label"><label for="partner_payment_name2" string="paymentname2"/></td>
                                 <td colspan="2"><field name="partner_payment_name2"/></td>
-                                <td class="o_td_label"><label for="sales_rep" string="Sales Rep"/></td>
-                                <td><field name="sales_rep"/></td>
+                                <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="cbpartner_salesrep_id"/></td>
+                                <td>
+                                <field name="cb_partner_sales_rep_id" domain="[('customer_rank','=', 1)]"
+                                           context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
+                                           options='{"reload_on_button": True, "no_quick_create": True}'
+                                           /></td>
                             </tr>
 
                             <!-- Row 5 -->
@@ -82,19 +77,12 @@
                                 <td class="o_td_label"><label for="partner_payment_address1" string="Address 1"/></td>
                                 <td colspan="2"><field name="partner_payment_address1"/></td>
                                 <td colspan="2"><field name="partner_payment_address2"/></td>
-                                <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="cbpartner_salesrep_id"/></td>
-                                <td>
-                                <field name="cb_partner_sales_rep_id" domain="[('customer_rank','=', 1)]"
-                                           context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
-                                           options='{"reload_on_button": True, "no_quick_create": True}'/></td>
+                                <td class="o_td_label"><label for="journal_id" string="vj_collection_method"/></td>
+                                <td><field name="journal_id" widget="many2one_tags" required="False"/></td>
                             </tr>
 
                             <!-- Row 6 -->
                             <tr>
-                                <td class="o_td_label"><label for="comment_apply" string="commentapply"/></td>
-                                <td colspan="4"><field name="comment_apply"/></td>
-                                <td class="o_td_label"><label for="journal_id" string="vj_collection_method"/></td>
-                                <td><field name="journal_id" widget="many2one_tags" required="False"/></td>
                                 <field name="payment_method_id" invisible="True"/>
                                 <field name="amount" invisible="True"/>
                                 <field name="payment_type" invisible="True"/>
@@ -104,15 +92,21 @@
                             <tr>
                                 <td class="o_td_label"><label for="vj_summary" string="vj_summary"/></td>
                                 <td colspan="2"><field name="vj_summary"/></td>
-                                <td colspan="2"></td>
-                                <td class="o_td_label"><label for="collection_method_date" string="collectionmethoddate"/></td>
-                                <td><field name="collection_method_date"/></td>
+                                <td class="o_td_label"><label for="state" string="Document Status"/></td>
+                                <td><field name="state" readonly="True" invisible="0"/></td>
+                                <td class="o_td_label"><label for="collection_method_date"/></td>
+                                <td><field name="collection_method_date" style="max-width: 30% !important" force_save="1"/></td>
                             </tr>
 
                             <!-- Row 8 -->
                             <tr>
-                                <td class="o_td_label"><label for="state" string="Document Status"/></td>
-                                <td colspan="2"><field name="state" readonly="True"/></td>
+                                <td class="o_td_label"><label for="comment_apply" string="commentapply"/></td>
+                                <td colspan="4"><field name="comment_apply"/></td>
+                                <td class="o_td_label"><label for="collection_method_month"/></td>
+                                <td><field name="collection_method_month" style="max-width: 30% !important" force_save="1"/></td>
+                            </tr>
+
+                            <tr>
                                 <td colspan="2"><field name="customer_other_cd" force_save="1" invisible="True"/></td>
                             </tr>
                         </tbody>
@@ -129,10 +123,13 @@
                                         <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
                                         <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
                                     </control>
-                                    <field name="vj_c_payment_category" string="vj_c_payment_category" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"/>
-                                    <field name="payment_amount" string="Payment Amount" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-                                    <field name="name" string="Description" attrs="{'required': [('display_type', '!=', False)]}"/>
-                                    <field name="display_type" invisible="1"/>
+                                        <field name="vj_c_payment_category" string="vj_c_payment_category"
+                                           attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
+                                            />
+                                        <field name="payment_amount" string="Payment Amount" attrs="{'invisible': [('display_type', '!=', False)]}" />
+                                        <field name="name" string="Description" attrs="{'required': [('display_type', '!=', False)]}"
+                                        />
+                                        <field name="display_type" invisible="1"/>
                                 </tree>
                           </field>
                         </page>

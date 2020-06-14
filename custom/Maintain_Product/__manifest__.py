@@ -18,6 +18,9 @@
         'views/product_custom_view.xml',
         'views/product_confirm_view.xml'
     ],
+    'qweb': [
+        'static/src/xml/advanced_search.xml'
+    ],
     'demo': [],
     'installable': True,
     'application': True,
