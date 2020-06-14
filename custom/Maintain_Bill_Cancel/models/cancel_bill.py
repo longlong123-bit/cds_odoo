@@ -21,6 +21,10 @@ class BillingClass(models.Model):
             invoice_ids.write({
                 'bill_status': 'not yet'
             })
+            self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
+                'bill_status': 'not yet',
+                'selected': False
+            })
 
             self.env['bill.info'].search([('id', 'in', argsSelectedIds)]).unlink()
 

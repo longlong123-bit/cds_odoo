@@ -129,10 +129,16 @@ class BillingClass(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Billing Details',
-            'view_mode': 'tree,form',
+            'view_mode': 'form',
+            'target': 'current',
             'res_model': 'res.partner',
             'res_id': self.id,
             'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_form').id, 'form')],
+            'context': {'form_view_initial_mode': 'edit', 'bill_management_module': True,
+                        'view_name': 'Billing Details',
+                        'bill_account_move_ids': self.bill_account_move_ids,
+                        'bill_move_ids': self.bill_account_move_ids.ids,
+                        },
         }
 
     def create_bill_for_invoice(self, argsSelectedData):
@@ -148,6 +154,9 @@ class BillingClass(models.Model):
                                                            deadline=rec['deadline'])
 
             invoice_ids.write({
+                'bill_status': 'billed'
+            })
+            self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
                 'bill_status': 'billed'
             })
 
@@ -170,7 +179,7 @@ class BillingClass(models.Model):
                     _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
 
             bill_info_ids = self.env['bill.info'].search([('billing_code', '=', rec['customer_code']),
-                                                          ('closing_date', '=', rec['last_closing_date']),
+                                                          ('last_closing_date', '=', rec['last_closing_date']),
                                                           ('active_flag', '=', True)])
             _last_billed_amount = 0
             if bill_info_ids:
@@ -240,6 +249,7 @@ class BillingClass(models.Model):
 
                 for line in invoice.invoice_line_ids:
                     self.env['bill.invoice.details'].create({
+                        'bill_info_id': _bill_info_ids.id,
                         'bill_invoice_id': _bill_invoice_ids.id,
                         'billing_code': rec['customer_code'],
                         'billing_name': rec['name'],
@@ -261,6 +271,170 @@ class BillingClass(models.Model):
             'type': 'ir.actions.client',
             'tag': 'reload',
         }
+
+    def create_bill_details(self):
+        ctx = self._context.copy()
+        invoice_line_ids = self.env['account.move.line'].search([
+            ('billing_place_id', '=', self.id),
+            ('selected', '=', True),
+            ('move_id', 'in', ctx.get('bill_move_ids')),
+        ])
+
+        invoice_line_ids.write({
+            'bill_status': 'billed'
+        })
+
+        invoice_ids = self.env['account.move'].search([
+            ('id', 'in', invoice_line_ids.move_id.ids),
+            ('billing_place_id', '=', self.id),
+        ])
+        invoice_ids.write({
+            'bill_status': 'billed'
+        })
+
+        res_partner_id = self.env["res.partner"].search(
+            ['|', ('customer_code', '=', self.customer_code),
+             ('customer_code_bill', '=', self.customer_code)])
+
+        _sum_amount_tax = 0
+        _sum_amount_total = 0
+        _sum_amount_untaxed = 0
+        _invoice_details_number = 0
+        _sum_amount_tax_cashed = 0
+        _sum_amount_untaxed_cashed = 0
+        _sum_amount_total_cashed = 0
+        for line in invoice_line_ids:
+            _sum_amount_untaxed = _sum_amount_untaxed + line.invoice_custom_lineamount
+            # _sum_amount_tax = _sum_amount_tax + line.amount_tax
+            _sum_amount_total = _sum_amount_total + line.invoice_custom_lineamount
+            if self.env['account.move'].search(
+                    [('id', '=', line.move_id.id)]).customer_trans_classification_code == 'cash':
+                _sum_amount_untaxed_cashed = _sum_amount_untaxed_cashed + line.invoice_custom_lineamount
+                # _sum_amount_tax_cashed = _sum_amount_tax_cashed + line.amount_tax
+                _sum_amount_total_cashed = _sum_amount_total_cashed + line.invoice_custom_lineamount
+
+        bill_info_ids = self.env['bill.info'].search([('billing_code', '=', self.customer_code),
+                                                      ('last_closing_date', '=', self.last_closing_date),
+                                                      ('active_flag', '=', True)])
+        _last_billed_amount = 0
+        if bill_info_ids:
+            _last_billed_amount = bill_info_ids.billed_amount
+
+        payment_ids = self.env['account.payment'].search([
+            ('partner_id', 'in', res_partner_id.ids),
+            ('payment_date', '>', self.last_closing_date),
+            ('payment_date', '<=', self.deadline),
+            ('state', '=', 'posted')
+        ])
+        _deposit_amount = 0
+        for payment_id in payment_ids:
+            _deposit_amount = _deposit_amount + payment_id.payment_amount
+
+        _balance_amount = _last_billed_amount - _deposit_amount
+
+        _bill_info_ids = self.env['bill.info'].create({
+            'billing_code': self.customer_code,
+            'billing_name': self.name,
+            'bill_no': 'BIL/',
+            'bill_date': date.today(),
+            'last_closing_date': self.last_closing_date,
+            'closing_date': self.deadline,
+            'invoices_number': len(invoice_ids),
+            'invoices_details_number': _invoice_details_number,
+            'last_billed_amount': _last_billed_amount,
+            'deposit_amount': _deposit_amount,
+            'balance_amount': _balance_amount,
+            'amount_untaxed': _sum_amount_untaxed,
+            'tax_amount': _sum_amount_tax,
+            'amount_total': _sum_amount_total,
+            'amount_untaxed_cashed': _sum_amount_tax_cashed,
+            'tax_amount_cashed': _sum_amount_tax_cashed,
+            'amount_total_cashed': _sum_amount_total_cashed,
+            'billed_amount': _sum_amount_total + _balance_amount,
+            'partner_id': self.id,
+            'hr_employee_id': self.customer_agent.id,
+            'hr_department_id': self.customer_agent.department_id.id,
+            'business_partner_group_custom_id': self.customer_supplier_group_code.id,
+            'customer_closing_date_id': self.customer_closing_date.id,
+            'customer_excerpt_request': self.customer_except_request,
+        })
+
+        for invoice in invoice_ids:
+            _bill_invoice_ids = self.env['bill.invoice'].create({
+                'bill_info_id': _bill_info_ids.id,
+                'billing_code': self.customer_code,
+                'billing_name': self.name,
+                'bill_no': 'BIL/',
+                'bill_date': date.today(),
+                'last_closing_date': self.last_closing_date,
+                'closing_date': self.deadline,
+                'customer_code': invoice.partner_id.customer_code,
+                'customer_name': invoice.partner_id.name,
+                'amount_untaxed': invoice.amount_untaxed,
+                'amount_tax': invoice.amount_tax,
+                'amount_total': invoice.amount_total,
+                'customer_trans_classification_code': invoice.customer_trans_classification_code,
+                'account_move_id': invoice.id,
+                'hr_employee_id': self.customer_agent.id,
+                'hr_department_id': self.customer_agent.department_id.id,
+                'business_partner_group_custom_id': self.customer_supplier_group_code.id,
+                'customer_closing_date_id': self.customer_closing_date.id,
+            })
+
+            for line in invoice_line_ids:
+                self.env['bill.invoice.details'].create({
+                    'bill_info_id': _bill_info_ids.id,
+                    'bill_invoice_id': _bill_invoice_ids.id,
+                    'billing_code': self.customer_code,
+                    'billing_name': self.name,
+                    'bill_no': 'BIL/',
+                    'bill_date': date.today(),
+                    'last_closing_date': self.last_closing_date,
+                    'closing_date': self.deadline,
+                    'customer_code': line.partner_id.customer_code,
+                    'customer_name': line.partner_id.name,
+                    'customer_trans_classification_code': invoice.customer_trans_classification_code,
+                    'account_move_line_id': line.id,
+                    'hr_employee_id': self.customer_agent.id,
+                    'hr_department_id': self.customer_agent.department_id.id,
+                    'business_partner_group_custom_id': self.customer_supplier_group_code.id,
+                    'customer_closing_date_id': self.customer_closing_date.id,
+                })
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Billing',
+            'view_mode': 'tree',
+            'target': 'current',
+            'res_model': 'res.partner',
+            'res_id': False,
+            'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_tree').id, 'tree')],
+            'domain': [('billing_liabilities_flg', '=', True)],
+            'context': {'bill_management_module': True, 'view_name': 'Billing Details', },
+        }
+
+    def check_all_button(self):
+        ctx = self._context.copy()
+        invoice_line_ids = self.env['account.move.line'].search([
+            ('billing_place_id', '=', self.id),
+            ('move_id', 'in', ctx.get('bill_move_ids')),
+        ])
+        invoice_line_ids.write({
+            'selected': True
+        })
+        return True
+
+    def uncheck_all_button(self):
+        ctx = self._context.copy()
+        invoice_line_ids = self.env['account.move.line'].search([
+            ('billing_place_id', '=', self.id),
+            ('move_id', 'in', ctx.get('bill_move_ids')),
+        ])
+        invoice_line_ids.write({
+            'selected': False
+        })
+
+        return True
 
     def search(self, args, offset=0, limit=None, order=None, count=False):
         ctx = self._context.copy()
@@ -289,6 +463,10 @@ class InvoiceLineClass(models.Model):
 
     billing_place_id = fields.Many2one('res.partner')
 
+    bill_status = fields.Char(default="not yet")
+
+    selected = fields.Boolean(default=False)
+
     def compute_data(self):
         for record in self:
             record.customer_code = record.partner_id.customer_code
@@ -296,4 +474,3 @@ class InvoiceLineClass(models.Model):
 
     customer_code = fields.Char(compute=compute_data, string='Customer Code', store=False)
     customer_name = fields.Char(compute=compute_data, string='Customer Name', store=False)
-

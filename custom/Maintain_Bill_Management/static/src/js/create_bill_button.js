@@ -2,6 +2,7 @@ odoo.define('bill.create_bill_button', function (require) {
     "use strict";
 
     var ListController = require('web.ListController');
+    var FormController = require('web.FormController');
     var rpc = require('web.rpc');
     var session = require('web.session');
     var includeDict = {
@@ -22,6 +23,8 @@ odoo.define('bill.create_bill_button', function (require) {
                 this.$buttons.find('button.o_button_import').hide();
                 this.$buttons.find('button.o_list_button_save').hide();
                 this.$buttons.find('button.o_list_button_discard').hide();
+                this.$buttons.find('button.o_form_button_save').hide();
+                this.$buttons.find('button.o_form_button_cancel').hide();
 
                 this.$buttons.on('click', '.create_bill_button', function (e) {
                     const def = new $.Deferred();
@@ -29,7 +32,7 @@ odoo.define('bill.create_bill_button', function (require) {
                     if (data) {
                         for (var i = 0; i < data.length; i++) {
                             if (self.getSelectedIds().includes(data[i].res_id)) {
-                                selected_data.push(data[i].data)
+                                selected_data.push(data[i].data);
                             }
                         }
                     }
@@ -52,4 +55,5 @@ odoo.define('bill.create_bill_button', function (require) {
         },
     }
     ListController.include(includeDict);
+    FormController.include(includeDict);
 });
