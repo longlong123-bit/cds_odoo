@@ -19,6 +19,7 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
     var FilterMenu = require('web.FilterMenu_free');
     var QWeb = core.qweb;
     var model = null;
+    var view_id = null;
 
     var My_FilterMenu = FilterMenu.include({
         /**
@@ -31,6 +32,9 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
                 model = a.action.res_model;
             } else if (a.action.controlPanelFieldsView !== undefined) {
                 model = a.action.controlPanelFieldsView.model;
+            }
+            if (a.action.view_id !== undefined) {
+                view_id = a.action.view_id[1];
             }
         },
 
@@ -63,7 +67,16 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
             var mdl = model.replace('.', '__');
             this.$menu.find('>*:not(.o_add_filter_menu,.advanced_search_'+mdl+')').remove();
             if (this.$menu.find('.advanced_search_' + mdl).length == 0) {
-                var html = QWeb.render(this.advancedSearch[model].template, {
+                var template = null;
+                if (this.advancedSearch[model][view_id] && this.advancedSearch[model][view_id].template){
+                    template = this.advancedSearch[model][view_id].template;
+                } else {
+                    template = this.advancedSearch[model].template
+                }
+                if (!template){
+                    return;
+                }
+                var html = QWeb.render(template, {
                     records: this.advancedSearch[model].records || [],
                     res: this,
                     _t: _t,
