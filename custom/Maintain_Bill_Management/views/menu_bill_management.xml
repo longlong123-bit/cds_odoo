@@ -5,8 +5,5 @@
         <menuitem id="menu_bill" parent="parent_menu_bill_management" name="Billing" sequence="1"
                   action="actions_bm_bill"
                   groups="base.group_user"/>
-        <menuitem id="menu_cancel_bill" parent="parent_menu_bill_management" name="Cancel Billing" sequence="2"
-                  action="Maintain_Bill_Cancel.actions_bm_cancel_bill"
-                  groups="base.group_user"/>
     </data>
 </odoo>

@@ -7,7 +7,7 @@ class BillingClass(models.Model):
     _inherit = 'res.partner'
 
     @staticmethod
-    def _compute_closing_date(customer_closing_date):
+    def _compute_closing_date_for_bill(customer_closing_date):
         today = date.today()
         days_in_month = calendar.monthrange(today.year, today.month)[1]
         if today.month != 1:
@@ -73,7 +73,7 @@ class BillingClass(models.Model):
 
             # Set data for last_closing_date field and deadline field
             if record.customer_closing_date:
-                _closing_date = self._compute_closing_date(customer_closing_date=record.customer_closing_date)
+                _closing_date = self._compute_closing_date_for_bill(customer_closing_date=record.customer_closing_date)
                 record.last_closing_date = _closing_date['last_closing_date']
                 record.deadline = _closing_date['current_closing_date']
 

@@ -2,12 +2,7 @@
 {
     'name': "Bill Management",
     'summary': """Manage bill""",
-    'description': """
-        Open Academy module for managing trainings:
-            - training courses
-            - training sessions
-            - attendees registration
-    """,
+    'description': """""",
 
     'author': "SKcompany",
     'website': "https://www.skcompany.net",
@@ -20,8 +15,10 @@
 
     # any module necessary for this one to work correctly
     'depends': [
-        'base', 'base_setup', 'sale',
-        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake'
+        'base_setup', 'Maintain_Custom_Department', 'Maintain_Custom_Department_Section',
+        'Maintain_Custom_Employee', 'Maintain_Business_Partner_Group', 'Maintain_Closing_Date',
+        'Maintain_Product_Class', 'Maintain_Product', 'Maintain_Freight_Category',
+        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake',
     ],
 
     # always loaded
@@ -43,5 +40,5 @@
     ],
     'installable': True,
     'application': True,
-    'auto_install': False
+    'auto_install': False,
 }
