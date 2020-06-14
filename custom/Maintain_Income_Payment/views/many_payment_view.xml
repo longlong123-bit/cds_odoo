@@ -22,14 +22,16 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td class="o_td_label"><label for="payment_date" string="Transaction Date"/></td>
-                                    <td colspan="2"><field name="payment_date" required="True"/></td>
-
+                                    <td><field name="payment_date" required="True" style="max-width: 80% !important"/></td>
+                                </tr>
+                                <tr>
                                     <td class="o_td_label"><label for="sales_rep" string="Sales Rep"/></td>
-                                    <td colspan="2"><field name="sales_rep" required="True"/></td>
-
+                                    <td><field name="sales_rep" required="True" style="max-width: 80% !important"/></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"><field name="state" readonly="True" invisible="1"/></td>
