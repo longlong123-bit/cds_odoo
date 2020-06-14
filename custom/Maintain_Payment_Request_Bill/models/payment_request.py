@@ -89,3 +89,10 @@ class PartnerClass(models.Model):
                 i.group_supplier = i.customer_supplier_group_code.name
 
     group_supplier = fields.Char('set_supplier_name', compute='set_supplier_name')
+
+
+class InvoiceClassCustom(models.Model):
+    _inherit = 'account.move'
+
+    # account_invoice_id
+    payment_id = fields.One2many('account.payment', 'account_invoice_id')

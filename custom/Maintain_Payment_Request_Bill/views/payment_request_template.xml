@@ -185,7 +185,6 @@
                                 <t t-foreach="detail" t-as="de">
                                     <tr>
                                         <td style="border: 1px solid #000; text-align: left">
-                                            <t t-esc="inv"/>
                                             <span t-field="inv.bill_date">
                                             </span>
                                         </td>
@@ -221,9 +220,30 @@
                                         </td>
                                     </tr>
                                     <t t-if="docs.search_cash_type == 1">
-                                        <tr>
-                                            <span>aaaa</span>
-                                        </tr>
+                                        <t t-set="acc" t-value="inv.account_move_id"/>
+                                        <t t-set="pay" t-value="acc.payment_id"/>
+                                        <t t-foreach="pay" t-as="pa">
+                                            <tr>
+                                                <td style="border: 1px solid #000;">
+                                                    <span t-field="inv.bill_date">
+                                                    </span>
+                                                </td>
+                                                <td style="border: 1px solid #000;">
+                                                    <span t-field="inv.bill_no"/>
+                                                </td>
+                                                <td style="border: 1px solid #000;">
+                                                    <span>Paid:</span>
+                                                    <span t-field="pa.payment_amount"/>
+                                                </td>
+                                                <td style="border: 1px solid #000;"></td>
+                                                <td style="border: 1px solid #000;"></td>
+                                                <td style="border: 1px solid #000;"></td>
+                                                <td style="border: 1px solid #000;"></td>
+                                                <td style="border: 1px solid #000;"></td>
+                                                <td style="border: 1px solid #000;"></td>
+                                                <td style="border: 1px solid #000;"></td>
+                                            </tr>
+                                        </t>
                                     </t>
                                 </t>
                             </t>
