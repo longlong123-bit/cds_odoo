@@ -20,9 +20,7 @@
 
     # any module necessary for this one to work correctly
     'depends': [
-        'base', 'base_setup', 'sale',
-        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake',
-        'Maintain_Bill_Management',
+        'base', 'base_setup', 'sale', 'Maintain_Bill_Management',
     ],
 
     # always loaded
