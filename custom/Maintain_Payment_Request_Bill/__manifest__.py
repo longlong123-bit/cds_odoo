@@ -8,7 +8,7 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'account', 'Maintain_Bill_Cancel',
+        'base_setup', 'account', 'Maintain_Bill_Cancel', 'Maintain_Invoice_Remake', 'Maintain_Bill_Management', 'Maintain_Business_Partners_Remake'
     ],
     'website': '',
     'data': [

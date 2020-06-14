@@ -144,6 +144,8 @@
                 </div>
                 <div>弊社の製品とサービスをご利用いただき、誠にありがとうございます。<br/> あなたの健康と幸運を願っています。<br/>
                     購入した製品とサービスの詳細は次のとおりです。</div>
+                <span t-field="docs.search_address_type">
+                </span>
                 <t t-call="Maintain_Payment_Request_Bill.payment_request_detail_table" t-lang="lang"/>
             </div>
         </template>
@@ -183,40 +185,46 @@
                                 <t t-foreach="detail" t-as="de">
                                     <tr>
                                         <td style="border: 1px solid #000; text-align: left">
-                                            <!--                                                <t t-esc="detail"/>-->
+                                            <t t-esc="inv"/>
                                             <span t-field="inv.bill_date">
                                             </span>
                                         </td>
                                         <td style="border: 1px solid #000; text-align: left">
                                             <span t-field="inv.bill_no"/>
                                         </td>
+                                        <t t-set="li" t-value="de.account_move_line_id"/>
                                         <td style="border: 1px solid #000; text-align: left">
-                                            <span t-field="de.account_move_line_id.x_product_barcode"/>
+                                            <span t-field="li.x_product_barcode"/>
                                         </td>
                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
-                                            <span t-field="de.account_move_line_id.invoice_no"/>
+                                            <span t-field="li.invoice_no"/>
                                         </td>
                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
-                                            <span t-field="de.account_move_line_id.invoice_custom_standardnumber"/>
+                                            <span t-field="li.invoice_custom_standardnumber"/>
                                         </td>
                                         <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left;"
                                             class="text-right">
-                                            <t t-set="pro" t-value="de.account_move_line_id.product_id"/>
+                                            <t t-set="pro" t-value="li.product_id"/>
                                             <span t-field="pro.product_maker_name"/>
                                         </td>
                                         <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-field="de.account_move_line_id.x_product_name"/>
+                                            <span t-field="li.x_product_name"/>
                                         </td>
                                         <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-field="de.account_move_line_id.quantity"/>
+                                            <span t-field="li.quantity"/>
                                         </td>
                                         <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-field="de.account_move_line_id.price_unit"/>
+                                            <span t-field="li.price_unit"/>
                                         </td>
                                         <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-field="de.account_move_line_id.credit"/>
+                                            <span t-field="li.credit"/>
                                         </td>
                                     </tr>
+                                    <t t-if="docs.search_cash_type == 1">
+                                        <tr>
+                                            <span>aaaa</span>
+                                        </tr>
+                                    </t>
                                 </t>
                             </t>
                         </tbody>

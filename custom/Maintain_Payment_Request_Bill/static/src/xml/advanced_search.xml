@@ -30,19 +30,19 @@
             <tr>
                 <th>事業部</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="billing_name"/>
+                    <input class="filter-item" data-operator="ilike" data-name="bill_job_title"/>
                 </td>
             </tr>
             <tr>
                 <th>営業担当者</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="billing_name"/>
+                    <input class="filter-item" data-operator="ilike" data-name="bill_sale_rep"/>
                 </td>
             </tr>
             <tr>
                 <th>取引先グループ</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="billing_name"/>
+                    <input class="filter-item" data-operator="ilike" data-name="bill_group"/>
                 </td>
             </tr>
             <tr>
@@ -59,36 +59,31 @@
             </tr>
             <tr>
                 <th>印刷順</th>
-                <select class="filter-item" data-operator="ilike" data-name="print">
-                    <option value="1">担当者請求先（コード</option>
-                    <option value="2">請求先（コード</option>
-                </select>
+                <td>
+                    <select class="filter-item" data-operator="ilike" data-name="address_type">
+                        <option value="0">担当者請求先（コード)</option>
+                        <option value="1">請求先（コード)</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <th>現金売上</th>
-                <select class="filter-item" data-operator="ilike" data-name="cash">
-                    <option value="1">入金</option>
-                    <option value="0">入金0</option>
-                </select>
+                <td>
+                    <select class="filter-item" data-operator="ilike" data-name="cash_type">
+                        <option value="1">入金</option>
+                        <option value="0">入金0</option>
+                    </select>
+                </td>
             </tr>
             <tr>
                 <th>請求0</th>
-                <select class="filter-item" data-operator="ilike" data-name="claim">
-                    <option value="1">請求</option>
-                    <option value="2">請求0</option>
-                </select>
+                <td>
+                    <select class="filter-item" data-operator="ilike" data-name="claim_type">
+                        <option value="1">請求</option>
+                        <option value="0">請求0</option>
+                    </select>
+                </td>
             </tr>
-            <!-- Layout had in Header, so the field dont ned -->
-<!--            <tr>-->
-<!--                <th>印刷形式</th>-->
-<!--                <td>-->
-<!--                    <select class="filter-item" data-operator="ilike" data-name="layout">-->
-<!--                        <option value="1">印刷形式 1</option>-->
-<!--                        <option value="2">印刷形式 2</option>-->
-<!--                    </select>-->
-<!--                    &lt;!&ndash;                    <input class="filter-item" data-operator="ilike" data-name="billing_name"/>&ndash;&gt;-->
-<!--                </td>-->
-<!--            </tr>-->
         </table>
     </t>
 </template>
