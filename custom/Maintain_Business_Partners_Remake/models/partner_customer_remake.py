@@ -9,6 +9,7 @@ from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
 
 ADDRESS_FIELDS = ('street', 'street2', 'address3', 'zip', 'city', 'state_id', 'country_id')
 
+
 class NewClassPartnerCustom(models.Model):
     # _name = 'partner.customer.custom'
     _inherit = 'res.partner'
@@ -45,34 +46,46 @@ class NewClassPartnerCustom(models.Model):
     customer_fax = fields.Char('Fax')
     customer_phone = fields.Char('Phone')
     customer_state = fields.Many2one('res.country.state', string='State', domain=[('country_id', '=', 113)])
-    customer_supplier_group_code = fields.Many2one('business.partner.group.custom','Supplier Group Code', default=_default_partner_group)
+    customer_supplier_group_code = fields.Many2one('business.partner.group.custom', 'Supplier Group Code',
+                                                   default=_default_partner_group)
     customer_industry_code = fields.Many2one('res.partner.industry', string='Industry Code')
     # 担当者
     customer_agent = fields.Many2one('hr.employee', string='Representative/Agent')
     # 取引区分コード
-    customer_trans_classification_code = fields.Selection([('sale','Sale'),('cash','Cash'), ('account','Account')], string='Transaction classification', default='sale')
+    customer_trans_classification_code = fields.Selection([('sale', 'Sale'), ('cash', 'Cash'), ('account', 'Account')],
+                                                          string='Transaction classification', default='sale')
+
+    # Chien-NV DEL - change request ９．得意先マスタ_修正200605
     # 消費税区分
-    customer_tax_category = fields.Selection([('foreign','Foreign Tax'),('internal','Internal Tax'), ('exempt','Tax Exempt')], string='Consumption Tax Category', default='foreign')
+    # customer_tax_category = fields.Selection(
+    #     [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
+    #     string='Consumption Tax Category', default='foreign')
+    # Chien-NV DEL end
+
     # 消費税計算区分
     customer_tax_unit = fields.Selection(
         [('detail', 'Detail Unit'), ('voucher', 'Voucher Unit'), ('invoice', 'Invoice Unit')],
         string='Consumption Tax Calculation Category', default='detail')
     # 消費税端数処理
-    customer_tax_rounding = fields.Selection([('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')], 'Tax Rounding', default='round')
-     # 締日
-    customer_closing_date = fields.Many2one( 'closing.date', 'Closing Date', default=_default_closing_date)
+    customer_tax_rounding = fields.Selection(
+        [('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')], 'Tax Rounding', default='round')
+    # 締日
+    customer_closing_date = fields.Many2one('closing.date', 'Closing Date', default=_default_closing_date)
     # 入金方法
-    customer_payment_method = fields.Selection([('normal', 'Normal'), ('deposit', 'Deposit')], 'Payment Method', default='normal')
+    customer_payment_method = fields.Selection([('normal', 'Normal'), ('deposit', 'Deposit')], 'Payment Method',
+                                               default='normal')
     # 回収方法
     customer_collect_method = fields.Char('Collect Method')
     payment_rule = fields.Selection(
-        [('rule_cash', 'Cash'),('rule_check', 'Check'),('rule_credit','Credit Card'),('rule_direct_debit','Direct Debit'),
-         ('rule_deposit','Direct Deposit'),('rule_on_credit','On Credit')], 'Collect Method', store=True, default='rule_cash'
-         )
+        [('rule_cash', 'Cash'), ('rule_check', 'Check'), ('rule_credit', 'Credit Card'),
+         ('rule_direct_debit', 'Direct Debit'),
+         ('rule_deposit', 'Direct Deposit'), ('rule_on_credit', 'On Credit')], 'Collect Method', store=True,
+        default='rule_cash'
+    )
     # 回収月、回収日
     customer_collect_circle = fields.Char('Collect Circle')
     # 掛率設定
-    customer_apply_rate = fields.Selection([('category', 'Category'), ('customer', 'Customer')],'Apply Rate')
+    customer_apply_rate = fields.Selection([('category', 'Category'), ('customer', 'Customer')], 'Apply Rate')
     # 掛率
     customer_rate = fields.Float('Hang Rate')
     # 請求値引区分
@@ -84,15 +97,17 @@ class NewClassPartnerCustom(models.Model):
     # 売上伝票印刷
     customer_print_voucher = fields.Boolean('Print Voucher', default=True)
     # 売上伝票選択
-    customer_select_sales_slip = fields.Selection([('slip1','売上伝票(書式1)')],'Sales Slip', default="slip1")
+    customer_select_sales_slip = fields.Selection([('slip1', '売上伝票(書式1)')], 'Sales Slip', default="slip1")
     # 納品書選択
-    customer_delivery_note = fields.Selection([('note1', '納品書(書式1)'),('note2', '納品書(書式2)')], 'Delivery Note', default="note1")
+    customer_delivery_note = fields.Selection([('note1', '納品書(書式1)'), ('note2', '納品書(書式2)')], 'Delivery Note',
+                                              default="note1")
     # 売上伝票日付印字
     customer_print_sales_slip_date = fields.Boolean('Print Sales Slip Date', default=True)
     # 請求書印刷
     customer_print_invoice = fields.Boolean('Print Invoice', default=True)
     # 請求書選択
-    customer_select_invoice = fields.Selection([('form1','請求書(書式1)'),('note2','請求書(書式2)')],'Select Invoice', default="form1")
+    customer_select_invoice = fields.Selection([('form1', '請求書(書式1)'), ('note2', '請求書(書式2)')], 'Select Invoice',
+                                               default="form1")
     # 請求書日付印刷
     customer_print_invoice_date = fields.Boolean('Print Invoice Date', default=True)
     # その他CD
@@ -102,7 +117,6 @@ class NewClassPartnerCustom(models.Model):
     # 取引区分コード
     # customer_office = fields.Char('Customer Office')
 
-
     _sql_constraints = [
         ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
     ]
@@ -110,7 +124,7 @@ class NewClassPartnerCustom(models.Model):
     def name_get(self):
         result = []
         for record in self:
-            search_key_show =  str(record.customer_code)
+            search_key_show = str(record.customer_code)
             result.append((record.id, search_key_show))
         return result
 
@@ -166,6 +180,8 @@ class NewClassPartnerCustom(models.Model):
                 rec.customer_code_bill = rec.customer_get_billing_code.customer_code_bill
 
     # Relation Partner Class
+
+
 class ClassRelationPartnerCustom(models.Model):
     _name = 'relation.partner.model'
 
@@ -211,5 +227,3 @@ class ClassRelationPartnerCustom(models.Model):
         for rec in self:
             if rec.relate_related_partner:
                 rec.relate_related_partner_location = rec.relate_related_partner.street
-
-

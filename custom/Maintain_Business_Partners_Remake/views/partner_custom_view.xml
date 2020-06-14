@@ -202,15 +202,17 @@
                             <td class="col-field"><field name="customer_trans_classification_code" required="1"/></td>
                             <td class="col-label"><label for="customer_tax_rounding" string="Tax Rounding*"/></td>
                             <td class="col-field"><field name="customer_tax_rounding" required="1"/></td>
-                        </tr>
-
-                        <!-- Row 15 -->
-                        <tr>
-                            <td class="col-label"><label for="customer_tax_category" string="Consumption Tax Category*"/></td>
-                            <td class="col-field"><field name="customer_tax_category" required="1"/></td>
                             <td class="col-label"><label for="customer_tax_unit" string="Consumption Tax Calculation Category*"/></td>
                             <td class="col-field"><field name="customer_tax_unit" required="1"/></td>
                         </tr>
+
+                        <!-- Row 15 -->
+<!--                        <tr>-->
+<!--                            <td class="col-label"><label for="customer_tax_category" string="Consumption Tax Category*"/></td>-->
+<!--                            <td class="col-field"><field name="customer_tax_category" required="1"/></td>-->
+<!--                            <td class="col-label"><label for="customer_tax_unit" string="Consumption Tax Calculation Category*"/></td>-->
+<!--                            <td class="col-field"><field name="customer_tax_unit" required="1"/></td>-->
+<!--                        </tr>-->
 
                         <!-- Row 16 -->
                         <tr>
