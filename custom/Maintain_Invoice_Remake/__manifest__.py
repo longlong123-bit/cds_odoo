@@ -21,7 +21,8 @@ It contains the apps created with Studio and the customizations of existing apps
         'data/ir_ui_view.xml',
         'data/sequence.xml',
         'views/add_js.xml',
-        'views/account_payment_custom_view.xml'
+        'views/account_payment_custom_view.xml',
+        'views/invoice_custom_confirm.xml',
 #        'views/invoice_customer_custom_view.xml',
 #         'views/report_invoice.xml',
 #         'report/report_format1.xml',

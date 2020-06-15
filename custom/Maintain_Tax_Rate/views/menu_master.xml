@@ -4,8 +4,8 @@
         <menuitem id="parent_menu_master" sequence="47" name="System" />
         <menuitem id="menu_tax_rate" parent="parent_menu_master" name="Tax Rate" sequence="2" action="Maintain_Tax_Rate.action_tax_rate"/>
         <menuitem id="menu_print_output" parent="parent_menu_master" name="Printer" sequence="3" action="Maintain_Printer_Output.action_printer_output"/>
-        <menuitem id="menu_state" parent="parent_menu_master" name="Country State" sequence="4" action="Maintain_Country_State.action_country_state"/>
-        <menuitem id="menu_client" parent="parent_menu_master" name="Client" sequence="5" action="Maintain_Client.action_client"/>
-        <menuitem id="menu_receipt_divide" parent="parent_menu_master" name="Receipt Divide" sequence="6" action="Maintain_Receipt_Divide.action_receipt_divide"/>
+        <menuitem id="menu_client" parent="parent_menu_master" name="Client" sequence="4" action="Maintain_Client.action_client"/>
+        <menuitem id="menu_receipt_divide" parent="parent_menu_master" name="Receipt Divide" sequence="5" action="Maintain_Receipt_Divide.action_receipt_divide"/>
+        <menuitem id="menu_state" parent="parent_menu_master" name="Country State" sequence="6" action="Maintain_Country_State.action_country_state"/>
     </data>
 </odoo>
