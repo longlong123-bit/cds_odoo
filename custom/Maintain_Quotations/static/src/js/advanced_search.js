@@ -4,7 +4,8 @@ odoo.define('Quotation.Advanced_Search', function(require){
     FilterMenu.include({
         advancedSearch: _.extend({}, FilterMenu.prototype.advancedSearch || {}, {
             'sale.order': {
-                template: 'quotation.advanced_search'
+                'sale.order.custom.tree': {template: 'quotation.advanced_search'},
+                'quotation_confirm': {template: 'quotation_confirm.advanced_search'}
             }
         })
     });

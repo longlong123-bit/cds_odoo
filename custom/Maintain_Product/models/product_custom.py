@@ -120,6 +120,14 @@ class ProductTemplate(models.Model):
 
     product_total = fields.Char(string='assign_product')
 
+    # Refer to open dialog get history of price
+    refer_standard_price = fields.Many2one('account.move.line', store=False)
+
+    @api.onchange('refer_standard_price')
+    def _onchange_refer_standard_price(self):
+        if self.refer_standard_price:
+            self.standard_price = self.refer_standard_price.price_unit
+
     @api.constrains('product_code_1', 'product_code_2', 'product_code_3',
                     'product_code_4', 'product_code_5', 'product_code_6')
     def assign_product(self):
