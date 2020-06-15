@@ -47,23 +47,15 @@
                                 </td>
                             </table>
                             <field name="product_code_1"/>
-                            <field name="price_1"/>
-                            <field name="price_no_tax_1" invisible="True"/>
-                            <field name="price_include_tax_1" invisible="True"/>
+                            <field name="price_no_tax_1"/>
+                            <field name="price_include_tax_1"/>
                             <field name="product_code_2"/>
-                            <field name="price_2"/>
-                            <field name="price_no_tax_2" invisible="True"/>
-                            <field name="price_include_tax_2" invisible="True"/>
+                            <field name="price_no_tax_2"/>
+                            <field name="price_include_tax_2"/>
                             <field name="product_code_3"/>
-                            <field name="price_3"/>
-                            <field name="price_no_tax_3" invisible="True"/>
-                            <field name="price_include_tax_3" invisible="True"/>
+                            <field name="price_no_tax_3"/>
+                            <field name="price_include_tax_3"/>
                             <field name="product_tax_rate" string="Tax Rate"/>
-                            <label for="product_custom_is_active" invisible="True"/>
-                            <div>
-                                <field name="product_custom_is_active" widget="boolean_tags"/>
-                                <label for="product_custom_is_active"/>
-                            </div>
                         </group>
                         <group>
                             <label for="uom_id" string="UOM"/>
@@ -71,9 +63,11 @@
                                 <field name="uom_id" widget="many2one_tags" style="width: 100%%"/>
                             </div>
                             <field name="setting_price"/>
-                            <field name="standard_price"/>
-                            <field name="cost"/>
-                            <field name="product_tax_category" required="True"/>
+                            <div style="text-align: right; margin-right: -5px"><label for="standard_price" string="Standard Price"/></div>
+                            <div style="display: flex; padding: 0px 36px 0px 7px;">
+                                <field name="standard_price"/>
+                                <div style="margin-left: 5px"><field name="refer_standard_price" widget="Maintain_Product.Price"/></div>
+                            </div>
                             <label for="taxes_id" string='Tax Category*'/>
                             <div>
                                 <field name="taxes_id" widget="many2many_tags" style="width: 100%%" required="True"/>
@@ -81,21 +75,23 @@
                             <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"
                                    readonly="True"/>
                             <field name="product_code_4"/>
-                            <field name="price_4"/>
-                            <field name="price_no_tax_4" invisible="True"/>
-                            <field name="price_include_tax_4" invisible="True"/>
+                            <field name="price_no_tax_4"/>
+                            <field name="price_include_tax_4"/>
                             <field name="product_code_5"/>
-                            <field name="price_5"/>
-                            <field name="price_no_tax_5" invisible="True"/>
-                            <field name="price_include_tax_5" invisible="True"/>
+                            <field name="price_no_tax_5"/>
+                            <field name="price_include_tax_5"/>
                             <field name="product_code_6"/>
-                            <field name="price_6"/>
-                            <field name="price_no_tax_6" invisible="True"/>
-                            <field name="price_include_tax_6" invisible="True"/>
+                            <field name="price_no_tax_6"/>
+                            <field name="price_include_tax_6"/>
                             <field name="price_no_tax"/>
                             <field name="price_include_tax"/>
                             <field name="original_price_no_tax"/>
                             <field name="original_price_include_tax"/>
+                            <label for="product_custom_is_active" invisible="True"/>
+                            <div>
+                                <field name="product_custom_is_active" widget="boolean_tags"/>
+                                <label for="product_custom_is_active"/>
+                            </div>
                             <label for="product_custom_is_discontinued" invisible="True"/>
                             <div>
                                 <field name="product_custom_is_discontinued" widget="boolean_tags"/>
@@ -333,30 +329,24 @@
 <!--                <field name="product_class_name" string="Class name"/>-->
                 <field name="product_custom_standardnumber" string="品番/型番"/>
                 <field name="name" string="Name"/>
-                <field name="product_code_1"/>
-                <field name="price_1"/>
-                <field name="price_no_tax_1" invisible="True"/>
-                <field name="price_include_tax_1" invisible="True"/>
+                <field name="product_code_1" />
+                <field name="price_no_tax_1" />
+                <field name="price_include_tax_1"/>
                 <field name="product_code_2"/>
-                <field name="price_2"/>
-                <field name="price_no_tax_2" invisible="True"/>
-                <field name="price_include_tax_2" invisible="True"/>
+                <field name="price_no_tax_2"/>
+                <field name="price_include_tax_2"/>
                 <field name="product_code_3"/>
-                <field name="price_3"/>
-                <field name="price_no_tax_3" invisible="True"/>
-                <field name="price_include_tax_3" invisible="True"/>
+                <field name="price_no_tax_3"/>
+                <field name="price_include_tax_3"/>
                 <field name="product_code_4"/>
-                <field name="price_4"/>
-                <field name="price_no_tax_4" invisible="True"/>
-                <field name="price_include_tax_4" invisible="True"/>
+                <field name="price_no_tax_4"/>
+                <field name="price_include_tax_4"/>
                 <field name="product_code_5"/>
-                <field name="price_5"/>
-                <field name="price_no_tax_5" invisible="True"/>
-                <field name="price_include_tax_5" invisible="True"/>
-                <field name="price_6"/>
+                <field name="price_no_tax_5"/>
+                <field name="price_include_tax_5"/>
                 <field name="product_code_6"/>
-                <field name="price_no_tax_6" invisible="True"/>
-                <field name="price_include_tax_6" invisible="True"/>
+                <field name="price_no_tax_6"/>
+                <field name="price_include_tax_6"/>
                 <field name="uom_id"/>
                 <field name="setting_price" string="標準定価"/>
                 <field name="price_no_tax"/>

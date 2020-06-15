@@ -85,21 +85,6 @@ class ProductTemplate(models.Model):
     setting_price = fields.Selection([('code_1', '商品コード1'), ('code_2', '商品コード2'), ('code_3', '商品コード3'),
                                       ('code_4', '商品コード4'), ('code_5', '商品コード5'), ('code_6', '商品コード6')],
                                      string='Setting price', default='code_1')
-
-    cost = fields.Float('Cost')
-
-    price_1 = fields.Float('Price 1')
-    price_2 = fields.Float('Price 2')
-    price_3 = fields.Float('Price 3')
-    price_4 = fields.Float('Price 4')
-    price_5 = fields.Float('Price 5')
-    price_6 = fields.Float('Price 6')
-
-    # 消費税区分
-    product_tax_category = fields.Selection(
-        [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
-        string='Tax Category', default='foreign')
-
     standard_price = fields.Float('Standard price')
     price_no_tax = fields.Float('Price no tax')
     price_include_tax = fields.Float('Price include tax')
@@ -119,6 +104,14 @@ class ProductTemplate(models.Model):
     display_default_code = fields.Char(relation='product_code_1')
 
     product_total = fields.Char(string='assign_product')
+
+    # Refer to open dialog get history of price
+    refer_standard_price = fields.Many2one('account.move.line', store=False)
+
+    @api.onchange('refer_standard_price')
+    def _onchange_refer_standard_price(self):
+        if self.refer_standard_price:
+            self.standard_price = self.refer_standard_price.price_unit
 
     @api.constrains('product_code_1', 'product_code_2', 'product_code_3',
                     'product_code_4', 'product_code_5', 'product_code_6')
@@ -339,6 +332,8 @@ class ProductTemplate(models.Model):
         for i in range(1, 7):
             product_code = self._check_product_code(values, 'product_code_' + str(i))
             # product_code = self._check_product_code('product_code_' + str(i))
+            print('------------------------------')
+            print(product_code)
             if product_code in values:
                 self._cr.execute('''
                             SELECT *
@@ -359,6 +354,13 @@ class ProductTemplate(models.Model):
                             ''')
 
             query_res = self._cr.fetchall()
+            for rec in query_res:
+                print('------------------------------')
+                print(rec)
+                # print(res[1])
+                # if values['product_code_1'] in [res[0] for res in query_res]:
+                print('------------------------------')
+            # print(values[product_code])
             if values.get(product_code) in [res[0] for res in query_res]:
                 print('trung')
                 raise ValidationError(_('Product_code has already been registered'))
@@ -432,30 +434,23 @@ class ProductTemplate(models.Model):
 
         return True
 
-    @api.onchange('product_code_1', 'price_1', 'price_no_tax_1', 'price_include_tax_1',
-                  'product_code_2', 'price_2', 'price_no_tax_2', 'price_include_tax_2',
-                  'product_code_3', 'price_3', 'price_no_tax_3', 'price_include_tax_3',
-                  'product_code_4', 'price_4', 'price_no_tax_4', 'price_include_tax_4',
-                  'product_code_5', 'price_5', 'price_no_tax_5', 'price_include_tax_5',
-                  'product_code_6', 'price_6', 'price_no_tax_6', 'price_include_tax_6',
-                  'product_tax_category', 'taxes_id')
+    @api.onchange('product_code_1', 'price_no_tax_1', 'price_include_tax_1',
+                  'product_code_2', 'price_no_tax_2', 'price_include_tax_2',
+                  'product_code_3', 'price_no_tax_3', 'price_include_tax_3',
+                  'product_code_4', 'price_no_tax_4', 'price_include_tax_4',
+                  'product_code_5', 'price_no_tax_5', 'price_include_tax_5',
+                  'product_code_6', 'price_no_tax_6', 'price_include_tax_6')
     def _onchange_tax(self):
         for rec in self:
             tax = 0
             if len(rec.taxes_id) > 0:
-                # tax = rec.taxes_id[0].amount / 100
-                tax = sum(tax.amount for tax in rec.taxes_id._origin.flatten_taxes_hierarchy()) / 100
-
+                tax = rec.taxes_id[0].amount / 100
             for i in range(1, 7):
                 if rec['product_code_' + str(i)]:
-                    if rec['product_tax_category'] == 'foreign':
-                        rec['price_no_tax_' + str(i)] = rec['price_' + str(i)]
+                    if rec['price_no_tax_' + str(i)] and not rec['price_include_tax_' + str(i)]:
                         rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (tax + 1)
-                    elif rec['product_tax_category'] == 'internal':
-                        rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
+                    if rec['price_include_tax_' + str(i)] and not rec['price_no_tax_' + str(i)]:
                         rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (tax + 1)
-                    else:
-                        rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
 
     @api.onchange('product_class_code')
     def _get_product_class_name(self):
@@ -463,18 +458,16 @@ class ProductTemplate(models.Model):
             if rec.product_class_code:
                 rec.product_class_name = rec.product_class_code.name
 
-    @api.constrains('cost', 'price_1', 'price_2', 'price_3', 'price_4', 'price_5', 'price_6',
-                    'price_no_tax_1', 'price_no_tax_2', 'price_no_tax_3', 'price_no_tax_4', 'price_no_tax_5',
+    @api.constrains('price_no_tax_1', 'price_no_tax_2', 'price_no_tax_3', 'price_no_tax_4', 'price_no_tax_5',
                     'price_no_tax_6', 'price_include_tax_1', 'price_include_tax_2', 'price_include_tax_3',
                     'price_include_tax_4', 'price_include_tax_5', 'price_include_tax_6', 'original_price_no_tax',
                     'original_price_include_tax', 'standard_price', 'list_price', 'price_no_tax', 'price_include_tax')
     def _check_negative_price(self):
-        arr = [self.price_1, self.price_2, self.price_3, self.price_4, self.price_5, self.price_6,
-               self.price_no_tax_1, self.price_no_tax_2, self.price_no_tax_3, self.price_no_tax_4, self.price_no_tax_5,
+        arr = [self.price_no_tax_1, self.price_no_tax_2, self.price_no_tax_3, self.price_no_tax_4, self.price_no_tax_5,
                self.price_no_tax_6, self.price_include_tax_1, self.price_include_tax_2, self.price_include_tax_3,
                self.price_include_tax_4, self.price_include_tax_5, self.price_include_tax_6, self.original_price_no_tax,
                self.original_price_include_tax, self.standard_price, self.list_price, self.price_no_tax,
-               self.price_include_tax, self.cost]
+               self.price_include_tax]
         leng = len(arr)
         for i in range(0, leng):
             if arr[i] < 0:
@@ -488,8 +481,7 @@ class ProductTemplate(models.Model):
         domain = {}
         class_list = []
         if self.product_class_code_lv1:
-            children_obj = self.env['product.class'].search(
-                [('product_parent_code.product_class_code', '=', self.product_class_code_lv1.product_class_code)])
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv1.product_class_code)])
             for children_ids in children_obj:
                 class_list.append(children_ids.id)
             # to assign parter_list value in domain
@@ -502,8 +494,7 @@ class ProductTemplate(models.Model):
         domain = {}
         class_list = []
         if self.product_class_code_lv2:
-            children_obj = self.env['product.class'].search(
-                [('product_parent_code.product_class_code', '=', self.product_class_code_lv2.product_class_code)])
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv2.product_class_code)])
             for children_ids in children_obj:
                 class_list.append(children_ids.id)
             # to assign parter_list value in domain
@@ -516,8 +507,7 @@ class ProductTemplate(models.Model):
         domain = {}
         class_list = []
         if self.product_class_code_lv3:
-            children_obj = self.env['product.class'].search(
-                [('product_parent_code.product_class_code', '=', self.product_class_code_lv3.product_class_code)])
+            children_obj = self.env['product.class'].search([('product_parent_code.product_class_code', '=', self.product_class_code_lv3.product_class_code)])
             for children_ids in children_obj:
                 class_list.append(children_ids.id)
             # to assign parter_list value in domain
