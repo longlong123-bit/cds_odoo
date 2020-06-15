@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="bill.advanced_search">
+        <table>
+            <tr>
+                <th>Customer Closing Date</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_closing_date" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Excerpt Request</th>
+                <td>
+                    <select class="filter-item" data-operator="eq" data-name="customer_except_request"
+                            style="height:21px">
+                        <option value='False'>No</option>
+                        <option value='True'>Yes</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Deadline</th>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="deadline" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Department</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="department" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Representative/Agent</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_agent" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Supplier Group</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_supplier_group_code"
+                           type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Billing Code</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="customer_code_bill" type="search"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="customer_code_bill" type="search"/>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>
