@@ -611,6 +611,12 @@ class ClassInvoiceCustom(models.Model):
                     or self.x_studio_payment_rule_1 == 'rule_on_credit':
                 self.invoice_payment_terms_custom = 1
 
+    @api.constrains('x_studio_date_invoiced', 'invoice_line_ids', 'x_studio_name')
+    def _change_date_invoiced(self):
+        for line in self.invoice_line_ids:
+            line.date = self.x_studio_date_invoiced
+            line.customer_name = self.x_studio_name
+
     # tính ngày closing date dựa theo start day của customer
     @api.onchange('closing_date_compute', 'x_studio_date_invoiced', 'x_voucher_deadline', 'x_studio_business_partner')
     def _get_closing_date(self):
@@ -1065,6 +1071,8 @@ class AccountMoveLine(models.Model):
 
     tax_ids = fields.Many2many('account.tax', string='Taxes', help="Taxes that apply on the base amount",
                                compute='compute_tax_ids')
+
+    customer_name = fields.Char('', store=True)
 
     # # 消費税区分
     # line_tax_category = fields.Selection(
