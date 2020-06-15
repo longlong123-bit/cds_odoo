@@ -54,7 +54,9 @@
                                 <td style="text-align: right;">請求先：</td>
                                 <td>
                                     <span t-field="doc.input_customer_code_bill_from"/>
-                                    <span>～</span>
+                                    <t t-if="doc.input_customer_code_bill_from != '' or doc.input_customer_code_bill_to != ''">
+                                        <span>～</span>
+                                    </t>
                                     <span t-field="doc.input_customer_code_bill_to"/>
                                 </td>
                             </tr>
