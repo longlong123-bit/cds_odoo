@@ -1,0 +1,16 @@
+table {
+    tbody {
+        td.slip_total {
+            color: transparent;
+            pointer-events: none;
+
+            &::-moz-selection {
+              color: transparent !important;
+            }
+
+            &::selection {
+              color: transparent !important;
+            }
+        }
+    }
+}

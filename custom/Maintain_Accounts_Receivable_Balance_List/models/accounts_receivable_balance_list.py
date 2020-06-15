@@ -127,61 +127,11 @@ class AccountsReceivableBalanceList(models.Model):
             Overriding function search from file models.py
             File path Override: /odoo/models.py
         """
-        domain = []
-        liabilities_context = self._context.copy()
-        if liabilities_context and 'liabilities_module' in liabilities_context:
-            # get closing current date
-            closing_date = self._compute_closing_date(year_month_selected='')
+        domain = self._get_condition_search_of_module(self=self, args=args)
+        if domain['order']:
+            order = domain['order']
 
-            # using global keyword
-            global val_target_month
-            global val_division
-            global val_sales_rep
-            global val_customer_supplier_group_code
-            global val_customer_code_bill_from
-            global val_customer_code_bill_to
-            global val_display_order
-            # reset global keyword
-            val_target_month = closing_date['current_closing_date'].strftime('%Y-%m')
-            val_division = ''
-            val_sales_rep = ''
-            val_customer_supplier_group_code = ''
-            val_customer_code_bill_from = ''
-            val_customer_code_bill_to = ''
-            val_display_order = '担当者請求先（コード）'
-
-            for record in args:
-                if record[0] == '&':
-                    continue
-                if record[0] == 'target_month':
-                    val_target_month = record[2]
-                    continue
-                if record[0] == 'division':
-                    val_division = record[2]
-                    continue
-                if record[0] == 'sales_rep':
-                    val_sales_rep = record[2]
-                    continue
-                if record[0] == 'customer_supplier_group_code':
-                    val_customer_supplier_group_code = record[2]
-                if record[0] == 'customer_code_bill_from':
-                    val_customer_code_bill_from = record[2]
-                    record[0] = 'customer_code_bill'
-                if record[0] == 'customer_code_bill_to':
-                    val_customer_code_bill_to = record[2]
-                    record[0] = 'customer_code_bill'
-                if record[0] == 'display_order':
-                    if record[2] == '0':
-                        order = 'user_id'
-                    else:
-                        order = 'customer_code_bill'
-                        val_display_order = '請求先（コード）'
-                    continue
-                domain += [record]
-        else:
-            domain = args
-
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+        res = self._search(args=domain['args'], offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
 
     @api.constrains('customer_code', 'customer_code_bill')
@@ -209,28 +159,36 @@ class AccountsReceivableBalanceList(models.Model):
 
         if year_month_selected:
             # set date when input condition
-            selected_date_str = year_month_selected + '-01'
-            selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
+            selected_date = datetime.strptime(year_month_selected, '%Y-%m').date()
         else:
             # set current date
             selected_date = date.today()
 
-        # get days in month
-        days_in_month = calendar.monthrange(selected_date.year, selected_date.month)[1]
+        # get closing date of year_month_selected
+        if _start >= 28:
+            # get days in month
+            days_in_month = calendar.monthrange(selected_date.year, selected_date.month)[1]
+            # set current closing date
+            _current_closing_date = selected_date.replace(day=days_in_month)
 
-        # get day in previous month
-        if selected_date.month != 1:
-            days_in_last_month = calendar.monthrange(selected_date.year, selected_date.month - 1)[1]
+            if selected_date.month == 1:
+                # set last closing date
+                _last_closing_date = selected_date.replace(year=selected_date.year - 1, month=12, day=31)
+            else:
+                # get days previous month
+                days_previous_month = calendar.monthrange(selected_date.year, selected_date.month - 1)[1]
+                # set last closing date
+                _last_closing_date = selected_date.replace(month=selected_date.month - 1, day=days_previous_month)
         else:
-            days_in_last_month = calendar.monthrange(selected_date.year - 1, 12)[1]
+            # set current closing date
+            _current_closing_date = selected_date.replace(day=_start)
 
-        # get closing date of selected_date and previous of selected_date
-        if selected_date.day < _start:
-            _current_closing_date = selected_date.replace(day=_start) - timedelta(days=1)
-            _last_closing_date = _current_closing_date - timedelta(days=days_in_last_month)
-        else:
-            _last_closing_date = selected_date.replace(day=_start) - timedelta(days=1)
-            _current_closing_date = _last_closing_date + timedelta(days=days_in_month)
+            if selected_date.month == 1:
+                # set last closing date
+                _last_closing_date = selected_date.replace(year=selected_date.year - 1, month=12, day=_start)
+            else:
+                # set last closing date
+                _last_closing_date = selected_date.replace(month=selected_date.month - 1, day=_start)
 
         closing_date = {
             'last_closing_date': _last_closing_date,
@@ -291,3 +249,66 @@ class AccountsReceivableBalanceList(models.Model):
 
         self._cr.execute(query)
         return self._cr.fetchall()
+
+    @staticmethod
+    def _get_condition_search_of_module(self, args):
+        """
+            Get condition search of module
+        """
+        domain = []
+        order = ''
+        liabilities_context = self._context.copy()
+        if liabilities_context and 'liabilities_module' in liabilities_context:
+            # using global keyword
+            global val_target_month
+            global val_division
+            global val_sales_rep
+            global val_customer_supplier_group_code
+            global val_customer_code_bill_from
+            global val_customer_code_bill_to
+            global val_display_order
+            # reset global keyword
+            val_target_month = datetime.today().strftime('%Y-%m')
+            val_division = ''
+            val_sales_rep = ''
+            val_customer_supplier_group_code = ''
+            val_customer_code_bill_from = ''
+            val_customer_code_bill_to = ''
+            val_display_order = '担当者請求先（コード）'
+            order = 'user_id'
+
+            for record in args:
+                if record[0] == '&':
+                    continue
+                if record[0] == 'target_month':
+                    val_target_month = record[2]
+                    continue
+                if record[0] == 'division':
+                    val_division = record[2]
+                    continue
+                if record[0] == 'sales_rep':
+                    val_sales_rep = record[2]
+                    continue
+                if record[0] == 'customer_supplier_group_code':
+                    val_customer_supplier_group_code = record[2]
+                if record[0] == 'customer_code_bill_from':
+                    val_customer_code_bill_from = record[2]
+                    record[0] = 'customer_code_bill'
+                if record[0] == 'customer_code_bill_to':
+                    val_customer_code_bill_to = record[2]
+                    record[0] = 'customer_code_bill'
+                if record[0] == 'display_order':
+                    if record[2] == '1':
+                        order = 'customer_code_bill'
+                        val_display_order = '請求先（コード）'
+                    continue
+                domain += [record]
+        else:
+            domain = args
+
+        result = {
+            'args': domain,
+            'order': order
+        }
+
+        return result
