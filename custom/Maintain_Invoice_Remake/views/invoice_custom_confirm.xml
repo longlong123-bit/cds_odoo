@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <record model="ir.ui.view" id="invoice_custom_confirm_tree">
+      <field name="name">account.move.confirm.tree</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_invoice_tree"/>
+      <field name="mode">primary</field>
+      <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="replace">
+                <tree class="forward_edit" create="false">
+                    <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
+                    <field name="x_studio_date_invoiced" string="Date Invoiced"/>
+                    <field name="x_studio_document_no" string="Document No"/>
+                    <field name="ref" string="Order Reference"/>
+                    <field name="x_customer_code_for_search" string="Customer"/>
+                    <field name="x_studio_name" string="Customer Name"/>
+                    <field name="customer_trans_classification_code" string="Transaction Class"/>
+                    <field name="customer_group" string="Customer Group"/>
+                    <field name="customer_state" string="Customer State"/>
+                    <field name="customer_industry" string="Customer Industry"/>
+<!--                    <field name="customer_closing_date" string="Closing Date"/>-->
+                    <field name="x_userinput_id" string="userinput_id"/>
+                    <field name="sales_rep" string="Sales Rep"/>
+                    <field name="state" string="Document Status"/>
+                    <field name="amount_untaxed" string="Total Lines" sum="Total" optional="show"/>
+                    <field name="x_voucher_tax_amount" string="Voucher Tax Amount" sum="Total" optional="show"/>
+                    <field name="amount_total" string="Grand Total" sum="Amount Due" optional="show"/>
+                </tree>
+            </xpath>
+      </field>
+    </record>
+
+
+  <record id="invoice_template_confirm_action" model="ir.actions.act_window">
+      <field name="name">Invoices</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.move</field>
+      <field name="view_mode">tree</field>
+      <field name="view_id" ref="invoice_custom_confirm_tree"/>
+  </record>
+
+        <record id="hide" model="res.groups">
+            <field name="name">Hide</field>
+            <field name="comment">Hide.</field>
+        </record>
+
+
+        <menuitem id="invoice_confirm" parent="account.menu_finance" name="Invoice confirm" sequence="2"
+                  action="invoice_template_confirm_action"/>
+        <menuitem id="account.menu_finance_receivables" name="Customers 123" parent="account.menu_finance" sequence="2" groups="hide"/>
+        <menuitem id="account.menu_finance_payables" name="Vendors" parent="account.menu_finance" sequence="3" groups="hide"/>
+        <menuitem id="account.menu_finance_entries" name="Accounting" parent="account.menu_finance" sequence="4" groups="account.group_account_user"/>
+        <!--Configuration-->
+        <menuitem id="account.menu_finance_configuration" name="Configuration" parent="account.menu_finance" sequence="35" groups="hide"/>
+        <menuitem id="account.account_invoicing_menu" name="Invoicing" parent="account.menu_finance_configuration" sequence="1" groups="hide"/>
+<!--        <menuitem id="account.root_payment_menu" name="Payments" parent="account.menu_finance_configuration" sequence="2" groups="hide"/>-->
+<!--        <menuitem id="account.account_account_menu" name="Accounting" parent="account.menu_finance_configuration" sequence="3" groups="hide"/>-->
+<!--        <menuitem id="account.menu_action_currency_form" action="base.action_currency_form" name="Currencies" parent="account_account_menu" sequence="1" groups="hide"/>-->
+<!--        <menuitem id="account.account_management_menu" name="Management" parent="account.menu_finance_configuration" sequence="4" groups="hide"/>-->
+<!--        <menuitem id="account.menu_analytic_accounting" name="Analytic Accounting" parent="account.menu_finance_configuration" groups="hide" sequence="5"/>-->
+        <!--Reporting-->
+        <menuitem id="account.menu_finance_reports" name="Reporting" parent="account.menu_finance" sequence="20" groups="hide"/>
+        <menuitem id="account.account_reports_management_menu" name="Management" parent="account.menu_finance_reports" sequence="4" groups="hide"/>
+    </data>
+</odoo>
