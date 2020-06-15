@@ -202,10 +202,12 @@ class BillingClass(models.Model):
 
             _balance_amount = _last_billed_amount - _deposit_amount
 
+            _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
+
             _bill_info_ids = self.env['bill.info'].create({
                 'billing_code': rec['customer_code'],
                 'billing_name': rec['name'],
-                'bill_no': 'BIL/',
+                'bill_no': _bill_no,
                 'bill_date': date.today(),
                 'last_closing_date': rec['last_closing_date'],
                 'closing_date': rec['deadline'],
@@ -234,7 +236,7 @@ class BillingClass(models.Model):
                     'bill_info_id': _bill_info_ids.id,
                     'billing_code': rec['customer_code'],
                     'billing_name': rec['name'],
-                    'bill_no': 'BIL/',
+                    'bill_no': _bill_no,
                     'bill_date': date.today(),
                     'last_closing_date': rec['last_closing_date'],
                     'closing_date': rec['deadline'],
@@ -257,7 +259,7 @@ class BillingClass(models.Model):
                         'bill_invoice_id': _bill_invoice_ids.id,
                         'billing_code': rec['customer_code'],
                         'billing_name': rec['name'],
-                        'bill_no': 'BIL/',
+                        'bill_no': _bill_no,
                         'bill_date': date.today(),
                         'last_closing_date': rec['last_closing_date'],
                         'closing_date': rec['deadline'],

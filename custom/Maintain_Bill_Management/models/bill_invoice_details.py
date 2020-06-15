@@ -4,8 +4,8 @@ from odoo import models, fields, api
 class BillInvoiceDetailsClass(models.Model):
     _name = 'bill.invoice.details'
 
-    bill_info_id = fields.Many2one('bill_info')
-    bill_invoice_id = fields.Many2one('bill_invoice')
+    bill_info_id = fields.Many2one('bill.info')
+    bill_invoice_id = fields.Many2one('bill.invoice')
     account_move_line_id = fields.Many2one('account.move.line')
     account_move_line_id = fields.Many2one('account.move.line')
 
