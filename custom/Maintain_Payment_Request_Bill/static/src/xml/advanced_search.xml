@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="payment_request_bill.advanced_search">
+        <table>
+            <tr>
+                <th>締日（締日グループ)</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="last_closing_date" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="last_closing_date" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>締切日</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="closing_date" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="closing_date" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>事業部</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="bill_job_title"/>
+                </td>
+            </tr>
+            <tr>
+                <th>営業担当者</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="bill_sale_rep"/>
+                </td>
+            </tr>
+            <tr>
+                <th>取引先グループ</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="bill_group"/>
+                </td>
+            </tr>
+            <tr>
+                <th>請求先</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="billing_code"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="billing_code"/>
+                </td>
+            </tr>
+            <tr>
+                <th>印刷順</th>
+                <td>
+                    <select class="filter-item" data-operator="ilike" data-name="address_type">
+                        <option value="0">担当者請求先（コード)</option>
+                        <option value="1">請求先（コード)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>現金売上</th>
+                <td>
+                    <select class="filter-item" data-operator="ilike" data-name="cash_type">
+                        <option value="1">入金</option>
+                        <option value="0">入金0</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>請求0</th>
+                <td>
+                    <select class="filter-item" data-operator="ilike" data-name="claim_type">
+                        <option value="1">請求</option>
+                        <option value="0">請求0</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Child</th>
+                <td>
+                    <select class="filter-item" data-operator="ilike" data-name="print_child">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+<!--                    <input type="checkbox" value="0" class="filter-item" data-operator="ilike" data-name="print_child"/>-->
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>
+

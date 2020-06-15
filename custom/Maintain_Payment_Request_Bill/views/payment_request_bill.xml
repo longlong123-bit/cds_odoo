@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="payment_request_tree_view" model="ir.ui.view">
+            <field name="name">payment.request.tree.view</field>
+            <field name="model">bill.info</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Request Bill" create="false" import="false">
+                    <field name="billing_code" string="請求先コード"/>
+                    <field name="billing_name" string="請求先名（得意先名)"/>
+                    <field name="bill_no" string="請求No" readonly="True"/>
+                    <field name="last_billed_amount" string="前回請求金額" readonly="True"/>
+                    <field name="deposit_amount" string="入金額"/>
+                    <field name="balance_amount" string="繰越金額"/>
+                    <field name="amount_untaxed" string="御買上金額" readonly="True"/>
+                    <field name="tax_amount" string="消費税" readonly="True"/>
+                    <!--                                        <field name="amount_untaxed" string="請求値引額"/>-->
+                    <field name="amount_total" string='今回請求金額' readonly="True"/>
+                    <field name="last_closing_date" string="締切日"/>
+                    <field name="customer_other_cd" string='その他CD' readonly="True"/>
+                    <field name="invoices_number" string='売伝枚数' readonly="True"/>
+<!--                    <field name="search_address_type"/>-->
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="payment_request_action" model="ir.actions.act_window">
+            <field name="name">Payment Request Bill</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bill.info</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="payment_request_tree_view"/>
+        </record>
+        <menuitem id="menu_ideas" name="Payment Request Bill" sequence="10"
+                  action="payment_request_action" groups="base.group_user"/>
+    </data>
+</odoo>
