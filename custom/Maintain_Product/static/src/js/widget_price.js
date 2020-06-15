@@ -95,6 +95,9 @@ var ViewDialog = Dialog.extend({
                     self.$modal.find('.modal-dialog').addClass('modal-sm');
                     break;
             }
+
+            self.$modal.find('.modal-dialog').addClass('product-price-dialog');
+
             if (self.renderFooter) {
                 self.$footer = self.$modal.find(".modal-footer");
                 self.set_buttons(self.buttons);
