@@ -118,6 +118,14 @@ class ProductTemplate(models.Model):
 
     display_default_code = fields.Char(relation='product_code_1')
 
+    product_total = fields.Char(string='assign_product')
+
+    @api.constrains('product_code_1', 'product_code_2', 'product_code_3',
+                    'product_code_4', 'product_code_5', 'product_code_6')
+    def assign_product(self):
+        for rec in self:
+            rec.product_total = (rec.product_code_1 or '_') + '_' + (rec.product_code_2 or '_') + '_' + (rec.product_code_3 or '_') + '_' + (rec.product_code_4 or '_') + '_' + (rec.product_code_5 or '_') + '_' + (rec.product_code_6 or '_')
+
     def name_get(self):
         # TDE: this could be cleaned a bit I think
 
@@ -366,6 +374,8 @@ class ProductTemplate(models.Model):
         self._check_data(values)
 
         self._set_list_price(values)
+
+        # self.assign_product()
 
         product = super(ProductTemplate, self).create(values)
 
