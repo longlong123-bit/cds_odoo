@@ -16,12 +16,16 @@ class BillingClass(models.Model):
             days_in_last_month = calendar.monthrange(today.year - 1, 12)[1]
         _start = customer_closing_date.start_day
 
-        if today.day < _start:
-            _current_closing_date = today.replace(day=_start) - timedelta(days=1)
-            _last_closing_date = _current_closing_date - timedelta(days=days_in_last_month)
+        if _start >= 28:
+            _current_closing_date = today.replace(day=days_in_month)
+            _last_closing_date = _current_closing_date - timedelta(days=days_in_month)
         else:
-            _last_closing_date = today.replace(day=_start) - timedelta(days=1)
-            _current_closing_date = _last_closing_date + timedelta(days=days_in_month)
+            if today.day <= _start:
+                _current_closing_date = today.replace(day=_start)
+                _last_closing_date = _current_closing_date - timedelta(days=days_in_last_month)
+            else:
+                _last_closing_date = today.replace(day=_start)
+                _current_closing_date = _last_closing_date + timedelta(days=days_in_month)
 
         closing_date = {
             'last_closing_date': _last_closing_date,
