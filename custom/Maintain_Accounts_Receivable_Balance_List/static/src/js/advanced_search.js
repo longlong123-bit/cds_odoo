@@ -1,13 +1,13 @@
 odoo.define('Accounts_Receivable_Balance_List.Search', function(require){
     var FilterMenu = require('web.FilterMenu_free');
+    var advancedSearch = _.extend({}, FilterMenu.prototype.advancedSearch || {});
+    advancedSearch['res.partner'] = advancedSearch['res.partner'] || {};
+    advancedSearch['res.partner']['accounts_receivable_balance_list_tree'] = {
+        template: 'accounts_Receivable_balance_list.advanced_search'
+    }
 
-    // Filter menu in advanced search
     FilterMenu.include({
-        advancedSearch: _.extend({}, FilterMenu.prototype.advancedSearch || {}, {
-            'res.partner': {
-                template: 'accounts_Receivable_balance_list.advanced_search'
-            }
-        })
+        advancedSearch: advancedSearch
     });
 
     // Handle checked all check box when init screen
