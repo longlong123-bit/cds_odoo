@@ -96,3 +96,4 @@ class InvoiceClassCustom(models.Model):
 
     # account_invoice_id
     payment_id = fields.One2many('account.payment', 'account_invoice_id')
+    bill_invoice_ids = fields.One2many('bill.invoice', 'account_move_id')
