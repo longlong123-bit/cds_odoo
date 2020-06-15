@@ -40,6 +40,9 @@ class QuotationsCustom(models.Model):
     # _rec_name = 'document_no'
     _order = 'document_no'
 
+    def get_order_lines(self):
+        return len(self.order_line)
+
     name = fields.Char(string='Name', default=None)
     shipping_address = fields.Char(string='Shipping Address')
     expected_date = fields.Date(string='Expected Date')
@@ -96,6 +99,7 @@ class QuotationsCustom(models.Model):
     ], string='Pager format', default='report_format1')
 
     # related_product_name = fields.Char(related='order_line.product.product_code_1')
+    line_number = fields.Integer(string='明細数', default=get_order_lines, store=False)
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
