@@ -550,10 +550,11 @@
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">account.move</field>
       <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="invoice_custom_tree"/>
       <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
   </record>
 
-<!--    <menuitem action="invoice_template_action" sequence="2" id="menu_action_invoice" name="Invoicing"/>-->
+    <menuitem action="account.action_move_out_invoice_type" parent="account.menu_finance" sequence="1" id="menu_action_invoice" name="Invoicing"/>
 
 
 </odoo>

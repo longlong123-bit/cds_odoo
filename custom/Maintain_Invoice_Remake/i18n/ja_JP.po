@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-14 12:20+0000\n"
-"PO-Revision-Date: 2020-06-14 12:20+0000\n"
+"POT-Creation-Date: 2020-06-15 08:54+0000\n"
+"PO-Revision-Date: 2020-06-15 08:54+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -76,6 +76,7 @@ msgid "After Delivery"
 msgstr "出荷後"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Amount Due"
 msgstr "未消込額"
@@ -164,6 +165,7 @@ msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_business_partner
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Customer"
@@ -176,6 +178,7 @@ msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_group
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Customer Group"
@@ -183,12 +186,14 @@ msgstr "取引先グループコード"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_industry
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Customer Industry"
 msgstr "業種コード"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Customer Name"
@@ -202,6 +207,7 @@ msgstr "取引区分コード"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_state
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Customer State"
@@ -213,6 +219,7 @@ msgid "Customer*"
 msgstr "得意先コード*"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Date Invoiced"
@@ -281,6 +288,7 @@ msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_document_no
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
@@ -293,6 +301,7 @@ msgid "Document Note"
 msgstr "メモ"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Document Status"
@@ -383,6 +392,7 @@ msgid "Grace Days*"
 msgstr "支払猶予日数*"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Grand Total"
 msgstr "税込み金額"
@@ -392,6 +402,16 @@ msgstr "税込み金額"
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Grand Total*"
 msgstr "税込み金額*"
+
+#. module: Maintain_Invoice_Remake
+#: model:res.groups,name:Maintain_Invoice_Remake.hide
+msgid "Hide"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#: model:res.groups,comment:Maintain_Invoice_Remake.hide
+msgid "Hide."
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__id
@@ -434,6 +454,11 @@ msgid "Invoice Tax"
 msgstr "税額計算"
 
 #. module: Maintain_Invoice_Remake
+#: model:ir.ui.menu,name:Maintain_Invoice_Remake.invoice_confirm
+msgid "Invoice confirm"
+msgstr "売上入力確認リスト"
+
+#. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__invoice_line_ids_tax
 msgid "Invoice lines"
 msgstr "売上請求伝票明細"
@@ -445,7 +470,19 @@ msgstr "請求伝票*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_action
+#: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_confirm_action
 msgid "Invoices"
+msgstr "売上入力"
+
+#. module: account
+#: model:ir.ui.menu,name:account.menu_finance
+msgid "Invoicing"
+msgstr "売上管理"
+
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.ui.menu,name:Maintain_Invoice_Remake.menu_action_invoice
+msgid "Invoicing"
 msgstr "売上入力"
 
 #. module: Maintain_Invoice_Remake
@@ -597,6 +634,7 @@ msgid "On Credit"
 msgstr "後払い"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
@@ -725,6 +763,7 @@ msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__sales_rep
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
@@ -851,11 +890,13 @@ msgstr ""
 "オプションの数量はこの行で、例えば、販売された製品の数を表します。数量は法的には要求されませんが、幾つかのレポートのためにはとても役立ちます。"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Total"
 msgstr "合計"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Total Lines"
 msgstr "伝票合計額"
@@ -867,6 +908,7 @@ msgstr "伝票合計額*"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_trans_classification_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Transaction Class"
@@ -917,6 +959,7 @@ msgstr "バリデート"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_voucher_tax_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 msgid "Voucher Tax Amount"
 msgstr "消費税額"
@@ -1071,6 +1114,7 @@ msgid "updated"
 msgstr "登録日"
 
 #. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
