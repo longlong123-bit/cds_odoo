@@ -35,6 +35,33 @@ def calc_check_digits(number):
     return '%02d' % ((98 - 100 * checksum) % 97)
 
 
+def get_tax_method(tax_category=None, tax_unit=None):
+    # # 消費税区分 = ３．非課税 or 消費税区分 is null or 消費税計算区分 is null ==> 税転嫁 = 非課税
+    # if (tax_category == 'exempt') or (not tax_category) or (not tax_unit):
+    #     return 'no_tax'
+    # else:
+    #     # 消費税計算区分 = １．明細単位
+    #     if tax_unit == 'detail':
+    #         # 消費税区分 = １．外税 ==> 税転嫁 = 外税／明細
+    #         if tax_category == 'foreign':
+    #             return 'foreign_tax'
+    #         # 消費税区分 = 2．内税 ==> 税転嫁 = 内税／明細
+    #         else:
+    #             return 'internal_tax'
+    #     # 消費税計算区分 = ２．伝票単位、３．請求単位 ==> 税転嫁 = 伝票、請求
+    #     else:
+    #         return tax_unit
+
+    tax_method = 'foreign_tax'
+    if tax_unit:
+        if tax_unit == 'detail':
+            tax_method = 'foreign_tax'
+        else:
+            tax_method = tax_unit
+
+    return tax_method
+
+
 def rounding(number, pre=0, type_rounding='round'):
     """Rounding number by type rounding(round, roundup, rounddown)."""
     if number != 0:
@@ -47,6 +74,7 @@ def rounding(number, pre=0, type_rounding='round'):
             return round(number, pre)
     else:
         return 0
+
 
 # Copy data from partner
 def copy_data_from_partner(rec, partner):
@@ -68,25 +96,28 @@ def copy_data_from_partner(rec, partner):
         rec.customer_industry = partner.customer_industry_code.name
         rec.customer_trans_classification_code = partner.customer_trans_classification_code
 
-        # set default 税転嫁 by 消費税区分 & 消費税計算区分
-        customer_tax_category = partner.customer_tax_category
-        customer_tax_unit = partner.customer_tax_unit
+        rec.x_voucher_tax_transfer = get_tax_method(tax_unit=partner.customer_tax_unit)
 
-        # 消費税区分 = ３．非課税 or 消費税区分 is null or 消費税計算区分 is null ==> 税転嫁 = 非課税
-        if (customer_tax_category == 'exempt') or (not customer_tax_category) or (not customer_tax_unit):
-            rec.x_voucher_tax_transfer = 'no_tax'
-        else:
-            # 消費税計算区分 = １．明細単位
-            if customer_tax_unit == 'detail':
-                # 消費税区分 = １．外税 ==> 税転嫁 = 外税／明細
-                if customer_tax_category == 'foreign':
-                    rec.x_voucher_tax_transfer = 'foreign_tax'
-                # 消費税区分 = 2．内税 ==> 税転嫁 = 内税／明細
-                else:
-                    rec.x_voucher_tax_transfer = 'internal_tax'
-            # 消費税計算区分 = ２．伝票単位、３．請求単位 ==> 税転嫁 = 伝票、請求
-            else:
-                rec.x_voucher_tax_transfer = customer_tax_unit
+        # # set default 税転嫁 by 消費税区分 & 消費税計算区分
+        # customer_tax_category = partner.customer_tax_category
+        # customer_tax_unit = partner.customer_tax_unit
+        #
+        # # 消費税区分 = ３．非課税 or 消費税区分 is null or 消費税計算区分 is null ==> 税転嫁 = 非課税
+        # if (customer_tax_category == 'exempt') or (not customer_tax_category) or (not customer_tax_unit):
+        #     rec.x_voucher_tax_transfer = 'no_tax'
+        # else:
+        #     # 消費税計算区分 = １．明細単位
+        #     if customer_tax_unit == 'detail':
+        #         # 消費税区分 = １．外税 ==> 税転嫁 = 外税／明細
+        #         if customer_tax_category == 'foreign':
+        #             rec.x_voucher_tax_transfer = 'foreign_tax'
+        #         # 消費税区分 = 2．内税 ==> 税転嫁 = 内税／明細
+        #         else:
+        #             rec.x_voucher_tax_transfer = 'internal_tax'
+        #     # 消費税計算区分 = ２．伝票単位、３．請求単位 ==> 税転嫁 = 伝票、請求
+        #     else:
+        #         rec.x_voucher_tax_transfer = customer_tax_unit
+
 
 # Copy data for lines from quotation
 def copy_data_from_quotation(rec, quotation, account):
@@ -122,6 +153,7 @@ def copy_data_from_quotation(rec, quotation, account):
 
         rec.invoice_line_ids = invoice_line_ids
         rec.line_ids = line_ids
+
 
 class ClassInvoiceCustom(models.Model):
     _inherit = 'account.move'
@@ -283,13 +315,12 @@ class ClassInvoiceCustom(models.Model):
     x_voucher_tax_amount = fields.Monetary('Voucher Tax Amount')
     # x_voucher_deadline = fields.Selection([('今回', '次回','通常','来月勘定'), ('今回', '次回','通常','来月勘定')],default='今回')
     x_voucher_tax_transfer = fields.Selection([
-        ('no_tax', '非課税'),
         ('foreign_tax', '外税／明細'),
+        ('internal_tax', '内税／明細'),
         ('voucher', '伝票'),
         ('invoice', '請求'),
-        ('internal_tax', '内税／明細'),
         ('custom_tax', '税調整別途')
-    ], string='Tax Transfer', default='no_tax')
+    ], string='Tax Transfer', default='foreign_tax')
 
     # 消費税端数処理
     customer_tax_rounding = fields.Selection(
@@ -394,7 +425,8 @@ class ClassInvoiceCustom(models.Model):
                     if not line.exclude_from_invoice_tab:
                         # Untaxed amount.
                         if (line.x_invoicelinetype != 'サンプル'):
-                            if move.x_voucher_tax_transfer == 'voucher':
+                            if move.x_voucher_tax_transfer == 'voucher' \
+                                    and line.product_id.product_tax_category == 'foreign':
                                 total_line_tax = sum(
                                     tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                                 line_tax_amount = (total_line_tax * line.price_unit * line.quantity) / 100
@@ -427,6 +459,7 @@ class ClassInvoiceCustom(models.Model):
                 sign = 1
             else:
                 sign = -1
+
             if move.x_voucher_tax_transfer == 'voucher':
                 move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 2, move.customer_tax_rounding)
             else:
@@ -534,9 +567,9 @@ class ClassInvoiceCustom(models.Model):
         for rec in self:
             copy_data_from_partner(rec, rec.x_studio_business_partner)
 
-                # # call onchange of 税転嫁
-                # if rec.x_voucher_tax_transfer:
-                #     self._set_tax_counting()
+            # # call onchange of 税転嫁
+            # if rec.x_voucher_tax_transfer:
+            #     self._set_tax_counting()
 
     # @api.onchange('x_voucher_tax_transfer')
     # def _set_tax_counting(self):
@@ -1033,6 +1066,11 @@ class AccountMoveLine(models.Model):
     tax_ids = fields.Many2many('account.tax', string='Taxes', help="Taxes that apply on the base amount",
                                compute='compute_tax_ids')
 
+    # # 消費税区分
+    # line_tax_category = fields.Selection(
+    #     [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
+    #     string='Tax Category', default='foreign')
+
     def compute_x_customer_show_in_tree(self):
         for line in self:
             line.x_customer_show_in_tree = line.move_id.x_studio_business_partner.name
@@ -1127,7 +1165,8 @@ class AccountMoveLine(models.Model):
         for line in self:
             # line.price_unit = line._get_computed_price_unit()
             line.compute_line_amount()
-            if line.move_id.x_voucher_tax_transfer in ('foreign_tax', 'custom_tax'):
+            if line.move_id.x_voucher_tax_transfer in ('foreign_tax', 'custom_tax') \
+                    and line.product_id.product_tax_category != 'exempt':
                 total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
                                                                          total_line_tax,
@@ -1166,7 +1205,8 @@ class AccountMoveLine(models.Model):
             line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount)
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity)
 
-            if line.move_id.x_voucher_tax_transfer in ('foreign_tax', 'custom_tax'):
+            if line.move_id.x_voucher_tax_transfer in ('foreign_tax', 'custom_tax') \
+                    and line.product_id.product_tax_category != 'exempt':
                 total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
                                                                          total_line_tax,
@@ -1235,7 +1275,10 @@ class AccountMoveLine(models.Model):
 
             # line.tax_ids = line._get_computed_taxes()
             # line.tax_ids = line.product_id.taxes_id
-            line.compute_tax_ids()
+            if line.product_id.product_tax_category != 'exempt':
+                line.compute_tax_ids()
+            else:
+                line.tax_ids = None
 
             line.product_uom_id = line._get_computed_uom()
             # line.price_unit = line._get_computed_price_unit()
@@ -1272,6 +1315,8 @@ class AccountMoveLine(models.Model):
         # todo set price follow product code
         if self.move_id.x_voucher_tax_transfer == 'internal_tax':
             price_unit = self.product_id.price_include_tax_1
+        elif self.move_id.x_voucher_tax_transfer in ('voucher', 'invoice'):
+            price_unit = self.product_id.price_1
         else:
             price_unit = self.product_id.price_no_tax_1
 

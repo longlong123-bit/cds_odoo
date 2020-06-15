@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-01 04:54+0000\n"
-"PO-Revision-Date: 2020-06-01 04:54+0000\n"
+"POT-Creation-Date: 2020-06-14 12:18+0000\n"
+"PO-Revision-Date: 2020-06-14 12:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,17 +18,17 @@ msgstr ""
 #. module: Maintain_Quotations
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "Add a note"
-msgstr ""
+msgstr "メモ追加"
 
 #. module: Maintain_Quotations
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "Add a product"
-msgstr ""
+msgstr "商品追加"
 
 #. module: Maintain_Quotations
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "Add a section"
-msgstr ""
+msgstr "セクション追加"
 
 #. module: Maintain_Quotations
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__amount_tax
@@ -104,6 +104,11 @@ msgstr "適用"
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "Confirm"
 msgstr "確認"
+
+#. module: Maintain_Quotations
+#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order_line__cost
+msgid "Cost"
+msgstr "原価"
 
 #. module: Maintain_Quotations
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__create_date
@@ -284,6 +289,11 @@ msgid "Paper Format*"
 msgstr "印刷伝票タイプ選択*"
 
 #. module: Maintain_Quotations
+#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__related_partner_code
+msgid "Partner Code"
+msgstr ""
+
+#. module: Maintain_Quotations
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__partner_name
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "Partner Name"
@@ -438,7 +448,12 @@ msgstr "入力担当者"
 #. module: Maintain_Quotations
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "Sales Rep*"
-msgstr "入力担当者"
+msgstr "入力担当者*"
+
+#. module: Maintain_Quotations
+#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__related_sales_rep_name
+msgid "Sales rep name"
+msgstr "入力担当者*"
 
 #. module: Maintain_Quotations
 #. openerp-web
@@ -569,6 +584,13 @@ msgid "sale.order.reportheader"
 msgstr ""
 
 #. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "件名"
+msgstr ""
+
+#. module: Maintain_Quotations
 #: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__tax_method__voucher
 msgid "伝票"
 msgstr ""
@@ -576,6 +598,13 @@ msgstr ""
 #. module: Maintain_Quotations
 #: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order_line__class_item__値引
 msgid "値引"
+msgstr ""
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "入力担当者"
 msgstr ""
 
 #. module: Maintain_Quotations
@@ -589,6 +618,20 @@ msgid "外税／明細"
 msgstr ""
 
 #. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "得意先コード"
+msgstr ""
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "得意先名"
+msgstr ""
+
+#. module: Maintain_Quotations
 #: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order_line__class_item__消費税
 msgid "消費税"
 msgstr ""
@@ -599,8 +642,36 @@ msgid "税調整別途"
 msgstr ""
 
 #. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "見積No"
+msgstr ""
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "見積日付"
+msgstr ""
+
+#. module: Maintain_Quotations
 #: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__paper_format__report_format1
-msgid "見積管理"
+msgid "見積書（書式1）"
+msgstr ""
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "見積有効期限"
+msgstr ""
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "見積管理No"
 msgstr ""
 
 #. module: Maintain_Quotations
@@ -616,9 +687,4 @@ msgstr ""
 #. module: Maintain_Quotations
 #: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order_line__class_item__通常
 msgid "通常"
-msgstr ""
-
-#. module: Maintain_Quotations
-#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__tax_method__no_tax
-msgid "非課税"
 msgstr ""
