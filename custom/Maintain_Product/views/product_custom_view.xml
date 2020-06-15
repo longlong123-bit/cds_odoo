@@ -25,9 +25,12 @@
 <!--                            <field name="product_custom_freight_category"/>-->
                             <field name="product_custom_freight_category" context="{'showcode': 'ok'}"  options="{'always_reload': True}"/>
                             <field name="product_maker_name" force_save="1"/>
-<!--                            <field name="product_class_code"/>-->
-<!--                            <field name="product_class_name" readonly="True"/>-->
-                            <div style="text-align: right"><label for="product_class_code_lv1" string="Class code"/></div>
+                            <div style="text-align: right;">
+                                <div style="margin-bottom: 10px; margin-top: 2px;"><label for="product_class_code_lv1" string="大分類"/></div>
+                                <div style="margin-bottom: 10px;"><label style="margin-top: 3px;" for="product_class_code_lv2" string="中分類"/></div>
+                                <div style="margin-bottom: 10px; "><label for="product_class_code_lv3" style="margin-top: 3px;" string="中小分類"/></div>
+                                <div style="margin-top: 2px;"><label for="product_class_code_lv4" string="小分類"/></div>
+                            </div>
                             <table style="margin-right: 36px; margin-left: 8px">
                                 <td style="width: 44%; vertical-align: top;">
                                     <field name="product_class_code_lv1" domain="[('product_level', '=', 'lv1')]"/>
