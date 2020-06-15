@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template id="cancel_bill_button" xml:space="preserve">
+          <t t-extend="ListView.buttons">
+            <t t-jquery="button.o_list_button_add" t-operation="after">
+                <button t-if="widget.modelName == 'bill.info'" class="btn btn-primary cancel_bill_button"
+                        type="button">Cancel bill</button>
+            </t>
+          </t>
+    </template>

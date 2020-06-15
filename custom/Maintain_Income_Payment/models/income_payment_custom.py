@@ -78,11 +78,7 @@ class IncomePaymentCustom(models.Model):
     currency_id = fields.Many2one(string='Currency')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, states={'draft': [('readonly', False)]},
                                 domain="[('share', '=', False)]", default=lambda self: self.env.user)
-    cb_partner_sales_rep_id = fields.Many2one('res.partner', string='cbpartner_salesrep_id', tracking=True,
-                                              readonly=True,
-                                              states={'draft': [('readonly', False)]},
-                                              domain="['|', ('company_id', '=', False), "
-                                                     "('company_id', '=', company_id)]")
+    cb_partner_sales_rep_id = fields.Many2one('hr.employee', string='cbpartner_salesrep_id')
     comment_apply = fields.Text(string='commentapply', readonly=True, states={'draft': [('readonly', False)]})
     vj_summary = fields.Selection([('vj_sum_1', '専伝・仮伝'), ('vj_sum_2', '指定なし'), ('vj_sum_3', '通常')],
                                   string='vj_summary', readonly=True, states={'draft': [('readonly', False)]})
@@ -106,6 +102,7 @@ class IncomePaymentCustom(models.Model):
         # for rec in self:
         if self.partner_id:
             self._set_partner_info(self.partner_id)
+            self.cb_partner_sales_rep_id = self.partner_id.customer_agent
 
     @api.onchange('account_invoice_id')
     def _get_detail_business_partner_by_invoice(self):

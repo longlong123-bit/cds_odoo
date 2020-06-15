@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="asset new assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript"
+                        src="/Maintain_Bill_Cancel/static/src/js/cancel_bill_button.js"></script>
+                <script type="text/javascript"
+                        src="/Maintain_Bill_Cancel/static/src/js/cancel_bill_advanced_search.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -66,10 +66,7 @@
                                 <td colspan="2"><field name="partner_payment_name2"/></td>
                                 <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="cbpartner_salesrep_id"/></td>
                                 <td>
-                                <field name="cb_partner_sales_rep_id" domain="[('customer_rank','=', 1)]"
-                                           context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
-                                           options='{"reload_on_button": True, "no_quick_create": True}'
-                                           /></td>
+                                <field name="cb_partner_sales_rep_id"/></td>
                             </tr>
 
                             <!-- Row 5 -->
@@ -77,8 +74,10 @@
                                 <td class="o_td_label"><label for="partner_payment_address1" string="Address 1"/></td>
                                 <td colspan="2"><field name="partner_payment_address1"/></td>
                                 <td colspan="2"><field name="partner_payment_address2"/></td>
-                                <td class="o_td_label"><label for="journal_id" string="vj_collection_method"/></td>
-                                <td><field name="journal_id" widget="many2one_tags" required="False"/></td>
+<!--                                <td class="o_td_label"><label for="journal_id" string="vj_collection_method"/></td>-->
+<!--                                <td><field name="journal_id" widget="many2one_tags" required="False"/></td>-->
+                                <td class="o_td_label"><label for="collection_method_month"/></td>
+                                <td><field name="collection_method_month" style="max-width: 30% !important" force_save="1"/></td>
                             </tr>
 
                             <!-- Row 6 -->
@@ -95,15 +94,15 @@
                                 <td class="o_td_label"><label for="state" string="Document Status"/></td>
                                 <td><field name="state" readonly="True" invisible="0"/></td>
                                 <td class="o_td_label"><label for="collection_method_date"/></td>
-                                <td><field name="collection_method_date" style="max-width: 30% !important" force_save="1"/></td>
+                                <td><field name="collection_method_date" style="max-width: 30% !important" force_save="1" string="回収日"/></td>
                             </tr>
 
                             <!-- Row 8 -->
                             <tr>
                                 <td class="o_td_label"><label for="comment_apply" string="commentapply"/></td>
                                 <td colspan="4"><field name="comment_apply"/></td>
-                                <td class="o_td_label"><label for="collection_method_month"/></td>
-                                <td><field name="collection_method_month" style="max-width: 30% !important" force_save="1"/></td>
+<!--                                <td class="o_td_label"><label for="collection_method_month"/></td>-->
+<!--                                <td><field name="collection_method_month" style="max-width: 30% !important" force_save="1"/></td>-->
                             </tr>
 
                             <tr>
@@ -151,7 +150,7 @@
                     <field name="document_no" string="Document No"/>
                     <field name="payment_date" string="Transaction Date"/>
                     <field name="partner_id" string="Business Partner"/>
-                    <field name="partner_bank_account_id" string="Bank Account"/>
+<!--                    <field name="partner_bank_account_id" string="Bank Account"/>-->
                     <field name="state" string="Document Status"/>
                     <field name="account_invoice_id" string="Invoice"/>
                 </tree>
@@ -168,7 +167,7 @@
                 <field name="document_no" string="Document No"/>
                 <field name="payment_date" string="Transaction Date"/>
                 <field name="partner_id" string="Business Partner"/>
-                <field name="partner_bank_account_id" string="Bank Account"/>
+<!--                <field name="partner_bank_account_id" string="Bank Account"/>-->
                 <field name="state" string="Document Status"/>
                 <field name="account_invoice_id" string="Invoice"/>
             </search>
