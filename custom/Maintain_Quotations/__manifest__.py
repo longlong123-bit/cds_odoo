@@ -17,11 +17,13 @@
         'views/add_js.xml',
         'views/quotations_custom_view.xml',
         'views/helloworld_template.xml',
+        'views/quotations_confirm.xml'
     ],
     'qweb': [
         'static/src/xml/quotation_custom_template.xml',
         'static/src/xml/order_lines.xml',
-        'static/src/xml/advanced_search.xml'
+        'static/src/xml/advanced_search.xml',
+        'static/src/xml/advanced_search_quotation_confirm.xml'
     ],
     'demo': [],
     'installable': True,

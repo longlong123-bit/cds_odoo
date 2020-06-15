@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="template_widget_price">
+        <div style="width:120px!important;float:right!important">
+            <button class="show_price_dialog" style="width:120px!important;margin-right:0px!important;float:right!important">
+                売上単価選択
+            </button>
+        </div>
+    </t>
+
+    <div role="dialog" t-name="dialog_widget_price" t-attf-class="modal#{technical ? ' o_technical_modal' : ''}#{fullscreen ? ' o_modal_full': ''}" tabindex="-1" data-backdrop="static" t-att-id="_.uniqueId('modal_')" aria-hidden="true">
+        <div class="modal-dialog">
+              <div class="modal-content">
+                  <header t-if="renderHeader" class="modal-header">
+                      <h4 class="modal-title"><t t-raw="title"/><span class="o_subtitle text-muted small"><t t-esc="subtitle"/></span></h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="-1">×</button>
+                  </header>
+<!--                  <div class="search_form" style="padding:20px 20px 20px 20px">-->
+<!--                      <table style="width:100%!important; padding:20px 20px 20px 20px" class="custom-form-table">-->
+<!--                          <tr>-->
+<!--                              <td class="col-label" >商品コード</td>-->
+<!--                              <td><input type="text" name="search_product_code" ></input></td>-->
+
+<!--                              <td class="col-label">JANコード</td>-->
+<!--                              <td><input type="text" name="search_jan_code"></input></td>-->
+<!--                              <td class="col-label">品番/型番</td>-->
+<!--                              <td>-->
+<!--                                  <input type="text" name="search_standard_number"></input>-->
+<!--                              </td>-->
+<!--                          </tr>-->
+<!--                          <tr>-->
+<!--                              <td class="col-label" >商品名</td>-->
+<!--                              <td><input type="text" name="search_product_name"></input></td>-->
+
+<!--                              <td class="col-label">メーカー名</td>-->
+<!--                              <td><input type="text" name="search_category_name"></input></td>-->
+<!--                          </tr>-->
+<!--                      </table>-->
+<!--                  </div>-->
+                  <div class="cp_paging" style="float:right"></div>
+                  <main class="modal-body" >
+                  </main>
+                  <footer t-if="renderFooter" class="modal-footer"/>
+              </div>
+        </div>
+    </div>
+</templates>

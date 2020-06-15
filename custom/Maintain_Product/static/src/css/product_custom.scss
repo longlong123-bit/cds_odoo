@@ -31,3 +31,16 @@
         }
     }
 }
+
+.product-price-dialog{
+    .o_content table {
+        td, th{
+            &:nth-child(3),
+            &:nth-child(5),
+            &:nth-child(6),
+            &:nth-child(7){
+                display: none !important;
+            }
+        }
+    }
+}
