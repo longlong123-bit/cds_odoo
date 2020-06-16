@@ -17,8 +17,8 @@
             <th><span>Quantity</span></th>
             <th><span>Line Amount</span></th>
             <th><span>UoM</span></th>
+            <th><span>Tax Rate</span></th>
             <th><span>Tax Amount</span></th>
-            <th><span>Taxes</span></th>
             <th><span>Cost Value</span></th>
             <th><span>Description</span></th>
           </tr>
@@ -37,8 +37,8 @@
             <td><span t-if="record.quantity" t-esc="record.quantity"/></td>
             <td><span t-esc="record.invoice_custom_lineamount"/></td>
             <td><span t-if="record.product_uom_id" t-esc="record.product_uom_id[1]"/></td>
+            <td><span t-if="record.tax_rate" t-esc="record.tax_rate"/></td>
             <td><span t-if="record.line_tax_amount" t-esc="record.line_tax_amount"/></td>
-            <td><span t-if="record.tax_ids" t-esc="record.tax_ids"/></td>
             <td><span t-esc="record.invoice_custom_uom_cost_value"/></td>
             <td><span t-if="record.invoice_custom_Description" t-esc="record.invoice_custom_Description"/></td>
           </tr>

@@ -4,7 +4,7 @@ import operator
 from datetime import timedelta, time, datetime
 from addons.account.models.product import ProductTemplate
 from custom.Maintain_Invoice_Remake.models.invoice_customer_custom import rounding, get_tax_method
-from odoo.tools.float_utils import float_round
+from odoo.tools.float_utils import float_round, float_compare
 
 import logging
 
@@ -110,8 +110,8 @@ class QuotationsCustom(models.Model):
             amount_untaxed = amount_tax = 0.0
             for line in order.order_line:
                 if order.tax_method == 'voucher' and line.product_id.product_tax_category == 'foreign':
-                    total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
-                    line_tax_amount = (total_line_tax * line.price_unit * line.product_uom_qty) / 100
+                    # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
+                    line_tax_amount = (line.tax_rate * line.price_unit * line.product_uom_qty) / 100
                     amount_tax += line_tax_amount
                 else:
                     amount_tax += line.line_tax_amount
@@ -345,6 +345,7 @@ class QuotationsLinesCustom(models.Model):
 
     name = fields.Text(string='Description', default=None)
     tax_id = fields.Many2many(string='Taxes')
+    tax_rate = fields.Float('Tax Rate', compute='compute_tax_rate')
     product_id = fields.Many2one(string='Product')
     product_uom_qty = fields.Float(string='Product UOM Qty', digits='(12,0)', default=1.0)
     product_uom = fields.Many2one(string='Product UOM')
@@ -385,8 +386,21 @@ class QuotationsLinesCustom(models.Model):
             line.compute_line_amount()
             line.compute_line_tax_amount()
 
+    def _compute_tax_id(self):
+        for line in self:
+            fpos = line.order_id.fiscal_position_id or line.order_id.partner_id.property_account_position_id
+            # If company_id is set, always filter taxes by the company
+            taxes = line.product_id.taxes_id.filtered(lambda r: not line.company_id or r.company_id == line.company_id)
+            line.tax_id = fpos.map_tax(taxes, line.product_id, line.order_id.partner_shipping_id) if fpos else taxes
+            line.tax_rate = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
+
+    @api.depends('tax_id', 'order_id.tax_method', 'order_id.customer_tax_rounding', 'class_item', 'tax_rate')
+    def compute_tax_rate(self):
+        for line in self:
+            line.tax_rate = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
+
     @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id', 'order_id.tax_method',
-                 'order_id.customer_tax_rounding', 'class_item')
+                 'order_id.customer_tax_rounding', 'class_item', 'tax_rate')
     def _compute_amount(self):
         """
         Compute the amounts of the SO line.
@@ -435,11 +449,11 @@ class QuotationsLinesCustom(models.Model):
 
     def compute_line_tax_amount(self):
         for line in self:
-            if line.order_id.tax_method in ('foreign_tax', 'custom_tax') \
-                    and line.product_id.product_tax_category != 'exempt':
-                total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
+            if (line.order_id.tax_method == 'foreign_tax' and line.product_id.product_tax_category != 'exempt') \
+                    or line.order_id.tax_method == 'custom_tax':
+                # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self.get_compute_line_tax_amount(line.line_amount,
-                                                                        total_line_tax,
+                                                                        line.tax_rate,
                                                                         line.order_id.customer_tax_rounding,
                                                                         line.class_item)
             else:

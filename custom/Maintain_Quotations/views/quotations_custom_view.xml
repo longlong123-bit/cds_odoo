@@ -234,8 +234,9 @@
                                     <field name="price_unit"/>
                                     <field name="cost"/>
                                     <field name="line_amount" widget="monetary"/>
+                                    <field name="tax_id" widget="many2many_tags" invisible="True"/>
+                                    <field name="tax_rate" attrs="{'readonly': [('parent.tax_method', '!=', 'custom_tax')]}"/>
                                     <field name="line_tax_amount" widget="monetary"/>
-                                    <field name="tax_id" widget="many2many_tags"/>
                                     <field name="name" widget="section_and_note_text"
                                            optional="show" string="Description"
                                            attrs="{'required': [('display_type', '!=', False)]}"/>

@@ -299,7 +299,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                 'product_id',
                 'x_product_name',
                 'invoice_custom_standardnumber',
-                'tax_ids',
+                'tax_rate',
                 'quantity',
                 'product_uom_id',
                 'invoice_custom_uom_cost_value',
