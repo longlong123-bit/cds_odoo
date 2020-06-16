@@ -84,7 +84,7 @@ def copy_data_from_partner(rec, partner):
         rec.x_studio_address_1 = partner.street
         rec.x_studio_address_2 = partner.street2
         rec.x_studio_address_3 = partner.address3
-        # rec.sales_rep = partner.customer_agent
+        rec.sales_rep = partner.customer_agent
         rec.x_studio_payment_rule_1 = partner.payment_rule
         rec.x_studio_price_list = partner.property_product_pricelist
         rec.invoice_payment_terms_custom = partner.payment_terms

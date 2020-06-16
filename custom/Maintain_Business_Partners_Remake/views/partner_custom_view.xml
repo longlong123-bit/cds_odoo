@@ -71,7 +71,7 @@
                         <!--row 3.5-->
                             <tr>
                                 <td class="col-label"><label for="customer_code_bill" string="Billing Code*"/></td>
-                                <td colspan="2"><field name="customer_code_bill" widget="text" readonly="1"/></td>
+                                <td colspan="2"><field name="customer_code_bill" readonly="1" force_save="1"/></td>
                                 <td class="col-field"><field name="customer_get_billing_code"
                                                              domain="[('customer_rank','>', 0)]"/></td>
 
