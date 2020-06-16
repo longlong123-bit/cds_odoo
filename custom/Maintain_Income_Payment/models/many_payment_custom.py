@@ -18,7 +18,7 @@ class ManyPaymentCustom(models.Model):
 
     many_payment_line_ids = fields.One2many('account.payment', 'many_payment_id', string='PaymentLine', copy=True,
                                             auto_join=True)
-    payment_date = fields.Date(string='Transaction Date')
+    payment_date = fields.Date(string='Transaction Date', default=datetime.today())
     sales_rep = fields.Many2one('res.users', string='Sales Rep',
                                 domain="[('share', '=', False)]", default=lambda self: self.env.user)
     payment_type = fields.Selection(
