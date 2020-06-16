@@ -33,7 +33,7 @@
                     </group>
 
                     <notebook>
-                        <page string="Detail Line">
+                        <page string="Details Line">
                             <field name="bill_account_move_line_ids">
                                 <tree string="Details Line" editable="bottom" create="false" delete="false">
                                     <field name="selected" string=" "/>
@@ -42,14 +42,14 @@
                                     <field name="customer_code" string="Customer Code" readonly='1'/>
                                     <field name="customer_name" string="Customer Name" readonly='1'/>
                                     <field name="product_id" string="Product Code" readonly='1'/>
+                                    <field name="x_product_name" string="Product Name" readonly='1'/>
                                     <field name="invoice_custom_FreightCategory" string="Product Maker Name"
                                            readonly='1'/>
                                     <field name="invoice_custom_standardnumber" string="Standard Number" readonly='1'/>
-                                    <field name="x_product_name" string="Product Name" readonly='1'/>
                                     <field name="quantity" string="Quantity" readonly='1'/>
                                     <field name="price_unit" string="Price Unit" readonly='1'/>
                                     <field name="invoice_custom_lineamount" string="Amount" readonly='1'/>
-                                    <field name="invoice_custom_Description" readonly='1'/>
+                                    <field name="invoice_custom_Description" string="Note" readonly='1'/>
                                 </tree>
                             </field>
                         </page>
@@ -68,11 +68,11 @@
                 <field name="customer_code" string="Billing Code"/>
                 <field name="name" string="Billing Name"/>
                 <field name="last_closing_date" string="Last Closing Date"/>
-                <field name="voucher_number" string="Voucher"/>
+                <field name="voucher_number" string="Voucher Number"/>
                 <field name="customer_except_request" invisible="1"/>
                 <button name="bm_bill_excerpt_button" type="object" string="Excerpt" class="btn-sm btn btn-primary"
                         attrs="{'invisible': ['|',('customer_except_request','=',False),('voucher_number','=',0)]}"/>
-                <field name="deadline" invisible="1"/>
+                <field name="deadline" string="Deadline" invisible="1"/>
                 <field name="customer_agent" invisible="1"/>
                 <field name="department" invisible="1"/>
                 <field name="customer_supplier_group_code" invisible="1"/>
