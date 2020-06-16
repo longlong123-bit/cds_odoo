@@ -320,6 +320,26 @@ var SelectCreateDialog = ViewDialog.extend({
                         c.parentNode.removeChild(label_remove);
                     });
 
+                    $(fragment).find( '.o_data_row').click(function(e){
+                        if (e.target.name === 'radio_custom') {
+                            return;
+                        }
+
+                        e.stopPropagation();
+                        e.preventDefault();
+
+                        var radio = $(this).find('input[type="radio"]');
+
+                        if ($(this).find('input[type="radio"]').is(':checked')) {
+                            radio.prop('checked', false);
+                        }
+                        else {
+                            radio.prop('checked', true);
+                        }
+
+                        radio.change();
+                    });
+
                     // custom remove footer table
                     fragment.querySelectorAll("th").forEach(function(c){
                         if(c.className==='o_list_record_selector'){
@@ -397,6 +417,26 @@ var SelectCreateDialog = ViewDialog.extend({
                         c.className='';
                         var label_remove = c.parentNode.getElementsByTagName("label")[0];
                         c.parentNode.removeChild(label_remove);
+                    });
+
+                    $(fragment).find( '.o_data_row').click(function(e){
+                        if (e.target.name === 'radio_custom') {
+                            return;
+                        }
+
+                        e.stopPropagation();
+                        e.preventDefault();
+
+                        var radio = $(this).find('input[type="radio"]');
+
+                        if ($(this).find('input[type="radio"]').is(':checked')) {
+                            radio.prop('checked', false);
+                        }
+                        else {
+                            radio.prop('checked', true);
+                        }
+
+                        radio.change();
                     });
 
                     // custom remove footer table
