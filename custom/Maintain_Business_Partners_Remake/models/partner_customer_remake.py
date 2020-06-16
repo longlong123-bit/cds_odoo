@@ -4,6 +4,7 @@ from odoo.addons.test_convert.tests.test_env import record
 from odoo.exceptions import ValidationError, RedirectWarning, UserError
 from lxml import etree
 import simplejson
+import re
 
 from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
 
@@ -30,7 +31,7 @@ class NewClassPartnerCustom(models.Model):
     customer_name_2 = fields.Char(string='Name 2')
     customer_code = fields.Char(string='Customer Code')
     # 請求先コード
-    customer_code_bill = fields.Char(string='Billing Code', related='customer_code')
+    customer_code_bill = fields.Char(string='Billing Code', store=True)
     customer_get_billing_code = fields.Many2one('res.partner', 'Customer', store=False)
     customer_name_short = fields.Char(string='Customer Name Short')
     customer_name_kana = fields.Char(string='Customer Name Kana')
@@ -143,13 +144,19 @@ class NewClassPartnerCustom(models.Model):
         return super(NewClassPartnerCustom, self).copy(default)
 
     @api.onchange('name')
-    def _get_location_related_business_partner(self):
+    def _get_name_short(self):
         for rec in self:
             if rec.name and not rec.customer_name_short:
                 rec.customer_name_short = rec.name
 
+    # get customer billing
     @api.onchange('customer_code')
-    def _get_billing_code(self):
+    def _get_billing_code_by_code(self):
+        if self.customer_code:
+            code_count = self.env['res.partner'].search_count([('customer_code', '=', self.customer_code)])
+            if code_count > 0:
+                raise ValidationError(_('The code must be unique!'))
+        return {}
         for rec in self:
             if rec.customer_code and not rec.customer_code_bill:
                 rec.customer_code_bill = rec.customer_code
@@ -174,13 +181,16 @@ class NewClassPartnerCustom(models.Model):
 
     #  get billing code from combobox
     @api.onchange('customer_get_billing_code')
-    def _get_billing_code(self):
+    def _get_billing_code_by_customer(self):
         for rec in self:
             if rec.customer_get_billing_code:
                 rec.customer_code_bill = rec.customer_get_billing_code.customer_code_bill
 
-    # Relation Partner Class
-
+    @api.model
+    def create(self, vals):
+        if not vals['customer_code_bill']:
+            vals['customer_code_bill'] = vals['customer_code']
+        return super(NewClassPartnerCustom, self).create(vals)
 
 class ClassRelationPartnerCustom(models.Model):
     _name = 'relation.partner.model'
