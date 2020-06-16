@@ -94,6 +94,6 @@
         <field name="view_id" ref="view_many_payment_tree"/>
     </record>
 
-    <menuitem id="menu_many_payment" parent="parent_menu_master" name="Many Payment" action="many_payment_action"/>
+    <menuitem id="menu_many_payment" parent="deposit_menu" name="Many Payment" action="many_payment_action"/>
 
 </odoo>

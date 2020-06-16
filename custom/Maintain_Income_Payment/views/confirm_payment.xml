@@ -48,6 +48,6 @@
         <field name="search_view_id" ref="view_confirm_payment_custom_search"/>
 <!--        <field name="x_history_voucher" widget="Maintain_Income_Payment.Search" z-index="92"/>-->
     </record>
-    <menuitem id="confirm_payment" parent="parent_menu_master" name="Confirm Payment" action="confirm_payment_action"
+    <menuitem id="confirm_payment" parent="deposit_menu" name="Confirm Payment" action="confirm_payment_action"
               sequence="4"/>
 </odoo>
