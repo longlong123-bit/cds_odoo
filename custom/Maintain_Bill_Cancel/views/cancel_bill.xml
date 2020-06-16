@@ -14,8 +14,8 @@
                 <field name="last_billed_amount" sum="total" widget="monetary"/>
                 <field name="deposit_amount" sum="total" widget="monetary"/>
                 <field name="balance_amount" sum="total" widget="monetary"/>
-                <field name="amount_untaxed" sum="total" widget="monetary"/>
-                <field name="tax_amount" sum="total" widget="monetary"/>
+                <field name="amount_untaxed" string="Bill Amount Untaxed" sum="total" widget="monetary"/>
+                <field name="tax_amount" string="Bill Tax Amount" sum="total" widget="monetary"/>
                 <field name="amount_total" sum="total" widget="monetary" invisible="1"/>
                 <field name="billed_amount" sum="total" widget="monetary"/>
                 <field name="last_closing_date"/>
