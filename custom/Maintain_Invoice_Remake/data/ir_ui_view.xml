@@ -122,15 +122,15 @@
             <!-- Row 1 -->
               <tr>
                   <td class="col-label"><label for="x_studio_document_no" string="Document No"/></td>
-                   <td class="col-field">
-                  <field style="width:90px!important;float:left!important;" name="x_studio_document_no" string="Document No" readonly="1" class="o_input"/>
-                  <field name="x_history_voucher" widget="Maintain_Sale_History.Voucher" z-index="92" attrs="{'invisible':[('state','in',['posted'])]}"/>
-
-<!--                        <attribute name="context">{'tree_view_ref': 'inherit_view_account_move_line_tree'}</attribute>-->
-<!--                  </field>-->
-
+                  <td class="col-field">
+                      <field style="width:90px!important;float:left!important;" name="x_studio_document_no" string="Document No" readonly="1" class="o_input"/>
+                  </td>
+                  <td>
+                      <field name="x_history_voucher" style="float:left!important;" widget="Maintain_Sale_History.Voucher" z-index="92" attrs="{'invisible':[('state','in',['posted'])]}"/>
+                  </td>
+                <td>
+                    <field name="trigger_quotation_history" widget="Maintain_Quotation_History.Order" z-index="92" attrs="{'invisible':[('state','in',['posted'])]}"/>
                 </td>
-                <td><field name="trigger_quotation_history" widget="Maintain_Quotation_History.Order" z-index="92"/></td>
               </tr>
             <tr>
               <td class="col-label"><label for="x_studio_date_invoiced" string="Invoice Date*"/></td>

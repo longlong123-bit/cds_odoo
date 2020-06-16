@@ -38,7 +38,7 @@
                                     <field name="product_class_code_lv3" />
                                     <field name="product_class_code_lv4"  />
                                 </td>
-                                <td style="width: 12%; vertical-align: top; text-align: right"><label for="product_class_name_lv1"/></td>
+<!--                                <td style="width: 12%; vertical-align: top; text-align: right"><label for="product_class_name_lv1"/></td>-->
                                 <td style="width: 44%; vertical-align: top;">
                                     <field name="product_class_name_lv1" style="height: 27px;" attrs="{'invisible': [('product_class_code_lv1', '=', False)]}" readonly="True" />
                                     <field name="product_class_name_lv2"  style="height: 27px;" attrs="{'invisible': [('product_class_code_lv2', '=', False)]}" readonly="True"/>
