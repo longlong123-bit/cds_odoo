@@ -12,117 +12,140 @@
     </template>
 
     <template id="report_accounts_receivable_balance_list_document">
-        <t t-call="web.external_layout">
+        <div class="page">
 
-            <div class="page">
+            <h1 style="text-align: center;">
+                売掛残高一覧表
+            </h1>
 
-                <h1 style="text-align: center;">
-                    売掛残高一覧表
-                </h1>
+            <span style="float: right;"
+                  t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y/%m/%d %H:%M')"></span>
 
-                <span style="float: right;"
-                      t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y/%m/%d %H:%M')"></span>
-
-                <div style="float: left; width: 100%; padding-top:10px;">
-                    <div style="text-align: left; margin-top: 10px; margin-bottom: 10px">
-                        <table cellspacing="0" cellpadding="5">
-                            <tr>
-                                <td style="text-align: right;">対象月：</td>
-                                <td>
-                                    <span t-field="doc.input_target_month"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">事業部：</td>
-                                <td>
-                                    <span t-field="doc.input_division"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">営業担当者：</td>
-                                <td>
-                                    <span t-field="doc.input_sales_rep"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">取引先グループ：</td>
-                                <td>
-                                    <span t-field="doc.input_customer_supplier_group_code"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">請求先：</td>
-                                <td>
-                                    <span t-field="doc.input_customer_code_bill_from"/>
-                                    <t t-if="doc.input_customer_code_bill_from != '' or doc.input_customer_code_bill_to != ''">
-                                        <span>～</span>
-                                    </t>
-                                    <span t-field="doc.input_customer_code_bill_to"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;">表示順：</td>
-                                <td>
-                                    <span t-field="doc.input_display_order"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div>
-                    <table class="table table-sm o_main_table" >
-                        <thead>
-                            <tr style="border">
-                                <th>請求先コード</th>
-                                <th>請求先名（得意先名）</th>
-                                <th>前月売掛残</th>
-                                <th>入金額</th>
-                                <th>繰越金額</th>
-                                <th>御買上金額</th>
-                                <th>消費税</th>
-                                <th>値引額</th>
-                                <th>今月売掛残高</th>
-                            </tr>
-                        </thead>
-                        <tbody class="sale_tbody">
-                            <t t-set="current_subtotal" t-value="0"/>
-                            <t t-foreach="docs" t-as="o">
-                                <tr>
-                                    <t>
-                                        <td>
-                                            <span t-field="o.customer_code_bill"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="o.name"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="o.accounts_receivable_last_month"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="o.deposit_amount"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="o.amount_carried_forward"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="o.purchase_amount"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="o.consumption_tax"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="o.discount"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="o.liabilities"/>
-                                        </td>
-                                    </t>
-                                </tr>
-                            </t>
-                        </tbody>
+            <div style="float: left; width: 100%; padding-top:10px;">
+                <div style="text-align: left; margin-top: 10px; margin-bottom: 10px">
+                    <table cellspacing="0" cellpadding="5">
+                        <tr>
+                            <td style="text-align: right;">対象月：</td>
+                            <td>
+                                <span t-field="doc.input_target_month"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">事業部：</td>
+                            <td>
+                                <span t-field="doc.input_division"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">営業担当者：</td>
+                            <td>
+                                <span t-field="doc.input_sales_rep"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">取引先グループ：</td>
+                            <td>
+                                <span t-field="doc.input_customer_supplier_group_code"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">請求先：</td>
+                            <td>
+                                <span t-field="doc.input_customer_code_bill_from"/>
+                                <t t-if="doc.input_customer_code_bill_from != '' or doc.input_customer_code_bill_to != ''">
+                                    <span>～</span>
+                                </t>
+                                <span t-field="doc.input_customer_code_bill_to"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">表示順：</td>
+                            <td>
+                                <span t-field="doc.input_display_order"/>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
-        </t>
+            <div>
+                <table class="table table-sm o_main_table" >
+                    <thead>
+                        <tr style="border">
+                            <th>請求先コード</th>
+                            <th>請求先名（得意先名）</th>
+                            <th>前月売掛残</th>
+                            <th>入金額</th>
+                            <th>繰越金額</th>
+                            <th>御買上金額</th>
+                            <th>消費税</th>
+                            <th>値引額</th>
+                            <th>今月売掛残高</th>
+                        </tr>
+                    </thead>
+                    <tbody class="sale_tbody">
+                        <t t-set="current_subtotal" t-value="0"/>
+                        <t t-foreach="docs" t-as="o">
+                            <tr>
+                                <t>
+                                    <td>
+                                        <span t-field="o.customer_code_bill"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.accounts_receivable_last_month"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.deposit_amount"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.amount_carried_forward"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.purchase_amount"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.consumption_tax"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.discount"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.liabilities"/>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                        <tr class="border-black o_subtotal">
+                            <td name="total_accounts_receivable_last_month" class="text-right" colspan="2">
+                                <strong>合計</strong>
+                            </td>
+                            <td name="total_accounts_receivable_last_month" class="text-left">
+                                <t t-esc="'{0:,.0f}'.format(int(sum(l.accounts_receivable_last_month for l in docs)))" />
+                            </td>
+                            <td name="total_deposit_amount" class="text-left">
+                                <t t-esc="'{0:,.0f}'.format(int(sum(l.deposit_amount for l in docs)))" />
+                            </td>
+                            <td name="total_amount_carried_forward" class="text-left">
+                                <t t-esc="'{0:,.0f}'.format(int(sum(l.amount_carried_forward for l in docs)))" />
+                            </td>
+                            <td name="total_purchase_amount" class="text-left">
+                                <t t-esc="'{0:,.0f}'.format(int(sum(l.purchase_amount for l in docs)))" />
+                            </td>
+                            <td name="total_consumption_tax" class="text-left">
+                                <t t-esc="'{0:,.0f}'.format(int(sum(l.consumption_tax for l in docs)))" />
+                            </td>
+                            <td name="total_discount" class="text-left">
+                                <t t-esc="'{0:,.0f}'.format(int(sum(l.discount for l in docs)))" />
+                            </td>
+                            <td name="total_liabilities" class="text-left">
+                                <t t-esc="'{0:,.0f}'.format(int(sum(l.liabilities for l in docs)))" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </template>
 </odoo>

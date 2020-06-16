@@ -9,20 +9,13 @@
 				<tree create="0" import="0" class="o_tree">
 					<field name="customer_code_bill"/>
 					<field name="name"/>
-                    <field name="accounts_receivable_last_month"/>
-					<field name="deposit_amount"/>
-					<field name="amount_carried_forward"/>
-					<field name="purchase_amount"/>
-					<field name="consumption_tax"/>
-					<field name="discount"/>
-                    <field name="liabilities"/>
-					<field name="input_target_month" invisible="1"/>
-					<field name="input_division" invisible="1"/>
-					<field name="input_sales_rep" invisible="1"/>
-					<field name="input_customer_supplier_group_code" invisible="1"/>
-					<field name="input_customer_code_bill_from" invisible="1"/>
-					<field name="input_customer_code_bill_to" invisible="1"/>
-					<field name="input_display_order" invisible="1"/>
+                    <field name="accounts_receivable_last_month" sum="Total"/>
+					<field name="deposit_amount" sum="Total"/>
+					<field name="amount_carried_forward" sum="Total"/>
+					<field name="purchase_amount" sum="Total"/>
+					<field name="consumption_tax" sum="Total"/>
+					<field name="discount" sum="Total"/>
+                    <field name="liabilities" sum="Total"/>
 				</tree>
             </field>
         </record>
