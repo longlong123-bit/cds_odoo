@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-15 05:02+0000\n"
-"PO-Revision-Date: 2020-06-15 05:02+0000\n"
+"POT-Creation-Date: 2020-06-16 11:18+0000\n"
+"PO-Revision-Date: 2020-06-16 11:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -144,14 +144,18 @@ msgstr "請求処理"
 #. module: Maintain_Bill_Management
 #. openerp-web
 #: code:addons/Maintain_Bill_Management/static/src/xml/bill_advanced_search.xml:0
+#, python-format
+msgid "Billing Address"
+msgstr "請求先"
+
+#. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__billing_code
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__billing_code
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__billing_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
-#, python-format
 msgid "Billing Code"
-msgstr "請求先"
+msgstr "請求先コード"
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__billing_liabilities_flg
@@ -166,7 +170,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Billing Name"
-msgstr "請求先名"
+msgstr "請求先名（得意先名）"
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_account_move__billing_place_id
@@ -266,13 +270,11 @@ msgid "Customer Name"
 msgstr "得意先名"
 
 #. module: Maintain_Bill_Management
-#. openerp-web
-#: code:addons/Maintain_Bill_Management/static/src/xml/bill_advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__deadline
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__deadline
-#, python-format
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Deadline"
-msgstr "期日"
+msgstr ""
 
 #. module: Maintain_Bill_Management
 #. openerp-web
@@ -297,11 +299,6 @@ msgstr "入金額"
 #, python-format
 msgid "Description"
 msgstr "適用"
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
-msgid "Detail Line"
-msgstr "売上請求伝票明細"
 
 #. module: Maintain_Bill_Management
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
@@ -439,6 +436,11 @@ msgid "No"
 msgstr "なし"
 
 #. module: Maintain_Bill_Management
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+msgid "Note"
+msgstr "備考"
+
+#. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__invoices_details_number
 msgid "Number of Invoice Details"
 msgstr ""
@@ -554,6 +556,13 @@ msgid "Taxes"
 msgstr "税"
 
 #. module: Maintain_Bill_Management
+#. openerp-web
+#: code:addons/Maintain_Bill_Management/static/src/xml/bill_advanced_search.xml:0
+#, python-format
+msgid "The Deadline"
+msgstr "締切日"
+
+#. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__customer_trans_classification_code
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__customer_trans_classification_code
 msgid "Transaction classification"
@@ -572,13 +581,9 @@ msgid "UoM"
 msgstr "単位"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
-msgid "Voucher"
-msgstr "請求書"
-
-#. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__voucher_number
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__voucher_number
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Voucher Number"
 msgstr "売伝枚数"
 
