@@ -244,6 +244,8 @@ class SupplierLedgerInquiryCustom(models.Model):
         """
             Get closing date of company
         """
+        # using global keyword
+        global val_target_month
         # get information closing date
         customer_closing_date = self.env['closing.date'].search([], limit=1)
         _start = 1
@@ -256,6 +258,7 @@ class SupplierLedgerInquiryCustom(models.Model):
         else:
             # set current date
             selected_date = date.today()
+            val_target_month = selected_date.strftime("%Y-%m")
 
         # get closing date of year_month_selected
         if _start >= 28:

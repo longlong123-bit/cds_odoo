@@ -13,12 +13,10 @@
     </template>
 
     <template id="report_supplier_ledger_inquiry_document">
-        <t t-call="web.external_layout">
-
             <div class="page">
 
                 <h1 style="text-align: center;">
-                    取 引 先 元 帳 照 会
+                    取引先元帳照会
                 </h1>
 
                 <span style="float: right;"
@@ -84,6 +82,7 @@
                                 <th>支払金額</th>
                                 <th>税率</th>
                                 <th>税転嫁</th>
+                                <th>伝票合計</th>
                             </tr>
                         </thead>
                         <tbody class="sale_tbody">
@@ -138,48 +137,40 @@
                                         <td>
                                             <span t-field="rows.tax_transfer"/>
                                         </td>
+                                        <td>
+                                            <span/>
+                                        </td>
                                     </t>
                                 </tr>
                             </t>
+                            <tr class="border-black o_subtotal">
+                                <td name="total_accounts_receivable_last_month" class="text-right" colspan="10">
+                                    <strong>合計</strong>
+                                </td>
+                                <td name="totalQuantity" class="text-left">
+                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.quantity for l in docs)))" />
+                                </td>
+                                <td name="totalPriceUnit" class="text-left">
+                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.price_unit for l in docs)))" />
+                                </td>
+                                <td name="totalPriceSubtotal" class="text-left">
+                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.price_subtotal for l in docs)))" />
+                                </td>
+                                <td name="totalPaymentAmount" class="text-left">
+                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.payment_amount for l in docs)))" />
+                                </td>
+                                <td name="totalTaxAmount" class="text-left">
+                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.tax_base_amount for l in docs)))" />
+                                </td>
+                                <td/>
+                                <td name="slipTotal" class="text-left">
+                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.slip_total for l in docs)))" />
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-
-                <div class="clearfix" name="so_total_summary">
-                    <div id="total" class="row" name="total">
-                        <div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
-                            <table class="table table-sm">
-                                <tr class="border-black o_subtotal">
-                                    <td name="slipTotal">
-                                        <strong>伝票合計</strong>
-                                    </td>
-                                    <td name="slipTotal" class="text-right">
-                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.slip_total for l in docs)))" />
-                                    </td>
-                                </tr>
-
-                                <tr class="border-black o_subtotal" style="">
-                                    <td name="totalQuantity">
-                                        <strong>合計数量</strong>
-                                    </td>
-                                    <td name="totalQuantity" class="text-right">
-                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.quantity for l in docs)))" />
-                                    </td>
-                                </tr>
-                                <tr class="border-black o_total">
-                                    <td name="totalFee">
-                                        <strong>合計金額</strong>
-                                    </td>
-                                    <td name="totalFee" class="text-right">
-                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.price_subtotal for l in docs)))" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </t>
     </template>
 
 </odoo>
