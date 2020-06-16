@@ -12,19 +12,19 @@
           <tr>
             <th>事業部</th>
             <td>
-              <input class="filter-item" data-operator="ilike" data-name="division" type="number"/>
+              <input class="filter-item" data-operator="=" data-name="division" type="number"/>
             </td>
           </tr>
           <tr>
             <th>営業担当者</th>
             <td>
-              <input class="filter-item" data-operator="ilike" data-name="sales_rep" type="number"/>
+              <input class="filter-item" data-operator="=" data-name="sales_rep" type="number"/>
             </td>
           </tr>
           <tr>
             <th>取引先グループ</th>
             <td>
-              <input class="filter-item" data-operator="ilike" data-name="customer_supplier_group_code"/>
+              <input class="filter-item" data-operator="=" data-name="customer_supplier_group_code"/>
             </td>
           </tr>
           <tr>
