@@ -16,8 +16,8 @@
                     <th><span>Product UOM</span></th>
                     <th><span>Price Unit</span></th>
                     <th><span>Line Amount</span></th>
+                    <th><span>Tax Rate</span></th>
                     <th><span>Tax Amount</span></th>
-                    <th><span>Taxes</span></th>
                     <th><span>Description</span></th>
                 </tr>
             </thead>
@@ -34,8 +34,8 @@
                     <td><span t-if="record.product_uom[1]" t-esc="record.product_uom[1]"/></td>
                     <td><span t-if="record.price_unit" t-esc="record.price_unit"/></td>
                     <td><span t-if="record.line_amount" t-esc="record.line_amount"/></td>
+                    <td><span t-if="record.tax_rate" t-esc="record.tax_rate"/></td>
                     <td><span t-if="record.line_tax_amount" t-esc="record.line_tax_amount"/></td>
-                    <td><span t-if="record.tax_id" t-esc="record.tax_id"/></td>
                     <td><span t-if="record.name" t-esc="record.name"/></td>
                 </tr>
           </t>

@@ -318,10 +318,11 @@
                 <field name="invoice_custom_lineamount"/>
 <!--                <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
                 <field name="tax_ids" string="Taxes"
-                       widget="many2many_tags" readonly="False"
+                       widget="many2many_tags" readonly="False" invisible="True"
                        domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
                        context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
                        options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+                <field name="tax_rate" string="Tax Rate" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
                 <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
 <!--                       attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
                 <field name="invoice_custom_uom_cost_value"/>
