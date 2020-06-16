@@ -175,10 +175,6 @@ class CollationPayment(models.Model):
                     search_print_child = se[2]
                     print('seeeee', se[2])
 
-                print('address_type', search_address_type)
-                print('cash_type', search_cash_type)
-                print('claim_type', search_claim_type)
-                print('aaaaa', search_print_child)
         else:
             domain = args
 
