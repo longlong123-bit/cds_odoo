@@ -26,9 +26,9 @@ search_print_child = ''
 
 class CollationPayment(models.Model):
     _inherit = 'bill.info'
-    address_type = fields.Integer('address_type', default=1)
-    cash_type = fields.Integer('cash_type', default=1)
-    claim_type = fields.Integer('claim_type', default=1)
+    address_type = fields.Integer('address_type', default=1, store=False)
+    cash_type = fields.Integer('cash_type', default=1, store=False)
+    claim_type = fields.Integer('claim_type', default=1, store=False)
     search_last_closing_date_from = fields.Date('Last Closing Date From', compute='_set_search_field', store=False)
     search_last_closing_date_to = fields.Date('Last Closing Date To', compute='_set_search_field', store=False)
     search_closing_date_from = fields.Date('Closing Date From', compute='_set_search_field', store=False)
@@ -101,7 +101,7 @@ class CollationPayment(models.Model):
 
         print(args)
 
-        if ctx.get('view_code') == '0001':
+        if ctx.get('view_code') == 'bill_report':
             global search_last_closing_date_from
             global search_last_closing_date_to
             global search_closing_date_from
