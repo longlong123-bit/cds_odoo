@@ -31,8 +31,9 @@
             <field name="res_model">bill.info</field>
             <field name="view_mode">tree</field>
             <field name="view_id" ref="payment_request_tree_view"/>
+            <field name="context">{'view_code' : '0001'}</field>
         </record>
-        <menuitem id="menu_ideas" name="Payment Request Bill" sequence="10"
+        <menuitem id="menu_ideas" name="Payment Request Bill" parent="Maintain_Bill_Management.parent_menu_bill_management" sequence="4"
                   action="payment_request_action" groups="base.group_user"/>
     </data>
 </odoo>
