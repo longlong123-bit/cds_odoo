@@ -228,7 +228,7 @@ class AccountsReceivableBalanceList(models.Model):
                 "           AND payment_date BETWEEN '{last_closing_date}' AND '{current_closing_date}' " \
                 "       GROUP BY account_payment.partner_id " \
                 "   ) AS deposit_amount," \
-                "   SUM(amount_total) FILTER (WHERE x_studio_date_invoiced BETWEEN " \
+                "   SUM(amount_untaxed) FILTER (WHERE x_studio_date_invoiced BETWEEN " \
                 "       '{last_closing_date}' AND '{current_closing_date}') " \
                 "       over(PARTITION BY commercial_partner_id) AS purchase_amount, " \
                 "   SUM(amount_tax) FILTER (WHERE x_studio_date_invoiced BETWEEN " \
@@ -241,7 +241,8 @@ class AccountsReceivableBalanceList(models.Model):
                 "   commercial_partner_id, " \
                 "   amount_total, " \
                 "   x_studio_date_invoiced, " \
-                "   amount_tax".format(
+                "   amount_tax," \
+                "   amount_untaxed".format(
             last_closing_date=closing_date['last_closing_date'],
             current_closing_date=closing_date['current_closing_date'],
             condition_division_sales_rep=condition_division_sales_rep
@@ -258,7 +259,7 @@ class AccountsReceivableBalanceList(models.Model):
         domain = []
         order = ''
         liabilities_context = self._context.copy()
-        if liabilities_context and 'liabilities_module' in liabilities_context:
+        if liabilities_context and liabilities_context.get('liabilities_module'):
             # using global keyword
             global val_target_month
             global val_division
@@ -290,7 +291,8 @@ class AccountsReceivableBalanceList(models.Model):
                     val_sales_rep = record[2]
                     continue
                 if record[0] == 'customer_supplier_group_code':
-                    val_customer_supplier_group_code = record[2]
+                    val_customer_supplier_group_code = int(record[2])
+                    record[2] = int(record[2])
                 if record[0] == 'customer_code_bill_from':
                     val_customer_code_bill_from = record[2]
                     record[0] = 'customer_code_bill'
