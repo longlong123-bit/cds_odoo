@@ -3,7 +3,7 @@
 <templates id="template" xml:space="preserve">
     <t t-name="template_many2one_history_widget_quotation">
         <div>
-            <button class='show_quotation_history_dialog'>
+            <button class='show_quotation_history_dialog' style="width: 120px!important;">
                 見積履歴問合せ
             </button>
         </div>
@@ -11,7 +11,7 @@
 
     <t t-name="template_many2one_history_widget_quotation_detail">
         <div>
-            <button class='show_detail_history_dialog'>
+            <button class='show_detail_history_dialog' style="width: 120px!important;">
                 見積履歴問合せ
             </button>
         </div>
