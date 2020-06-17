@@ -1,4 +1,5 @@
 from odoo import api, fields, models
+# from datetime import date
 
 
 class PrintPaymentRequest(models.Model):
@@ -31,40 +32,15 @@ class PrintPaymentRequest(models.Model):
                                    string='Salesperson',
                                    default=lambda self: self.env.user)
 
-    # billing_code1 = fields.Char('billing_code')
-    # billing_name1 = fields.Char('billing_name')
-    # bill_no1 = fields.Char('bill_no')
-    # last_billed_amount1 = fields.Char('last_billed_amount')
-    # deposit_amount1 = fields.Char('deposit_amount')
-    # balance_amount1 = fields.Char('balance_amount')
-    # amount_untaxed1 = fields.Char('amount_untaxed')
-    # tax_amount1 = fields.Char('tax_amount')
-    # amount_total1 = fields.Char('amount_total', compute='_get_value_1', store=False)
-    # last_closing_date1 = fields('last_closing_date')
-    # customer_other_cd1 = fields.Char('customer_other_cd')
-    # invoices_number1 = fields.Char('invoices_number')
-
-    # bill_invoice_ids = fields.One2many('bill.invoice', 'bill_info_id', string='Bill Invoice Ids')
-    # def _get_bill_invoice_ids(self):
-    #     for ge in self:
-    #         print(ge.billing_code)
-    #         print(ge.last_closing_date)
-    #         ge.bill_invoice_ids = self.env['bill.invoice'].search(
-    #             [('billing_code', '=', ge.billing_code), ('last_closing_date', '=', ge.last_closing_date)])
-    #         print(ge.bill_invoice_ids)
-    # def report_dialog(self):
-    #     return {
-    #         'type': ''
-    #     }
 
     # Custom preview invoice
-    def preview_invoice(self):
-        return {
-            'type': 'ir.actions.report',
-            'report_name': 'Maintain_Payment_Request_Bill.payment_request_bill',
-            'model': 'bill.invoice',
-            'report_type': "qweb-html",
-        }
+    # def preview_invoice(self):
+    #     return {
+    #         'type': 'ir.actions.report',
+    #         'report_name': 'Maintain_Payment_Request_Bill.payment_request_bill',
+    #         'model': 'bill.invoice',
+    #         'report_type': "qweb-html",
+    #     }
     # @api.one
 
 
@@ -75,9 +51,12 @@ class BillInfoGet(models.Model):
         for cd in self:
             # if self.partner_id:
             cd.customer_other_cd = cd.partner_id.customer_other_cd
+        # self.bill_report_print_date = date.today()
+        # print(self.bill_report_print_date)
 
     # その他CD
     customer_other_cd = fields.Char('Customer CD', readonly=True, compute='_get_customer_other_cd')
+    # bill_report_print_date = fields.Date('bill_report_print_date', compute='_get_customer_other_cd', store=False)
 
 
 class PartnerClass(models.Model):
