@@ -129,6 +129,14 @@ class NewClassPartnerCustom(models.Model):
             result.append((record.id, search_key_show))
         return result
 
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        recs = self.browse()
+        if not recs:
+            recs = self.search([('customer_code', operator, name)] + args, limit=limit)
+        return recs.name_get()
+
     @api.constrains('customer_code')
     def _check_unique_searchkey(self):
         exists = self.env['res.partner'].search(

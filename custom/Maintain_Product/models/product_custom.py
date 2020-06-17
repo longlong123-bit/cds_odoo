@@ -237,6 +237,14 @@ class ProductTemplate(models.Model):
                 result.append(_name_get(mydict))
         return result
 
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        recs = self.browse()
+        if not recs:
+            recs = self.search([('product_code_1', operator, name)] + args, limit=limit)
+        return recs.name_get()
+
     def open_pricelist(self):
         self.ensure_one()
         domain = ['|',
