@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-10 11:23+0000\n"
-"PO-Revision-Date: 2020-06-10 11:23+0000\n"
+"POT-Creation-Date: 2020-06-17 10:57+0000\n"
+"PO-Revision-Date: 2020-06-17 10:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -80,12 +80,15 @@ msgid "Bill Discount Rate"
 msgstr "請求値引率"
 
 #. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_code_bill
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_code_bill
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
+#, python-format
 msgid "Billing Code"
-msgstr "請求先コード"
+msgstr "請求先"
 
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
@@ -157,17 +160,6 @@ msgid "Consumption Tax Calculation Category*"
 msgstr "消費税計算区分*"
 
 #. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_tax_category
-#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_tax_category
-msgid "Consumption Tax Category"
-msgstr "消費税区分"
-
-#. module: Maintain_Business_Partners_Remake
-#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
-msgid "Consumption Tax Category*"
-msgstr "消費税区分*"
-
-#. module: Maintain_Business_Partners_Remake
 #: model:ir.model,name:Maintain_Business_Partners_Remake.model_res_partner
 msgid "Contact"
 msgstr "連絡先"
@@ -208,11 +200,14 @@ msgid "Customer CD"
 msgstr "その他CD"
 
 #. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_code
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
+#, python-format
 msgid "Customer Code"
 msgstr "得意先コード"
 
@@ -222,19 +217,25 @@ msgid "Customer Code*"
 msgstr "得意先コード*"
 
 #. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
+#, python-format
 msgid "Customer Name"
 msgstr "得意先名称"
 
 #. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_name_kana
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_name_kana
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
+#, python-format
 msgid "Customer Name Kana"
 msgstr "得意先ｶﾅ"
 
@@ -322,11 +323,6 @@ msgid "Fax"
 msgstr "FAX番号"
 
 #. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_category__foreign
-msgid "Foreign Tax"
-msgstr "外税"
-
-#. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
 msgid "Greeting"
 msgstr "敬称"
@@ -352,11 +348,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
 msgid "Industry Code"
 msgstr "業種コード"
-
-#. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_category__internal
-msgid "Internal Tax"
-msgstr "内税"
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_invoic_address
@@ -522,13 +513,16 @@ msgid "Remit-To Address"
 msgstr "支払先"
 
 #. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_agent
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_agent
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_tree
+#, python-format
 msgid "Representative/Agent"
-msgstr "担当者"
+msgstr "営業担当者"
 
 #. module: Maintain_Business_Partners_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
@@ -615,11 +609,6 @@ msgid "Supplier Group Code*"
 msgstr "取引先グループコード*"
 
 #. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_category__exempt
-msgid "Tax Exempt"
-msgstr "非課税"
-
-#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_tax_rounding
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_tax_rounding
 msgid "Tax Rounding"
@@ -631,6 +620,7 @@ msgid "Tax Rounding*"
 msgstr "消費税端数処理*"
 
 #. module: Maintain_Business_Partners_Remake
+#: code:addons/Maintain_Business_Partners_Remake/models/partner_customer_remake.py:0
 #: code:addons/Maintain_Business_Partners_Remake/models/partner_customer_remake.py:0
 #: model:ir.model.constraint,message:Maintain_Business_Partners_Remake.constraint_res_partner_name_code_uniq
 #, python-format
