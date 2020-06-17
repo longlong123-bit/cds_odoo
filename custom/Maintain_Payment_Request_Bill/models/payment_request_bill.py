@@ -43,6 +43,7 @@ class CollationPayment(models.Model):
     search_bill_sale_rep = fields.Char('search_bill_sale_rep', compute='_set_search_field', store=False)
     search_bill_group = fields.Char('search_bill_group', compute='_set_search_field', store=False)
     search_print_child = fields.Integer('search_bill_group', compute='_set_search_field', store=False)
+    bill_invoice_ids_test = fields.Char('billing_code_from', compute='_set_search_field', store=False)
 
     bill_sale_rep = fields.Char('bill_sale_rep')
     sale_rep_id = fields.Many2one('res.users')
@@ -89,99 +90,3 @@ class CollationPayment(models.Model):
             search.search_bill_group = search_bill_group
             search.search_print_child = search_print_child
 
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-        odoo/models.py
-        """
-
-        ctx = self._context.copy()
-
-        domain = []
-
-        print(args)
-
-        if ctx.get('view_code') == 'bill_report':
-            global search_last_closing_date_from
-            global search_last_closing_date_to
-            global search_closing_date_from
-            global search_closing_date_to
-            # global search_billing_name
-            global search_billing_code_from
-            global search_billing_code_to
-            global search_address_type
-            global search_cash_type
-            global search_claim_type
-            global search_bill_job_title
-            global search_bill_sale_rep
-            global search_bill_group
-            global search_print_child
-            search_last_closing_date_from = ''
-            search_last_closing_date_to = ''
-            search_closing_date_from = ''
-            search_closing_date_to = ''
-            search_billing_code_from = ''
-            search_billing_code_to = ''
-            search_address_type = ''
-            search_cash_type = ''
-            search_claim_type = ''
-            search_bill_job_title = ''
-            search_bill_sale_rep = ''
-            search_bill_group = ''
-            search_print_child = ''
-
-            for se in args:
-                if se[0] == 'last_closing_date' and se[1] == '>=':
-                    search_last_closing_date_from = se[2]
-                    domain += [se]
-                if se[0] == 'last_closing_date' and se[1] == '<=':
-                    search_last_closing_date_to = se[2]
-                    domain += [se]
-                if se[0] == 'closing_date' and se[1] == '>=':
-                    search_closing_date_from = se[2]
-                    domain += [se]
-                if se[0] == 'closing_date' and se[1] == '<=':
-                    search_closing_date_to = se[2]
-                    domain += [se]
-                if se[0] == 'billing_code' and se[1] == '>=':
-                    search_billing_code_from = se[2]
-                    domain += [se]
-                if se[0] == 'billing_code' and se[1] == '<=':
-                    search_billing_code_to = se[2]
-                    domain += [se]
-                # if se[0]=='bill_job_title':
-                #     search_bill_job_title = se[2]
-                #     domain +=[se]
-                if se[0] == 'bill_job_title':
-                    search_bill_job_title = se[2]
-                    domain += [se]
-                if se[0] == 'bill_sale_rep':
-                    search_bill_sale_rep = se[2]
-                    domain += [se]
-                if se[0] == 'bill_group':
-                    search_bill_group = se[2]
-                    domain += [se]
-                if se[0] == 'address_type':
-                    search_address_type = se[2]
-                    if se[2] == 1:
-                        order = 'user_id'
-                    else:
-                        order = 'billing_code'
-                if se[0] == 'cash_type':
-                    search_cash_type = se[2]
-                if se[0] == 'claim_type':
-                    search_claim_type = se[2]
-                if se[0] == 'print_child':
-                    search_print_child = se[2]
-                    # print('seeeee', se[2])
-
-        else:
-            domain = args
-
-
-            # domain += [se]
-
-        # search_x_studio_date_invoiced
-
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
