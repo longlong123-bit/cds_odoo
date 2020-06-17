@@ -277,56 +277,51 @@ class AccountsReceivableBalanceList(models.Model):
             Get condition search of module
         """
         domain = []
-        order = ''
-        liabilities_context = self._context.copy()
-        if liabilities_context and liabilities_context.get('liabilities_module'):
-            # using global keyword
-            global val_target_month
-            global val_division
-            global val_sales_rep
-            global val_customer_supplier_group_code
-            global val_customer_code_bill_from
-            global val_customer_code_bill_to
-            global val_display_order
-            # reset global keyword
-            val_target_month = datetime.today().strftime('%Y-%m')
-            val_division = ''
-            val_sales_rep = ''
-            val_customer_supplier_group_code = ''
-            val_customer_code_bill_from = ''
-            val_customer_code_bill_to = ''
-            val_display_order = '担当者請求先（コード）'
-            order = 'user_id'
+        # using global keyword
+        global val_target_month
+        global val_division
+        global val_sales_rep
+        global val_customer_supplier_group_code
+        global val_customer_code_bill_from
+        global val_customer_code_bill_to
+        global val_display_order
+        # reset global keyword
+        val_target_month = datetime.today().strftime('%Y-%m')
+        val_division = ''
+        val_sales_rep = ''
+        val_customer_supplier_group_code = ''
+        val_customer_code_bill_from = ''
+        val_customer_code_bill_to = ''
+        val_display_order = '担当者請求先（コード）'
+        order = 'user_id'
 
-            for record in args:
-                if record[0] == '&':
-                    continue
-                if record[0] == 'target_month':
-                    val_target_month = record[2]
-                    continue
-                if record[0] == 'division':
-                    val_division = record[2]
-                    continue
-                if record[0] == 'sales_rep':
-                    val_sales_rep = record[2]
-                    continue
-                if record[0] == 'customer_supplier_group_code':
-                    val_customer_supplier_group_code = int(record[2])
-                    record[2] = int(record[2])
-                if record[0] == 'customer_code_bill_from':
-                    val_customer_code_bill_from = record[2]
-                    record[0] = 'customer_code_bill'
-                if record[0] == 'customer_code_bill_to':
-                    val_customer_code_bill_to = record[2]
-                    record[0] = 'customer_code_bill'
-                if record[0] == 'display_order':
-                    if record[2] == '1':
-                        order = 'customer_code_bill'
-                        val_display_order = '請求先（コード）'
-                    continue
-                domain += [record]
-        else:
-            domain = args
+        for record in args:
+            if record[0] == '&':
+                continue
+            if record[0] == 'target_month':
+                val_target_month = record[2]
+                continue
+            if record[0] == 'division':
+                val_division = record[2]
+                continue
+            if record[0] == 'sales_rep':
+                val_sales_rep = record[2]
+                continue
+            if record[0] == 'customer_supplier_group_code':
+                val_customer_supplier_group_code = int(record[2])
+                record[2] = int(record[2])
+            if record[0] == 'customer_code_bill_from':
+                val_customer_code_bill_from = record[2]
+                record[0] = 'customer_code_bill'
+            if record[0] == 'customer_code_bill_to':
+                val_customer_code_bill_to = record[2]
+                record[0] = 'customer_code_bill'
+            if record[0] == 'display_order':
+                if record[2] == '1':
+                    order = 'customer_code_bill'
+                    val_display_order = '請求先（コード）'
+                continue
+            domain += [record]
 
         result = {
             'args': domain,
