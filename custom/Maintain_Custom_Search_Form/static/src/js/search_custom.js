@@ -19,7 +19,7 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
     var FilterMenu = require('web.FilterMenu_free');
     var QWeb = core.qweb;
     var model = null;
-    var view_id = null;
+    var viewName = null;
 
     var My_FilterMenu = FilterMenu.include({
         /**
@@ -33,8 +33,22 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
             } else if (a.action.controlPanelFieldsView !== undefined) {
                 model = a.action.controlPanelFieldsView.model;
             }
-            if (a.action.view_id !== undefined) {
-                view_id = a.action.view_id[1];
+
+            if (a.action.view_id) {
+                viewName = a.action.view_id[1];
+            } else if (a.action.controlPanelFieldsView !== undefined) {
+                viewName = a.action.controlPanelFieldsView.name;
+            }
+
+            // Set alias
+            var alias = this.alias || {};
+
+            if (alias.model) {
+                model = alias.model[model] || model;
+            }
+
+            if (alias.view) {
+                viewName = alias.view[viewName] || viewName;
             }
         },
 
@@ -52,36 +66,44 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
         /**
          * Is advanced search model
          */
-        _isAdvancedSearchModel: function(){
-            if (this.advancedSearch != undefined && this.advancedSearch[model] !== undefined) {
-                return true;
+        _getAdvancedSearch: function(){
+            if (!model || !this.advancedSearch || !this.advancedSearch[model]) {
+                return;
             }
 
-            return false;
+            if (viewName) {
+                if (this.advancedSearch[model][viewName]) {
+                    return this.advancedSearch[model][viewName];
+                }
+            }
+
+            if (this.advancedSearch[model].template) {
+                return this.advancedSearch[model];
+            }
+
+            return;
         },
 
         /**
          * Append proposition with template
          */
         _appendPropositionWithTemplate: function(){
-            var mdl = model.replace('.', '__');
+            var mdl = 'm_' + model.replace('.', '__') + (viewName ? 'v_' + viewName.replace('.', '__') : '');
             this.$menu.find('>*:not(.o_add_filter_menu,.advanced_search_'+mdl+')').remove();
             if (this.$menu.find('.advanced_search_' + mdl).length == 0) {
-                var template = null;
-                if (this.advancedSearch[model][view_id] && this.advancedSearch[model][view_id].template){
-                    template = this.advancedSearch[model][view_id].template;
-                } else {
-                    template = this.advancedSearch[model].template
-                }
-                if (!template){
+                var setting = this._getAdvancedSearch();
+
+                if (!setting){
                     return;
                 }
-                var html = QWeb.render(template, {
+
+                var html = QWeb.render(setting.template, {
                     records: this.advancedSearch[model].records || [],
                     res: this,
                     _t: _t,
                     _lt: _lt
                 });
+
                 this.$menu.prepend('<div class="advanced_search_'+mdl+' advanced_search">' + html + '</div>');
             }
         },
@@ -144,7 +166,7 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
          * @returns {Promise}
          */
         _appendProposition: function () {
-            if (this._isAdvancedSearchModel()) {
+            if (this._getAdvancedSearch()) {
                 this._appendPropositionWithTemplate();
             } else {
                 this._appendPropositionWithoutTemplate();
@@ -307,7 +329,7 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
          * Get all data in form search
          */
         _commitSearch: function () {
-            if (this._isAdvancedSearchModel()) {
+            if (this._getAdvancedSearch()) {
                 this._commitSearchWithTemplate();
             } else {
                 this._commitSearchWithoutTemplate();

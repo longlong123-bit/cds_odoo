@@ -10,57 +10,57 @@
                 <h4 class="modal-title"><t t-raw="title"/><span class="o_subtitle text-muted small"><t t-esc="subtitle"/></span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="-1">×</button>
             </header>
-            <div class="search_form" style="padding:20px 20px 20px 20px">
-                <table style="width:100%!important; padding:20px 20px 20px 20px" class="custom-form-table">
-                    <tr>
-                        <td class="col-label" >見積No &gt;=</td>
-                        <td>
-                            <input type="text" name="search_document_reference_from"/>
-                        </td>
-                        <td class="col-label">見積No &lt;= </td>
-                        <td><input type="text" name="search_document_reference_to" ></input></td>
-
-                        <td class="col-label">得意先コード</td>
-                        <td><input type="text" name="search_customer_code" ></input></td>
-                    </tr>
-
-                    <tr>
-                        <td class="col-label" >見積書No &gt;=</td>
-                        <td>
-                            <input type="text" name="search_document_no_from"/>
-                        </td>
-                        <td class="col-label">見積書No &lt;= </td>
-                        <td><input type="text" name="search_document_no_to" ></input></td>
-
-                        <td class="col-label">得意先名</td>
-                        <td><input type="text" name="search_customer_name"></input></td>
-                    </tr>
-
-                    <tr>
-                        <td class="col-label" >見積日付 &gt;=</td>
-                        <td>
-                            <span class="search_quotations_date_from" />
-                        </td>
-
-                        <td class="col-label">見積日付 &lt;= </td>
-                        <td><span class="search_quotations_date_to"/></td>
-
-                        <td class="col-label">入力担当者</td>
-                        <td>
-                            <input type="text" name="search_input_person"></input>
-                        </td>
-                    </tr>
+<!--            <div class="search_form" style="padding:20px 20px 20px 20px">-->
+<!--                <table style="width:100%!important; padding:20px 20px 20px 20px" class="custom-form-table">-->
 <!--                    <tr>-->
-<!--                        <td></td>-->
-<!--                        <td></td>-->
-<!--                        <td></td>-->
-<!--                        <td></td>-->
+<!--                        <td class="col-label" >見積No &gt;=</td>-->
+<!--                        <td>-->
+<!--                            <input type="text" name="search_document_reference_from"/>-->
+<!--                        </td>-->
+<!--                        <td class="col-label">見積No &lt;= </td>-->
+<!--                        <td><input type="text" name="search_document_reference_to" ></input></td>-->
+
+<!--                        <td class="col-label">得意先コード</td>-->
+<!--                        <td><input type="text" name="search_customer_code" ></input></td>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                        <td class="col-label" >見積書No &gt;=</td>-->
+<!--                        <td>-->
+<!--                            <input type="text" name="search_document_no_from"/>-->
+<!--                        </td>-->
+<!--                        <td class="col-label">見積書No &lt;= </td>-->
+<!--                        <td><input type="text" name="search_document_no_to" ></input></td>-->
+
 <!--                        <td class="col-label">得意先名</td>-->
 <!--                        <td><input type="text" name="search_customer_name"></input></td>-->
 <!--                    </tr>-->
-                </table>
-            </div>
-            <div class="cp_paging" style="float:right"></div>
+
+<!--                    <tr>-->
+<!--                        <td class="col-label" >見積日付 &gt;=</td>-->
+<!--                        <td>-->
+<!--                            <span class="search_quotations_date_from" />-->
+<!--                        </td>-->
+
+<!--                        <td class="col-label">見積日付 &lt;= </td>-->
+<!--                        <td><span class="search_quotations_date_to"/></td>-->
+
+<!--                        <td class="col-label">入力担当者</td>-->
+<!--                        <td>-->
+<!--                            <input type="text" name="search_input_person"></input>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--&lt;!&ndash;                    <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td class="col-label">得意先名</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <td><input type="text" name="search_customer_name"></input></td>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </tr>&ndash;&gt;-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div class="cp_paging" style="float:right"></div>-->
             <main class="modal-body" >
             </main>
             <footer t-if="renderFooter" class="modal-footer"/>
@@ -75,29 +75,29 @@
                 <h4 class="modal-title"><t t-raw="title"/><span class="o_subtitle text-muted small"><t t-esc="subtitle"/></span></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="-1">×</button>
             </header>
-            <div class="search_form" style="padding:20px 20px 20px 20px">
-                <table style="width:100%!important; padding:20px 20px 20px 20px" class="custom-form-table">
-                    <tr>
-                        <td class="col-label" >商品コード</td>
-                        <td><input type="text" name="search_product_code" ></input></td>
+<!--            <div class="search_form" style="padding:20px 20px 20px 20px">-->
+<!--                <table style="width:100%!important; padding:20px 20px 20px 20px" class="custom-form-table">-->
+<!--                    <tr>-->
+<!--                        <td class="col-label" >商品コード</td>-->
+<!--                        <td><input type="text" name="search_product_code" ></input></td>-->
 
-                        <td class="col-label">JANコード</td>
-                        <td><input type="text" name="search_jan_code"></input></td>
-                        <td class="col-label">品番/型番</td>
-                        <td>
-                            <input type="text" name="search_standard_number"></input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-label" >商品名</td>
-                        <td><input type="text" name="search_product_name"></input></td>
+<!--                        <td class="col-label">JANコード</td>-->
+<!--                        <td><input type="text" name="search_jan_code"></input></td>-->
+<!--                        <td class="col-label">品番/型番</td>-->
+<!--                        <td>-->
+<!--                            <input type="text" name="search_standard_number"></input>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <td class="col-label" >商品名</td>-->
+<!--                        <td><input type="text" name="search_product_name"></input></td>-->
 
-                        <td class="col-label">メーカー名</td>
-                        <td><input type="text" name="search_category_name"></input></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="cp_paging" style="float:right"></div>
+<!--                        <td class="col-label">メーカー名</td>-->
+<!--                        <td><input type="text" name="search_category_name"></input></td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--            <div class="cp_paging" style="float:right"></div>-->
 
             <main class="modal-body" >
             </main>

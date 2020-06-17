@@ -1,3 +1,12 @@
 .modal.large-modal > .modal-dialog{
     max-width: 95%;
 }
+
+.modal > .modal-widget .modal-body{
+    overflow: unset !important;
+}
+
+.modal > .modal-widget .modal-body .o_content{
+    overflow: auto !important;
+    max-height: 500px;
+}
