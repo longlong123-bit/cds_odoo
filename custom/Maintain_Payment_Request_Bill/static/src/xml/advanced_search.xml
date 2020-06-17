@@ -30,19 +30,19 @@
             <tr>
                 <th>事業部</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="bill_job_title"/>
+                    <input class="filter-item" data-operator="ilike" data-name="hr_department_id"/>
                 </td>
             </tr>
             <tr>
                 <th>営業担当者</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="bill_sale_rep"/>
+                    <input class="filter-item" data-operator="ilike" data-name="hr_employee_id"/>
                 </td>
             </tr>
             <tr>
                 <th>取引先グループ</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="bill_group"/>
+                    <input class="filter-item" data-operator="ilike" data-name="business_partner_group_custom_id"/>
                 </td>
             </tr>
             <tr>
@@ -70,8 +70,8 @@
                 <th>現金売上</th>
                 <td>
                     <select class="filter-item" data-operator="ilike" data-name="cash_type">
-                        <option value="0">入金</option>
-                        <option value="1">入金0</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
                     </select>
                 </td>
             </tr>
@@ -79,8 +79,8 @@
                 <th>請求0</th>
                 <td>
                     <select class="filter-item" data-operator="ilike" data-name="claim_type">
-                        <option value="0">請求</option>
-                        <option value="1">請求0</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
                     </select>
                 </td>
             </tr>
@@ -88,10 +88,9 @@
                 <th>親子請求</th>
                 <td>
                     <select class="filter-item" data-operator="ilike" data-name="print_child">
-                        <option value="1">はい</option>
-                        <option value="0">いいえ</option>
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
                     </select>
-<!--                    <input type="checkbox" value="0" class="filter-item" data-operator="ilike" data-name="print_child"/>-->
                 </td>
             </tr>
         </table>
