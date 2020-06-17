@@ -70,8 +70,8 @@
                 <th>現金売上</th>
                 <td>
                     <select class="filter-item" data-operator="ilike" data-name="cash_type">
-                        <option value="1">入金</option>
-                        <option value="0">入金0</option>
+                        <option value="0">入金</option>
+                        <option value="1">入金0</option>
                     </select>
                 </td>
             </tr>
@@ -79,17 +79,17 @@
                 <th>請求0</th>
                 <td>
                     <select class="filter-item" data-operator="ilike" data-name="claim_type">
-                        <option value="1">請求</option>
-                        <option value="0">請求0</option>
+                        <option value="0">請求</option>
+                        <option value="1">請求0</option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <th>Child</th>
+                <th>親子請求</th>
                 <td>
                     <select class="filter-item" data-operator="ilike" data-name="print_child">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
+                        <option value="1">はい</option>
+                        <option value="0">いいえ</option>
                     </select>
 <!--                    <input type="checkbox" value="0" class="filter-item" data-operator="ilike" data-name="print_child"/>-->
                 </td>

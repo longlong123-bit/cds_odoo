@@ -173,7 +173,7 @@ class CollationPayment(models.Model):
                     search_claim_type = se[2]
                 if se[0] == 'print_child':
                     search_print_child = se[2]
-                    print('seeeee', se[2])
+                    # print('seeeee', se[2])
 
         else:
             domain = args
