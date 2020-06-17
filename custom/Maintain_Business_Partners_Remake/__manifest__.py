@@ -19,6 +19,9 @@
         'views/partner_custom_ref_view.xml',
         'views/sequence.xml',
     ],
+    'qweb': [
+        'static/src/xml/advanced_search.xml',
+    ],
     'demo': [],
     'installable': True,
     'application': True,
