@@ -87,6 +87,8 @@ class BillingClass(models.Model):
             # Set data for department field
             record.department = record.customer_agent.department_id.id
 
+            record.closing_date_value = record.customer_closing_date.start_day
+
         return True
 
     @api.constrains('customer_code', 'customer_code_bill')
@@ -103,6 +105,9 @@ class BillingClass(models.Model):
 
     # 締切日
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
+
+    # closing date value
+    closing_date_value = fields.Integer(size=2, min=1, max=31)
 
     # 売伝枚数
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True, store=False)
@@ -446,6 +451,10 @@ class BillingClass(models.Model):
         ctx = self._context.copy()
         if 'Billing' == ctx.get('view_name'):
             for record in args:
+                if 'customer_closing_date' == record[0]:
+                    if record[2].isnumeric():
+                        record[0] = 'closing_date_value'
+                        record[1] = '='
                 if 'customer_except_request' == record[0]:
                     if record[2] == 'True':
                         record[2] = True
