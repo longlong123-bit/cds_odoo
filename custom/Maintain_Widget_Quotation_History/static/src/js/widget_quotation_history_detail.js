@@ -313,6 +313,8 @@ var SelectCreateDialog = ViewDialog.extend({
 //                        c.parentNode.removeChild(c);
 //                    });
 
+                    $(fragment).find('.o_cp_controller .o_cp_left').empty();
+
                     // custom change checkbox --> radio
                     $(fragment).find('.o_content input[type="checkbox"]').each(function(i, c){
                         //var t = c;
@@ -408,9 +410,11 @@ var SelectCreateDialog = ViewDialog.extend({
                     });
 
                     // remove all control DOM
-                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
-                        c.parentNode.removeChild(c);
-                    });
+//                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
+//                        c.parentNode.removeChild(c);
+//                    });
+
+                    $(fragment).find('.o_cp_controller .o_cp_left').empty();
 
                     // custom change checkbox --> radio
                     $(fragment).find('.o_content input[type="checkbox"]').each(function(i, c){
