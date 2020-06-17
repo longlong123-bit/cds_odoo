@@ -303,14 +303,14 @@ var SelectCreateDialog = ViewDialog.extend({
             .then(this.setup.bind(this))
             .then(function (fragment) {
                 self.opened().then(function () {
-//                    var _o_paging;
-//
-//                    // get paging DOM
-//                    fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
-//                        _o_paging = c;
+                    var _o_paging;
+
+                    // get paging DOM
+                    fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
+                        _o_paging = c;
 //                        _o_paging.style.cssFloat = 'right';
 //                        c.parentNode.removeChild(c);
-//                    });
+                    });
 //
 //                    // remove all control DOM
 //                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
@@ -382,7 +382,7 @@ var SelectCreateDialog = ViewDialog.extend({
 //                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
 //                         c.style.cssFloat = 'right';
 //                    });
-//                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
+                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
                 });
             });
     },
@@ -404,14 +404,14 @@ var SelectCreateDialog = ViewDialog.extend({
             .then(function (fragment) {
                 self.opened().then(function () {
                     // this block code and  _search_sale_history...loadviews block code are the same --> need refactor to function
-//                    var _o_paging;
-//
-//                    // get paging DOM
-//                    fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
-//                        _o_paging = c;
+                    var _o_paging;
+
+                    // get paging DOM
+                    fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
+                        _o_paging = c;
 //                        _o_paging.style.cssFloat = 'right';
 //                        c.parentNode.removeChild(c);
-//                    });
+                    });
 //
 //                    // remove all control DOM
 //                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
@@ -483,7 +483,7 @@ var SelectCreateDialog = ViewDialog.extend({
 //                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
 //                         c.style.cssFloat = 'right';
 //                    });
-//                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
+                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
                 });
                 return _super();
             });
