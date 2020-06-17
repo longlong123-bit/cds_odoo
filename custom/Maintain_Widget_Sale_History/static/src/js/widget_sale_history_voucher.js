@@ -91,6 +91,9 @@ var ViewDialog = Dialog.extend({
                     self.$modal.find('.modal-dialog').addClass('modal-sm');
                     break;
             }
+
+            self.$modal.find('.modal-dialog').addClass('modal-widget');
+
             if (self.renderFooter) {
                 self.$footer = self.$modal.find(".modal-footer");
                 self.set_buttons(self.buttons);
@@ -306,22 +309,22 @@ var SelectCreateDialog = ViewDialog.extend({
             .then(this.setup.bind(this))
             .then(function (fragment) {
                 self.opened().then(function () {
-                    var _o_paging;
-
-                    // get paging DOM
-                    fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
-                        _o_paging = c;
-                        _o_paging.style.cssFloat = 'right';
-                        c.parentNode.removeChild(c);
-                    });
-
-                    // remove all control DOM
-                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
-                        c.parentNode.removeChild(c);
-                    });
+//                    var _o_paging;
+//
+//                    // get paging DOM
+//                    fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
+//                        _o_paging = c;
+//                        _o_paging.style.cssFloat = 'right';
+//                        c.parentNode.removeChild(c);
+//                    });
+//
+//                    // remove all control DOM
+//                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
+//                        c.parentNode.removeChild(c);
+//                    });
 
                     // custom change checkbox --> radio
-                    fragment.querySelectorAll("input").forEach(function(c){
+                    $(fragment).find('.o_content input[type="checkbox"]').each(function(i, c){
                         //var t = c;
                         c.type ='radio';
                         c.name = 'radio_custom';
@@ -330,7 +333,7 @@ var SelectCreateDialog = ViewDialog.extend({
                         c.parentNode.removeChild(label_remove);
                     });
 
-                    $(fragment).find( '.o_data_row').click(function(e){
+                    $(fragment).find('.o_data_row').click(function(e){
                         if (e.target.name === 'radio_custom') {
                             return;
                         }
@@ -351,7 +354,7 @@ var SelectCreateDialog = ViewDialog.extend({
                     });
 
                     // custom remove footer table
-                    fragment.querySelectorAll("th").forEach(function(c){
+                    $(fragment).find('.o_content th').each(function(i, c){
                         if(c.className==='o_list_record_selector'){
                             c.innerHTML='';
                         }
@@ -380,10 +383,10 @@ var SelectCreateDialog = ViewDialog.extend({
                     });
 
                     // set button
-                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
-                         c.style.cssFloat = 'right';
-                    });
-                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
+//                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
+//                         c.style.cssFloat = 'right';
+//                    });
+//                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
                 });
             });
     },
@@ -405,22 +408,22 @@ var SelectCreateDialog = ViewDialog.extend({
             .then(function (fragment) {
                 self.opened().then(function () {
                     // this block code and  _search_sale_history...loadviews block code are the same --> need refactor to function
-                    var _o_paging;
+//                    var _o_paging;
 
                     // get paging DOM
-                    fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
-                        _o_paging = c;
-                        _o_paging.style.cssFloat = 'right';
-                        c.parentNode.removeChild(c);
-                    });
-
-                    // remove all control DOM
-                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
-                        c.parentNode.removeChild(c);
-                    });
+//                    fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
+//                        _o_paging = c;
+//                        _o_paging.style.cssFloat = 'right';
+//                        c.parentNode.removeChild(c);
+//                    });
+//
+//                    // remove all control DOM
+//                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
+//                        c.parentNode.removeChild(c);
+//                    });
 
                     // custom change checkbox --> radio
-                    fragment.querySelectorAll("input").forEach(function(c){
+                    $(fragment).find('.o_content input[type="checkbox"]').each(function(i, c){
                         //var t = c;
                         c.type ='radio';
                         c.name = 'radio_custom';
@@ -429,7 +432,7 @@ var SelectCreateDialog = ViewDialog.extend({
                         c.parentNode.removeChild(label_remove);
                     });
 
-                    $(fragment).find( '.o_data_row').click(function(e){
+                    $(fragment).find('.o_data_row').click(function(e){
                         if (e.target.name === 'radio_custom') {
                             return;
                         }
@@ -450,7 +453,7 @@ var SelectCreateDialog = ViewDialog.extend({
                     });
 
                     // custom remove footer table
-                    fragment.querySelectorAll("th").forEach(function(c){
+                    $(fragment).find('.o_content th').each(function(i, c){
                         if(c.className==='o_list_record_selector'){
                             c.innerHTML='';
                         }
@@ -479,10 +482,10 @@ var SelectCreateDialog = ViewDialog.extend({
                     });
 
                     // set button
-                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
-                         c.style.cssFloat = 'right';
-                    });
-                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
+//                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
+//                         c.style.cssFloat = 'right';
+//                    });
+//                    self.set_buttons(self.__buttons,_o_paging.innerHTML);
                 });
                 return _super();
             });
