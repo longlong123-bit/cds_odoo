@@ -42,3 +42,11 @@ class FreightCategory(models.Model):
             search_key_show = str(record.name)
             result.append((record.id, search_key_show))
         return result
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        recs = self.browse()
+        if not recs:
+            recs = self.search([('search_key_freight', operator, name)] + args, limit=limit)
+        return recs.name_get()
