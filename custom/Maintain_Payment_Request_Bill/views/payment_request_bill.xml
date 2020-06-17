@@ -14,12 +14,13 @@
                     <field name="balance_amount" string="繰越金額"/>
                     <field name="amount_untaxed" string="御買上金額" readonly="True"/>
                     <field name="tax_amount" string="消費税" readonly="True"/>
-                    <!--                                        <field name="amount_untaxed" string="請求値引額"/>-->
                     <field name="amount_total" string='今回請求金額' readonly="True"/>
                     <field name="last_closing_date" string="締切日"/>
                     <field name="customer_other_cd" string='その他CD' readonly="True"/>
                     <field name="invoices_number" string='売伝枚数' readonly="True"/>
-                    <!--                    <field name="search_address_type"/>-->
+                    <field name="hr_department_id" invisible="1"/>
+                    <field name="hr_employee_id" invisible="1"/>
+                    <field name="business_partner_group_custom_id" invisible="1"/>
                 </tree>
             </field>
         </record>

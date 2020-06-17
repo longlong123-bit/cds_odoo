@@ -234,6 +234,7 @@ class BillingClass(models.Model):
                 'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                 'customer_closing_date_id': partner_ids.customer_closing_date.id,
                 'customer_excerpt_request': partner_ids.customer_except_request,
+                'closing_date_value': partner_ids.closing_date_value,
             })
 
             for invoice in invoice_ids:
@@ -256,6 +257,7 @@ class BillingClass(models.Model):
                     'hr_department_id': partner_ids.customer_agent.department_id.id,
                     'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                     'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                    'closing_date_value': partner_ids.closing_date_value,
                 })
 
                 for line in invoice.invoice_line_ids:
@@ -276,6 +278,7 @@ class BillingClass(models.Model):
                         'hr_department_id': partner_ids.customer_agent.department_id.id,
                         'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                         'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                        'closing_date_value': partner_ids.closing_date_value,
                     })
 
         return {
@@ -343,10 +346,12 @@ class BillingClass(models.Model):
 
         _balance_amount = _last_billed_amount - _deposit_amount
 
+        _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
+
         _bill_info_ids = self.env['bill.info'].create({
             'billing_code': self.customer_code,
             'billing_name': self.name,
-            'bill_no': 'BIL/',
+            'bill_no': _bill_no,
             'bill_date': date.today(),
             'last_closing_date': self.last_closing_date,
             'closing_date': self.deadline,
@@ -368,6 +373,7 @@ class BillingClass(models.Model):
             'business_partner_group_custom_id': self.customer_supplier_group_code.id,
             'customer_closing_date_id': self.customer_closing_date.id,
             'customer_excerpt_request': self.customer_except_request,
+            'closing_date_value': self.closing_date_value,
         })
 
         for invoice in invoice_ids:
@@ -375,7 +381,7 @@ class BillingClass(models.Model):
                 'bill_info_id': _bill_info_ids.id,
                 'billing_code': self.customer_code,
                 'billing_name': self.name,
-                'bill_no': 'BIL/',
+                'bill_no': _bill_no,
                 'bill_date': date.today(),
                 'last_closing_date': self.last_closing_date,
                 'closing_date': self.deadline,
@@ -390,6 +396,7 @@ class BillingClass(models.Model):
                 'hr_department_id': self.customer_agent.department_id.id,
                 'business_partner_group_custom_id': self.customer_supplier_group_code.id,
                 'customer_closing_date_id': self.customer_closing_date.id,
+                'closing_date_value': self.closing_date_value,
             })
 
             for line in invoice_line_ids:
@@ -398,7 +405,7 @@ class BillingClass(models.Model):
                     'bill_invoice_id': _bill_invoice_ids.id,
                     'billing_code': self.customer_code,
                     'billing_name': self.name,
-                    'bill_no': 'BIL/',
+                    'bill_no': _bill_no,
                     'bill_date': date.today(),
                     'last_closing_date': self.last_closing_date,
                     'closing_date': self.deadline,
@@ -410,6 +417,7 @@ class BillingClass(models.Model):
                     'hr_department_id': self.customer_agent.department_id.id,
                     'business_partner_group_custom_id': self.customer_supplier_group_code.id,
                     'customer_closing_date_id': self.customer_closing_date.id,
+                    'closing_date_value': self.closing_date_value,
                 })
 
         return {
