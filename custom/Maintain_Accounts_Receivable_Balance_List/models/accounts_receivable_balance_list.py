@@ -127,11 +127,31 @@ class AccountsReceivableBalanceList(models.Model):
             Overriding function search from file models.py
             File path Override: /odoo/models.py
         """
-        domain = self._get_condition_search_of_module(self=self, args=args)
-        if domain['order']:
-            order = domain['order']
+        domain = []
+        module_context = self._context.copy()
+        if module_context and module_context.get('liabilities_module'):
+            get_condition_search_of_module = self._get_condition_search_of_module(self=self, args=args)
+            domain = get_condition_search_of_module['args']
+            if get_condition_search_of_module['order']:
+                order = get_condition_search_of_module['order']
 
-        res = self._search(args=domain['args'], offset=offset, limit=limit, order=order, count=count)
+        elif 'Billing' == module_context.get('view_name'):
+            for record in args:
+                if 'customer_closing_date' == record[0]:
+                    if record[2].isnumeric():
+                        record[0] = 'closing_date_value'
+                        record[1] = '='
+                if 'customer_except_request' == record[0]:
+                    if record[2] == 'True':
+                        record[2] = True
+                    else:
+                        record[2] = False
+                domain += [record]
+
+        else:
+            domain = args
+
+        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
 
     @api.constrains('customer_code', 'customer_code_bill')
