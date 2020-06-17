@@ -29,8 +29,8 @@
 			<field name="context">{'liabilities_module': True}</field>
         </record>
 
-        <menuitem id="menu_accounts_receivable_balance_list" parent="Maintain_Income_Payment.parent_menu_master"
-                  name="Accounts Receivable Balance List" sequence="12"
+        <menuitem id="menu_accounts_receivable_balance_list" parent="Maintain_Supplier_Ledger_Inquiry.menu_parent_accounts_receivable"
+                  name="Accounts Receivable Balance List" sequence="1"
                   action="action_accounts_receivable_balance_list" groups="base.group_user"/>
     </data>
 </odoo>

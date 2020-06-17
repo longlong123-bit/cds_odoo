@@ -209,8 +209,8 @@ class SupplierLedgerInquiryCustom(models.Model):
             closing_date = self._get_closing_date(year_month_selected=val_target_month)
             closing_date_start = closing_date['closing_date_start']
             closing_date_end = closing_date['closing_date_end']
-            domain += [('date', '>=', closing_date_start)]
-            domain += [('date', '<=', closing_date_end)]
+            domain += [('date', '>=', str(closing_date_start))]
+            domain += [('date', '<=', str(closing_date_end))]
 
             # filter customer_code_bill and customer_supplier_group_code from table res_partner
             if len(domain_res_partner) > 0:
