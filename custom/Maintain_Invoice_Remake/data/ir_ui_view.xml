@@ -59,6 +59,7 @@
                     <field name="x_voucher_tax_amount" string="Voucher Tax Amount" sum="Total" optional="show"/>
                     <field name="amount_total" string="Grand Total" sum="Amount Due" optional="show"/>
                     <field name="customer_closing_date" optional="show"/>
+                    <field name="customer_from_date" optional="hide"/>
                 </tree>
             </xpath>
       </field>
@@ -243,6 +244,8 @@
                 <!-- Column 4-->
 
                 <field name="customer_office" string="Customer Office" invisible="1"/>
+<!--              <td class="col-label"><label for="customer_from_date" string="customer_from_date" /></td>-->
+                <field name="customer_from_date" force_save="1" invisible="1"/>
             </tr>
 
             <!-- Row 10 -->

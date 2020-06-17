@@ -54,30 +54,20 @@
                                            options='{"reload_on_button": True, "no_quick_create": True}'
                                            z-index="98"/>
                                 </td>
-                                <td colspan="2"><field name="partner_payment_name1"/></td>
+                                <td class="o_td_label"><label for="partner_payment_address1" string="Address 1"/></td>
+                                <td><field name="partner_payment_address1"/></td>
                                 <td class="o_td_label"><label for="sales_rep" string="Sales Rep"/></td>
                                 <td><field name="sales_rep"/></td>
                             </tr>
 
                             <!-- Row 4 -->
                             <tr>
-                                <td colspan="2"/>
-                                <td class="o_td_label"><label for="partner_payment_name2" string="paymentname2"/></td>
-                                <td colspan="2"><field name="partner_payment_name2"/></td>
+                                <td class="o_td_label"><label for="partner_payment_name1" string="先名"/></td>
+                                <td colspan="2"><field name="partner_payment_name1"/></td>
+                                <td class="o_td_label"><label for="partner_payment_address2" string="住所2"/></td>
+                                <td><field name="partner_payment_address2"/></td>
                                 <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="cbpartner_salesrep_id"/></td>
-                                <td>
-                                <field name="cb_partner_sales_rep_id"/></td>
-                            </tr>
-
-                            <!-- Row 5 -->
-                            <tr>
-                                <td class="o_td_label"><label for="partner_payment_address1" string="Address 1"/></td>
-                                <td colspan="2"><field name="partner_payment_address1"/></td>
-                                <td colspan="2"><field name="partner_payment_address2"/></td>
-<!--                                <td class="o_td_label"><label for="journal_id" string="vj_collection_method"/></td>-->
-<!--                                <td><field name="journal_id" widget="many2one_tags" required="False"/></td>-->
-                                <td class="o_td_label"><label for="collection_method_month"/></td>
-                                <td><field name="collection_method_month" style="max-width: 30% !important" force_save="1"/></td>
+                                <td><field name="cb_partner_sales_rep_id"/></td>
                             </tr>
 
                             <!-- Row 6 -->
@@ -89,23 +79,22 @@
 
                             <!-- Row 7 -->
                             <tr>
-                                <td class="o_td_label"><label for="vj_summary" string="vj_summary"/></td>
-                                <td colspan="2"><field name="vj_summary"/></td>
-                                <td class="o_td_label"><label for="state" string="Document Status"/></td>
-                                <td><field name="state" readonly="True" invisible="0"/></td>
+                                <td colspan="3"></td>
                                 <td class="o_td_label"><label for="collection_method_date"/></td>
-                                <td><field name="collection_method_date" style="max-width: 30% !important" force_save="1" string="回収日"/></td>
+                                <td><field name="collection_method_date" style="max-width: 15% !important" force_save="1" string="回収日"/></td>
+                                <td class="o_td_label"><label for="collection_method_month"/></td>
+                                <td><field name="collection_method_month" style="max-width: 15% !important" force_save="1"/></td>
+
                             </tr>
 
                             <!-- Row 8 -->
                             <tr>
                                 <td class="o_td_label"><label for="comment_apply" string="commentapply"/></td>
                                 <td colspan="4"><field name="comment_apply"/></td>
-<!--                                <td class="o_td_label"><label for="collection_method_month"/></td>-->
-<!--                                <td><field name="collection_method_month" style="max-width: 30% !important" force_save="1"/></td>-->
                             </tr>
 
                             <tr>
+                                <td><field name="state" readonly="True" invisible="1"/></td>
                                 <td colspan="2"><field name="customer_other_cd" force_save="1" invisible="True"/></td>
                             </tr>
                         </tbody>
