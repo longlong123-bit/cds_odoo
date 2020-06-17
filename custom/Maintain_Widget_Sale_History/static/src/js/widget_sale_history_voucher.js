@@ -410,7 +410,7 @@ var SelectCreateDialog = ViewDialog.extend({
                     // this block code and  _search_sale_history...loadviews block code are the same --> need refactor to function
                     var _o_paging;
 
-                     get paging DOM
+//                     get paging DOM
                     fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
                         _o_paging = c;
 //                        _o_paging.style.cssFloat = 'right';
