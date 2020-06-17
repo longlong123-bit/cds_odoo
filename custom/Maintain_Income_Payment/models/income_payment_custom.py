@@ -47,8 +47,7 @@ class IncomePaymentCustom(models.Model):
 
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
-    many_payment_id = fields.Many2one('many.payment', string="Many payment", ondelete='cascade', required=True,
-                                      index=True)
+    many_payment_id = fields.Many2one('many.payment', string="Many payment", ondelete='cascade', index=True)
     vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
@@ -116,28 +115,27 @@ class IncomePaymentCustom(models.Model):
 
     @api.model
     def create(self, values):
-        if not ('document_no' in values):
-            # get all document no. is number
-            self._cr.execute('''
-                        SELECT document_no
-                        FROM account_payment
-                        WHERE SUBSTRING(document_no, 5) ~ '^[0-9\.]+$';
-                    ''')
-            query_res = self._cr.fetchall()
+        # if not ('document_no' in values):
+        # get all document no. is number
+        self._cr.execute('''
+                    SELECT document_no
+                    FROM account_payment
+                    WHERE SUBSTRING(document_no, 5) ~ '^[0-9\.]+$';
+                ''')
+        query_res = self._cr.fetchall()
 
-            # generate new document no. by sequence
+        # generate new document no. by sequence
+        seq = self.env['ir.sequence'].next_by_code('account.payment')
+        # if new document no. already exits, do again
+        while seq in [res[0] for res in query_res]:
             seq = self.env['ir.sequence'].next_by_code('account.payment')
-            # if new document no. already exits, do again
-            while seq in [res[0] for res in query_res]:
-                seq = self.env['ir.sequence'].next_by_code('account.payment')
 
-            values['document_no'] = seq
-            values['name'] = seq
+        values['document_no'] = seq
+        values['name'] = seq
 
         self._check_data(values)
-        # self._update_amount()
-        income_payment = super(IncomePaymentCustom, self).create(values)
 
+        income_payment = super(IncomePaymentCustom, self).create(values)
         return income_payment
 
     # when change partner or invoice, reset other information of partner
@@ -414,3 +412,10 @@ class IncomePaymentLineCustom(models.Model):
     payment_type = fields.Selection(
         [('outbound', 'Send Money'), ('inbound', 'Receive Money'), ('transfer', 'Internal Transfer')],
         string='Payment Type', required=True, readonly=True, states={'draft': [('readonly', False)]}, default='inbound')
+
+    # Check payment_amount
+    @api.constrains('payment_amount')
+    def _check_payment_amount(self):
+        if self.payment_amount:
+            if self.payment_amount < 0:
+                raise ValidationError(_('payment_amount must be more than 0'))

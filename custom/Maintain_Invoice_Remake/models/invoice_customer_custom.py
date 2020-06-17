@@ -333,6 +333,7 @@ class ClassInvoiceCustom(models.Model):
     customer_state = fields.Char('Customer State')
     customer_industry = fields.Char('Customer Industry')
     customer_closing_date = fields.Date('Closing Date')
+    customer_from_date = fields.Date('customer_from_date')
     customer_trans_classification_code = fields.Selection([('sale', '掛売'), ('cash', '現金'), ('account', '諸口')],
                                                           string='Transaction Class')
     closing_date_compute = fields.Integer('Temp')
@@ -344,7 +345,7 @@ class ClassInvoiceCustom(models.Model):
     related_userinput_name = fields.Char('Sales rep name', related='x_userinput_id.name')
     x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
                                         index=True, auto_join=True,
-                                        help="The move of this entry line.")
+                                        help="The moveview_move_custom_form of this entry line.")
     sales_rep = fields.Many2one('hr.employee', string='Sales Rep')
     related_sale_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
 
@@ -662,6 +663,12 @@ class ClassInvoiceCustom(models.Model):
                             cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
                             rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
                                 months=1)
+
+            day = int(rec.customer_closing_date.strftime('%d'))
+            year = rec.customer_closing_date.year
+            month = rec.customer_closing_date.month
+
+            rec.customer_from_date = date(year, month, day) - relativedelta(months=1) - relativedelta(days=1)
 
     @api.constrains('x_studio_date_invoiced')
     def _validate_plate(self):
