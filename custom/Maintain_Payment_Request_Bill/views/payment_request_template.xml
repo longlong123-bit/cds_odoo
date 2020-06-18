@@ -135,7 +135,6 @@
                 </div>
                 <div style="margin-bottom:30px">弊社の製品とサービスをご利用いただき、誠にありがとうございます。<br/> あなたの健康と幸運を願っています。<br/>
                     購入した製品とサービスの詳細は次のとおりです。</div>
-                <!--                <span t-esc="doc.search_claim_type"/>-->
                 <div>
                     <t t-if="doc.search_claim_type == 1">
                         <t t-if="doc.search_print_child == 1">
@@ -394,11 +393,6 @@
                 </t>
             </t>
             <t t-else="">
-<!--                <t t-set="bill_invoices" t-value="a.bill_invoice_ids"/>-->
-<!--                <t t-foreach="bill_invoices" t-as="bill_inv1">-->
-
-<!--                    <t t-set="cus_code0" t-value="bill_inv1.customer_code"/>-->
-<!--                    <t t-if="cus_code0 == cus0">-->
                         <t t-foreach="a.bill_invoice_ids.sorted(key=lambda r: r.customer_code)" t-as="bill_inv">
                             <t t-set="cus0" t-value="bill_inv.customer_code"/>
                             <t t-if="cus0 != cus">
@@ -501,8 +495,6 @@
                             </t>
                         </t>
                     </t>
-<!--                </t>-->
-<!--            </t>-->
         </template>
         <template id="payment_request_detail_table_1">
             <!--            <t t-set="a" t-value="o.with_context(lang=lang)"/>-->
