@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record model="ir.ui.view" id="bm_bill_list_tree">
+        <field name="name">bm.bill.list.tree</field>
+        <field name="model">bill.info</field>
+        <field name="arch" type="xml">
+            <tree string="Bill List Tree" class="forward_edit">
+                <field name="billing_code"/>
+                <field name="billing_name"/>
+                <field name="bill_no"/>
+                <field name="bill_date" invisible="1"/>
+                <field name="last_billed_amount" sum="total" widget="monetary"/>
+                <field name="deposit_amount" sum="total" widget="monetary"/>
+                <field name="balance_amount" sum="total" widget="monetary"/>
+                <field name="amount_untaxed" sum="total" widget="monetary"/>
+                <field name="tax_amount" sum="total" widget="monetary"/>
+                <field name="amount_total" sum="total" widget="monetary" invisible="1"/>
+                <field name="billed_amount" sum="total" widget="monetary"/>
+                <field name="last_closing_date"/>
+                <field name="closing_date" invisible="1"/>
+                <field name="customer_other_cd"/>
+                <field name="invoices_number"/>
+                <field name="invoices_details_number" invisible="1"/>
+                <field name="amount_untaxed_cashed" invisible="1"/>
+                <field name="tax_amount_cashed" invisible="1"/>
+                <field name="amount_total_cashed" invisible="1"/>
+                <field name="partner_id" invisible="1"/>
+                <field name="active_flag" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="bill_invoice_ids" invisible="1"/>
+                <field name="report_status" invisible="1"/>
+                <field name="hr_employee_id" invisible="1"/>
+                <field name="hr_department_id" invisible="1"/>
+                <field name="business_partner_group_custom_id" invisible="1"/>
+                <field name="customer_closing_date_id" invisible="1"/>
+                <field name="input_claim_zero" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACTIONS -->
+    <record model="ir.actions.act_window" id="actions_bm_list_bill">
+        <field name="name">Billing List </field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bill.info</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="bm_bill_list_tree"/>
+        <field name="domain">[]</field>
+        <field name="context">{'bill_management_module': True, 'view_name': 'Billing List'}</field>
+    </record>
+
+    <!-- MENU -->
+    <menuitem id="menu_list_bill" parent="Maintain_Bill_Management.parent_menu_bill_management"
+              name="Billing List"
+              sequence="6"
+              action="actions_bm_list_bill"
+              groups="base.group_user"/>
+</odoo>

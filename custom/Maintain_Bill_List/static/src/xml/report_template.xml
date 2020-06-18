@@ -1,0 +1,13 @@
+<template>
+    <!-- Main layout (iframe) -->
+    <div t-name="report.client_action">
+        <div style="margin: 30px auto; padding: 10px 0; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; width: 793.7007874px; height: 1122.519685px; background: #ffffff"><iframe  style="position: relative; margin: 0" class="o_report_iframe"/></div>
+    </div>
+    <!-- Buttons of the Control Panel -->
+    <t t-name="report.client_action.ControlButtons">
+        <div class="o_report_buttons">
+            <button type="button" class="btn btn-primary o_report_print" title="Download">Download</button>
+            <button type="button" class="btn btn-primary o_report_open_pdf" title="Print">Print</button>
+        </div>
+    </t>
+</template>
