@@ -28,3 +28,24 @@
         width: 350px !important;
     }
 }
+
+/* CSS custom o_form_statusbar */
+.o_form_statusbar{
+    display: block !important;
+    padding-right: 16px;
+}
+
+.o_form_statusbar:after{
+    display: block;
+    content: "";
+    clear: both;
+}
+
+.o_form_statusbar > *{
+    float: left !important;
+}
+
+.o_form_statusbar > span:last-child{
+    float: right !important;
+    line-height: 2.5rem;
+}

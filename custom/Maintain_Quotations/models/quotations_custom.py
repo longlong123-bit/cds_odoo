@@ -101,6 +101,64 @@ class QuotationsCustom(models.Model):
     # related_product_name = fields.Char(related='order_line.product.product_code_1')
     line_number = fields.Integer(string='明細数', default=get_order_lines, store=False)
 
+    # Reference to account move to copy data to quotation
+    refer_invoice_history = fields.Many2one('account.move', store=False)
+
+    @api.onchange('refer_invoice_history')
+    def _onchange_refer_invoice_history(self):
+        if self.refer_invoice_history:
+            data = self.refer_invoice_history
+
+            self.partner_id = data.x_studio_business_partner
+            self.partner_name = data.x_studio_name
+            self.name = data.x_bussiness_partner_name_2
+            self.document_reference = data.x_studio_document_no
+            # self.expected_date = data.expected_date
+            self.shipping_address = data.x_studio_address_1 + data.x_studio_address_2 + data.x_studio_address_3
+            self.note = data.x_studio_description
+            self.expiration_date = data.customer_closing_date
+            self.comment = ''
+            self.quotations_date = ''
+            self.is_print_date = False
+
+
+            # self.cb_partner_sales_rep_id = data.cb_partner_sales_rep_id
+            # self.sales_rep = data.sales_rep
+            # self.quotation_type = data.quotation_type
+            # self.report_header = data.report_header
+            # self.paperformat_id = data.paperformat_id
+            # self.paper_format = data.paper_format
+            # self.is_print_date = data.is_print_date
+            # self.tax_method = data.tax_method
+            # self.comment_apply = data.comment_apply
+
+            # default = dict(None or [])
+            # lines = [rec.copy_data()[0] for rec in data[0].invoice_line_ids.sorted(key='id')]
+            # default['order_line'] = [(0, 0, line) for line in lines if line]
+            # for rec in self:
+            #     rec.order_line = default['order_line'] or ()
+
+            lines = []
+            self.order_line = ()
+
+            for line in data.invoice_line_ids:
+                lines.append((0, 0, {
+                    'product_id': line.product_id,
+                    'product_barcode': line.x_product_barcode,
+                    'product_name': line.x_product_name,
+                    'product_standard_number': line.invoice_custom_standardnumber,
+                    'product_freight_category': line.invoice_custom_FreightCategory,
+                    'product_uom_qty': line.quantity,
+                    'price_unit': line.price_unit,
+                    'product_uom': line.product_uom_id,
+                    'line_amount': line.invoice_custom_lineamount,
+                    'tax_id': line.tax_ids,
+                    'tax_rate': line.tax_rate,
+                    'line_tax_amount': line.line_tax_amount
+                }))
+
+            self.order_line = lines
+
     @api.depends('order_line.price_total')
     def _amount_all(self):
         """
