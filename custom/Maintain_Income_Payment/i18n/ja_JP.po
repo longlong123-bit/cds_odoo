@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-17 11:11+0000\n"
-"PO-Revision-Date: 2020-06-17 11:11+0000\n"
+"POT-Creation-Date: 2020-06-18 03:50+0000\n"
+"PO-Revision-Date: 2020-06-18 03:50+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -64,14 +64,23 @@ msgstr "セクション追加"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_payment_address1
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
 msgid "Address 1"
-msgstr "住所１"
+msgstr "住所1"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_payment_address2
 msgid "Address 2"
-msgstr "住所２"
+msgstr "住所2"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Address1"
+msgstr "住所1"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Address2"
+msgstr "住所2"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_bank_account_id
@@ -86,9 +95,6 @@ msgstr ""
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_id
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__partner_id
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
 msgid "Business Partner"
@@ -150,6 +156,13 @@ msgid "Current Date"
 msgstr ""
 
 #. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
+msgid "Customer"
+msgstr "得意先コード"
+
+#. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__customer_other_cd
 msgid "Customer CD"
 msgstr "その他CD"
@@ -201,6 +214,11 @@ msgstr "伝票ステータス"
 #: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment_line__state__draft
 #: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__many_payment__state__draft
 msgid "Draft"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__customer_from_date
+msgid "From Date"
 msgstr ""
 
 #. module: Maintain_Income_Payment
@@ -282,8 +300,9 @@ msgstr ""
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__name
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
 msgid "Name"
-msgstr ""
+msgstr "得意先名"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__display_type__line_note
@@ -332,6 +351,11 @@ msgstr "売掛管理"
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.many_payment_form
 msgid "Payment Method"
 msgstr ""
+
+#. module: account
+#: model:ir.actions.server,name:account.action_account_confirm_payments
+msgid "Post Payments"
+msgstr "確認"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__payment_terms
@@ -485,6 +509,11 @@ msgid "cbpartner_salesrep_id"
 msgstr "営業担当者"
 
 #. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__closing_date
+msgid "closing_date"
+msgstr ""
+
+#. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__comment_apply
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
 msgid "commentapply"
@@ -608,16 +637,6 @@ msgstr ""
 #. module: Maintain_Income_Payment
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.report_payment_document1
 msgid "伝票Ｎｏ"
-msgstr ""
-
-#. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-msgid "住所2"
-msgstr ""
-
-#. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-msgid "先名"
 msgstr ""
 
 #. module: Maintain_Income_Payment
