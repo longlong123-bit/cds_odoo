@@ -26,12 +26,9 @@ class BillInfoGet(models.Model):
         for cd in self:
             # if self.partner_id:
             cd.customer_other_cd = cd.partner_id.customer_other_cd
-        self.bill_report_print_date = date.today()
-        print(self.bill_report_print_date)
 
     # その他CD
     customer_other_cd = fields.Char('Customer CD', readonly=True, compute='_get_customer_other_cd')
-    bill_report_print_date = fields.Date('bill_report_print_date', compute='_get_customer_other_cd', store=False)
 
 
 class PartnerClass(models.Model):
