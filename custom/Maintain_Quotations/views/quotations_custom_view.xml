@@ -39,36 +39,15 @@
                         <button name="action_cancel" states="draft,sent,sale" type="object" string="Cancel"/>
                         <button name="preview_report" states="draft,sent,sale" type="object" string="Preview"/>
                         <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/>
+                        <field name="order_id" widget="Maintain_Quotation_History.Order" z-index="92"/>
 <!--                        <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>-->
                     </header>
                     <table class="custom-form-table cols-8">
                         <tbody>
-<!--                            <tr>-->
-<!--                                <button name="open_popup" string="test popup" type="object"/>-->
-<!--                                <button class="button-test" string="test popup 2" type="object"/>-->
-<!--                                <td colspan="8"><field class="line_info no-border" name="line_info" readonly="True"/></td>-->
-<!--                            </tr>-->
-
-<!--                            <tr>-->
-<!--                                <td><input id="test-input-form" placeholder="input field"></input></td>-->
-<!--                                <td><button class="button-test-form">button test form</button></td>-->
-<!--                            </tr>-->
-
                             <!-- Row 0 -->
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
                             <tr>
                                 <td class="o_td_label"><label for="document_no" string="Document No"/></td>
                                 <td><field name="document_no" readonly="True"/></td>
-                                <td><field name="order_id" widget="Maintain_Quotation_History.Order" z-index="92"/></td>
                             </tr>
 
                             <!-- Row 1 -->
