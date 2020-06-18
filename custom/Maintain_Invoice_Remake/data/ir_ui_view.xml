@@ -58,8 +58,6 @@
                     <field name="amount_untaxed" string="Total Lines" sum="Total" optional="show"/>
                     <field name="x_voucher_tax_amount" string="Voucher Tax Amount" sum="Total" optional="show"/>
                     <field name="amount_total" string="Grand Total" sum="Amount Due" optional="show"/>
-                    <field name="customer_closing_date" optional="show"/>
-                    <field name="customer_from_date" optional="hide"/>
                 </tree>
             </xpath>
       </field>
