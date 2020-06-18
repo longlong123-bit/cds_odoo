@@ -90,7 +90,7 @@
                                 <td colspan="2"><field name="partner_name_2"/></td>
 
                                 <td class="o_td_label"><label for="report_header" string="Report Title*" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>
-                                <td><field name="report_header" required="True" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>
+                                <td><field name="report_header" attrs="{'invisible':[('paper_format','in','delivery')], 'required':[('paper_format','!=','delivery')]}"/></td>
                             </tr>
 
                             <!-- Row 4 -->
@@ -318,7 +318,7 @@
     <data>
         <!-- Sequences for sale.order -->
         <record id="seq_quotations_custom" model="ir.sequence">
-            <field name="name">Quotations Custom</field>
+            <field name="name">QuotationSeq</field>
             <field name="code">sale.order</field>
             <field name="padding">7</field>
             <field name="number_next">1000000</field>
