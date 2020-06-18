@@ -242,6 +242,8 @@
                 <!-- Column 4-->
 
                 <field name="customer_office" string="Customer Office" invisible="1"/>
+<!--              <td class="col-label"><label for="customer_from_date" string="customer_from_date" /></td>-->
+                <field name="customer_from_date" force_save="1" invisible="1"/>
             </tr>
 
             <!-- Row 10 -->
