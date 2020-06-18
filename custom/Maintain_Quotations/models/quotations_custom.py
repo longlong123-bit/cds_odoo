@@ -45,7 +45,7 @@ class QuotationsCustom(models.Model):
 
     name = fields.Char(string='Name', default=None)
     shipping_address = fields.Char(string='Shipping Address')
-    expected_date = fields.Date(string='Expected Date')
+    expected_date = fields.Text(string='Expected Date')
     note = fields.Text(string='Note')
     create_date = fields.Datetime(string='Create Date')
     amount_untaxed = fields.Monetary(string='Amount Untaxed')
@@ -56,7 +56,7 @@ class QuotationsCustom(models.Model):
     document_no = fields.Char(string='Document No')
     document_reference = fields.Char(string='Document No Reference')
 
-    expiration_date = fields.Date(string='Expiration Date')
+    expiration_date = fields.Text(string='Expiration Date')
     comment = fields.Text(string='Comment')
     # is_unit_quotations = fields.Boolean(string='Unit Quotations')
     quotation_type = fields.Selection([
@@ -82,6 +82,9 @@ class QuotationsCustom(models.Model):
     partner_id = fields.Many2one(string='Business Partner')
     related_partner_code = fields.Char('Partner Code')
     partner_name = fields.Char(string='Partner Name')
+    partner_name_2 = fields.Char(string='Partner Name 2')
+    # minhnt add
+    quotation_calendar = fields.Selection([('japan', '和暦'),('origin','西暦')], string='Calendar')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, default=lambda self: self.env.uid,
                                 states={'draft': [('readonly', False)]}, )
     related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
@@ -95,8 +98,8 @@ class QuotationsCustom(models.Model):
     # ], string='Report Header', readonly=False, default='quotation')
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
     paper_format = fields.Selection([
-        ('report_format1', '見積書（書式1）')
-    ], string='Pager format', default='report_format1')
+        ('delivery', '納品書'),('quotation1','見積り１'),('quotation2','見積り2')
+    ], string='Pager format', default='delivery')
 
     # related_product_name = fields.Char(related='order_line.product.product_code_1')
     line_number = fields.Integer(string='明細数', default=get_order_lines, store=False)

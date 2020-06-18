@@ -6,14 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-16 10:50+0000\n"
-"PO-Revision-Date: 2020-06-16 10:50+0000\n"
+"POT-Creation-Date: 2020-06-18 08:41+0000\n"
+"PO-Revision-Date: 2020-06-18 08:41+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: sale
+#: model:ir.actions.server,name:sale.model_sale_order_action_quotation_sent
+msgid "Mark Quotation as Sent"
+msgstr "見積を送信済みとしてマーク"
 
 #. module: Maintain_Quotations
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
@@ -69,6 +74,12 @@ msgstr "得意先コード*"
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "CB Partner Sales Rep*"
 msgstr "営業担当者*"
+
+#. module: Maintain_Quotations
+#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__quotation_calendar
+#: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
+msgid "Calendar"
+msgstr "和暦／西暦印字選択"
 
 #. module: Maintain_Quotations
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
@@ -137,15 +148,6 @@ msgstr ""
 #: model:ir.model.fields,help:Maintain_Quotations.field_sale_order__create_date
 msgid "Date on which sales order is created."
 msgstr "販売オーダが作成された日。"
-
-#. module: Maintain_Quotations
-#: model:ir.model.fields,help:Maintain_Quotations.field_sale_order__expected_date
-msgid ""
-"Delivery date you can promise to the customer, computed from the minimum "
-"lead time of the order lines in case of Service products. In case of "
-"shipping, the shipping policy of the order will be taken into account to "
-"either use the minimum or maximum lead time of the order lines."
-msgstr ""
 
 #. module: Maintain_Quotations
 #. openerp-web
@@ -253,6 +255,12 @@ msgid "Name: %s"
 msgstr ""
 
 #. module: Maintain_Quotations
+#: code:addons/Maintain_Quotations/models/quotations_custom.py:0
+#, python-format
+msgid "New"
+msgstr "新規"
+
+#. module: Maintain_Quotations
 #: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__quotation_type__normal
 msgid "Normal Quotation"
 msgstr "通常見積"
@@ -298,6 +306,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "Partner Name"
 msgstr "得意先名"
+
+#. module: Maintain_Quotations
+#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__partner_name_2
+#: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
+msgid "Partner Name 2"
+msgstr "得意先名2"
 
 #. module: Maintain_Quotations
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
@@ -523,10 +537,7 @@ msgid "Tax Rounding"
 msgstr ""
 
 #. module: Maintain_Quotations
-#. openerp-web
-#: code:addons/Maintain_Quotations/static/src/xml/order_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order_line__tax_id
-#, python-format
 msgid "Taxes"
 msgstr "税"
 
@@ -636,6 +647,11 @@ msgid "内税／明細"
 msgstr ""
 
 #. module: Maintain_Quotations
+#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__quotation_calendar__japan
+msgid "和暦"
+msgstr ""
+
+#. module: Maintain_Quotations
 #: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__tax_method__foreign_tax
 msgid "外税／明細"
 msgstr ""
@@ -672,6 +688,16 @@ msgid "税調整別途"
 msgstr ""
 
 #. module: Maintain_Quotations
+#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__paper_format__delivery
+msgid "納品書"
+msgstr ""
+
+#. module: Maintain_Quotations
+#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__quotation_calendar__origin
+msgid "西暦印字選択"
+msgstr ""
+
+#. module: Maintain_Quotations
 #. openerp-web
 #: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
 #: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
@@ -680,16 +706,21 @@ msgid "見積No"
 msgstr ""
 
 #. module: Maintain_Quotations
+#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__paper_format__quotation2
+msgid "見積り2"
+msgstr ""
+
+#. module: Maintain_Quotations
+#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__paper_format__quotation1
+msgid "見積り１"
+msgstr ""
+
+#. module: Maintain_Quotations
 #. openerp-web
 #: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
 #: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
 #, python-format
 msgid "見積日付"
-msgstr ""
-
-#. module: Maintain_Quotations
-#: model:ir.model.fields.selection,name:Maintain_Quotations.selection__sale_order__paper_format__report_format1
-msgid "見積書（書式1）"
 msgstr ""
 
 #. module: Maintain_Quotations
