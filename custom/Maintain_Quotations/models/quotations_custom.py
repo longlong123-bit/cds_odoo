@@ -43,6 +43,12 @@ class QuotationsCustom(models.Model):
     def get_order_lines(self):
         return len(self.order_line)
 
+    def _get_next_quotation_no(self):
+        sequence = self.env['ir.sequence'].search([('code', '=', 'sale.order'), ('number_next', '=', '1000000')])
+        next = sequence.get_next_char(sequence.number_next_actual)
+        return next
+
+
     name = fields.Char(string='Name', default=None)
     shipping_address = fields.Char(string='Shipping Address')
     expected_date = fields.Text(string='Expected Date')
@@ -53,7 +59,7 @@ class QuotationsCustom(models.Model):
     amount_total = fields.Monetary(string='Amount Total')
     # partner_id = fields.Many2one(string='Partner Order')
 
-    document_no = fields.Char(string='Document No')
+    document_no = fields.Char(string='Document No', default=_get_next_quotation_no)
     document_reference = fields.Char(string='Document No Reference')
 
     expiration_date = fields.Text(string='Expiration Date')
