@@ -88,7 +88,7 @@ class QuotationsCustom(models.Model):
     partner_id = fields.Many2one(string='Business Partner')
     related_partner_code = fields.Char('Partner Code')
     partner_name = fields.Char(string='Partner Name')
-    partner_name_2 = fields.Char(string='Partner Name 2')
+    partner_name_2 = fields.Char(string='Partner Name 2', related='partner_id.customer_name_2')
     # minhnt add
     quotation_calendar = fields.Selection([('japan', '和暦'),('origin','西暦')], string='Calendar')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, default=lambda self: self.env.uid,
