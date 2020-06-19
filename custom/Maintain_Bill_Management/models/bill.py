@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 from datetime import date, timedelta
 import calendar
+import math
 
 
 class BillingClass(models.Model):
@@ -162,12 +163,12 @@ class BillingClass(models.Model):
                                                            last_closing_date=rec['last_closing_date'],
                                                            deadline=rec['deadline'])
 
-            invoice_ids.write({
-                'bill_status': 'billed'
-            })
-            self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
-                'bill_status': 'billed'
-            })
+            # invoice_ids.write({
+            #     'bill_status': 'billed'
+            # })
+            # self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
+            #     'bill_status': 'billed'
+            # })
 
             _sum_amount_tax = 0
             _sum_amount_total = 0
@@ -180,6 +181,24 @@ class BillingClass(models.Model):
                 _sum_amount_untaxed = _sum_amount_untaxed + invoice.amount_untaxed
                 _sum_amount_tax = _sum_amount_tax + invoice.amount_tax
                 _sum_amount_total = _sum_amount_total + invoice.amount_total
+                if invoice.x_voucher_tax_transfer == 'invoice':
+                    _compute_amount_tax = 0
+                    for line in invoice.invoice_line_ids:
+                        if line.product_id.product_tax_category == 'foreign':
+                            a = line.invoice_custom_lineamount * line.tax_rate / 100
+                            print("tien thue cua san pham do a: ", a)
+                            if line.partner_id.customer_tax_rounding == 'round':
+                                a = round(a)
+                            elif line.partner_id.customer_tax_rounding == 'roundup':
+                                a = math.ceil(a)
+                            else:
+                                a = math.floor(a)
+                            print("tien cua san pham do sau khi lam tron a: ", a)
+                        elif line.product_id.product_tax_category == 'internal':
+                            _compute_amount_tax = 0
+                        else:
+                            _compute_amount_tax = 0
+
                 _invoice_details_number = _invoice_details_number + self.env['account.move.line'].search_count(
                     [('move_id', '=', invoice.id)])
                 if invoice.customer_trans_classification_code == 'cash':
@@ -209,77 +228,77 @@ class BillingClass(models.Model):
 
             _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
 
-            _bill_info_ids = self.env['bill.info'].create({
-                'billing_code': rec['customer_code'],
-                'billing_name': rec['name'],
-                'bill_no': _bill_no,
-                'bill_date': date.today(),
-                'last_closing_date': rec['last_closing_date'],
-                'closing_date': rec['deadline'],
-                'invoices_number': len(invoice_ids),
-                'invoices_details_number': _invoice_details_number,
-                'last_billed_amount': _last_billed_amount,
-                'deposit_amount': _deposit_amount,
-                'balance_amount': _balance_amount,
-                'amount_untaxed': _sum_amount_untaxed,
-                'tax_amount': _sum_amount_tax,
-                'amount_total': _sum_amount_total,
-                'amount_untaxed_cashed': _sum_amount_tax_cashed,
-                'tax_amount_cashed': _sum_amount_tax_cashed,
-                'amount_total_cashed': _sum_amount_total_cashed,
-                'billed_amount': _sum_amount_total + _balance_amount,
-                'partner_id': partner_ids.id,
-                'hr_employee_id': partner_ids.customer_agent.id,
-                'hr_department_id': partner_ids.customer_agent.department_id.id,
-                'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
-                'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                'customer_excerpt_request': partner_ids.customer_except_request,
-                'closing_date_value': partner_ids.closing_date_value,
-            })
-
-            for invoice in invoice_ids:
-                _bill_invoice_ids = self.env['bill.invoice'].create({
-                    'bill_info_id': _bill_info_ids.id,
-                    'billing_code': rec['customer_code'],
-                    'billing_name': rec['name'],
-                    'bill_no': _bill_no,
-                    'bill_date': date.today(),
-                    'last_closing_date': rec['last_closing_date'],
-                    'closing_date': rec['deadline'],
-                    'customer_code': invoice.partner_id.customer_code,
-                    'customer_name': invoice.partner_id.name,
-                    'amount_untaxed': invoice.amount_untaxed,
-                    'amount_tax': invoice.amount_tax,
-                    'amount_total': invoice.amount_total,
-                    'customer_trans_classification_code': invoice.customer_trans_classification_code,
-                    'account_move_id': invoice.id,
-                    'hr_employee_id': partner_ids.customer_agent.id,
-                    'hr_department_id': partner_ids.customer_agent.department_id.id,
-                    'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
-                    'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                    'closing_date_value': partner_ids.closing_date_value,
-                })
-
-                for line in invoice.invoice_line_ids:
-                    self.env['bill.invoice.details'].create({
-                        'bill_info_id': _bill_info_ids.id,
-                        'bill_invoice_id': _bill_invoice_ids.id,
-                        'billing_code': rec['customer_code'],
-                        'billing_name': rec['name'],
-                        'bill_no': _bill_no,
-                        'bill_date': date.today(),
-                        'last_closing_date': rec['last_closing_date'],
-                        'closing_date': rec['deadline'],
-                        'customer_code': line.partner_id.customer_code,
-                        'customer_name': line.partner_id.name,
-                        'customer_trans_classification_code': invoice.customer_trans_classification_code,
-                        'account_move_line_id': line.id,
-                        'hr_employee_id': partner_ids.customer_agent.id,
-                        'hr_department_id': partner_ids.customer_agent.department_id.id,
-                        'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
-                        'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                        'closing_date_value': partner_ids.closing_date_value,
-                    })
+            # _bill_info_ids = self.env['bill.info'].create({
+            #     'billing_code': rec['customer_code'],
+            #     'billing_name': rec['name'],
+            #     'bill_no': _bill_no,
+            #     'bill_date': date.today(),
+            #     'last_closing_date': rec['last_closing_date'],
+            #     'closing_date': rec['deadline'],
+            #     'invoices_number': len(invoice_ids),
+            #     'invoices_details_number': _invoice_details_number,
+            #     'last_billed_amount': _last_billed_amount,
+            #     'deposit_amount': _deposit_amount,
+            #     'balance_amount': _balance_amount,
+            #     'amount_untaxed': _sum_amount_untaxed,
+            #     'tax_amount': _sum_amount_tax,
+            #     'amount_total': _sum_amount_total,
+            #     'amount_untaxed_cashed': _sum_amount_tax_cashed,
+            #     'tax_amount_cashed': _sum_amount_tax_cashed,
+            #     'amount_total_cashed': _sum_amount_total_cashed,
+            #     'billed_amount': _sum_amount_total + _balance_amount,
+            #     'partner_id': partner_ids.id,
+            #     'hr_employee_id': partner_ids.customer_agent.id,
+            #     'hr_department_id': partner_ids.customer_agent.department_id.id,
+            #     'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
+            #     'customer_closing_date_id': partner_ids.customer_closing_date.id,
+            #     'customer_excerpt_request': partner_ids.customer_except_request,
+            #     'closing_date_value': partner_ids.closing_date_value,
+            # })
+            #
+            # for invoice in invoice_ids:
+            #     _bill_invoice_ids = self.env['bill.invoice'].create({
+            #         'bill_info_id': _bill_info_ids.id,
+            #         'billing_code': rec['customer_code'],
+            #         'billing_name': rec['name'],
+            #         'bill_no': _bill_no,
+            #         'bill_date': date.today(),
+            #         'last_closing_date': rec['last_closing_date'],
+            #         'closing_date': rec['deadline'],
+            #         'customer_code': invoice.partner_id.customer_code,
+            #         'customer_name': invoice.partner_id.name,
+            #         'amount_untaxed': invoice.amount_untaxed,
+            #         'amount_tax': invoice.amount_tax,
+            #         'amount_total': invoice.amount_total,
+            #         'customer_trans_classification_code': invoice.customer_trans_classification_code,
+            #         'account_move_id': invoice.id,
+            #         'hr_employee_id': partner_ids.customer_agent.id,
+            #         'hr_department_id': partner_ids.customer_agent.department_id.id,
+            #         'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
+            #         'customer_closing_date_id': partner_ids.customer_closing_date.id,
+            #         'closing_date_value': partner_ids.closing_date_value,
+            #     })
+            #
+            #     for line in invoice.invoice_line_ids:
+            #         self.env['bill.invoice.details'].create({
+            #             'bill_info_id': _bill_info_ids.id,
+            #             'bill_invoice_id': _bill_invoice_ids.id,
+            #             'billing_code': rec['customer_code'],
+            #             'billing_name': rec['name'],
+            #             'bill_no': _bill_no,
+            #             'bill_date': date.today(),
+            #             'last_closing_date': rec['last_closing_date'],
+            #             'closing_date': rec['deadline'],
+            #             'customer_code': line.partner_id.customer_code,
+            #             'customer_name': line.partner_id.name,
+            #             'customer_trans_classification_code': invoice.customer_trans_classification_code,
+            #             'account_move_line_id': line.id,
+            #             'hr_employee_id': partner_ids.customer_agent.id,
+            #             'hr_department_id': partner_ids.customer_agent.department_id.id,
+            #             'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
+            #             'customer_closing_date_id': partner_ids.customer_closing_date.id,
+            #             'closing_date_value': partner_ids.closing_date_value,
+            #         })
 
         return {
             'type': 'ir.actions.client',
