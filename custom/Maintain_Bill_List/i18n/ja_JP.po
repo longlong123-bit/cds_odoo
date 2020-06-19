@@ -1,0 +1,333 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Maintain_Bill_List
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-19 13:13+0000\n"
+"PO-Revision-Date: 2020-06-19 13:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid ""
+"<span style=\"float: left; border-bottom: 1px solid #0100f7; width: "
+"35%;\">検索条件</span>"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "<span>事業部</span>"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "<span>取引先グループ</span>"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "<span>営業担当者</span>"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "<span>締切日</span>"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "<span>締日（締日グループ）</span>"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "<span>表示順</span>"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "<span>請求0</span>"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "<span>請求先</span>"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.bm_bill_list_tree
+msgid "Bill Amount Untaxed"
+msgstr "御買上金額"
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.bm_bill_list_tree
+msgid "Bill List Tree"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.bm_bill_list_tree
+msgid "Bill Tax Amount"
+msgstr "消費税"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "Billing Address"
+msgstr "請求先"
+
+#. module: Maintain_Bill_List
+#: model:ir.ui.menu,name:Maintain_Bill_List.menu_list_bill
+msgid "Billing List"
+msgstr "請求一覧表"
+
+#. module: Maintain_Bill_List
+#: model:ir.actions.act_window,name:Maintain_Bill_List.actions_bm_list_bill
+msgid "Billing List "
+msgstr "請求一覧表"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "Claim Zero"
+msgstr "請求0"
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__customer_other_cd
+msgid "Customer CD"
+msgstr "その他CD"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "Customer Closing Date"
+msgstr "締日（締日グループ）"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "Department"
+msgstr "事業部"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "Display order"
+msgstr "表示順"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/report_template.xml:0
+#, python-format
+msgid "Download"
+msgstr "ダウンロード"
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__input_claim_zero
+msgid "Input Claim Zero"
+msgstr "請求0"
+
+#. module: Maintain_Bill_List
+#: model:ir.actions.report,name:Maintain_Bill_List.maintain_bill_list_id
+msgid "Maintain Bill List"
+msgstr "請求一覧表"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "No"
+msgstr "なし"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/report_template.xml:0
+#, python-format
+msgid "Print"
+msgstr "印刷"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "Representative/Agent"
+msgstr "営業担当者"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "Supplier Group"
+msgstr "取引先グループ"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "The Deadline"
+msgstr "締切日"
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "Yes"
+msgstr "はい"
+
+#. module: Maintain_Bill_List
+#: model:ir.model,name:Maintain_Bill_List.model_bill_info
+msgid "bill.info"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__search_list_billing_code_from
+msgid "search_list_billing_code_from"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__search_list_billing_code_to
+msgid "search_list_billing_code_to"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__search_list_business_partner_group_custom_id
+msgid "search_list_business_partner_group_custom_id"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__search_list_claim_zero
+msgid "search_list_claim_zero"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__search_list_closing_date
+msgid "search_list_closing_date"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__search_list_customer_closing_date_id
+msgid "search_list_customer_closing_date_id"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__search_list_display_order
+msgid "search_list_display_order"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__search_list_hr_department_id
+msgid "search_list_hr_department_id"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model:ir.model.fields,field_description:Maintain_Bill_List.field_bill_info__search_list_hr_employee_id
+msgid "search_list_hr_employee_id"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.bm_bill_list_tree
+msgid "total"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "その他CD"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "今回請求金額"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "入金額"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "前回締日"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "前回請求金額"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "売伝枚数"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "年　　月　　日"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "御買上金額"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "担当者請求先（コード）"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "消費税"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "繰越金額"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid ""
+"請 求 履 歴 照\n"
+"                        会"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "請求No"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "請求値引額"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "請求先コード"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_List.list_report_template
+msgid "請求先名（得意先名）"
+msgstr ""
+
+#. module: Maintain_Bill_List
+#. openerp-web
+#: code:addons/Maintain_Bill_List/static/src/xml/bill_list_advanced_search.xml:0
+#, python-format
+msgid "請求先（コード）"
+msgstr ""

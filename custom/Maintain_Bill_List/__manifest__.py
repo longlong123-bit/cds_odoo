@@ -23,11 +23,11 @@
         'security/ir.model.access.csv',
         'views/assets.xml',
         'views/list_bill.xml',
-        'views/report_template.xml'
+        'reports/report.xml',
+        'reports/report_template.xml',
     ],
     'qweb': [
         'static/src/xml/bill_list_advanced_search.xml',
-        'static/src/xml/report_template.xml'
     ],
 
     # only loaded in demonstration mode

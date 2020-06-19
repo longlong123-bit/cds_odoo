@@ -34,7 +34,6 @@ search_list_business_partner_group_custom_id=''
 search_list_billing_code_from =''
 search_list_billing_code_to =''
 search_list_display_order=''
-search_list_claim_zero=''
 
 
 

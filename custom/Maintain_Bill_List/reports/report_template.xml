@@ -10,9 +10,12 @@
 
             <div class="page" style="page-break-before: always;">
                 <div style="text-align: center">
-                    <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px"><h4
-                            style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">請 求 履 歴 照
-                        会</h4></div>
+                    <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px">
+                        <h4
+                                style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">請 求 履 歴 照
+                            会
+                        </h4>
+                    </div>
                 </div>
 
                 <!-- HEADER OF CONTENT -->
@@ -32,7 +35,8 @@
                                 <!--                            <div>-->
                                 <!--                                <span t-esc="ass.search_x_studio_document_no"/>-->
                                 <!--                            </div>-->
-                                <div style="text-align: left"><span>締日（締日グループ）</span>
+                                <div style="text-align: left">
+                                    <span>締日（締日グループ）</span>
                                     <span t-field="ass.search_list_customer_closing_date_id"/>
                                 </div>
                                 <div style="text-align: left;">
@@ -53,7 +57,9 @@
                                 </div>
                                 <div style="text-align: left;">
                                     <span>請求先</span>
-                                    <span t-field="ass.search_list_billing_code_from"/> ~ <span
+                                    <span t-field="ass.search_list_billing_code_from"/>
+                                    ~
+                                    <span
                                             t-field="ass.search_list_billing_code_to"/>
                                 </div>
                                 <div style="text-align: left;">
@@ -72,40 +78,51 @@
 
                     <!-- TABLE -->
                     <!--                <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>-->
-                        <div class="content-table" style="border: 1px solid #000; margin-top: 15px">
-                            <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">
-                                <thead>
-                                    <tr>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0; min-width: 100px"
-                                            name="th_subtotal">請求先コード</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
-                                            name="th_id">請求先名（得意先名）</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
-                                            name="th_description">請求No</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_priceunit">前回請求金額</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_taxes">入金額</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_subtotal">繰越金額</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_subtotal">御買上金額</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_subtotal">消費税</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_subtotal">請求値引額</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_subtotal">今回請求金額</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_subtotal">前回締日</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_subtotal">その他CD</td>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                            name="th_subtotal">売伝枚数</td>
-                                    </tr>
-                                </thead>
-                                <tbody class="invoice_tbody">
-                                    <t t-foreach="docs" t-as="line">
+                    <div class="content-table" style="border: 1px solid #000; margin-top: 15px">
+                        <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">
+                            <thead>
+                                <tr>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0; min-width: 100px"
+                                        name="th_subtotal">請求先コード
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
+                                        name="th_id">請求先名（得意先名）
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
+                                        name="th_description">請求No
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_priceunit">前回請求金額
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_taxes">入金額
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_subtotal">繰越金額
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_subtotal">御買上金額
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_subtotal">消費税
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_subtotal">今回請求金額
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_subtotal">前回締日
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_subtotal">その他CD
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_subtotal">売伝枚数
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody class="invoice_tbody">
+                                <t t-foreach="docs" t-as="line">
+                                    <t t-if="line.billed_amount != 0 or (line.last_billed_amount != 0 and line.deposit_amount != 0 and line.balance_amount != 0 and line.amount_untaxed != 0 and line.tax_amount != 0 and line.billed_amount != 0)">
                                         <tr>
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
                                                 <span t-esc="line.billing_code"/>
@@ -144,20 +161,17 @@
                                             </td>
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
                                                 <span>
-                                                    <t t-esc="line.amount_total"/>
-                                                </span>
-                                            </td>
-                                            <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
-                                                <span>
                                                     <t t-esc="line.billed_amount"/>
                                                 </span>
                                             </td>
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
-                                                <span><t t-if="line.last_closing_date">
-                                                    <span t-field="line.last_closing_date"
-                                                          t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
-                                                </t>
-                                                    <span t-else="">　　　年　　月　　日</span></span>
+                                                <span>
+                                                    <t t-if="line.last_closing_date">
+                                                        <span t-field="line.last_closing_date"
+                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                    </t>
+                                                    <span t-else="">　　　年　　月　　日</span>
+                                                </span>
                                             </td>
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
                                                 <span>
@@ -171,9 +185,10 @@
                                             </td>
                                         </tr>
                                     </t>
-                                </tbody>
-                            </table>
-                        </div>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </template>
