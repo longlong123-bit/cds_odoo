@@ -58,21 +58,21 @@
     vertical-align: middle!important;
 }
 
-.invoice_create table th:nth-last-child(9)
-{
-  width:2%!important;
-}
+/*.invoice_create table th:nth-last-child(9)*/
+/*{*/
+/*  width:2%!important;*/
+/*}*/
 
-.invoice_create table th:nth-last-child(8)
-{
-  width:2%!important;
-}
+/*.invoice_create table th:nth-last-child(8)*/
+/*{*/
+/*  width:2%!important;*/
+/*}*/
 
-.invoice_create table th:nth-last-child(1)
-{
-  width:30%!important;
-  min-width:30%!important;
-}
+/*.invoice_create table th:nth-last-child(1)*/
+/*{*/
+/*  width:10%!important;*/
+/*  min-width:10%!important;*/
+/*}*/
 
 
 .invoice_create table td div:not(.o_tag_color_0)
@@ -88,4 +88,67 @@
 
 .invoice_create table td .o_list_number{
     text-align:right;
+}
+
+.invoice_create table th:nth-child(1)
+{
+  width:2%;
+}
+.invoice_create table th:nth-child(2)
+{
+  width:2%!important;
+}
+.invoice_create table th:nth-child(3)
+{
+  width:5%;
+}
+/*Product Code*/
+.invoice_create table th:nth-child(4)
+{
+  width:7%;
+}
+/*商品名*/
+.invoice_create table th:nth-child(5)
+{
+  width:15%;
+}
+/*商品名2*/
+.invoice_create table th:nth-child(6)
+{
+  width:15%;
+}
+/*standardnumber*/
+.invoice_create table th:nth-child(7)
+{
+  width:7%;
+}
+/*Quantity*/
+.invoice_create table th:nth-child(8)
+{
+  width:5%;
+}
+/*Price*/
+.invoice_create table th:nth-child(9)
+{
+  width:8%;
+}
+/*UoM*/
+.invoice_create table th:nth-child(10)
+{
+  width:5%;
+}
+/*Line Amount*/
+.invoice_create table th:nth-child(11)
+{
+  width:10%;
+}
+/*Tax Rate*/
+.invoice_create table th:nth-child(12)
+{
+  width:7%;
+}
+/*Cost Value*/
+.invoice_create table th:nth-child(13)
+{
+  width:12%;
 }
