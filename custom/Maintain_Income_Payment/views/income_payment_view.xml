@@ -113,11 +113,11 @@
                                         <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
                                     </control>
                                         <field name="vj_c_payment_category" string="vj_c_payment_category"
-                                           attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
-                                            />
+                                               attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
+                                               style="width:12% !important; min-width:220px !important;"/>
                                         <field name="payment_amount" string="Payment Amount" attrs="{'invisible': [('display_type', '!=', False)]}" />
                                         <field name="name" string="Description" attrs="{'required': [('display_type', '!=', False)]}"
-                                        />
+                                               style="min-width:700px !important;"/>
                                         <field name="display_type" invisible="1"/>
                                 </tree>
                           </field>
