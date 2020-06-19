@@ -1,0 +1,65 @@
+// set cell's width
+.partner_custom_o_group{
+    .o_inner_group{
+        margin: 0 !important;
+
+        > tbody > tr > td {
+            &.o_td_label {
+                padding: 0 !important;
+            }
+        }
+
+        &.cell_small {
+            width: 25% !important;
+        }
+        &.cell_normal {
+            width: 50% !important;
+        }
+        &.cell_big {
+            width: 75% !important;
+        }
+    }
+
+    .o_td_label {
+        border-right: none !important;
+        text-align: right !important;
+    }
+
+    .o_readonly_modifier {
+        //border:
+    }
+}
+span.o_field_widget.o_readonly_modifier.o_input.readonly_modify{
+    width: 100% !important;
+    height: 25px !important;
+    padding: 2px 4px !important;
+    background-color: #f2f0f0 !important;
+}
+span.o_field_widget.o_readonly_modifier.o_input.readonly_modify.payment_rule{
+    margin-bottom:0 !important;
+}
+
+label.o_form_label.width-modify{
+    width: 136px !important;
+}
+
+div.table-responsive
+{
+    overflow-y:auto;
+    height:100%;
+}
+table.o_list_table th
+{
+    top:0;position:sticky !important;
+    z-index:5;
+    background: linear-gradient(to bottom,#fefefe 0,#eee 100%);;
+    border-left: 1px solid #cfcfcf;
+    border-bottom: 1px solid #cfcfcf;
+}
+
+.o_field_widget.o_input.readonly_modify {
+    height: 25.06px !important;
+    width: 100% !important;
+    background-color: #f2f0f0 !important;
+}
+
