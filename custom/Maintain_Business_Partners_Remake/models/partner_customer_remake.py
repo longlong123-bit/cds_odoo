@@ -100,7 +100,7 @@ class NewClassPartnerCustom(models.Model):
     # 売上伝票選択
     customer_select_sales_slip = fields.Selection([('slip1', '売上伝票(書式1)')], 'Sales Slip', default="slip1")
     # 納品書選択
-    customer_delivery_note = fields.Selection([('note1', '納品書(書式1)'), ('note2', '納品書(書式2)')], 'Delivery Note',
+    customer_delivery_note = fields.Selection([('note1', '売上伝票選択'), ('note2', '請求書選択')], 'Delivery Note',
                                               default="note1")
     # 売上伝票日付印字
     customer_print_sales_slip_date = fields.Boolean('Print Sales Slip Date', default=True)

@@ -43,9 +43,15 @@ class QuotationsCustom(models.Model):
     def get_order_lines(self):
         return len(self.order_line)
 
+    def _get_next_quotation_no(self):
+        sequence = self.env['ir.sequence'].search([('code', '=', 'sale.order'), ('number_next', '=', '1000000')])
+        next = sequence.get_next_char(sequence.number_next_actual)
+        return next
+
+
     name = fields.Char(string='Name', default=None)
     shipping_address = fields.Char(string='Shipping Address')
-    expected_date = fields.Date(string='Expected Date')
+    expected_date = fields.Text(string='Expected Date')
     note = fields.Text(string='Note')
     create_date = fields.Datetime(string='Create Date')
     amount_untaxed = fields.Monetary(string='Amount Untaxed')
@@ -53,10 +59,10 @@ class QuotationsCustom(models.Model):
     amount_total = fields.Monetary(string='Amount Total')
     # partner_id = fields.Many2one(string='Partner Order')
 
-    document_no = fields.Char(string='Document No')
+    document_no = fields.Char(string='Document No', default=_get_next_quotation_no)
     document_reference = fields.Char(string='Document No Reference')
 
-    expiration_date = fields.Date(string='Expiration Date')
+    expiration_date = fields.Text(string='Expiration Date')
     comment = fields.Text(string='Comment')
     # is_unit_quotations = fields.Boolean(string='Unit Quotations')
     quotation_type = fields.Selection([
@@ -82,6 +88,9 @@ class QuotationsCustom(models.Model):
     partner_id = fields.Many2one(string='Business Partner')
     related_partner_code = fields.Char('Partner Code')
     partner_name = fields.Char(string='Partner Name')
+    partner_name_2 = fields.Char(string='Partner Name 2')
+    # minhnt add
+    quotation_calendar = fields.Selection([('japan', '和暦'),('origin','西暦')], string='Calendar')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, default=lambda self: self.env.uid,
                                 states={'draft': [('readonly', False)]}, )
     related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
@@ -95,11 +104,69 @@ class QuotationsCustom(models.Model):
     # ], string='Report Header', readonly=False, default='quotation')
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
     paper_format = fields.Selection([
-        ('report_format1', '見積書（書式1）')
-    ], string='Pager format', default='report_format1')
+        ('delivery', '納品書'),('quotation1','見積り１'),('quotation2','見積り2')
+    ], string='Pager format', default='delivery')
 
     # related_product_name = fields.Char(related='order_line.product.product_code_1')
     line_number = fields.Integer(string='明細数', default=get_order_lines, store=False)
+
+    # Reference to account move to copy data to quotation
+    refer_invoice_history = fields.Many2one('account.move', store=False)
+
+    @api.onchange('refer_invoice_history')
+    def _onchange_refer_invoice_history(self):
+        if self.refer_invoice_history:
+            data = self.refer_invoice_history
+
+            self.partner_id = data.x_studio_business_partner
+            self.partner_name = data.x_studio_name
+            self.name = data.x_bussiness_partner_name_2
+            self.document_reference = data.x_studio_document_no
+            # self.expected_date = data.expected_date
+            self.shipping_address = data.x_studio_address_1 + data.x_studio_address_2 + data.x_studio_address_3
+            self.note = data.x_studio_description
+            self.expiration_date = data.customer_closing_date
+            self.comment = ''
+            self.quotations_date = ''
+            self.is_print_date = False
+
+
+            # self.cb_partner_sales_rep_id = data.cb_partner_sales_rep_id
+            # self.sales_rep = data.sales_rep
+            # self.quotation_type = data.quotation_type
+            # self.report_header = data.report_header
+            # self.paperformat_id = data.paperformat_id
+            # self.paper_format = data.paper_format
+            # self.is_print_date = data.is_print_date
+            # self.tax_method = data.tax_method
+            # self.comment_apply = data.comment_apply
+
+            # default = dict(None or [])
+            # lines = [rec.copy_data()[0] for rec in data[0].invoice_line_ids.sorted(key='id')]
+            # default['order_line'] = [(0, 0, line) for line in lines if line]
+            # for rec in self:
+            #     rec.order_line = default['order_line'] or ()
+
+            lines = []
+            self.order_line = ()
+
+            for line in data.invoice_line_ids:
+                lines.append((0, 0, {
+                    'product_id': line.product_id,
+                    'product_barcode': line.x_product_barcode,
+                    'product_name': line.x_product_name,
+                    'product_standard_number': line.invoice_custom_standardnumber,
+                    'product_freight_category': line.invoice_custom_FreightCategory,
+                    'product_uom_qty': line.quantity,
+                    'price_unit': line.price_unit,
+                    'product_uom': line.product_uom_id,
+                    'line_amount': line.invoice_custom_lineamount,
+                    'tax_id': line.tax_ids,
+                    'tax_rate': line.tax_rate,
+                    'line_tax_amount': line.line_tax_amount
+                }))
+
+            self.order_line = lines
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
