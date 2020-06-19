@@ -80,7 +80,24 @@
     height:25px!important;
     width: 100%!important;
 }
+.invoice_create table td pre
+{
+    margin: unset;
+    padding-top: 5px;
+    font-size: 14px;
+    font-family: inherit;
 
+}
+.invoice_create table td pre textarea {
+    min-height: 25px;
+    padding-top: 2px;
+    padding-bottom: 0px;
+    border-bottom-width: 1px;
+    border-top-width: 1px;
+    line-height: 14px;
+    font-size: 14px;
+    font-family: inherit;
+}
 .invoice_create .o_tag_color_0{
     min-width:50px!important;
 }
@@ -90,65 +107,65 @@
     text-align:right;
 }
 
-.invoice_create table th:nth-child(1)
-{
-  width:2%;
-}
-.invoice_create table th:nth-child(2)
+.invoice_create table th:nth-last-child(14)
 {
   width:2%!important;
 }
-.invoice_create table th:nth-child(3)
+.invoice_create table th:nth-last-child(13)
 {
-  width:5%;
+  width:2%!important;
+}
+.invoice_create table th:nth-last-child(12)
+{
+  width:5%!important;
 }
 /*Product Code*/
-.invoice_create table th:nth-child(4)
+.invoice_create table th:nth-last-child(11)
 {
-  width:7%;
+  width:7%!important;
 }
 /*商品名*/
-.invoice_create table th:nth-child(5)
+.invoice_create table th:nth-last-child(10)
 {
-  width:15%;
+  width:15%!important;
 }
 /*商品名2*/
-.invoice_create table th:nth-child(6)
+.invoice_create table th:nth-last-child(9)
 {
-  width:15%;
+  width:15%!important;
 }
 /*standardnumber*/
-.invoice_create table th:nth-child(7)
+.invoice_create table th:nth-last-child(8)
 {
-  width:7%;
+  width:7%!important;
 }
 /*Quantity*/
-.invoice_create table th:nth-child(8)
+.invoice_create table th:nth-last-child(7)
 {
-  width:5%;
+  width:5%!important;
 }
 /*Price*/
-.invoice_create table th:nth-child(9)
+.invoice_create table th:nth-last-child(6)
 {
-  width:8%;
+  width:8%!important;
 }
 /*UoM*/
-.invoice_create table th:nth-child(10)
+.invoice_create table th:nth-last-child(5)
 {
-  width:5%;
+  width:5%!important;
 }
 /*Line Amount*/
-.invoice_create table th:nth-child(11)
+.invoice_create table th:nth-last-child(4)
 {
-  width:10%;
+  width:10%!important;
 }
-/*Tax Rate*/
-.invoice_create table th:nth-child(12)
+/*Standard Price*/
+.invoice_create table th:nth-last-child(3)
 {
-  width:7%;
+  width:7%!important;
 }
-/*Cost Value*/
-.invoice_create table th:nth-child(13)
+/*Description*/
+.invoice_create table th:nth-last-child(2)
 {
-  width:12%;
+  width:12%!important;
 }
