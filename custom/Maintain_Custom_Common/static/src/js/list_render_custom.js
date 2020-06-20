@@ -41,10 +41,8 @@ odoo.define('web.ListRender_Custom', function (require) {
             'click tbody tr td pre.o_data_cell': '_onCellClick',
             'click tbody tr td div.o_data_cell': '_onCellClick',
             'click thead tr th div.o_column_sortable': '_onSortColumn',
-            'keydown tbody tr td div.o_data_cell': '_show_history_detail',
-            'click .o_field_x2many_list_row_delete_m': 'onRemoveMultiClick',
-
-
+            'keydown tbody .o_data_cell': '_show_history_detail',
+            'click .o_field_x2many_list_row_delete_m': 'onRemoveMultiClick'
         }),
         init: function () {
             this._super.apply(this, arguments);

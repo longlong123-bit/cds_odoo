@@ -88,7 +88,7 @@ class QuotationsCustom(models.Model):
     partner_id = fields.Many2one(string='Business Partner')
     related_partner_code = fields.Char('Partner Code')
     partner_name = fields.Char(string='Partner Name')
-    partner_name_2 = fields.Char(string='Partner Name 2')
+    partner_name_2 = fields.Char(string='Partner Name 2', related='partner_id.customer_name_2')
     # minhnt add
     quotation_calendar = fields.Selection([('japan', '和暦'),('origin','西暦')], string='Calendar')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, default=lambda self: self.env.uid,
@@ -118,7 +118,7 @@ class QuotationsCustom(models.Model):
         if self.refer_invoice_history:
             data = self.refer_invoice_history
 
-            self.partner_id = data.x_studio_business_partner
+            self.partner_id = data.partner_id
             self.partner_name = data.x_studio_name
             self.name = data.x_bussiness_partner_name_2
             self.document_reference = data.x_studio_document_no
@@ -434,6 +434,33 @@ class QuotationsLinesCustom(models.Model):
     line_amount = fields.Float('Line Amount', compute='compute_line_amount')
 
     line_tax_amount = fields.Float('Tax Amount', compute='compute_line_tax_amount')
+
+    # Reference to open dialog
+    refer_detail_history = fields.Many2one('sale.order.line', store=False)
+
+    @api.onchange('refer_detail_history')
+    def _get_detail_history(self):
+        if self.refer_detail_history:
+            data = self.refer_detail_history
+
+            if not data.display_type:
+                self.class_item = data.class_item
+                self.product_id = data.product_id
+                self.product_name = data.product_name
+                self.product_barcode = data.product_barcode
+                self.product_freight_category = data.product_freight_category
+                self.product_standard_number = data.product_standard_number
+                self.product_list_price = data.product_list_price
+                self.product_uom_qty = data.product_uom_qty
+                self.product_uom = data.product_uom
+                self.price_unit = data.price_unit
+                self.cost = data.cost
+                self.line_amount = data.line_amount
+                self.tax_rate = data.tax_rate
+                self.line_tax_amount = data.line_tax_amount
+
+            self.name = data.name
+            self.display_type = data.display_type
 
     @api.onchange('product_id')
     def _get_detail_product(self):

@@ -8,13 +8,21 @@ from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
 
 ADDRESS_FIELDS = ('street', 'street2', 'address3', 'zip', 'city', 'state_id', 'country_id')
 
-# search_billing_name = ''
+# Payment Request Bill
 search_bill_job_title = ''
 search_bill_sale_rep = ''
 search_address_type = ''
 search_cash_type = ''
 search_claim_type = ''
 search_print_child = ''
+
+# Collation History
+search_x_studio_date_invoiced_from = ''
+search_x_studio_date_invoiced_to = ''
+search_x_studio_document_no = 'a'
+search_name = ''
+search_invoice_partner_display_name = ''
+search_x_studio_name = ''
 
 
 class CollationPayment(models.Model):
@@ -70,7 +78,6 @@ class CollationPayment(models.Model):
         print(args)
 
         if ctx.get('view_code') == 'bill_report':
-
             global search_address_type
             global search_cash_type
             global search_claim_type
@@ -99,10 +106,6 @@ class CollationPayment(models.Model):
                     search_bill_job_title = se[2]
                     domain += [se]
                 if se[0] == 'hr_employee_id':
-                    search_bill_sale_rep = se[2]
-                    domain += [se]
-                if se[0] == 'business_partner_group_custom_id':
-                    search_bill_group = se[2]
                     domain += [se]
                 if se[0] == 'business_partner_group_custom_id':
                     domain += [se]
@@ -132,6 +135,42 @@ class CollationPayment(models.Model):
                         record[2] = False
                 domain += [record]
 
+        elif ctx.get('view_name') == 'Tai':
+            global search_x_studio_date_invoiced_from
+            global search_x_studio_date_invoiced_to
+            global search_x_studio_document_no
+            global search_name
+            global search_invoice_partner_display_name
+            global search_x_studio_name
+            search_x_studio_date_invoiced_from = ''
+            search_x_studio_date_invoiced_to = ''
+            search_x_studio_document_no = ''
+            search_name = ''
+            search_invoice_partner_display_name = ''
+            search_x_studio_name = ''
+
+            for se in args:
+                if se[0] == 'last_closing_date' and se[1] == '>=':
+                    search_x_studio_date_invoiced_from = se[2]
+                if se[0] == 'last_closing_date' and se[1] == '<=':
+                    search_x_studio_date_invoiced_to = se[2]
+                if se[0] == "billing_code":
+                    search_x_studio_document_no = se[2]
+                if se[0] == "billing_name":
+                    search_name = se[2]
+                if se[0] == "customer_code":
+                    se[0] = "billing_code"
+                    search_invoice_partner_display_name = se[2]
+                    bill_ids = self.env['bill.invoice'].search([('customer_code', '=', se[2])])
+                    for i in bill_ids:
+                        se[2] = i.billing_code
+                if se[0] == "customer_name":
+                    se[0] = "billing_code"
+                    search_x_studio_name = se[2]
+                    bill_ids = self.env['bill.invoice'].search([('customer_name', '=', se[2])])
+                    for i in bill_ids:
+                        se[2] = i.billing_code
+                domain += [se]
         else:
             domain = args
 
