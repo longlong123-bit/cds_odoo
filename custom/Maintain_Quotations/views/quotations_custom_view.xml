@@ -80,27 +80,27 @@
                                 <td class="o_td_label"><label for="partner_name" string="Partner Name"/></td>
                                 <td colspan="2"><field name="partner_name"/></td>
 
-                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation*"/></td>
-                                <td colspan="2"><field name="quotation_type" required="True"/></td>
+                                <td class="o_td_label"><label for="quotation_calendar" string="Calendar"/></td>
+                                <td colspan="2"><field name="quotation_calendar"/></td>
                             </tr>
 
                             <!-- Row 3 -->
                             <tr>
-                                <td class="o_td_label"><label for="name" string="Name*"/></td>
-                                <td colspan="2"><field name="name" required="True"/></td>
+                                <td class="o_td_label"><label for="partner_name_2" string="Partner Name 2"/></td>
+                                <td colspan="2"><field name="partner_name_2"/></td>
 
-                                <td class="o_td_label"><label for="report_header" string="Report Title*"/></td>
-                                <td><field name="report_header" required="True"/></td>
+                                <td class="o_td_label"><label for="report_header" string="Report Title*" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>
+                                <td><field name="report_header" attrs="{'invisible':[('paper_format','in','delivery')], 'required':[('paper_format','!=','delivery')]}"/></td>
                             </tr>
 
                             <!-- Row 4 -->
                             <tr>
-                                <td class="o_td_label"><label for="document_reference" string="Document Reference"/></td>
-                                <td colspan="2"><field name="document_reference"/></td>
+                                <td class="o_td_label"><label for="name" string="Name*"/></td>
+                                <td colspan="2"><field name="name" required="True"/></td>
 
 
-                                <td class="o_td_label"><label for="paper_format" string="Paper Format*"/></td>
-                                <td><field name="paper_format" required="True"/></td>
+                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation*"/></td>
+                                <td colspan="2"><field name="quotation_type" required="True"/></td>
 
                                 <td><field name="state" invisible="True"/></td>
                                 <td><field name="company_id" invisible="True"/></td>
@@ -108,28 +108,26 @@
 
                             <!-- Row 5 -->
                             <tr>
-                                <td class="o_td_label"><label for="expected_date" string="Expected Date"/></td>
-                                <td><field name="expected_date"/></td>
+                                <td class="o_td_label"><label for="document_reference" string="Document Reference"/></td>
+                                <td colspan="2"><field name="document_reference"/></td>
 
-                                <td></td>
-                                <td class="o_td_label"><label for="tax_method" string="Tax Method*"/></td>
-                                <td><field name="tax_method" required="True"/></td>
-
+                                <td class="o_td_label"><label for="paper_format" string="Paper Format*"/></td>
+                                <td><field name="paper_format" required="True"/></td>
                             </tr>
 
                             <!-- Row 6 -->
                             <tr>
-                                <td class="o_td_label"><label for="shipping_address" string="Shipping Address"/></td>
-                                <td colspan="2"><field name="shipping_address"/></td>
+                                <td class="o_td_label"><label for="expected_date" string="Expected Date"/></td>
+                                <td colspan="2"><field name="expected_date"/></td>
 
-                                <td class="o_td_label"><label for="create_date" string="Create Date"/></td>
-                                <td><field name="create_date"/></td>
+                                <td class="o_td_label"><label for="tax_method" string="Tax Method*"/></td>
+                                <td><field name="tax_method" required="True"/></td>
                             </tr>
 
                             <!-- Row 7 -->
                             <tr>
-                                <td class="o_td_label"><label for="note" string="Note"/></td>
-                                <td colspan="2"><field name="note"/></td>
+                                <td class="o_td_label"><label for="shipping_address" string="Shipping Address"/></td>
+                                <td colspan="2"><field name="shipping_address"/></td>
 
                                 <td class="o_td_label"><label for="sales_rep" string="Sales Rep*"/></td>
                                 <td colspan="2"><field name="sales_rep" required="True"/></td>
@@ -139,22 +137,24 @@
 
                             <!-- Row 8 -->
                             <tr>
-                                <td class="o_td_label"><label for="expiration_date" string="Expiration Date"/></td>
-                                <td><field name="expiration_date"/></td>
-                                <td></td>
+                                <td class="o_td_label"><label for="note" string="Note"/></td>
+                                <td colspan="2"><field name="note"/></td>
+
                                 <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="CB Partner Sales Rep*"/></td>
                                 <td colspan="2"><field name="cb_partner_sales_rep_id" required="True"/></td>
                             </tr>
                             <tr>
-                                <td class="o_td_label"><label for="comment" string="Comment"/></td>
-                                <td colspan="2"><field name="comment"/></td>
+                                <td class="o_td_label"><label for="expiration_date" string="Expiration Date"/></td>
+                                <td colspan="2"><field name="expiration_date"/></td>
 
                                 <td class="o_td_label"><label for="comment_apply" string="Comment Apply"/></td>
                                 <td colspan="2"><field name="comment_apply"/></td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td></td>
+                                <td class="o_td_label"><label for="comment" string="Comment"/></td>
+                                <td colspan="2"><field name="comment"/></td>
+                                <td class="o_td_label"><label for="create_date" string="Create Date"/></td>
+                                <td><field name="create_date"/></td>
                             </tr>
                         </tbody>
                     </table>
@@ -318,7 +318,7 @@
     <data>
         <!-- Sequences for sale.order -->
         <record id="seq_quotations_custom" model="ir.sequence">
-            <field name="name">Quotations Custom</field>
+            <field name="name">QuotationSeq</field>
             <field name="code">sale.order</field>
             <field name="padding">7</field>
             <field name="number_next">1000000</field>
