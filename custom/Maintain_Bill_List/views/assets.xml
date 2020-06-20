@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="assets_backend" name="asset new assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript"
+                        src="/Maintain_Bill_List/static/src/js/bill_list_advanced_search.js"></script>
+            </xpath>
+        </template>
+    </data>
+
+<!--    <report-->
+<!--            id="maintain_bill_list_id"-->
+<!--            model="bill.info"-->
+<!--            string="Maintain Bill List"-->
+<!--            report_type="qweb-pdf"-->
+<!--            attachment_use="False"-->
+<!--            name="Maintain_Bill_List.bill_list_report"-->
+<!--            file="Maintain_Bill_List.bill_list_report"-->
+<!--    />-->
+
+
+</odoo>
