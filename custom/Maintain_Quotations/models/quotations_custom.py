@@ -436,15 +436,31 @@ class QuotationsLinesCustom(models.Model):
     line_tax_amount = fields.Float('Tax Amount', compute='compute_line_tax_amount')
 
     # Reference to open dialog
-    refer_detail_history = fields.Many2one('', 'sale.order.line', store=False)
+    refer_detail_history = fields.Many2one('sale.order.line', store=False)
 
     @api.onchange('refer_detail_history')
     def _get_detail_history(self):
         if self.refer_detail_history:
-            fields_line = self.refer_detail_history.fields_get()
+            data = self.refer_detail_history
 
-            for attr in fields_line:
-                self[attr] = self.refer_detail_history[attr]
+            if not data.display_type:
+                self.class_item = data.class_item
+                self.product_id = data.product_id
+                self.product_name = data.product_name
+                self.product_barcode = data.product_barcode
+                self.product_freight_category = data.product_freight_category
+                self.product_standard_number = data.product_standard_number
+                self.product_list_price = data.product_list_price
+                self.product_uom_qty = data.product_uom_qty
+                self.product_uom = data.product_uom
+                self.price_unit = data.price_unit
+                self.cost = data.cost
+                self.line_amount = data.line_amount
+                self.tax_rate = data.tax_rate
+                self.line_tax_amount = data.line_tax_amount
+
+            self.name = data.name
+            self.display_type = data.display_type
 
     @api.onchange('product_id')
     def _get_detail_product(self):
