@@ -195,6 +195,88 @@ odoo.define('web.ListRender_Custom', function (require) {
             return $th;
         },
 
+        // Override
+        /**
+         *
+         * Render Header Cell
+         */
+        _renderHeaderCell: function(node) {
+            const {icon, name, string} = node.attrs;
+            var order = this.state.orderedBy;
+            var isNodeSorted = order[0] && order[0].name === name;
+            var field = this.state.fields[name];
+            var $th = $('<th>');
+
+            // Check hide column with attribute issue_format
+            if (node.attrs.modifiers &&
+                    node.attrs.modifiers.issue_format) {
+                var attr_issue_format = node.attrs.modifiers.issue_format;
+                if (this.state.domain.length <= 0) {
+                    if (attr_issue_format != '0') {
+                        this.columns = this.columns.filter(function(val) {
+                            return val.attrs.name != name;
+                        });
+                        return '';
+                    }
+                } else {
+                    var array_issue_format = this.state.domain.filter(function(val) {
+                        return val[0] == 'issue_format';
+                    });
+                    var input_issue_format = array_issue_format[0][2];
+                    if (attr_issue_format != input_issue_format) {
+                        this.columns = this.columns.filter(function(val) {
+                            return val.attrs.name != name;
+                        });
+                        return '';
+                    }
+                }
+            }
+
+            if (name) {
+                $th.attr('data-name', name);
+            } else if (string) {
+                $th.attr('data-string', string);
+            } else if (icon) {
+                $th.attr('data-icon', icon);
+            }
+            if (node.attrs.editOnly) {
+                $th.addClass('oe_edit_only');
+            }
+            if (node.attrs.readOnly) {
+                $th.addClass('oe_read_only');
+            }
+            if (!field) {
+                return $th;
+            }
+            var description = string || field.string;
+            if (node.attrs.widget) {
+                $th.addClass(' o_' + node.attrs.widget + '_cell');
+                if (this.state.fieldsInfo.list[name].Widget.prototype.noLabel) {
+                    description = '';
+                }
+            }
+            $th.text(description).attr('tabindex', -1).toggleClass('o-sort-down', isNodeSorted ? !order[0].asc : false).toggleClass('o-sort-up', isNodeSorted ? order[0].asc : false).addClass(field.sortable && 'o_column_sortable');
+            if (isNodeSorted) {
+                $th.attr('aria-sort', order[0].asc ? 'ascending' : 'descending');
+            }
+            if (field.type === 'float' || field.type === 'integer' || field.type === 'monetary') {
+                $th.addClass('o_list_number_th');
+            }
+            if (config.isDebug()) {
+                var fieldDescr = {
+                    field: field,
+                    name: name,
+                    string: description || name,
+                    record: this.state,
+                    attrs: _.extend({}, node.attrs, this.state.fieldsInfo.list[name]),
+                };
+                this._addFieldTooltip(fieldDescr, $th);
+            } else {
+                $th.attr('title', description);
+            }
+            return $th;
+        },
+
         // Add custom
         /**
          *

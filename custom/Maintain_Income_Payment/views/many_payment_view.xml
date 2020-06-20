@@ -7,12 +7,18 @@
             <field eval="1" name="priority"/>
 			<field name="arch" type="xml">
                 <form string="Many Payment" class="custom_template payment_custom">
+                    <header>
+<!--                        <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>-->
+<!--                        <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '=', 'draft')]}" string="Reset To Draft" type="object"/>-->
+<!--                        <button name="cancel" states="draft" string="Cancel" type="object"/>-->
+                        <field name="history_payment" widget="Maintain_Billing_History.Order" z-index="92"/>
+                    </header>
                     <table class="custom-form-table cols-8">
                         <tbody>
-                                <tr>
+<!--                                <tr>-->
 <!--                                    <td class="o_td_label"><label for="history_payment" string=""/></td>-->
 <!--                                    <field name="history_payment" widget="Maintain_Billing_History.Order" z-index="92"/>-->
-                                </tr>
+<!--                                </tr>-->
                                 <tr>
                                     <td></td>
                                     <td></td>
@@ -31,7 +37,8 @@
                                 </tr>
                                 <tr>
                                     <td class="o_td_label"><label for="sales_rep" string="Sales Rep"/></td>
-                                    <td><field name="sales_rep" required="True" style="max-width: 80% !important"/></td>
+                                    <td><field name="sales_rep" required="True" style="max-width: 80% !important"
+                                               options="{'no_create': True, 'no_create_edit':True}"/></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2"><field name="state" readonly="True" invisible="1"/></td>
@@ -51,11 +58,11 @@
                                     </control>
                                     <field name="payment_date" string="Transaction Date" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
                                            style="max-width:189px !important;"/>
-                                    <field name="partner_id" string="Customer" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
-                                           style="min-width:300px !important;"/>
+                                    <field name="partner_id" string="得意先コード" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
+                                           style="min-width:300px !important;" options="{'no_create': True, 'no_create_edit':True}"/>
                                     <field name="partner_payment_name1" attrs="{'invisible': [('display_type', '!=', False)]}" style="min-width:300px !important;"/>
                                     <field name="vj_c_payment_category" string="vj_c_payment_category" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
-                                           />
+                                           options="{'no_create': True, 'no_create_edit':True}"/>
                                     <field name="payment_amount" string="Payment Amount" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
                                            style="min-width:170px !important;"/>
                                     <field name="name" string="Description" attrs="{'required': [('display_type', '!=', False)]}" readonly="False"
@@ -63,7 +70,7 @@
                                     <field name="company_id" invisible="1"/>
                                     <field name="journal_id" invisible="1"/>
                                     <field name="amount" invisible="1"/>
-                                    <field name="payment_method_id" string="Payment Method" invisible="1"/>
+                                    <field name="payment_method_id" string="Payment Method" invisible="1" default="1" required="False"/>
                                     <field name="state" string="state" invisible="1"/>
                                     <field name="payment_type" string="Payment Amount" invisible="1"/>
                                     <field name="display_type" invisible="1"/>

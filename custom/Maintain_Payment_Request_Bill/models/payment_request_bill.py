@@ -24,6 +24,18 @@ search_name = ''
 search_invoice_partner_display_name = ''
 search_x_studio_name = ''
 
+#Billing List
+search_list_claim_zero=''
+search_list_customer_closing_date_id =''
+search_list_closing_date =''
+search_list_hr_department_id =''
+search_list_hr_employee_id =''
+search_list_business_partner_group_custom_id=''
+search_list_billing_code_from =''
+search_list_billing_code_to =''
+search_list_display_order=''
+
+
 
 class CollationPayment(models.Model):
     _inherit = 'bill.info'
@@ -171,6 +183,56 @@ class CollationPayment(models.Model):
                     for i in bill_ids:
                         se[2] = i.billing_code
                 domain += [se]
+        if 'Billing List' == ctx.get('view_name'):
+            global search_list_claim_zero
+            global search_list_customer_closing_date_id
+            global search_list_closing_date
+            global search_list_hr_department_id
+            global search_list_hr_employee_id
+            global search_list_business_partner_group_custom_id
+            global search_list_billing_code_from
+            global search_list_billing_code_to
+            global search_list_display_order
+            search_list_claim_zero = ''
+            search_list_customer_closing_date_id = ''
+            search_list_closing_date = ''
+            search_list_hr_department_id = ''
+            search_list_hr_employee_id = ''
+            search_list_business_partner_group_custom_id = ''
+            search_list_billing_code_from = ''
+            search_list_billing_code_to = ''
+            search_list_display_order = ''
+            domain = []
+            for record in args:
+                if record[0] == '&':
+                    continue
+                if record[0] == 'customer_closing_date_id':
+                    search_list_customer_closing_date_id = record[2]
+                if record [0] == 'closing_date':
+                    search_list_closing_date = record[2]
+                if record[0] == 'hr_department_id':
+                    search_list_hr_department_id = record[2]
+                if record[0] == 'hr_employee_id':
+                    search_list_hr_employee_id= record[2]
+                if record[0] == 'business_partner_group_custom_id':
+                    search_list_business_partner_group_custom_id=record[2]
+                if record[0] =='billing_code' and record[1] =='gte':
+                    search_list_billing_code_from =record[2]
+                if record[0] =='billing_code' and record[1] =='lte':
+                    search_list_billing_code_to =record[2]
+                if 'display_order' == record[0]:
+                    search_list_display_order = record[2]
+                    if record[2] == '0':
+                        order = 'hr_employee_id'
+                    else:
+                        order = 'billing_code'
+                    continue
+                if 'claim_zero' == record[0]:
+                    search_list_claim_zero = record[2]
+                    if record[2] == 'True':
+                        claim_zero = 1
+                    continue
+                domain += [record]
         else:
             domain = args
 

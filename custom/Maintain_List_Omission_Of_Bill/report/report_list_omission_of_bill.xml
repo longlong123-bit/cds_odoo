@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_list_omission_of_bill">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-if="input_start_day != doc.input_start_day">
+                    <t t-call="Maintain_List_Omission_Of_Bill.report_list_omission_of_bill_document"/>
+                </t>
+                <t t-set="input_start_day" t-value="doc.input_start_day"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_list_omission_of_bill_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+
+                <h1 style="text-align: center;">
+                    請求漏れチェックリスト
+                </h1>
+
+                <span style="float: right;"
+                      t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y/%m/%d %H:%M')"></span>
+
+                <div style="float: left; width: 100%; padding-top:10px;">
+                    <div style="text-align: left; margin-top: 10px; margin-bottom: 10px">
+                        <table cellspacing="0" cellpadding="5">
+                            <tr>
+                                <td style="text-align: right;">締日（締日グループ）：</td>
+                                <td>
+                                    <span t-field="doc.input_start_day"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;">売上日：</td>
+                                <td>
+                                    <span t-field="doc.input_sales_date"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;">事業部：</td>
+                                <td>
+                                    <span t-field="doc.input_division"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;">営業担当者：</td>
+                                <td>
+                                    <span t-field="doc.input_sales_rep"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;">取引先グループ：</td>
+                                <td>
+                                    <span t-field="doc.input_customer_supplier_group_code"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;">請求先：</td>
+                                <td>
+                                    <span t-field="doc.input_customer_code_bill_from"/>
+                                    <t t-if="doc.input_customer_code_bill_from != '' or doc.input_customer_code_bill_to != ''">
+                                        <span>～</span>
+                                    </t>
+                                    <span t-field="doc.input_customer_code_bill_to"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;">発行形式：</td>
+                                <td>
+                                    <span t-field="doc.input_issue_format_str"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <table class="table table-sm o_main_table" >
+                        <thead>
+                            <tr style="border">
+                                <th>売上日付</th>
+                                <th>伝票Ｎｏ</th>
+                                <th>得意先名</th>
+                                <t t-if="doc.input_issue_format == '0'">
+                                    <th>伝票合計額</th>
+                                    <th>消費税額</th>
+                                    <th>明細数</th>
+                                </t>
+                                <t t-if="doc.input_issue_format == '1'">
+                                    <th>取引/内訳区分</th>
+                                    <th>JANコード</th>
+                                    <th>商品コード</th>
+                                    <th>品番/型番</th>
+                                    <th>メーカー名</th>
+                                    <th>商品名</th>
+                                    <th>数量</th>
+                                    <th>単位</th>
+                                    <th>単価</th>
+                                    <th>金額</th>
+                                    <th>税率</th>
+                                </t>
+                                <th>税転嫁</th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-foreach="docs" t-as="o">
+                                <tr>
+                                    <td>
+                                        <span t-field="o.sales_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.invoice_no"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.customer_name"/>
+                                    </td>
+                                    <t t-if="doc.input_issue_format == '0'">
+                                        <td>
+                                            <span t-field="o.amount_untaxed"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.amount_tax"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.detail_number"/>
+                                        </td>
+                                    </t>
+                                    <t t-if="doc.input_issue_format == '1'">
+                                        <td>
+                                            <span t-field="o.invoice_line_type"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.jan_code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.product_code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.part_model_number"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.maker_name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.product_name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.quantity"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.unit"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.price_unit"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.price_total"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="o.tax_rate"/>
+                                        </td>
+                                    </t>
+                                    <td>
+                                        <span t-field="o.tax_transfer"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr class="border-black o_subtotal">
+                                <t t-if="doc.input_issue_format == '0'">
+                                    <td name="total" class="text-right" colspan="3">
+                                        <strong>合計</strong>
+                                    </td>
+                                    <td name="total_amount_untaxed" class="text-left">
+                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.amount_untaxed for l in docs)))" />
+                                    </td>
+                                    <td name="total_amount_tax" class="text-left">
+                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.amount_tax for l in docs)))" />
+                                    </td>
+                                    <td />
+                                    <td />
+                                </t>
+                                <t t-if="doc.input_issue_format == '1'">
+                                    <td name="total" class="text-right" colspan="9">
+                                        <strong>合計</strong>
+                                    </td>
+                                    <td name="total_quantity" class="text-left">
+                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.quantity for l in docs)))" />
+                                    </td>
+                                    <td />
+                                    <td name="total_price_unit" class="text-left">
+                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.price_unit for l in docs)))" />
+                                    </td>
+                                    <td name="total_price_total" class="text-left">
+                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.price_total for l in docs)))" />
+                                    </td>
+                                    <td name="total_tax_rate" class="text-left">
+                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.tax_rate for l in docs)))" />
+                                    </td>
+                                    <td />
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

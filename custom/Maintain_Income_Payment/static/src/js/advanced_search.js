@@ -5,7 +5,15 @@ odoo.define('Income_Payment.Advanced_Search', function(require){
         advancedSearch: _.extend({}, FilterMenu.prototype.advancedSearch || {}, {
             'account.payment': {
                 template: 'Income_Payment.advanced_search'
+            },
+            'many.payment': {
+                template: 'many_payment.advanced_search'
             }
+
+//            'sale.order': {
+//                'sale.order.custom.tree': {template: 'quotation.advanced_search'},
+//                'quotation_confirm': {template: 'quotation_confirm.advanced_search'}
+//            }
         })
     });
 });
