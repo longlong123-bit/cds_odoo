@@ -70,6 +70,10 @@
                             <div>
                                 <field name="uom_id" widget="many2one_tags" style="width: 100%%"/>
                             </div>
+                            <label for="product_uom_test" string="UOM"/>
+                            <div>
+                                <field name="product_uom_test" style="width: 100%%"/>
+                            </div>
                             <field name="setting_price"/>
                             <div style="text-align: right; margin-right: -5px"><label for="standard_price" string="Standard Price"/></div>
                             <div style="display: flex; padding: 0px 36px 0px 7px;">
@@ -160,6 +164,10 @@
                             <label for="uom_id" string="UOM*"/>
                             <div>
                                 <field name="uom_id" widget="many2one_tags" readonly="False" style="width: 100%%"/>
+                            </div>
+                            <label for="product_uom_test" string="UOM*"/>
+                            <div>
+                                <field name="product_uom_test" style="width: 100%%"/>
                             </div>
                         </group>
                         <group>
