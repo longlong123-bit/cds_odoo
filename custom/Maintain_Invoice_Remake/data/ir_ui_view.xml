@@ -281,9 +281,6 @@
 
       <xpath expr = "//field[@name='invoice_line_ids']/tree" position = "replace" >
             <tree editable="bottom" class="invoice_create" string="Journal Items" default_order="invoice_custom_line_no" widget="section_and_note_one2many" context="{'show_address': 1}">
-<!--                <control>-->
-<!--                    <create name="add_line_control" string="Add a line"/>-->
-<!--                </control>-->
                 <!-- Displayed fields -->
                 <field name="sequence" widget="handle"/>
                 <button name="button_update" type="object"
@@ -292,50 +289,19 @@
                 <field name="x_history_detail" style="display:none" domain="[('exclude_from_invoice_tab', '=', False)]" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
 		        <field name="invoice_custom_line_no" required="True"/>
                 <field name="x_invoicelinetype" required="True" string="内訳区分"/>
-<!--                <field name="x_crm_purchased_products" context="{'show_address': 1}" string="Product">-->
-<!--                    <tree string="Most purchased products">-->
-<!--                                <field name="id" />-->
-<!--                                <field name="name"/>-->
-<!--                                <field name="barcode"/>-->
-<!--                    </tree>-->
-<!--                </field>-->
                 <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
-<!--                <field name="x_crm_purchased_products" string="Product" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>-->
-<!--                <field name="x_product_modelnumber"/>-->
                 <field name="x_product_barcode" string="JAN/UPC/EAN"/>
                 <field name="x_product_name" string="商品名"/>
                 <field name="x_product_name2" string="商品名2"/>
-
                 <field name="invoice_custom_standardnumber"/>
-                <field name="invoice_custom_FreightCategory" string="Maker Code" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
                 <field name="quantity" string="Quantity"/>
                 <field name="price_unit" string="Price"/>
                 <field name="product_uom_id" string="UoM" required="True" style="text-align:right; justify-content: flex-end;"/>
                 <field name="invoice_custom_lineamount"/>
-<!--                <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
-                <field name="tax_ids" string="Taxes"
-                       widget="many2many_tags" readonly="False" invisible="True"
-                       domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
-                       context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
-                       options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
-                <field name="tax_rate" string="Tax Rate" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
-                <field name="line_tax_amount" string="Tax Amount" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
-<!--                       attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
-                <field name="invoice_custom_uom_cost_value"/>
-
-<!--                <field name="invoice_custom_discountunitprice"/>-->
-<!--                <field name="discount" string="Discount(%)"/>-->
-
-<!--                <field name="invoice_custom_salesunitprice"/>-->
+                <field name="x_product_standard_price"/>
+                <field name="x_product_cost_price"/>
                 <field name="invoice_custom_Description"/>
-<!--                <field name="tax_ids" string="Taxes"-->
-<!--                       widget="many2many_tags"-->
-<!--                       domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"-->
-<!--                       context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"-->
-<!--                       options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"-->
-<!--                       attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>-->
-
-
+                <field name="tax_rate" string="Tax Rate" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
                 <field name="move_name" invisible="1"/>
                 <field name="account_id" invisible="1" groups="account.group_account_user" domain="[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id)]" attrs="{'required': [('display_type', '=', False)]}"/>
                 <field name="analytic_account_id" invisible="1" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting" optional="show"/>
@@ -379,7 +345,7 @@
                 <field name="price_unit" string="Price"/>
                 <field name="product_uom_id" string="UoM" required="True"/>
                 <field name="invoice_custom_lineamount"/>
-                <field name="invoice_custom_uom_cost_value"/>
+                <field name="x_product_cost_price"/>
                 <field name="x_history_detail" domain="[('exclude_from_invoice_tab', '=', False)]" invisible="1" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
 		  <field name="invoice_custom_Description"/>
         </xpath>
@@ -502,7 +468,7 @@
                                domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
                                context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
                                options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
-                        <field name="invoice_custom_uom_cost_value"/>
+                        <field name="x_product_cost_price"/>
                         <field name="invoice_custom_Description"/>
                     </group>
                 </group>
