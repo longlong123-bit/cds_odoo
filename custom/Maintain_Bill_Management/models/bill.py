@@ -180,9 +180,13 @@ class BillingClass(models.Model):
             _sum_amount_untaxed_cashed = 0
             _sum_amount_total_cashed = 0
             for invoice in invoice_ids:
+                _sum_amount_untaxed = _sum_amount_untaxed + invoice.amount_untaxed
+                _sum_amount_tax = _sum_amount_tax + invoice.amount_tax
+                _sum_amount_total = _sum_amount_total + invoice.amount_total
+
                 if invoice.x_voucher_tax_transfer == 'invoice':
-                    _compute_amount_tax = 0
                     for line in invoice.invoice_line_ids:
+                        _compute_amount_tax = 0
                         if line.product_id.product_tax_category == 'foreign':
                             _compute_amount_tax = line.invoice_custom_lineamount * line.tax_rate / 100
                             if line.partner_id.customer_tax_rounding == 'round':
@@ -197,10 +201,6 @@ class BillingClass(models.Model):
                             _compute_amount_tax = _compute_amount_tax + 0
                         _sum_amount_tax = _sum_amount_tax + _compute_amount_tax
                         _sum_amount_total = _sum_amount_total + _compute_amount_tax
-                else:
-                    _sum_amount_untaxed = _sum_amount_untaxed + invoice.amount_untaxed
-                    _sum_amount_tax = _sum_amount_tax + invoice.amount_tax
-                    _sum_amount_total = _sum_amount_total + invoice.amount_total
 
                 _invoice_details_number = _invoice_details_number + self.env['account.move.line'].search_count(
                     [('move_id', '=', invoice.id)])
@@ -361,15 +361,20 @@ class BillingClass(models.Model):
                     else:
                         _line_compute_amount_tax = math.floor(_line_compute_amount_tax)
                 elif line.product_id.product_tax_category == 'internal':
-                    _line_compute_amount_tax = 0
+                    _line_compute_amount_tax = _line_compute_amount_tax + 0
                 else:
-                    _line_compute_amount_tax = 0
+                    _line_compute_amount_tax = _line_compute_amount_tax + 0
+
+                _sum_amount_untaxed = _sum_amount_untaxed + line.invoice_custom_lineamount
                 _sum_amount_tax = _sum_amount_tax + _line_compute_amount_tax
-                _sum_amount_total = _sum_amount_total + _line_compute_amount_tax
+                _sum_amount_total = _sum_amount_total + line.invoice_custom_lineamount + _line_compute_amount_tax
             else:
                 _sum_amount_untaxed = _sum_amount_untaxed + line.invoice_custom_lineamount
                 _sum_amount_tax = _sum_amount_tax + line.line_tax_amount
-                _sum_amount_total = _sum_amount_total + line.invoice_custom_lineamount
+                _sum_amount_total = _sum_amount_total + line.invoice_custom_lineamount + line.line_tax_amount
+
+            _sum_amount_untaxed = round(_sum_amount_untaxed)
+            _sum_amount_total = round(_sum_amount_total)
 
         for invoice in invoice_cash_ids:
             _sum_amount_untaxed = _sum_amount_untaxed + invoice.amount_untaxed
@@ -378,6 +383,8 @@ class BillingClass(models.Model):
             _sum_amount_untaxed_cashed = _sum_amount_untaxed_cashed + invoice.amount_untaxed
             _sum_amount_tax_cashed = _sum_amount_tax_cashed + invoice.amount_tax
             _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
+
+
 
         bill_info_ids = self.env['bill.info'].search([('billing_code', '=', self.customer_code),
                                                       ('last_closing_date', '=', self.last_closing_date),
