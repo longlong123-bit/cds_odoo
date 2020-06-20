@@ -46,6 +46,7 @@
         <field name="view_mode">tree</field>
         <field name="view_id" ref="view_confirm_payment_custom_tree"/>
         <field name="search_view_id" ref="view_confirm_payment_custom_search"/>
+        <field name="domain">[('state', '!=', 'draft')]</field>
 <!--        <field name="x_history_voucher" widget="Maintain_Income_Payment.Search" z-index="92"/>-->
     </record>
     <menuitem id="confirm_payment" parent="deposit_menu" name="Confirm Payment" action="confirm_payment_action"

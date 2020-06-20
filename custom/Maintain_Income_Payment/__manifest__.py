@@ -8,7 +8,7 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'sale_management', 'Maintain_Organization', 'Maintain_Client'
+        'base_setup', 'sale_management', 'Maintain_Organization', 'Maintain_Client', 'Maintain_Widget_Billing_History'
     ],
     'website': '',
     'depends': ['product', 'purchase', 'sale', 'account'],
@@ -24,7 +24,8 @@
     ],
     'qweb': [
         # "static/src/xml/history_payment.xml",
-        'static/src/xml/advanced_search.xml'
+        'static/src/xml/advanced_search.xml',
+        'static/src/xml/many_advanced_search.xml'
     ],
     'demo': [],
     'installable': True,

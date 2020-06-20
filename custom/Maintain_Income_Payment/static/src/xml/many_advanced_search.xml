@@ -1,0 +1,16 @@
+<template>
+    <t t-name="many_payment.advanced_search">
+        <table>
+          <tr>
+                <th>入金日付</th>
+                <td>
+                  <input class="filter-item" data-operator="gte" data-name="payment_date" type="date"/>
+                </td>
+                <td><span>～</span></td>
+                <td>
+                  <input class="filter-item" data-operator="lte" data-name="payment_date" type="date"/>
+                </td>
+          </tr>
+        </table>
+    </t>
+</template>

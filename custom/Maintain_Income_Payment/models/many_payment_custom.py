@@ -31,25 +31,21 @@ class ManyPaymentCustom(models.Model):
 
     order_id = fields.Many2one('sale.order', string='Order', store=False)
 
-    history_payment = fields.Many2one('many.payment', string='History payment', store=False)
-
+    history_payment = fields.Many2one('bill.info', string='History payment', store=False)
 
     @api.onchange('history_payment')
-    def _onchange_order_id(self):
-        self.set_order(self.history_payment.id)
+    def _onchange_history_payment(self):
+        if self.history_payment:
+            results = []
+            data = self.env['bill.info'].search([('id', '=', self.history_payment.id)])
 
-    @api.model
-    def set_order(self, history_payment):
-        # TODO set history_payment
-        data = self.env['product.product'].search([('id', '=', history_payment)])
+            for line in data.bill_detail_ids:
+                results.append((0, 0, {
+                    'partner_id': data.partner_id,
+                    'partner_payment_name1': line.customer_name,
+                    'payment_amount': line.line_amount + line.tax_amount,
+                    'payment_method_id': 1,
+                    'vj_c_payment_category': 1
+                }))
 
-        if data:
-            self.payment_date = data.write_date
-
-            # default = dict(None or [])
-            # lines = [rec.copy_data()[0] for rec in data[0].many_payment_line_ids.sorted(key='id')]
-            # print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-            # default['many_payment_line_ids'] = [(0, 0, line) for line in lines if line]
-            # for rec in self:
-            #     rec.many_payment_line_ids = default['many_payment_line_ids'] or ()
-            # print("============================================================")
+            self.many_payment_line_ids = results
