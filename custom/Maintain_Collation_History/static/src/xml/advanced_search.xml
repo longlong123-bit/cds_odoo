@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="collation_history.advanced_search">
+      <table>
+          <tr>
+            <th>The Deadline</th>
+            <td>
+              <input class="filter-item" data-operator="gte" data-name="last_closing_date" type="date"/>
+            </td>
+            <td><span>～</span></td>
+            <td>
+              <input class="filter-item" data-operator="lte" data-name="last_closing_date" type="date"/>
+            </td>
+          </tr>
+          <tr>
+            <th>Billing Code</th>
+            <td>
+              <input class="filter-item" data-operator="ilike" data-name="billing_code"/>
+            </td>
+          </tr>
+          <tr>
+            <th>Billing Name</th>
+            <td>
+              <input class="filter-item" data-operator="ilike" data-name="billing_name"/>
+            </td>
+          </tr>
+          <tr>
+            <th>Customer Code</th>
+            <td>
+              <input class="filter-item" data-operator="ilike" data-name="customer_code"/>
+            </td>
+          </tr>
+          <tr>
+            <th>Customer Name</th>
+            <td>
+              <input class="filter-item" data-operator="ilike" data-name="customer_name"/>
+            </td>
+          </tr>
+        </table>
+    </t>
+</template>
+

@@ -1,0 +1,134 @@
+<template>
+    <div t-name="bill_info_line">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <span>Closing Date</span>
+                    </th>
+                    <th>
+                        <span>line no</span>
+                    </th>
+                    <th>
+                        <span>Transaction Category</span>
+                    </th>
+                    <th>
+                        <span>Customer Code</span>
+                    </th>
+                    <th>
+                        <span>Customer Name</span>
+                    </th>
+                    <th>
+                        <span>JAN Code</span>
+                    </th>
+                    <th>
+                        <span>Product Code</span>
+                    </th>
+                    <th>
+                        <span>Product Model</span>
+                    </th>
+                    <th>
+                        <span>Maker</span>
+                    </th>
+                    <th>
+                        <span>Product Name</span>
+                    </th>
+                    <th>
+                        <span>Quantity</span>
+                    </th>
+                    <th>
+                        <span>Price</span>
+                    </th>
+                    <th>
+                        <span>Amount</span>
+                    </th>
+                    <th>
+                        <span>Taxed</span>
+                    </th>
+                    <th>
+                        <span>Number of Invoice</span>
+                    </th>
+                </tr>
+            </thead>
+            <t t-foreach="records" t-as="record">
+                <tr>
+                    <td>
+                        <span>
+                            <t t-esc="record.bill_date"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.bill_no"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.account_move_line_id.x_invoicelinetype"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.customer_code"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.customer_name"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.jan_code"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.product_default_code"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.product_custom_standardnumber"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.product_maker_name"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.product_name"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.quantity"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.price_unit"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.line_amount"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.tax_audit"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
+                            <t t-esc="record.tax_amount"/>
+                        </span>
+                    </td>
+                </tr>
+            </t>
+        </table>
+    </div>
+</template>

@@ -45,8 +45,8 @@ var DetailHistory = FieldMany2One.extend({
         new SelectCreateDialog(this, {
                 no_create: true,
                 readonly: true,
-                res_model: 'account.move.line',
-                domain:[['exclude_from_invoice_tab', '=', false]],
+                res_model: 'sale.order.line',
+                domain:[],//[['exclude_from_invoice_tab', '=', false]],
                 view_type:'list',
                 context: context,
             }).open();
@@ -55,7 +55,7 @@ var DetailHistory = FieldMany2One.extend({
 
 // custom ViewDialog
 var ViewDialog = Dialog.extend({
-    xmlDependencies: ['/Maintain_Widget_Sale_History/static/src/xml/dialog_custom_voucher.xml'],
+    xmlDependencies: ['/Maintain_Widget_Quotation_History/static/src/xml/dialog_custom_voucher.xml'],
     custom_events: _.extend({}, Dialog.prototype.custom_events, {
         push_state: '_onPushState',
     }),
@@ -191,7 +191,7 @@ var SelectCreateDialog = ViewDialog.extend({
                     [['id', '=',event.data.id]]
                 ];
             rpc.query({
-                    model: 'account.move.line',
+                    model: 'sale.order.line',
                     method: 'search_read',
                     args: args,
                 })
@@ -273,7 +273,7 @@ var SelectCreateDialog = ViewDialog.extend({
             domain.push(f_search_category_name)
         }
 
-        domain.push(['exclude_from_invoice_tab', '=', false])
+        // domain.push(['exclude_from_invoice_tab', '=', false])
 
         // return domain
         // domain example: [['filed','operator','search condition data'],[...],....]
@@ -629,7 +629,7 @@ var SelectCreateDialog = ViewDialog.extend({
 });
 
 // registry widget
-field_registry.add('Maintain_Sale_History.Detail', DetailHistory);
+field_registry.add('Maintain_Quotation_History.Detail', DetailHistory);
 
 // return widget
 return DetailHistory;

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <template id="assets_backend" inherit_id="web.assets_backend" name="Collation History">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/Maintain_Business_Partners/static/src/main.css" />
+                <link rel="stylesheet" type="text/scss" href="/Maintain_Business_Partners/static/src/css/partner_custom.scss" />
+                <script type="text/javascript" src="/Maintain_Collation_History/static/src/js/advanced_search.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>
