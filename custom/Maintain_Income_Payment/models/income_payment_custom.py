@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from datetime import timedelta, time, datetime
+from datetime import timedelta, time, datetime, date
 from addons.account.models.product import ProductTemplate
 from odoo.tools.float_utils import float_round
 
@@ -11,14 +11,24 @@ from odoo.exceptions import ValidationError, RedirectWarning, UserError
 import re
 from odoo.osv import expression
 
+from odoo.tools import float_is_zero, float_compare, safe_eval, date_utils, email_split, email_escape_char, email_re
+from odoo.tools.misc import formatLang, format_date, get_lang
+from odoo.exceptions import ValidationError
+import time
+import calendar
+from dateutil.relativedelta import relativedelta
+
 _logger = logging.getLogger(__name__)
 
 
 class IncomePaymentCustom(models.Model):
     _inherit = "account.payment"
-    _rec_name = 'document_no'
-    _order = 'document_no'
+    # _rec_name = 'document_no'
+    # _order = 'document_no'
 
+    customer_closing_date = fields.Date('Closing Date')
+    closing_date_compute = fields.Integer('Temp')
+    x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
     payment_terms = fields.Many2one('account.payment.term', 'Payment Terms', company_dependent=True, required=True,
                                     default=lambda self: self.env['account.payment.term'].search([('id', '=', 1)]))
     collection_method_date = fields.Integer(string='回収日', readonly=True, store=True)
@@ -48,7 +58,7 @@ class IncomePaymentCustom(models.Model):
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
     many_payment_id = fields.Many2one('many.payment', string="Many payment", ondelete='cascade', index=True)
-    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
+    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', default=1)
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
     payment_type = fields.Selection(
@@ -60,7 +70,12 @@ class IncomePaymentCustom(models.Model):
 
     client_custom_id = fields.Many2one('client.custom', default=_get_default_client_id, string='Client')
 
-    document_no = fields.Char(string='Document No')
+    def _get_latest_document_no(self):
+        sequence = self.env['ir.sequence'].search([('code', '=', 'account.payment')])
+        next = sequence.get_next_char(sequence.number_next_actual)
+        return next
+
+    document_no = fields.Char(string='Document No', default=_get_latest_document_no)
     company_id = fields.Many2one('res.company', 'Organization', default=lambda self: self.env.company.id, index=1)
     account_invoice_id = fields.Many2one('account.move', string="Invoice", readonly=True,
                                          states={'draft': [('readonly', False)]})
@@ -69,7 +84,7 @@ class IncomePaymentCustom(models.Model):
     payment_date = fields.Date(string='Transaction Date', readonly=True, states={'draft': [('readonly', False)]})
     partner_bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account",
                                               states={'draft': [('readonly', False)]})
-    partner_id = fields.Many2one(string='Business Partner')
+    partner_id = fields.Many2one(string='Customer')
     partner_payment_name1 = fields.Char(string='paymentname1', readonly=True, states={'draft': [('readonly', False)]})
     partner_payment_name2 = fields.Char(string='paymentname2', readonly=True, states={'draft': [('readonly', False)]})
     partner_payment_address1 = fields.Char(string='Address 1', readonly=True, states={'draft': [('readonly', False)]})
@@ -88,8 +103,25 @@ class IncomePaymentCustom(models.Model):
     account_payment_line_ids = fields.One2many('account.payment.line', 'payment_id', string='PaymentLine', copy=True)
 
     line_info = fields.Char(string='Line info', compute='_set_line_info')
+    closing_date = fields.Date('closing_date')
+    customer_from_date = fields.Date('From Date')
 
-    @api.onchange('partner_id', 'payment_terms', 'payment_term_custom_fix_month_day', 'payment_term_custom_fix_month_offset')
+    invoice_history = fields.Many2one('account.move', string='Journal Entry', store=False)
+
+    @api.onchange('invoice_history')
+    def _onchange_invoice_history(self):
+        if self.invoice_history:
+            results = []
+            data = self.invoice_history
+            self.partner_id = data.partner_id
+            self.partner_payment_name1 = data.partner_id.name
+            self.account_payment_line_ids.payment_amount = data.amount_total
+
+
+
+
+    @api.onchange('partner_id', 'payment_terms', 'payment_term_custom_fix_month_day',
+                  'payment_term_custom_fix_month_offset')
     def _get_date(self):
         for rec in self:
             for date in rec.partner_id.payment_terms:
@@ -112,16 +144,17 @@ class IncomePaymentCustom(models.Model):
     @api.onchange('account_payment_line_ids')
     def _get_detail_account_payment_line(self):
         self._set_line_info()
+        # self._get_total_payment()
 
     @api.model
     def create(self, values):
         # if not ('document_no' in values):
         # get all document no. is number
         self._cr.execute('''
-                    SELECT document_no
-                    FROM account_payment
-                    WHERE SUBSTRING(document_no, 5) ~ '^[0-9\.]+$';
-                ''')
+                        SELECT document_no
+                        FROM account_payment
+                        WHERE SUBSTRING(document_no, 5) ~ '^[0-9\.]+$';
+                    ''')
         query_res = self._cr.fetchall()
 
         # generate new document no. by sequence
@@ -136,6 +169,7 @@ class IncomePaymentCustom(models.Model):
         self._check_data(values)
 
         income_payment = super(IncomePaymentCustom, self).create(values)
+        # self._check_amount()
         return income_payment
 
     # when change partner or invoice, reset other information of partner
@@ -177,6 +211,15 @@ class IncomePaymentCustom(models.Model):
                         "AND id=%s" % (rec.account_invoice_id.id)
                 self._cr.execute(query)
                 query_res = self._cr.fetchall()
+
+                # update payment
+                # query_update = "UPDATE account_payment " \
+                #                "SET payment_amount=%s " \
+                #                "WHERE account_invoice_id=%s " \
+                #                "AND document_no=%s"
+                # params_update = [total_payment_amounts, rec.account_invoice_id.id, rec.document_no]
+                # self._cr.execute(query_update, params_update)
+
             elif rec.partner_id:
                 query = "SELECT SUM(amount_residual_signed) " \
                         "FROM account_move " \
@@ -185,6 +228,15 @@ class IncomePaymentCustom(models.Model):
                         "GROUP BY partner_id" % (rec.partner_id.id)
                 self._cr.execute(query)
                 query_res = self._cr.fetchall()
+
+                # update payment
+                # query_update = "UPDATE account_payment " \
+                #                "SET payment_amount=%s " \
+                #                "WHERE partner_id=%s " \
+                #                "AND document_no=%s " \
+                #                "GROUP BY partner_id"
+                # params_update = [total_payment_amounts, rec.partner_id.id, rec.document_no]
+                # self._cr.execute(query_update, params_update)
 
             if query_res:
                 total_invoiced = float([res[0] for res in query_res][0])
@@ -196,59 +248,188 @@ class IncomePaymentCustom(models.Model):
             rec.line_info = _('売掛残高：') + str("{:,.2f}".format(receivable)) + '　' \
                             + _('入金額合計：') + str("{:,.2f}".format(total_payment_amounts))
 
-            # if rec.document_no:
-            #     if rec.account_invoice_id:
-            #         account_invoice_id = rec.account_invoice_id.id
-            #         print('11111111111111111111111111111111111111111111111')
-            #         print(account_invoice_id)
-            #         print('receivable')
-            #         print(receivable)
-            #         query_remain = "UPDATE account_payment  " \
-            #                        "SET remain=%s " \
-            #                        "WHERE account_invoice_id=%s"
-            #         print(receivable)
-            #         params = [receivable, account_invoice_id]
-            #         print(receivable)
-            #         self._cr.execute(query_remain, params)
+            print('document_no')
+            print(rec.document_no)
+            query = "UPDATE account_payment " \
+                    "SET payment_amount=%s" \
+                    "WHERE document_no=%s "
+            params = [total_payment_amounts, rec.document_no]
 
-            # TEST TEST TEST
-            # query_received_remain = "SELECT remain " \
-            #                         "FROM account_payment " \
-            #                         "WHERE account_invoice_id=%s" % account_invoice_id
-            # self._cr.execute(query_received_remain)
-            # query_res_received_remain = self._cr.fetchall()
-            # if query_res_received_remain:
-            #     remain = float([res[0] for res in query_res_received_remain][0])
-            # print('======================= UPDATE AMOUNT 2==================')
-            # print('remain2')
-            # print(remain)
-            # query_update_amount = "UPDATE account_move " \
-            #                       "SET amount_residual_signed=%s " \
-            #                       ", amount_residual=%s " \
-            #                       "WHERE id=%s  "
-            # params = [remain, remain, account_invoice_id]
-            # self._cr.execute(query_update_amount, params)
-            # # update state payment
-            # if remain == 0:
-            #     query_update_state = "UPDATE account_move " \
-            #                          " SET invoice_payment_state='paid' " \
-            #                          " WHERE id=%s  " % account_invoice_id
-            #     self._cr.execute(query_update_state)
-            # print('========= co invoice_id ==========')
+            self._cr.execute(query, params)
 
-            # elif rec.partner_id:
-            #     print('222222222222222222222222222222222222222')
-            #     print(rec.partner_id.id)
-            #     query_remain = "UPDATE account_payment  " \
-            #                    "SET remain=%s " \
-            #                    "WHERE partner_id=%s"
-            #     params = [receivable, rec.partner_id.id]
-            #     self._cr.execute(query_remain, params)
+    # tính ngày closing date dựa theo start day của payment
+    @api.onchange('closing_date_compute', 'payment_date')
+    def _get_closing_date(self):
+        for rec in self:
+            partner_id = self.partner_id
+            account_move_related = self.account_invoice_id
 
-            # rec.remain = receivable
-            # print('================= remain ================')
-            # print(rec.remain)
-            # total_payment = total_payment_amounts
+            rec.closing_date_compute = partner_id.customer_closing_date.start_day
+            if account_move_related.closing_date_compute:
+                rec.x_voucher_deadline = account_move_related.x_voucher_deadline
+
+            if rec.payment_date:
+                day = int(rec.payment_date.strftime('%d'))
+                closing_date = rec.closing_date_compute
+                invoice_year = rec.payment_date.year
+                invoice_month = rec.payment_date.month
+                if int(day) > int(rec.closing_date_compute):
+                    if rec.x_voucher_deadline == '今回':
+                        try:
+                            rec.customer_closing_date = date(invoice_year, invoice_month,
+                                                             closing_date) + relativedelta(
+                                months=1)
+                        except ValueError:
+                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                            rec.customer_closing_date = date(invoice_year, invoice_month,
+                                                             cutoff_day) + relativedelta(
+                                months=1)
+                    else:
+                        try:
+                            rec.customer_closing_date = date(invoice_year, invoice_month,
+                                                             closing_date) + relativedelta(
+                                months=2)
+                        except ValueError:
+                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                            rec.customer_closing_date = date(invoice_year, invoice_month,
+                                                             cutoff_day) + relativedelta(
+                                months=2)
+                else:
+                    if rec.x_voucher_deadline == '今回':
+                        try:
+                            rec.customer_closing_date = date(invoice_year, invoice_month, closing_date)
+                        except ValueError:
+                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                            rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day)
+
+                    else:
+                        try:
+                            rec.customer_closing_date = date(invoice_year, invoice_month,
+                                                             closing_date) + relativedelta(
+                                months=1)
+                        except ValueError:
+                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+                            rec.customer_closing_date = date(invoice_year, invoice_month,
+                                                             cutoff_day) + relativedelta(
+                                months=1)
+
+            print('==================== customer_closing_date =================')
+            print(rec.customer_closing_date)
+
+    # NGÀY KẾT SỔ
+    def get_summary_date(self):
+        for rec in self:
+            if rec.account_invoice_id:
+                query_date = "SELECT customer_closing_date, customer_from_date " \
+                             "FROM account_move " \
+                             "WHERE id=%s " % rec.account_invoice_id.id
+            elif rec.partner_id:
+                query_date = "SELECT customer_closing_date, customer_from_date " \
+                             "FROM account_move " \
+                             "WHERE partner_id=%s " \
+                             "GROUP BY partner_id" % rec.partner_id.id
+
+        self._cr.execute(query_date)
+        query_res_date = self._cr.fetchall()
+        customer_closing_date = [res[0] for res in query_res_date][0]
+        customer_from_date = [res[1] for res in query_res_date][0]
+
+        print('================ customer_closing_date ===================')
+        print(customer_closing_date)
+        print('================ customer_from_date ===================')
+        print(customer_from_date)
+        return customer_closing_date, customer_from_date
+
+    # TỔNG TIỀN BÁN HÀNG THEO NGÀY KẾT SỔ
+    def get_invoice_total(self):
+        total_invoiced = 0.00
+        get_date = self.get_summary_date()
+        customer_closing_date = get_date[0]
+        customer_from_date = get_date[0]
+        for rec in self:
+            if rec.document_no:
+                total_invoiced = 0.00
+                query_res = False
+                if rec.account_invoice_id:
+                    query = "SELECT SUM(amount_residual_signed) " \
+                            "FROM account_move " \
+                            "WHERE state='posted' " \
+                            "AND id=%s " \
+                            "AND customer_closing_date = %s"
+                    # "AND customer_from_date > %s " \
+                    # params = [rec.account_invoice_id.id, customer_from_date, customer_closing_date]
+                    params = [rec.account_invoice_id.id, customer_closing_date]
+                elif rec.partner_id:
+                    query = "SELECT SUM(amount_residual_signed) " \
+                            "FROM account_move " \
+                            "WHERE state='posted' " \
+                            "AND partner_id=%s " \
+                            "AND customer_closing_date = %s " \
+                            "GROUP BY partner_id"
+                    params = [rec.partner_id.id, customer_closing_date, rec.partner_id.id]
+                self._cr.execute(query, params)
+                query_res = self._cr.fetchall()
+                print('=============================== query_res ==========================')
+                print(query_res)
+
+            if query_res:
+                total_invoiced = float([res[0] for res in query_res][0])
+
+        return total_invoiced
+
+    # TỔNG TIỀN NHẬP TIỀN THEO NGÀY KẾT SỔ
+    def get_payment_total(self):
+        total_payment_amounts = 0.00
+        get_date = self.get_summary_date()
+        customer_closing_date = get_date[0]
+        customer_from_date = get_date[1]
+        for rec in self:
+            if rec.document_no:
+                amount_lines = rec.account_payment_line_ids.filtered(lambda line: line.payment_id)
+                for line in amount_lines:
+                    total_payment_amounts += float(line.payment_amount)
+
+                if rec.account_invoice_id:
+                    account_invoice_id = rec.account_invoice_id.id
+                    print('account_invoice_id')
+                    print(account_invoice_id)
+                    print('document_no')
+                    print(rec.document_no)
+                    query = "SELECT SUM(payment_amount)" \
+                            "FROM account_payment " \
+                            "WHERE account_invoice_id=%s " \
+                            "AND state = 'posted' " \
+                            "AND payment_date > %s " \
+                            "AND payment_date < %s"
+                    params = [rec.account_invoice_id.id, customer_from_date, customer_closing_date]
+
+                elif rec.partner_id:
+                    query = "SELECT SUM(payment_amount)" \
+                            "FROM account_payment " \
+                            "WHERE partner_id=%s " \
+                            "AND state = 'posted' " \
+                            "AND payment_date > %s " \
+                            "AND payment_date < %s " \
+                            "GROUP BY partner_id"
+                    params = [rec.partner_id.id, customer_from_date, customer_closing_date]
+
+            self._cr.execute(query, params)
+
+
+        return total_payment_amounts
+
+    # @api.constrains('document_no')
+    def _check_amount(self):
+        remain_amount = 0.00
+        total_amount_payment = self.get_payment_total()
+        total_amount_invoiced = self.get_invoice_total()
+        print('============= total_amount_payment 1 =============')
+        print(total_amount_payment)
+        print('============= total_invoiced 1 =============')
+        print(total_amount_invoiced)
+        remain_amount = total_amount_invoiced - total_amount_payment
+        print('============= remain_amount 1 =============')
+        print(remain_amount)
 
     # def write(self, values):
     #     self._update_amount()
@@ -256,67 +437,6 @@ class IncomePaymentCustom(models.Model):
     #     payment = super(IncomePaymentCustom, self).write(values)
     #
     #     return payment
-
-    # UPDATE AMOUNT TO account_move
-    # @api.constrains('document_no')
-    # def _update_amount(self):
-    #     for rec in self:
-    #         if rec.document_no:
-    #             remain = 0.00
-    #             print('remain1')
-    #             print(remain)
-    #             query_res_received_remain = False
-    #             if rec.account_invoice_id:
-    #                 account_invoice_id = rec.account_invoice_id.id
-    #                 print('account_invoice_id')
-    #                 print(account_invoice_id)
-    #                 query_received_remain = "SELECT remain " \
-    #                                         "FROM account_payment " \
-    #                                         "WHERE account_invoice_id=%s" % account_invoice_id
-    #                 self._cr.execute(query_received_remain)
-    #                 query_res_received_remain = self._cr.fetchall()
-    #                 if query_res_received_remain:
-    #                     remain = float([res[0] for res in query_res_received_remain][0])
-    #                 print('======================= UPDATE AMOUNT 2==================')
-    #                 print('remain2')
-    #                 print(remain)
-    #                 query_update_amount = "UPDATE account_move " \
-    #                                       "SET amount_residual_signed=%s " \
-    #                                       ", amount_residual=%s " \
-    #                                       "WHERE id=%s  "
-    #                 params = [remain, remain, account_invoice_id]
-    #                 self._cr.execute(query_update_amount, params)
-    #                 # update state payment
-    #                 if remain == 0:
-    #                     query_update_state = "UPDATE account_move " \
-    #                                          " SET invoice_payment_state='paid' " \
-    #                                          " WHERE id=%s  " % account_invoice_id
-    #                     self._cr.execute(query_update_state)
-    #                 print('========= co invoice_id ==========')
-    # elif partner_id:
-    #     # query_remain = "SELECT remain " \
-    #     #                "FROM account_payment " \
-    #     #                "WHERE id=%s" % partner_id
-    #     # self._cr.execute(query_remain)
-    #     # query_res_remain = self._cr.fetchall()
-    #     # if query_res_remain:
-    #     #     remain = float([res[0] for res in query_res_remain][0])
-    #     print('======================= UPDATE AMOUNT 2==================')
-    #     # print(remain)
-    #     query_update_amount = "UPDATE account_move " \
-    #                           "SET amount_residual_signed=%s " \
-    #                           ", amount_residual=%s " \
-    #                           "WHERE id=%s  "
-    #     params = [rec.remain, rec.remain, partner_id]
-    #     self._cr.execute(query_update_amount, params)
-    #     if rec.remain == 0:
-    #         query_update_state = "UPDATE account_move " \
-    #                              " SET invoice_payment_state='paid' " \
-    #                              " WHERE id=%s  " % partner_id
-    #         self._cr.execute(query_update_state)
-    #     print('========= ko co invoice_id ==========')
-    # return True
-
 
     # Check validate, duplicate data
     def _check_data(self, values):
@@ -375,7 +495,6 @@ class IncomePaymentCustom(models.Model):
     #                     rec.set_read_only = False
     #         rec.set_read_only = False
 
-
     # def button_history(self):
     #     return {
     #         'type': 'ir.actions.act_window',
@@ -386,19 +505,26 @@ class IncomePaymentCustom(models.Model):
     #         'target': 'new',
     #     }
 
+    # Check payment_amount
+    @api.constrains('payment_amount')
+    def _check_payment_amount(self):
+        for line in self:
+            if line.payment_amount < 0:
+                raise ValidationError(_('payment_amount must be more than 0'))
+
 
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
 
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
-    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category')
+    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', default=1)
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
     name = fields.Char(string='Name')
     display_type = fields.Selection([
-                    ('line_section', 'Section'),
-                    ('line_note', 'Note')], default=False, help="Technical field for UX purpose.")
+        ('line_section', 'Section'),
+        ('line_note', 'Note')], default=False, help="Technical field for UX purpose.")
     state = fields.Selection(
         [('draft', 'Draft'), ('posted', 'Validated'), ('sent', 'Sent'), ('reconciled', 'Reconciled'),
          ('cancelled', 'Cancelled')], readonly=True, default='draft', copy=False, string="Status")
@@ -407,8 +533,7 @@ class IncomePaymentLineCustom(models.Model):
     partner_payment_name1 = fields.Char(string='paymentname1', readonly=True, states={'draft': [('readonly', False)]})
     company_id = fields.Many2one('res.company', 'Organization', default=lambda self: self.env.company.id, index=1)
     journal_id = fields.Many2one(string='vj_collection_method', default=1)
-    payment_method_id = fields.Many2one('account.payment.method', string='Payment Method', required=True, readonly=True,
-                                        states={'draft': [('readonly', False)]}, default=1)
+    payment_method_id = fields.Many2one('account.payment.method', string='Payment Method', required=False, default=1)
     payment_type = fields.Selection(
         [('outbound', 'Send Money'), ('inbound', 'Receive Money'), ('transfer', 'Internal Transfer')],
         string='Payment Type', required=True, readonly=True, states={'draft': [('readonly', False)]}, default='inbound')
@@ -416,6 +541,6 @@ class IncomePaymentLineCustom(models.Model):
     # Check payment_amount
     @api.constrains('payment_amount')
     def _check_payment_amount(self):
-        if self.payment_amount:
-            if self.payment_amount < 0:
+        for line in self:
+            if line.payment_amount < 0:
                 raise ValidationError(_('payment_amount must be more than 0'))
