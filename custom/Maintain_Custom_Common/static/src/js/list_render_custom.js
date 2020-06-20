@@ -38,6 +38,7 @@ odoo.define('web.ListRender_Custom', function (require) {
     var My_ListRender = ListRender.include({
         events: _.extend({}, ListRender.prototype.events, {
             // event for 2 line invoice
+            'click tbody tr td pre.o_data_cell': '_onCellClick',
             'click tbody tr td div.o_data_cell': '_onCellClick',
             'click thead tr th div.o_column_sortable': '_onSortColumn',
             'keydown tbody .o_data_cell': '_show_history_detail',
@@ -71,19 +72,19 @@ odoo.define('web.ListRender_Custom', function (require) {
                     $td_1.append($cells1[4]);
                 var $td_2 =  $('<td>').append($cells1[5]);
                     $td_2.append($cells1[6]);
-                var $td_3 =  $('<td>').append($cells1[7]);
-                    $td_3.append($cells1[8]);
-                var $td_4 =  $('<td>').append($cells1[9]);
-                $td_4.append($cells1[10]);
-                var $td_5 =  $('<td>').append($cells1[11]);
-                $td_5.append($cells1[12]);
-                var $td_6 =  $('<td>').append($cells1[13]);
-                $td_6.append($cells1[14]);
-                var $td_7 =  $('<td>').append($cells1[15]);
-                $td_7.append($cells1[16]);
-                var $td_8 =  $('<td>').append($cells1[17]);
-                $td_8.append($cells1[18]);
 
+                var $td_3 =  $('<td>').append($cells1[7]);
+                var $td_4 =  $('<td>').append($cells1[8]);
+                var $td_5 =  $('<td>').append($cells1[9]);
+                var $td_6 =  $('<td>').append($cells1[10]);
+                var $td_7 =  $('<td>').append($cells1[11]);
+                var $td_8 =  $('<td>').append($cells1[12]);
+
+                var $td_9 =  $('<td>').append($cells1[13]);
+                var $td_10 =  $('<td>').append($cells1[14]);
+                $td_10.append($cells1[15]);
+                var $td_11 =  $('<td>').append($cells1[16]);
+                $td_11.append($cells1[17]);
                 var $tr = $('<tr>', { class: 'o_data_row' })
                     .attr('data-id', record.id)
                     .append($td_0)
@@ -94,7 +95,10 @@ odoo.define('web.ListRender_Custom', function (require) {
                     .append($td_5)
                     .append($td_6)
                     .append($td_7)
-                    .append($td_8);
+                    .append($td_8)
+                    .append($td_9)
+                    .append($td_10)
+                    .append($td_11);
                 if(this.editable){
                     $tr.prepend(this._renderSelector('td'));
                 }
@@ -300,7 +304,12 @@ odoo.define('web.ListRender_Custom', function (require) {
                 if (node.attrs.readOnly) {
                     tdClassName += ' oe_read_only';
                 }
-                var $td = $('<div>', { class: tdClassName, tabindex: -1 });
+                if (record.fields[node.attrs.name] && record.fields[node.attrs.name].type == 'text'){
+                    var $td = $('<pre>', { class: tdClassName, tabindex: -1 });
+                } else {
+                    var $td = $('<div>', { class: tdClassName, tabindex: -1 });
+                }
+
 
                 // We register modifiers on the <td> element so that it gets the correct
                 // modifiers classes (for styling)
@@ -378,21 +387,20 @@ odoo.define('web.ListRender_Custom', function (require) {
                 'invoice_custom_line_no',
                 'product_id',
                 'x_product_name',
+                'x_product_name2',
                 'invoice_custom_standardnumber',
-                'tax_rate',
                 'quantity',
                 'product_uom_id',
-                'invoice_custom_uom_cost_value',
+                'price_unit',
+                'invoice_custom_lineamount',
+                'x_product_standard_price',
+                'invoice_custom_Description',
                ];
             var HEADER2 = [
                'x_invoicelinetype',
                'x_product_barcode',
-               'x_product_name2',
-               'invoice_custom_FreightCategory',
-               'price_unit',
-               'invoice_custom_lineamount',
-               'line_tax_amount',
-               'invoice_custom_Description',
+               'x_product_cost_price',
+               'tax_rate',
             ];
             var headerCol1 = [];
             var headerCol2 = [];
@@ -416,11 +424,15 @@ odoo.define('web.ListRender_Custom', function (require) {
                 var $tr_th= $('<tr>');
                 var $tr_header =$('<th>')
                 for(var i =0; i<$tr1.length;i++){
-                    if(i>=1){
+                    if(i==1 || i==2){
                         $tr_header = $('<th>').append($tr1[i])
                             .append($hr)
                             .append($tr2[i-1]);
-                    }else{
+                    }else if (i==10 || i==11){
+                        $tr_header = $('<th>').append($tr1[i])
+                            .append($hr)
+                            .append($tr2[i-8]);
+                    } else {
                         $tr_header = $('<th>').append($tr1[i]);
                     }
 
@@ -436,6 +448,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                 if (this.editable){
                     $tr_th.prepend(this._renderSelector('th'));
                 }
+                $tr_th.append($('<th>'));
                 var $tr = $('<thead>').append($tr_th);
                 return $tr;
             }

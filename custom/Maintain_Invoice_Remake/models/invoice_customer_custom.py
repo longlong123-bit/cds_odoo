@@ -974,9 +974,9 @@ class AccountMoveLine(models.Model):
                 line.x_product_modelnumber = detail_history.x_product_modelnumber
                 line.x_product_name = detail_history.x_product_name
                 line.x_product_name2 = detail_history.x_product_name2
-                line.x_product_list_price = detail_history.x_product_list_price
+                line.x_product_standard_price = detail_history.x_product_standard_price
                 line.invoice_custom_standardnumber = detail_history.invoice_custom_standardnumber
-                line.invoice_custom_uom_cost_value = detail_history.invoice_custom_uom_cost_value
+                line.x_product_cost_price = detail_history.x_product_cost_price
                 line.invoice_custom_discountunitprice = detail_history.invoice_custom_discountunitprice
                 line.invoice_custom_discountrate = detail_history.invoice_custom_discountrate
                 line.invoice_custom_lineamount = detail_history.invoice_custom_lineamount
@@ -1044,19 +1044,20 @@ class AccountMoveLine(models.Model):
     # x_product_code_show_in_tree = fields.Char(string='商品コード', related='x_product_barcode.product_code_1')
 
     x_product_modelnumber = fields.Char('Product')
-    x_product_name = fields.Char('mproductname')
-    x_product_name2 = fields.Char('mproductname2')
-    x_product_list_price = fields.Float('List Price')
+    x_product_name = fields.Text('mproductname')
+    x_product_name2 = fields.Text('mproductname2')
+    x_product_standard_price = fields.Float('Standard Price')
+    x_product_cost_price = fields.Float('Cost Price')
     # x_crm_purchased_products = fields.Many2one('crm.purchased_products', selection='generate_selection', string='Purchased products')
 
     # Update 2020/04/28 - END
     invoice_custom_standardnumber = fields.Char('standardnumber')
-    invoice_custom_uom_cost_value = fields.Float('Cost Value')
+
     invoice_custom_discountunitprice = fields.Float('discountunitprice', compute='compute_discount_unit_price')
     invoice_custom_discountrate = fields.Float('discountrate')
     invoice_custom_salesunitprice = fields.Float('salesunitprice', compute='compute_sale_unit_price')
     invoice_custom_lineamount = fields.Float('Line Amount', compute='compute_line_amount')
-    invoice_custom_Description = fields.Char('Description')
+    invoice_custom_Description = fields.Text('Description')
     invoice_custom_FreightCategory = fields.Many2one('freight.category.custom', string='Maker Code')
     price_unit = fields.Float(string='Unit Price', digits='Product Price')
     quantity = fields.Float(string='Quantity', digits='(12,0)',
@@ -1265,14 +1266,10 @@ class AccountMoveLine(models.Model):
         for line in self:
             if not line.product_id or line.display_type in ('line_section', 'line_note'):
                 continue
-
             line.name = line._get_computed_name()
             line.x_product_name = line.product_id.name
-
-            # line.x_product_list_price = line.product_id.list_price
-            # todo set price follow product code
-            # line.x_product_list_price = line.product_id.price_no_tax_1
-
+            line.x_product_standard_price = line.product_id.standard_price
+            line.x_product_cost_price = line.product_id.cost
             line.x_product_barcode = line.product_id.barcode
             line.account_id = line._get_computed_account()
 
@@ -1287,7 +1284,7 @@ class AccountMoveLine(models.Model):
                 line.tax_ids = None
                 line.tax_rate = None
 
-            line.product_uom_id = line.product_id.product_uom_test
+            line.product_uom_id = line.product_id.product_uom_custom
             # line.price_unit = line._get_computed_price_unit()
             line.invoice_custom_FreightCategory = line._get_computed_freigth_category()
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
