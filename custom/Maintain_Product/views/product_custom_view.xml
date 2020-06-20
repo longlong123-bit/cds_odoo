@@ -163,7 +163,7 @@
 
                             <label for="uom_id" string="UOM*"/>
                             <div>
-                                <field name="uom_id" widget="many2one_tags" readonly="False" style="width: 100%%"/>
+                                <field name="uom_id" invisible="1"/>
                             </div>
                             <label for="product_uom_test" string="UOM*"/>
                             <div>
