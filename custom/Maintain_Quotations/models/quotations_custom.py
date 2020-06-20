@@ -109,7 +109,7 @@ class QuotationsCustom(models.Model):
         if self.refer_invoice_history:
             data = self.refer_invoice_history
 
-            self.partner_id = data.x_studio_business_partner
+            self.partner_id = data.partner_id
             self.partner_name = data.x_studio_name
             self.name = data.x_bussiness_partner_name_2
             self.document_reference = data.x_studio_document_no
@@ -425,6 +425,17 @@ class QuotationsLinesCustom(models.Model):
     line_amount = fields.Float('Line Amount', compute='compute_line_amount')
 
     line_tax_amount = fields.Float('Tax Amount', compute='compute_line_tax_amount')
+
+    # Reference to open dialog
+    refer_detail_history = fields.Many2one('', 'sale.order.line', store=False)
+
+    @api.onchange('refer_detail_history')
+    def _get_detail_history(self):
+        if self.refer_detail_history:
+            fields_line = self.refer_detail_history.fields_get()
+
+            for attr in fields_line:
+                self[attr] = self.refer_detail_history[attr]
 
     @api.onchange('product_id')
     def _get_detail_product(self):
