@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="list_omission_of_bill.advanced_search">
+      <table>
+          <tr>
+            <th>締日（締日グループ）</th>
+            <td>
+                <select class="filter-item" data-operator="eq" data-name="start_day"
+                        style="height:26px">
+                    <t t-foreach="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+                                   11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                                   21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]" t-as="i">
+                        <option t-att-value="i"><t t-esc="i"/></option>
+                    </t>
+                </select>
+            </td>
+          </tr>
+          <tr>
+            <th>売上日</th>
+            <td>
+              <input class="filter-item" data-operator="lt" data-name="sales_date" type="date"/>
+            </td>
+          </tr>
+          <tr>
+            <th>事業部</th>
+            <td>
+              <input class="filter-item" data-operator="eq" data-name="division" type="number"/>
+            </td>
+          </tr>
+          <tr>
+            <th>営業担当者</th>
+            <td>
+              <input class="filter-item" data-operator="eq" data-name="sales_rep" type="number"/>
+            </td>
+          </tr>
+          <tr>
+            <th>取引先グループ</th>
+            <td>
+              <input class="filter-item" data-operator="eq" data-name="customer_supplier_group_code"/>
+            </td>
+          </tr>
+          <tr>
+            <th>請求先</th>
+            <td>
+              <input class="filter-item" data-operator="gte" data-name="customer_code_bill_from"/>
+            </td>
+            <td><span>～</span></td>
+            <td>
+              <input class="filter-item" data-operator="lte" data-name="customer_code_bill_to"/>
+            </td>
+          </tr>
+          <tr>
+            <th>発行形式</th>
+            <td>
+                <select class="filter-item" data-operator="eq" data-name="issue_format"
+                        style="height:26px">
+                    <option value='0'>伝票単位</option>
+                    <option value='1'>明細単位</option>
+                </select>
+            </td>
+          </tr>
+        </table>
+    </t>
+</template>
