@@ -33,6 +33,7 @@ class NewClassPartnerCustom(models.Model):
     # 請求先コード
     customer_code_bill = fields.Char(string='Billing Code', store=True)
     customer_get_billing_code = fields.Many2one('res.partner', 'Customer', store=False)
+    customer_get_billing_code_name = fields.Char('Name', related='customer_get_billing_code.name')
     customer_name_short = fields.Char(string='Customer Name Short')
     customer_name_kana = fields.Char(string='Customer Name Kana')
     zip_code = fields.Char('Zip')
@@ -161,13 +162,12 @@ class NewClassPartnerCustom(models.Model):
     @api.onchange('customer_code')
     def _get_billing_code_by_code(self):
         if self.customer_code:
+            self.customer_code_bill = self.customer_code
             code_count = self.env['res.partner'].search_count([('customer_code', '=', self.customer_code)])
             if code_count > 0:
                 raise ValidationError(_('The code must be unique!'))
         return {}
-        for rec in self:
-            if rec.customer_code and not rec.customer_code_bill:
-                rec.customer_code_bill = rec.customer_code
+
 
     @api.constrains('customer_bill_discount', 'customer_bill_discount_rate', 'customer_rate')
     def _check_min_max(self):
