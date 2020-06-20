@@ -296,12 +296,12 @@
                 <field name="invoice_custom_standardnumber"/>
                 <field name="quantity" string="Quantity"/>
                 <field name="price_unit" string="Price"/>
-                <field name="product_uom_id" string="UoM" required="True" style="text-align:right; justify-content: flex-end;"/>
+                <field name="product_uom_id" string="UoM" style="text-align:right; justify-content: flex-end;"/>
                 <field name="invoice_custom_lineamount"/>
                 <field name="x_product_standard_price"/>
                 <field name="x_product_cost_price"/>
                 <field name="invoice_custom_Description"/>
-                <field name="tax_rate" string="Tax Rate" attrs="{'readonly': [('parent.x_voucher_tax_transfer', '!=', 'custom_tax')]}"/>
+                <field name="tax_rate" string="Tax Rate" readonly="0"/>
                 <field name="move_name" invisible="1"/>
                 <field name="account_id" invisible="1" groups="account.group_account_user" domain="[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id)]" attrs="{'required': [('display_type', '=', False)]}"/>
                 <field name="analytic_account_id" invisible="1" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting" optional="show"/>

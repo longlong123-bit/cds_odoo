@@ -28,7 +28,7 @@ class ProductTemplate(models.Model):
 
     uom_id = fields.Many2one('uom.uom', 'UOM', default=_get_default_uom_id,
                              help="Default unit of measure used for all stock operations.")
-    product_uom_test = fields.Char('uom')
+    product_uom_custom = fields.Char('uom')
 
     product_custom_freight_category = fields.Many2one('freight.category.custom', 'Maker code')
     product_maker_code = fields.Char('Maker code', related='product_custom_freight_category.search_key_freight')
@@ -563,7 +563,7 @@ class ProductCustomPurchasingLine(models.Model):
 
     uom_id = fields.Many2one('uom.uom', 'UOM', default=_get_default_uom_id,
                              help="Default unit of measure used for all stock operations.")
-    product_uom_test = fields.Char('uom')
+    product_uom_custom = fields.Char('uom')
 
     name = fields.Many2one(string='Business Partner')
     product_code = fields.Char(string='Partner Product Key', default='1000000')

@@ -1284,7 +1284,7 @@ class AccountMoveLine(models.Model):
                 line.tax_ids = None
                 line.tax_rate = None
 
-            line.product_uom_id = line.product_id.product_uom_test
+            line.product_uom_id = line.product_id.product_uom_custom
             # line.price_unit = line._get_computed_price_unit()
             line.invoice_custom_FreightCategory = line._get_computed_freigth_category()
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
