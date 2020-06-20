@@ -1039,6 +1039,7 @@ class AccountMoveLine(models.Model):
     x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品'), ('値引', '値引'), ('サンプル', 'サンプル'), ('消費税', '消費税')],
                                          default='通常')
     x_product_barcode = fields.Char(string='JAN/UPC/EAN')
+    product_uom_id = fields.Char(string='UoM')
     # x_product_barcode_show_in_tree = fields.Char(string='JANコード', related='x_product_barcode.barcode')
     # x_product_code_show_in_tree = fields.Char(string='商品コード', related='x_product_barcode.product_code_1')
 
@@ -1259,28 +1260,6 @@ class AccountMoveLine(models.Model):
         else:
             return False
 
-    # def _get_computed_name(self):
-    #     self.ensure_one()
-    #
-    #     if not self.product_id:
-    #         return ''
-    #
-    #     if self.partner_id.lang:
-    #         product = self.product_id.with_context(lang=self.partner_id.lang)
-    #     else:
-    #         product = self.product_id
-    #
-    #     values = []
-    #     if product.partner_ref:
-    #         values.append(product.partner_ref)
-    #     if self.journal_id.type == 'sale':
-    #         if product.description_sale:
-    #             values.append(product.description_sale)
-    #     elif self.journal_id.type == 'purchase':
-    #         if product.description_purchase:
-    #             values.append(product.description_purchase)
-    #     return '\n'.join(values)
-
     @api.onchange('product_id')
     def _onchange_product_id(self):
         for line in self:
@@ -1308,7 +1287,7 @@ class AccountMoveLine(models.Model):
                 line.tax_ids = None
                 line.tax_rate = None
 
-            line.product_uom_id = line._get_computed_uom()
+            line.product_uom_id = line.product_id.product_uom_test
             # line.price_unit = line._get_computed_price_unit()
             line.invoice_custom_FreightCategory = line._get_computed_freigth_category()
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
@@ -1336,8 +1315,9 @@ class AccountMoveLine(models.Model):
             # todo set price follow product code
             # line.price_unit = line._get_computed_price_unit()
 
-        if len(self) == 1:
-            return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
+        # Comment for changing UOM, Category to Char
+        # if len(self) == 1:
+        #     return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
 
     def _get_computed_price_unit(self):
         # todo set price follow product code
