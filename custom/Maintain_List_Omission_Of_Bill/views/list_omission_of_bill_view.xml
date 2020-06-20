@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- list tree -->
+		<record model="ir.ui.view" id="list_omission_of_bill_tree">
+			<field name="name">list_omission_of_bill_tree</field>
+			<field name="model">omission.bill</field>
+            <field name="arch" type="xml">
+				<tree create="0" import="0">
+					<field name="input_issue_format" invisible="1"/>
+					<field name="sales_date"/>
+					<field name="invoice_no"/>
+                    <field name="customer_name"/>
+					<field name="amount_untaxed" attrs="{'issue_format': '0'}" sum="total"/>
+					<field name="amount_tax" attrs="{'issue_format': '0'}" sum="total"/>
+					<field name="detail_number" attrs="{'issue_format': '0'}"/>
+					<field name="invoice_line_type" attrs="{'issue_format': '1'}"/>
+					<field name="jan_code" attrs="{'issue_format': '1'}"/>
+                    <field name="product_code" attrs="{'issue_format': '1'}"/>
+					<field name="part_model_number" attrs="{'issue_format': '1'}"/>
+					<field name="maker_name" attrs="{'issue_format': '1'}"/>
+					<field name="product_name" attrs="{'issue_format': '1'}"/>
+					<field name="quantity" attrs="{'issue_format': '1'}" sum="total"/>
+					<field name="unit" attrs="{'issue_format': '1'}"/>
+					<field name="price_unit" attrs="{'issue_format': '1'}" sum="total"/>
+					<field name="price_total" attrs="{'issue_format': '1'}" sum="total"/>
+					<field name="tax_rate" attrs="{'issue_format': '1'}" sum="total"/>
+					<field name="tax_transfer"/>
+				</tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="action_list_omission_of_bill">
+            <field name="name">List Omission Of Bill</field>
+            <field name="res_model">omission.bill</field>
+			<field name="view_id" ref="list_omission_of_bill_tree"/>
+            <field name="view_mode">tree</field>
+			<field name="context">{'list_omission_of_bill_module': True}</field>
+        </record>
+
+        <menuitem id="menu_list_omission_of_bill" parent="Maintain_Supplier_Ledger_Inquiry.menu_parent_accounts_receivable"
+                  name="List Omission Of Bill" sequence="3"
+                  action="action_list_omission_of_bill" groups="base.group_user"/>
+    </data>
+</odoo>

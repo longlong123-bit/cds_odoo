@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_list_omission_of_bill" model="report.paperformat">
+            <field name="name">List Omission Of Bill</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+        <report
+            paperformat="Maintain_List_Omission_Of_Bill.paperformat_list_omission_of_bill"
+            id="report_list_omission_of_bill"
+            string="List Omission Of Bill"
+            model="omission.bill"
+            report_type="qweb-pdf"
+            file="Maintain_List_Omission_Of_Bill.report_list_omission_of_bill"
+            name="Maintain_List_Omission_Of_Bill.report_list_omission_of_bill"
+        />
+    </data>
+</odoo>
