@@ -220,10 +220,10 @@
                                            attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"
                                            options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>
                                     <field name="product_barcode"/>
+                                    <field name="product_freight_category"/>
                                     <field name="product_name"/>
-                                    <field name="product_name2"/>
+                                    <field name="product_name2" invisible="True"/>
                                     <field name="product_standard_number"/>
-                                    <field name="product_freight_category" invisible="True"/>
                                     <field name="product_uom_qty"/>
                                     <field name="price_unit"/>
                                     <field name="product_uom_id"/>
@@ -232,7 +232,7 @@
                                     <field name="cost"/>
                                     <field name="description"/>
                                     <field name="tax_id" widget="many2many_tags" invisible="True"/>
-                                    <field name="tax_rate" attrs="{'readonly': [('parent.tax_method', '!=', 'custom_tax')]}"/>
+                                    <field name="tax_rate"/>
                                     <field name="line_tax_amount" widget="monetary" invisible="True"/>
                                     <field name="name" widget="section_and_note_text" invisible="True"
                                            optional="show" string="Description"
@@ -243,7 +243,9 @@
                             <group name="note_group" col="6">
                                 <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
                                     <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}" string="Amount Untaxed"/>
-                                    <field name="amount_tax" widget='monetary' options="{'currency_field': 'currency_id'}" string="Amount Tax"/>
+                                    <field name="amount_tax"
+                                           attrs="{'readonly': [('tax_method', '!=', 'custom_tax')]}"
+                                           options="{'currency_field': 'currency_id'}" string="Amount Tax"/>
                                     <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                                         <label for="amount_total" string="Amount Total"/>
                                     </div>

@@ -424,12 +424,11 @@ class ClassInvoiceCustom(models.Model):
 
                 if move.is_invoice(include_receipts=True):
                     # === Invoices ===
-
                     if not line.exclude_from_invoice_tab:
                         # Untaxed amount.
                         if (line.x_invoicelinetype != 'サンプル'):
                             if move.x_voucher_tax_transfer == 'voucher' \
-                                    and line.product_id.product_tax_category == 'foreign':
+                                    and line.product_id.product_tax_category != 'exempt':
                                 # total_line_tax = sum(
                                 #     tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                                 line_tax_amount = (line.tax_rate * line.price_unit * line.quantity) / 100
@@ -463,10 +462,14 @@ class ClassInvoiceCustom(models.Model):
             else:
                 sign = -1
 
-            if move.x_voucher_tax_transfer == 'voucher':
-                move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 2, move.customer_tax_rounding)
-            else:
-                move.x_voucher_tax_amount = total_voucher_tax_amount
+            if move.x_voucher_tax_transfer != 'custom_tax':
+                if move.x_voucher_tax_transfer == 'voucher':
+                    move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 2, move.customer_tax_rounding)
+                else:
+                    move.x_voucher_tax_amount = total_voucher_tax_amount
+            # else:
+            #     move.x_voucher_tax_amount = move.x_voucher_tax_amount
+
             # move.amount_untaxed = sign * (total_untaxed_currency if len(currencies) == 1 else total_untaxed)
             # move.amount_tax = sign * (total_tax_currency if len(currencies) == 1 else total_tax)
             # move.amount_total = sign * (total_currency if len(currencies) == 1 else total)
@@ -492,6 +495,10 @@ class ClassInvoiceCustom(models.Model):
                     move.invoice_payment_state = 'paid'
             else:
                 move.invoice_payment_state = 'not_paid'
+
+    @api.onchange('x_voucher_tax_amount')
+    def _onchange_amount_tax(self):
+        self._compute_amount()
 
     @api.onchange('x_history_voucher')
     def _onchange_x_test(self):
@@ -868,7 +875,7 @@ class ClassInvoiceCustom(models.Model):
         records = self.env['account.move.line'].search([
             ('move_id', 'in', self._ids),
             ('product_id', '!=', False)
-        ]).read()
+        ], order='invoice_custom_line_no').read()
 
         # Get tax
         for record in records:
@@ -976,6 +983,7 @@ class AccountMoveLine(models.Model):
                 line.x_product_name = detail_history.x_product_name
                 line.x_product_name2 = detail_history.x_product_name2
                 line.product_uom_id = detail_history.product_uom_id
+                line.tax_rate = detail_history.tax_rate
                 line.x_product_standard_price = detail_history.x_product_standard_price
                 line.invoice_custom_standardnumber = detail_history.invoice_custom_standardnumber
                 line.x_product_cost_price = detail_history.x_product_cost_price
@@ -1084,7 +1092,7 @@ class AccountMoveLine(models.Model):
     tax_ids = fields.Many2many('account.tax', string='Taxes', help="Taxes that apply on the base amount",
                                compute='compute_tax_ids')
 
-    tax_rate = fields.Float('Tax Rate', compute='compute_tax_rate')
+    tax_rate = fields.Float('Tax Rate', compute='computed_tax_rate')
 
     # # 消費税区分
     # line_tax_category = fields.Selection(
@@ -1159,9 +1167,9 @@ class AccountMoveLine(models.Model):
         for line in self:
             line.tax_ids = line.product_id.taxes_id
 
-    @api.onchange('tax_ids', 'x_invoicelinetype', 'move_id.x_voucher_tax_transfer',
+    @api.depends('tax_ids', 'x_invoicelinetype', 'move_id.x_voucher_tax_transfer',
                   'move_id.customer_tax_rounding', 'tax_rate')
-    def compute_tax_rate(self):
+    def computed_tax_rate(self):
         for line in self:
             line.tax_rate = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
 
@@ -1186,14 +1194,16 @@ class AccountMoveLine(models.Model):
         for line in self:
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity)
 
-    @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding')
+    @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding',
+                 'move_id.invoice_line_ids')
     def compute_line_tax_amount(self):
         for line in self:
             # line.price_unit = line._get_computed_price_unit()
             line.compute_line_amount()
             if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
                 and line.product_id.product_tax_category != 'exempt') \
-                    or line.move_id.x_voucher_tax_transfer == 'custom_tax':
+                    or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
+                        and line.product_id.product_tax_category == 'foreign'):
                 # total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
                                                                          line.tax_rate,
@@ -1234,7 +1244,8 @@ class AccountMoveLine(models.Model):
 
             if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
                 and line.product_id.product_tax_category != 'exempt') \
-                    or line.move_id.x_voucher_tax_transfer == 'custom_tax':
+                    or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
+                        and line.product_id.product_tax_category == 'foreign'):
                 # total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
                                                                          line.tax_rate,
@@ -1277,14 +1288,8 @@ class AccountMoveLine(models.Model):
 
             # line.tax_ids = line._get_computed_taxes()
             # line.tax_ids = line.product_id.taxes_id
-            if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
-                and line.product_id.product_tax_category != 'exempt') \
-                    or line.move_id.x_voucher_tax_transfer == 'custom_tax':
-                line.compute_tax_ids()
-                line.compute_tax_rate()
-            else:
-                line.tax_ids = None
-                line.tax_rate = None
+            line.compute_tax_ids()
+            line.computed_tax_rate()
 
             line.product_uom_id = line.product_id.product_uom_custom
             # line.price_unit = line._get_computed_price_unit()
@@ -1322,8 +1327,15 @@ class AccountMoveLine(models.Model):
         # todo set price follow product code
         if self.move_id.x_voucher_tax_transfer == 'internal_tax':
             price_unit = self.product_id.price_include_tax_1
-        elif self.move_id.x_voucher_tax_transfer in ('voucher', 'invoice'):
-            price_unit = self.product_id.price_1
+        # elif self.move_id.x_voucher_tax_transfer in ('voucher', 'invoice'):
+        #     price_unit = self.product_id.price_1
+        elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
+            if self.product_id.product_tax_category == 'foreign':
+                price_unit = self.product_id.price_no_tax_1
+            elif self.product_id.product_tax_category == 'internal':
+                price_unit = self.product_id.price_include_tax_1
+            else:
+                price_unit = self.product_id.price_1
         else:
             price_unit = self.product_id.price_no_tax_1
 

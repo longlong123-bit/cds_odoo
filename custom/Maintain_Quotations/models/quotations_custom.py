@@ -178,12 +178,15 @@ class QuotationsCustom(models.Model):
         for order in self:
             amount_untaxed = amount_tax = 0.0
             for line in order.order_line:
-                if order.tax_method == 'voucher' and line.product_id.product_tax_category == 'foreign':
-                    # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
-                    line_tax_amount = (line.tax_rate * line.price_unit * line.product_uom_qty) / 100
-                    amount_tax += line_tax_amount
+                if order.tax_method != 'custom_tax':
+                    if order.tax_method == 'voucher' and line.product_id.product_tax_category != 'exempt':
+                        # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
+                        line_tax_amount = (line.tax_rate * line.price_unit * line.product_uom_qty) / 100
+                        amount_tax += line_tax_amount
+                    else:
+                        amount_tax += line.line_tax_amount
                 else:
-                    amount_tax += line.line_tax_amount
+                    amount_tax = order.amount_tax
 
                 amount_untaxed += line.line_amount
                 # amount_tax += line.line_tax_amount
@@ -191,6 +194,17 @@ class QuotationsCustom(models.Model):
                 'amount_untaxed': amount_untaxed,
                 'amount_tax': amount_tax,
                 'amount_total': amount_untaxed + amount_tax,
+            })
+
+    @api.onchange('amount_tax')
+    def _onchange_amount_tax(self):
+        for order in self:
+            amount_untaxed = 0.0
+            for line in order.order_line:
+                amount_untaxed += line.line_amount
+            order.update({
+                'amount_untaxed': amount_untaxed,
+                'amount_total': amount_untaxed + self.amount_tax,
             })
 
     @api.onchange('partner_id')
@@ -206,7 +220,7 @@ class QuotationsCustom(models.Model):
     def get_lines(self):
         records = self.env['sale.order.line'].search([
             ('order_id', 'in', self._ids)
-        ]).read()
+        ], order='quotation_custom_line_no').read()
 
         for record in records:
             if record['tax_id']:
@@ -419,7 +433,7 @@ class QuotationsLinesCustom(models.Model):
     product_uom_qty = fields.Float(string='Product UOM Qty', digits='(12,0)', default=1.0)
     product_uom = fields.Many2one(string='Product UOM')
     price_unit = fields.Float(string='Price Unit')
-    description = fields.Char(string='Description')
+    description = fields.Text(string='Description')
 
     class_item = fields.Selection([
         ('通常', '通常'),
@@ -430,8 +444,8 @@ class QuotationsLinesCustom(models.Model):
 
     product_barcode = fields.Char(string='Product Barcode')
     product_freight_category = fields.Many2one('freight.category.custom', 'Freight Category')
-    product_name = fields.Char(string='Product Name')
-    product_name2 = fields.Char(string='Product Name 2')
+    product_name = fields.Text(string='Product Name')
+    product_name2 = fields.Text(string='Product Name 2')
     product_standard_number = fields.Char(string='Product Standard Number')
     product_list_price = fields.Float(string='Product List Price')
     cost = fields.Float(string='Cost')
@@ -567,15 +581,20 @@ class QuotationsLinesCustom(models.Model):
 
     def compute_price_unit(self):
         for line in self:
-            line.product_list_price = line.product_id.standard_price or ''
-            line.cost = line.product_id.cost or ''
+            line.product_list_price = line.product_id.standard_price or 0.00
+            line.cost = line.product_id.cost or 0.00
             # todo set price follow product code
             if line.order_id.tax_method == 'internal_tax':
-                line.price_unit = line.product_id.price_include_tax_1 or ''
-            elif line.order_id.tax_method in ('voucher', 'invoice'):
-                line.price_unit = line.product_id.price_1 or ''
+                line.price_unit = line.product_id.price_include_tax_1 or 0.00
+            elif line.order_id.tax_method == 'custom_tax':
+                if line.product_id.product_tax_category == 'foreign':
+                    line.price_unit = line.product_id.price_no_tax_1
+                elif line.product_id.product_tax_category == 'internal':
+                    line.price_unit = line.product_id.price_include_tax_1
+                else:
+                    line.price_unit = line.product_id.price_1
             else:
-                line.price_unit = line.product_id.price_no_tax_1 or ''
+                line.price_unit = line.product_id.price_no_tax_1 or 0.00
 
     def compute_line_amount(self):
         for line in self:
@@ -588,8 +607,10 @@ class QuotationsLinesCustom(models.Model):
 
     def compute_line_tax_amount(self):
         for line in self:
-            if (line.order_id.tax_method == 'foreign_tax' and line.product_id.product_tax_category != 'exempt') \
-                    or line.order_id.tax_method == 'custom_tax':
+            if (line.order_id.tax_method == 'foreign_tax'
+                and line.product_id.product_tax_category != 'exempt') \
+                    or (line.order_id.tax_method == 'custom_tax'
+                        and line.product_id.product_tax_category == 'foreign'):
                 # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self.get_compute_line_tax_amount(line.line_amount,
                                                                         line.tax_rate,

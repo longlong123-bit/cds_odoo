@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-21 08:37+0000\n"
-"PO-Revision-Date: 2020-06-21 08:37+0000\n"
+"POT-Creation-Date: 2020-06-21 17:01+0000\n"
+"PO-Revision-Date: 2020-06-21 17:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,12 +29,6 @@ msgstr "仕入請求伝票登録クローズ日"
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_ar_invoice_closing_date
 msgid "AR Invoice Closing Date"
 msgstr "売上請求伝票登録クローズ日"
-
-#. module: account
-#: model:ir.ui.menu,name:account.account_invoicing_menu
-#: model:ir.ui.menu,name:account.menu_finance
-msgid "Invoicing"
-msgstr "売上管理"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_is_active
@@ -254,7 +248,7 @@ msgstr "デフォルト"
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #, python-format
 msgid "Description"
-msgstr "適用"
+msgstr "備考"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__x_studio_payment_rule_1__rule_direct_debit
@@ -432,6 +426,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__move_name
 msgid "Invoice"
 msgstr "請求伝票"
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_confirm_action
+msgid "Invoice Confirm"
+msgstr "売上入力確認リスト"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_date_invoiced
@@ -786,7 +785,7 @@ msgstr ""
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_standard_price
 msgid "Standard Price"
-msgstr "備考"
+msgstr "標準小売価格"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__taxGroup
@@ -1228,15 +1227,6 @@ msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #. openerp-web
-#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
-#, python-format
-msgid "商品名2"
-msgstr ""
-
-#. module: Maintain_Invoice_Remake
-#. openerp-web
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
 #, python-format
 msgid "営業担当者"
@@ -1260,11 +1250,6 @@ msgstr ""
 #: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_action
 msgid "売上入力"
 msgstr ""
-
-#. module: Maintain_Invoice_Remake
-#: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_confirm_action
-msgid "Invoice Confirm"
-msgstr "売上入力確認リスト"
 
 #. module: Maintain_Invoice_Remake
 #. openerp-web
