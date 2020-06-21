@@ -514,7 +514,7 @@
 <!--    </record>-->
 
   <record id="invoice_template_action" model="ir.actions.act_window">
-      <field name="name">Invoices</field>
+      <field name="name">売上入力</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">account.move</field>
       <field name="view_mode">tree,form</field>

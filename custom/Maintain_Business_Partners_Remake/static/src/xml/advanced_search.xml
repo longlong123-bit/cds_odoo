@@ -28,20 +28,43 @@
                   <input class="filter-item" data-operator="ilike" data-name="customer_name_kana"/>
                 </td>
             </tr>
+            <tr>
+              <th>住所1</th>
+                <td>
+                  <input class="filter-item" data-operator="ilike" data-name="street"/>
+                </td>
+            </tr>
 
+            <tr>
+              <th>電話番号</th>
+                <td>
+                  <input class="filter-item" data-operator="ilike" data-name="customer_phone"/>
+                </td>
+            </tr>
+            <tr>
+              <th>地区コード</th>
+                <td>
+                  <input class="filter-item" data-operator="ilike" data-name="customer_state"/>
+                </td>
+            </tr>
+            <tr>
+              <th>取引先グループコード</th>
+                <td>
+                  <input class="filter-item" data-operator="ilike" data-name="customer_supplier_group_code"/>
+                </td>
+            </tr>
+            <tr>
+              <th>業種コード</th>
+                <td>
+                  <input class="filter-item" data-operator="ilike" data-name="customer_industry_code"/>
+                </td>
+            </tr>
             <tr>
               <th>Representative/Agent</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="customer_agent"/>
                 </td>
             </tr>
-
-<!--            <tr>-->
-<!--              <th>商品名カナ</th>-->
-<!--                <td>-->
-<!--                  <input class="filter-item" data-operator="ilike" data-name="product_custom_goodsnamef"/>-->
-<!--                </td>-->
-<!--            </tr>-->
         </table>
     </t>
 </template>
