@@ -44,8 +44,8 @@ class ManyPaymentCustom(models.Model):
                     'partner_id': data.partner_id,
                     'partner_payment_name1': line.customer_name,
                     'payment_amount': line.line_amount + line.tax_amount,
-                    'payment_method_id': 1,
-                    'vj_c_payment_category': 1
+                    'payment_method_id': 1 or ''
+                    # 'vj_c_payment_category': 15
                 }))
 
             self.many_payment_line_ids = results

@@ -58,7 +58,7 @@ class IncomePaymentCustom(models.Model):
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
     many_payment_id = fields.Many2one('many.payment', string="Many payment", ondelete='cascade', index=True)
-    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', default=1)
+    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', required=False)
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
     payment_type = fields.Selection(
@@ -108,6 +108,16 @@ class IncomePaymentCustom(models.Model):
 
     invoice_history = fields.Many2one('account.move', string='Journal Entry', store=False)
 
+    # def _get_default_vj_c_payment_category(self):
+    #     # res = self.pool.get('receipt.divide.custom').search(cr, uid, [('currency_id', '=', 'EUR')], context=context)
+    #     # return res and res[0] or False
+    #     return self.env['receipt.divide.custom'].search([], limit=1, order='id').id
+    #
+    # # Default values that need to be set
+    # defaults = {
+    #     'vj_c_payment_category': _get_default_vj_c_payment_category
+    # }
+
     @api.onchange('invoice_history')
     def _onchange_invoice_history(self):
         if self.invoice_history:
@@ -115,10 +125,12 @@ class IncomePaymentCustom(models.Model):
             data = self.invoice_history
             self.partner_id = data.partner_id
             self.partner_payment_name1 = data.partner_id.name
-            self.account_payment_line_ids.payment_amount = data.amount_total
+            results.append((0, 0, {
+                'payment_amount': data.amount_total,
+                'vj_c_payment_category': 1 or ''
+            }))
 
-
-
+            self.account_payment_line_ids = results
 
     @api.onchange('partner_id', 'payment_terms', 'payment_term_custom_fix_month_day',
                   'payment_term_custom_fix_month_offset')
@@ -518,7 +530,7 @@ class IncomePaymentLineCustom(models.Model):
 
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
-    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', default=1)
+    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', required=False)
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
     name = fields.Char(string='Name')
