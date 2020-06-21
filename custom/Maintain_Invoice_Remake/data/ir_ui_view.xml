@@ -139,7 +139,10 @@
               <td class="col-field"><field name="x_studio_date_shipment" string="shipmentdate*" required="1" z-index="95" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
 
               <td class="col-label"><label for="x_userinput_id" string="userinput_id"/></td>
-              <td class="col-field"><field name="x_userinput_id" string="userinput_id" z-index="91" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
+              <td class="col-field"><field name="x_userinput_id" string="userinput_id"
+                                           z-index="91" attrs="{'readonly':[('state','in',['posted'])]}"
+                                           class="o_input"
+                                           options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True}"/></td>
 
               <td class="col-label"><label for="customer_trans_classification_code" string="Transaction Class*"/></td>
               <td class="col-field">
@@ -151,7 +154,8 @@
               <td class="col-field">
                 <field name="x_studio_business_partner" required="1" domain="[('customer_rank','>', 0)]" default_focus="1"
                        context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
-                       attrs="{'readonly':[('state','in',['posted'])]}" z-index="98"/>
+                       attrs="{'readonly':[('state','in',['posted'])]}" z-index="98"
+                       options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True}"/>
               </td>
               <td colspan="2"><field name="x_studio_name" string="Name" class="o_address_street" style="width : 100%;"
                    placeholder="Name..." force_save="1"  widget="input" z-index="99" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
@@ -171,13 +175,16 @@
                 <td class="col-label"><label for="x_bussiness_partner_name_2" string="名称2"/></td>
                 <td colspan="2" class="col-field"><field name="x_bussiness_partner_name_2" string="名称2" attrs="{'readonly':[('state','in',['posted'])]}" force_save="1"  z-index="93"/></td>
                 <td class="col-label"><label for="sales_rep" string="Sales Rep"/></td>
-                <td class="col-field"><field name="sales_rep" string="Sales Rep" z-index="96" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
+                <td class="col-field"><field name="sales_rep" string="Sales Rep" z-index="96" attrs="{'readonly':[('state','in',['posted'])]}"
+                                             options="{'no_quick_create':True,'no_create_edit':True , 'no_open' : True}" class="o_input"/></td>
 
                 <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term"
                                            attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]} "/></td>
               <td class="col-field">
-                  <field name="invoice_payment_terms_custom" class="o_input" force_save="1"
-                         attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]} "/>
+                  <field name="invoice_payment_terms_custom"
+                         class="o_input" force_save="1"
+                         attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]}"
+                         options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True}"/>
               </td>
             </tr>
             <tr>
@@ -289,7 +296,11 @@
                 <field name="x_history_detail" style="display:none" domain="[('exclude_from_invoice_tab', '=', False)]" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
 		        <field name="invoice_custom_line_no" required="True"/>
                 <field name="x_invoicelinetype" required="True" string="内訳区分"/>
-                <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
+                <field name="product_id" string="Product Code"
+                       widget="product_many2one" context="{'show_product_code': 1}"
+                       attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"
+                       domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"
+                       options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True}"/>
                 <field name="x_product_barcode" string="JAN/UPC/EAN"/>
                 <field name="x_product_name" string="商品名"/>
                 <field name="x_product_name2" string="商品名2"/>

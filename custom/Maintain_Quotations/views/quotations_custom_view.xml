@@ -64,9 +64,9 @@
                             <tr>
                                 <td class="o_td_label"><label for="partner_id" string="Business Partner*"/></td>
                                 <td colspan="2"><field name="partner_id" widget="res_partner_many2one" required="1"
-                                           domain="[('customer_rank','>', 0)]" default_focus="1"
-                                           context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
-                                           options='{"reload_on_button": True, "no_quick_create": True}'
+                                                       domain="[('customer_rank','>', 0)]" default_focus="1"
+                                                       context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
+                                                       options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True}"
                                            z-index="98"/></td>
 
                                 <td></td>
@@ -90,7 +90,9 @@
                                 <td colspan="2"><field name="partner_name_2"/></td>
 
                                 <td class="o_td_label"><label for="report_header" string="Report Title*" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>
-                                <td><field name="report_header" attrs="{'invisible':[('paper_format','in','delivery')], 'required':[('paper_format','!=','delivery')]}"/></td>
+                                <td><field name="report_header"
+                                           attrs="{'invisible':[('paper_format','in','delivery')], 'required':[('paper_format','!=','delivery')]}"
+                                           options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True}"/></td>
                             </tr>
 
                             <!-- Row 4 -->
@@ -130,7 +132,9 @@
                                 <td colspan="2"><field name="shipping_address"/></td>
 
                                 <td class="o_td_label"><label for="sales_rep" string="Sales Rep*"/></td>
-                                <td colspan="2"><field name="sales_rep" required="True"/></td>
+                                <td colspan="2"><field name="sales_rep" required="True"
+                                                       options='{"reload_on_button": True, "no_quick_create": True, "no_create_edit": True, "no_open": True}'
+                                /></td>
 
                                 <td><field name="customer_tax_rounding" invisible="True"/></td>
                             </tr>
@@ -141,7 +145,9 @@
                                 <td colspan="2"><field name="note"/></td>
 
                                 <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="CB Partner Sales Rep*"/></td>
-                                <td colspan="2"><field name="cb_partner_sales_rep_id" required="True"/></td>
+                                <td colspan="2"><field name="cb_partner_sales_rep_id" required="True"
+                                                       options='{"reload_on_button": True, "no_quick_create": True, "no_create_edit": True, "no_open": True}'
+                                /></td>
                             </tr>
                             <tr>
                                 <td class="o_td_label"><label for="expiration_date" string="Expiration Date"/></td>
@@ -211,7 +217,8 @@
                                     <field name="quotation_custom_line_no" required="True" readonly="False"/>
                                     <field name="class_item" required="True"/>
                                     <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"
-                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"/>
+                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"
+                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>
                                     <field name="product_barcode"/>
                                     <field name="product_name"/>
                                     <field name="product_name2"/>
