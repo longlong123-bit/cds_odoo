@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-16 10:43+0000\n"
-"PO-Revision-Date: 2020-06-16 10:43+0000\n"
+"POT-Creation-Date: 2020-06-21 08:37+0000\n"
+"PO-Revision-Date: 2020-06-21 08:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,12 @@ msgstr "仕入請求伝票登録クローズ日"
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_ar_invoice_closing_date
 msgid "AR Invoice Closing Date"
 msgstr "売上請求伝票登録クローズ日"
+
+#. module: account
+#: model:ir.ui.menu,name:account.account_invoicing_menu
+#: model:ir.ui.menu,name:account.menu_finance
+msgid "Invoicing"
+msgstr "売上管理"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__payment_term_custom_is_active
@@ -131,9 +137,13 @@ msgid "Closing Date Compute"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_cost_price
+msgid "Cost Price"
+msgstr "原価"
+
+#. module: Maintain_Invoice_Remake
 #. openerp-web
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
-#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_uom_cost_value
 #, python-format
 msgid "Cost Value"
 msgstr "原価"
@@ -469,18 +479,6 @@ msgid "Invoice*"
 msgstr "請求伝票*"
 
 #. module: Maintain_Invoice_Remake
-#: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_action
-#: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_confirm_action
-msgid "Invoices"
-msgstr "売上入力"
-
-#. module: account
-#: model:ir.ui.menu,name:account.menu_finance
-msgid "Invoicing"
-msgstr "売上管理"
-
-
-#. module: Maintain_Invoice_Remake
 #: model:ir.ui.menu,name:Maintain_Invoice_Remake.menu_action_invoice
 msgid "Invoicing"
 msgstr "売上入力"
@@ -563,15 +561,9 @@ msgid "Line no"
 msgstr "明細番号"
 
 #. module: Maintain_Invoice_Remake
-#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_list_price
-msgid "List Price"
-msgstr ""
-
-#. module: Maintain_Invoice_Remake
 #. openerp-web
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_FreightCategory
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #, python-format
 msgid "Maker Code"
 msgstr "メーカー"
@@ -792,6 +784,11 @@ msgid "Shipment Date"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__x_product_standard_price
+msgid "Standard Price"
+msgstr "備考"
+
+#. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__taxGroup
 msgid "Tax"
 msgstr "税率"
@@ -801,7 +798,6 @@ msgstr "税率"
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__line_tax_amount
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_tax_line__tax_amount
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #, python-format
 msgid "Tax Amount"
 msgstr "税額"
@@ -856,12 +852,8 @@ msgid "Tax*"
 msgstr "税率*"
 
 #. module: Maintain_Invoice_Remake
-#. openerp-web
-#: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__tax_ids
-#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_line_custom_form
-#, python-format
 msgid "Taxes"
 msgstr "税"
 
@@ -883,12 +875,16 @@ msgstr "その検索キーの値は既に登録されています。"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,help:Maintain_Invoice_Remake.field_account_move__invoice_line_ids_tax
-#: model:ir.model.fields,help:Maintain_Invoice_Remake.field_account_move__x_history_voucher
 #: model:ir.model.fields,help:Maintain_Invoice_Remake.field_account_move_line__move_id
 #: model:ir.model.fields,help:Maintain_Invoice_Remake.field_account_move_line__x_history_detail
 #: model:ir.model.fields,help:Maintain_Invoice_Remake.field_account_tax_line__move_id
 msgid "The move of this entry line."
 msgstr "このエントリー行を移動します。"
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,help:Maintain_Invoice_Remake.field_account_move__x_history_voucher
+msgid "The moveview_move_custom_form of this entry line."
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,help:Maintain_Invoice_Remake.field_account_move_line__quantity
@@ -946,6 +942,7 @@ msgstr "単価"
 #. module: Maintain_Invoice_Remake
 #. openerp-web
 #: code:addons/Maintain_Invoice_Remake/static/src/xml/invoice_lines.xml:0
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__product_uom_id
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #, python-format
 msgid "UoM"
@@ -1052,6 +1049,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "cus_salesslipforms_Table"
 msgstr "摘要"
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_from_date
+msgid "customer_from_date"
+msgstr ""
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__invoice_custom_discountrate
@@ -1253,6 +1255,16 @@ msgstr ""
 #, python-format
 msgid "売上伝票No"
 msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_action
+msgid "売上入力"
+msgstr ""
+
+#. module: Maintain_Invoice_Remake
+#: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_template_confirm_action
+msgid "Invoice Confirm"
+msgstr "売上入力確認リスト"
 
 #. module: Maintain_Invoice_Remake
 #. openerp-web
