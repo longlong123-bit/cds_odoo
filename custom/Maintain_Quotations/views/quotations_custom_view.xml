@@ -165,6 +165,7 @@
                             <field
                                 name="order_line"
                                 widget="section_and_note_one2many"
+                                context="{'default_line_ids': order_line, 'default_order_id': id}"
                                 mode="tree,kanban"
                                 attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"
                             >
@@ -177,16 +178,22 @@
                                 </form>
                                 <tree
                                     string="Sales Order Lines"
-                                    editable="bottom"
+                                    editable="bottom" class="quotations_custom_details"
+                                    default_order="quotation_custom_line_no"
                                     decoration-info="(not display_type and invoice_status == 'to invoice')"
                                 >
                                     <control>
                                         <create name="add_product_control" string="Add a product"/>
-                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
-                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
                                     </control>
-                                    <field name="refer_detail_history" position="attributes" widget="Maintain_Quotation_History.Detail"/>
-                                    <field name="sequence" widget="handle" />
+                                    <field name="sequence" widget="handle"/>
+                                    <button name="button_update" type="object"
+                                            style="background : url('/web/static/src/img/form-toolbar/EditRecord16.png') no-repeat center;
+                                            background-size:contain;background-color: transparent;
+                                            display: inline-block; margin-left: 1px;
+                                            margin-right: 1px; width: 16px; height: 16px;
+                                            padding: 1px;border: none;" >
+                                    </button>
+                                    <field name="refer_detail_history" style="display:none" position="attributes" widget="Maintain_Quotation_History.Detail"/>
                                     <field name="display_type" invisible="True"/>
                                     <field name="product_uom_category_id" invisible="True"/>
 
@@ -201,23 +208,26 @@
                                     <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded" string="Total" invisible="True"/>
                                     <field name="price_total" widget="monetary" groups="account.group_show_line_subtotals_tax_included" invisible="True"/>
 
+                                    <field name="quotation_custom_line_no" required="True" readonly="False"/>
                                     <field name="class_item" required="True"/>
                                     <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"
                                            attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"/>
-                                    <field name="product_name"/>
                                     <field name="product_barcode"/>
-                                    <field name="product_freight_category"/>
+                                    <field name="product_name"/>
+                                    <field name="product_name2"/>
                                     <field name="product_standard_number"/>
-                                    <field name="product_list_price" readonly="True"/>
+                                    <field name="product_freight_category" invisible="True"/>
                                     <field name="product_uom_qty"/>
-                                    <field name="product_uom"/>
                                     <field name="price_unit"/>
-                                    <field name="cost"/>
+                                    <field name="product_uom_id"/>
                                     <field name="line_amount" widget="monetary"/>
+                                    <field name="product_list_price" readonly="True"/>
+                                    <field name="cost"/>
+                                    <field name="description"/>
                                     <field name="tax_id" widget="many2many_tags" invisible="True"/>
                                     <field name="tax_rate" attrs="{'readonly': [('parent.tax_method', '!=', 'custom_tax')]}"/>
-                                    <field name="line_tax_amount" widget="monetary"/>
-                                    <field name="name" widget="section_and_note_text"
+                                    <field name="line_tax_amount" widget="monetary" invisible="True"/>
+                                    <field name="name" widget="section_and_note_text" invisible="True"
                                            optional="show" string="Description"
                                            attrs="{'required': [('display_type', '!=', False)]}"/>
                                 </tree>

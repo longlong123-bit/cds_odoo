@@ -24,6 +24,12 @@ odoo.define('web.relational_fields_custom', function (require) {
                                             name: 'invoice_custom_line_no',
                                         });
                                     }
+                                    if(self.name === 'order_line'){
+                                        self.trigger_up('toggle_column_order', {
+                                            id: self.value.id,
+                                            name: 'quotation_custom_line_no',
+                                        });
+                                    }
                                 }
                             })
                             .guardedCatch(ev.data.onFailure);
