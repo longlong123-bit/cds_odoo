@@ -401,13 +401,18 @@ msgid "Quotation History"
 msgstr ""
 
 #. module: Maintain_Quotations
-#: model:ir.actions.act_window,name:Maintain_Quotations.quotation_custom_action
 #: model:ir.ui.menu,name:Maintain_Quotations.menu_ideas
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_quotations_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_quotations_custom_tree
 msgid "Quotations Custom"
 msgstr "見積管理"
+
+#. module: Maintain_Quotations
+#: model:ir.actions.act_window,name:Maintain_Quotations.quotation_custom_action
+#: model:ir.ui.menu,name:Maintain_Quotations.quotation
+msgid "見積入力"
+msgstr "見積入力"
 
 #. module: Maintain_Quotations
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__quotations_date
