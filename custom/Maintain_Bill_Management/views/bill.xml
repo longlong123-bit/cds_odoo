@@ -73,6 +73,7 @@
                 <button name="bm_bill_excerpt_button" type="object" string="Excerpt" class="btn-sm btn btn-primary"
                         attrs="{'invisible': ['|',('customer_except_request','=',False),('voucher_number','=',0)]}"/>
                 <field name="deadline" string="Deadline" invisible="1"/>
+                <field name="current_closing_date" invisible="1"/>
                 <field name="customer_agent" invisible="1"/>
                 <field name="department" invisible="1"/>
                 <field name="customer_supplier_group_code" invisible="1"/>

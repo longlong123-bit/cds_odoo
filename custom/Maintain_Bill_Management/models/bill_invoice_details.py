@@ -15,6 +15,7 @@ class BillInvoiceDetailsClass(models.Model):
     bill_date = fields.Date(string="Bill Date")
     last_closing_date = fields.Date(string='Last Closing Date')
     closing_date = fields.Date(string='Closing Date')
+    deadline = fields.Date(string='Deadline')
     customer_code = fields.Char(string='Customer Code')
     customer_name = fields.Char(string='Customer Name')
     customer_trans_classification_code = fields.Selection([('sale', 'Sale'), ('cash', 'Cash')],

@@ -18,6 +18,9 @@ val_customer_code_bill_to = ''
 # 表示順
 val_display_order = ''
 
+# global variable for bill
+val_bill_search_deadline = ''
+
 
 class AccountsReceivableBalanceList(models.Model):
     _inherit = 'res.partner'
@@ -146,6 +149,9 @@ class AccountsReceivableBalanceList(models.Model):
                         record[2] = True
                     else:
                         record[2] = False
+                if 'deadline' == record[0]:
+                    global val_bill_search_deadline
+                    val_bill_search_deadline = record[2]
                 domain += [record]
 
         else:

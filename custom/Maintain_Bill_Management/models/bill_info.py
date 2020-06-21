@@ -12,6 +12,7 @@ class BillInfoClass(models.Model):
     bill_date = fields.Date(string='Bill Date')
     last_closing_date = fields.Date(string='Last Closing Date')
     closing_date = fields.Date(string='Closing Date')
+    deadline = fields.Date(string='Deadline')
     invoices_number = fields.Integer(string='Number of Invoices', default=0)
     invoices_details_number = fields.Integer(string='Number of Invoice Details', default=0)
     last_billed_amount = fields.Monetary(string='Last Billed Amount', currency_field='currency_id')
