@@ -1,7 +1,10 @@
+import datetime
+
 from odoo import models, fields, api
-from datetime import date, timedelta
+from datetime import datetime, date, timedelta
 import calendar
 import math
+from ...Maintain_Accounts_Receivable_Balance_List.models import accounts_receivable_balance_list as advanced_search
 
 
 class BillingClass(models.Model):
@@ -10,6 +13,8 @@ class BillingClass(models.Model):
     @staticmethod
     def _compute_closing_date_for_bill(customer_closing_date):
         today = date.today()
+        if advanced_search.val_bill_search_deadline:
+            today = datetime.strptime(advanced_search.val_bill_search_deadline, '%Y-%m-%d').date()
         days_in_month = calendar.monthrange(today.year, today.month)[1]
         if today.month != 1:
             days_in_last_month = calendar.monthrange(today.year, today.month - 1)[1]
@@ -28,11 +33,16 @@ class BillingClass(models.Model):
                 _last_closing_date = today.replace(day=_start)
                 _current_closing_date = _last_closing_date + timedelta(days=days_in_month)
 
+        if advanced_search.val_bill_search_deadline:
+            _deadline = today
+        else:
+            _deadline = _current_closing_date
+
         closing_date = {
             'last_closing_date': _last_closing_date,
             'current_closing_date': _current_closing_date,
+            'deadline': _deadline,
         }
-
         return closing_date
 
     # Get invoices list by partner id
@@ -72,15 +82,15 @@ class BillingClass(models.Model):
                                                                          deadline=record.deadline))
         return number
 
-    @api.depends('customer_code', 'customer_code_bill')
+    # @api.depends('customer_code', 'customer_code_bill')
     def _set_data_to_fields(self):
         for record in self:
-
             # Set data for last_closing_date field and deadline field
             if record.customer_closing_date:
                 _closing_date = self._compute_closing_date_for_bill(customer_closing_date=record.customer_closing_date)
                 record.last_closing_date = _closing_date['last_closing_date']
-                record.deadline = _closing_date['current_closing_date']
+                record.current_closing_date = _closing_date['current_closing_date']
+                record.deadline = _closing_date['deadline']
 
             # Set data for voucher_number field
             record.voucher_number = self._compute_voucher_number(record=record)
@@ -89,7 +99,6 @@ class BillingClass(models.Model):
             record.department = record.customer_agent.department_id.id
 
             record.closing_date_value = record.customer_closing_date.start_day
-
         return True
 
     @api.constrains('customer_code', 'customer_code_bill')
@@ -103,6 +112,7 @@ class BillingClass(models.Model):
 
     # 前回締日
     last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
+    current_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
 
     # 締切日
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
@@ -155,6 +165,8 @@ class BillingClass(models.Model):
 
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
+            if advanced_search.val_bill_search_deadline:
+                rec['deadline'] = advanced_search.val_bill_search_deadline
             # Create data for bill_info
             partner_ids = self.env['res.partner'].search([('id', '=', rec['id'])])
 
@@ -183,24 +195,24 @@ class BillingClass(models.Model):
                 _sum_amount_untaxed = _sum_amount_untaxed + invoice.amount_untaxed
                 _sum_amount_tax = _sum_amount_tax + invoice.amount_tax
                 _sum_amount_total = _sum_amount_total + invoice.amount_total
-
                 if invoice.x_voucher_tax_transfer == 'invoice':
+                    _compute_amount_tax = 0
                     for line in invoice.invoice_line_ids:
-                        _compute_amount_tax = 0
                         if line.product_id.product_tax_category == 'foreign':
-                            _compute_amount_tax = line.invoice_custom_lineamount * line.tax_rate / 100
-                            if line.partner_id.customer_tax_rounding == 'round':
-                                _compute_amount_tax = round(_compute_amount_tax)
-                            elif line.partner_id.customer_tax_rounding == 'roundup':
-                                _compute_amount_tax = math.ceil(_compute_amount_tax)
-                            else:
-                                _compute_amount_tax = math.floor(_compute_amount_tax)
+                            _compute_amount_tax = _compute_amount_tax + (
+                                    line.invoice_custom_lineamount * line.tax_rate / 100)
                         elif line.product_id.product_tax_category == 'internal':
                             _compute_amount_tax = _compute_amount_tax + 0
                         else:
                             _compute_amount_tax = _compute_amount_tax + 0
-                        _sum_amount_tax = _sum_amount_tax + _compute_amount_tax
-                        _sum_amount_total = _sum_amount_total + _compute_amount_tax
+                    if invoice.partner_id.customer_tax_rounding == 'round':
+                        _compute_amount_tax = round(_compute_amount_tax)
+                    elif invoice.partner_id.customer_tax_rounding == 'roundup':
+                        _compute_amount_tax = math.ceil(_compute_amount_tax)
+                    else:
+                        _compute_amount_tax = math.floor(_compute_amount_tax)
+                    _sum_amount_tax = _sum_amount_tax + _compute_amount_tax
+                    _sum_amount_total = _sum_amount_total + _compute_amount_tax
 
                 _invoice_details_number = _invoice_details_number + self.env['account.move.line'].search_count(
                     [('move_id', '=', invoice.id)])
@@ -210,7 +222,7 @@ class BillingClass(models.Model):
                     _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
 
             bill_info_ids = self.env['bill.info'].search([('billing_code', '=', rec['customer_code']),
-                                                          ('last_closing_date', '=', rec['last_closing_date']),
+                                                          ('closing_date', '=', rec['last_closing_date']),
                                                           ('active_flag', '=', True)])
             _last_billed_amount = 0
             if bill_info_ids:
@@ -225,7 +237,8 @@ class BillingClass(models.Model):
 
             _deposit_amount = 0
             for payment_id in payment_ids:
-                _deposit_amount = _deposit_amount + payment_id.payment_amount
+                if payment_id.payment_amount:
+                    _deposit_amount = _deposit_amount + payment_id.payment_amount
 
             _balance_amount = _last_billed_amount - _deposit_amount
 
@@ -237,7 +250,8 @@ class BillingClass(models.Model):
                 'bill_no': _bill_no,
                 'bill_date': date.today(),
                 'last_closing_date': rec['last_closing_date'],
-                'closing_date': rec['deadline'],
+                'closing_date': rec['current_closing_date'],
+                'deadline': rec['deadline'],
                 'invoices_number': len(invoice_ids),
                 'invoices_details_number': _invoice_details_number,
                 'last_billed_amount': _last_billed_amount,
@@ -267,7 +281,8 @@ class BillingClass(models.Model):
                     'bill_no': _bill_no,
                     'bill_date': date.today(),
                     'last_closing_date': rec['last_closing_date'],
-                    'closing_date': rec['deadline'],
+                    'closing_date': rec['current_closing_date'],
+                    'deadline': rec['deadline'],
                     'customer_code': invoice.partner_id.customer_code,
                     'customer_name': invoice.partner_id.name,
                     'amount_untaxed': invoice.amount_untaxed,
@@ -291,7 +306,8 @@ class BillingClass(models.Model):
                         'bill_no': _bill_no,
                         'bill_date': date.today(),
                         'last_closing_date': rec['last_closing_date'],
-                        'closing_date': rec['deadline'],
+                        'closing_date': rec['current_closing_date'],
+                        'deadline': rec['deadline'],
                         'customer_code': line.partner_id.customer_code,
                         'customer_name': line.partner_id.name,
                         'customer_trans_classification_code': invoice.customer_trans_classification_code,
@@ -302,7 +318,7 @@ class BillingClass(models.Model):
                         'customer_closing_date_id': partner_ids.customer_closing_date.id,
                         'closing_date_value': partner_ids.closing_date_value,
                     })
-
+        advanced_search.val_bill_search_deadline = ''
         return {
             'type': 'ir.actions.client',
             'tag': 'reload',
@@ -333,14 +349,14 @@ class BillingClass(models.Model):
              ('customer_code_bill', '=', self.customer_code)])
 
         invoice_cash_ids = self.env['account.move'].search([
-                ('partner_id', 'in', res_partner_id.ids),
-                ('x_studio_date_invoiced', '>', ctx.get('last_closing_date')),
-                ('x_studio_date_invoiced', '<=', ctx.get('deadline')),
-                ('state', '=', 'posted'),
-                ('type', '=', 'out_invoice'),
-                ('bill_status', '!=', 'billed'),
-                ('customer_trans_classification_code', '=', 'cash'),
-            ])
+            ('partner_id', 'in', res_partner_id.ids),
+            ('x_studio_date_invoiced', '>', ctx.get('last_closing_date')),
+            ('x_studio_date_invoiced', '<=', ctx.get('deadline')),
+            ('state', '=', 'posted'),
+            ('type', '=', 'out_invoice'),
+            ('bill_status', '!=', 'billed'),
+            ('customer_trans_classification_code', '=', 'cash'),
+        ])
 
         _sum_amount_tax = 0
         _sum_amount_total = 0
@@ -349,32 +365,28 @@ class BillingClass(models.Model):
         _sum_amount_tax_cashed = 0
         _sum_amount_untaxed_cashed = 0
         _sum_amount_total_cashed = 0
+        _line_compute_amount_tax = 0
         for line in invoice_line_ids:
+            _sum_amount_untaxed = _sum_amount_untaxed + line.invoice_custom_lineamount
+            _sum_amount_tax = _sum_amount_tax + line.line_tax_amount
+            _sum_amount_total = _sum_amount_total + line.invoice_custom_lineamount + line.line_tax_amount
             if line.move_id.x_voucher_tax_transfer == 'invoice':
-                _line_compute_amount_tax = 0
                 if line.product_id.product_tax_category == 'foreign':
-                    _line_compute_amount_tax = line.invoice_custom_lineamount * line.tax_rate / 100
-                    if line.partner_id.customer_tax_rounding == 'round':
-                        _line_compute_amount_tax = round(_line_compute_amount_tax)
-                    elif line.partner_id.customer_tax_rounding == 'roundup':
-                        _line_compute_amount_tax = math.ceil(_line_compute_amount_tax)
-                    else:
-                        _line_compute_amount_tax = math.floor(_line_compute_amount_tax)
+                    _line_compute_amount_tax = _line_compute_amount_tax + (
+                            line.invoice_custom_lineamount * line.tax_rate / 100)
                 elif line.product_id.product_tax_category == 'internal':
                     _line_compute_amount_tax = _line_compute_amount_tax + 0
                 else:
                     _line_compute_amount_tax = _line_compute_amount_tax + 0
 
-                _sum_amount_untaxed = _sum_amount_untaxed + line.invoice_custom_lineamount
-                _sum_amount_tax = _sum_amount_tax + _line_compute_amount_tax
-                _sum_amount_total = _sum_amount_total + line.invoice_custom_lineamount + _line_compute_amount_tax
-            else:
-                _sum_amount_untaxed = _sum_amount_untaxed + line.invoice_custom_lineamount
-                _sum_amount_tax = _sum_amount_tax + line.line_tax_amount
-                _sum_amount_total = _sum_amount_total + line.invoice_custom_lineamount + line.line_tax_amount
-
-            _sum_amount_untaxed = round(_sum_amount_untaxed)
-            _sum_amount_total = round(_sum_amount_total)
+        if line.partner_id.customer_tax_rounding == 'round':
+            _line_compute_amount_tax = round(_line_compute_amount_tax)
+        elif line.partner_id.customer_tax_rounding == 'roundup':
+            _line_compute_amount_tax = math.ceil(_line_compute_amount_tax)
+        else:
+            _line_compute_amount_tax = math.floor(_line_compute_amount_tax)
+        _sum_amount_tax = _sum_amount_tax + _line_compute_amount_tax
+        _sum_amount_total = _sum_amount_total + _line_compute_amount_tax
 
         for invoice in invoice_cash_ids:
             _sum_amount_untaxed = _sum_amount_untaxed + invoice.amount_untaxed
@@ -384,10 +396,8 @@ class BillingClass(models.Model):
             _sum_amount_tax_cashed = _sum_amount_tax_cashed + invoice.amount_tax
             _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
 
-
-
         bill_info_ids = self.env['bill.info'].search([('billing_code', '=', self.customer_code),
-                                                      ('last_closing_date', '=', self.last_closing_date),
+                                                      ('closing_date', '=', self.last_closing_date),
                                                       ('active_flag', '=', True)])
         _last_billed_amount = 0
         if bill_info_ids:
@@ -413,7 +423,8 @@ class BillingClass(models.Model):
             'bill_no': _bill_no,
             'bill_date': date.today(),
             'last_closing_date': self.last_closing_date,
-            'closing_date': self.deadline,
+            'closing_date': self.current_closing_date,
+            'deadline': self.deadline,
             'invoices_number': len(invoice_ids),
             'invoices_details_number': _invoice_details_number,
             'last_billed_amount': _last_billed_amount,
@@ -443,7 +454,8 @@ class BillingClass(models.Model):
                 'bill_no': _bill_no,
                 'bill_date': date.today(),
                 'last_closing_date': self.last_closing_date,
-                'closing_date': self.deadline,
+                'closing_date': self.current_closing_date,
+                'deadline': self.deadline,
                 'customer_code': invoice.partner_id.customer_code,
                 'customer_name': invoice.partner_id.name,
                 'amount_untaxed': invoice.amount_untaxed,
@@ -467,7 +479,8 @@ class BillingClass(models.Model):
                     'bill_no': _bill_no,
                     'bill_date': date.today(),
                     'last_closing_date': self.last_closing_date,
-                    'closing_date': self.deadline,
+                    'closing_date': self.current_closing_date,
+                    'deadline': self.deadline,
                     'customer_code': line.partner_id.customer_code,
                     'customer_name': line.partner_id.name,
                     'customer_trans_classification_code': invoice.customer_trans_classification_code,
@@ -478,18 +491,10 @@ class BillingClass(models.Model):
                     'customer_closing_date_id': self.customer_closing_date.id,
                     'closing_date_value': self.closing_date_value,
                 })
-
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Billing',
-            'view_mode': 'tree',
-            'target': 'current',
-            'res_model': 'res.partner',
-            'res_id': False,
-            'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_tree').id, 'tree')],
-            'domain': [('billing_liabilities_flg', '=', True)],
-            'context': {'bill_management_module': True, 'view_name': 'Billing Details', },
-        }
+        advanced_search.val_bill_search_deadline = ''
+        self.ensure_one()
+        action = self.env.ref('Maintain_Bill_Management.actions_bm_bill').read()[0]
+        return action
 
     def check_all_button(self):
         ctx = self._context.copy()
