@@ -65,9 +65,12 @@ class NewClassPartnerCustom(models.Model):
     # Chien-NV DEL end
 
     # 消費税計算区分
-    customer_tax_unit = fields.Selection(
-        [('detail', 'Detail Unit'), ('voucher', 'Voucher Unit'), ('invoice', 'Invoice Unit')],
-        string='Consumption Tax Calculation Category', default='detail')
+    customer_tax_unit = fields.Selection([
+        ('foreign_tax', '明細／外税'),
+        ('internal_tax', '明細／内税'),
+        ('voucher', '伝票'),
+        ('invoice', '請求')],
+        string='Consumption Tax Calculation Category', default='foreign_tax')
     # 消費税端数処理
     customer_tax_rounding = fields.Selection(
         [('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')], 'Tax Rounding', default='round')
@@ -168,7 +171,6 @@ class NewClassPartnerCustom(models.Model):
                 raise ValidationError(_('The code must be unique!'))
         return {}
 
-
     @api.constrains('customer_bill_discount', 'customer_bill_discount_rate', 'customer_rate')
     def _check_min_max(self):
         if not 0 <= self.customer_bill_discount_rate <= 100:
@@ -199,6 +201,7 @@ class NewClassPartnerCustom(models.Model):
         if not vals['customer_code_bill']:
             vals['customer_code_bill'] = vals['customer_code']
         return super(NewClassPartnerCustom, self).create(vals)
+
 
 class ClassRelationPartnerCustom(models.Model):
     _name = 'relation.partner.model'

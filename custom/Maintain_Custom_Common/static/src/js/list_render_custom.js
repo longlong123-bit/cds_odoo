@@ -382,37 +382,33 @@ odoo.define('web.ListRender_Custom', function (require) {
          * Custom for 2line invoice
          */
         _renderHeader: function () {
-            var HEADER1 = [];
-            var HEADER2 = [];
-            if(this.$el.hasClass('invoice_create o_list_view')){
-                HEADER1 = [
-                    'button_update',
-                    'invoice_custom_line_no',
-                    'product_id',
-                    'x_product_name',
-                    'x_product_name2',
-                    'invoice_custom_standardnumber',
-                    'quantity',
-                    'product_uom_id',
-                    'price_unit',
-                    'invoice_custom_lineamount',
-                    'x_product_standard_price',
-                    'invoice_custom_Description',
-                   ];
-                HEADER2 = [
-                   'x_invoicelinetype',
-                   'x_product_barcode',
-                   'x_product_cost_price',
-                   'tax_rate',
-                ];
-            }
+            var HEADER1 = [
+                'button_update',
+                'invoice_custom_line_no',
+                'product_id',
+                'invoice_custom_FreightCategory',
+                'x_product_name',
+                'invoice_custom_standardnumber',
+                'quantity',
+                'product_uom_id',
+                'price_unit',
+                'invoice_custom_lineamount',
+                'x_product_standard_price',
+                'invoice_custom_Description',
+               ];
+            var HEADER2 = [
+               'x_invoicelinetype',
+               'x_product_barcode',
+               'x_product_cost_price',
+               'tax_rate',
+            ];
             if(this.$el.hasClass('quotations_custom_details o_list_view')){
                 HEADER1 = [
                     'button_update',
                     'quotation_custom_line_no',
                     'product_id',
+                    'product_freight_category',
                     'product_name',
-                    'product_name2',
                     'product_standard_number',
                     'product_uom_qty',
                     'product_uom_id',
