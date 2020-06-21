@@ -155,15 +155,17 @@ class QuotationsCustom(models.Model):
                     'product_id': line.product_id,
                     'product_barcode': line.x_product_barcode,
                     'product_name': line.x_product_name,
+                    'product_name2': line.x_product_name2,
+                    'product_uom_id': line.product_uom_id,
                     'product_standard_number': line.invoice_custom_standardnumber,
                     'product_freight_category': line.invoice_custom_FreightCategory,
                     'product_uom_qty': line.quantity,
                     'price_unit': line.price_unit,
-                    'product_uom': line.product_uom_id,
                     'line_amount': line.invoice_custom_lineamount,
                     'tax_id': line.tax_ids,
                     'tax_rate': line.tax_rate,
-                    'line_tax_amount': line.line_tax_amount
+                    'line_tax_amount': line.line_tax_amount,
+                    'description': line.invoice_custom_Description
                 }))
 
             self.order_line = lines
@@ -417,6 +419,7 @@ class QuotationsLinesCustom(models.Model):
     product_uom_qty = fields.Float(string='Product UOM Qty', digits='(12,0)', default=1.0)
     product_uom = fields.Many2one(string='Product UOM')
     price_unit = fields.Float(string='Price Unit')
+    description = fields.Char(string='Description')
 
     class_item = fields.Selection([
         ('通常', '通常'),
@@ -428,6 +431,7 @@ class QuotationsLinesCustom(models.Model):
     product_barcode = fields.Char(string='Product Barcode')
     product_freight_category = fields.Many2one('freight.category.custom', 'Freight Category')
     product_name = fields.Char(string='Product Name')
+    product_name2 = fields.Char(string='Product Name 2')
     product_standard_number = fields.Char(string='Product Standard Number')
     product_list_price = fields.Float(string='Product List Price')
     cost = fields.Float(string='Cost')
@@ -438,6 +442,43 @@ class QuotationsLinesCustom(models.Model):
     # Reference to open dialog
     refer_detail_history = fields.Many2one('sale.order.line', store=False)
 
+    def _get_default_line_no(self):
+        context = dict(self._context or {})
+        line_ids = context.get('default_line_ids')
+        order_id = context.get('default_order_id')
+        # max1 = 0
+
+        list_line = []
+        if order_id:
+            list_line = self.env["sale.order.line"].search([("order_id.id", "=", order_id)])
+
+        # get all line in db and state draf
+        list_final = {}
+        if list_line is not None:
+            for l_db in list_line:
+                list_final[l_db.id] = l_db.quotation_custom_line_no
+            if line_ids is not None:
+                for l_v in line_ids:
+                    # check state (delete,update,new,no change)
+                    # 0: new
+                    # 1: update
+                    # 2: delete
+                    # 4: no change
+                    if l_v[0] == 0:
+                        list_final[l_v[1]] = l_v[2]['quotation_custom_line_no']
+                    if l_v[0] == 1 and 'quotation_custom_line_no' in l_v[2]:
+                        list_final[l_v[1]] = l_v[2]['quotation_custom_line_no']
+                    if l_v[0] == 2:
+                        list_final[l_v[1]] = 0
+        max = 0
+        for id in list_final:
+            if max < list_final[id]:
+                max = list_final[id]
+        return max + 1
+
+    quotation_custom_line_no = fields.Integer('Line No', default=_get_default_line_no)
+    product_uom_id = fields.Char(string='UoM')
+
     @api.onchange('refer_detail_history')
     def _get_detail_history(self):
         if self.refer_detail_history:
@@ -447,17 +488,19 @@ class QuotationsLinesCustom(models.Model):
                 self.class_item = data.class_item
                 self.product_id = data.product_id
                 self.product_name = data.product_name
+                self.product_name2 = data.product_name2
                 self.product_barcode = data.product_barcode
                 self.product_freight_category = data.product_freight_category
                 self.product_standard_number = data.product_standard_number
                 self.product_list_price = data.product_list_price
                 self.product_uom_qty = data.product_uom_qty
-                self.product_uom = data.product_uom
+                self.product_uom_id = data.product_uom_id
                 self.price_unit = data.price_unit
                 self.cost = data.cost
                 self.line_amount = data.line_amount
                 self.tax_rate = data.tax_rate
                 self.line_tax_amount = data.line_tax_amount
+                self.description = data.description
 
             self.name = data.name
             self.display_type = data.display_type
@@ -472,6 +515,8 @@ class QuotationsLinesCustom(models.Model):
             #     for rec in self:
             line.product_id = line.product_id or ''
             line.product_name = line.product_id.name or ''
+            line.product_name2 = line.product_id.product_custom_goodsnamef or ''
+            line.product_uom_id = line.product_id.product_uom_custom or ''
             line.product_barcode = line.product_id.barcode or ''
             line.product_freight_category = line.product_id.product_custom_freight_category or ''
             line.product_standard_number = line.product_id.product_custom_standardnumber or ''
@@ -558,6 +603,21 @@ class QuotationsLinesCustom(models.Model):
             return rounding(line_amount * line_taxes / 100, 2, line_rounding)
         else:
             return 0
+
+    def button_update(self):
+        view = {
+            'name': _('Order Lines'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'sale.order.line',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'readonly': False,
+            'create': True,
+            'res_id': self.id,
+        }
+        return view
 
 
 class QuotationReportHeaderCustom(models.Model):

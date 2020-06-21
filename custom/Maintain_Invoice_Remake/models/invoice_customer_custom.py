@@ -140,11 +140,12 @@ def copy_data_from_quotation(rec, quotation, account):
                     'product_id': line.product_id,
                     'x_product_barcode': line.product_barcode,
                     'x_product_name': line.product_name,
+                    'x_product_name2': line.product_name2,
                     'invoice_custom_standardnumber': line.product_standard_number,
                     'invoice_custom_FreightCategory': line.product_freight_category,
                     'quantity': line.product_uom_qty,
                     'price_unit': line.price_unit,
-                    'product_uom_id': line.product_uom,
+                    'product_uom_id': line.product_uom_id,
                     'invoice_custom_lineamount': line.line_amount,
                     'tax_ids': line.tax_id,
                     'tax_rate': line.tax_rate,
@@ -974,6 +975,7 @@ class AccountMoveLine(models.Model):
                 line.x_product_modelnumber = detail_history.x_product_modelnumber
                 line.x_product_name = detail_history.x_product_name
                 line.x_product_name2 = detail_history.x_product_name2
+                line.product_uom_id = detail_history.product_uom_id
                 line.x_product_standard_price = detail_history.x_product_standard_price
                 line.invoice_custom_standardnumber = detail_history.invoice_custom_standardnumber
                 line.x_product_cost_price = detail_history.x_product_cost_price
