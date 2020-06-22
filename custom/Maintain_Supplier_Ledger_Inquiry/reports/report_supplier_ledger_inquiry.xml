@@ -94,25 +94,25 @@
                                             <span t-field="rows.date"/>
                                         </td>
                                         <td>
-                                            <span t-field="rows.move_name"/>
+                                            <span t-field="rows.invoice_no"/>
                                         </td>
                                         <td>
                                             <span t-field="rows.invoice_line_type"/>
                                         </td>
                                         <td>
-                                            <span t-field="rows.partner_id"/>
+                                            <span t-field="rows.customer_code"/>
                                         </td>
                                         <td>
-                                            <span t-field="rows.partner_name"/>
+                                            <span t-field="rows.customer_name"/>
                                         </td>
                                         <td>
                                             <span t-field="rows.jan_code"/>
                                         </td>
                                         <td>
-                                            <span t-field="rows.product_id"/>
+                                            <span t-field="rows.product_code"/>
                                         </td>
                                         <td>
-                                            <span t-field="rows.product_model"/>
+                                            <span t-field="rows.part_model_number"/>
                                         </td>
                                         <td>
                                             <span t-field="rows.maker_name"/>
@@ -127,13 +127,13 @@
                                             <span t-field="rows.price_unit"/>
                                         </td>
                                         <td>
-                                            <span t-field="rows.price_subtotal"/>
+                                            <span t-field="rows.price_total"/>
                                         </td>
                                         <td>
                                             <span t-field="rows.payment_amount"/>
                                         </td>
                                         <td>
-                                            <span t-field="rows.tax_base_amount"/>
+                                            <span t-field="rows.tax_rate"/>
                                         </td>
                                         <td>
                                             <span t-field="rows.tax_transfer"/>
@@ -155,14 +155,12 @@
                                     <t t-esc="'{0:,.0f}'.format(int(sum(l.price_unit for l in docs)))" />
                                 </td>
                                 <td name="totalPriceSubtotal" class="text-left">
-                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.price_subtotal for l in docs)))" />
+                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.price_total for l in docs)))" />
                                 </td>
                                 <td name="totalPaymentAmount" class="text-left">
                                     <t t-esc="'{0:,.0f}'.format(int(sum(l.payment_amount for l in docs)))" />
                                 </td>
-                                <td name="totalTaxAmount" class="text-left">
-                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.tax_base_amount for l in docs)))" />
-                                </td>
+                                <td/>
                                 <td/>
                                 <td name="slipTotal" class="text-left">
                                     <t t-esc="'{0:,.0f}'.format(int(sum(l.slip_total for l in docs)))" />
