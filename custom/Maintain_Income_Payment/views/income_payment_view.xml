@@ -13,7 +13,7 @@
                         <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>
                         <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '=', 'draft')]}" string="Reset To Draft" type="object"/>
                         <button name="cancel" states="draft" string="Cancel" type="object"/>
-                        <field name="invoice_history" widget="Maintain_Sale_History.Voucher" z-index="92"/>
+<!--                        <field name="invoice_history" widget="Maintain_Sale_History.Voucher" z-index="92"/>-->
                     </header>
                     <table class="custom-form-table cols-8">
                         <tbody>
@@ -103,8 +103,8 @@
 
                             <tr>
 <!--                                <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>-->
-                                <field name="customer_closing_date" string="Closing Date"
-                                       invisible="1" readonly="1" force_save="1"/>
+<!--                                <field name="customer_closing_date" string="Closing Date"-->
+<!--                                       invisible="1" readonly="1" force_save="1"/>-->
                             </tr>
                         </tbody>
                     </table>
