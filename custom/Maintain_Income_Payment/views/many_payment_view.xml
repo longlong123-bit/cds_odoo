@@ -57,16 +57,16 @@
                                         <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
                                     </control>
                                     <field name="payment_date" string="Transaction Date" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
-                                           style="max-width:220px !important;"/>
+                                           style="min-width:220px !important;"/>
                                     <field name="partner_id" string="得意先コード" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
-                                           style="min-width:300px !important;" options="{'no_create': True, 'no_create_edit':True}"/>
+                                           style="min-width:250px !important;" options="{'no_create': True, 'no_create_edit':True}"/>
                                     <field name="partner_payment_name1" attrs="{'invisible': [('display_type', '!=', False)]}" style="min-width:300px !important;"/>
                                     <field name="vj_c_payment_category" string="vj_c_payment_category" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
                                            options="{'no_create': True, 'no_create_edit':True}"/>
                                     <field name="payment_amount" string="Payment Amount" attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"
                                            style="min-width:170px !important;"/>
                                     <field name="name" string="Description" attrs="{'required': [('display_type', '!=', False)]}" readonly="False"
-                                           style="min-width:700px !important;"/>
+                                           style="min-width:650px !important;"/>
                                     <field name="company_id" invisible="1"/>
                                     <field name="journal_id" invisible="1"/>
                                     <field name="amount" invisible="1"/>
