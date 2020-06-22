@@ -4,7 +4,6 @@
     <data>
         <template id="assets_backend" inherit_id="web.assets_backend" name="Accounts Receivable Balance List Custom">
             <xpath expr="//script[last()]" position="after">
-                <link rel="stylesheet" href="/Maintain_Supplier_Ledger_Inquiry/static/src/css/supplier_ledger_inquiry.scss" />
                 <script type="text/javascript" src="/Maintain_Supplier_Ledger_Inquiry/static/src/js/advanced_search.js"/>
             </xpath>
         </template>

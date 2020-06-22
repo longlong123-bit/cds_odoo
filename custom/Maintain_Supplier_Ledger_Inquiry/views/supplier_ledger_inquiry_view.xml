@@ -8,22 +8,22 @@
 			<field name="arch" type="xml">
 				<tree create="0" import="0">
 					<field name="date" />
-					<field name="move_name"/>
+					<field name="invoice_no"/>
 					<field name="invoice_line_type"/>
-					<field name="partner_id"/>
-					<field name="partner_name"/>
+					<field name="customer_code"/>
+					<field name="customer_name"/>
 					<field name="jan_code"/>
-					<field name="product_id"/>
-					<field name="product_model"/>
+					<field name="product_code"/>
+					<field name="part_model_number"/>
 					<field name="maker_name"/>
 					<field name="product_name"/>
 					<field name="quantity" sum="Total Quantity"/>
 					<field name="price_unit" sum="Total Price Unit"/>
-					<field name="price_subtotal" sum="Total Price"/>
+					<field name="price_total" sum="Total Price"/>
 					<field name="payment_amount" sum="Total Payment Amount"/>
-					<field name="tax_base_amount" sum="Total Tax Amount"/>
+					<field name="tax_rate"/>
 					<field name="tax_transfer"/>
-					<field name="slip_total" sum="Slip Total" class="slip_total"/>
+					<field name="slip_total" attrs="{'invisible': [True]}" sum="Slip Total"/>
 				</tree>
 			</field>
 		</record>

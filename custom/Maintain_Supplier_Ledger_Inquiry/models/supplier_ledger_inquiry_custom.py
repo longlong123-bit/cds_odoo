@@ -21,41 +21,41 @@ class SupplierLedgerInquiryCustom(models.Model):
     _name = 'supplier.ledger'
     _auto = False
     # 日付
-    date = fields.Char(string='Date', readonly=True)
+    date = fields.Date(string='Date', readonly=True)
     # 伝票Ｎｏ
-    move_name = fields.Char(string='Invoice No.', readonly=True)
+    invoice_no = fields.Char(string='Invoice No', readonly=True)
     # 取引 / 内訳区分
-    invoice_line_type = fields.Char(string='Invoice Type', readonly=True)
+    invoice_line_type = fields.Char(string='Transaction/Breakdown Category', readonly=True)
     # 得意先コード
-    partner_id = fields.Integer(string='Customer Id', readonly=True)
+    customer_code = fields.Integer(string='Customer Code', readonly=True)
     # 得意先名
-    partner_name = fields.Char(string='Customer Name', readonly=True)
+    customer_name = fields.Char(string='Customer Name', readonly=True)
     # JANコード
-    jan_code = fields.Integer(string='JAN Code', readonly=True)
+    jan_code = fields.Char(string='JAN Code', readonly=True)
     # 商品コード
-    product_id = fields.Integer(string='Product Code', readonly=True)
+    product_code = fields.Integer(string='Product Code', readonly=True)
     # 品番 / 型番
-    product_model = fields.Integer(string='Product Model', readonly=True)
+    part_model_number = fields.Char(string='Part/Model Number', readonly=True)
     # メーカー名
     maker_name = fields.Char(string='Maker Name', readonly=True)
     # 商品名
     product_name = fields.Char(string='Product Name', readonly=True)
     # 数量
-    quantity = fields.Integer(string='Quantity', readonly=True)
+    quantity = fields.Float(string='Quantity', readonly=True)
     # 単価
-    price_unit = fields.Integer(string='Price Unit', readonly=True)
+    price_unit = fields.Float(string='Price Unit', readonly=True)
     # 金額
-    price_subtotal = fields.Integer(string='Sub Total Price', readonly=True)
+    price_total = fields.Float(string='Price Total ', readonly=True)
     # 支払金額
-    payment_amount = fields.Integer(string='Payment Amount', readonly=True)
+    payment_amount = fields.Float(string='Payment Amount', readonly=True)
     # 税率
-    tax_base_amount = fields.Integer(string='Tax Amount', readonly=True)
+    tax_rate = fields.Float(string='Tax Rate', readonly=True)
     # Create By User Id
     create_uid = fields.Integer(string='Create By User Id', readonly=True)
     # 税転嫁
     tax_transfer = fields.Char(string='Tax Transfer', readonly=True)
     # 伝票合計
-    slip_total = fields.Integer(string='Slip Total', readonly=True)
+    slip_total = fields.Float(string='Slip Total', readonly=True)
 
     # fields input condition advanced search
     input_target_month = fields.Char('Input Target Date', compute='_get_value_condition_input', default='', store=False)
@@ -75,21 +75,31 @@ class SupplierLedgerInquiryCustom(models.Model):
         CREATE OR REPLACE VIEW supplier_ledger AS
         SELECT row_number() OVER(ORDER BY date) AS id , * FROM(
             (SELECT
-                account_move_line.date,
-                account_move_line.move_name,
-                account_move_line.x_invoicelinetype AS invoice_line_type,
-                account_move_line.partner_id,
-                res_partner.name AS partner_name,
-                product_product.barcode AS jan_code,
-                account_move_line.product_id,
-                product_product.product_custom_freight_category AS product_model, -- 品番/型番
-                product_product.product_maker_name AS maker_name,-- メーカー名
-                account_move_line.x_product_name AS product_name,
-                account_move_line.quantity,
-                account_move_line.price_unit,
-                account_move_line.price_subtotal,
+                account_move_line.date, -- 日付
+                account_move_line.invoice_no, -- 伝票Ｎｏ
+                account_move_line.x_invoicelinetype AS invoice_line_type, -- 取引/内訳区分
+                account_move_line.partner_id AS customer_code, -- 得意先コード
+                res_partner.name AS customer_name, -- 得意先名
+                account_move_line.x_product_barcode AS jan_code, -- JANコード
+                account_move_line.product_id AS product_code, -- 商品コード
+                account_move_line.invoice_custom_standardnumber AS part_model_number, -- 品番/型番
+                freight_category_custom.name AS maker_name, -- メーカー名
+                account_move_line.x_product_name AS product_name, -- 商品名
+                account_move_line.quantity, -- 数量
+                account_move_line.price_unit, -- 単価
+                account_move_line.price_total, -- 金額
                 0 as payment_amount,
-                account_move_line.tax_base_amount,
+                CASE
+                        WHEN account_move_line.price_total - account_move_line.price_subtotal <= 0 THEN
+                            0
+                        ELSE
+                            CASE
+                                WHEN (account_move_line.price_subtotal * 0.1) = (account_move_line.price_total - account_move_line.price_subtotal) THEN
+                                    10
+                                ELSE
+                                    5
+                            END
+                END AS tax_rate, -- 税率
                 account_move_line.create_uid,
                 account_move_line.x_tax_transfer_show_tree AS tax_transfer, -- 税転嫁（外／内／非、明／伝／請）
                 account_move_line.price_subtotal AS slip_total
@@ -99,12 +109,12 @@ class SupplierLedgerInquiryCustom(models.Model):
                         res_partner
                             ON res_partner.id = account_move_line.partner_id
                             AND res_partner.active = true
-                LEFT JOIN
-                        product_product
-                            ON product_product.id = account_move_line.product_id
-                            AND product_product.active = true
+                    LEFT JOIN freight_category_custom ON freight_category_custom.id = account_move_line."invoice_custom_FreightCategory"
+                                                AND freight_category_custom.active = True
             WHERE
                 account_move_line.account_internal_type != 'receivable'
+                AND account_move_line.exclude_from_invoice_tab = False
+                AND account_move_line.parent_state = 'posted'
             )
             UNION (
                 SELECT
@@ -115,8 +125,8 @@ class SupplierLedgerInquiryCustom(models.Model):
                     res_partner.name,
                     '',
                     0,
-                    0,-- 品番/型番
-                    '',-- メーカー名
+                    NULL, -- 品番/型番
+                    '', -- メーカー名
                     '',
                     0,
                     0,
@@ -247,10 +257,10 @@ class SupplierLedgerInquiryCustom(models.Model):
         # using global keyword
         global val_target_month
         # get information closing date
-        customer_closing_date = self.env['closing.date'].search([], limit=1)
+        customer_closing_date = self._get_company_closing_date()
         _start = 1
         if customer_closing_date:
-            _start = customer_closing_date.start_day
+            _start = customer_closing_date
 
         if year_month_selected:
             # set date when input condition
@@ -304,3 +314,12 @@ class SupplierLedgerInquiryCustom(models.Model):
             item.input_division = val_division
             item.input_sales_rep = val_sales_rep
             item.input_customer_supplier_group_code = val_customer_supplier_group_code
+
+    def _get_company_closing_date(self):
+        """
+            Get closing date from res_company
+        """
+        # get closing date from res_company
+        company_closing_date = self.env['res.users'].search([['id', '=', self.env.uid]]).company_id.company_closing_date
+        # return day closing
+        return company_closing_date
