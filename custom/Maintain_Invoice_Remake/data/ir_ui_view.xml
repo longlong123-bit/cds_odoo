@@ -296,8 +296,11 @@
                 <field name="x_history_detail" style="display:none" domain="[('exclude_from_invoice_tab', '=', False)]" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
 		        <field name="invoice_custom_line_no" required="True"/>
                 <field name="x_invoicelinetype" required="True" string="内訳区分"/>
-                <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
-                <field name="x_product_barcode" string="JAN/UPC/EAN"/>
+<!--                <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>-->
+<!--                <field name="x_product_barcode" string="JAN/UPC/EAN"/>-->
+                <field name="product_id" invisible="1"/>
+                <field name="product_code" widget="refer_field" string="Product Code" widget_ref='{"model":"product.product","column": "product_code_1"}'/>
+                <field name="x_product_barcode" string="JAN/UPC/EAN" widget="refer_field" widget_ref='{"model":"product.product","column": "barcode"}'/>
                 <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
                 <field name="x_product_name" string="商品名"/>
 <!--                <field name="x_product_name2" string="商品名2"/>-->
@@ -342,6 +345,7 @@
         <xpath expr = "//field[@name='line_ids']/tree/field[@name='account_id']" position = "before" >
             <field name="invoice_custom_line_no"/>
             <field name="x_invoicelinetype"/>
+            <field name="product_code"/>
             <field name="x_product_barcode"/>
             <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
             <field name="x_product_name"/>
