@@ -407,7 +407,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                     'button_update',
                     'quotation_custom_line_no',
                     'product_id',
-                    'product_freight_category',
+                    'product_maker_name',
                     'product_name',
                     'product_standard_number',
                     'product_uom_qty',

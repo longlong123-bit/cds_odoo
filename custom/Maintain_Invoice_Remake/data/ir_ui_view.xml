@@ -301,7 +301,7 @@
                 <field name="product_id" invisible="1"/>
                 <field name="product_code" widget="refer_field" string="Product Code" widget_ref='{"model":"product.product","column": "product_code_1"}'/>
                 <field name="x_product_barcode" string="JAN/UPC/EAN" widget="refer_field" widget_ref='{"model":"product.product","column": "barcode"}'/>
-                <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+                <field name="invoice_custom_FreightCategory"/>
                 <field name="x_product_name" string="商品名"/>
 <!--                <field name="x_product_name2" string="商品名2"/>-->
                 <field name="invoice_custom_standardnumber"/>
@@ -347,7 +347,7 @@
             <field name="x_invoicelinetype"/>
             <field name="product_code"/>
             <field name="x_product_barcode"/>
-            <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+            <field name="invoice_custom_FreightCategory"/>
             <field name="x_product_name"/>
 <!--            <field name="x_product_name2"/>-->
             <field name="invoice_custom_standardnumber"/>
@@ -462,7 +462,7 @@
                             attrs="{'readonly': [('parent_state', '=', 'posted')]}" invisible="1"/>
                         <field name="x_invoicelinetype" required="True" string="内訳区分"/>
                         <field name="x_product_barcode" widget="product_many2one" context="{'show_product_jan': 1}"/>
-                        <field name="invoice_custom_FreightCategory" options="{'no_quick_create':True,'no_create_edit':True , 'no_open': True}"/>
+                        <field name="invoice_custom_FreightCategory"/>
                         <field name="x_product_name" string="商品名"/>
 <!--                        <field name="x_product_name2" string="商品名2"/>-->
                         <field name="invoice_custom_standardnumber"/>
