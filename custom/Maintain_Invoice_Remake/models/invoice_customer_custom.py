@@ -1093,6 +1093,31 @@ class AccountMoveLine(models.Model):
                                compute='compute_tax_ids')
 
     tax_rate = fields.Float('Tax Rate', compute='computed_tax_rate')
+    product_code = fields.Char(string="Product Code")
+
+    @api.onchange('product_code')
+    def _onchange_product_code(self):
+        if self.product_code:
+            product = self.env['product.product'].search([
+                ['product_code_1', '=', self.product_code]
+            ])
+            self.product_id = product.id
+            self.x_product_barcode = product.barcode
+        else:
+            self.product_id = False
+            self.x_product_barcode = False
+
+    @api.onchange('x_product_barcode')
+    def _onchange_product_barcode(self):
+        if self.x_product_barcode:
+            product = self.env['product.product'].search([
+                ['barcode', '=', self.x_product_barcode]
+            ])
+            self.product_id = product.id
+            self.product_code = product.product_code_1
+        else:
+            self.product_id = False
+            self.product_code = False
 
     # # 消費税区分
     # line_tax_category = fields.Selection(

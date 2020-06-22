@@ -385,7 +385,7 @@ odoo.define('web.ListRender_Custom', function (require) {
             var HEADER1 = [
                 'button_update',
                 'invoice_custom_line_no',
-                'product_id',
+                'product_code',
                 'invoice_custom_FreightCategory',
                 'x_product_name',
                 'invoice_custom_standardnumber',
