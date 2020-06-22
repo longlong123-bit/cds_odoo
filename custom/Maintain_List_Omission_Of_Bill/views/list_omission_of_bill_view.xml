@@ -22,7 +22,7 @@
 					<field name="product_name" attrs="{'issue_format': '1'}"/>
 					<field name="quantity" attrs="{'issue_format': '1'}" sum="total"/>
 					<field name="unit" attrs="{'issue_format': '1'}"/>
-					<field name="price_unit" attrs="{'issue_format': '1'}" sum="total"/>
+					<field name="price_unit" attrs="{'issue_format': '1'}"/>
 					<field name="price_total" attrs="{'issue_format': '1'}" sum="total"/>
 					<field name="tax_rate" attrs="{'issue_format': '1'}"/>
 					<field name="tax_transfer"/>

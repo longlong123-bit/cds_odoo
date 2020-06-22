@@ -187,9 +187,7 @@
                                         <t t-esc="'{0:,.0f}'.format(int(sum(l.quantity for l in docs)))" />
                                     </td>
                                     <td />
-                                    <td name="total_price_unit" class="text-left">
-                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.price_unit for l in docs)))" />
-                                    </td>
+                                    <td />
                                     <td name="total_price_total" class="text-left">
                                         <t t-esc="'{0:,.0f}'.format(int(sum(l.price_total for l in docs)))" />
                                     </td>
