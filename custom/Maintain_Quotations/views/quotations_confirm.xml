@@ -12,13 +12,13 @@
                   multi_edit="1">
                 <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
                 <field name="quotations_date"/>
-                <field name="document_reference"/>
                 <field name="document_no"/>
+                <field name="document_reference"/>
                 <field name="partner_name"/>
                 <field name="name"/>
                 <field name="amount_untaxed"/>
                 <field name="amount_tax"/>
-                <field name="line_number"/>
+<!--                <field name="line_number"/>-->
                 <field name="tax_method"/>
                 <field name="message_needaction" invisible="1"/>
                 <field name="state" invisible="1" optional="show"/>
