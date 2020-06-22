@@ -193,9 +193,7 @@
                                     <td name="total_price_total" class="text-left">
                                         <t t-esc="'{0:,.0f}'.format(int(sum(l.price_total for l in docs)))" />
                                     </td>
-                                    <td name="total_tax_rate" class="text-left">
-                                        <t t-esc="'{0:,.0f}'.format(int(sum(l.tax_rate for l in docs)))" />
-                                    </td>
+                                    <td />
                                     <td />
                                 </t>
                             </tr>
