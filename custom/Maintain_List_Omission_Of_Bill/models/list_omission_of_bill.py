@@ -113,7 +113,7 @@ class ListOmissionOfBill(models.Model):
                     account_move_line."invoice_custom_FreightCategory" AS maker_name, -- メーカー名
                     account_move_line.x_product_name AS product_name, -- 商品名
                     account_move_line.quantity, -- 数量
-                    uom_uom.name AS unit, -- 単位
+                    account_move_line.product_uom_id AS unit, -- 単位
                     account_move_line.price_unit, -- 単価
                     account_move_line.price_total, -- 金額
                     CASE
@@ -140,8 +140,6 @@ class ListOmissionOfBill(models.Model):
                         INNER JOIN account_move_line ON account_move.id = account_move_line.move_id
                                                 AND account_move_line.account_internal_type != 'receivable'
                                                 AND account_move_line.exclude_from_invoice_tab = False
-                        INNER JOIN uom_uom ON uom_uom.id = account_move_line.product_uom_id
-                                                AND uom_uom.active = True
                         INNER JOIN closing_date ON res_partner.customer_closing_date = closing_date.id
                                                 AND closing_date.active = True
                         INNER JOIN hr_employee ON hr_employee.id = account_move.sales_rep
@@ -172,7 +170,7 @@ class ListOmissionOfBill(models.Model):
                         account_move_line."invoice_custom_FreightCategory",
                         account_move_line.x_product_name,
                         account_move_line.quantity,
-                        uom_uom.name,
+                        account_move_line.product_uom_id,
                         account_move_line.price_unit,
                         account_move_line.price_total,
                         account_move_line.tax_repartition_line_id,
