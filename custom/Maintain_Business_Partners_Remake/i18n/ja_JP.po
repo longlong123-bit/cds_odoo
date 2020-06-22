@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-17 10:57+0000\n"
-"PO-Revision-Date: 2020-06-17 10:57+0000\n"
+"POT-Creation-Date: 2020-06-22 08:03+0000\n"
+"PO-Revision-Date: 2020-06-22 08:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -284,11 +284,6 @@ msgid "Detail"
 msgstr "詳細"
 
 #. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_unit__detail
-msgid "Detail Unit"
-msgstr "明細単位"
-
-#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__payment_rule__rule_direct_debit
 msgid "Direct Debit"
 msgstr "口座引落"
@@ -355,11 +350,6 @@ msgid "Invoice Address"
 msgstr "請求先"
 
 #. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_unit__invoice
-msgid "Invoice Unit"
-msgstr "請求単位"
-
-#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -376,7 +366,9 @@ msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__name
+#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_get_billing_code_name
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__name
+#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_get_billing_code_name
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__name
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.relation_partner_custom_template
 msgid "Name"
@@ -580,6 +572,13 @@ msgid "Select Invoice"
 msgstr "請求書選択"
 
 #. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_quote
+#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_quote
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
+msgid "Select Quote"
+msgstr "見積書選択"
+
+#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_ship_address
 msgid "Ship Address"
 msgstr "出荷納品先"
@@ -644,11 +643,6 @@ msgid "Vendors"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_unit__voucher
-msgid "Voucher Unit"
-msgstr "伝票単位"
-
-#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__zip_code
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__zip_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_reference_tree
@@ -663,18 +657,71 @@ msgid "relation.partner.model"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note2
+msgid "ヤマサタイプ"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_unit__voucher
+msgid "伝票"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "住所1"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "取引先グループコード"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "地区コード"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_select_sales_slip__slip1
 msgid "売上伝票(書式1)"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note1
-msgid "納品書(書式1)"
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note3
+msgid "岡田土建タイプ"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note2
-msgid "納品書(書式2)"
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_unit__internal_tax
+msgid "明細／内税"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_unit__foreign_tax
+msgid "明細／外税"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "業種コード"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_quote__quote2
+msgid "神栖営業所用"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_tax_unit__invoice
+msgid "請求"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
@@ -685,4 +732,27 @@ msgstr ""
 #. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_select_invoice__note2
 msgid "請求書(書式2)"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note1
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_quote__quote1
+msgid "通常"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note4
+msgid "銚子信用金庫"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#. openerp-web
+#: code:addons/Maintain_Business_Partners_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "電話番号"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_quote__quote3
+msgid "鹿島見積"
 msgstr ""

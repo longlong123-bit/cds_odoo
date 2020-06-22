@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-15 14:03+0000\n"
-"PO-Revision-Date: 2020-06-15 14:03+0000\n"
+"POT-Creation-Date: 2020-06-22 09:23+0000\n"
+"PO-Revision-Date: 2020-06-22 09:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,17 +17,12 @@ msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "<strong>伝票合計</strong>"
+msgid "<strong>合計</strong>"
 msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
-#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "<strong>合計数量</strong>"
-msgstr ""
-
-#. module: Maintain_Supplier_Ledger_Inquiry
-#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "<strong>合計金額</strong>"
+#: model:ir.ui.menu,name:Maintain_Supplier_Ledger_Inquiry.menu_parent_accounts_receivable
+msgid "Accounts Receivable"
 msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
@@ -36,19 +31,19 @@ msgid "Create By User Id"
 msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
-#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__partner_id
-msgid "Customer Id"
-msgstr ""
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__customer_code
+msgid "Customer Code"
+msgstr "得意先コード"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
-#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__partner_name
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__customer_name
 msgid "Customer Name"
-msgstr ""
+msgstr "得意先名"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__date
 msgid "Date"
-msgstr ""
+msgstr "日付"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__display_name
@@ -63,42 +58,37 @@ msgstr ""
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__input_customer_code_bill_from
 msgid "Input Customer Code Bill From"
-msgstr "請求先From"
+msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__input_customer_code_bill_to
 msgid "Input Customer Code Bill To"
-msgstr "請求先To"
+msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__input_customer_supplier_group_code
 msgid "Input Customer Supplier Group Code"
-msgstr "取引先グループ"
+msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__input_division
 msgid "Input Division"
-msgstr "事業部"
+msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__input_sales_rep
 msgid "Input Sales Representative"
-msgstr "営業担当者"
+msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__input_target_month
 msgid "Input Target Date"
-msgstr "対象月"
+msgstr ""
 
 #. module: Maintain_Supplier_Ledger_Inquiry
-#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__move_name
-msgid "Invoice No."
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__invoice_no
+msgid "Invoice No"
 msgstr "伝票Ｎｏ"
-
-#. module: Maintain_Supplier_Ledger_Inquiry
-#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__invoice_line_type
-msgid "Invoice Type"
-msgstr "取引/内訳区分"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__jan_code
@@ -107,7 +97,7 @@ msgstr "JANコード"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Jan Code"
+msgid "JAN Code"
 msgstr "JANコード"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
@@ -121,10 +111,19 @@ msgid "Maker Name"
 msgstr "メーカー名"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__part_model_number
+msgid "Part/Model Number"
+msgstr "品番/型番"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__payment_amount
-#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.supplier_ledger_inquiry_tree
 msgid "Payment Amount"
 msgstr "支払金額"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__price_total
+msgid "Price Total"
+msgstr "金額"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__price_unit
@@ -132,14 +131,9 @@ msgid "Price Unit"
 msgstr "単価"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
-#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__product_id
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__product_code
 msgid "Product Code"
 msgstr "商品コード"
-
-#. module: Maintain_Supplier_Ledger_Inquiry
-#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__product_model
-msgid "Product Model"
-msgstr "品番/型番"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__product_name
@@ -158,14 +152,15 @@ msgid "Slip Total"
 msgstr "伝票合計"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
-#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__price_subtotal
-#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.supplier_ledger_inquiry_tree
-msgid "Sub Total Price"
-msgstr "金額"
+#: model:ir.actions.act_window,name:Maintain_Supplier_Ledger_Inquiry.action_supplier_ledger_inquiry
+#: model:ir.actions.report,name:Maintain_Supplier_Ledger_Inquiry.action_report_supplier_ledger_inquiry
+#: model:ir.ui.menu,name:Maintain_Supplier_Ledger_Inquiry.menu_supplier_ledger_inquiry
+msgid "Supplier Ledger Inquiry"
+msgstr "取引先元帳照会"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
-#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__tax_base_amount
-msgid "Tax Amount"
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__tax_rate
+msgid "Tax Rate"
 msgstr "税率"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
@@ -175,8 +170,28 @@ msgstr "税転嫁"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.supplier_ledger_inquiry_tree
+msgid "Total Payment Amount"
+msgstr "支払金額合計"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.supplier_ledger_inquiry_tree
+msgid "Total Price"
+msgstr "金額合計"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.supplier_ledger_inquiry_tree
+msgid "Total Price Unit"
+msgstr "単価合計"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.supplier_ledger_inquiry_tree
 msgid "Total Quantity"
-msgstr "合計数量"
+msgstr "数量合計"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__invoice_line_type
+msgid "Transaction/Breakdown Category"
+msgstr "取引/内訳区分"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model,name:Maintain_Supplier_Ledger_Inquiry.model_supplier_ledger
@@ -202,6 +217,11 @@ msgstr "事業部："
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
+msgid "Slip Total"
+msgstr "伝票合計"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
 msgid "Invoice No"
 msgstr "伝票Ｎｏ"
 
@@ -212,12 +232,7 @@ msgstr "単価"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Supplier Ledger Inquiry"
-msgstr "取引先元帳照会"
-
-#. module: Maintain_Supplier_Ledger_Inquiry
-#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Invoice Line Type"
+msgid "Transaction/Breakdown Category"
 msgstr "取引/内訳区分"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
@@ -234,12 +249,17 @@ msgstr "取引先グループ："
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Product Model"
+msgid "Supplier Ledger Inquiry"
+msgstr "取引先元帳照会"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
+msgid "Part/Model Number"
 msgstr "品番/型番"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Product Id"
+msgid "Product Code"
 msgstr "商品コード"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
@@ -263,23 +283,23 @@ msgstr "営業担当者："
 #. openerp-web
 #: code:addons/Maintain_Supplier_Ledger_Inquiry/static/src/xml/advanced_search.xml:0
 #, python-format
-msgid "Target Month"
+msgid "Target Date"
 msgstr "対象月"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Target Month："
+msgid "Target Date："
 msgstr "対象月："
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Partner Id"
+msgid "Customer Code"
 msgstr "得意先コード"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Partner Name"
-msgstr "得意先名"
+msgid "Customer Name"
+msgstr "得意先名
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
@@ -298,7 +318,7 @@ msgstr "日付"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Tax Amount"
+msgid "Tax Rate"
 msgstr "税率"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
@@ -320,5 +340,5 @@ msgstr "請求先："
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry_document
-msgid "Price Subtotal"
+msgid "Price Total"
 msgstr "金額"

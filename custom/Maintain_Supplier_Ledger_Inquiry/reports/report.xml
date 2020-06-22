@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="paperformat_supplier_ledger_inquiry" model="report.paperformat">
+            <field name="name">Supplier Ledger Inquiry</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
         <report
                 string="Supplier Ledger Inquiry"
                 id="action_report_supplier_ledger_inquiry"
                 model="supplier.ledger"
-                report_type="qweb-html"
+                report_type="qweb-pdf"
                 name="Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry"
                 file="Maintain_Supplier_Ledger_Inquiry.report_supplier_ledger_inquiry"
+                paperformat="Maintain_Supplier_Ledger_Inquiry.paperformat_supplier_ledger_inquiry"
         />
     </data>
 </odoo>

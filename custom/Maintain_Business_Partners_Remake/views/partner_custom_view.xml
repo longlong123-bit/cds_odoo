@@ -194,7 +194,9 @@
                             <td class="col-field"><field name="customer_industry_code" options='{"no_quick_create": True}'/></td>
                             <td class="col-label"><label for="customer_agent" string="Representative/Agent*"/></td>
                             <td class="col-field"><field name="customer_agent" required="1"/></td>
-                            <td></td>
+                            <td class="col-label"><label for="customer_quote" string="Select Quote"/></td>
+                            <td class="col-field"><field name="customer_quote"/></td>
+<!--                            <td></td>-->
                         </tr>
 
                         <!-- Row 14 -->

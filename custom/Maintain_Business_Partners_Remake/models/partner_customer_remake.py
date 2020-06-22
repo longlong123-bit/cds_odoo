@@ -119,8 +119,12 @@ class NewClassPartnerCustom(models.Model):
     customer_other_cd = fields.Char('Customer CD')
     # 備考
     customer_comment = fields.Char('Comment')
-    # 取引区分コード
-    # customer_office = fields.Char('Customer Office')
+    # 見積書選択
+    customer_quote = fields.Selection([
+        ('quote1', '通常'),
+        ('quote2', '神栖営業所用'),
+        ('quote3', '鹿島見積')], 'Select Quote',
+        default="quote1")
 
     _sql_constraints = [
         ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
@@ -198,10 +202,17 @@ class NewClassPartnerCustom(models.Model):
 
     @api.model
     def create(self, vals):
-        if not vals['customer_code_bill']:
-            vals['customer_code_bill'] = vals['customer_code']
+        search_partner_mode = self.env.context.get('res_partner_search_mode')
+        is_customer = search_partner_mode == 'customer'
+        if is_customer:
+            if not vals['customer_code_bill']:
+                vals['customer_code_bill'] = vals['customer_code']
         return super(NewClassPartnerCustom, self).create(vals)
 
+    @api.constrains('customer_code_bill')
+    def _check_code_bill(self):
+        if not self.customer_code_bill:
+            self.customer_code_bill = self.customer_code
 
 class ClassRelationPartnerCustom(models.Model):
     _name = 'relation.partner.model'
