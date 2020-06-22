@@ -178,10 +178,10 @@ class AccountsReceivableBalanceList(models.Model):
             Compute closing date of company
         """
         # get information closing date
-        customer_closing_date = self.env['closing.date'].search([], limit=1)
+        company_closing_date = self._get_company_closing_date()
         _start = 1
-        if customer_closing_date:
-            _start = customer_closing_date.start_day
+        if company_closing_date:
+            _start = company_closing_date
 
         if year_month_selected:
             # set date when input condition
@@ -230,7 +230,7 @@ class AccountsReceivableBalanceList(models.Model):
         # get closing date from res_company
         company_closing_date = self.env['res.users'].search([['id', '=', self.env.uid]]).company_id.company_closing_date
         # return day closing
-        return company_closing_date.day
+        return company_closing_date
 
     def _get_info_liabilities(self, condition_division_sales_rep, closing_date):
         """
