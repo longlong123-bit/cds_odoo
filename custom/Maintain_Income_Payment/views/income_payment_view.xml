@@ -69,7 +69,7 @@
                                 <td class="o_td_label"><label for="partner_payment_address2" string="Address2"/></td>
                                 <td><field name="partner_payment_address2"/></td>
                                 <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="cbpartner_salesrep_id"/></td>
-                                <td><field name="cb_partner_sales_rep_id" options="{'no_create': True, 'no_create_edit':True}"/></td>
+                                <td><field name="cb_partner_sales_rep_id" options="{'no_open': True, 'no_create': True, 'no_create_edit':True}"/></td>
                             </tr>
 
                             <!-- Row 6 -->
@@ -84,10 +84,14 @@
                                 <td colspan="3"></td>
                                 <td class="o_td_label"><label for="collection_method_date"/></td>
                                 <td><field name="collection_method_date" style="max-width: 15% !important" force_save="1" string="回収日"/></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="3"></td>
                                 <td class="o_td_label"><label for="collection_method_month"/></td>
                                 <td><field name="collection_method_month" style="max-width: 15% !important" force_save="1"/></td>
-
                             </tr>
+
 
                             <!-- Row 8 -->
                             <tr>
@@ -102,6 +106,7 @@
                             </tr>
 
                             <tr>
+
 <!--                                <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>-->
 <!--                                <field name="customer_closing_date" string="Closing Date"-->
 <!--                                       invisible="1" readonly="1" force_save="1"/>-->

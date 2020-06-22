@@ -126,8 +126,8 @@ class IncomePaymentCustom(models.Model):
             self.partner_id = data.partner_id
             self.partner_payment_name1 = data.partner_id.name
             results.append((0, 0, {
-                'payment_amount': data.amount_total,
-                'vj_c_payment_category': 1 or ''
+                'payment_amount': data.amount_total
+                # 'vj_c_payment_category': 1 or ''
             }))
 
             self.account_payment_line_ids = results
@@ -144,14 +144,17 @@ class IncomePaymentCustom(models.Model):
     def _get_detail_business_partner(self):
         # for rec in self:
         if self.partner_id:
-            self._set_partner_info(self.partner_id)
+            # self._set_partner_info(self.partner_id)
+            self._set_partner_info()
+
             self.cb_partner_sales_rep_id = self.partner_id.customer_agent
 
     @api.onchange('account_invoice_id')
     def _get_detail_business_partner_by_invoice(self):
         # for rec in self:
         if self.account_invoice_id:
-            self._set_partner_info(self.account_invoice_id.partner_id)
+            self._set_partner_info()
+            # self._set_partner_info(self.account_invoice_id.partner_id)
 
     @api.onchange('account_payment_line_ids')
     def _get_detail_account_payment_line(self):
@@ -185,9 +188,11 @@ class IncomePaymentCustom(models.Model):
         return income_payment
 
     # when change partner or invoice, reset other information of partner
-    def _set_partner_info(self, values):
+    @api.constrains('partner_id')
+    def _set_partner_info(self):
+        results = []
         for rec in self:
-            rec.partner_id = values or ''
+            values = rec.partner_id or ''
             rec.partner_payment_name1 = values.name or ''
             # TODO set name 4
             rec.partner_payment_name2 = values.customer_name_kana or ''
@@ -198,6 +203,19 @@ class IncomePaymentCustom(models.Model):
                 rec.is_customer_supplier_group_code = True
             if values.customer_industry_code:
                 rec.is_industry_code = True
+
+            rec.payment_method_id = 1
+            # rec.account_invoice_id = self.account_invoice_id.id
+            # print('=============account_invoice_id===============')
+            # print(self.account_invoice_id)
+            # print('=============x_studio_document_no===============')
+            # print(self.account_invoice_id.x_studio_document_no)
+
+            if self.amount != 0:
+                results.append((0, 0, {
+                    'payment_amount': self.amount
+                }))
+                self.account_payment_line_ids = results
 
             self._set_line_info()
 
@@ -426,7 +444,6 @@ class IncomePaymentCustom(models.Model):
                     params = [rec.partner_id.id, customer_from_date, customer_closing_date]
 
             self._cr.execute(query, params)
-
 
         return total_payment_amounts
 
