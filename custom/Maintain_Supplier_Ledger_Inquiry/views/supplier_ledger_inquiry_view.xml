@@ -18,12 +18,11 @@
 					<field name="maker_name"/>
 					<field name="product_name"/>
 					<field name="quantity" sum="Total Quantity"/>
-					<field name="price_unit" sum="Total Price Unit"/>
+					<field name="price_unit"/>
 					<field name="price_total" sum="Total Price"/>
 					<field name="payment_amount" sum="Total Payment Amount"/>
 					<field name="tax_rate"/>
 					<field name="tax_transfer"/>
-					<field name="slip_total" attrs="{'invisible': [True]}" sum="Slip Total"/>
 				</tree>
 			</field>
 		</record>

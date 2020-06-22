@@ -69,21 +69,19 @@
                             <tr style="border">
                                 <th>日付</th>
                                 <th>伝票Ｎｏ</th>
-                                <th>取引/内訳区分</th>
-                                <th>得意先コード</th>
+                                <th>訳区分</th>
                                 <th>得意先名</th>
-                                <th>JANコード</th>
-                                <th>商品コード</th>
-                                <th>品番/型番</th>
-                                <th>メーカー名</th>
-                                <th>商品名</th>
+                                <th>JAN</th>
+                                <th>商品</th>
+                                <th>品番</th>
+                                <th>メーカー</th>
+                                <th>商品</th>
                                 <th>数量</th>
                                 <th>単価</th>
                                 <th>金額</th>
                                 <th>支払金額</th>
                                 <th>税率</th>
                                 <th>税転嫁</th>
-                                <th>伝票合計</th>
                             </tr>
                         </thead>
                         <tbody class="sale_tbody">
@@ -91,16 +89,13 @@
                                 <tr>
                                     <t>
                                         <td>
-                                            <span t-field="rows.date"/>
+                                            <span t-esc="rows.date.strftime('%m/%d')"/>
                                         </td>
                                         <td>
                                             <span t-field="rows.invoice_no"/>
                                         </td>
                                         <td>
                                             <span t-field="rows.invoice_line_type"/>
-                                        </td>
-                                        <td>
-                                            <span t-field="rows.customer_code"/>
                                         </td>
                                         <td>
                                             <span t-field="rows.customer_name"/>
@@ -138,22 +133,17 @@
                                         <td>
                                             <span t-field="rows.tax_transfer"/>
                                         </td>
-                                        <td>
-                                            <span/>
-                                        </td>
                                     </t>
                                 </tr>
                             </t>
                             <tr class="border-black o_subtotal">
-                                <td name="total_accounts_receivable_last_month" class="text-right" colspan="10">
+                                <td name="total_accounts_receivable_last_month" class="text-right" colspan="9">
                                     <strong>合計</strong>
                                 </td>
                                 <td name="totalQuantity" class="text-left">
                                     <t t-esc="'{0:,.0f}'.format(int(sum(l.quantity for l in docs)))" />
                                 </td>
-                                <td name="totalPriceUnit" class="text-left">
-                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.price_unit for l in docs)))" />
-                                </td>
+                                <td/>
                                 <td name="totalPriceSubtotal" class="text-left">
                                     <t t-esc="'{0:,.0f}'.format(int(sum(l.price_total for l in docs)))" />
                                 </td>
@@ -162,9 +152,6 @@
                                 </td>
                                 <td/>
                                 <td/>
-                                <td name="slipTotal" class="text-left">
-                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.slip_total for l in docs)))" />
-                                </td>
                             </tr>
                         </tbody>
                     </table>
