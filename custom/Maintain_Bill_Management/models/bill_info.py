@@ -36,5 +36,4 @@ class BillInfoClass(models.Model):
     closing_date_value = fields.Integer(size=2, min=1, max=31)
     customer_excerpt_request = fields.Boolean(string='Excerpt Request', default=False)
 
-    _sql_constraints = [('bill_info', 'unique(billing_code, last_closing_date)', 'This sales data has been billed and '
-                                                                                 'cannot be modified')]
+    _sql_constraints = [('bill_info', 'unique(billing_code, last_closing_date)', 'This data has been billed.')]
