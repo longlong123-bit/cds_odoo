@@ -202,8 +202,11 @@ class NewClassPartnerCustom(models.Model):
 
     @api.model
     def create(self, vals):
-        if not vals['customer_code_bill']:
-            vals['customer_code_bill'] = vals['customer_code']
+        search_partner_mode = self.env.context.get('res_partner_search_mode')
+        is_customer = search_partner_mode == 'customer'
+        if is_customer:
+            if not vals['customer_code_bill']:
+                vals['customer_code_bill'] = vals['customer_code']
         return super(NewClassPartnerCustom, self).create(vals)
 
     @api.constrains('customer_code_bill')
