@@ -299,8 +299,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         /**
          * Check data
          */
-        _checkData: function(e){
-            var ref = this._getWidgetOptions();
+        _checkData: function(e, ref){
             var s = this;
 
             if (this.value == e.target.value) {
@@ -343,8 +342,10 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
          * check if is enter then check data
          */
         _onKeyupInput: function(e){
-            if (ref.search_input && (e.which === $.ui.keyCode.ENTER || e.which === $.ui.keyCode.TAB)) {
-                this._checkData(e);
+            var options = this._getWidgetOptions();
+
+            if (options.search_input && (e.which === $.ui.keyCode.ENTER || e.which === $.ui.keyCode.TAB)) {
+                this._checkData(e, options);
             }
         },
 
@@ -352,8 +353,10 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
          * Unfocus
          */
         _onUnfocusInput: function(e){
-            if (ref.search_input) {
-                this._checkData();
+            var options = this._getWidgetOptions();
+
+            if (options.search_input) {
+                this._checkData(e, options);
             } else {
                 this._setValue(e.target.value);
             }
