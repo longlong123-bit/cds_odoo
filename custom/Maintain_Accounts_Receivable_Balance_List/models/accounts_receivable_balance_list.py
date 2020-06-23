@@ -60,6 +60,22 @@ class AccountsReceivableBalanceList(models.Model):
                                               store=False)
     input_display_order = fields.Char('Input Display Order', compute='_compute_liabilities', default='', store=False)
 
+    def init(self):
+        """
+            Init of module
+        """
+        # update data billing_liabilities_flg when install or upgrade module
+        self._cr.execute("""
+            UPDATE res_partner
+                SET billing_liabilities_flg = 't'
+                WHERE customer_code = customer_code_bill;
+            UPDATE res_partner
+                SET billing_liabilities_flg = 'f'
+                WHERE customer_code != customer_code_bill
+                    OR customer_code IS NULL
+                    OR customer_code_bill IS NULL;
+        """)
+
     @api.constrains('id')
     def _compute_liabilities(self):
         """

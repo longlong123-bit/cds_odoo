@@ -27,7 +27,7 @@ class SupplierLedgerInquiryCustom(models.Model):
     # 取引 / 内訳区分
     invoice_line_type = fields.Char(string='Transaction/Breakdown Category', readonly=True)
     # 得意先コード
-    customer_code = fields.Integer(string='Customer Code', readonly=True)
+    customer_code = fields.Char(string='Customer Code', readonly=True)
     # 得意先名
     customer_name = fields.Char(string='Customer Name', readonly=True)
     # JANコード
@@ -76,7 +76,7 @@ class SupplierLedgerInquiryCustom(models.Model):
                 account_move_line.date, -- 日付
                 account_move_line.invoice_no, -- 伝票Ｎｏ
                 account_move_line.x_invoicelinetype AS invoice_line_type, -- 取引/内訳区分
-                account_move_line.partner_id AS customer_code, -- 得意先コード
+                res_partner.customer_code AS customer_code, -- 得意先コード
                 res_partner.name AS customer_name, -- 得意先名
                 account_move_line.x_product_barcode AS jan_code, -- JANコード
                 account_move_line.product_id AS product_code, -- 商品コード
@@ -127,7 +127,7 @@ class SupplierLedgerInquiryCustom(models.Model):
                     account_payment.payment_date,
                     account_payment.name,
                     '入金',
-                    account_payment.partner_id,
+                    res_partner.customer_code,
                     res_partner.name,
                     '',
                     0,
