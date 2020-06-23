@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <th>
-                        <span>Closing Date</span>
+                        <span>Deadline</span>
                     </th>
                     <th>
                         <span>line no</span>
@@ -46,7 +46,7 @@
                         <span>Taxed</span>
                     </th>
                     <th>
-                        <span>Number of Invoice</span>
+                        <span>Tax Transfer</span>
                     </th>
                 </tr>
             </thead>
@@ -64,7 +64,7 @@
                     </td>
                     <td>
                         <span>
-                            <t t-esc="record.account_move_line_id.x_invoicelinetype"/>
+                            <t t-esc="record.x_invoicelinetype"/>
                         </span>
                     </td>
                     <td>
@@ -119,12 +119,12 @@
                     </td>
                     <td>
                         <span>
-                            <t t-esc="record.tax_audit"/>
+                            <t t-esc="record.tax_rate"/>
                         </span>
                     </td>
                     <td>
                         <span>
-                            <t t-esc="record.tax_amount"/>
+                            <t t-esc="record.x_voucher_tax_transfer"/>
                         </span>
                     </td>
                 </tr>
