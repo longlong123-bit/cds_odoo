@@ -3,7 +3,7 @@
 <templates id="template" xml:space="preserve">
     <t t-name="refer_field">
         <div style="display: flex">
-            <input class="o_input o_input_refer_field" style="border-top-right-radius: 0; border-bottom-right-radius: 0; width: 100px;" type="text"/>
+            <input class="o_input o_input_refer_field o_field_widget" style="border-top-right-radius: 0; border-bottom-right-radius: 0; width: 100px;" type="text"/>
             <button type="button" class='o_button_refer_field btn btn-secondary' style="line-height: 1rem; border: 1px solid #ccc; border-left: 0 !important; border-top-left-radius: 0; border-bottom-left-radius: 0; background: #ffffff;">
                 <i class="fa fa-search"></i>
             </button>

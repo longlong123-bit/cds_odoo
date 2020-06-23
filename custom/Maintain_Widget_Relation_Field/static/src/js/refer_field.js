@@ -13,7 +13,6 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
     var view_registry = require('web.view_registry');
     var select_create_controllers_registry = require('web.select_create_controllers_registry');
     var dom = require('web.dom');
-    var datepicker = require('web.datepicker');
     var _t = core._t;
 
     // custom ViewDialog
@@ -55,12 +54,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
                         break;
                 }
 
-                self.$modal.find('.modal-dialog').addClass('modal-widget');
-
-                if (self.renderFooter) {
-                    self.$footer = self.$modal.find(".modal-footer");
-                    self.set_buttons(self.buttons);
-                }
+                self.$modal.find('.modal-dialog').addClass('modal-widget modal-widget-relation-field');
                 self.$modal.on('hidden.bs.modal', _.bind(self.destroy, self));
             });
         },
@@ -98,71 +92,26 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
          */
         _onPushState: function (event) {
             event.stopPropagation();
-        },
-
-        set_buttons: function (buttons,cp) {
-            var self = this;
-            self._setButtonsTo(this.$footer, buttons,cp);
-        },
-
-        _setButtonsTo($target, buttons,cp) {
-            var self = this;
-            $target.empty();
-            _.each(buttons, function (buttonData) {
-                var $button = dom.renderButton({
-                    attrs: {
-                        class: buttonData.classes || (buttons.length > 1 ? 'btn-secondary' : 'btn-primary'),
-                        disabled: buttonData.disabled,
-                    },
-                    icon: buttonData.icon,
-                    text: buttonData.text,
-                });
-                $button.on('click', function (e) {
-                    var def;
-                    if (buttonData.click) {
-                        def = buttonData.click.call(self, e);
-                    }
-                    if (buttonData.close) {
-                        self.onForceClose = false;
-                        Promise.resolve(def).then(self.close.bind(self)).guardedCatch(self.close.bind(self));
-                    }
-                });
-                if(buttonData.classes!='btn-secondary o_search_button_search'){
-                    if (self.technical) {
-                        $target.append($button);
-                    } else {
-                        $target.prepend($button);
-                    }
-                }else{
-                    var hasButtonSearch = $('.search_form').find('.o_search_button_search');
-                    if(hasButtonSearch.length==0){
-                        $('.search_form').append($button);
-                        self.render_datepicker('search_sale_date_from');
-                        self.render_datepicker('search_sale_date_to');
-                    }
-                }
-                $('.cp_paging').html(cp);
-
-            });
-        },
+        }
     });
 
     var SelectCreateDialog = ViewDialog.extend({
         custom_events: _.extend({}, ViewDialog.prototype.custom_events, {
             select_record: function (event) {
-                var args = [
-                        [['id', '=',event.data.id]]
-                    ];
-                rpc.query({
-                        model: 'account.move',
-                        method: 'search_read',
-                        args: args,
-                    })
-            },
-            selection_changed: function (event) {
-                event.stopPropagation();
-                this.$footer.find(".o_select_button").prop('disabled', !event.data.selection.length);
-            },
+                var parent = this.getParent();
+                var ref = parent._getWidgetRef();
+                var state = this.viewController.renderer.state;
+
+                for (var i = 0; i < state.count; i++) {
+                    var data = state.data[i];
+
+                    if (data.ref === event.data.id) {
+                        parent._setValue(data.data[ref.column]);
+                    }
+                }
+
+                this.close();
+            }
         }),
 
         /**
@@ -185,183 +134,8 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
             this.ending = false;
         },
 
-        // render date picker
-        render_datepicker: function(name){
-            this.create_new_widget(name);
-
-        },
-
-        // create new widget date picker
-        create_new_widget: function (name) {
-            this[name] = new (this._get_widget_class())(this,{format: "YYYY-MM-DD"});
-            this[name].appendTo($('.'+name));
-        },
-
-        // create new Class date picker
-        _get_widget_class: function () {
-            return datepicker.DateTimeWidget;
-        },
-
-        // get condition search in form (in dialog_custom_voucher.xml)
-        _getSearchFilter_Sale_History: function(){
-            var domain = [];
-
-            var f_search_document_no_from_val = $('input[name="search_document_no_from"]').val();
-            if (f_search_document_no_from_val!=''){
-                var f_document_no_from = ["x_studio_document_no", ">=",f_search_document_no_from_val];
-                domain.push(f_document_no_from)
-            }
-
-            var f_document_no_to_val = $('input[name="search_document_no_to"]').val();
-            if (f_document_no_to_val!=''){
-                var f_document_no_to = ["x_studio_document_no", "<=",f_document_no_to_val];
-                domain.push(f_document_no_to)
-            }
-
-            var f_userinput_id_val = $('input[name="search_input_person"]').val();
-            if (f_userinput_id_val!=''){
-                var f_userinput_id = ["x_userinput_id", "ilike",f_userinput_id_val];
-                domain.push(f_userinput_id)
-            }
-
-            var f_sale_date_from_val = $('.search_sale_date_from').find('input').val()
-            if (f_sale_date_from_val!=''){
-                var f_sale_date_from = ["x_studio_date_invoiced", ">=",f_sale_date_from_val];
-                domain.push(f_sale_date_from)
-            }
-
-            var f_sale_date_to_val = $('.search_sale_date_to').find('input').val()
-            if (f_sale_date_to_val!=''){
-                var f_sale_date_to = ["x_studio_date_invoiced", "<=",f_sale_date_to_val];
-                domain.push(f_sale_date_to)
-            }
-
-            var f_customer_code_val = $('input[name="search_customer_code"]').val();
-            if (f_customer_code_val!=''){
-                var f_customer_code = ["x_customer_code_for_search", "ilike",f_customer_code_val];
-                domain.push(f_customer_code)
-            }
-
-            var f_customer_name_val = $('input[name="search_customer_name"]').val();
-            if (f_customer_name_val!=''){
-                var f_customer_name = ["x_studio_name", "ilike",f_customer_name_val];
-                domain.push(f_customer_name)
-            }
-
-            // return domain
-            // domain example: [['filed','operator','search condition data'],[...],....]
-            return domain;
-        },
-
-        // method search
-        _search_sale_history: function () {
-            event.stopPropagation();
-            var self = this;
-            // remove all body dialog
-            $('.o_act_window').html('');
-
-            // get search domain
-            this.domain = this._getSearchFilter_Sale_History();
-
-            // get viewRefID
-            var viewRefID = this.viewType === 'kanban' ?
-                (this.options.kanban_view_ref && JSON.parse(this.options.kanban_view_ref) || false) : false;
-
-            // loadview
-            return this.loadViews(this.res_model, this.context, [[viewRefID, this.viewType], [false, 'search']], {})
-                .then(this.setup.bind(this))
-                .then(function (fragment) {
-                    self.opened().then(function () {
-                        var _o_paging;
-
-                        // get paging DOM
-                        fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
-                            _o_paging = c;
-    //                        _o_paging.style.cssFloat = 'right';
-    //                        c.parentNode.removeChild(c);
-                        });
-    //
-    //                    // remove all control DOM
-    //                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
-    //                        c.parentNode.removeChild(c);
-    //                    });
-
-                        $(fragment).find('.o_cp_controller .o_cp_left').empty();
-
-                        // custom change checkbox --> radio
-                        $(fragment).find('.o_content input[type="checkbox"]').each(function(i, c){
-                            //var t = c;
-                            c.type ='radio';
-                            c.name = 'radio_custom';
-                            c.className='';
-                            var label_remove = c.parentNode.getElementsByTagName("label")[0];
-                            c.parentNode.removeChild(label_remove);
-                        });
-
-                        $(fragment).find('.o_data_row').click(function(e){
-                            if (e.target.name === 'radio_custom') {
-                                return;
-                            }
-
-                            e.stopPropagation();
-                            e.preventDefault();
-
-                            var radio = $(this).find('input[type="radio"]');
-
-                            if ($(this).find('input[type="radio"]').is(':checked')) {
-                                radio.prop('checked', false);
-                            }
-                            else {
-                                radio.prop('checked', true);
-                            }
-
-                            radio.change();
-                        });
-
-                        // custom remove footer table
-                        $(fragment).find('.o_content th').each(function(i, c){
-                            if(c.className==='o_list_record_selector'){
-                                c.innerHTML='';
-                            }
-                            c.style.padding = '0px';
-
-                        });
-                        fragment.querySelectorAll(".o_list_record_selector").forEach(function(c){
-                           c.style.padding = '3px';
-                        });
-
-                        // custom remove footer table
-                         fragment.querySelectorAll("tfoot").forEach(function(c){
-                            c.parentNode.removeChild(c);
-                        });
-
-                        // add class dialog_show (to handle event (click,...) in list)
-                        fragment.querySelectorAll(".forward_edit").forEach(function(c){
-                            c.classList.add('dialog_show');
-
-                        });
-
-                        // append all DOM to dialog
-                        dom.append(self.$el, fragment, {
-                            callbacks: [{widget: self.viewController}],
-                            in_DOM: true,
-                        });
-
-                        // set button
-    //                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
-    //                         c.style.cssFloat = 'right';
-    //                    });
-                        self.set_buttons(self.__buttons,_o_paging.innerHTML);
-                    });
-                });
-        },
-
         // open dialig
         open: function () {
-
-            if (this.options.initial_view !== "search") {
-                return this.create_edit_record();
-            }
             var self = this;
             var _super = this._super.bind(this);
 
@@ -372,94 +146,25 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
                 .then(this.setup.bind(this))
                 .then(function (fragment) {
                     self.opened().then(function () {
-                        // this block code and  _search_sale_history...loadviews block code are the same --> need refactor to function
                         var _o_paging;
 
-    //                     get paging DOM
                         fragment.querySelectorAll(".o_cp_pager").forEach(function(c){
                             _o_paging = c;
-    //                        _o_paging.style.cssFloat = 'right';
-    //                        c.parentNode.removeChild(c);
                         });
-    //
-    //                    // remove all control DOM
-    //                    fragment.querySelectorAll(".o_control_panel").forEach(function(c){
-    //                        c.parentNode.removeChild(c);
-    //                    });
 
                         $(fragment).find('.o_cp_controller .o_cp_left').empty();
-
-                        // custom change checkbox --> radio
-                        $(fragment).find('.o_content input[type="checkbox"]').each(function(i, c){
-                            //var t = c;
-                            c.type ='radio';
-                            c.name = 'radio_custom';
-                            c.className='';
-                            var label_remove = c.parentNode.getElementsByTagName("label")[0];
-                            c.parentNode.removeChild(label_remove);
-                        });
-
-                        $(fragment).find('.o_data_row').click(function(e){
-                            if (e.target.name === 'radio_custom') {
-                                return;
-                            }
-
-                            e.stopPropagation();
-                            e.preventDefault();
-
-                            var radio = $(this).find('input[type="radio"]');
-
-                            if ($(this).find('input[type="radio"]').is(':checked')) {
-                                radio.prop('checked', false);
-                            }
-                            else {
-                                radio.prop('checked', true);
-                            }
-
-                            radio.change();
-                        });
-
-                        // custom remove footer table
-                        $(fragment).find('.o_content th').each(function(i, c){
-                            if(c.className==='o_list_record_selector'){
-                                c.innerHTML='';
-                            }
-                            c.style.padding = '0px';
-
-                        });
-                        fragment.querySelectorAll(".o_list_record_selector").forEach(function(c){
-                           c.style.padding = '3px';
-                        });
-
-                        // custom remove footer table
-                         fragment.querySelectorAll("tfoot").forEach(function(c){
-                            c.parentNode.removeChild(c);
-                        });
-
-                        // add class dialog_show (to handle event (click,...) in list)
-                        fragment.querySelectorAll(".forward_edit").forEach(function(c){
-                            c.classList.add('dialog_show');
-
-                        });
 
                         // append all DOM to dialog
                         dom.append(self.$el, fragment, {
                             callbacks: [{widget: self.viewController}],
                             in_DOM: true,
                         });
-
-                        // set button
-    //                    _o_paging.querySelectorAll(".o_pager").forEach(function(c){
-    //                         c.style.cssFloat = 'right';
-    //                    });
-                        self.set_buttons(self.__buttons,_o_paging.innerHTML);
                     });
                     return _super();
                 });
         },
 
         setup: function (fieldsViews) {
-
             // this block does not need --> refactor
             var vt ='';
             if(typeof fieldsViews.form!= 'undefined'){
@@ -467,7 +172,6 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
             }else{
                 vt = 'list'
             }
-
             var self = this;
             var fragment = document.createDocumentFragment();
 
@@ -506,35 +210,23 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
                 modelName: this.res_model,
                 withBreadcrumbs: false,
                 withSearchPanel: false,
+                hasSelectors: false
             }));
             view.setController(selectCreateController);
+
             return view.getController(this).then(function (controller) {
                 self.viewController = controller;
-                // render the footer buttons
-                self._prepareButtons();
                 return self.viewController.appendTo(fragment);
             }).then(function () {
                 return fragment;
             });
         },
+
         close: function () {
             this._super.apply(this, arguments);
             this.on_closed();
         },
-        create_edit_record: function () {
-            var self = this;
-            var dialog = new FormViewDialog(this, _.extend({}, this.options, {
-                on_saved: function (record) {
-                    var values = [{
-                        id: record.res_id,
-                        display_name: record.data.display_name || record.data.name,
-                    }];
-                    self.on_selected(values);
-                },
-            })).open();
-            dialog.on('closed', this, this.close);
-            return dialog;
-        },
+
         /**
          * @override
          */
@@ -548,50 +240,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
             return isFocusSet;
         },
 
-        /**
-         * prepare buttons for dialog footer based on options
-         *
-         * @private
-         */
-        _prepareButtons: function () {
-            this.__buttons = [{
-                text: _t("Cancel"),
-                classes: 'btn-secondary o_form_button_cancel',
-                close: true,
-            },
-            {
-                text: _t("Search"),
-                classes: 'btn-secondary o_search_button_search',
-                click: this._search_sale_history.bind(this),
-
-            }
-            ];
-            if (!this.options.no_create) {
-                this.__buttons.unshift({
-                    text: _t("Create"),
-                    classes: 'btn-primary',
-                    click: this.create_edit_record.bind(this)
-                });
-            }
-            if (!this.options.disable_multiple_selection) {
-                this.__buttons.unshift({
-                    text: _t("Select"),
-                    classes: 'btn-primary o_select_button',
-                    disabled: true,
-                    close: true,
-
-                    // event when click select button to return data to parent
-                    click: function () {
-                        // get records
-                        var parent = this.getParent();
-                        var ref = parent._getWidgetRef();
-                        var records = this.viewController.getSelectedRecords();
-                        var value = records[0].data[ref.column];
-                        parent._setValue(value);
-                    },
-                });
-            }
-        },
+        create_edit_record: function(){}
     });
 
     /**
@@ -668,9 +317,13 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
          * check if is enter then check data
          */
         _onKeyupInput: function(e){
-            if (e.which === $.ui.keyCode.ENTER) {
+            var ref = this._getWidgetRef();
+
+            if (ref.search_input && (e.which === $.ui.keyCode.ENTER || e.which === $.ui.keyCode.TAB)) {
                 var s = this;
-                var ref = this._getWidgetRef();
+                if (this.value == e.target.value) {
+                    return;
+                }
 
                 // Call to server
                 rpc.query({
