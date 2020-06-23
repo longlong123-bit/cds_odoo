@@ -20,6 +20,12 @@ class CollationPayment(models.Model):
             'records': records
         }
 
+    # def get_tax_transfer(self):
+    #     tax_transfer_get = self.env['account.move'].search([('id', 'in', self.account_move_id)])
+    #     self.tax_transfer = tax_transfer_get.x_voucher_tax_transfer
+    #
+    # tax_transfer = fields.Selection('Tax Transfer', compute=get_tax_transfer)
+
     # その他CD
     customer_other_cd = fields.Char('Customer CD', readonly=True, compute=_get_customer_other_cd)
 
@@ -45,6 +51,8 @@ class ClassDetail(models.Model):
     tax_amount = fields.Float('tax_amount', compute='_get_account_move_line_db', readonly=True)
     product_maker_name = fields.Char('Product Maker Name', compute='_get_account_move_line_db', readonly=True)
     line_amount = fields.Float('line amount', compute='_get_account_move_line_db', readonly=True)
+    x_invoicelinetype =fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
+    tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
 
     def _get_account_move_line_db(self):
         for acc in self:
@@ -57,8 +65,11 @@ class ClassDetail(models.Model):
                 acc.price_unit = acc.account_move_line_id.price_unit
                 acc.tax_audit = acc.account_move_line_id.tax_audit
                 acc.tax_amount = acc.account_move_line_id.line_tax_amount
-                acc.product_maker_name = acc.account_move_line_id.product_maker_name
+                acc.product_maker_name = acc.account_move_line_id.invoice_custom_FreightCategory.name
                 acc.line_amount = acc.account_move_line_id.invoice_custom_lineamount
+                acc.x_invoicelinetype = acc.account_move_line_id.x_invoicelinetype
+                acc.tax_rate = acc.account_move_line_id.tax_rate
+
 
 
 class ClassAccontMoveLineCustom(models.Model):
