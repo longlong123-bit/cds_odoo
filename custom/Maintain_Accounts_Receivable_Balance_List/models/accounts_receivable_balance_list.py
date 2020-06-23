@@ -142,7 +142,7 @@ class AccountsReceivableBalanceList(models.Model):
             for record in args:
                 if 'customer_closing_date' == record[0]:
                     if record[2].isnumeric():
-                        record[0] = 'closing_date_value'
+                        record[0] = 'customer_closing_date.start_day'
                         record[1] = '='
                 if 'customer_except_request' == record[0]:
                     if record[2] == 'True':

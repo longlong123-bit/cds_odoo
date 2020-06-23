@@ -98,7 +98,6 @@ class BillingClass(models.Model):
             # Set data for department field
             record.department = record.customer_agent.department_id.id
 
-            record.closing_date_value = record.customer_closing_date.start_day
         return True
 
     @api.constrains('customer_code', 'customer_code_bill')
@@ -117,14 +116,8 @@ class BillingClass(models.Model):
     # 締切日
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
 
-    # closing date value
-    closing_date_value = fields.Integer(size=2, min=1, max=31)
-
     # 売伝枚数
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True, store=False)
-
-    # Check customer is Billing Place
-    billing_liabilities_flg = fields.Boolean(default=False)
 
     # 事業部
     department = fields.Many2one('hr.department', compute=_set_data_to_fields, readonly=True, store=False)
@@ -270,7 +263,6 @@ class BillingClass(models.Model):
                 'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                 'customer_closing_date_id': partner_ids.customer_closing_date.id,
                 'customer_excerpt_request': partner_ids.customer_except_request,
-                'closing_date_value': partner_ids.closing_date_value,
             })
 
             for invoice in invoice_ids:
@@ -294,7 +286,6 @@ class BillingClass(models.Model):
                     'hr_department_id': partner_ids.customer_agent.department_id.id,
                     'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                     'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                    'closing_date_value': partner_ids.closing_date_value,
                 })
 
                 for line in invoice.invoice_line_ids:
@@ -316,7 +307,6 @@ class BillingClass(models.Model):
                         'hr_department_id': partner_ids.customer_agent.department_id.id,
                         'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                         'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                        'closing_date_value': partner_ids.closing_date_value,
                     })
         advanced_search.val_bill_search_deadline = ''
         return {
@@ -443,7 +433,6 @@ class BillingClass(models.Model):
             'business_partner_group_custom_id': self.customer_supplier_group_code.id,
             'customer_closing_date_id': self.customer_closing_date.id,
             'customer_excerpt_request': self.customer_except_request,
-            'closing_date_value': self.closing_date_value,
         })
 
         for invoice in invoice_ids:
@@ -467,7 +456,6 @@ class BillingClass(models.Model):
                 'hr_department_id': self.customer_agent.department_id.id,
                 'business_partner_group_custom_id': self.customer_supplier_group_code.id,
                 'customer_closing_date_id': self.customer_closing_date.id,
-                'closing_date_value': self.closing_date_value,
             })
 
             for line in invoice_line_ids:
@@ -489,7 +477,6 @@ class BillingClass(models.Model):
                     'hr_department_id': self.customer_agent.department_id.id,
                     'business_partner_group_custom_id': self.customer_supplier_group_code.id,
                     'customer_closing_date_id': self.customer_closing_date.id,
-                    'closing_date_value': self.closing_date_value,
                 })
         advanced_search.val_bill_search_deadline = ''
         self.ensure_one()

@@ -138,7 +138,7 @@ class CollationPayment(models.Model):
             for record in args:
                 if 'customer_closing_date_id' == record[0]:
                     if record[2].isnumeric():
-                        record[0] = 'closing_date_value'
+                        record[0] = 'customer_closing_date_id.start_day'
                         record[1] = '='
                 if 'customer_excerpt_request' == record[0]:
                     if record[2] == 'True':
@@ -147,7 +147,7 @@ class CollationPayment(models.Model):
                         record[2] = False
                 domain += [record]
 
-        elif ctx.get('view_name') == 'Tai':
+        elif ctx.get('view_name') == 'Bill History':
             global search_x_studio_date_invoiced_from
             global search_x_studio_date_invoiced_to
             global search_x_studio_document_no

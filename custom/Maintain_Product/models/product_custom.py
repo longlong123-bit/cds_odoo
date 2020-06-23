@@ -326,6 +326,7 @@ class ProductTemplate(models.Model):
         default.update({'product_code_1': '', 'barcode': '000000000'})
         if 'name' not in default:
             default['name'] = _("%s (copy)") % (self.name)
+            default['barcode'] = False
         return super(ProductTemplate, self).copy(default)
 
     @api.onchange('product_custom_freight_category')
