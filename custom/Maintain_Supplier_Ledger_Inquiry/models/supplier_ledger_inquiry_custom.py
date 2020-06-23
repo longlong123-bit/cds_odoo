@@ -81,7 +81,7 @@ class SupplierLedgerInquiryCustom(models.Model):
                 account_move_line.x_product_barcode AS jan_code, -- JANコード
                 account_move_line.product_id AS product_code, -- 商品コード
                 account_move_line.invoice_custom_standardnumber AS part_model_number, -- 品番/型番
-                account_move_line."invoice_custom_FreightCategory" AS maker_name, -- メーカー名
+                account_move_line."product_maker_name" AS maker_name, -- メーカー名
                 account_move_line.x_product_name AS product_name, -- 商品名
                 account_move_line.quantity, -- 数量
                 account_move_line.price_unit, -- 単価

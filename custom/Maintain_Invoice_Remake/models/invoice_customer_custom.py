@@ -142,7 +142,7 @@ def copy_data_from_quotation(rec, quotation, account):
                     'x_product_name': line.product_name,
                     'x_product_name2': line.product_name2,
                     'invoice_custom_standardnumber': line.product_standard_number,
-                    'invoice_custom_FreightCategory': line.product_maker_name,
+                    'product_maker_name': line.product_maker_name,
                     'quantity': line.product_uom_qty,
                     'price_unit': line.price_unit,
                     'product_uom_id': line.product_uom_id,
@@ -992,7 +992,7 @@ class AccountMoveLine(models.Model):
                 line.invoice_custom_lineamount = detail_history.invoice_custom_lineamount
                 line.invoice_custom_Description = detail_history.invoice_custom_Description
                 line.invoice_custom_salesunitprice = detail_history.invoice_custom_salesunitprice
-                line.invoice_custom_FreightCategory = detail_history.invoice_custom_FreightCategory
+                line.product_maker_name = detail_history.product_maker_name
                 line.price_unit = detail_history.price_unit
                 line.quantity = detail_history.quantity
                 line.product_id = detail_history.product_id
@@ -1069,8 +1069,8 @@ class AccountMoveLine(models.Model):
     invoice_custom_salesunitprice = fields.Float('salesunitprice', compute='compute_sale_unit_price')
     invoice_custom_lineamount = fields.Float('Line Amount', compute='compute_line_amount')
     invoice_custom_Description = fields.Text('Description')
-    # invoice_custom_FreightCategory = fields.Many2one('freight.category.custom', string='Maker Code')
-    invoice_custom_FreightCategory = fields.Char(string='Maker Name')
+    # product_maker_name = fields.Many2one('freight.category.custom', string='Maker Code')
+    product_maker_name = fields.Char(string='Maker Name')
     price_unit = fields.Float(string='Unit Price', digits='Product Price')
     quantity = fields.Float(string='Quantity', digits='(12,0)',
                             default=1.0,
@@ -1281,7 +1281,7 @@ class AccountMoveLine(models.Model):
             if self.product_id.product_custom_freight_category:
                 return self.product_id.product_custom_freight_category
             else:
-                return self.invoice_custom_FreightCategory
+                return self.product_maker_name
         else:
             return False
 
@@ -1314,7 +1314,7 @@ class AccountMoveLine(models.Model):
 
             line.product_uom_id = line.product_id.product_uom_custom
             # line.price_unit = line._get_computed_price_unit()
-            line.invoice_custom_FreightCategory = line.product_id.product_maker_name
+            line.product_maker_name = line.product_id.product_maker_name
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
             # Manage the fiscal position after that and adapt the price_unit.
             # E.g. mapping a price-included-tax to a price-excluded-tax must

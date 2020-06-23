@@ -158,7 +158,7 @@ class QuotationsCustom(models.Model):
                     'product_name2': line.x_product_name2,
                     'product_uom_id': line.product_uom_id,
                     'product_standard_number': line.invoice_custom_standardnumber,
-                    'product_freight_category': line.invoice_custom_FreightCategory,
+                    'product_maker_name': line.product_maker_name,
                     'product_uom_qty': line.quantity,
                     'price_unit': line.price_unit,
                     'line_amount': line.invoice_custom_lineamount,
@@ -442,8 +442,9 @@ class QuotationsLinesCustom(models.Model):
         ('消費税', '消費税')
     ], string='Class Item', default='通常')
 
+    product_code = fields.Char(string='Product Code')
     product_barcode = fields.Char(string='Product Barcode')
-    product_freight_category = fields.Many2one('freight.category.custom', 'Freight Category')
+    product_maker_name = fields.Char(string='Freight Category')
     product_name = fields.Text(string='Product Name')
     product_name2 = fields.Text(string='Product Name 2')
     product_standard_number = fields.Char(string='Product Standard Number')
@@ -493,6 +494,24 @@ class QuotationsLinesCustom(models.Model):
     quotation_custom_line_no = fields.Integer('Line No', default=_get_default_line_no)
     product_uom_id = fields.Char(string='UoM')
 
+    @api.onchange('product_code')
+    def _onchange_product_code(self):
+        if self.product_code:
+            product = self.env['product.product'].search([
+                ['product_code_1', '=', self.product_code]
+            ])
+            self.product_id = product.id
+            self.product_barcode = product.barcode
+
+    @api.onchange('product_barcode')
+    def _onchange_product_barcode(self):
+        if self.product_barcode:
+            product = self.env['product.product'].search([
+                ['barcode', '=', self.product_barcode]
+            ])
+            self.product_id = product.id
+            self.product_code = product.product_code_1
+
     @api.onchange('refer_detail_history')
     def _get_detail_history(self):
         if self.refer_detail_history:
@@ -504,7 +523,7 @@ class QuotationsLinesCustom(models.Model):
                 self.product_name = data.product_name
                 self.product_name2 = data.product_name2
                 self.product_barcode = data.product_barcode
-                self.product_freight_category = data.product_freight_category
+                self.product_maker_name = data.product_maker_name
                 self.product_standard_number = data.product_standard_number
                 self.product_list_price = data.product_list_price
                 self.product_uom_qty = data.product_uom_qty
@@ -532,7 +551,7 @@ class QuotationsLinesCustom(models.Model):
             line.product_name2 = line.product_id.product_custom_goodsnamef or ''
             line.product_uom_id = line.product_id.product_uom_custom or ''
             line.product_barcode = line.product_id.barcode or ''
-            line.product_freight_category = line.product_id.product_custom_freight_category or ''
+            line.product_maker_name = line.product_id.product_maker_name or ''
             line.product_standard_number = line.product_id.product_custom_standardnumber or ''
 
             line.compute_price_unit()

@@ -18,7 +18,7 @@
                                         <field name="invoice_custom_detaildivide" required="True" string="detaildivide"/>
                                         <field name="product_id" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
                                         <field name="invoice_custom_standardnumber"/>
-                                        <field name="invoice_custom_FreightCategory"/>
+                                        <field name="product_maker_name"/>
                                         <field name="quantity"/>
                                         <field name="product_uom_id" string="UoM" required="True"/>
 
@@ -66,7 +66,7 @@
 								<field name="invoice_custom_line_no"/>
 								<field name="invoice_custom_detaildivide"/>
 								<field name="invoice_custom_standardnumber"/>
-								<field name="invoice_custom_FreightCategory"/>
+								<field name="product_maker_name"/>
 								<field name="invoice_custom_discountunitprice"/>
 								<field name="invoice_custom_discountrate"/>
 								<field name="invoice_custom_uom_cost_value"/>

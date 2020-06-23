@@ -99,7 +99,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         custom_events: _.extend({}, ViewDialog.prototype.custom_events, {
             select_record: function (event) {
                 var parent = this.getParent();
-                var ref = parent._getWidgetRef();
+                var ref = parent._getWidgetOptions();
                 var state = this.viewController.renderer.state;
 
                 for (var i = 0; i < state.count; i++) {
@@ -268,8 +268,8 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         /**
          * Get display field
          */
-        _getWidgetRef: function(){
-            return JSON.parse(this.attrs.widget_ref);
+        _getWidgetOptions: function(){
+            return this.attrs.options;
         },
 
         /**
@@ -317,7 +317,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
          * check if is enter then check data
          */
         _onKeyupInput: function(e){
-            var ref = this._getWidgetRef();
+            var ref = this._getWidgetOptions();
 
             if (ref.search_input && (e.which === $.ui.keyCode.ENTER || e.which === $.ui.keyCode.TAB)) {
                 var s = this;
@@ -346,7 +346,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         _openDialogSearch: function(){
             // get current context (language, param,...)
             var context = this.record.getContext(this.recordParams);
-            var ref = this._getWidgetRef();
+            var ref = this._getWidgetOptions();
             var searchVal = this.$el.find('input').val();
             var filters = null;
 
