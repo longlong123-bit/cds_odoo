@@ -255,7 +255,8 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         events : {
             'click .o_button_refer_field': '_onClickButton',
             'click .o_input_refer_field': '_onClickInput',
-            'keyup .o_input_refer_field': '_onKeyupInput'
+            'keyup .o_input_refer_field': '_onKeyupInput',
+            'unfocus .o_input_refer_field': '_onUnfocusInput',
         },
 
         /**
@@ -296,6 +297,31 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         },
 
         /**
+         * Check data
+         */
+        _checkData: function(e){
+            var ref = this._getWidgetOptions();
+            var s = this;
+
+            if (this.value == e.target.value) {
+                return;
+            }
+
+            // Call to server
+            rpc.query({
+                model: ref.model,
+                method: 'search_read',
+                domain: [[ref.column, '=', e.target.value]]
+            }).then(function(res){
+                if (res.length > 0) {
+                    s._setValue(res[0][ref.column]);
+                } else {
+                    s._openDialogSearch();
+                }
+            });
+        },
+
+        /**
          * Event when click on button, then open dialog search
          */
         _onClickButton: function(e){
@@ -317,26 +343,19 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
          * check if is enter then check data
          */
         _onKeyupInput: function(e){
-            var ref = this._getWidgetOptions();
-
             if (ref.search_input && (e.which === $.ui.keyCode.ENTER || e.which === $.ui.keyCode.TAB)) {
-                var s = this;
-                if (this.value == e.target.value) {
-                    return;
-                }
+                this._checkData(e);
+            }
+        },
 
-                // Call to server
-                rpc.query({
-                    model: ref.model,
-                    method: 'search_read',
-                    domain: [[ref.column, '=', e.target.value]]
-                }).then(function(res){
-                    if (res.length > 0) {
-                        s._setValue(res[0][ref.column]);
-                    } else {
-                        s._openDialogSearch();
-                    }
-                });
+        /**
+         * Unfocus
+         */
+        _onUnfocusInput: function(e){
+            if (ref.search_input) {
+                this._checkData();
+            } else {
+                this._setValue(e.target.value);
             }
         },
 
