@@ -44,20 +44,3 @@ class BillingClass(models.Model):
             'type': 'ir.actions.client',
             'tag': 'reload',
         }
-
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        ctx = self._context.copy()
-        if 'Cancel Billing' == ctx.get('view_name'):
-            for record in args:
-                if 'customer_closing_date_id' == record[0]:
-                    if record[2].isnumeric():
-                        record[0] = 'closing_date_value'
-                        record[1] = '='
-                if 'customer_excerpt_request' == record[0]:
-                    if record[2] == 'True':
-                        record[2] = True
-                    else:
-                        record[2] = False
-
-        res = self._search(args, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
