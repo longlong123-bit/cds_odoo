@@ -108,16 +108,6 @@ class IncomePaymentCustom(models.Model):
 
     invoice_history = fields.Many2one('account.move', string='Journal Entry', store=False)
 
-    # def _get_default_vj_c_payment_category(self):
-    #     # res = self.pool.get('receipt.divide.custom').search(cr, uid, [('currency_id', '=', 'EUR')], context=context)
-    #     # return res and res[0] or False
-    #     return self.env['receipt.divide.custom'].search([], limit=1, order='id').id
-    #
-    # # Default values that need to be set
-    # defaults = {
-    #     'vj_c_payment_category': _get_default_vj_c_payment_category
-    # }
-
     @api.onchange('invoice_history')
     def _onchange_invoice_history(self):
         if self.invoice_history:
@@ -126,8 +116,8 @@ class IncomePaymentCustom(models.Model):
             self.partner_id = data.partner_id
             self.partner_payment_name1 = data.partner_id.name
             results.append((0, 0, {
-                'payment_amount': data.amount_total,
-                'vj_c_payment_category': 1 or ''
+                'payment_amount': data.amount_total
+                # 'vj_c_payment_category': 1 or ''
             }))
 
             self.account_payment_line_ids = results
@@ -145,12 +135,15 @@ class IncomePaymentCustom(models.Model):
         # for rec in self:
         if self.partner_id:
             self._set_partner_info(self.partner_id)
+            # self._set_partner_info()
+
             self.cb_partner_sales_rep_id = self.partner_id.customer_agent
 
     @api.onchange('account_invoice_id')
     def _get_detail_business_partner_by_invoice(self):
         # for rec in self:
         if self.account_invoice_id:
+            # self._set_partner_info()
             self._set_partner_info(self.account_invoice_id.partner_id)
 
     @api.onchange('account_payment_line_ids')
@@ -198,6 +191,52 @@ class IncomePaymentCustom(models.Model):
                 rec.is_customer_supplier_group_code = True
             if values.customer_industry_code:
                 rec.is_industry_code = True
+
+            self._set_line_info()
+
+    # def name_get(self):
+    #     result = []
+    #     for rec in self:
+    #         name = str(self.account_invoice_id.x_studio_document_no)
+    #         result.append((rec.id, name))
+    #     return result
+
+    # def name_get(self):
+    #     data = []
+    #     for row in self:
+    #         if 'showcode' in self.env.context:
+    #             display_value = row.account_invoice_id.x_studio_document_no
+    #         data.append((row.id, display_value))
+    #     return data
+
+    @api.constrains('partner_id')
+    def _get_data_register(self):
+        results = []
+        for rec in self:
+            values = rec.partner_id or ''
+            rec.partner_payment_name1 = values.name or ''
+            # TODO set name 4
+            rec.partner_payment_name2 = values.customer_name_kana or ''
+            rec.partner_payment_address1 = values.street or ''
+            rec.partner_payment_address2 = values.street2 or ''
+            rec.customer_other_cd = values.customer_other_cd or ''
+            if values.customer_supplier_group_code:
+                rec.is_customer_supplier_group_code = True
+            if values.customer_industry_code:
+                rec.is_industry_code = True
+
+            # rec.payment_method_id = 1
+            # rec.account_invoice_id = self.account_invoice_id.id
+            # print('=============account_invoice_id===============')
+            # print(rec.account_invoice_id)
+            # print('=============x_studio_document_no===============')
+            # print(rec.account_invoice_id.name)
+
+            if self.amount != 0:
+                results.append((0, 0, {
+                    'payment_amount': self.amount
+                }))
+                self.account_payment_line_ids = results
 
             self._set_line_info()
 
@@ -426,7 +465,6 @@ class IncomePaymentCustom(models.Model):
                     params = [rec.partner_id.id, customer_from_date, customer_closing_date]
 
             self._cr.execute(query, params)
-
 
         return total_payment_amounts
 

@@ -1044,6 +1044,7 @@ class AccountMoveLine(models.Model):
         for p in self:
             p.x_crm_purchased_products._rec_name = 'aaaaaa'
 
+    date = fields.Date(related='move_id.x_studio_date_invoiced', store=True, readonly=True, index=True, copy=False, group_operator='min')
     invoice_custom_line_no = fields.Integer('Line No', default=get_default_line_no)
     # Update 2020/04/28 - START
     x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品'), ('値引', '値引'), ('サンプル', 'サンプル'), ('消費税', '消費税')],

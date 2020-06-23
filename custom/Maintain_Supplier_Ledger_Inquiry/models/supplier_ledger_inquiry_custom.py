@@ -54,8 +54,6 @@ class SupplierLedgerInquiryCustom(models.Model):
     create_uid = fields.Integer(string='Create By User Id', readonly=True)
     # 税転嫁
     tax_transfer = fields.Char(string='Tax Transfer', readonly=True)
-    # 伝票合計
-    slip_total = fields.Float(string='Slip Total', readonly=True)
 
     # fields input condition advanced search
     input_target_month = fields.Char('Input Target Date', compute='_get_value_condition_input', default='', store=False)
@@ -101,8 +99,18 @@ class SupplierLedgerInquiryCustom(models.Model):
                             END
                 END AS tax_rate, -- 税率
                 account_move_line.create_uid,
-                account_move_line.x_tax_transfer_show_tree AS tax_transfer, -- 税転嫁（外／内／非、明／伝／請）
-                account_move_line.price_subtotal AS slip_total
+                CASE
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'foreign_tax' THEN
+                        '外税／明細'
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'internal_tax' THEN
+                        '内税／明細'
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'voucher' THEN
+                        '伝票'
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'invoice' THEN 
+                        '請求'
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'custom_tax' THEN 
+                        '税調整別途'  
+                END AS tax_transfer -- 税転嫁（外／内／非、明／伝／請）
             FROM
                 account_move_line
                     LEFT JOIN
@@ -134,8 +142,7 @@ class SupplierLedgerInquiryCustom(models.Model):
                     account_payment.payment_amount,
                     0,
                     account_payment.create_uid,
-                    '',-- 税転嫁（外／内／非、明／伝／請）
-                    account_payment.payment_amount * -1
+                    '' -- 税転嫁（外／内／非、明／伝／請）
                 FROM
                     account_payment
                         LEFT JOIN
