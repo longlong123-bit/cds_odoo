@@ -41,6 +41,7 @@
                                     <field name="invoice_no" string="Invoice No" readonly='1'/>
                                     <field name="customer_code" string="Customer Code" readonly='1'/>
                                     <field name="customer_name" string="Customer Name" readonly='1'/>
+                                    <field name="x_invoicelinetype" string="Invoice Line Type" readonly="1"/>
                                     <field name="product_id" string="Product Code" readonly='1'/>
                                     <field name="x_product_name" string="Product Name" readonly='1'/>
                                     <field name="product_maker_name" string="Product Maker Name"
@@ -68,6 +69,12 @@
                 <field name="customer_code" string="Billing Code"/>
                 <field name="name" string="Billing Name"/>
                 <field name="last_closing_date" string="Last Closing Date"/>
+                <field name="last_billed_amount" string="Last Billed Amount"/>
+                <field name="deposit_amount" string="Deposit Amount"/>
+                <field name="balance_amount" string="Balance Amount"/>
+                <field name="amount_untaxed" string="Amount Untaxed"/>
+                <field name="tax_amount" string="Tax Amount"/>
+                <field name="billed_amount" string="Billed Amount"/>
                 <field name="voucher_number" string="Voucher Number"/>
                 <field name="customer_except_request" invisible="1"/>
                 <button name="bm_bill_excerpt_button" type="object" string="Excerpt" class="btn-sm btn btn-primary"

@@ -87,8 +87,6 @@ class CollationPayment(models.Model):
 
         domain = []
 
-        print(args)
-
         if ctx.get('view_code') == 'bill_report':
             global search_address_type
             global search_cash_type

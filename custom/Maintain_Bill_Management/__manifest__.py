@@ -18,7 +18,7 @@
         'base_setup', 'Maintain_Custom_Department', 'Maintain_Custom_Department_Section',
         'Maintain_Custom_Employee', 'Maintain_Business_Partner_Group', 'Maintain_Closing_Date',
         'Maintain_Product_Class', 'Maintain_Product', 'Maintain_Freight_Category',
-        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake',
+        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake', 'Maintain_Accounts_Receivable_Balance_List',
     ],
 
     # always loaded
