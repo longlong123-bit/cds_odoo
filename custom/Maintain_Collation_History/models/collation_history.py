@@ -20,12 +20,10 @@ class CollationPayment(models.Model):
             'records': records
         }
 
-
     # その他CD
     customer_other_cd = fields.Char('Customer CD', readonly=True, compute=_get_customer_other_cd)
 
     bill_detail_ids = fields.One2many('bill.invoice.details', 'bill_info_id')
-
 
 
 class ClassBillInvoice(models.Model):

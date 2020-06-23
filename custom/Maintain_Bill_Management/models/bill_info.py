@@ -33,7 +33,6 @@ class BillInfoClass(models.Model):
     hr_department_id = fields.Many2one('hr.department', string='Department')
     business_partner_group_custom_id = fields.Many2one('business.partner.group.custom', string='Supplier Group')
     customer_closing_date_id = fields.Many2one('closing.date', string='Customer Closing Date')
-    closing_date_value = fields.Integer(size=2, min=1, max=31)
     customer_excerpt_request = fields.Boolean(string='Excerpt Request', default=False)
 
     _sql_constraints = [('bill_info', 'unique(billing_code, last_closing_date)', 'This data has been billed.')]
