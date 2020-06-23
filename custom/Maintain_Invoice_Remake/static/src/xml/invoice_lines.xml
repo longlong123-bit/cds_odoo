@@ -28,7 +28,7 @@
             <td><span t-esc="record.x_invoicelinetype"/></td>
             <td><span t-if="record.product_id and record.product_id[1]" t-esc="record.product_id[1]"/></td>
             <td><span t-if="record.x_product_barcode" t-esc="record.x_product_barcode"/></td>
-            <td><span t-if="record.invoice_custom_FreightCategory and record.invoice_custom_FreightCategory[1]" t-esc="record.invoice_custom_FreightCategory[1]"/></td>
+            <td><span t-if="record.invoice_custom_FreightCategory" t-esc="record.invoice_custom_FreightCategory"/></td>
             <td><span t-if="record.x_product_name" t-esc="record.x_product_name"/></td>
             <td><span t-if="record.invoice_custom_standnumber" t-esc="record.invoice_custom_standnumber"/></td>
             <td><span t-if="record.price_unit" t-esc="record.price_unit"/></td>

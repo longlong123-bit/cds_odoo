@@ -1105,9 +1105,6 @@ class AccountMoveLine(models.Model):
             ])
             self.product_id = product.id
             self.x_product_barcode = product.barcode
-        else:
-            self.product_id = False
-            self.x_product_barcode = False
 
     @api.onchange('x_product_barcode')
     def _onchange_product_barcode(self):
@@ -1117,9 +1114,6 @@ class AccountMoveLine(models.Model):
             ])
             self.product_id = product.id
             self.product_code = product.product_code_1
-        else:
-            self.product_id = False
-            self.product_code = False
 
     # # 消費税区分
     # line_tax_category = fields.Selection(
