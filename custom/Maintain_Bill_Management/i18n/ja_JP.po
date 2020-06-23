@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-16 11:18+0000\n"
-"PO-Revision-Date: 2020-06-16 11:18+0000\n"
+"POT-Creation-Date: 2020-06-23 14:42+0000\n"
+"PO-Revision-Date: 2020-06-23 14:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -56,6 +56,9 @@ msgstr "税込み金額"
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__amount_untaxed
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__amount_untaxed
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__amount_untaxed
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__amount_untaxed
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Amount Untaxed"
 msgstr "伝票合計額"
 
@@ -66,6 +69,9 @@ msgstr "伝票合計額"
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__balance_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__balance_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__balance_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Balance Amount"
 msgstr "繰越金額"
 
@@ -126,12 +132,10 @@ msgid "Bill Tree"
 msgstr ""
 
 #. module: Maintain_Bill_Management
-#: model:ir.model.constraint,message:Maintain_Bill_Management.constraint_bill_info_bill_info
-msgid "This data has been billed."
-msgstr "このデータは請求処理が行われました。"
-
-#. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__billed_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__billed_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__billed_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Billed Amount"
 msgstr "今回請求金額"
 
@@ -156,12 +160,6 @@ msgstr "請求先"
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Billing Code"
 msgstr "請求先コード"
-
-#. module: Maintain_Bill_Management
-#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__billing_liabilities_flg
-#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__billing_liabilities_flg
-msgid "Billing Liabilities Flag"
-msgstr ""
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__billing_name
@@ -237,6 +235,12 @@ msgid "Currency"
 msgstr "币种"
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__current_closing_date
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__current_closing_date
+msgid "Current Closing Date"
+msgstr "締日"
+
+#. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__hr_employee_id
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__hr_employee_id
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__hr_employee_id
@@ -270,11 +274,14 @@ msgid "Customer Name"
 msgstr "得意先名"
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__deadline
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__deadline
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__deadline
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__deadline
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__deadline
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Deadline"
-msgstr ""
+msgstr "締切日"
 
 #. module: Maintain_Bill_Management
 #. openerp-web
@@ -290,6 +297,9 @@ msgstr "事業部"
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__deposit_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__deposit_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__deposit_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Deposit Amount"
 msgstr "入金額"
 
@@ -298,7 +308,7 @@ msgstr "入金額"
 #: code:addons/Maintain_Bill_Management/static/src/xml/bill_product_lines.xml:0
 #, python-format
 msgid "Description"
-msgstr "適用"
+msgstr "備考"
 
 #. module: Maintain_Bill_Management
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
@@ -339,6 +349,11 @@ msgstr "売上日付"
 
 #. module: Maintain_Bill_Management
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+msgid "Invoice Line Type"
+msgstr ""
+
+#. module: Maintain_Bill_Management
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
 msgid "Invoice No"
 msgstr "伝票No"
 
@@ -373,6 +388,9 @@ msgstr "仕訳項目"
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__last_billed_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__last_billed_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__last_billed_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Last Billed Amount"
 msgstr "前回請求金額"
 
@@ -539,6 +557,9 @@ msgstr "取引先グループ"
 #. openerp-web
 #: code:addons/Maintain_Bill_Management/static/src/xml/bill_product_lines.xml:0
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__tax_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__tax_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__tax_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 #, python-format
 msgid "Tax Amount"
 msgstr "税額"
@@ -561,6 +582,11 @@ msgstr "税"
 #, python-format
 msgid "The Deadline"
 msgstr "締切日"
+
+#. module: Maintain_Bill_Management
+#: model:ir.model.constraint,message:Maintain_Bill_Management.constraint_bill_info_bill_info
+msgid "This data has been billed."
+msgstr "このデータは請求処理が行われました。"
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__customer_trans_classification_code

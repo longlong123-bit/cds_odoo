@@ -3,18 +3,18 @@
     <data>
         <template id="payment_request_bill">
             <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="doc">
+                <t t-foreach="docs" t-as="doca">
                     <!--                    <t t-set="lang"-->
                     <!--                       t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>-->
                     <t t-set="lang"
-                       t-value="doc.partner_id.lang"/>
+                       t-value="doca.partner_id.lang"/>
                     <t t-call="Maintain_Payment_Request_Bill.payment_request_template" t-lang="lang"/>
                 </t>
             </t>
         </template>
         <template id="payment_request_template">
             <div class="page" style="page-break-before: always;">
-                <t t-set="a" t-value="doc.with_context(lang=lang)"/>
+                <t t-set="a" t-value="doca.with_context(lang=lang)"/>
                 <t t-set="o" t-value="a.partner_id"/>
 
                 <!-- LOGO AND TITLE -->
@@ -97,8 +97,6 @@
                                     <td style="width: 100px; border: 1px solid #000;background-color: #e0e0e0;">
                                         今回請求金額</td>
                                     <td style="width: 100px;"></td>
-                                    <td style="width: 100px; border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000;"></td>
-                                    <td style="width: 100px; border-top: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000;"></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -124,35 +122,48 @@
                                             <t t-esc="a.amount_total"/>
                                         </span></td>
                                     <td style="width: 100px;"></td>
-                                    <td style="width: 100px; border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000;"></td>
-                                    <td style="width: 100px; border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; min-height: 100px"></td>
+                                    <!--                                    <td style="width: 100px; border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000;"></td>-->
+                                    <!--                                    <td style="width: 100px; border-bottom: 1px solid #000;border-right: 1px solid #000;border-left: 1px solid #000; min-height: 100px"></td>-->
                                 </tr>
                             </tbody>
-
                         </table>
+                    </div>
+                    <div style="width: 35%; display: flex; margin-top: -89px;">
+                        <span style="border: 1px solid #000000; width: 90px; height: 90px; display: inline-block;"></span>
+                        <span style="border: 1px solid #000000; width: 90px; height: 90px; display: inline-block;"></span>
                     </div>
                     <div style="clear: both"/>
                 </div>
                 <div style="margin-bottom:30px">弊社の製品とサービスをご利用いただき、誠にありがとうございます。<br/> あなたの健康と幸運を願っています。<br/>
                     購入した製品とサービスの詳細は次のとおりです。</div>
                 <div>
-                    <t t-if="doc.search_claim_type == 1">
-                        <t t-if="doc.search_print_child == 1">
-                            <t t-call="Maintain_Payment_Request_Bill.payment_request_child_detail_table"
-                               t-lang="lang"/>
-                        </t>
-                        <t t-else="">
-                            <t t-call="Maintain_Payment_Request_Bill.payment_request_detail_table" t-lang="lang"/>
-                        </t>
-                    </t>
-                    <t t-else="">
-                        <t t-if="a.amount_total != 0">
-                            <t t-if="doc.search_print_child == 1">
-                                <t t-call="Maintain_Payment_Request_Bill.payment_request_child_detail_table_1"
-                                   t-lang="lang"/>
+                    <t t-set="line_1" t-value="0"/>
+                    <t t-set="line_id" t-value="1"/>
+                    <t t-foreach="doca" t-as="doc">
+                        <t t-if="line_id > line_1">
+                            <t t-set="line_id" t-value="doc.id"/>
+                            <t t-set="line_1" t-value="line_id"/>
+                            <t t-if="doc.search_claim_type == 1">
+                                <t t-if="doc.search_print_child == 1">
+                                    <t t-call="Maintain_Payment_Request_Bill.payment_request_child_detail_table"
+                                       t-lang="lang"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-call="Maintain_Payment_Request_Bill.payment_request_detail_table"
+                                       t-lang="lang"/>
+                                </t>
                             </t>
                             <t t-else="">
-                                <t t-call="Maintain_Payment_Request_Bill.payment_request_detail_table_1" t-lang="lang"/>
+                                <t t-if="a.amount_total != 0">
+                                    <t t-if="doc.search_print_child == 1">
+                                        <t t-call="Maintain_Payment_Request_Bill.payment_request_child_detail_table_1"
+                                           t-lang="lang"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-call="Maintain_Payment_Request_Bill.payment_request_detail_table_1"
+                                           t-lang="lang"/>
+                                    </t>
+                                </t>
                             </t>
                         </t>
                     </t>
@@ -209,7 +220,7 @@
                                                     <span t-field="li.x_product_barcode"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
-                                                    <span t-field="li.invoice_no"/>
+                                                    <span t-field="li.product_id"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
                                                     <span t-field="li.invoice_custom_standardnumber"/>
@@ -254,7 +265,7 @@
                                                 <span t-field="li.x_product_barcode"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
-                                                <span t-field="li.invoice_no"/>
+                                                <span t-field="li.product_id"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
                                                 <span t-field="li.invoice_custom_standardnumber"/>
@@ -355,7 +366,7 @@
                                                                         <span t-field="li.x_product_barcode"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
-                                                                        <span t-field="li.invoice_no"/>
+                                                                        <span t-field="li.product_id"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
                                                                         <span t-field="li.invoice_custom_standardnumber"/>
@@ -393,108 +404,108 @@
                 </t>
             </t>
             <t t-else="">
-                        <t t-foreach="a.bill_invoice_ids.sorted(key=lambda r: r.customer_code)" t-as="bill_inv">
-                            <t t-set="cus0" t-value="bill_inv.customer_code"/>
-                            <t t-if="cus0 != cus">
-                                <t t-set="cus" t-value="bill_inv.customer_code"/>
-                                <t t-set="acc_move" t-value="bill_inv.account_move_id"/>
-                                <t t-set="res_part" t-value="acc_move.partner_id"/>
-                                <t t-set="re_acc" t-value="res_part.invoice_ids"/>
-                                <!--                    <span t-field="bill_inv.customer_code"></span>-->
+                <t t-foreach="a.bill_invoice_ids.sorted(key=lambda r: r.customer_code)" t-as="bill_inv">
+                    <t t-set="cus0" t-value="bill_inv.customer_code"/>
+                    <t t-if="cus0 != cus">
+                        <t t-set="cus" t-value="bill_inv.customer_code"/>
+                        <t t-set="acc_move" t-value="bill_inv.account_move_id"/>
+                        <t t-set="res_part" t-value="acc_move.partner_id"/>
+                        <t t-set="re_acc" t-value="res_part.invoice_ids"/>
+                        <!--                    <span t-field="bill_inv.customer_code"></span>-->
 
 
-                                <div style="page-break-after:always">
-                                    <span>取引先コード: </span>
-                                    <span t-field="bill_inv.customer_code">
-                                    </span><br/>
-                                    <span>取引先名: </span>
-                                    <span t-field="bill_inv.customer_name"/>
-                                    <div id="detail_table" style="border: 1.5px solid #000;">
-                                        <div style="min-height: auto">
-                                            <table border="0" cellspacing="0" style="width: 100%; font-size: 12px;">
-                                                <thead>
-                                                    <tr>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_id"><span>日付</span></td>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_id"><span>伝票Ｎｏ</span></td>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_id"><span>JANコード</span></td>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_id"><span>商品コード</span></td>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_id"><span>品番/型番</span></td>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_description"><span>メーカー名</span></td>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_priceunit"><span>商品名</span></td>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_taxes"><span>数量</span></td>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_subtotal">単価</td>
-                                                        <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
-                                                            name="th_subtotal">金額</td>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <t t-foreach="re_acc" t-as="ac">
-                                                        <t t-if="ac.bill_invoice_ids.id">
-                                                            <t t-foreach="ac.bill_invoice_ids" t-as="inv">
-                                                                <t t-set="detail"
-                                                                   t-value="inv.bill_invoice_details_ids"/>
-                                                                <!--                                                        <t t-set="cus" t-value="ac.bill_invoice_ids.customer_code"/>-->
-                                                                <t t-foreach="detail" t-as="de">
-                                                                    <tr>
-                                                                        <td style="border: 1px solid #000; text-align: left">
-                                                                            <span t-field="inv.bill_date">
-                                                                            </span>
-                                                                            <!--                                                                <span t-esc="cus"/>-->
-                                                                        </td>
-                                                                        <td style="border: 1px solid #000; text-align: left">
-                                                                            <span t-field="inv.bill_no"/>
-                                                                        </td>
-                                                                        <t t-set="li"
-                                                                           t-value="de.account_move_line_id"/>
-                                                                        <td style="border: 1px solid #000; text-align: left">
-                                                                            <span t-field="li.x_product_barcode"/>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
-                                                                            <span t-field="li.invoice_no"/>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
-                                                                            <span t-field="li.invoice_custom_standardnumber"/>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left;"
-                                                                            class="text-right">
-                                                                            <t t-set="pro" t-value="li.product_id"/>
-                                                                            <span t-field="pro.product_maker_name"/>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                            <span t-field="li.x_product_name"/>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                            <span t-field="li.quantity"/>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                            <span t-field="li.price_unit"/>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                            <span t-field="li.credit"/>
-                                                                        </td>
-                                                                    </tr>
-                                                                </t>
-                                                            </t>
+                        <div style="page-break-after:always">
+                            <span>取引先コード: </span>
+                            <span t-field="bill_inv.customer_code">
+                            </span><br/>
+                            <span>取引先名: </span>
+                            <span t-field="bill_inv.customer_name"/>
+                            <div id="detail_table" style="border: 1.5px solid #000;">
+                                <div style="min-height: auto">
+                                    <table border="0" cellspacing="0" style="width: 100%; font-size: 12px;">
+                                        <thead>
+                                            <tr>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_id"><span>日付</span></td>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_id"><span>伝票Ｎｏ</span></td>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_id"><span>JANコード</span></td>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_id"><span>商品コード</span></td>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_id"><span>品番/型番</span></td>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_description"><span>メーカー名</span></td>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_priceunit"><span>商品名</span></td>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_taxes"><span>数量</span></td>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_subtotal">単価</td>
+                                                <td style="border: 1px solid #000; text-align: center; background-color: #e0e0e0"
+                                                    name="th_subtotal">金額</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="re_acc" t-as="ac">
+                                                <t t-if="ac.bill_invoice_ids.id">
+                                                    <t t-foreach="ac.bill_invoice_ids" t-as="inv">
+                                                        <t t-set="detail"
+                                                           t-value="inv.bill_invoice_details_ids"/>
+                                                        <!--                                                        <t t-set="cus" t-value="ac.bill_invoice_ids.customer_code"/>-->
+                                                        <t t-foreach="detail" t-as="de">
+                                                            <tr>
+                                                                <td style="border: 1px solid #000; text-align: left">
+                                                                    <span t-field="inv.bill_date">
+                                                                    </span>
+                                                                    <!--                                                                <span t-esc="cus"/>-->
+                                                                </td>
+                                                                <td style="border: 1px solid #000; text-align: left">
+                                                                    <span t-field="inv.bill_no"/>
+                                                                </td>
+                                                                <t t-set="li"
+                                                                   t-value="de.account_move_line_id"/>
+                                                                <td style="border: 1px solid #000; text-align: left">
+                                                                    <span t-field="li.x_product_barcode"/>
+                                                                </td>
+                                                                <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
+                                                                    <span t-field="li.product_id"/>
+                                                                </td>
+                                                                <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
+                                                                    <span t-field="li.invoice_custom_standardnumber"/>
+                                                                </td>
+                                                                <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left;"
+                                                                    class="text-right">
+                                                                    <t t-set="pro" t-value="li.product_id"/>
+                                                                    <span t-field="pro.product_maker_name"/>
+                                                                </td>
+                                                                <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                                    <span t-field="li.x_product_name"/>
+                                                                </td>
+                                                                <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                                    <span t-field="li.quantity"/>
+                                                                </td>
+                                                                <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                                    <span t-field="li.price_unit"/>
+                                                                </td>
+                                                                <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                                    <span t-field="li.credit"/>
+                                                                </td>
+                                                            </tr>
                                                         </t>
                                                     </t>
+                                                </t>
+                                            </t>
 
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </t>
-                        </t>
+                            </div>
+                        </div>
                     </t>
+                </t>
+            </t>
         </template>
         <template id="payment_request_detail_table_1">
             <!--            <t t-set="a" t-value="o.with_context(lang=lang)"/>-->
@@ -547,7 +558,7 @@
                                                         <span t-field="li.x_product_barcode"/>
                                                     </td>
                                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
-                                                        <span t-field="li.invoice_no"/>
+                                                        <span t-field="li.product_id"/>
                                                     </td>
                                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
                                                         <span t-field="li.invoice_custom_standardnumber"/>
@@ -594,7 +605,7 @@
                                                     <span t-field="li.x_product_barcode"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
-                                                    <span t-field="li.invoice_no"/>
+                                                    <span t-field="li.product_id"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
                                                     <span t-field="li.invoice_custom_standardnumber"/>
@@ -699,7 +710,7 @@
                                                                             <span t-field="li.x_product_barcode"/>
                                                                         </td>
                                                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
-                                                                            <span t-field="li.invoice_no"/>
+                                                                            <span t-field="li.product_id"/>
                                                                         </td>
                                                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
                                                                             <span t-field="li.invoice_custom_standardnumber"/>
@@ -802,7 +813,7 @@
                                                                         <span t-field="li.x_product_barcode"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
-                                                                        <span t-field="li.invoice_no"/>
+                                                                        <span t-field="li.product_id"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
                                                                         <span t-field="li.invoice_custom_standardnumber"/>

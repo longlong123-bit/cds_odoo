@@ -28,3 +28,4 @@ class BillInvoiceClass(models.Model):
     hr_department_id = fields.Many2one('hr.department', string='Department')
     business_partner_group_custom_id = fields.Many2one('business.partner.group.custom', string='Supplier Group')
     customer_closing_date_id = fields.Many2one('closing.date', string='Customer Closing Date')
+    x_voucher_tax_transfer = fields.Char('x_voucher_tax_transfer')

@@ -82,9 +82,15 @@ class BillingClass(models.Model):
                                                                          deadline=record.deadline))
         return number
 
-    # @api.depends('customer_code', 'customer_code_bill')
     def _set_data_to_fields(self):
         for record in self:
+            _last_billed_amount = 0
+            _deposit_amount = 0
+            _balance_amount = 0
+            _amount_untaxed = 0
+            _tax_amount = 0
+            _amount_total = 0
+            _billed_amount = 0
             # Set data for last_closing_date field and deadline field
             if record.customer_closing_date:
                 _closing_date = self._compute_closing_date_for_bill(customer_closing_date=record.customer_closing_date)
@@ -97,6 +103,74 @@ class BillingClass(models.Model):
 
             # Set data for department field
             record.department = record.customer_agent.department_id.id
+
+            # Compute data for last_billed_amount field
+            bill_info_ids = self.env['bill.info'].search([('billing_code', '=', record.customer_code),
+                                                          ('closing_date', '=', record.last_closing_date),
+                                                          ('active_flag', '=', True)], limit=1)
+            if bill_info_ids:
+                _last_billed_amount = bill_info_ids.billed_amount
+
+            # Compute data for deposit_amount field
+            payment_ids = self.env['account.payment'].search([
+                ('partner_id', 'in', record.ids),
+                ('payment_date', '>', record.last_closing_date),
+                ('payment_date', '<=', record.deadline),
+                ('state', '=', 'posted')
+            ])
+            for payment_id in payment_ids:
+                if payment_id.payment_amount:
+                    _deposit_amount = _deposit_amount + payment_id.payment_amount
+
+            # Compute data for balance_amount field
+            _balance_amount = _last_billed_amount - _deposit_amount
+
+            # Compute data for amount_untaxed, tax_amount, billed_amount fields
+            res_partner_id = self.env["res.partner"].search(
+                ['|', ('customer_code', '=', record.customer_code), ('customer_code_bill', '=', record.customer_code)])
+
+            invoice_ids = self.env['account.move'].search([
+                ('partner_id', 'in', res_partner_id.ids),
+                ('x_studio_date_invoiced', '>', record.last_closing_date),
+                ('x_studio_date_invoiced', '<=', record.deadline),
+                ('state', '=', 'posted'),
+                ('type', '=', 'out_invoice'),
+                ('bill_status', '!=', 'billed')
+            ])
+
+            for invoice in invoice_ids:
+                _amount_untaxed = _amount_untaxed + invoice.amount_untaxed
+                _tax_amount = _tax_amount + invoice.amount_tax
+                _amount_total = _amount_total + invoice.amount_total
+                if invoice.x_voucher_tax_transfer == 'invoice':
+                    _compute_amount_tax = 0
+                    for line in invoice.invoice_line_ids:
+                        if line.product_id.product_tax_category == 'foreign':
+                            _compute_amount_tax = _compute_amount_tax + (
+                                    line.invoice_custom_lineamount * line.tax_rate / 100)
+                        elif line.product_id.product_tax_category == 'internal':
+                            _compute_amount_tax = _compute_amount_tax + 0
+                        else:
+                            _compute_amount_tax = _compute_amount_tax + 0
+                    if invoice.partner_id.customer_tax_rounding == 'round':
+                        _compute_amount_tax = round(_compute_amount_tax)
+                    elif invoice.partner_id.customer_tax_rounding == 'roundup':
+                        _compute_amount_tax = math.ceil(_compute_amount_tax)
+                    else:
+                        _compute_amount_tax = math.floor(_compute_amount_tax)
+                    _tax_amount = _tax_amount + _compute_amount_tax
+                    _amount_total = _amount_total + _compute_amount_tax
+
+            # Compute data for billed_amount field
+            _billed_amount = _amount_total + _balance_amount
+
+            # Set data to fields
+            record.last_billed_amount = _last_billed_amount
+            record.deposit_amount = _deposit_amount
+            record.balance_amount = _balance_amount
+            record.amount_untaxed = _amount_untaxed
+            record.tax_amount = _tax_amount
+            record.billed_amount = _billed_amount
 
         return True
 
@@ -115,6 +189,25 @@ class BillingClass(models.Model):
 
     # 締切日
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
+
+    # 前回請求金額
+    last_billed_amount = fields.Float(compute=_set_data_to_fields, string='Last Billed Amount', readonly=True,
+                                      store=False)
+
+    # 入金額
+    deposit_amount = fields.Float(compute=_set_data_to_fields, string='Deposit Amount', readonly=True, store=False)
+
+    # 繰越金額
+    balance_amount = fields.Float(compute=_set_data_to_fields, string='Balance Amount', readonly=True, store=False)
+
+    # 御買上金額
+    amount_untaxed = fields.Float(compute=_set_data_to_fields, string='Amount Untaxed', readonly=True, store=False)
+
+    # 消費税
+    tax_amount = fields.Float(compute=_set_data_to_fields, string='Tax Amount', readonly=True, store=False)
+
+    # 今回請求金額
+    billed_amount = fields.Float(compute=_set_data_to_fields, string='Billed Amount', readonly=True, store=False)
 
     # 売伝枚数
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True, store=False)
@@ -158,6 +251,10 @@ class BillingClass(models.Model):
 
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
+            if rec['last_billed_amount'] == 0 and rec['deposit_amount'] == 0 and rec['balance_amount'] == 0 \
+                    and rec['amount_untaxed'] == 0 and rec['tax_amount'] == 0 and rec['billed_amount'] == 0:
+                continue
+
             if advanced_search.val_bill_search_deadline:
                 rec['deadline'] = advanced_search.val_bill_search_deadline
             # Create data for bill_info
@@ -286,6 +383,7 @@ class BillingClass(models.Model):
                     'hr_department_id': partner_ids.customer_agent.department_id.id,
                     'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                     'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                    'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
                 })
 
                 for line in invoice.invoice_line_ids:
@@ -307,6 +405,7 @@ class BillingClass(models.Model):
                         'hr_department_id': partner_ids.customer_agent.department_id.id,
                         'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                         'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                        'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
                     })
         advanced_search.val_bill_search_deadline = ''
         return {
