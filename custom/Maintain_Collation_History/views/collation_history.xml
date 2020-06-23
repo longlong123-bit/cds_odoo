@@ -7,8 +7,8 @@
             <field name="arch" type="xml">
                 <tree default_order="last_closing_date desc" string="Collation_history" create="false" import="false">
                     <button class="o_button_line" string="" icon="fa-toggle-right" name="get_detail"/>
-                    <field name="last_closing_date"/>
                     <field name="bill_no"/>
+                    <field name="last_closing_date"/>
                     <field name="last_billed_amount" sum="Total" widget="monetary"/>
                     <field name="deposit_amount" sum="Total" widget="monetary"/>
                     <field name="balance_amount" sum="Total" widget="monetary"/>
