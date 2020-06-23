@@ -21,7 +21,7 @@
                 </h1>
 
                 <span style="float: right;"
-                      t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y/%m/%d %H:%M')"></span>
+                      t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y年%m月%d日 %H時:%M分')"></span>
 
                 <div style="float: left; width: 100%; padding-top:10px;">
                     <div style="text-align: left; margin-top: 10px; margin-bottom: 10px">
@@ -89,7 +89,7 @@
                                 <tr>
                                     <t>
                                         <td>
-                                            <span t-esc="rows.date.strftime('%m/%d')"/>
+                                            <span t-esc="rows.date.strftime('%m月%d日')"/>
                                         </td>
                                         <td>
                                             <span t-field="rows.invoice_no"/>

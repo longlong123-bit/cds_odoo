@@ -117,7 +117,7 @@ class AccountsReceivableBalanceList(models.Model):
                         item.liabilities = amount_carried_forward + purchase_amount + consumption_tax
 
             # set the value to use for the program report
-            item.input_target_month = val_target_month
+            item.input_target_month = datetime.strptime(val_target_month, '%Y-%m').strftime('%Y年%m月')
             item.input_division = val_division
             item.input_sales_rep = val_sales_rep
             item.input_customer_supplier_group_code = val_customer_supplier_group_code

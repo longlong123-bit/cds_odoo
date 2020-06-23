@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, tools
+from datetime import datetime
 
 # initialize global variable
 # 締日（締日グループ）
@@ -188,7 +189,7 @@ class ListOmissionOfBill(models.Model):
         """
         for item in self:
             item.input_start_day = val_start_day
-            item.input_sales_date = val_sales_date
+            item.input_sales_date = datetime.strptime(val_sales_date, '%Y-%m-%d').strftime('%Y年%m月%d日')
             item.input_division = val_division
             item.input_sales_rep = val_sales_rep
             item.input_customer_supplier_group_code = val_customer_supplier_group_code

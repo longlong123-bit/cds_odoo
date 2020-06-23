@@ -20,7 +20,7 @@
                 </h1>
 
                 <span style="float: right;"
-                      t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y/%m/%d %H:%M')"></span>
+                      t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y年%m月%d日 %H時:%M分')"></span>
 
                 <div style="float: left; width: 100%; padding-top:10px;">
                     <div style="text-align: left; margin-top: 10px; margin-bottom: 10px">
@@ -106,7 +106,7 @@
                             <t t-foreach="docs" t-as="o">
                                 <tr>
                                     <td>
-                                        <span t-field="o.sales_date"/>
+                                        <span t-esc="o.sales_date.strftime('%m月%d日')"/>
                                     </td>
                                     <td>
                                         <span t-field="o.invoice_no"/>
