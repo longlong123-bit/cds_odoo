@@ -383,6 +383,7 @@ class BillingClass(models.Model):
                     'hr_department_id': partner_ids.customer_agent.department_id.id,
                     'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                     'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                    'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
                 })
 
                 for line in invoice.invoice_line_ids:
@@ -404,6 +405,7 @@ class BillingClass(models.Model):
                         'hr_department_id': partner_ids.customer_agent.department_id.id,
                         'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                         'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                        'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
                     })
         advanced_search.val_bill_search_deadline = ''
         return {
