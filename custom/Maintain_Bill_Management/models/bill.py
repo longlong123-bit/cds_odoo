@@ -251,7 +251,6 @@ class BillingClass(models.Model):
 
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
-            print(rec)
             if rec['last_billed_amount'] == 0 and rec['deposit_amount'] == 0 and rec['balance_amount'] == 0 \
                     and rec['amount_untaxed'] == 0 and rec['tax_amount'] == 0 and rec['billed_amount'] == 0:
                 continue
