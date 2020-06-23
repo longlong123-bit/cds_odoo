@@ -99,14 +99,14 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         custom_events: _.extend({}, ViewDialog.prototype.custom_events, {
             select_record: function (event) {
                 var parent = this.getParent();
-                var ref = parent._getWidgetOptions();
+                var options = parent._getWidgetOptions();
                 var state = this.viewController.renderer.state;
 
                 for (var i = 0; i < state.count; i++) {
                     var data = state.data[i];
 
-                    if (data.ref === event.data.id) {
-                        parent._setValue(data.data[ref.column]);
+                    if (data && data.ref === event.data.id) {
+                        parent._setValue(data.data[options.column]);
                     }
                 }
 
