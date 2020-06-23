@@ -300,19 +300,33 @@
 <!--                <field name="x_product_barcode" string="JAN/UPC/EAN"/>-->
                 <field name="product_id" invisible="1"/>
                 <field name="product_code" widget="refer_field" string="Product Code" widget_ref='{"model":"product.product","column": "product_code_1"}'/>
-                <field name="x_product_barcode" string="JAN/UPC/EAN" widget="refer_field" widget_ref='{"model":"product.product","column": "barcode"}'/>
-                <field name="invoice_custom_FreightCategory"/>
+                <field name="x_product_barcode" string="JAN/UPC/EAN"
+                       widget="refer_field"
+                       widget_ref='{"model":"product.product","column": "barcode"}'
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"
+                />
+                <field name="invoice_custom_FreightCategory"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="x_product_name" string="商品名"/>
 <!--                <field name="x_product_name2" string="商品名2"/>-->
-                <field name="invoice_custom_standardnumber"/>
-                <field name="quantity" string="Quantity"/>
-                <field name="price_unit" string="Price"/>
-                <field name="product_uom_id" string="UoM" style="text-align:right; justify-content: flex-end;"/>
-                <field name="invoice_custom_lineamount"/>
-                <field name="x_product_standard_price"/>
-                <field name="x_product_cost_price"/>
-                <field name="invoice_custom_Description"/>
-                <field name="tax_rate" string="Tax Rate" readonly="0"/>
+                <field name="invoice_custom_standardnumber"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="quantity" string="Quantity"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="price_unit" string="Price"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="product_uom_id" string="UoM" style="text-align:right; justify-content: flex-end;"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="invoice_custom_lineamount"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="x_product_standard_price"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="x_product_cost_price"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="invoice_custom_Description"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="tax_rate" string="Tax Rate" readonly="0"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="move_name" invisible="1"/>
                 <field name="account_id" invisible="1" groups="account.group_account_user" domain="[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id)]" attrs="{'required': [('display_type', '=', False)]}"/>
                 <field name="analytic_account_id" invisible="1" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting" optional="show"/>
