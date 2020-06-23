@@ -318,6 +318,7 @@
                 <field name="invoice_custom_lineamount"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="x_product_standard_price"
+                       readonly="1"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="x_product_cost_price"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
