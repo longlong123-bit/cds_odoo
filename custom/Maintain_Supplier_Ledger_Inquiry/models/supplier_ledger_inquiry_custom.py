@@ -81,7 +81,7 @@ class SupplierLedgerInquiryCustom(models.Model):
                 account_move_line.x_product_barcode AS jan_code, -- JANコード
                 account_move_line.product_id AS product_code, -- 商品コード
                 account_move_line.invoice_custom_standardnumber AS part_model_number, -- 品番/型番
-                freight_category_custom.name AS maker_name, -- メーカー名
+                account_move_line."invoice_custom_FreightCategory" AS maker_name, -- メーカー名
                 account_move_line.x_product_name AS product_name, -- 商品名
                 account_move_line.quantity, -- 数量
                 account_move_line.price_unit, -- 単価
@@ -117,8 +117,6 @@ class SupplierLedgerInquiryCustom(models.Model):
                         res_partner
                             ON res_partner.id = account_move_line.partner_id
                             AND res_partner.active = true
-                    LEFT JOIN freight_category_custom ON freight_category_custom.id = account_move_line."invoice_custom_FreightCategory"
-                                                AND freight_category_custom.active = True
             WHERE
                 account_move_line.account_internal_type != 'receivable'
                 AND account_move_line.exclude_from_invoice_tab = False
