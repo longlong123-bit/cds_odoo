@@ -34,9 +34,9 @@
                             <table style="margin-right: 36px; margin-left: 8px">
                                 <td style="width: 44%; vertical-align: top;">
                                     <field name="product_class_code_lv1" domain="[('product_level', '=', 'lv1')]"/>
-                                    <field name="product_class_code_lv2"  />
-                                    <field name="product_class_code_lv3" />
-                                    <field name="product_class_code_lv4"  />
+                                    <field name="product_class_code_lv2"  domain="[('product_level', '=', 'lv2')]"/>
+                                    <field name="product_class_code_lv3" domain="[('product_level', '=', 'lv3')]"/>
+                                    <field name="product_class_code_lv4" domain="[('product_level', '=', 'lv4')]"/>
                                 </td>
 <!--                                <td style="width: 12%; vertical-align: top; text-align: right"><label for="product_class_name_lv1"/></td>-->
                                 <td style="width: 44%; vertical-align: top;">
@@ -58,7 +58,6 @@
                             <field name="price_3"/>
                             <field name="price_no_tax_3" invisible="True"/>
                             <field name="price_include_tax_3" invisible="True"/>
-                            <field name="product_tax_rate" string="Tax Rate"/>
                             <label for="product_custom_is_active" invisible="True"/>
                             <div>
                                 <field name="product_custom_is_active" widget="boolean_tags"/>
@@ -82,10 +81,11 @@
                             </div>
                             <field name="cost"/>
                             <field name="product_tax_category" required="True"/>
-                            <label for="taxes_id" string='Tax Category*'/>
+                            <label for="taxes_id" string='Tax Category*' invisible="1"/>
                             <div>
-                                <field name="taxes_id" widget="many2many_tags" style="width: 100%%" required="True"/>
+                                <field name="taxes_id" widget="many2many_tags" style="width: 100%%" invisible="1"/>
                             </div>
+                            <field name="product_tax_rate" style="width: 100%%" string="Tax Rate"/>
                             <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"
                                    readonly="True"/>
                             <field name="product_code_4"/>
@@ -370,7 +370,7 @@
                 <field name="price_include_tax"/>
                 <field name="original_price_no_tax"/>
                 <field name="original_price_include_tax"/>
-                <field name="taxes_id" widget="many2many_tags" string="税率"/>
+                <field name="product_tax_rate" string="Tax Rate"/>
             </tree>
         </field>
     </record>

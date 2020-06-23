@@ -1070,7 +1070,7 @@ class AccountMoveLine(models.Model):
     invoice_custom_lineamount = fields.Float('Line Amount', compute='compute_line_amount')
     invoice_custom_Description = fields.Text('Description')
     # invoice_custom_FreightCategory = fields.Many2one('freight.category.custom', string='Maker Code')
-    invoice_custom_FreightCategory = fields.Char(string='Maker Code')
+    invoice_custom_FreightCategory = fields.Char(string='Maker Name')
     price_unit = fields.Float(string='Unit Price', digits='Product Price')
     quantity = fields.Float(string='Quantity', digits='(12,0)',
                             default=1.0,

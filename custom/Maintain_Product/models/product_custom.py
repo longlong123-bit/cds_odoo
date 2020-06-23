@@ -111,7 +111,7 @@ class ProductTemplate(models.Model):
     model_number = fields.Char('Model number')
     model_name = fields.Char('Model name')
     # add extra field tax
-    product_tax_rate = fields.Integer('Tax Rate')
+    product_tax_rate = fields.Float('Tax Rate')
 
     type = fields.Selection(
         [('asset', 'Asset'), ('expense_type', 'Expense type'), ('item', 'Item'), ('resource', 'Resource'),
