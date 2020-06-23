@@ -269,7 +269,7 @@ var SelectCreateDialog = ViewDialog.extend({
 
         var search_category_name = $('input[name="search_category_name"]').val();
         if (search_category_name!=''){
-            var f_search_category_name = ["invoice_custom_FreightCategory", "ilike",search_category_name];
+            var f_search_category_name = ["product_maker_name", "ilike",search_category_name];
             domain.push(f_search_category_name)
         }
 
