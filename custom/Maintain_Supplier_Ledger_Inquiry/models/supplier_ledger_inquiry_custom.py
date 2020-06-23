@@ -313,7 +313,7 @@ class SupplierLedgerInquiryCustom(models.Model):
         """
         for item in self:
             # set the value to use for the program report
-            item.input_target_month = val_target_month
+            item.input_target_month = datetime.strptime(val_target_month, '%Y-%m').strftime('%Y年%m月')
             item.input_customer_code_bill_from = val_customer_code_bill_from
             item.input_customer_code_bill_to = val_customer_code_bill_to
             item.input_division = val_division
