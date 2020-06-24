@@ -100,13 +100,12 @@ class CollationPayment(models.Model):
             search_print_child = ''
 
             for se in args:
-                if se[0] == 'last_closing_date' and se[1] == '>=':
+                if 'customer_closing_date_id' == se[0]:
+                    if se[2].isnumeric():
+                        se[0] = 'customer_closing_date_id.start_day'
+                        se[1] = '='
                     domain += [se]
-                if se[0] == 'last_closing_date' and se[1] == '<=':
-                    domain += [se]
-                if se[0] == 'closing_date' and se[1] == '>=':
-                    domain += [se]
-                if se[0] == 'closing_date' and se[1] == '<=':
+                if se[0] == 'closing_date':
                     domain += [se]
                 if se[0] == 'billing_code' and se[1] == '>=':
                     domain += [se]
@@ -141,8 +140,10 @@ class CollationPayment(models.Model):
                 if 'customer_excerpt_request' == record[0]:
                     if record[2] == 'True':
                         record[2] = True
-                    else:
+                    elif record[2] == 'False':
                         record[2] = False
+                    else:
+                        continue
                 domain += [record]
 
         elif ctx.get('view_name') == 'Bill History':
@@ -181,7 +182,7 @@ class CollationPayment(models.Model):
                     for i in bill_ids:
                         se[2] = i.billing_code
                 domain += [se]
-        if 'Billing List' == ctx.get('view_name'):
+        elif 'Billing List' == ctx.get('view_name'):
             global search_list_claim_zero
             global search_list_customer_closing_date_id
             global search_list_closing_date
@@ -206,7 +207,10 @@ class CollationPayment(models.Model):
                     continue
                 if record[0] == 'customer_closing_date_id':
                     search_list_customer_closing_date_id = record[2]
-                if record [0] == 'closing_date':
+                    if record[2].isnumeric():
+                        record[0] = 'customer_closing_date_id.start_day'
+                        record[1] = '='
+                if record[0] == 'closing_date':
                     search_list_closing_date = record[2]
                 if record[0] == 'hr_department_id':
                     search_list_hr_department_id = record[2]
@@ -233,8 +237,6 @@ class CollationPayment(models.Model):
                 domain += [record]
         else:
             domain = args
-
-        # search_x_studio_date_invoiced
 
         res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
