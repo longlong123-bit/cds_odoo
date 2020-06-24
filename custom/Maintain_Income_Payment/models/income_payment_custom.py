@@ -24,11 +24,11 @@ _logger = logging.getLogger(__name__)
 class IncomePaymentCustom(models.Model):
     _inherit = "account.payment"
     # _rec_name = 'document_no'
-    # _order = 'document_no'
+    _order = 'write_date'
 
     customer_closing_date = fields.Date('Closing Date')
     closing_date_compute = fields.Integer('Temp')
-    x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
+    x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')])
     payment_terms = fields.Many2one('account.payment.term', 'Payment Terms', company_dependent=True, required=True,
                                     default=lambda self: self.env['account.payment.term'].search([('id', '=', 1)]))
     collection_method_date = fields.Integer(string='回収日', readonly=True, store=True)
@@ -38,7 +38,7 @@ class IncomePaymentCustom(models.Model):
     total_payment = fields.Float(string='total_payment')
 
     # set_read_only = fields.Boolean(string='', default=False, compute='_check_read_only')
-    bill_status = fields.Many2one('account.move', string='')
+    bill_status = fields.Char(string='bill_status')
 
     current_date = fields.Datetime(string='', default=datetime.now(), store=False)
     _defaults = {
@@ -58,7 +58,10 @@ class IncomePaymentCustom(models.Model):
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
     many_payment_id = fields.Many2one('many.payment', string="Many payment", ondelete='cascade', index=True)
-    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', required=False)
+    # vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', required=False)
+    vj_c_payment_category = fields.Selection([
+        ('cash', '現金'),
+        ('bank', '銀行')], default='cash')
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
     payment_type = fields.Selection(
@@ -194,21 +197,6 @@ class IncomePaymentCustom(models.Model):
 
             self._set_line_info()
 
-    # def name_get(self):
-    #     result = []
-    #     for rec in self:
-    #         name = str(self.account_invoice_id.x_studio_document_no)
-    #         result.append((rec.id, name))
-    #     return result
-
-    # def name_get(self):
-    #     data = []
-    #     for row in self:
-    #         if 'showcode' in self.env.context:
-    #             display_value = row.account_invoice_id.x_studio_document_no
-    #         data.append((row.id, display_value))
-    #     return data
-
     @api.constrains('partner_id')
     def _get_data_register(self):
         results = []
@@ -225,16 +213,10 @@ class IncomePaymentCustom(models.Model):
             if values.customer_industry_code:
                 rec.is_industry_code = True
 
-            # rec.payment_method_id = 1
-            # rec.account_invoice_id = self.account_invoice_id.id
-            # print('=============account_invoice_id===============')
-            # print(rec.account_invoice_id)
-            # print('=============x_studio_document_no===============')
-            # print(rec.account_invoice_id.name)
-
             if self.amount != 0:
                 results.append((0, 0, {
-                    'payment_amount': self.amount
+                    'payment_amount': self.amount,
+                    'vj_c_payment_category': 'cash'
                 }))
                 self.account_payment_line_ids = results
 
@@ -299,14 +281,15 @@ class IncomePaymentCustom(models.Model):
             rec.line_info = _('売掛残高：') + str("{:,.2f}".format(receivable)) + '　' \
                             + _('入金額合計：') + str("{:,.2f}".format(total_payment_amounts))
 
-            print('document_no')
-            print(rec.document_no)
-            query = "UPDATE account_payment " \
-                    "SET payment_amount=%s" \
-                    "WHERE document_no=%s "
-            params = [total_payment_amounts, rec.document_no]
+            # print('document_no')
+            if rec.account_payment_line_ids:
+                print('document_no')
+                query = "UPDATE account_payment " \
+                        "SET payment_amount=%s" \
+                        "WHERE document_no=%s "
+                params = [total_payment_amounts, rec.document_no]
 
-            self._cr.execute(query, params)
+                self._cr.execute(query, params)
 
     # tính ngày closing date dựa theo start day của payment
     @api.onchange('closing_date_compute', 'payment_date')
@@ -568,7 +551,10 @@ class IncomePaymentLineCustom(models.Model):
 
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
-    vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', required=False)
+    # vj_c_payment_category = fields.Many2one('receipt.divide.custom', string='vj_c_payment_category', required=False)
+    vj_c_payment_category = fields.Selection([
+        ('cash', '現金'),
+        ('bank', '銀行')])
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
     name = fields.Char(string='Name')

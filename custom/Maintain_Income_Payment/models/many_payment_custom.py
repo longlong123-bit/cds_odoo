@@ -15,7 +15,9 @@ _logger = logging.getLogger(__name__)
 
 class ManyPaymentCustom(models.Model):
     _name = "many.payment"
+    _rec_name = "payment_date"
 
+    name = fields.Char(string='新規', default='新規')
     many_payment_line_ids = fields.One2many('account.payment', 'many_payment_id', string='PaymentLine', copy=True,
                                             auto_join=True)
     payment_date = fields.Date(string='Transaction Date', default=datetime.today())
@@ -38,14 +40,14 @@ class ManyPaymentCustom(models.Model):
         if self.history_payment:
             results = []
             data = self.env['bill.info'].search([('id', '=', self.history_payment.id)])
-
-            for line in data.bill_detail_ids:
-                results.append((0, 0, {
-                    'partner_id': data.partner_id,
-                    'partner_payment_name1': line.customer_name,
-                    'payment_amount': line.line_amount + line.tax_amount,
-                    'payment_method_id': 1 or ''
-                    # 'vj_c_payment_category': 15
-                }))
+            if data:
+                for line in data.bill_detail_ids:
+                    results.append((0, 0, {
+                        'partner_id': data.partner_id,
+                        'partner_payment_name1': line.customer_name,
+                        'payment_amount': line.line_amount + line.tax_amount,
+                        'payment_method_id': 1 or '',
+                        'vj_c_payment_category': 'cash'
+                    }))
 
             self.many_payment_line_ids = results
