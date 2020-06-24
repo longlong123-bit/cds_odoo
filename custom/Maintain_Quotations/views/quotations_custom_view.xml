@@ -217,7 +217,7 @@
                                     <field name="quotation_custom_line_no" required="True" readonly="False"/>
                                     <field name="class_item" required="True"/>
                                     <field name="product_id" invisible="1" attrs="{'required': [('display_type', '=', False)]}"/>
-                                    <field name="product_code" widget="refer_field" attrs="{'invisible': [('display_type', '!=', False)]}" string="Product Code" options='{"model":"product.product","column": "product_code_1", "search_input": true}'/>
+                                    <field name="product_code" widget="refer_field" attrs="{'invisible': [('display_type', '!=', False)]}" string="Product Code" options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "search_input": true}'/>
                                     <!--                                    <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"-->
 <!--                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"-->
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->

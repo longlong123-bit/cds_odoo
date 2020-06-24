@@ -101,12 +101,11 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
                 var parent = this.getParent();
                 var options = parent._getWidgetOptions();
                 var state = this.viewController.renderer.state;
+                var readColumn = parent._getReadColumn(options);
 
                 for (var i = 0; i < state.count; i++) {
-                    var data = state.data[i];
-
-                    if (data && data.ref === event.data.id) {
-                        parent._setValue(data.data[options.column]);
+                    if (state.data[i] && state.data[i].ref === event.data.id) {
+                        parent._setValue(state.data[i].data[readColumn] || '');
                         parent._render();
                     }
                 }
@@ -298,21 +297,24 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         /**
          * Check data
          */
-        _checkData: function(e, ref){
+        _checkData: function(e, options){
             var s = this;
 
             if (this.value == e.target.value) {
                 return;
             }
 
+            var domain = this._getDomain(e.target.value, options);
+            var column = this._getReadColumn(options);
+
             // Call to server
             rpc.query({
-                model: ref.model,
+                model: options.model,
                 method: 'search_read',
-                domain: [[ref.column, '=', e.target.value]]
+                domain: domain
             }).then(function(res){
                 if (res.length > 0) {
-                    s._setValue(res[0][ref.column]);
+                    s._setValue(res[0][column]);
                 } else {
                     s._openDialogSearch();
                 }
@@ -362,19 +364,54 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         },
 
         /**
+         * Get domain
+         */
+        _getDomain: function(searchVal, options){
+            options = options || this._getWidgetOptions();
+            var domain = [];
+            var columns = [];
+
+            if (options.search_columns) {
+                columns = options.search_columns;
+            } else {
+                columns.push(options.column);
+            }
+
+            for (var i = 0; i < columns.length; i++) {
+                if (i > 0) {
+                    domain.unshift('|');
+                }
+
+                domain.push([columns[i], 'ilike', searchVal]);
+            }
+
+            return domain;
+        },
+
+        /**
+         * Get read column
+         */
+        _getReadColumn: function(options){
+            options = options || this._getWidgetOptions();
+            return options.read_column || options.column;
+        },
+
+        /**
          * Open dialog search
          */
         _openDialogSearch: function(){
             // get current context (language, param,...)
             var context = this.record.getContext(this.recordParams);
-            var ref = this._getWidgetOptions();
+            var options = this._getWidgetOptions();
             var searchVal = this.$el.find('input').val();
             var filters = null;
 
             if (searchVal !== '') {
+                var domain = this._getDomain(searchVal, options);
+
                 filters = [{
                     description: _.str.sprintf(_t('Quick search: %s'), searchVal),
-                    domain: [[ref.column, 'ilike', searchVal]],
+                    domain: domain,
                 }];
             }
 
@@ -382,7 +419,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
             new SelectCreateDialog(this, {
                     no_create: true,
                     readonly: true,
-                    res_model: ref.model,
+                    res_model: options.model,
                     domain: null,
                     dynamicFilters: filters,
                     view_type:'list',
