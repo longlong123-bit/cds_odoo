@@ -400,7 +400,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                'x_invoicelinetype',
                'product_barcode',
                'x_product_cost_price',
-               'tax_rate',
+               'x_product_tax_rate',
             ];
             if(this.$el.hasClass('quotations_custom_details o_list_view')){
                 HEADER1 = [
