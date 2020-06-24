@@ -256,7 +256,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
             'click .o_button_refer_field': '_onClickButton',
             'click .o_input_refer_field': '_onClickInput',
             'keyup .o_input_refer_field': '_onKeyupInput',
-            'blur .o_input_refer_field': '_onBlurInput',
+            'change .o_input_refer_field': '_onChangeInput',
         },
 
         /**
@@ -350,9 +350,9 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         },
 
         /**
-         * Unfocus
+         * Event when change value of input
          */
-        _onBlurInput: function(e){
+        _onChangeInput: function(e){
             var options = this._getWidgetOptions();
 
             if (options.search_input) {
