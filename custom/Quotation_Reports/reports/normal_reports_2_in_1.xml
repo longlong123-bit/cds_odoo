@@ -4,7 +4,7 @@
             <t t-foreach="docs" t-as="o">
                 <!--              <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>-->
                 <div class="page" style="page-break-before: always;">
-                    <t t-call="Maintain_Normal_Reports.normal_report_template_parent" t-lang="lang"/>
+                    <t t-call="Quotation_Reports.normal_report_template_parent" t-lang="lang"/>
                     <!--                    <t t-call="Maintain_Normal_Reports.normal_report_transfer" t-lang="lang"/>-->
 
 
