@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _, tools
-from suds.client import Client
+# from suds.client import Client
 import json
 import uuid
 from odoo.exceptions import RedirectWarning, UserError, ValidationError

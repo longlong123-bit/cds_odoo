@@ -65,7 +65,7 @@ class ClassDetail(models.Model):
                 acc.price_unit = acc.account_move_line_id.price_unit
                 acc.tax_audit = acc.account_move_line_id.tax_audit
                 acc.tax_amount = acc.account_move_line_id.line_tax_amount
-                acc.product_maker_name = acc.account_move_line_id.invoice_custom_FreightCategory.name
+                acc.product_maker_name = acc.account_move_line_id.product_maker_name
                 acc.line_amount = acc.account_move_line_id.invoice_custom_lineamount
                 acc.x_invoicelinetype = acc.account_move_line_id.x_invoicelinetype
                 acc.tax_rate = acc.account_move_line_id.tax_rate
