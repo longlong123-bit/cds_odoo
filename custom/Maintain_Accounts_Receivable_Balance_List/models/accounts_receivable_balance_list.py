@@ -163,8 +163,10 @@ class AccountsReceivableBalanceList(models.Model):
                 if 'customer_except_request' == record[0]:
                     if record[2] == 'True':
                         record[2] = True
-                    else:
+                    elif record[2] == 'False':
                         record[2] = False
+                    else:
+                        continue
                 if 'deadline' == record[0]:
                     global val_bill_search_deadline
                     val_bill_search_deadline = record[2]

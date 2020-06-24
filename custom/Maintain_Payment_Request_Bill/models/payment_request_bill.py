@@ -141,8 +141,10 @@ class CollationPayment(models.Model):
                 if 'customer_excerpt_request' == record[0]:
                     if record[2] == 'True':
                         record[2] = True
-                    else:
+                    elif record[2] == 'False':
                         record[2] = False
+                    else:
+                        continue
                 domain += [record]
 
         elif ctx.get('view_name') == 'Bill History':
