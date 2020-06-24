@@ -98,7 +98,7 @@ class ProductTemplate(models.Model):
 
     # Value according to setting
     # price_by_setting = fields.Float('Price for setting')
-    # code_by_setting = fields.Float('Code for setting')
+    code_by_setting = fields.Char(string='Code for setting')
 
     # 消費税区分
     product_tax_category = fields.Selection(
@@ -132,6 +132,17 @@ class ProductTemplate(models.Model):
     def _onchange_refer_standard_price(self):
         if self.refer_standard_price:
             self.standard_price = self.refer_standard_price.price_unit
+
+    # Setting product, when setting change or product change
+    # Check if code_{i} then get product_code_{i}
+    @api.constrains('product_code_1', 'product_code_2', 'product_code_3',
+                    'product_code_4', 'product_code_5', 'product_code_6', 'setting_price')
+    def set_code_by_setting(self):
+        self.code_by_setting = ''
+        for i in range(1, 7):
+            if self.setting_price == ('code_' + str(i)):
+                self.code_by_setting = self['product_code_' + str(i)]
+                break
 
     @api.constrains('product_code_1', 'product_code_2', 'product_code_3',
                     'product_code_4', 'product_code_5', 'product_code_6')
