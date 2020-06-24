@@ -108,7 +108,7 @@
            <button name="expense_post_payment" id="account_invoice_payment_btn"
                     type="object" class="oe_highlight"
                     attrs="{'invisible': [('customer_trans_classification_code','!=','cash')]}"
-                    string="Register Payment"
+                    string="支払登録"
                     groups="account.group_account_invoice"/>
         </xpath>
         <xpath expr="//form/header/button[@name='action_reverse']"  position="attributes">
