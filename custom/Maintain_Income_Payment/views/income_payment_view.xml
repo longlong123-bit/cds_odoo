@@ -42,7 +42,7 @@
                                 <td><field name="document_no" readonly="True" style="font-weight: bold;"/></td>
                                 <td class="o_td_label"><label for="account_invoice_id" string="Invoice"/></td>
                                 <td><field name="account_invoice_id" domain="[('state','=','posted')]" options="{'no_open': True, 'no_create': True, 'no_create_edit':True}"
-                                            context="{'showname': 'ok'}"/></td>
+                                            context="{'showname': 1}"/></td>
                                 <td colspan="2"><field name="company_id" readonly="True" invisible="1"/></td>
 <!--                                <field name="set_read_only" invisible="True"/>-->
                             </tr>
@@ -83,16 +83,15 @@
                             <!-- Row 7 -->
                             <tr>
                                 <td colspan="3"></td>
-                                <td class="o_td_label"><label for="collection_method_date"/></td>
-                                <td><field name="collection_method_date" style="max-width: 15% !important" force_save="1" string="回収日"/></td>
-                            </tr>
-
-                            <tr>
-                                <td colspan="3"></td>
                                 <td class="o_td_label"><label for="collection_method_month"/></td>
                                 <td><field name="collection_method_month" style="max-width: 15% !important" force_save="1"/></td>
                             </tr>
 
+                            <tr>
+                                <td colspan="3"></td>
+                                <td class="o_td_label"><label for="collection_method_date"/></td>
+                                <td><field name="collection_method_date" style="max-width: 15% !important" force_save="1" string="回収日"/></td>
+                            </tr>
 
                             <!-- Row 8 -->
                             <tr>
@@ -123,8 +122,8 @@
                                 <tree editable="bottom">
                                     <control>
                                         <create name="add_product_control" string="Add a payment"/>
-                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
-                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+<!--                                        <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>-->
+<!--                                        <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>-->
                                     </control>
                                         <field name="vj_c_payment_category" string="vj_c_payment_category"
                                                attrs="{'required': [('display_type', '=', False)] , 'invisible': [('display_type', '!=', False)]}"

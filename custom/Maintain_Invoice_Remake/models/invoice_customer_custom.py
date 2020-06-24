@@ -160,6 +160,48 @@ def copy_data_from_quotation(rec, quotation, account):
 class ClassInvoiceCustom(models.Model):
     _inherit = 'account.move'
 
+    # register payment for payment_custom
+    def _get_payment_vals(self):
+        return {
+            # 'partner_type': 'supplier',
+            # 'payment_type': 'outbound',
+            'partner_id': self.partner_id.id,
+            'partner_payment_address1': self.x_studio_address_1,
+            'partner_payment_address2': self.x_studio_address_2,
+            'collection_method_date': self.invoice_payment_terms_custom.payment_term_custom_fix_month_day,
+            'collection_method_month': self.invoice_payment_terms_custom.payment_term_custom_fix_month_offset,
+            'payment_method_id': 1,
+            'amount': self.amount_total,
+            'account_invoice_id': self.id
+        }
+
+    def expense_post_payment(self):
+        self.ensure_one()
+        company = self.company_id
+        self = self.with_context(force_company=company.id, company_id=company.id)
+        context = dict(self._context or {})
+        active_ids = context.get('active_ids', [])
+
+        # Create payment and post it
+        payment = self.env['account.payment'].create(self._get_payment_vals())
+        payment.post()
+
+        # Reconcile the payment and the expense, i.e. lookup on the payable account move lines
+        account_move_lines_to_reconcile = self.env['account.move.line']
+        for line in payment.move_line_ids:
+            if line.account_id.internal_type == 'payable' and not line.reconciled:
+                account_move_lines_to_reconcile |= line
+        account_move_lines_to_reconcile.reconcile()
+
+        if self.id:
+            query = "UPDATE account_move " \
+                    "SET invoice_payment_state='paid'" \
+                    "WHERE id=%s "
+            params = [self.id]
+            self._cr.execute(query, params)
+
+        return {'type': 'ir.actions.act_window_close'}
+
     invoice_line_ids_tax = fields.One2many('account.tax.line', 'move_id', string='Invoice lines', index=True,
                                            auto_join=True, help="The move of this entry line.")
 
