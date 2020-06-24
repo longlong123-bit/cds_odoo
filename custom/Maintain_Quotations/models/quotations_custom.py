@@ -17,24 +17,6 @@ from operator import attrgetter, itemgetter
 _logger = logging.getLogger(__name__)
 
 
-# def get_tax_method(tax_category, tax_unit):
-#     # 消費税区分 = ３．非課税 or 消費税区分 is null or 消費税計算区分 is null ==> 税転嫁 = 非課税
-#     if (tax_category == 'exempt') or (not tax_category) or (not tax_unit):
-#         return 'no_tax'
-#     else:
-#         # 消費税計算区分 = １．明細単位
-#         if tax_unit == 'detail':
-#             # 消費税区分 = １．外税 ==> 税転嫁 = 外税／明細
-#             if tax_category == 'foreign':
-#                 return 'foreign_tax'
-#             # 消費税区分 = 2．内税 ==> 税転嫁 = 内税／明細
-#             else:
-#                 return 'internal_tax'
-#         # 消費税計算区分 = ２．伝票単位、３．請求単位 ==> 税転嫁 = 伝票、請求
-#         else:
-#             return tax_unit
-
-
 class QuotationsCustom(models.Model):
     _inherit = "sale.order"
     # _rec_name = 'document_no'
@@ -47,7 +29,6 @@ class QuotationsCustom(models.Model):
         sequence = self.env['ir.sequence'].search([('code', '=', 'sale.order'), ('number_next', '=', '1000000')])
         next = sequence.get_next_char(sequence.number_next_actual)
         return next
-
 
     name = fields.Char(string='Name', default=None)
     shipping_address = fields.Char(string='Shipping Address')
@@ -90,7 +71,7 @@ class QuotationsCustom(models.Model):
     partner_name = fields.Char(string='Partner Name')
     partner_name_2 = fields.Char(string='Partner Name 2', related='partner_id.customer_name_2')
     # minhnt add
-    quotation_calendar = fields.Selection([('japan', '和暦'),('origin','西暦')], string='Calendar')
+    quotation_calendar = fields.Selection([('japan', '和暦'), ('origin', '西暦')], string='Calendar')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, default=lambda self: self.env.uid,
                                 states={'draft': [('readonly', False)]}, )
     related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
@@ -104,7 +85,7 @@ class QuotationsCustom(models.Model):
     # ], string='Report Header', readonly=False, default='quotation')
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
     paper_format = fields.Selection([
-        ('delivery', '納品書'),('quotation1','見積り１'),('quotation2','見積り2')
+        ('delivery', '納品書'), ('quotation1', '見積り１'), ('quotation2', '見積り2')
     ], string='Pager format', default='delivery')
 
     # related_product_name = fields.Char(related='order_line.product.product_code_1')
@@ -123,13 +104,13 @@ class QuotationsCustom(models.Model):
             self.name = data.x_bussiness_partner_name_2
             self.document_reference = data.x_studio_document_no
             # self.expected_date = data.expected_date
-            self.shipping_address = str(data.x_studio_address_1 or '') + str(data.x_studio_address_2 or '') + str(data.x_studio_address_3 or '')
+            self.shipping_address = str(data.x_studio_address_1 or '') + str(data.x_studio_address_2 or '') + str(
+                data.x_studio_address_3 or '')
             self.note = data.x_studio_description
             self.expiration_date = data.customer_closing_date
             self.comment = ''
             self.quotations_date = ''
             self.is_print_date = False
-
 
             # self.cb_partner_sales_rep_id = data.cb_partner_sales_rep_id
             # self.sales_rep = data.sales_rep
@@ -178,17 +159,18 @@ class QuotationsCustom(models.Model):
         for order in self:
             amount_untaxed = amount_tax = 0.0
             for line in order.order_line:
-                if order.tax_method != 'custom_tax':
-                    if order.tax_method == 'voucher' and line.product_id.product_tax_category != 'exempt':
-                        # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
-                        line_tax_amount = (line.tax_rate * line.price_unit * line.product_uom_qty) / 100
-                        amount_tax += line_tax_amount
+                if line.class_item != 'サンプル':
+                    if order.tax_method != 'custom_tax':
+                        if order.tax_method == 'voucher' and line.product_id.product_tax_category != 'exempt':
+                            # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
+                            line_tax_amount = (line.tax_rate * line.price_unit * line.product_uom_qty) / 100
+                            amount_tax += line_tax_amount
+                        else:
+                            amount_tax += line.line_tax_amount
                     else:
-                        amount_tax += line.line_tax_amount
-                else:
-                    amount_tax = order.amount_tax
+                        amount_tax = order.amount_tax
 
-                amount_untaxed += line.line_amount
+                    amount_untaxed += line.line_amount
                 # amount_tax += line.line_tax_amount
             order.update({
                 'amount_untaxed': amount_untaxed,
@@ -201,7 +183,8 @@ class QuotationsCustom(models.Model):
         for order in self:
             amount_untaxed = 0.0
             for line in order.order_line:
-                amount_untaxed += line.line_amount
+                if line.class_item != 'サンプル':
+                    amount_untaxed += line.line_amount
             order.update({
                 'amount_untaxed': amount_untaxed,
                 'amount_total': amount_untaxed + self.amount_tax,
@@ -428,7 +411,8 @@ class QuotationsLinesCustom(models.Model):
 
     name = fields.Text(string='Description', default=None)
     tax_id = fields.Many2many(string='Taxes')
-    tax_rate = fields.Float('Tax Rate', compute='compute_tax_rate')
+    # tax_rate = fields.Float('Tax Rate', compute='compute_tax_rate')
+    tax_rate = fields.Float('Tax Rate')
     product_id = fields.Many2one(string='Product')
     product_uom_qty = fields.Float(string='Product UOM Qty', digits='(12,0)', default=1.0)
     product_uom = fields.Many2one(string='Product UOM')
@@ -439,7 +423,7 @@ class QuotationsLinesCustom(models.Model):
         ('通常', '通常'),
         ('返品', '返品'),
         ('値引', '値引'),
-        ('消費税', '消費税')
+        ('サンプル', 'サンプル')
     ], string='Class Item', default='通常')
 
     product_code = fields.Char(string='Product Code')
@@ -553,6 +537,9 @@ class QuotationsLinesCustom(models.Model):
             line.product_barcode = line.product_id.barcode or ''
             line.product_maker_name = line.product_id.product_maker_name or ''
             line.product_standard_number = line.product_id.product_custom_standardnumber or ''
+            line.product_standard_price = line.product_id.standard_price or 0.00
+            line.cost = line.product_id.cost or 0.00
+            line.tax_rate = line.product_id.product_tax_rate or 0.00
 
             line.compute_price_unit()
             line.compute_line_amount()
@@ -564,12 +551,12 @@ class QuotationsLinesCustom(models.Model):
             # If company_id is set, always filter taxes by the company
             taxes = line.product_id.taxes_id.filtered(lambda r: not line.company_id or r.company_id == line.company_id)
             line.tax_id = fpos.map_tax(taxes, line.product_id, line.order_id.partner_shipping_id) if fpos else taxes
-            line.tax_rate = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
+            # line.tax_rate = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
 
-    @api.depends('tax_id', 'order_id.tax_method', 'order_id.customer_tax_rounding', 'class_item', 'tax_rate')
-    def compute_tax_rate(self):
-        for line in self:
-            line.tax_rate = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
+    # @api.depends('tax_id', 'order_id.tax_method', 'order_id.customer_tax_rounding', 'class_item', 'tax_rate')
+    # def compute_tax_rate(self):
+    #     for line in self:
+    #         line.tax_rate = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
 
     @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id', 'order_id.tax_method',
                  'order_id.customer_tax_rounding', 'class_item', 'tax_rate')
@@ -587,7 +574,7 @@ class QuotationsLinesCustom(models.Model):
                 'price_subtotal': taxes['total_excluded'],
             })
 
-            if line.class_item in ('通常', '消費税'):
+            if line.class_item in ('通常', 'サンプル'):
                 if line.product_uom_qty < 0:
                     line.product_uom_qty = line.product_uom_qty * (-1)
             else:
@@ -600,8 +587,6 @@ class QuotationsLinesCustom(models.Model):
 
     def compute_price_unit(self):
         for line in self:
-            line.product_standard_price = line.product_id.standard_price or 0.00
-            line.cost = line.product_id.cost or 0.00
             # todo set price follow product code
             if line.order_id.tax_method == 'internal_tax':
                 line.price_unit = line.product_id.price_include_tax_1 or 0.00
