@@ -9,14 +9,36 @@ class BillingClass(models.Model):
             res_partner_id = self.env["res.partner"].search(
                 ['|', ('customer_code', '=', rec['billing_code']), ('customer_code_bill', '=', rec['billing_code'])])
 
-            invoice_ids = self.env['account.move'].search([
-                ('partner_id', 'in', res_partner_id.ids),
-                ('x_studio_date_invoiced', '>', rec['last_closing_date']),
-                ('x_studio_date_invoiced', '<=', rec['closing_date']),
-                ('state', '=', 'posted'),
-                ('type', '=', 'out_invoice'),
-                ('bill_status', '=', 'billed'),
-            ])
+            if rec['last_closing_date']:
+                invoice_ids = self.env['account.move'].search([
+                    ('partner_id', 'in', res_partner_id.ids),
+                    ('x_studio_date_invoiced', '>', rec['last_closing_date']),
+                    ('x_studio_date_invoiced', '<=', rec['deadline']),
+                    ('state', '=', 'posted'),
+                    ('type', '=', 'out_invoice'),
+                    ('bill_status', '=', 'billed'),
+                ])
+                payment_ids = self.env['account.payment'].search([
+                    ('partner_id', 'in', res_partner_id.ids),
+                    ('payment_date', '>', rec['last_closing_date']),
+                    ('payment_date', '<=', rec['deadline']),
+                    ('state', '=', 'posted'),
+                    ('bill_status', '=', 'billed'),
+                ])
+            else:
+                invoice_ids = self.env['account.move'].search([
+                    ('partner_id', 'in', res_partner_id.ids),
+                    ('x_studio_date_invoiced', '<=', rec['deadline']),
+                    ('state', '=', 'posted'),
+                    ('type', '=', 'out_invoice'),
+                    ('bill_status', '=', 'billed'),
+                ])
+                payment_ids = self.env['account.payment'].search([
+                    ('partner_id', 'in', res_partner_id.ids),
+                    ('payment_date', '<=', rec['deadline']),
+                    ('state', '=', 'posted'),
+                    ('bill_status', '=', 'billed'),
+                ])
 
             invoice_ids.write({
                 'bill_status': 'not yet'
@@ -25,31 +47,35 @@ class BillingClass(models.Model):
                 'bill_status': 'not yet',
                 'selected': False
             })
-            payment_ids = self.env['account.payment'].search([
-                ('partner_id', 'in', res_partner_id.ids),
-                ('payment_date', '>', rec['last_closing_date']),
-                ('payment_date', '<=', rec['deadline']),
-                ('state', '=', 'posted'),
-                ('bill_status', '=', 'billed'),
-            ])
+
             payment_ids.write({
                 'bill_status': 'not yet'
             })
 
             self.env['bill.info'].search([('id', 'in', argsSelectedIds)]).unlink()
 
-            self.env['bill.invoice'].search([
-                ('billing_code', '=', rec['billing_code']),
-                ('bill_date', '=', rec['bill_date']),
-                ('last_closing_date', '=', rec['last_closing_date']),
-            ]).unlink()
+            if rec['last_closing_date']:
+                self.env['bill.invoice'].search([
+                    ('billing_code', '=', rec['billing_code']),
+                    ('bill_date', '=', rec['bill_date']),
+                    ('last_closing_date', '=', rec['last_closing_date']),
+                ]).unlink()
 
-            self.env['bill.invoice.details'].search([
-                ('billing_code', '=', rec['billing_code']),
-                ('bill_date', '=', rec['bill_date']),
-                ('last_closing_date', '=', rec['last_closing_date']),
-            ]).unlink()
+                self.env['bill.invoice.details'].search([
+                    ('billing_code', '=', rec['billing_code']),
+                    ('bill_date', '=', rec['bill_date']),
+                    ('last_closing_date', '=', rec['last_closing_date']),
+                ]).unlink()
+            else:
+                self.env['bill.invoice'].search([
+                    ('billing_code', '=', rec['billing_code']),
+                    ('bill_date', '=', rec['bill_date']),
+                ]).unlink()
 
+                self.env['bill.invoice.details'].search([
+                    ('billing_code', '=', rec['billing_code']),
+                    ('bill_date', '=', rec['bill_date']),
+                ]).unlink()
         return {
             'type': 'ir.actions.client',
             'tag': 'reload',

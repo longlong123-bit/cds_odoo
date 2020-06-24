@@ -35,4 +35,4 @@ class BillInfoClass(models.Model):
     customer_closing_date_id = fields.Many2one('closing.date', string='Customer Closing Date')
     customer_excerpt_request = fields.Boolean(string='Excerpt Request', default=False)
 
-    _sql_constraints = [('bill_info', 'unique(billing_code, last_closing_date)', 'This data has been billed.')]
+    _sql_constraints = [('bill_info', 'unique(billing_code, last_closing_date, deadline)', 'This data has been billed.')]
