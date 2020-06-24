@@ -142,8 +142,6 @@ class ProductTemplate(models.Model):
         for i in range(1, 7):
             if self.setting_price == ('code_' + str(i)):
                 self.code_by_setting = self['product_code_' + str(i)]
-                print('===================================')
-                print(self.code_by_setting)
                 break
 
     @api.constrains('product_code_1', 'product_code_2', 'product_code_3',
