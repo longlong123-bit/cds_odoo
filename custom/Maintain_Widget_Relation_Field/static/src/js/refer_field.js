@@ -107,6 +107,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
                     if (state.data[i] && state.data[i].ref === event.data.id) {
                         parent._setValue(state.data[i].data[readColumn] || '');
                         parent._render();
+                        break;
                     }
                 }
 
