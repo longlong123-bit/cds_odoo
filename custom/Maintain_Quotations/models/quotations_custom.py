@@ -482,7 +482,13 @@ class QuotationsLinesCustom(models.Model):
     def _onchange_product_code(self):
         if self.product_code:
             product = self.env['product.product'].search([
-                ['product_code_1', '=', self.product_code]
+                '|', '|', '|', '|', '|',
+                ['product_code_1', '=', self.product_code],
+                ['product_code_2', '=', self.product_code],
+                ['product_code_3', '=', self.product_code],
+                ['product_code_4', '=', self.product_code],
+                ['product_code_5', '=', self.product_code],
+                ['product_code_6', '=', self.product_code]
             ])
             self.product_id = product.id
             self.product_barcode = product.barcode
@@ -494,7 +500,7 @@ class QuotationsLinesCustom(models.Model):
                 ['barcode', '=', self.product_barcode]
             ])
             self.product_id = product.id
-            self.product_code = product.product_code_1
+            self.product_code = product.code_by_setting
 
     @api.onchange('refer_detail_history')
     def _get_detail_history(self):
@@ -596,7 +602,7 @@ class QuotationsLinesCustom(models.Model):
                 elif line.product_id.product_tax_category == 'internal':
                     line.price_unit = line.product_id.price_include_tax_1
                 else:
-                    line.price_unit = line.product_id.price_1
+                    line.price_unit = line.product_id.price_by_setting
             else:
                 line.price_unit = line.product_id.price_no_tax_1 or 0.00
 

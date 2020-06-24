@@ -11,6 +11,7 @@
                 <form class="product_custom_template custom_template">
                     <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
                     <field name="code_by_setting" invisible="1"/>
+                    <field name="price_by_setting" invisible="1"/>
                     <group>
                         <group class="custom_group">
                             <label for="barcode" string="UPC/EAN*"/>
@@ -373,6 +374,7 @@
                 <field name="original_price_include_tax"/>
                 <field name="product_tax_rate" string="Tax Rate"/>
                 <field name="code_by_setting" invisible="1"/>
+                <field name="price_by_setting" invisible="1"/>
             </tree>
         </field>
     </record>
