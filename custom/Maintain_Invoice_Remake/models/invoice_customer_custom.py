@@ -187,11 +187,11 @@ class ClassInvoiceCustom(models.Model):
         payment.post()
 
         # Reconcile the payment and the expense, i.e. lookup on the payable account move lines
-        account_move_lines_to_reconcile = self.env['account.move.line']
-        for line in payment.move_line_ids:
-            if line.account_id.internal_type == 'payable' and not line.reconciled:
-                account_move_lines_to_reconcile |= line
-        account_move_lines_to_reconcile.reconcile()
+        # account_move_lines_to_reconcile = self.env['account.move.line']
+        # for line in payment.move_line_ids:
+        #     if line.account_id.internal_type == 'payable' and not line.reconciled:
+        #         account_move_lines_to_reconcile |= line
+        # account_move_lines_to_reconcile.reconcile()
 
         if self.id:
             query = "UPDATE account_move " \
