@@ -123,7 +123,7 @@ class QuotationsCustom(models.Model):
             self.name = data.x_bussiness_partner_name_2
             self.document_reference = data.x_studio_document_no
             # self.expected_date = data.expected_date
-            self.shipping_address = data.x_studio_address_1 + data.x_studio_address_2 + data.x_studio_address_3
+            self.shipping_address = str(data.x_studio_address_1 or '') + str(data.x_studio_address_2 or '') + str(data.x_studio_address_3 or '')
             self.note = data.x_studio_description
             self.expiration_date = data.customer_closing_date
             self.comment = ''
@@ -153,9 +153,9 @@ class QuotationsCustom(models.Model):
             for line in data.invoice_line_ids:
                 lines.append((0, 0, {
                     'product_id': line.product_id,
-                    'product_barcode': line.x_product_barcode,
-                    'product_name': line.x_product_name,
-                    'product_name2': line.x_product_name2,
+                    'product_barcode': line.product_barcode,
+                    'product_name': line.product_name,
+                    'product_name2': line.product_name2,
                     'product_uom_id': line.product_uom_id,
                     'product_standard_number': line.invoice_custom_standardnumber,
                     'product_maker_name': line.product_maker_name,
@@ -448,7 +448,7 @@ class QuotationsLinesCustom(models.Model):
     product_name = fields.Text(string='Product Name')
     product_name2 = fields.Text(string='Product Name 2')
     product_standard_number = fields.Char(string='Product Standard Number')
-    product_list_price = fields.Float(string='Product List Price')
+    product_standard_price = fields.Float(string='Product List Price')
     cost = fields.Float(string='Cost')
     line_amount = fields.Float('Line Amount', compute='compute_line_amount')
 
@@ -525,7 +525,7 @@ class QuotationsLinesCustom(models.Model):
                 self.product_barcode = data.product_barcode
                 self.product_maker_name = data.product_maker_name
                 self.product_standard_number = data.product_standard_number
-                self.product_list_price = data.product_list_price
+                self.product_standard_price = data.product_standard_price
                 self.product_uom_qty = data.product_uom_qty
                 self.product_uom_id = data.product_uom_id
                 self.price_unit = data.price_unit
@@ -600,7 +600,7 @@ class QuotationsLinesCustom(models.Model):
 
     def compute_price_unit(self):
         for line in self:
-            line.product_list_price = line.product_id.standard_price or 0.00
+            line.product_standard_price = line.product_id.standard_price or 0.00
             line.cost = line.product_id.cost or 0.00
             # todo set price follow product code
             if line.order_id.tax_method == 'internal_tax':

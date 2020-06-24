@@ -84,7 +84,7 @@
 
                 <div class="price" style="margin-right: 10px; margin-bottom: 10px; margin-top: 10px">
                     <div style="text-align: center; padding-bottom: 2em;">
-                        <table style="margin-left: auto; margin-right: auto; padding-bottom: 5px; display: inline-block;">
+                        <table style="margin-left: auto; margin-right: auto; padding-bottom: 5px; float: left; display: inline-block;">
                             <thead>
                                 <tr style="font-size: 14px; padding: 5px; font-weight: 600;">
                                     <td style="width: 100px; border: 1px solid #000;background-color: #e0e0e0;">
@@ -128,7 +128,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div style="width: 35%; display: flex; margin-top: -89px;">
+                    <div style="width: 25%; display: flex; float: right; margin-top: -30px;">
                         <span style="border: 1px solid #000000; width: 90px; height: 90px; display: inline-block;"></span>
                         <span style="border: 1px solid #000000; width: 90px; height: 90px; display: inline-block;"></span>
                     </div>
@@ -213,11 +213,11 @@
                                                     </span>
                                                 </td>
                                                 <td style="border: 1px solid #000; text-align: left">
-                                                    <span t-field="inv.bill_no"/>
+                                                    <span t-field="inv.account_move_id.x_studio_document_no"/>
                                                 </td>
                                                 <t t-set="li" t-value="de.account_move_line_id"/>
                                                 <td style="border: 1px solid #000; text-align: left">
-                                                    <span t-field="li.x_product_barcode"/>
+                                                    <span t-field="li.product_barcode"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
                                                     <span t-field="li.product_id"/>
@@ -231,7 +231,7 @@
                                                     <span t-field="pro.product_maker_name"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                    <span t-field="li.x_product_name"/>
+                                                    <span t-field="li.product_name"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
                                                     <span t-field="li.quantity"/>
@@ -240,7 +240,7 @@
                                                     <span t-field="li.price_unit"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                    <span t-field="li.credit"/>
+                                                    <span t-field="li.invoice_custom_lineamount"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -258,11 +258,11 @@
                                                 </span>
                                             </td>
                                             <td style="border: 1px solid #000; text-align: left">
-                                                <span t-field="inv.bill_no"/>
+                                                <span t-field="inv.account_move_id.x_studio_document_no"/>
                                             </td>
                                             <t t-set="li" t-value="de.account_move_line_id"/>
                                             <td style="border: 1px solid #000; text-align: left">
-                                                <span t-field="li.x_product_barcode"/>
+                                                <span t-field="li.product_barcode"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
                                                 <span t-field="li.product_id"/>
@@ -276,7 +276,7 @@
                                                 <span t-field="pro.product_maker_name"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                <span t-field="li.x_product_name"/>
+                                                <span t-field="li.product_name"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
                                                 <span t-field="li.quantity"/>
@@ -285,7 +285,7 @@
                                                 <span t-field="li.price_unit"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                <span t-field="li.credit"/>
+                                                <span t-field="li.invoice_custom_lineamount"/>
                                             </td>
                                         </tr>
                                     </t>
@@ -359,11 +359,11 @@
                                                                         <!--                                                                <span t-esc="cus"/>-->
                                                                     </td>
                                                                     <td style="border: 1px solid #000; text-align: left">
-                                                                        <span t-field="inv.bill_no"/>
+                                                                        <span t-field="inv.account_move_id.x_studio_document_no"/>
                                                                     </td>
                                                                     <t t-set="li" t-value="de.account_move_line_id"/>
                                                                     <td style="border: 1px solid #000; text-align: left">
-                                                                        <span t-field="li.x_product_barcode"/>
+                                                                        <span t-field="li.product_barcode"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
                                                                         <span t-field="li.product_id"/>
@@ -377,7 +377,7 @@
                                                                         <span t-field="pro.product_maker_name"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                        <span t-field="li.x_product_name"/>
+                                                                        <span t-field="li.product_name"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
                                                                         <span t-field="li.quantity"/>
@@ -386,7 +386,7 @@
                                                                         <span t-field="li.price_unit"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                        <span t-field="li.credit"/>
+                                                                        <span t-field="li.invoice_custom_lineamount"/>
                                                                     </td>
                                                                 </tr>
                                                             </t>
@@ -462,12 +462,12 @@
                                                                     <!--                                                                <span t-esc="cus"/>-->
                                                                 </td>
                                                                 <td style="border: 1px solid #000; text-align: left">
-                                                                    <span t-field="inv.bill_no"/>
+                                                                    <span t-field="inv.account_move_id.x_studio_document_no"/>
                                                                 </td>
                                                                 <t t-set="li"
                                                                    t-value="de.account_move_line_id"/>
                                                                 <td style="border: 1px solid #000; text-align: left">
-                                                                    <span t-field="li.x_product_barcode"/>
+                                                                    <span t-field="li.product_barcode"/>
                                                                 </td>
                                                                 <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
                                                                     <span t-field="li.product_id"/>
@@ -481,7 +481,7 @@
                                                                     <span t-field="pro.product_maker_name"/>
                                                                 </td>
                                                                 <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                    <span t-field="li.x_product_name"/>
+                                                                    <span t-field="li.product_name"/>
                                                                 </td>
                                                                 <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
                                                                     <span t-field="li.quantity"/>
@@ -490,7 +490,7 @@
                                                                     <span t-field="li.price_unit"/>
                                                                 </td>
                                                                 <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                    <span t-field="li.credit"/>
+                                                                    <span t-field="li.invoice_custom_lineamount"/>
                                                                 </td>
                                                             </tr>
                                                         </t>
@@ -551,11 +551,11 @@
                                                         </span>
                                                     </td>
                                                     <td style="border: 1px solid #000; text-align: left">
-                                                        <span t-field="inv.bill_no"/>
+                                                        <span t-field="inv.account_move_id.x_studio_document_no"/>
                                                     </td>
                                                     <t t-set="li" t-value="de.account_move_line_id"/>
                                                     <td style="border: 1px solid #000; text-align: left">
-                                                        <span t-field="li.x_product_barcode"/>
+                                                        <span t-field="li.product_barcode"/>
                                                     </td>
                                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
                                                         <span t-field="li.product_id"/>
@@ -569,7 +569,7 @@
                                                         <span t-field="pro.product_maker_name"/>
                                                     </td>
                                                     <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                        <span t-field="li.x_product_name"/>
+                                                        <span t-field="li.product_name"/>
                                                     </td>
                                                     <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
                                                         <span t-field="li.quantity"/>
@@ -578,7 +578,7 @@
                                                         <span t-field="li.price_unit"/>
                                                     </td>
                                                     <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                        <span t-field="li.credit"/>
+                                                        <span t-field="li.invoice_custom_lineamount"/>
                                                     </td>
                                                 </tr>
                                             </t>
@@ -598,11 +598,11 @@
                                                     </span>
                                                 </td>
                                                 <td style="border: 1px solid #000; text-align: left">
-                                                    <span t-field="inv.bill_no"/>
+                                                    <span t-field="inv.account_move_id.x_studio_document_no"/>
                                                 </td>
                                                 <t t-set="li" t-value="de.account_move_line_id"/>
                                                 <td style="border: 1px solid #000; text-align: left">
-                                                    <span t-field="li.x_product_barcode"/>
+                                                    <span t-field="li.product_barcode"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
                                                     <span t-field="li.product_id"/>
@@ -616,7 +616,7 @@
                                                     <span t-field="pro.product_maker_name"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                    <span t-field="li.x_product_name"/>
+                                                    <span t-field="li.product_name"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
                                                     <span t-field="li.quantity"/>
@@ -625,7 +625,7 @@
                                                     <span t-field="li.price_unit"/>
                                                 </td>
                                                 <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                    <span t-field="li.credit"/>
+                                                    <span t-field="li.invoice_custom_lineamount"/>
                                                 </td>
                                             </tr>
                                         </t>
@@ -702,12 +702,12 @@
                                                                             <!--                                                                <span t-esc="cus"/>-->
                                                                         </td>
                                                                         <td style="border: 1px solid #000; text-align: left">
-                                                                            <span t-field="inv.bill_no"/>
+                                                                            <span t-field="inv.account_move_id.x_studio_document_no"/>
                                                                         </td>
                                                                         <t t-set="li"
                                                                            t-value="de.account_move_line_id"/>
                                                                         <td style="border: 1px solid #000; text-align: left">
-                                                                            <span t-field="li.x_product_barcode"/>
+                                                                            <span t-field="li.product_barcode"/>
                                                                         </td>
                                                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
                                                                             <span t-field="li.product_id"/>
@@ -721,7 +721,7 @@
                                                                             <span t-field="pro.product_maker_name"/>
                                                                         </td>
                                                                         <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                            <span t-field="li.x_product_name"/>
+                                                                            <span t-field="li.product_name"/>
                                                                         </td>
                                                                         <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
                                                                             <span t-field="li.quantity"/>
@@ -730,7 +730,7 @@
                                                                             <span t-field="li.price_unit"/>
                                                                         </td>
                                                                         <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                            <span t-field="li.credit"/>
+                                                                            <span t-field="li.invoice_custom_lineamount"/>
                                                                         </td>
                                                                     </tr>
                                                                 </t>
@@ -806,11 +806,11 @@
                                                                         <!--                                                                <span t-esc="cus"/>-->
                                                                     </td>
                                                                     <td style="border: 1px solid #000; text-align: left">
-                                                                        <span t-field="inv.bill_no"/>
+                                                                        <span t-field="inv.account_move_id.x_studio_document_no"/>
                                                                     </td>
                                                                     <t t-set="li" t-value="de.account_move_line_id"/>
                                                                     <td style="border: 1px solid #000; text-align: left">
-                                                                        <span t-field="li.x_product_barcode"/>
+                                                                        <span t-field="li.product_barcode"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left;">
                                                                         <span t-field="li.product_id"/>
@@ -824,7 +824,7 @@
                                                                         <span t-field="pro.product_maker_name"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                        <span t-field="li.x_product_name"/>
+                                                                        <span t-field="li.product_name"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
                                                                         <span t-field="li.quantity"/>
@@ -833,7 +833,7 @@
                                                                         <span t-field="li.price_unit"/>
                                                                     </td>
                                                                     <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                                        <span t-field="li.credit"/>
+                                                                        <span t-field="li.invoice_custom_lineamount"/>
                                                                     </td>
                                                                 </tr>
                                                             </t>

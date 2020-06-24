@@ -217,20 +217,20 @@
                                     <field name="quotation_custom_line_no" required="True" readonly="False"/>
                                     <field name="class_item" required="True"/>
                                     <field name="product_id" invisible="1" attrs="{'required': [('display_type', '=', False)]}"/>
-                                    <field name="product_code" widget="refer_field" attrs="{'invisible': [('display_type', '!=', False)]}" string="Product Code" options='{"model":"product.product","column": "product_code_1", "search_input": true}' z-index="92"/>
+                                    <field name="product_code" widget="refer_field" attrs="{'invisible': [('display_type', '!=', False)]}" string="Product Code" options='{"model":"product.product","column": "product_code_1", "search_input": true}'/>
                                     <!--                                    <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"-->
 <!--                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"-->
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->
-                                    <field name="product_barcode" widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}' z-index="92"/>
+                                    <field name="product_barcode" widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'/>
                                     <field name="product_maker_name" widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'/>
                                     <field name="product_name"/>
                                     <field name="product_name2" invisible="True"/>
                                     <field name="product_standard_number" widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'/>
                                     <field name="product_uom_qty"/>
-                                    <field name="price_unit"/>
                                     <field name="product_uom_id"/>
+                                    <field name="price_unit"/>
                                     <field name="line_amount" widget="monetary"/>
-                                    <field name="product_list_price" readonly="True"/>
+                                    <field name="product_standard_price" readonly="True"/>
                                     <field name="cost"/>
                                     <field name="description"/>
                                     <field name="tax_id" widget="many2many_tags" invisible="True"/>

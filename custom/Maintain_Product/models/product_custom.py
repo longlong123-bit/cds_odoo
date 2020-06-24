@@ -96,6 +96,10 @@ class ProductTemplate(models.Model):
     price_5 = fields.Float('Price 5')
     price_6 = fields.Float('Price 6')
 
+    # Value according to setting
+    # price_by_setting = fields.Float('Price for setting')
+    # code_by_setting = fields.Float('Code for setting')
+
     # 消費税区分
     product_tax_category = fields.Selection(
         [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
