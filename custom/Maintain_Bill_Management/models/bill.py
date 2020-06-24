@@ -116,7 +116,8 @@ class BillingClass(models.Model):
                 ('partner_id', 'in', record.ids),
                 ('payment_date', '>', record.last_closing_date),
                 ('payment_date', '<=', record.deadline),
-                ('state', '=', 'posted')
+                ('state', '=', 'posted'),
+                ('bill_status', '!=', 'billed'),
             ])
             for payment_id in payment_ids:
                 if payment_id.payment_amount:
@@ -322,13 +323,18 @@ class BillingClass(models.Model):
                 ('partner_id', 'in', res_partner_id.ids),
                 ('payment_date', '>', rec['last_closing_date']),
                 ('payment_date', '<=', rec['deadline']),
-                ('state', '=', 'posted')
+                ('state', '=', 'posted'),
+                ('bill_status', '!=', 'billed'),
             ])
 
             _deposit_amount = 0
             for payment_id in payment_ids:
                 if payment_id.payment_amount:
                     _deposit_amount = _deposit_amount + payment_id.payment_amount
+
+            payment_ids.write({
+                'bill_status': 'billed'
+            })
 
             _balance_amount = _last_billed_amount - _deposit_amount
 
@@ -496,7 +502,8 @@ class BillingClass(models.Model):
             ('partner_id', 'in', res_partner_id.ids),
             ('payment_date', '>', self.last_closing_date),
             ('payment_date', '<=', self.deadline),
-            ('state', '=', 'posted')
+            ('state', '=', 'posted'),
+            ('bill_status', '!=', 'billed'),
         ])
         _deposit_amount = 0
         for payment_id in payment_ids:

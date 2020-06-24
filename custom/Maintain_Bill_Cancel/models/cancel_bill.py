@@ -6,6 +6,7 @@ class BillingClass(models.Model):
 
     def cancel_bill_for_invoice(self, argsSelectedData, argsSelectedIds):
         for rec in argsSelectedData:
+            print(rec)
             res_partner_id = self.env["res.partner"].search(
                 ['|', ('customer_code', '=', rec['billing_code']), ('customer_code_bill', '=', rec['billing_code'])])
 
@@ -24,6 +25,16 @@ class BillingClass(models.Model):
             self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
                 'bill_status': 'not yet',
                 'selected': False
+            })
+            payment_ids = self.env['account.payment'].search([
+                ('partner_id', 'in', res_partner_id.ids),
+                ('payment_date', '>', rec['last_closing_date']),
+                ('payment_date', '<=', rec['deadline']),
+                ('state', '=', 'posted'),
+                ('bill_status', '=', 'billed'),
+            ])
+            payment_ids.write({
+                'bill_status': 'not yet'
             })
 
             self.env['bill.info'].search([('id', 'in', argsSelectedIds)]).unlink()
