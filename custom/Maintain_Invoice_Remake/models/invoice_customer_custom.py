@@ -1364,7 +1364,7 @@ class AccountMoveLine(models.Model):
             elif self.product_id.product_tax_category == 'internal':
                 price_unit = self.product_id.price_include_tax_1
             else:
-                price_unit = self.product_id.price_1
+                price_unit = self.product_id.price_by_setting
         else:
             price_unit = self.product_id.price_no_tax_1
 

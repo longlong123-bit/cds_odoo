@@ -97,7 +97,7 @@ class ProductTemplate(models.Model):
     price_6 = fields.Float('Price 6')
 
     # Value according to setting
-    # price_by_setting = fields.Float('Price for setting')
+    price_by_setting = fields.Float('Price for setting')
     code_by_setting = fields.Char(string='Code for setting')
 
     # 消費税区分
@@ -142,6 +142,15 @@ class ProductTemplate(models.Model):
         for i in range(1, 7):
             if self.setting_price == ('code_' + str(i)):
                 self.code_by_setting = self['product_code_' + str(i)]
+                break
+
+    @api.constrains('price_1', 'price_2', 'price_3',
+                    'price_4', 'price_5', 'price_6', 'setting_price')
+    def set_price_by_setting(self):
+        self.price_by_setting = ''
+        for i in range(1, 7):
+            if self.setting_price == ('code_' + str(i)):
+                self.price_by_setting = self['price_' + str(i)]
                 break
 
     @api.constrains('product_code_1', 'product_code_2', 'product_code_3',
