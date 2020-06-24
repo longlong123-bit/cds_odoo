@@ -198,29 +198,42 @@ class IncomePaymentCustom(models.Model):
             self._set_line_info()
 
     @api.constrains('partner_id')
+    def _pass_data_to_payment(self):
+        if self.partner_id:
+            results = []
+            if self.payment_amount != 0:
+                results.append((0, 0, {
+                    'payment_amount': self.payment_amount
+                    # 'vj_c_payment_category': 1 or ''
+                }))
+
+            self.account_payment_line_ids = results
+
+    @api.constrains('partner_id')
     def _get_data_register(self):
         results = []
-        for rec in self:
-            values = rec.partner_id or ''
-            rec.partner_payment_name1 = values.name or ''
-            # TODO set name 4
-            rec.partner_payment_name2 = values.customer_name_kana or ''
-            rec.partner_payment_address1 = values.street or ''
-            rec.partner_payment_address2 = values.street2 or ''
-            rec.customer_other_cd = values.customer_other_cd or ''
-            if values.customer_supplier_group_code:
-                rec.is_customer_supplier_group_code = True
-            if values.customer_industry_code:
-                rec.is_industry_code = True
+        if self.partner_id:
+            for rec in self:
+                values = rec.partner_id or ''
+                rec.partner_payment_name1 = values.name or ''
+                # TODO set name 4
+                rec.partner_payment_name2 = values.customer_name_kana or ''
+                rec.partner_payment_address1 = values.street or ''
+                rec.partner_payment_address2 = values.street2 or ''
+                rec.customer_other_cd = values.customer_other_cd or ''
+                if values.customer_supplier_group_code:
+                    rec.is_customer_supplier_group_code = True
+                if values.customer_industry_code:
+                    rec.is_industry_code = True
 
-            if self.amount != 0:
-                results.append((0, 0, {
-                    'payment_amount': self.amount,
-                    'vj_c_payment_category': 'cash'
-                }))
-                self.account_payment_line_ids = results
+                if self.amount != 0:
+                    results.append((0, 0, {
+                        'payment_amount': self.amount,
+                        'vj_c_payment_category': 'cash'
+                    }))
+                    self.account_payment_line_ids = results
 
-            self._set_line_info()
+                self._set_line_info()
 
     # set account amount info
     def _set_line_info(self):

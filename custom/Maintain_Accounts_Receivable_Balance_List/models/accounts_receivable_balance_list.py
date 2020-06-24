@@ -156,6 +156,8 @@ class AccountsReceivableBalanceList(models.Model):
 
         elif 'Billing' == module_context.get('view_name'):
             for record in args:
+                if '&' == record[0]:
+                    continue
                 if 'customer_closing_date' == record[0]:
                     if record[2].isnumeric():
                         record[0] = 'customer_closing_date.start_day'
@@ -163,8 +165,10 @@ class AccountsReceivableBalanceList(models.Model):
                 if 'customer_except_request' == record[0]:
                     if record[2] == 'True':
                         record[2] = True
-                    else:
+                    elif record[2] == 'False':
                         record[2] = False
+                    else:
+                        continue
                 if 'deadline' == record[0]:
                     global val_bill_search_deadline
                     val_bill_search_deadline = record[2]

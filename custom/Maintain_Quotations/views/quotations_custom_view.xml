@@ -92,7 +92,8 @@
                                 <td class="o_td_label"><label for="report_header" string="Report Title*" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>
                                 <td><field name="report_header"
                                            attrs="{'invisible':[('paper_format','in','delivery')], 'required':[('paper_format','!=','delivery')]}"
-                                           options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True}"/></td>
+                                           options="{'reload_on_button': True}"/></td>
+<!--                                           options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True}"/></td>-->
                             </tr>
 
                             <!-- Row 4 -->
