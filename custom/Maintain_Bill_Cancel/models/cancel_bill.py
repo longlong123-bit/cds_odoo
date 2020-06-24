@@ -6,7 +6,6 @@ class BillingClass(models.Model):
 
     def cancel_bill_for_invoice(self, argsSelectedData, argsSelectedIds):
         for rec in argsSelectedData:
-            print(rec)
             res_partner_id = self.env["res.partner"].search(
                 ['|', ('customer_code', '=', rec['billing_code']), ('customer_code_bill', '=', rec['billing_code'])])
 
