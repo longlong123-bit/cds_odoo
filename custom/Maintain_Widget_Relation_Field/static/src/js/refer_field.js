@@ -283,9 +283,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
                 this.$el.html($(html).html());
             }
 
-            if (this.record.data[this.name]) {
-                this.$el.find('input').val(this.record.data[this.name]);
-            }
+            this.$el.find('input').val(this.record.data[this.name] || '');
         },
 
         /**

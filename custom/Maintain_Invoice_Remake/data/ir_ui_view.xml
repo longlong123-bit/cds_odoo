@@ -299,16 +299,16 @@
 <!--                <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>-->
 <!--                <field name="x_product_barcode" string="JAN/UPC/EAN"/>-->
                 <field name="product_id" invisible="1"/>
-                <field name="product_code" widget="refer_field" string="Product Code" options='{"model":"product.product","column": "product_code_1", "search_input": true}' z-index="92"/>
-                <field name="x_product_barcode" string="JAN/UPC/EAN" attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}" widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'  z-index="92"/>
+                <field name="product_code" widget="refer_field" string="Product Code" options='{"model":"product.product","column": "product_code_1", "search_input": true}'/>
+                <field name="x_product_barcode" string="JAN/UPC/EAN" attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}" widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'/>
                 <field name="product_maker_name"
                        widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'
-                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}" z-index="92"/>
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="x_product_name" string="商品名"/>
 <!--                <field name="x_product_name2" string="商品名2"/>-->
                 <field name="invoice_custom_standardnumber"
                        widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'
-                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}" z-index="92"/>
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="quantity" string="Quantity"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="price_unit" string="Price"
