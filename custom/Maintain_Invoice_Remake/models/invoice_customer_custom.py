@@ -138,9 +138,9 @@ def copy_data_from_quotation(rec, quotation, account):
             if line.product_id:
                 invoice_line_ids.append((0, False, {
                     'product_id': line.product_id,
-                    'x_product_barcode': line.product_barcode,
-                    'x_product_name': line.product_name,
-                    'x_product_name2': line.product_name2,
+                    'product_barcode': line.product_barcode,
+                    'product_name': line.product_name,
+                    'product_name2': line.product_name2,
                     'invoice_custom_standardnumber': line.product_standard_number,
                     'product_maker_name': line.product_maker_name,
                     'quantity': line.product_uom_qty,
@@ -978,13 +978,13 @@ class AccountMoveLine(models.Model):
                 print('start set')
 
                 line.x_invoicelinetype = detail_history.x_invoicelinetype
-                line.x_product_barcode = detail_history.x_product_barcode
+                line.product_barcode = detail_history.product_barcode
                 line.x_product_modelnumber = detail_history.x_product_modelnumber
-                line.x_product_name = detail_history.x_product_name
-                line.x_product_name2 = detail_history.x_product_name2
+                line.product_name = detail_history.product_name
+                line.product_name2 = detail_history.product_name2
                 line.product_uom_id = detail_history.product_uom_id
                 line.tax_rate = detail_history.tax_rate
-                line.x_product_standard_price = detail_history.x_product_standard_price
+                line.product_standard_price = detail_history.product_standard_price
                 line.invoice_custom_standardnumber = detail_history.invoice_custom_standardnumber
                 line.x_product_cost_price = detail_history.x_product_cost_price
                 line.invoice_custom_discountunitprice = detail_history.invoice_custom_discountunitprice
@@ -1049,15 +1049,15 @@ class AccountMoveLine(models.Model):
     # Update 2020/04/28 - START
     x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品'), ('値引', '値引'), ('サンプル', 'サンプル')],
                                          default='通常')
-    x_product_barcode = fields.Char(string='JAN/UPC/EAN')
+    product_barcode = fields.Char(string='JAN/UPC/EAN')
     product_uom_id = fields.Char(string='UoM')
-    # x_product_barcode_show_in_tree = fields.Char(string='JANコード', related='x_product_barcode.barcode')
-    # x_product_code_show_in_tree = fields.Char(string='商品コード', related='x_product_barcode.product_code_1')
+    # product_barcode_show_in_tree = fields.Char(string='JANコード', related='product_barcode.barcode')
+    # x_product_code_show_in_tree = fields.Char(string='商品コード', related='product_barcode.product_code_1')
 
     x_product_modelnumber = fields.Char('Product')
-    x_product_name = fields.Text('mproductname')
-    x_product_name2 = fields.Text('mproductname2')
-    x_product_standard_price = fields.Float('Standard Price')
+    product_name = fields.Text('mproductname')
+    product_name2 = fields.Text('mproductname2')
+    product_standard_price = fields.Float('Standard Price')
     x_product_cost_price = fields.Float('Cost Price')
     # x_crm_purchased_products = fields.Many2one('crm.purchased_products', selection='generate_selection', string='Purchased products')
 
@@ -1104,13 +1104,13 @@ class AccountMoveLine(models.Model):
                 ['product_code_1', '=', self.product_code]
             ])
             self.product_id = product.id
-            self.x_product_barcode = product.barcode
+            self.product_barcode = product.barcode
 
-    @api.onchange('x_product_barcode')
+    @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
-        if self.x_product_barcode:
+        if self.product_barcode:
             product = self.env['product.product'].search([
-                ['barcode', '=', self.x_product_barcode]
+                ['barcode', '=', self.product_barcode]
             ])
             self.product_id = product.id
             self.product_code = product.product_code_1
@@ -1126,11 +1126,11 @@ class AccountMoveLine(models.Model):
 
     # def compute_product_barcode_show_in_tree(self):
     #     for line in self:
-    #         line.x_product_barcode_show_in_tree = line.x_product_barcode.barcode
+    #         line.product_barcode_show_in_tree = line.product_barcode.barcode
     #
     # def compute_product_code_show_in_tree(self):
     #     for line in self:
-    #         line.x_product_code_show_in_tree = line.x_product_barcode.product_code_1
+    #         line.x_product_code_show_in_tree = line.product_barcode.product_code_1
 
     def _validate_price_unit(self):
         for p in self:
@@ -1301,10 +1301,10 @@ class AccountMoveLine(models.Model):
             if not line.product_id or line.display_type in ('line_section', 'line_note'):
                 continue
             line.name = line._get_computed_name()
-            line.x_product_name = line.product_id.name
-            line.x_product_standard_price = line.product_id.standard_price
+            line.product_name = line.product_id.name
+            line.product_standard_price = line.product_id.standard_price
             line.x_product_cost_price = line.product_id.cost
-            line.x_product_barcode = line.product_id.barcode
+            line.product_barcode = line.product_id.barcode
             line.account_id = line._get_computed_account()
 
             # line.tax_ids = line._get_computed_taxes()

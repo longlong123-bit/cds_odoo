@@ -387,18 +387,18 @@ odoo.define('web.ListRender_Custom', function (require) {
                 'invoice_custom_line_no',
                 'product_code',
                 'product_maker_name',
-                'x_product_name',
+                'product_name',
                 'invoice_custom_standardnumber',
                 'quantity',
-                'product_uom_id',
                 'price_unit',
+                'product_uom_id',
                 'invoice_custom_lineamount',
-                'x_product_standard_price',
+                'product_standard_price',
                 'invoice_custom_Description',
                ];
             var HEADER2 = [
                'x_invoicelinetype',
-               'x_product_barcode',
+               'product_barcode',
                'x_product_cost_price',
                'tax_rate',
             ];
@@ -411,10 +411,10 @@ odoo.define('web.ListRender_Custom', function (require) {
                     'product_name',
                     'product_standard_number',
                     'product_uom_qty',
-                    'product_uom_id',
                     'price_unit',
+                    'product_uom_id',
                     'line_amount',
-                    'product_list_price',
+                    'product_standard_price',
                     'description',
                    ];
                 HEADER2 = [

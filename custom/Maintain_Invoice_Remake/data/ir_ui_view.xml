@@ -14,11 +14,11 @@
                   <field name="invoice_no" optional="show" readonly="1"/>
                   <field name="x_invoicelinetype" optional="show" readonly="1"/>
                   <field name="x_customer_show_in_tree" optional="show" readonly="1"/>
-                  <field name="x_product_barcode" optional="show" readonly="1"/>
+                  <field name="product_barcode" optional="show" readonly="1"/>
 <!--                  <field name="x_product_code_show_in_tree" optional="show" readonly="1"/>-->
                   <field name="invoice_custom_standardnumber" optional="show" readonly="1"/>
                   <field name="product_maker_name" optional="show" readonly="1"/>
-                  <field name="x_product_name" optional="show" readonly="1"/>
+                  <field name="product_name" optional="show" readonly="1"/>
                   <field name="quantity" optional="show" readonly="1"/>
                   <field name="product_uom_id" optional="show"/>
                   <field name="price_unit" optional="show" readonly="1"/>
@@ -297,27 +297,27 @@
 		        <field name="invoice_custom_line_no" required="True"/>
                 <field name="x_invoicelinetype" required="True" string="内訳区分"/>
 <!--                <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>-->
-<!--                <field name="x_product_barcode" string="JAN/UPC/EAN"/>-->
+<!--                <field name="product_barcode" string="JAN/UPC/EAN"/>-->
                 <field name="product_id" invisible="1"/>
                 <field name="product_code" widget="refer_field" string="Product Code" options='{"model":"product.product","column": "product_code_1", "search_input": true}'/>
-                <field name="x_product_barcode" string="JAN/UPC/EAN" attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}" widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'/>
+                <field name="product_barcode" string="JAN/UPC/EAN" attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}" widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'/>
                 <field name="product_maker_name"
                        widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
-                <field name="x_product_name" string="商品名"/>
-<!--                <field name="x_product_name2" string="商品名2"/>-->
+                <field name="product_name" string="商品名"/>
+<!--                <field name="product_name2" string="商品名2"/>-->
                 <field name="invoice_custom_standardnumber"
                        widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="quantity" string="Quantity"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
-                <field name="price_unit" string="Price"
-                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="product_uom_id" string="UoM" style="text-align:right; justify-content: flex-end;"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="price_unit" string="Price"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="invoice_custom_lineamount"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
-                <field name="x_product_standard_price"
+                <field name="product_standard_price"
                        readonly="1"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="x_product_cost_price"
@@ -359,16 +359,16 @@
             <field name="invoice_custom_line_no"/>
             <field name="x_invoicelinetype"/>
             <field name="product_code"/>
-            <field name="x_product_barcode"/>
+            <field name="product_barcode"/>
             <field name="product_maker_name"/>
-            <field name="x_product_name"/>
-<!--            <field name="x_product_name2"/>-->
+            <field name="product_name"/>
             <field name="invoice_custom_standardnumber"/>
             <field name="line_tax_amount"/>
             <field name="quantity" string="Quantity"/>
             <field name="price_unit" string="Price"/>
             <field name="product_uom_id" string="UoM" required="True"/>
             <field name="invoice_custom_lineamount"/>
+            <field name="product_standard_price"/>
             <field name="x_product_cost_price"/>
             <field name="x_history_detail" domain="[('exclude_from_invoice_tab', '=', False)]" invisible="1" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
             <field name="invoice_custom_Description"/>
@@ -474,10 +474,9 @@
                             domain="['|', ('parent_id', '=', False), ('is_company', '=', True)]"
                             attrs="{'readonly': [('parent_state', '=', 'posted')]}" invisible="1"/>
                         <field name="x_invoicelinetype" required="True" string="内訳区分"/>
-                        <field name="x_product_barcode" widget="product_many2one" context="{'show_product_jan': 1}"/>
+                        <field name="product_barcode" widget="product_many2one" context="{'show_product_jan': 1}"/>
                         <field name="product_maker_name"/>
-                        <field name="x_product_name" string="商品名"/>
-<!--                        <field name="x_product_name2" string="商品名2"/>-->
+                        <field name="product_name" string="商品名"/>
                         <field name="invoice_custom_standardnumber"/>
                     </group>
                     <group>
