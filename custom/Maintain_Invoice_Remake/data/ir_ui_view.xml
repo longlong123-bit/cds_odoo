@@ -101,8 +101,15 @@
         <xpath expr="//sheet/field[@name='invoice_sequence_number_next']" position="attributes">
             <attribute name="invisible">1</attribute>
         </xpath >
-        <xpath expr="//form/header/button[@name='action_invoice_register_payment']"  position="attributes">
-            <attribute name="attrs">{'invisible': [('customer_trans_classification_code','!=','cash')]}</attribute>
+<!--        <xpath expr="//form/header/button[@name='action_invoice_register_payment']"  position="attributes">-->
+<!--            <attribute name="attrs">{'invisible': [('customer_trans_classification_code','!=','cash')]}</attribute>-->
+<!--        </xpath>-->
+        <xpath expr="//form/header/button[@name='action_invoice_register_payment']"  position="replace">
+           <button name="expense_post_payment" id="account_invoice_payment_btn"
+                    type="object" class="oe_highlight"
+                    attrs="{'invisible': [('customer_trans_classification_code','!=','cash')]}"
+                    string="Register Payment"
+                    groups="account.group_account_invoice"/>
         </xpath>
         <xpath expr="//form/header/button[@name='action_reverse']"  position="attributes">
             <attribute name="invisible">1</attribute>
