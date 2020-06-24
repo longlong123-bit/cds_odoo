@@ -227,10 +227,10 @@
                                     <field name="product_name2" invisible="True"/>
                                     <field name="product_standard_number" widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'/>
                                     <field name="product_uom_qty"/>
-                                    <field name="price_unit"/>
                                     <field name="product_uom_id"/>
+                                    <field name="price_unit"/>
                                     <field name="line_amount" widget="monetary"/>
-                                    <field name="product_list_price" readonly="True"/>
+                                    <field name="product_standard_price" readonly="True"/>
                                     <field name="cost"/>
                                     <field name="description"/>
                                     <field name="tax_id" widget="many2many_tags" invisible="True"/>

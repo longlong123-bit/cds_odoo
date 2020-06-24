@@ -107,6 +107,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
 
                     if (data && data.ref === event.data.id) {
                         parent._setValue(data.data[options.column]);
+                        parent._render();
                     }
                 }
 
@@ -280,7 +281,7 @@ odoo.define('Maintain_Widget_Relation_Field.search_field', function(require){
         _renderEdit: function(){
             if (this.$el.find('input').length == 0) {
                 var html = QWeb.render(this.template, this);
-                this.$el.html($(html).html());
+                this.$el.html(html);
             }
 
             this.$el.find('input').val(this.record.data[this.name] || '');

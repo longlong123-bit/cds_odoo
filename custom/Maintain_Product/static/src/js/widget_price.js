@@ -49,7 +49,7 @@ var DetailHistory = FieldMany2One.extend({
                 res_model: 'account.move.line',
                 domain:[
                     ['exclude_from_invoice_tab', '=', false],
-                    ['x_product_barcode','=', barcode]
+                    ['product_barcode','=', barcode]
                 ],
                 view_type:'list',
                 context: context,
@@ -255,7 +255,7 @@ var SelectCreateDialog = ViewDialog.extend({
 
         var search_jan_code = $('input[name="search_jan_code"]').val();
         if (search_jan_code!=''){
-            var f_search_jan_code = ["x_product_barcode_show_in_tree", "ilike",search_jan_code];
+            var f_search_jan_code = ["product_barcode_show_in_tree", "ilike",search_jan_code];
             domain.push(f_search_jan_code)
         }
 
@@ -267,7 +267,7 @@ var SelectCreateDialog = ViewDialog.extend({
 
         var search_product_name = $('input[name="search_product_name"]').val();
         if (search_product_name!=''){
-            var f_search_product_name = ["x_product_name", "ilike",search_product_name];
+            var f_search_product_name = ["product_name", "ilike",search_product_name];
             domain.push(f_search_product_name)
         }
 

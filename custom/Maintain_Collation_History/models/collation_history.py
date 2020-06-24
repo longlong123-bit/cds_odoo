@@ -57,8 +57,8 @@ class ClassDetail(models.Model):
     def _get_account_move_line_db(self):
         for acc in self:
             if acc.account_move_line_id:
-                acc.jan_code = acc.account_move_line_id.x_product_barcode
-                acc.product_name = acc.account_move_line_id.x_product_name
+                acc.jan_code = acc.account_move_line_id.product_barcode
+                acc.product_name = acc.account_move_line_id.product_name
                 acc.product_custom_standardnumber = acc.account_move_line_id.invoice_custom_standardnumber
                 acc.product_default_code = acc.account_move_line_id.product_id.id
                 acc.quantity = acc.account_move_line_id.quantity
