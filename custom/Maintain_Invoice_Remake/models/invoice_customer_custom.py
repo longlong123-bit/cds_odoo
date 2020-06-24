@@ -1356,19 +1356,19 @@ class AccountMoveLine(models.Model):
 
     def _get_computed_price_unit(self):
         # Set price follow product code
-        if self.move_id.x_voucher_tax_transfer == 'internal_tax':
-            price_unit = self.product_id.price_include_tax_1
-        elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
-            if self.product_id.product_tax_category == 'foreign':
-                price_unit = self.product_id.price_no_tax_1
-            elif self.product_id.product_tax_category == 'internal':
-                price_unit = self.product_id.price_include_tax_1
-            else:
-                price_unit = self.product_id.price_by_setting
-        else:
-            price_unit = self.product_id.price_no_tax_1
+        # if self.move_id.x_voucher_tax_transfer == 'internal_tax':
+        #     price_unit = self.product_id.price_include_tax_1
+        # elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
+        #     if self.product_id.product_tax_category == 'foreign':
+        #         price_unit = self.product_id.price_no_tax_1
+        #     elif self.product_id.product_tax_category == 'internal':
+        #         price_unit = self.product_id.price_include_tax_1
+        #     else:
+        #         price_unit = self.product_id.price_by_setting
+        # else:
+        #     price_unit = self.product_id.price_no_tax_1
 
-        return price_unit
+        return self.product_id.price_by_setting
 
     def button_update(self):
         view = {

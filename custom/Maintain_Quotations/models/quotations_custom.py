@@ -594,17 +594,18 @@ class QuotationsLinesCustom(models.Model):
     def compute_price_unit(self):
         for line in self:
             # todo set price follow product code
-            if line.order_id.tax_method == 'internal_tax':
-                line.price_unit = line.product_id.price_include_tax_1 or 0.00
-            elif line.order_id.tax_method == 'custom_tax':
-                if line.product_id.product_tax_category == 'foreign':
-                    line.price_unit = line.product_id.price_no_tax_1
-                elif line.product_id.product_tax_category == 'internal':
-                    line.price_unit = line.product_id.price_include_tax_1
-                else:
-                    line.price_unit = line.product_id.price_by_setting
-            else:
-                line.price_unit = line.product_id.price_no_tax_1 or 0.00
+            # if line.order_id.tax_method == 'internal_tax':
+            #     line.price_unit = line.product_id.price_include_tax_1 or 0.00
+            # elif line.order_id.tax_method == 'custom_tax':
+            #     if line.product_id.product_tax_category == 'foreign':
+            #         line.price_unit = line.product_id.price_no_tax_1
+            #     elif line.product_id.product_tax_category == 'internal':
+            #         line.price_unit = line.product_id.price_include_tax_1
+            #     else:
+            #         line.price_unit = line.product_id.price_by_setting
+            # else:
+            #     line.price_unit = line.product_id.price_no_tax_1 or 0.00
+            line.price_unit = line.product_id.price_by_setting
 
     def compute_line_amount(self):
         for line in self:
