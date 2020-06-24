@@ -35,7 +35,7 @@
             <field name="context">{'view_code': 'bill_report'}</field>
         </record>
         <menuitem id="menu_ideas" name="Payment Request Bill"
-                  parent="Maintain_Bill_Management.parent_menu_bill_management" sequence="4"
+                  parent="Maintain_Bill_Management.parent_menu_bill_management" sequence="3"
                   action="payment_request_action" groups="base.group_user"/>
     </data>
 </odoo>

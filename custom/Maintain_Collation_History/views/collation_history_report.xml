@@ -64,10 +64,10 @@
                             <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">
                                 <thead>
                                     <tr>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0; min-width: 100px"
-                                            name="th_subtotal">前回締日</td>
                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
                                             name="th_id">請求No</td>
+                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0; min-width: 100px"
+                                            name="th_subtotal">前回締日</td>
                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
                                             name="th_description">前回請求金額</td>
                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
@@ -89,15 +89,15 @@
                                 <tbody class="invoice_tbody">
                                     <t t-foreach="docs" t-as="line">
                                         <tr>
+                                            <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0;  text-align: left;">
+                                                <span t-field="line.bill_no"/>
+                                            </td>
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
                                                 <span><t t-if="line.last_closing_date">
                                                     <span t-field="line.last_closing_date"
                                                           t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
                                                 </t>
                                                     <span t-else="">　　　年　　月　　日</span></span>
-                                            </td>
-                                            <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0;  text-align: left;">
-                                                <span t-field="line.bill_no"/>
                                             </td>
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: left;"
                                                 class="text-right">

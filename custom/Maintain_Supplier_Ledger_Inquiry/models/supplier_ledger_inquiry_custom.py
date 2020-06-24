@@ -55,6 +55,9 @@ class SupplierLedgerInquiryCustom(models.Model):
     # 税転嫁
     tax_transfer = fields.Char(string='Tax Transfer', readonly=True)
 
+    # partner_id
+    partner_id = fields.Integer(string='Partner Id', readonly=True)
+
     # fields input condition advanced search
     input_target_month = fields.Char('Input Target Date', compute='_get_value_condition_input', default='', store=False)
     input_customer_code_bill_from = fields.Char('Input Customer Code Bill From', compute='_get_value_condition_input',
@@ -110,7 +113,8 @@ class SupplierLedgerInquiryCustom(models.Model):
                         '請求'
                     WHEN account_move_line.x_tax_transfer_show_tree = 'custom_tax' THEN 
                         '税調整別途'  
-                END AS tax_transfer -- 税転嫁（外／内／非、明／伝／請）
+                END AS tax_transfer, -- 税転嫁（外／内／非、明／伝／請）
+                res_partner.id AS partner_id
             FROM
                 account_move_line
                     LEFT JOIN
@@ -140,7 +144,8 @@ class SupplierLedgerInquiryCustom(models.Model):
                     account_payment.payment_amount,
                     0,
                     account_payment.create_uid,
-                    '' -- 税転嫁（外／内／非、明／伝／請）
+                    '', -- 税転嫁（外／内／非、明／伝／請）
+                    res_partner.id
                 FROM
                     account_payment
                         LEFT JOIN

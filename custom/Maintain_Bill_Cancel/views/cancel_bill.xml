@@ -11,6 +11,7 @@
                 <field name="billing_name"/>
                 <field name="bill_no"/>
                 <field name="bill_date" invisible="1"/>
+                <field name="last_closing_date"/>
                 <field name="last_billed_amount" sum="total" widget="monetary"/>
                 <field name="deposit_amount" sum="total" widget="monetary"/>
                 <field name="balance_amount" sum="total" widget="monetary"/>
@@ -18,7 +19,6 @@
                 <field name="tax_amount" string="Bill Tax Amount" sum="total" widget="monetary"/>
                 <field name="amount_total" sum="total" widget="monetary" invisible="1"/>
                 <field name="billed_amount" sum="total" widget="monetary"/>
-                <field name="last_closing_date"/>
                 <field name="closing_date" invisible="1"/>
                 <field name="invoices_number"/>
                 <field name="invoices_details_number" invisible="1"/>

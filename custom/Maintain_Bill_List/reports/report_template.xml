@@ -92,6 +92,9 @@
                                         name="th_description">請求No
                                     </td>
                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                        name="th_subtotal">前回締日
+                                    </td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
                                         name="th_priceunit">前回請求金額
                                     </td>
                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
@@ -108,9 +111,6 @@
                                     </td>
                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
                                         name="th_subtotal">今回請求金額
-                                    </td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
-                                        name="th_subtotal">前回締日
                                     </td>
                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
                                         name="th_subtotal">その他CD
@@ -132,6 +132,15 @@
                                             </td>
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
                                                 <span t-esc="line.bill_no"/>
+                                            </td>
+                                            <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
+                                                <span>
+                                                    <t t-if="line.last_closing_date">
+                                                        <span t-field="line.last_closing_date"
+                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                    </t>
+                                                    <span t-else="">　　　年　　月　　日</span>
+                                                </span>
                                             </td>
 
                                             <td style="border: 1px solid #439eb2; border-top: 0; border-right: 0;  text-align: left;">
@@ -162,15 +171,6 @@
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
                                                 <span>
                                                     <t t-esc="line.billed_amount"/>
-                                                </span>
-                                            </td>
-                                            <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
-                                                <span>
-                                                    <t t-if="line.last_closing_date">
-                                                        <span t-field="line.last_closing_date"
-                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
-                                                    </t>
-                                                    <span t-else="">　　　年　　月　　日</span>
                                                 </span>
                                             </td>
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
