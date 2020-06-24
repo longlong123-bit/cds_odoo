@@ -581,7 +581,7 @@ class QuotationsLinesCustom(models.Model):
                 if line.product_uom_qty > 0:
                     line.product_uom_qty = line.product_uom_qty * (-1)
 
-            line.compute_price_unit()
+            # line.compute_price_unit()
             line.compute_line_amount()
             line.compute_line_tax_amount()
 
