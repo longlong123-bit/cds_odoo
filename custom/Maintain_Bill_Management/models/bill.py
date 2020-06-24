@@ -661,9 +661,3 @@ class InvoiceLineClass(models.Model):
 
     customer_code = fields.Char(compute=compute_data, string='Customer Code', store=False)
     customer_name = fields.Char(compute=compute_data, string='Customer Name', store=False)
-
-
-class InvoicePaymentClass(models.Model):
-    _inherit = 'account.payment'
-
-    bill_status = fields.Char(default="not yet")
