@@ -101,7 +101,7 @@ class ListOmissionOfBill(models.Model):
                 (		
                     SELECT
                     row_number() OVER(PARTITION BY account_move_line.move_id ORDER BY account_move_line.move_id) AS id_voucher,
-                    account_move.date AS sales_date, -- 売上日付
+                    account_move.x_studio_date_invoiced AS sales_date, -- 売上日付
                     account_move."invoice_document_no_custom" AS invoice_no, -- 伝票Ｎｏ
                     res_partner.NAME AS customer_name, -- 得意先名
                     sum( account_move.amount_untaxed ) AS amount_untaxed, -- 伝票合計額
@@ -151,14 +151,14 @@ class ListOmissionOfBill(models.Model):
                         AND account_move.state = 'posted' 
                         AND account_move.invoice_payment_state = 'not_paid' 
                         AND (
-                            ( account_move.date <= date_trunc ( 'month', CURRENT_DATE ) :: DATE + closing_date.start_day - 1 )
+                            ( account_move.x_studio_date_invoiced <= date_trunc ( 'month', CURRENT_DATE ) :: DATE + closing_date.start_day - 1 )
                             OR (
                                 closing_date.start_day >= 28 AND 
-                                date_trunc ( 'month', CURRENT_DATE ) = date_trunc ( 'month', account_move.date )
+                                date_trunc ( 'month', CURRENT_DATE ) = date_trunc ( 'month', account_move.x_studio_date_invoiced )
                             )
                         )
                     GROUP BY
-                        account_move.date,
+                        account_move.x_studio_date_invoiced,
                         account_move.name,
                         account_move."invoice_document_no_custom",
                         res_partner.NAME,
