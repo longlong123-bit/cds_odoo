@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-21 16:52+0000\n"
-"PO-Revision-Date: 2020-06-21 16:52+0000\n"
+"POT-Creation-Date: 2020-06-24 03:00+0000\n"
+"PO-Revision-Date: 2020-06-24 03:00+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -136,15 +136,6 @@ msgstr ""
 #: model:ir.model.fields,help:Maintain_Quotations.field_sale_order__create_date
 msgid "Date on which sales order is created."
 msgstr "販売オーダが作成された日。"
-
-#. module: Maintain_Quotations
-#: model:ir.model.fields,help:Maintain_Quotations.field_sale_order__expected_date
-msgid ""
-"Delivery date you can promise to the customer, computed from the minimum "
-"lead time of the order lines in case of Service products. In case of "
-"shipping, the shipping policy of the order will be taken into account to "
-"either use the minimum or maximum lead time of the order lines."
-msgstr ""
 
 #. module: Maintain_Quotations
 #. openerp-web
@@ -349,6 +340,12 @@ msgstr "商品コード"
 #, python-format
 msgid "Product Barcode"
 msgstr "ＪＡＮコード"
+
+#. module: Maintain_Quotations
+#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order_line__product_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
+msgid "Product Code"
+msgstr "商品コード"
 
 #. module: Maintain_Quotations
 #. openerp-web
@@ -741,7 +738,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:Maintain_Quotations.quotation_custom_action
 #: model:ir.ui.menu,name:Maintain_Quotations.quotation
 msgid "見積入力"
-msgstr ""
+msgstr "見積管理"
 
 #. module: Maintain_Quotations
 #. openerp-web
