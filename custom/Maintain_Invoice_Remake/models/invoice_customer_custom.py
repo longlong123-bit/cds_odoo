@@ -1143,7 +1143,7 @@ class AccountMoveLine(models.Model):
     def _onchange_product_code(self):
         if self.product_code:
             product = self.env['product.product'].search([
-                '|', '|', '|', '|', '|'
+                '|', '|', '|', '|', '|',
                 ['product_code_1', '=', self.product_code],
                 ['product_code_2', '=', self.product_code],
                 ['product_code_3', '=', self.product_code],
