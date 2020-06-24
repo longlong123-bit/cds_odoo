@@ -468,7 +468,7 @@ class ClassInvoiceCustom(models.Model):
                     # === Invoices ===
                     if not line.exclude_from_invoice_tab:
                         # Untaxed amount.
-                        if (line.x_invoicelinetype != 'サンプル'):
+                        if line.x_invoicelinetype != 'サンプル':
                             if move.x_voucher_tax_transfer == 'voucher' \
                                     and line.product_id.product_tax_category != 'exempt':
                                 # total_line_tax = sum(
@@ -1289,7 +1289,7 @@ class AccountMoveLine(models.Model):
             # print('test detail')
             # print(line.x_invoicelinetype)
             # print('end test')
-            if line.x_invoicelinetype in ('通常', 'サンプル', '消費税'):
+            if line.x_invoicelinetype in ('通常', 'サンプル'):
                 if line.quantity < 0:
                     line.quantity = line.quantity * (-1)
             else:
