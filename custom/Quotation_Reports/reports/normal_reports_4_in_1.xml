@@ -1,0 +1,624 @@
+<odoo>
+    <template id="quotation_report_4_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!--              <t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>-->
+                <div class="page" style="page-break-before: always;">
+                    <t t-call="Maintain_Normal_Reports.quotation_report_4_template_parent" t-lang="lang"/>
+                    <!--                    <t t-call="Maintain_Normal_Reports.normal_report_transfer" t-lang="lang"/>-->
+
+
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="quotation_report_4_template_parent">
+        <div class="page" style="font-size: 11px;">
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <t t-set="line_parent" t-value="o.order_line"/>
+            <t t-set="line_id" t-value="0"/>
+            <t t-set="pager" t-value="1"/>
+            <t t-foreach="o.order_line" t-as="ll">
+                <t t-set="line" t-value="7"/>
+                <t t-if="ll.id>line_id">
+                    <div style="page-break-after: always;">
+                        <div style=" display: inline-block">
+                            <t t-set="line_id_1" t-value="line_id"/>
+                            <div style="text-align: center;">
+                                <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <h4 class="mt0"
+                                        style="font-size: 18px; color: #000000; line-height: 50px; border-bottom: 3px solid #000000; margin: 0; padding: 0">
+                                        売 上 票</h4>
+                                </div>
+                                <div style="float: right; text-align: right; display: inline-block;">
+                                    <span t-field="o.document_no" class="mt0"
+                                          style="font-size: 11px; color: #000000; line-height: 50px; margin: 0; padding: 0"/> -
+                                    <span t-esc="pager"/>
+                                    <!--                    <t t-set="pager" t-value="pager + 1"/>-->
+                                </div>
+                            </div>
+                            <!--      Middle      -->
+                            <div>
+                                <div style="float: left;">
+                                    <div style="margin-bottom: 10px; margin-top: 20px;">
+                                        <div>
+                                            <span>お客様コードNo. </span>
+                                            <span t-field="o.partner_id"/>
+                                        </div>
+                                        <div style="margin-top: 20px;">
+                                            <t t-if="o.is_print_date and o.quotations_date">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                            <span t-else="">　　　年　　月　　日</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: inline-block; width: 100%">
+                                    <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
+                                        <div style="border-bottom: 2px solid;">
+                                            <span style="display: block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.partner_name"></span><br/>
+                                            <span style="display: block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.partner_id.customer_name_2"></span>
+                                            <span>様/御中</span>
+                                        </div>
+                                        <div t-if="pager == 1" style="margin-top: 30px;">
+                                            <span style="font-sze: 14px">合計金額　￥</span>
+                                            <span style="display: block; width: 168px; font-sze: 14px;  overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.amount_total"></span>
+                                            <span>（税込）</span>
+                                        </div>
+                                    </div>
+                                    <div style="width: 32%; float: right; text-align: center; font-size: 11px">
+                                        <span style="font-weight: 600; font-size: 18px">株式会社　ト　ラ　ヤ</span><br/>
+                                        <span>代表取締役　　遠 藤 孝 二</span><br/>
+                                        <span>本　社</span><span>千葉県銚子市新生町2丁目12番地の5</span><br/>
+                                        <span>TEL　0479-22-3515　FAX　0479-24-9376</span><br/>
+                                        <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span><br/>
+                                        <span>TEL　0299-97-4416　FAX　0299-90-6530</span><br/>
+                                        <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span><br/>
+                                        <span>TEL　043-224-9050　FAX　043-222-6176</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 8px">
+                                <table border="0" cellspacing="0" cellpadding="5"
+                                       style="width: 100%; border: 2px solid #000000; border-bottom-width: 1px">
+                                    <thead>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: auto">
+                                                品　番　　・　　　　品　名</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 11%">
+                                                数　量</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 6%">
+                                                単 位</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 11%">
+                                                単　価</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 11%">
+                                                金　額</td>
+                                            <td style="border-bottom: 1px solid #000000; text-align: center; width: 11%">
+                                                備　考</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="subtotal_amount1" t-value="0"/>
+                                        <t t-set="subtotal_tax_amount1" t-value="0"/>
+                                        <t t-foreach="o.order_line" t-as="order">
+                                            <t t-if="order.id>line_id_1">
+                                                <t t-if="line > 0">
+                                                    <t t-set="line" t-value="line - 1"/>
+                                                    <t t-set="line_id_1" t-value="order.id"/>
+                                                    <t t-set="subtotal_amount1"
+                                                       t-value="subtotal_amount1 + order.line_amount"/>
+                                                    <t t-set="subtotal_tax_amount1" t-value="subtotal_tax_amount1 + order.line_tax_amount"/>
+                                                    <tr>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0;">
+                                                            <!--                                                        <span t-esc="line_id"/>-->
+                                                            <span
+                                                                    t-field="order.product_id.name"/>
+                                                            <span
+                                                                    t-field="order.product_id.product_maker_name"/>
+                                                            <span
+                                                                    t-field="order.product_id.product_code_1"/> <br/>
+                                                            <span
+                                                                    t-field="order.product_id.product_custom_goodsnamef"/>
+                                                        </td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right"><span
+                                                                t-field="order.product_uom_qty"/></td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center"><span
+                                                                t-field="order.product_uom"/></td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right"><span
+                                                                t-field="order.price_unit"/></td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right"><span
+                                                                t-field="order.line_amount"/></td>
+                                                        <td style="border-bottom: 1px solid #000000; text-align: right"></td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; font-size: 14px; text-align: center;">
+                                                <span>小　　　　計</span>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000; text-align: right;">
+                                                <span style="display: block; width: 110px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="subtotal_amount1"/>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; font-size: 14px; text-align: center;">
+                                                <span>消　　費　　税</span>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000; text-align: right;">
+                                                <span style="display: block; width: 110px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="subtotal_tax_amount1"/>
+                                            </td>
+                                            <td style="border-bottom: 1px solid #000000;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <t t-set="line" t-value="7"/>
+                        <div style=" display: inline-block">
+                            <t t-set="line_id_2" t-value="line_id"/>
+                            <div style="text-align: center;">
+                                <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <h4 class="mt0"
+                                        style="font-size: 18px; color: #000000; line-height: 50px; border-bottom: 3px solid #000000; margin: 0; padding: 0">
+                                        納 品 書（ 兼 入 庫 報 告 書 ）</h4>
+                                </div>
+                                <div style="float: right; text-align: right; display: inline-block;">
+                                    <span t-field="o.document_no" class="mt0"
+                                          style="font-size: 11px; color: #000000; line-height: 50px; margin: 0; padding: 0"/> -
+                                    <span t-esc="pager"/>
+                                    <!--                    <t t-set="pager" t-value="pager + 1"/>-->
+                                </div>
+                            </div>
+                            <!--      Middle      -->
+                            <div>
+                                <div style="float: left;">
+                                    <div style="margin-bottom: 10px; margin-top: 20px;">
+                                        <div>
+                                            <span>お客様コードNo. </span>
+                                            <span t-field="o.partner_id"/>
+                                        </div>
+                                        <div style="margin-top: 20px;">
+                                            <t t-if="o.is_print_date and o.quotations_date">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                            <span t-else="">　　　年　　月　　日</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: inline-block; width: 100%">
+                                    <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
+                                        <div style="border-bottom: 2px solid;">
+                                            <span style="display: block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.partner_name"></span><br/>
+                                            <span style="display: block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.partner_id.customer_name_2"></span>
+                                            <span>様/御中</span>
+                                        </div>
+                                        <div t-if="pager == 1" style="margin-top: 30px;">
+                                            <span style="font-sze: 14px">合計金額　￥</span>
+                                            <span style="display: block; width: 168px; font-sze: 14px;  overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.amount_total"></span>
+                                            <span>（税込）</span>
+                                        </div>
+                                    </div>
+                                    <div style="width: 32%; float: right; text-align: center; font-size: 11px">
+                                        <span style="font-weight: 600; font-size: 18px">株式会社　ト　ラ　ヤ</span><br/>
+                                        <span>代表取締役　　遠 藤 孝 二</span><br/>
+                                        <span>本　社</span><span>千葉県銚子市新生町2丁目12番地の5</span><br/>
+                                        <span>TEL　0479-22-3515　FAX　0479-24-9376</span><br/>
+                                        <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span><br/>
+                                        <span>TEL　0299-97-4416　FAX　0299-90-6530</span><br/>
+                                        <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span><br/>
+                                        <span>TEL　043-224-9050　FAX　043-222-6176</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 8px">
+                                <table border="0" cellspacing="0" cellpadding="5"
+                                       style="width: 100%; border: 2px solid #000000; border-bottom-width: 1px">
+                                    <thead>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: auto">
+                                                品　番　　・　　　　品　名</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 11%">
+                                                数　量</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 6%">
+                                                単 位</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 11%">
+                                                単　価</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 11%">
+                                                金　額</td>
+                                            <td style="border-bottom: 1px solid #000000; text-align: center; width: 11%">
+                                                備　考</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="subtotal_amount2" t-value="0"/>
+                                        <t t-set="subtotal_tax_amount2" t-value="0"/>
+                                        <t t-foreach="o.order_line" t-as="order">
+                                            <t t-if="order.id>line_id_2">
+                                                <t t-if="line > 0">
+                                                    <t t-set="line" t-value="line - 1"/>
+                                                    <t t-set="line_id_2" t-value="order.id"/>
+                                                    <t t-set="subtotal_amount2"
+                                                       t-value="subtotal_amount2 + order.line_amount"/>
+                                                    <t t-set="subtotal_tax_amount2" t-value="subtotal_tax_amount2 + order.line_tax_amount"/>
+                                                    <tr>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0;">
+                                                            <!--                                                        <span t-esc="line_id"/>-->
+                                                            <span
+                                                                    t-field="order.product_id.name"/>
+                                                            <span
+                                                                    t-field="order.product_id.product_maker_name"/>
+                                                            <span
+                                                                    t-field="order.product_id.product_code_1"/> <br/>
+                                                            <span
+                                                                    t-field="order.product_id.product_custom_goodsnamef"/>
+                                                        </td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right"><span
+                                                                t-field="order.product_uom_qty"/></td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center"><span
+                                                                t-field="order.product_uom"/></td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right"><span
+                                                                t-field="order.price_unit"/></td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right"><span
+                                                                t-field="order.line_amount"/></td>
+                                                        <td style="border-bottom: 1px solid #000000; text-align: right"></td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; font-size: 14px; text-align: center;">
+                                                <span>小　　　　計</span>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000; text-align: right;">
+                                                <span style="display: block; width: 110px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="subtotal_amount2"/>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; font-size: 14px; text-align: center;">
+                                                <span>消　　費　　税</span>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000; text-align: right;">
+                                                <span style="display: block; width: 110px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="subtotal_tax_amount2"/>
+                                            </td>
+                                            <td style="border-bottom: 1px solid #000000;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <t t-set="line" t-value="7"/>
+                        <div style=" display: inline-block">
+                            <t t-set="line_id_3" t-value="line_id"/>
+                            <div style="text-align: center;">
+                                <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <h4 class="mt0"
+                                        style="font-size: 18px; color: #000000; line-height: 50px; border-bottom: 3px solid #000000; margin: 0; padding: 0">
+                                        納 品 書（ 検 収 課 控 ）</h4>
+                                </div>
+                                <div style="float: right; text-align: right; display: inline-block;">
+                                    <span t-field="o.document_no" class="mt0"
+                                          style="font-size: 11px; color: #000000; line-height: 50px; margin: 0; padding: 0"/> -
+                                    <span t-esc="pager"/>
+                                    <!--                    <t t-set="pager" t-value="pager + 1"/>-->
+                                </div>
+                            </div>
+                            <!--      Middle      -->
+                            <div>
+                                <div style="float: left;">
+                                    <div style="margin-bottom: 10px; margin-top: 20px;">
+                                        <div>
+                                            <span>お客様コードNo. </span>
+                                            <span t-field="o.partner_id"/>
+                                        </div>
+                                        <div style="margin-top: 20px;">
+                                            <t t-if="o.is_print_date and o.quotations_date">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                            <span t-else="">　　　年　　月　　日</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: inline-block; width: 100%">
+                                    <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
+                                        <div style="border-bottom: 2px solid;">
+                                            <span style="display: block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.partner_name"></span><br/>
+                                            <span style="display: block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.partner_id.customer_name_2"></span>
+                                            <span>様/御中</span>
+                                        </div>
+                                        <div t-if="pager == 1" style="margin-top: 30px;">
+                                            <span style="font-sze: 14px">合計金額　￥</span>
+                                            <span style="display: block; width: 168px; font-sze: 14px;  overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.amount_total"></span>
+                                            <span>（税込）</span>
+                                        </div>
+                                    </div>
+                                    <div style="width: 32%; float: right; text-align: center; font-size: 11px">
+                                        <span style="font-weight: 600; font-size: 18px">株式会社　ト　ラ　ヤ</span><br/>
+                                        <span>代表取締役　　遠 藤 孝 二</span><br/>
+                                        <span>本　社</span><span>千葉県銚子市新生町2丁目12番地の5</span><br/>
+                                        <span>TEL　0479-22-3515　FAX　0479-24-9376</span><br/>
+                                        <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span><br/>
+                                        <span>TEL　0299-97-4416　FAX　0299-90-6530</span><br/>
+                                        <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span><br/>
+                                        <span>TEL　043-224-9050　FAX　043-222-6176</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 8px">
+                                <table border="0" cellspacing="0" cellpadding="5"
+                                       style="width: 100%; border: 2px solid #000000; border-bottom-width: 1px">
+                                    <thead>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: auto">
+                                                品　番　　・　　　　品　名</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 11%">
+                                                数　量</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 6%">
+                                                単 位</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 11%">
+                                                単　価</td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 11%">
+                                                金　額</td>
+                                            <td style="border-bottom: 1px solid #000000; text-align: center; width: 11%">
+                                                備　考</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="subtotal_amount1" t-value="0"/>
+                                        <t t-set="subtotal_tax_amount" t-value="0"/>
+                                        <t t-foreach="o.order_line" t-as="order">
+                                            <t t-if="order.id>line_id_3">
+                                                <t t-if="line > 0">
+                                                    <t t-set="line" t-value="line - 1"/>
+                                                    <t t-set="line_id_3" t-value="order.id"/>
+                                                    <t t-set="subtotal_amount1"
+                                                       t-value="subtotal_amount1 + order.line_amount"/>
+                                                    <t t-set="subtotal_tax_amount1" t-value="subtotal_tax_amount1 + order.line_tax_amount"/>
+                                                    <tr>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0;">
+                                                            <!--                                                        <span t-esc="line_id"/>-->
+                                                            <span
+                                                                    t-field="order.product_id.name"/>
+                                                            <span
+                                                                    t-field="order.product_id.product_maker_name"/>
+                                                            <span
+                                                                    t-field="order.product_id.product_code_1"/> <br/>
+                                                            <span
+                                                                    t-field="order.product_id.product_custom_goodsnamef"/>
+                                                        </td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right"><span
+                                                                t-field="order.product_uom_qty"/></td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center"><span
+                                                                t-field="order.product_uom"/></td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right"><span
+                                                                t-field="order.price_unit"/></td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right"><span
+                                                                t-field="order.line_amount"/></td>
+                                                        <td style="border-bottom: 1px solid #000000; text-align: right"></td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; font-size: 14px; text-align: center;">
+                                                <span>小　　　　計</span>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000; text-align: right;">
+                                                <span style="display: block; width: 110px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="subtotal_amount1"/>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; font-size: 14px; text-align: center;">
+                                                <span>消　　費　　税</span>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000; text-align: right;">
+                                                <span style="display: block; width: 110px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="subtotal_tax_amount1"/>
+                                            </td>
+                                            <td style="border-bottom: 1px solid #000000;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <t t-set="line" t-value="7"/>
+                        <div style=" display: inline-block">
+                            <div style="text-align: center;">
+                                <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <h4 class="mt0"
+                                        style="font-size: 18px; color: #000000; line-height: 50px; border-bottom: 3px solid #000000; margin: 0; padding: 0">
+                                        物 品 受 領 書</h4>
+                                </div>
+                                <div style="float: right; text-align: right; display: inline-block;">
+                                    <span t-field="o.document_no" class="mt0"
+                                          style="font-size: 11px; color: #000000; line-height: 50px; margin: 0; padding: 0"/> -
+                                    <span t-esc="pager"/>
+                                    <!--                    <t t-set="pager" t-value="pager + 1"/>-->
+                                </div>
+                            </div>
+                            <!--      Middle      -->
+                            <div>
+                                <div style="float: left;">
+                                    <div style="margin-bottom: 10px; margin-top: 20px;">
+                                        <div>
+                                            <span>お客様コードNo. </span>
+                                            <span t-field="o.partner_id"/>
+                                        </div>
+                                        <div style="margin-top: 20px;">
+                                            <t t-if="o.is_print_date and o.quotations_date">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                            <span t-else="">　　　年　　月　　日</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: inline-block; width: 100%">
+                                    <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
+                                        <div style="border-bottom: 2px solid;">
+                                            <span style="display: block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.partner_name"></span><br/>
+                                            <span style="display: block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.partner_id.customer_name_2"></span>
+                                            <span>様/御中</span>
+                                        </div>
+                                        <div t-if="pager == 1" style="margin-top: 30px;">
+                                            <span style="font-sze: 14px">合計金額　￥</span>
+                                            <span style="display: block; width: 168px; font-sze: 14px;  overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.amount_total"></span>
+                                            <span>（税込）</span>
+                                        </div>
+                                    </div>
+                                    <div style="width: 32%; float: right; text-align: center; font-size: 11px">
+                                        <span style="font-weight: 600; font-size: 18px">株式会社　ト　ラ　ヤ</span><br/>
+                                        <span>代表取締役　　遠 藤 孝 二</span><br/>
+                                        <span>本　社</span><span>千葉県銚子市新生町2丁目12番地の5</span><br/>
+                                        <span>TEL　0479-22-3515　FAX　0479-24-9376</span><br/>
+                                        <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span><br/>
+                                        <span>TEL　0299-97-4416　FAX　0299-90-6530</span><br/>
+                                        <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span><br/>
+                                        <span>TEL　043-224-9050　FAX　043-222-6176</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 8px">
+                                <table border="0" cellspacing="0" cellpadding="5"
+                                       style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; text-align: center; width: auto">
+                                                品　番　　・　　　　品　名</td>
+                                            <td style="border: 1px solid #000000; text-align: center; width: 11%">
+                                                数　量</td>
+                                            <td style="border: 1px solid #000000; text-align: center; width: 6%">
+                                                単 位</td>
+                                            <td style="border: 1px solid #000000; text-align: center; width: 11%">
+                                                単　価</td>
+                                            <td style="border: 1px solid #000000; text-align: center; width: 11%">
+                                                金　額</td>
+                                            <td style="border: 1px solid #000000; text-align: center; width: 11%">
+                                                備　考</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="subtotal_amount" t-value="0"/>
+                                        <t t-set="subtotal_tax_amount" t-value="0"/>
+                                        <t t-foreach="o.order_line" t-as="order">
+                                            <t t-if="order.id>line_id">
+                                                <t t-if="line > 0">
+                                                    <t t-set="line" t-value="line - 1"/>
+                                                    <t t-set="line_id" t-value="order.id"/>
+                                                    <t t-set="subtotal_amount"
+                                                       t-value="subtotal_amount + order.line_amount"/>
+                                                    <t t-set="subtotal_tax_amount" t-value="subtotal_tax_amount + order.line_tax_amount"/>
+                                                    <tr>
+                                                        <td style="border: 1px solid #000000">
+                                                            <!--                                                        <span t-esc="line_id"/>-->
+                                                            <span t-field="order.product_id.name"/>
+                                                            <span t-field="order.product_id.product_maker_name"/>
+                                                            <span t-field="order.product_id.product_code_1"/> <br/>
+                                                            <span t-field="order.product_id.product_custom_goodsnamef"/>
+                                                        </td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; text-align: right">
+                                                            <span t-field="order.product_uom_qty"/>
+                                                        </td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
+                                                            <span t-field="order.product_uom"/>
+                                                        </td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                            <span t-field="order.price_unit"/>
+                                                        </td>
+                                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                            <span t-field="order.line_amount"/>
+                                                        </td>
+                                                        <td style="border: 1px solid #000000; text-align: right">
+<!--                                                            <span t-field="order.name"/>-->
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                        </t>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; font-size: 14px; text-align: center;">
+                                                <span>小　　　　計</span>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000; text-align: right;">
+                                                <span style="display: block; width: 110px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="subtotal_amount"/>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid #000000; font-size: 14px; text-align: center;">
+                                                <span>消　　費　　税</span>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                            <td style="border: 1px solid #000000; text-align: right;">
+                                                <span style="display: block; width: 110px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="subtotal_tax_amount"/>
+                                            </td>
+                                            <td style="border: 1px solid #000000;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="border: 1px solid #000000; height: 60px;"></td>
+                                            <td style="border: 1px solid #000000; height: 60px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <t t-set="pager" t-value="pager + 1"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </div>
+    </template>
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="normal_report"
+                model="sale.order"
+                string="Normal Report"
+                report_type="qweb-pdf"
+                attachment_use="False"
+                name="Maintain_Normal_Reports.normal_report"
+                file="Maintain_Normal_Reports.normal_report"
+        />
+        <report
+                id="normal_report_1_in_1"
+                model="sale.order"
+                string="Quotation Report One"
+                report_type="qweb-pdf"
+                attachment_use="False"
+                name="Maintain_Normal_Reports.normal_report_1_in_1"
+                file="Maintain_Normal_Reports.normal_report_1_in_1"
+        />
+<!--        <report-->
+<!--                id=""-->
+<!--                model="sale.order"-->
+<!--                string="Quotation Report Two"-->
+<!--                report_type="qweb-pdf"-->
+<!--                attachment_use="False"-->
+<!--                name="Maintain_Normal_Reports."-->
+<!--                file="Maintain_Normal_Reports."-->
+<!--        />-->
+    </data>
+</odoo>
