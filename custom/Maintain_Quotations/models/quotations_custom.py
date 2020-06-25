@@ -398,12 +398,12 @@ class QuotationsCustom(models.Model):
             self.is_print_date = sale_order.is_print_date
             self.tax_method = sale_order.tax_method
             self.comment_apply = sale_order.comment_apply
+            self.order_line = ()
 
             default = dict(None or [])
             lines = [rec.copy_data()[0] for rec in sale_order[0].order_line.sorted(key='id')]
             default['order_line'] = [(0, 0, line) for line in lines if line]
-            for rec in self:
-                rec.order_line = default['order_line'] or ()
+            self.order_line = default['order_line']
 
 
 class QuotationsLinesCustom(models.Model):
