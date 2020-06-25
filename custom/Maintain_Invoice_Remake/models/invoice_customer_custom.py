@@ -122,6 +122,7 @@ def copy_data_from_partner(rec, partner):
 # Copy data for lines from quotation
 def copy_data_from_quotation(rec, quotation, account):
     if quotation:
+        rec.invoice_line_ids = ()
         invoice_line_ids = []
         line_ids = []
 
@@ -543,9 +544,12 @@ class ClassInvoiceCustom(models.Model):
 
     @api.onchange('x_history_voucher')
     def _onchange_x_test(self):
-        result_l1 = []
-        result_l2 = []
         for voucher in self:
+            result_l1 = []
+            result_l2 = []
+            voucher.line_ids = ()
+            voucher.invoice_line_ids = ()
+
             # print(voucher.x_history_voucher.invoice_line_ids)
             for l in voucher.x_history_voucher.invoice_line_ids:
                 fields_line = l.fields_get()
@@ -591,11 +595,8 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.x_bussiness_partner_name_2
                 voucher.x_voucher_tax_transfer = voucher.x_history_voucher.x_voucher_tax_transfer
                 voucher.customer_tax_rounding = voucher.x_history_voucher.customer_tax_rounding
-            voucher.line_ids = []
             voucher.line_ids = result_l2
-            voucher.invoice_line_ids = []
             voucher.invoice_line_ids = result_l1
-            # voucher.x_history_voucher.invoice_line_ids
 
         # self._set_tax_counting()
         # self._onchange_invoice_line_ids()
