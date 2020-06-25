@@ -4,6 +4,7 @@
         <template id="assets_backend" name="HR Expense Assets assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <script type="text/javascript" src="/Maintain_Widget_Relation_Field/static/src/js/refer_field.js"></script>
+                <script type="text/javascript" src="/Maintain_Widget_Relation_Field/static/src/js/button_field.js"></script>
                 <link rel="stylesheet" type="text/css" href="/Maintain_Widget_Relation_Field/static/src/css/style.css"/>
             </xpath>
         </template>

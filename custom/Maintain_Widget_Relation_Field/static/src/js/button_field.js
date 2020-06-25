@@ -1,4 +1,4 @@
-odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
+odoo.define('Maintain_Widget_Relation_Field.button_field', function(require){
     'use strict';
     var AbstractField = require('web.AbstractField');
     var registry = require('web.field_registry');
@@ -14,6 +14,18 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
     var select_create_controllers_registry = require('web.select_create_controllers_registry');
     var dom = require('web.dom');
     var _t = core._t;
+
+    // Setting advanced search
+    // =============================================
+    var FilterMenu = require('web.FilterMenu_free');
+    var alias = _.extend({}, FilterMenu.prototype.alias || {});
+    alias.view = alias.view || {};
+    alias.view['sale.order.list.select'] = 'sale.order.custom.tree';
+
+    FilterMenu.include({
+        alias: alias
+    });
+    // =============================================
 
     // custom ViewDialog
     var ViewDialog = Dialog.extend({
@@ -54,7 +66,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                         break;
                 }
 
-                self.$modal.find('.modal-dialog').addClass('modal-widget modal-widget-relation-field');
+                self.$modal.find('.modal-dialog').addClass('modal-widget');
                 self.$modal.on('hidden.bs.modal', _.bind(self.destroy, self));
             });
         },
@@ -98,19 +110,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
     var SelectCreateDialog = ViewDialog.extend({
         custom_events: _.extend({}, ViewDialog.prototype.custom_events, {
             select_record: function (event) {
-                var parent = this.getParent();
-                var options = parent._getWidgetOptions();
-                var state = this.viewController.renderer.state;
-                var readColumn = parent._getReadColumn(options);
-
-                for (var i = 0; i < state.count; i++) {
-                    if (state.data[i] && state.data[i].ref === event.data.id) {
-                        parent._setValue(state.data[i].data[readColumn] || '');
-                        parent._render();
-                        break;
-                    }
-                }
-
+                this.getParent()._setValue(event.data.id);
                 this.close();
             }
         }),
@@ -251,13 +251,10 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
      * if is not, then open dialog
      */
     var Widget = AbstractField.extend({
-        template : "refer_field",
+        template : "button_field",
 
         events : {
-            'click .o_button_refer_field': '_onClickButton',
-            'click .o_input_refer_field': '_onClickInput',
-            'keyup .o_input_refer_field': '_onKeyupInput',
-            'change .o_input_refer_field': '_onChangeInput',
+            'click .o_button_field': '_onClickButton'
         },
 
         /**
@@ -275,54 +272,6 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
         },
 
         /**
-         * Render when click on row and open editable
-         * Render with template and append value
-         */
-        _renderEdit: function(){
-            if (this.$el.find('input').length == 0) {
-                var html = QWeb.render(this.template, this);
-                this.$el.html(html);
-            }
-
-            this.$el.find('input').val(this.record.data[this.name] || '');
-        },
-
-        /**
-         * Render when click outside row, just display, can not edit
-         */
-        _renderReadonly: function(){
-            this.$el.html('<span></span>');
-            this.$el.find('> span').text(this.record.data[this.name] || '');
-        },
-
-        /**
-         * Check data
-         */
-        _checkData: function(e, options){
-            var s = this;
-
-            if (this.value == e.target.value) {
-                return;
-            }
-
-            var domain = this._getDomain(e.target.value, options);
-            var column = this._getReadColumn(options);
-
-            // Call to server
-            rpc.query({
-                model: options.model,
-                method: 'search_read',
-                domain: domain
-            }).then(function(res){
-                if (res.length > 0) {
-                    s._setValue(res[0][column]);
-                } else {
-                    s._openDialogSearch();
-                }
-            });
-        },
-
-        /**
          * Event when click on button, then open dialog search
          */
         _onClickButton: function(e){
@@ -332,69 +281,21 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
         },
 
         /**
-         * Event when click on input, stop all
+         * Render
          */
-        _onClickInput: function(e){
-            e.stopPropagation();
-            e.preventDefault();
-        },
+        _render: function () {
+            if (this.attrs.decorations) {
+                this._applyDecorations();
+            }
 
-        /**
-         * Event when keyup on input
-         * check if is enter then check data
-         */
-        _onKeyupInput: function(e){
             var options = this._getWidgetOptions();
+            this.$el.find('button').text(options.text);
 
-            if (options.search_input && (e.which === $.ui.keyCode.ENTER || e.which === $.ui.keyCode.TAB)) {
-                this._checkData(e, options);
-            }
-        },
-
-        /**
-         * Event when change value of input
-         */
-        _onChangeInput: function(e){
-            var options = this._getWidgetOptions();
-
-            if (options.search_input) {
-                this._checkData(e, options);
+            if (options.sort_cut && this.mode === 'edit') {
+                this.$el.find('button').addClass('open_with_sort_cut');
             } else {
-                this._setValue(e.target.value);
+                this.$el.find('button').removeClass('open_with_sort_cut');
             }
-        },
-
-        /**
-         * Get domain
-         */
-        _getDomain: function(searchVal, options){
-            options = options || this._getWidgetOptions();
-            var domain = [];
-            var columns = [];
-
-            if (options.search_columns) {
-                columns = options.search_columns;
-            } else {
-                columns.push(options.column);
-            }
-
-            for (var i = 0; i < columns.length; i++) {
-                if (i > 0) {
-                    domain.unshift('|');
-                }
-
-                domain.push([columns[i], 'ilike', searchVal]);
-            }
-
-            return domain;
-        },
-
-        /**
-         * Get read column
-         */
-        _getReadColumn: function(options){
-            options = options || this._getWidgetOptions();
-            return options.read_column || options.column;
         },
 
         /**
@@ -404,17 +305,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
             // get current context (language, param,...)
             var context = this.record.getContext(this.recordParams);
             var options = this._getWidgetOptions();
-            var searchVal = this.$el.find('input').val();
-            var filters = null;
 
-            if (searchVal !== '') {
-                var domain = this._getDomain(searchVal, options);
-
-                filters = [{
-                    description: _.str.sprintf(_t('Quick search: %s'), searchVal),
-                    domain: domain,
-                }];
-            }
 
             // new dialog and show
             new SelectCreateDialog(this, {
@@ -422,13 +313,12 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                     readonly: true,
                     res_model: options.model,
                     domain: null,
-                    dynamicFilters: filters,
                     view_type:'list',
                     context: context,
                 }).open();
         }
     });
 
-    registry.add('refer_field', Widget);
+    registry.add('button_field', Widget);
     return Widget;
 });

@@ -39,8 +39,8 @@
                         <button name="action_cancel" states="draft,sent,sale" type="object" string="Cancel"/>
                         <button name="preview_report" states="draft,sent,sale" type="object" string="Preview"/>
                         <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/>
-                        <field name="order_id" widget="Maintain_Quotation_History.Order" z-index="92"/>
-                        <field name="refer_invoice_history" widget="Maintain_Sale_History.Voucher" z-index="93"/>
+                        <field name="order_id" widget="button_field" z-index="92" options='{"model":"sale.order", "text":"見積履歴問合せ"}'/>
+                        <field name="refer_invoice_history" widget="button_field" z-index="92" options='{"model":"account.move", "text":"売上履歴問合せ"}'/>
 <!--                        <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>-->
                     </header>
                     <table class="custom-form-table cols-8">
@@ -200,7 +200,7 @@
                                             margin-right: 1px; width: 16px; height: 16px;
                                             padding: 1px;border: none;" >
                                     </button>
-                                    <field name="refer_detail_history" style="display:none" position="attributes" widget="Maintain_Quotation_History.Detail"/>
+                                    <field name="refer_detail_history" style="display:none" position="attributes" widget="button_field" z-index="92" options='{"model":"sale.order.line", "sort_cut": true, "text":"見積履歴問合せ"}'/>
                                     <field name="display_type" invisible="True"/>
                                     <field name="product_uom_category_id" invisible="True"/>
 
