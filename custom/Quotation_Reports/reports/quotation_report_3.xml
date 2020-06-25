@@ -149,8 +149,8 @@
                                                        t-value="subtotal_amount + order.line_amount"/>
                                                     <t t-set="subtotal_tax_amount"
                                                        t-value="subtotal_tax_amount + order.line_tax_amount"/>
-                                                    <tr>
-                                                        <td style="border: 1px solid #000000;">
+                                                    <tr style="font-size: 9px">
+                                                        <td style="height: 25px; border: 1px solid #000000;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                   t-field="order.product_id.name"><null/></span>
@@ -191,11 +191,11 @@
                                                     <t t-if="line_one_one > 0">
                                                         <t t-set="line_one_one" t-value="line_one_one - 1"/>
                                                         <tr>
-                                                            <td style="height: 45px;border: 1px solid #000000;">
+                                                            <td style="height: 25px;border: 1px solid #000000;">
                                                                 <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;"><null/></span><br/>
                                                                 <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"><null/></span>
                                                             </td>
-                                                            <td style="height: 45px;border: 1px solid #000000;  text-align: right">
+                                                            <td style="border: 1px solid #000000;  text-align: right">
                                                                 <span style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"><null/></span></td>
                                                             <td style="border: 1px solid #000000;  text-align: center">
                                                                 <span style="display: inline-block; width: 44px; overflow: hidden; white-space: nowrap;"><null/></span></td>

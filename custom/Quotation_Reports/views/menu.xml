@@ -2,15 +2,6 @@
 <odoo>
     <data>
         <report
-                id="handover_one"
-                model="sale.order"
-                string="Handover One"
-                report_type="qweb-html"
-                attachment_use="False"
-                name="Quotation_Reports.handover_one"
-                file="Quotation_Reports.handover_one"
-        />
-        <report
                 id="normal_report_1_in_1"
                 model="sale.order"
                 string="Quotation Report One"
@@ -38,6 +29,15 @@
                 file="Quotation_Reports.quotation_report_three"
         />
         <report
+                id="handover_one"
+                model="sale.order"
+                string="Handover One"
+                report_type="qweb-html"
+                attachment_use="False"
+                name="Quotation_Reports.handover_one"
+                file="Quotation_Reports.handover_one"
+        />
+        <report
                 id="handover_two"
                 model="sale.order"
                 string="Handover Two"
@@ -45,6 +45,24 @@
                 attachment_use="False"
                 name="Quotation_Reports.handover_two"
                 file="Quotation_Reports.handover_two"
+        />
+        <report
+                id="handover_three"
+                model="sale.order"
+                string="Handover Three"
+                report_type="qweb-html"
+                attachment_use="False"
+                name="Quotation_Reports.handover_three"
+                file="Quotation_Reports.handover_three"
+        />
+        <report
+                id="handover_four"
+                model="sale.order"
+                string="Handover Four"
+                report_type="qweb-html"
+                attachment_use="False"
+                name="Quotation_Reports.handover_four"
+                file="Quotation_Reports.handover_four"
         />
     </data>
 </odoo>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="handover_three">
+    <template id="handover_four">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <div class="page" style="page-break-before: always;">
-                    <t t-call="Quotation_Reports.handover_three_template" t-lang="lang"/>
+                    <t t-call="Quotation_Reports.handover_four_template" t-lang="lang"/>
                 </div>
             </t>
         </t>
     </template>
 
-    <template id="handover_three_template">
+    <template id="handover_four_template">
         <div style="font-size: 11px; font-family: sans-serif;">
             <t t-set="o" t-value="o.with_context(lang=lang)"/>
             <t t-set="line_parent" t-value="o.order_line"/>

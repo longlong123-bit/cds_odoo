@@ -11,7 +11,7 @@
     </template>
 
     <template id="normal_report_template_parent">
-        <div style="font-family:sans-serif !important;font-size: 14px;">
+        <div style="font-size: 11px; font-family: sans-serif;">
             <t t-set="o" t-value="o.with_context(lang=lang)"/>
             <t t-set="line_parent" t-value="o.order_line"/>
             <t t-set="line_id" t-value="0"/>
@@ -19,20 +19,7 @@
             <t t-foreach="o.order_line" t-as="ll">
                 <t t-set="line" t-value="7"/>
                 <t t-if="ll.id>line_id">
-                    <div class="header">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <span>AAAAAAAAAAAAAA</span>
-                            </div>
-                            <div class="col-xs-9 text-right" style="margin-top:20px;">BBBBBBBB</div>
-                        </div>
-                        <div class="row zero_min_height">
-                            <div class="col-xs-12">
-                                <div style="border-bottom: 1px solid black;"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="page-break-before: always;">
+                    <div style="page-break-after: always;">
                         <div style="margin-bottom: 0px">
                             <t t-set="line_id_1" t-value="line_id"/>
                             <div style="text-align: center;">
@@ -46,7 +33,7 @@
                                           style="width: 77px; overflow: hidden; white-space: nowrap; font-size: 11px; color: #000000; line-height: 50px; margin: 0; padding: 0"/>
                                     -
                                     <span t-esc="pager"/>
-                                    <!--                    <t t-set="pager" t-value="pager + 1"/>-->
+
                                 </div>
                             </div>
                             <!--      Middle      -->
@@ -59,7 +46,7 @@
                                                   t-field="o.partner_id"><null/></span>
                                         </div>
                                         <div style="margin-top: 10px;">
-                                            <t t-if="o.is_print_date and o.quotations_date">
+                                            <t t-if="o.is_print_date and o.quotations_date">f
                                                 <span t-field="o.quotations_date"
                                                       t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
                                             </t>
