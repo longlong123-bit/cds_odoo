@@ -480,22 +480,17 @@ class ProductTemplate(models.Model):
                   'product_code_4', 'price_4', 'price_no_tax_4', 'price_include_tax_4',
                   'product_code_5', 'price_5', 'price_no_tax_5', 'price_include_tax_5',
                   'product_code_6', 'price_6', 'price_no_tax_6', 'price_include_tax_6',
-                  'product_tax_category', 'taxes_id')
+                  'product_tax_category', 'product_tax_rate')
     def _onchange_tax(self):
         for rec in self:
-            tax = 0
-            if len(rec.taxes_id) > 0:
-                # tax = rec.taxes_id[0].amount / 100
-                tax = sum(tax.amount for tax in rec.taxes_id._origin.flatten_taxes_hierarchy()) / 100
-
             for i in range(1, 7):
                 if rec['product_code_' + str(i)]:
                     if rec['product_tax_category'] == 'foreign':
                         rec['price_no_tax_' + str(i)] = rec['price_' + str(i)]
-                        rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (tax + 1)
+                        rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (rec.product_tax_rate/100 + 1)
                     elif rec['product_tax_category'] == 'internal':
                         rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
-                        rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (tax + 1)
+                        rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (rec.product_tax_rate/100 + 1)
                     else:
                         rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
 
