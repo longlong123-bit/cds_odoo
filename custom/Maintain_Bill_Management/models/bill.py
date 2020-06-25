@@ -20,7 +20,7 @@ class BillingClass(models.Model):
             ('partner_id', 'in', record.ids),
             # ('closing_date', '<=', _deadline),
         ], order='deadline desc', limit=1)
-        print(last_data_bill_info_ids.deadline)
+
         if last_data_bill_info_ids:
             _last_closing_date = last_data_bill_info_ids.deadline
 

@@ -23,7 +23,7 @@
             <tr>
                 <th>The Deadline</th>
                 <td>
-                    <input class="filter-item" id='deadline' data-operator="eq" data-name="deadline" type="date" value="2020-06-27"/>
+                    <input class="filter-item" id='deadline' data-operator="eq" data-name="deadline" type="date"/>
                 </td>
                 <script>
                     document.getElementById('deadline').value = moment().format('YYYY-MM-DD');
