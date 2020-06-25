@@ -147,7 +147,7 @@ def copy_data_from_quotation(rec, quotation, account):
                     'price_unit': line.price_unit,
                     'product_uom_id': line.product_uom_id,
                     'invoice_custom_lineamount': line.line_amount,
-                    'x_product_tax_rate': line.tax_rate,
+                    'tax_rate': line.tax_rate,
                     'line_tax_amount': line.line_tax_amount,
                     'account_id': account.id
                 }))
@@ -472,7 +472,7 @@ class ClassInvoiceCustom(models.Model):
                                     and line.product_id.product_tax_category != 'exempt':
                                 # total_line_tax = sum(
                                 #     tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
-                                line_tax_amount = (line.x_product_tax_rate * line.price_unit * line.quantity) / 100
+                                line_tax_amount = (line.tax_rate * line.price_unit * line.quantity) / 100
 
                                 total_voucher_tax_amount += line_tax_amount
                             else:
@@ -1024,7 +1024,7 @@ class AccountMoveLine(models.Model):
                 line.product_name = detail_history.product_name
                 line.product_name2 = detail_history.product_name2
                 line.product_uom_id = detail_history.product_uom_id
-                line.x_product_tax_rate = detail_history.tax_rate
+                line.tax_rate = detail_history.tax_rate
                 line.product_standard_price = detail_history.product_standard_price
                 line.invoice_custom_standardnumber = detail_history.invoice_custom_standardnumber
                 line.x_product_cost_price = detail_history.x_product_cost_price
@@ -1133,7 +1133,7 @@ class AccountMoveLine(models.Model):
     line_tax_amount = fields.Float('Tax Amount', compute='compute_line_tax_amount')
     # line_tax_amount = fields.Float('Tax Amount')
 
-    x_product_tax_rate = fields.Float('Tax Rate')
+    tax_rate = fields.Float('Tax Rate')
     product_code = fields.Char(string="Product Code")
 
     @api.onchange('product_code')
@@ -1261,7 +1261,7 @@ class AccountMoveLine(models.Model):
                     or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
                         and line.product_id.product_tax_category == 'foreign'):
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
-                                                                         line.x_product_tax_rate,
+                                                                         line.tax_rate,
                                                                          line.move_id.customer_tax_rounding,
                                                                          line.x_invoicelinetype)
             else:
@@ -1272,7 +1272,7 @@ class AccountMoveLine(models.Model):
         self.price_unit = self._get_computed_price_unit()
 
     @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype',
-                  'move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding', 'x_product_tax_rate')
+                  'move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding', 'tax_rate')
     def _onchange_price_subtotal(self):
         for line in self:
             if line.exclude_from_invoice_tab == False:
@@ -1299,7 +1299,7 @@ class AccountMoveLine(models.Model):
                     or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
                         and line.product_id.product_tax_category == 'foreign'):
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
-                                                                         line.x_product_tax_rate,
+                                                                         line.tax_rate,
                                                                          line.move_id.customer_tax_rounding,
                                                                          line.x_invoicelinetype)
             else:
@@ -1338,7 +1338,7 @@ class AccountMoveLine(models.Model):
             line.account_id = line._get_computed_account()
 
             line.product_uom_id = line.product_id.product_uom_custom
-            line.x_product_tax_rate = line.product_id.product_tax_rate
+            line.tax_rate = line.product_id.product_tax_rate
             line.product_maker_name = line.product_id.product_maker_name
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
 
