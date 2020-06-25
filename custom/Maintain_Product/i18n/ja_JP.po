@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-14 12:04+0000\n"
-"PO-Revision-Date: 2020-06-14 12:04+0000\n"
+"POT-Creation-Date: 2020-06-24 04:07+0000\n"
+"PO-Revision-Date: 2020-06-24 04:07+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -70,11 +70,17 @@ msgid "Business Partner*"
 msgstr "取引先*"
 
 #. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/js/widget_price.js:0
+#, python-format
+msgid "Cancel"
+msgstr "取消"
+
+#. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code_lv1
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code_lv2
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code_lv3
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_class_code_lv4
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Class code"
 msgstr "分類CD"
 
@@ -148,6 +154,13 @@ msgstr "更は保存できませんでした：: ユニーク制約のエラー�
 msgid ""
 "Could not save record - Require unique data: - Please change information."
 msgstr "ユニーク制約のエラーによりデータが保存できませんでした。 - 情報を変更してください。"
+
+#. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/js/widget_price.js:0
+#, python-format
+msgid "Create"
+msgstr "作成"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_custom_template_attribute_line__create_uid
@@ -297,7 +310,10 @@ msgid "Item"
 msgstr "アイテム"
 
 #. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/xml/advanced_search.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_search_view
+#, python-format
 msgid "JAN/UPC/EANコード"
 msgstr ""
 
@@ -408,6 +424,13 @@ msgstr "商品名"
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Name*"
 msgstr "商品名*"
+
+#. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/js/widget_price.js:0
+#, python-format
+msgid "No records found!"
+msgstr ""
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_purchasing_order_pack_qty
@@ -749,6 +772,11 @@ msgid "Quantity"
 msgstr "数量"
 
 #. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__refer_standard_price
+msgid "Refer Standard Price"
+msgstr ""
+
+#. module: Maintain_Product
 #: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__type__resource
 msgid "Resource"
 msgstr "リソース"
@@ -766,6 +794,20 @@ msgid "Save"
 msgstr "保存"
 
 #. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/js/widget_price.js:0
+#, python-format
+msgid "Search"
+msgstr "検索"
+
+#. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/js/widget_price.js:0
+#, python-format
+msgid "Select"
+msgstr "選択"
+
+#. module: Maintain_Product
 #: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__type__service
 msgid "Service"
 msgstr "サービス"
@@ -777,6 +819,7 @@ msgstr "価格設定"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_standard_price
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Standard Price"
 msgstr "標準価格"
 
@@ -818,6 +861,7 @@ msgstr "非課税"
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_tax_rate
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
 msgid "Tax Rate"
 msgstr "税率"
 
@@ -899,6 +943,11 @@ msgid "Vendors"
 msgstr "仕入先"
 
 #. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_total
+msgid "assign_product"
+msgstr ""
+
+#. module: Maintain_Product
 #: model:ir.model,name:Maintain_Product.model_freight_category_custom
 msgid "freight.category.custom"
 msgstr ""
@@ -925,15 +974,34 @@ msgid "standardnumber"
 msgstr "品番/規格"
 
 #. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_uom_custom
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_uom_custom
+msgid "uom"
+msgstr "単位"
+
+#. module: Maintain_Product
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_search_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_tree_view
 msgid "メーカーCD"
 msgstr ""
 
 #. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/xml/advanced_search.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_search_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_tree_view
+#, python-format
 msgid "メーカー名"
+msgstr ""
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "中分類"
+msgstr ""
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "中小分類"
 msgstr ""
 
 #. module: Maintain_Product
@@ -962,7 +1030,17 @@ msgid "品番/型番"
 msgstr ""
 
 #. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "品番/規格"
+msgstr ""
+
+#. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/xml/advanced_search.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_search_view
+#, python-format
 msgid "商品コード"
 msgstr ""
 
@@ -1003,14 +1081,37 @@ msgid "商品マスタ一覧"
 msgstr ""
 
 #. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/xml/advanced_search.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_search_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_tree_view
+#, python-format
 msgid "商品名"
 msgstr ""
 
 #. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/xml/advanced_search.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_search_view
+#, python-format
 msgid "商品名カナ"
+msgstr ""
+
+#. module: Maintain_Product
+#. openerp-web
+#: code:addons/Maintain_Product/static/src/xml/template_widget_price.xml:0
+#, python-format
+msgid "売上単価選択"
+msgstr ""
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "大分類"
+msgstr ""
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "小分類"
 msgstr ""
 
 #. module: Maintain_Product
@@ -1028,6 +1129,5 @@ msgstr ""
 
 #. module: Maintain_Product
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_tree_view
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
 msgid "税率"
 msgstr ""

@@ -24,7 +24,7 @@ _logger = logging.getLogger(__name__)
 class IncomePaymentCustom(models.Model):
     _inherit = "account.payment"
     # _rec_name = 'document_no'
-    _order = 'write_date'
+    _order = 'write_date desc'
 
     customer_closing_date = fields.Date('Closing Date')
     closing_date_compute = fields.Integer('Temp')
@@ -49,7 +49,6 @@ class IncomePaymentCustom(models.Model):
     is_customer_supplier_group_code = fields.Boolean(string='is_customer_supplier_group_code', default=False)
     is_industry_code = fields.Boolean(string='is_industry_code', default=False)
     customer_other_cd = fields.Char(string='Customer CD', store=True)
-    write_date = fields.Date('Write Date')
     display_type = fields.Selection([
         ('line_section', 'Section'),
         ('line_note', 'Note')], default=False, help="Technical field for UX purpose.")
@@ -120,7 +119,7 @@ class IncomePaymentCustom(models.Model):
             self.partner_payment_name1 = data.partner_id.name
             results.append((0, 0, {
                 'payment_amount': data.amount_total
-                # 'vj_c_payment_category': 1 or ''
+                # 'vj_c_payment_category': cash or ''
             }))
 
             self.account_payment_line_ids = results
@@ -203,8 +202,8 @@ class IncomePaymentCustom(models.Model):
             results = []
             if self.payment_amount != 0:
                 results.append((0, 0, {
-                    'payment_amount': self.payment_amount
-                    # 'vj_c_payment_category': 1 or ''
+                    'payment_amount': self.payment_amount,
+                    'vj_c_payment_category': 'cash' or ''
                 }))
 
             self.account_payment_line_ids = results
