@@ -2,19 +2,19 @@
 <odoo>
     <data>
         <report
-                id="normal_report"
+                id="handover_one"
                 model="sale.order"
-                string="Normal Report"
-                report_type="qweb-pdf"
+                string="Handover One"
+                report_type="qweb-html"
                 attachment_use="False"
-                name="Quotation_Reports.normal_report"
-                file="Quotation_Reports.normal_report"
+                name="Quotation_Reports.handover_one"
+                file="Quotation_Reports.handover_one"
         />
         <report
                 id="normal_report_1_in_1"
                 model="sale.order"
                 string="Quotation Report One"
-                report_type="qweb-pdf"
+                report_type="qweb-html"
                 attachment_use="False"
                 name="Quotation_Reports.normal_report_1_in_1"
                 file="Quotation_Reports.normal_report_1_in_1"
@@ -23,10 +23,28 @@
                 id="quotation_report_two"
                 model="sale.order"
                 string="Quotation Report Two"
-                report_type="qweb-pdf"
+                report_type="qweb-html"
                 attachment_use="False"
                 name="Quotation_Reports.quotation_report_two"
                 file="Quotation_Reports.quotation_report_two"
+        />
+        <report
+                id="quotation_report_three"
+                model="sale.order"
+                string="Quotation Report Three"
+                report_type="qweb-html"
+                attachment_use="False"
+                name="Quotation_Reports.quotation_report_three"
+                file="Quotation_Reports.quotation_report_three"
+        />
+        <report
+                id="handover_two"
+                model="sale.order"
+                string="Handover Two"
+                report_type="qweb-html"
+                attachment_use="False"
+                name="Quotation_Reports.handover_two"
+                file="Quotation_Reports.handover_two"
         />
     </data>
 </odoo>

@@ -10,7 +10,7 @@
     </template>
 
     <template id="quotation_report_three_template">
-        <div class="page" style="font-size: 11px;">
+        <div style="font-size: 11px;">
             <t t-set="o" t-value="o.with_context(lang=lang)"/>
             <t t-set="line_one_one_parent" t-value="o.order_line"/>
             <t t-set="line_one_one_id" t-value="0"/>
