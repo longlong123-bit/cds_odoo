@@ -15,13 +15,15 @@
                 <field name="document_no"/>
                 <field name="document_reference"/>
                 <field name="partner_name"/>
-                <field name="name"/>
+                <field name="related_partner_code"/>
+                <field name="quotation_name"/>
                 <field name="amount_untaxed"/>
                 <field name="amount_tax"/>
 <!--                <field name="line_number"/>-->
                 <field name="tax_method"/>
                 <field name="message_needaction" invisible="1"/>
                 <field name="state" invisible="1" optional="show"/>
+                <field name="sales_rep"/>
             </tree>
         </field>
     </record>
@@ -36,11 +38,13 @@
                 <field name="document_reference"/>
                 <field name="document_no"/>
                 <field name="partner_name"/>
-                <field name="name"/>
+                <field name="related_partner_code"/>
+                <field name="quotation_name"/>
                 <field name="amount_untaxed"/>
                 <field name="amount_tax"/>
                 <field name="line_number"/>
                 <field name="tax_method"/>
+                <filter name="sales_rep" domain="[('sales_rep','=',uid)]"/>
             </search>
         </field>
     </record>
@@ -51,7 +55,7 @@
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="view_quotations_confirm_tree"/>
-        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'search_default_sales_rep': 1}</field>
         <field name="search_view_id" ref="product_confirm_template_search_view"/>
     </record>
 
