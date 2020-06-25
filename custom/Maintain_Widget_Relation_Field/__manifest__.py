@@ -11,7 +11,7 @@
     'author': 'ToiTL',
     'demo': [],
     'qweb': [
-        "static/src/xml/refer_field.xml",
+        "static/src/xml/template.xml",
         "static/src/xml/dialog.xml"
     ],
     'installable': True,

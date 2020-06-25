@@ -50,7 +50,7 @@ odoo.define('web.ListRender_Custom', function (require) {
         },
         _show_history_detail: function(){
             if (event.code == 'KeyS' && event.ctrlKey && event.shiftKey) {
-                $('.show_detail_history_dialog').click();
+                $('.open_with_sort_cut').click();
             }
         },
 
