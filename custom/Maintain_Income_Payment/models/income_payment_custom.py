@@ -120,7 +120,7 @@ class IncomePaymentCustom(models.Model):
             self.partner_payment_name1 = data.partner_id.name
             results.append((0, 0, {
                 'payment_amount': data.amount_total
-                # 'vj_c_payment_category': 1 or ''
+                # 'vj_c_payment_category': cash or ''
             }))
 
             self.account_payment_line_ids = results
@@ -203,8 +203,8 @@ class IncomePaymentCustom(models.Model):
             results = []
             if self.payment_amount != 0:
                 results.append((0, 0, {
-                    'payment_amount': self.payment_amount
-                    # 'vj_c_payment_category': 1 or ''
+                    'payment_amount': self.payment_amount,
+                    'vj_c_payment_category': 'cash' or ''
                 }))
 
             self.account_payment_line_ids = results
