@@ -147,8 +147,7 @@ def copy_data_from_quotation(rec, quotation, account):
                     'price_unit': line.price_unit,
                     'product_uom_id': line.product_uom_id,
                     'invoice_custom_lineamount': line.line_amount,
-                    'tax_ids': line.tax_id,
-                    'tax_rate': line.tax_rate,
+                    'x_product_tax_rate': line.tax_rate,
                     'line_tax_amount': line.line_tax_amount,
                     'account_id': account.id
                 }))
@@ -473,7 +472,7 @@ class ClassInvoiceCustom(models.Model):
                                     and line.product_id.product_tax_category != 'exempt':
                                 # total_line_tax = sum(
                                 #     tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
-                                line_tax_amount = (line.tax_rate * line.price_unit * line.quantity) / 100
+                                line_tax_amount = (line.x_product_tax_rate * line.price_unit * line.quantity) / 100
 
                                 total_voucher_tax_amount += line_tax_amount
                             else:
@@ -1025,7 +1024,7 @@ class AccountMoveLine(models.Model):
                 line.product_name = detail_history.product_name
                 line.product_name2 = detail_history.product_name2
                 line.product_uom_id = detail_history.product_uom_id
-                line.tax_rate = detail_history.tax_rate
+                line.x_product_tax_rate = detail_history.tax_rate
                 line.product_standard_price = detail_history.product_standard_price
                 line.invoice_custom_standardnumber = detail_history.invoice_custom_standardnumber
                 line.x_product_cost_price = detail_history.x_product_cost_price
@@ -1132,11 +1131,9 @@ class AccountMoveLine(models.Model):
                                        help="The move of this entry line.")
 
     line_tax_amount = fields.Float('Tax Amount', compute='compute_line_tax_amount')
+    # line_tax_amount = fields.Float('Tax Amount')
 
-    tax_ids = fields.Many2many('account.tax', string='Taxes', help="Taxes that apply on the base amount",
-                               compute='compute_tax_ids')
-
-    tax_rate = fields.Float('Tax Rate', compute='computed_tax_rate')
+    x_product_tax_rate = fields.Float('Tax Rate')
     product_code = fields.Char(string="Product Code")
 
     @api.onchange('product_code')
@@ -1232,16 +1229,6 @@ class AccountMoveLine(models.Model):
         else:
             return 0
 
-    def compute_tax_ids(self):
-        for line in self:
-            line.tax_ids = line.product_id.taxes_id
-
-    @api.depends('tax_ids', 'x_invoicelinetype', 'move_id.x_voucher_tax_transfer',
-                  'move_id.customer_tax_rounding', 'tax_rate')
-    def computed_tax_rate(self):
-        for line in self:
-            line.tax_rate = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
-
     # def _get_computed_taxes(self):
     #     self.ensure_one()
     #     if self.product_id.taxes_id:
@@ -1273,9 +1260,8 @@ class AccountMoveLine(models.Model):
                 and line.product_id.product_tax_category != 'exempt') \
                     or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
                         and line.product_id.product_tax_category == 'foreign'):
-                # total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
-                                                                         line.tax_rate,
+                                                                         line.x_product_tax_rate,
                                                                          line.move_id.customer_tax_rounding,
                                                                          line.x_invoicelinetype)
             else:
@@ -1286,15 +1272,12 @@ class AccountMoveLine(models.Model):
         self.price_unit = self._get_computed_price_unit()
 
     @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype',
-                  'move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding', 'tax_rate')
+                  'move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding', 'x_product_tax_rate')
     def _onchange_price_subtotal(self):
         for line in self:
             if line.exclude_from_invoice_tab == False:
                 self._validate_price_unit()
                 self._validate_discountrate()
-            # print('test detail')
-            # print(line.x_invoicelinetype)
-            # print('end test')
             if line.x_invoicelinetype in ('通常', 'サンプル'):
                 if line.quantity < 0:
                     line.quantity = line.quantity * (-1)
@@ -1315,9 +1298,8 @@ class AccountMoveLine(models.Model):
                 and line.product_id.product_tax_category != 'exempt') \
                     or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
                         and line.product_id.product_tax_category == 'foreign'):
-                # total_line_tax = sum(tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
-                                                                         line.tax_rate,
+                                                                         line.x_product_tax_rate,
                                                                          line.move_id.customer_tax_rounding,
                                                                          line.x_invoicelinetype)
             else:
@@ -1355,30 +1337,10 @@ class AccountMoveLine(models.Model):
             line.product_barcode = line.product_id.barcode
             line.account_id = line._get_computed_account()
 
-            # line.tax_ids = line._get_computed_taxes()
-            # line.tax_ids = line.product_id.taxes_id
-            line.compute_tax_ids()
-            line.computed_tax_rate()
-
             line.product_uom_id = line.product_id.product_uom_custom
-            # line.price_unit = line._get_computed_price_unit()
+            line.x_product_tax_rate = line.product_id.product_tax_rate
             line.product_maker_name = line.product_id.product_maker_name
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
-            # Manage the fiscal position after that and adapt the price_unit.
-            # E.g. mapping a price-included-tax to a price-excluded-tax must
-            # remove the tax amount from the price_unit.
-            # However, mapping a price-included tax to another price-included tax must preserve the balance but
-            # adapt the price_unit to the new tax.
-            # E.g. mapping a 10% price-included tax to a 20% price-included tax for a price_unit of 110 should preserve
-            # 100 as balance but set 120 as price_unit.
-            if line.tax_ids and line.move_id.fiscal_position_id:
-                line.price_unit = line._get_price_total_and_subtotal()['price_subtotal']
-                line.tax_ids = line.move_id.fiscal_position_id.map_tax(line.tax_ids._origin,
-                                                                       partner=line.move_id.partner_id)
-                accounting_vals = line._get_fields_onchange_subtotal(price_subtotal=line.price_unit,
-                                                                     currency=line.move_id.company_currency_id)
-                balance = accounting_vals['debit'] - accounting_vals['credit']
-                line.price_unit = line._get_fields_onchange_balance(balance=balance).get('price_unit', line.price_unit)
 
             # Convert the unit price to the invoice's currency.
             company = line.move_id.company_id
@@ -1393,22 +1355,20 @@ class AccountMoveLine(models.Model):
         #     return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
 
     def _get_computed_price_unit(self):
-        # todo set price follow product code
-        if self.move_id.x_voucher_tax_transfer == 'internal_tax':
-            price_unit = self.product_id.price_include_tax_1
-        # elif self.move_id.x_voucher_tax_transfer in ('voucher', 'invoice'):
-        #     price_unit = self.product_id.price_1
-        elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
-            if self.product_id.product_tax_category == 'foreign':
-                price_unit = self.product_id.price_no_tax_1
-            elif self.product_id.product_tax_category == 'internal':
-                price_unit = self.product_id.price_include_tax_1
-            else:
-                price_unit = self.product_id.price_1
-        else:
-            price_unit = self.product_id.price_no_tax_1
+        # Set price follow product code
+        # if self.move_id.x_voucher_tax_transfer == 'internal_tax':
+        #     price_unit = self.product_id.price_include_tax_1
+        # elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
+        #     if self.product_id.product_tax_category == 'foreign':
+        #         price_unit = self.product_id.price_no_tax_1
+        #     elif self.product_id.product_tax_category == 'internal':
+        #         price_unit = self.product_id.price_include_tax_1
+        #     else:
+        #         price_unit = self.product_id.price_by_setting
+        # else:
+        #     price_unit = self.product_id.price_no_tax_1
 
-        return price_unit
+        return self.product_id.price_by_setting
 
     def button_update(self):
         view = {
