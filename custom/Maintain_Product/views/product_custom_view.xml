@@ -67,6 +67,18 @@
                             </div>
                         </group>
                         <group>
+                            <field name="product_code_4"/>
+                            <field name="price_4"/>
+                            <field name="price_no_tax_4" invisible="True"/>
+                            <field name="price_include_tax_4" invisible="True"/>
+                            <field name="product_code_5"/>
+                            <field name="price_5"/>
+                            <field name="price_no_tax_5" invisible="True"/>
+                            <field name="price_include_tax_5" invisible="True"/>
+                            <field name="product_code_6"/>
+                            <field name="price_6"/>
+                            <field name="price_no_tax_6" invisible="True"/>
+                            <field name="price_include_tax_6" invisible="True"/>
                             <label for="uom_id" string="UOM" invisible="1"/>
                             <div>
                                 <field name="uom_id" widget="many2one_tags" style="width: 100%%" invisible="1"/>
@@ -88,26 +100,14 @@
                                 <field name="taxes_id" widget="many2many_tags" style="width: 100%%" invisible="1"/>
                             </div>
                             <field name="product_tax_rate" style="width: 100%%" string="Tax Rate"/>
-                            <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"
-                                   readonly="True"/>
-                            <field name="product_code_4"/>
-                            <field name="price_4"/>
-                            <field name="price_no_tax_4" invisible="True"/>
-                            <field name="price_include_tax_4" invisible="True"/>
-                            <field name="product_code_5"/>
-                            <field name="price_5"/>
-                            <field name="price_no_tax_5" invisible="True"/>
-                            <field name="price_include_tax_5" invisible="True"/>
-                            <field name="product_code_6"/>
-                            <field name="price_6"/>
-                            <field name="price_no_tax_6" invisible="True"/>
-                            <field name="price_include_tax_6" invisible="True"/>
                             <label for="product_custom_is_discontinued" invisible="True"/>
                             <div>
                                 <field name="product_custom_is_discontinued" widget="boolean_tags"/>
                                 <label for="product_custom_is_discontinued"/>
                             </div>
                             <field name="product_custom_discontinued_at" attrs="{'invisible': [('product_custom_is_discontinued', '=', False)]}"/>
+                            <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"
+                                   readonly="True"/>
                         </group>
                     </group>
                 </form>
