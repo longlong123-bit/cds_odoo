@@ -16,6 +16,7 @@ _logger = logging.getLogger(__name__)
 class ManyPaymentCustom(models.Model):
     _name = "many.payment"
     _rec_name = "payment_date"
+    _order = 'write_date desc'
 
     name = fields.Char(string='新規', default='新規')
     many_payment_line_ids = fields.One2many('account.payment', 'many_payment_id', string='PaymentLine', copy=True,
