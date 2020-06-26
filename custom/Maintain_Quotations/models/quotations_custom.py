@@ -17,6 +17,8 @@ from operator import attrgetter, itemgetter
 _logger = logging.getLogger(__name__)
 
 
+
+
 class QuotationsCustom(models.Model):
     _inherit = "sale.order"
     _order = "quotations_date desc, document_no desc"
@@ -412,6 +414,34 @@ class QuotationsCustom(models.Model):
             default['order_line'] = [(0, 0, line) for line in lines if line]
             self.order_line = default['order_line']
 
+    jp_calendar = fields.Char('jp_calendar', compute='set_jp_calendar')
+
+    def set_jp_calendar(self):
+        ERA_JP = (
+            ("M", "明治"),
+            ("T", "大正"),
+            ("S", "昭和"),
+            ("H", "平成"),
+            ("R", "令和"),
+        )
+        for record in self:
+            if record.quotations_date < datetime.strptime('1912-30-7', '%Y-%d-%m').date():
+                era_year = record.quotations_date.year - 1867
+                era, era_ch = ERA_JP[0]
+            elif record.quotations_date < datetime.strptime('1926-25-12', '%Y-%d-%m').date():
+                era_year = record.quotations_date.year - 1911
+                era, era_ch = ERA_JP[1]
+            elif record.quotations_date < datetime.strptime('1989-8-1', '%Y-%d-%m').date():
+                era_year = record.quotations_date.year - 1925
+                era, era_ch = ERA_JP[2]
+            elif record.quotations_date < datetime.strptime('2019-1-5', '%Y-%d-%m').date():
+                era_year = record.quotations_date.year - 1988
+                era, era_ch = ERA_JP[3]
+            else:
+                era_year = record.quotations_date.year - 2018
+                era, era_ch = ERA_JP[4]
+            jp_c = str(era_year) + str(era_ch) + str(record.quotations_date.month) + '月' + str(record.quotations_date.day) + '日'
+            record.jp_calendar = jp_c
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
