@@ -1357,8 +1357,12 @@ class AccountMoveLine(models.Model):
 
             if line.product_id.setting_price:
                 setting_price = line.product_id.setting_price[5:]
-                line.price_include_tax = line.product_id["price_include_tax_" + setting_price]
-                line.price_no_tax = line.product_id["price_no_tax_" + setting_price]
+                if line.product_id.product_tax_category == 'exempt':
+                    line.price_include_tax = line.price_no_tax = line.product_id["price_" + setting_price]
+                else:
+                    line.price_include_tax = line.product_id["price_include_tax_" + setting_price]
+                    line.price_no_tax = line.product_id["price_no_tax_" + setting_price]
+
             line.price_unit = line._get_computed_price_unit()
 
             # Convert the unit price to the invoice's currency.
@@ -1375,26 +1379,34 @@ class AccountMoveLine(models.Model):
 
     @api.onchange('price_unit')
     def _onchange_price_unit(self):
-        if self.move_id.partner_id.customer_apply_rate == "category":
-            exchange_rate = self.move_id.partner_id.customer_rate /100
+        exchange_rate = 1
+        if self.move_id.partner_id.customer_apply_rate == "customer":
+            if self.move_id.partner_id.customer_rate and self.move_id.partner_id.customer_rate > 0:
+                exchange_rate = self.move_id.partner_id.customer_rate / 100
+        elif self.move_id.partner_id.customer_apply_rate == "category":
+            if self.product_id.product_class_code_lv4 \
+                    and self.product_id.product_class_code_lv4.product_class_rate \
+                    and self.product_id.product_class_code_lv4.product_class_rate > 0:
+                exchange_rate = self.product_id.product_class_code_lv4.product_class_rate / 100
+
+        if self.product_id.product_tax_category == 'exempt':
+            self.price_no_tax = self.price_include_tax = self.price_unit / exchange_rate
         else:
-            exchange_rate = 1
-        if self.move_id.x_voucher_tax_transfer == 'internal_tax':
-            self.price_include_tax = self.price_unit / exchange_rate
-            self.price_no_tax = self.price_unit / (self.tax_rate/100 + 1) / exchange_rate
-        elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
-            if self.product_id.product_tax_category == 'foreign':
-                self.price_no_tax = self.price_unit / exchange_rate
-                self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
-            elif self.product_id.product_tax_category == 'internal':
+            if self.move_id.x_voucher_tax_transfer == 'internal_tax':
                 self.price_include_tax = self.price_unit / exchange_rate
-                self.price_no_tax = self.price_unit / (self.tax_rate / 100 + 1) / exchange_rate
+                self.price_no_tax = self.price_unit / (self.tax_rate/100 + 1) / exchange_rate
+            elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
+                if self.product_id.product_tax_category == 'foreign':
+                    self.price_no_tax = self.price_unit / exchange_rate
+                    self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
+                elif self.product_id.product_tax_category == 'internal':
+                    self.price_include_tax = self.price_unit / exchange_rate
+                    self.price_no_tax = self.price_unit / (self.tax_rate / 100 + 1) / exchange_rate
+                else:
+                    self.price_no_tax = self.price_include_tax = self.price_unit / exchange_rate
             else:
                 self.price_no_tax = self.price_unit / exchange_rate
-                self.price_include_tax = self.price_unit / exchange_rate
-        else:
-            self.price_no_tax = self.price_unit / exchange_rate
-            self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
+                self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
 
 
     def _get_computed_price_unit(self):
@@ -1411,8 +1423,15 @@ class AccountMoveLine(models.Model):
                 price_unit = self.price_no_tax
         else:
             price_unit = self.price_no_tax
-        if self.move_id.partner_id.customer_apply_rate == "category":
-            price_unit = price_unit * self.move_id.partner_id.customer_rate /100
+
+        if self.move_id.partner_id.customer_apply_rate == "customer":
+            if self.move_id.partner_id.customer_rate and self.move_id.partner_id.customer_rate > 0:
+                price_unit = price_unit * self.move_id.partner_id.customer_rate / 100
+        elif self.move_id.partner_id.customer_apply_rate == "category":
+            if self.product_id.product_class_code_lv4 \
+                    and self.product_id.product_class_code_lv4.product_class_rate \
+                    and self.product_id.product_class_code_lv4.product_class_rate > 0:
+                price_unit = price_unit * self.product_id.product_class_code_lv4.product_class_rate / 100
         return price_unit
 
     @api.depends('move_id.x_voucher_tax_transfer')
