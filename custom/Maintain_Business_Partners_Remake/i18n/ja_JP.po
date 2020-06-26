@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-22 08:03+0000\n"
-"PO-Revision-Date: 2020-06-22 08:03+0000\n"
+"POT-Creation-Date: 2020-06-26 06:51+0000\n"
+"PO-Revision-Date: 2020-06-26 06:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -483,6 +483,13 @@ msgid "Print Voucher"
 msgstr "売上伝票印刷"
 
 #. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_partner__customer_quotation_selection
+#: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_res_users__customer_quotation_selection
+#: model_terms:ir.ui.view,arch_db:Maintain_Business_Partners_Remake.partner_custom_template
+msgid "Quotation Select"
+msgstr "見積票選択"
+
+#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields,field_description:Maintain_Business_Partners_Remake.field_relation_partner_model__relate_related_partner
 msgid "Related Partner"
 msgstr "関係取引先"
@@ -688,11 +695,6 @@ msgid "地区コード"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
-#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_select_sales_slip__slip1
-msgid "売上伝票(書式1)"
-msgstr ""
-
-#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note3
 msgid "岡田土建タイプ"
 msgstr ""
@@ -741,6 +743,26 @@ msgid "通常"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_select_sales_slip__slip1
+msgid "通常伝票1"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_select_sales_slip__slip2
+msgid "通常伝票2と3"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_quotation_selection__normal
+msgid "通常見積)"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_quotation_selection__billing
+msgid "通常見積（請求単位）"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_delivery_note__note4
 msgid "銚子信用金庫"
 msgstr ""
@@ -753,6 +775,16 @@ msgid "電話番号"
 msgstr ""
 
 #. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_select_sales_slip__slip3
+msgid "鹿島伝票"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
 #: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_quote__quote3
 msgid "鹿島見積"
+msgstr ""
+
+#. module: Maintain_Business_Partners_Remake
+#: model:ir.model.fields.selection,name:Maintain_Business_Partners_Remake.selection__res_partner__customer_quotation_selection__type2
+msgid "鹿島見積2種"
 msgstr ""
