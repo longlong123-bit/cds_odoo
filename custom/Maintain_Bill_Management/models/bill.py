@@ -15,13 +15,39 @@ class BillingClass(models.Model):
         if advanced_search.val_bill_search_deadline:
             _deadline = datetime.strptime(advanced_search.val_bill_search_deadline, '%Y-%m-%d').date()
 
+        res_partner_ids = self.env["res.partner"].search(
+            ['|', ('customer_code', '=', record.customer_code), ('customer_code_bill', '=', record.customer_code)])
+
+        print(res_partner_ids)
+        print(record.ids)
+
         last_data_bill_info_ids = self.env['bill.info'].search([
-            ('partner_id', 'in', record.ids),
+            ('partner_id', 'in', res_partner_ids.ids),
             # ('closing_date', '<=', _deadline),
         ], order='deadline desc', limit=1)
 
+        print("last_data_bill_info_ids", last_data_bill_info_ids)
+
         if last_data_bill_info_ids:
-            _last_closing_date = last_data_bill_info_ids.deadline
+            _last_closing_date = last_data_bill_info_ids.last_closing_date
+
+            if _last_closing_date:
+                invoice_line_ids = self.env['account.move.line'].search([
+                    ('partner_id', 'in', res_partner_ids.ids),
+                    ('date', '>', _last_closing_date),
+                    ('date', '<=', _deadline),
+                    ('bill_status', '=', 'not yet')
+                ])
+            else:
+                invoice_line_ids = self.env['account.move.line'].search([
+                    ('partner_id', 'in', res_partner_ids.ids),
+                    ('date', '<=', _deadline),
+                    ('bill_status', '=', 'not yet'),
+                    ('account_internal_type', '=', 'other'),
+                ])
+            print("aaaaaaaaaaaaaaaaâ=> ", invoice_line_ids)
+            if len(invoice_line_ids) == 0:
+                _last_closing_date = last_data_bill_info_ids.deadline
 
         closing_date = {
             'last_closing_date': _last_closing_date,
@@ -107,14 +133,28 @@ class BillingClass(models.Model):
             # Set data for department field
             record.department = record.customer_agent.department_id.id
 
+            # if record.last_closing_date:
+            #     invoice_line_ids = self.env['account.move.line'].search([
+            #         ('partner_id', 'in', record.ids),
+            #         ('date', '>', record.last_closing_date),
+            #         ('date', '<=', record.deadline),
+            #         ('bill_status', '=', 'not yet')
+            #     ])
+            # else:
+            #     invoice_line_ids = self.env['account.move.line'].search([
+            #         ('partner_id', 'in', record.ids),
+            #         ('date', '<=', record.deadline),
+            #         ('bill_status', '=', 'not yet'),
+            #         ('account_internal_type', '=', 'other'),
+            #     ])
+
             # Compute data for last_billed_amount field
             bill_info_ids = self.env['bill.info'].search([('billing_code', '=', record.customer_code),
-                                                          ('closing_date', '=', record.last_closing_date),
-                                                          ('closing_date', '<=', record.deadline),
-                                                          ('active_flag', '=', True)], limit=1)
+                                                          ('deadline', '<=', record.last_closing_date),
+                                                          ('active_flag', '=', True)])
 
-            if bill_info_ids:
-                _last_billed_amount = bill_info_ids.billed_amount
+            for bill in bill_info_ids:
+                _last_billed_amount = _last_billed_amount + bill.billed_amount
 
             # Compute data for deposit_amount field
             if record.last_closing_date:
@@ -316,13 +356,6 @@ class BillingClass(models.Model):
                     _sum_amount_tax_cashed = _sum_amount_tax_cashed + invoice.amount_tax
                     _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
 
-            bill_info_ids = self.env['bill.info'].search([('billing_code', '=', rec['customer_code']),
-                                                          ('closing_date', '=', rec['last_closing_date']),
-                                                          ('active_flag', '=', True)])
-            _last_billed_amount = 0
-            if bill_info_ids:
-                _last_billed_amount = bill_info_ids.billed_amount
-
             payment_ids = self.env['account.payment'].search([
                 ('partner_id', 'in', res_partner_id.ids),
                 ('payment_date', '>', rec['last_closing_date']),
@@ -331,16 +364,9 @@ class BillingClass(models.Model):
                 ('bill_status', '!=', 'billed'),
             ])
 
-            _deposit_amount = 0
-            for payment_id in payment_ids:
-                if payment_id.payment_amount:
-                    _deposit_amount = _deposit_amount + payment_id.payment_amount
-
             payment_ids.write({
                 'bill_status': 'billed'
             })
-
-            _balance_amount = _last_billed_amount - _deposit_amount
 
             _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
 
@@ -439,9 +465,17 @@ class BillingClass(models.Model):
             ('id', 'in', invoice_line_ids.move_id.ids),
             ('billing_place_id', '=', self.id),
         ])
-        invoice_ids.write({
-            'bill_status': 'billed'
-        })
+
+        for invoice in invoice_ids:
+            is_billed_invoice = True
+            for line in invoice.invoice_line_ids:
+                if line.bill_status == 'not yet':
+                    is_billed_invoice = False
+                    break
+            if is_billed_invoice:
+                invoice.write({
+                    'bill_status': 'billed'
+                })
 
         res_partner_id = self.env["res.partner"].search(
             ['|', ('customer_code', '=', self.customer_code),
@@ -497,7 +531,7 @@ class BillingClass(models.Model):
 
         bill_info_ids = self.env['bill.info'].search([('billing_code', '=', self.customer_code),
                                                       ('closing_date', '=', self.last_closing_date),
-                                                      ('active_flag', '=', True)])
+                                                      ('active_flag', '=', True)], order='deadline desc', limit=1)
         _last_billed_amount = 0
         if bill_info_ids:
             _last_billed_amount = bill_info_ids.billed_amount
