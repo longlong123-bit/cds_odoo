@@ -161,8 +161,10 @@
                             <td class="col-field"><field name="customer_phone"/></td>
                             <td class="col-label"><label for="customer_fax" string="Fax"/></td>
                             <td class="col-field"><field name="customer_fax"/></td>
-                            <td class="col-label"><label for="customer_other_cd" string="Customer CD"/></td>
-                            <td class="col-field"><field name="customer_other_cd"/></td>
+
+                            <td class="col-label"><label for="customer_quotation_selection" string="Quotation Select"/></td>
+                            <td class="col-field"><field name="customer_quotation_selection"/></td>
+
                             <td></td>
                             <td class="col-checkbox"><field name="customer_print_sales_slip_date"/><label for="customer_print_sales_slip_date" string="Print Sales Slip Date"/></td>
                         </tr>
@@ -173,8 +175,10 @@
                             <td class="col-field"><field name="customer_state" options="{'no_quick_create': True}"/></td>
                             <td></td>
                             <td></td>
-                            <td class="col-label"><label for="customer_comment" string="Comment"/></td>
-                            <td colspan="3"><field name="customer_comment"/></td>
+                            <td class="col-label"><label for="customer_other_cd" string="Customer CD"/></td>
+                            <td class="col-field"><field name="customer_other_cd"/></td>
+                            <td></td>
+                            <td class="col-checkbox"><field name="active"/><label for="active" string="Active"/></td>
                         </tr>
 
                         <!-- Row 12 -->
@@ -183,8 +187,8 @@
                             <td class="col-field"><field name="customer_supplier_group_code" required="1" options='{"no_quick_create": True}'/></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td class="col-checkbox"><field name="active"/><label for="active" string="Active"/></td>
+                            <td class="col-label"><label for="customer_comment" string="Comment"/></td>
+                            <td colspan="3"><field name="customer_comment"/></td>
 <!--                            <td class="col-checkbox"><field name="customer_select_sales_slip"/><label for="customer_select_sales_slip" string="Sales Slip"/></td>-->
                         </tr>
 
