@@ -82,6 +82,12 @@ odoo.define('Maintain_Widget_Relation_Field.button_field', function(require){
                 }
 
                 self.$modal.find('.modal-dialog').addClass('modal-widget');
+                var cls = self.getParent().attrs.class;
+
+                if (cls) {
+                    self.$modal.addClass(cls);
+                }
+
                 self.$modal.on('hidden.bs.modal', _.bind(self.destroy, self));
             });
         },
@@ -268,15 +274,16 @@ odoo.define('Maintain_Widget_Relation_Field.button_field', function(require){
     var Widget = AbstractField.extend({
         template : "button_field",
 
-        events : {
+        events : _.extend({}, AbstractField.prototype.events, {
             'click .o_button_field': '_onClickButton'
-        },
+        }),
 
         /**
          * @override
          */
         init: function () {
             this._super.apply(this, arguments);
+            this.recordParams = {fieldName: this.name, viewType: this.viewType};
         },
 
         /**
@@ -319,17 +326,18 @@ odoo.define('Maintain_Widget_Relation_Field.button_field', function(require){
         _openDialogSearch: function(){
             // get current context (language, param,...)
             var context = this.record.getContext(this.recordParams);
+            var domain = this.record.getDomain(this.recordParams);
             var options = this._getWidgetOptions();
-
 
             // new dialog and show
             new SelectCreateDialog(this, {
                     no_create: true,
                     readonly: true,
                     res_model: options.model,
-                    domain: null,
+                    domain: domain,
                     view_type:'list',
                     context: context,
+                    disable_multiple_selection: true
                 }).open();
         }
     });

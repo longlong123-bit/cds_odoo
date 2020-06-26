@@ -71,7 +71,7 @@ class QuotationsCustom(models.Model):
     partner_name = fields.Char(string='Partner Name')
     partner_name_2 = fields.Char(string='Partner Name 2', related='partner_id.customer_name_2')
     # minhnt add
-    quotation_calendar = fields.Selection([('japan', '和暦'), ('origin', '西暦')], string='Calendar')
+    quotation_calendar = fields.Selection([('japan', '和暦'), ('origin', '西暦')], string='Calendar', default='origin')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, default=lambda self: self.env.uid,
                                 states={'draft': [('readonly', False)]}, )
     related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
@@ -85,7 +85,7 @@ class QuotationsCustom(models.Model):
     # ], string='Report Header', readonly=False, default='quotation')
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
     paper_format = fields.Selection([
-        ('delivery', '納品書'), ('quotation1', '見積り１'), ('quotation2', '見積り2')
+        ('delivery', '納品書'), ('quotation', '見積書')
     ], string='Pager format', default='delivery')
 
     # related_product_name = fields.Char(related='order_line.product.product_code_1')
@@ -150,6 +150,13 @@ class QuotationsCustom(models.Model):
                 }))
 
             self.order_line = lines
+
+    @api.constrains('quotations_date', 'order_line', 'partner_id', 'document_no')
+    def _change_date_invoiced(self):
+        for line in self.order_line:
+            line.quotation_date = self.quotations_date
+            line.partner_id = self.partner_id
+            line.document_no = self.document_no
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
@@ -418,6 +425,11 @@ class QuotationsLinesCustom(models.Model):
     product_uom = fields.Many2one(string='Product UOM')
     price_unit = fields.Float(string='Price Unit')
     description = fields.Text(string='Description')
+
+    partner_id = fields.Many2one(string='Business Partner')
+    customer_name = fields.Char(string="Customer Name")
+    quotation_date = fields.Date(string='Quotation Date')
+    document_no = fields.Char(string='Document No')
 
     class_item = fields.Selection([
         ('通常', '通常'),
