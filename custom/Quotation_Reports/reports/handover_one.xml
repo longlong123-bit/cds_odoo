@@ -46,7 +46,7 @@
                                                   t-field="o.partner_id"><null/></span>
                                         </div>
                                         <div style="margin-top: 10px;">
-                                            <t t-if="o.is_print_date and o.quotations_date">f
+                                            <t t-if="o.is_print_date and o.quotations_date">
                                                 <span t-field="o.quotations_date"
                                                       t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
                                             </t>
@@ -229,7 +229,7 @@
                                                   t-field="o.partner_id"><null/></span>
                                         </div>
                                         <div style="margin-top: 10px;">
-                                            <t t-if="o.is_print_date and o.quotations_date">f
+                                            <t t-if="o.is_print_date and o.quotations_date">
                                                 <span t-field="o.quotations_date"
                                                       t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
                                             </t>

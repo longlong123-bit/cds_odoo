@@ -2,6 +2,15 @@
 <odoo>
     <data>
         <report
+                id="quotation_report"
+                model="sale.order"
+                string="Quotation Report"
+                report_type="qweb-html"
+                attachment_use="False"
+                name="Quotation_Reports.quotation_report"
+                file="Quotation_Reports.quotation_report"
+        />
+        <report
                 id="normal_report_1_in_1"
                 model="sale.order"
                 string="Quotation Report One"

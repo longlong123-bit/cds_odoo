@@ -1,6 +1,4 @@
 from odoo import models, fields
-from __future__ import unicode_literals
-from six import PY2, text_type
 from datetime import datetime
 
 # from erajp.converter import strjpftime
@@ -18,48 +16,8 @@ ERA_JP = (
 class PrintSale(models.Model):
     _inherit = 'sale.order'
 
-    def strjpftime(time=datetime.datetime.today(), format="%o%E.%m.%d"):
-        """
-        Convert to Japanese era
-        :param time:
-        :param format: strftime format
-            New available here
-                - %o : alphabet era
-                - %O : Chinese character era
-                - %E : era year
-        :return:
-        """
-        era_year, era, era_ch = None, None, None
-
-        if time < datetime.datetime(1912, 7, 30):
-            era_year = time.year - 1867
-            era, era_ch = ERA_JP[0]
-        elif time < datetime.datetime(1926, 12, 25):
-            era_year = time.year - 1911
-            era, era_ch = ERA_JP[1]
-        elif time < datetime.datetime(1989, 1, 8):
-            era_year = time.year - 1925
-            era, era_ch = ERA_JP[2]
-        else:
-            era_year = time.year - 1988
-            era, era_ch = ERA_JP[3]
-        if era_year == 1 and format.find("%O") > -1:
-            era_year = "元"
-        else:
-            era_year = text_type(era_year)
-
-        format = format.replace("%o", era).replace("%O", era_ch).replace("%E", era_year)
-        if PY2:
-            strttime = time.strftime(format.encode("utf-8")).decode("utf-8")
-        else:
-            strttime = time.strftime(format)
-        return strttime
-
     # Preview report
     def preview_report(self):
-
-        # print(strjpftime(datetime.datetime(1989, 1, 8), u"%O%E年"))
-
         return {
             'type': 'ir.actions.report',
             'report_name': 'Quotation_Reports.handover_one',
