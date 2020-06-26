@@ -9,12 +9,12 @@
                     <button class="o_button_line" string="" icon="fa-toggle-right" name="get_detail"/>
                     <field name="bill_no"/>
                     <field name="last_closing_date"/>
-                    <field name="last_billed_amount" sum="Total" widget="monetary"/>
-                    <field name="deposit_amount" sum="Total" widget="monetary"/>
-                    <field name="balance_amount" sum="Total" widget="monetary"/>
-                    <field name="amount_untaxed" sum="Total" widget="monetary"/>
+                    <field name="last_billed_amount"/>
+                    <field name="deposit_amount"/>
+                    <field name="balance_amount"/>
+                    <field name="amount_untaxed"/>
                     <field name="tax_amount"/>
-                    <field name="amount_total" sum="Total" widget="monetary"/>
+                    <field name="amount_total"/>
                     <field name="customer_other_cd"/>
                     <field name="invoices_number"/>
                     <field name="search_x_studio_document_no" invisible="1"/>
