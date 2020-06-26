@@ -102,7 +102,7 @@ class NewClassPartnerCustom(models.Model):
     # 売上伝票印刷
     customer_print_voucher = fields.Boolean('Print Voucher', default=True)
     # 売上伝票選択
-    customer_select_sales_slip = fields.Selection([('slip1', '売上伝票(書式1)')], 'Sales Slip', default="slip1")
+    customer_select_sales_slip = fields.Selection([('slip1', '通常伝票1'), ('slip2', '通常伝票2と3'), ('slip3', '鹿島伝票')], 'Sales Slip', default="slip1")
     # 納品書選択
     customer_delivery_note = fields.Selection([('note1', '通常'), ('note2', 'ヤマサタイプ'),('note3','岡田土建タイプ'),('note4','銚子信用金庫')], 'Delivery Note',
                                               default="note1")
@@ -111,7 +111,7 @@ class NewClassPartnerCustom(models.Model):
     # 請求書印刷
     customer_print_invoice = fields.Boolean('Print Invoice', default=True)
     # 請求書選択
-    customer_select_invoice = fields.Selection([('form1', '請求書(書式1)'), ('note2', '請求書(書式2)')], 'Select Invoice',
+    customer_select_invoice = fields.Selection([('form1', '通常請求書'), ('form2', 'ヤマサ請求'), ('form3', '適用付請求'), ('form4', '当月請求書')], 'Select Invoice',
                                                default="form1")
     # 請求書日付印刷
     customer_print_invoice_date = fields.Boolean('Print Invoice Date', default=True)
@@ -125,7 +125,9 @@ class NewClassPartnerCustom(models.Model):
         ('quote2', '神栖営業所用'),
         ('quote3', '鹿島見積')], 'Select Quote',
         default="quote1")
-
+    # 見積票選択
+    customer_quotation_selection = fields.Selection([('normal', '通常見積'), ('billing', '通常見積（請求単位）'),  ('type2', '鹿島見積2種')],
+                                               string='Quotation Select', default='normal')
     _sql_constraints = [
         ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
     ]
