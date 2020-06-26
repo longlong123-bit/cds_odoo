@@ -88,6 +88,7 @@
                             <tr>
                                 <td class="o_td_label"><label for="partner_name_2" string="Partner Name 2"/></td>
                                 <td colspan="2"><field name="partner_name_2"/></td>
+                                <td><field name="related_partner_code" invisible="1"/></td>
 
                                 <td class="o_td_label"><label for="report_header" string="Report Title*" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>
                                 <td><field name="report_header"
@@ -98,8 +99,8 @@
 
                             <!-- Row 4 -->
                             <tr>
-                                <td class="o_td_label"><label for="name" string="Name*"/></td>
-                                <td colspan="2"><field name="name" required="True"/></td>
+                                <td class="o_td_label"><label for="quotation_name" string="Name"/></td>
+                                <td colspan="2"><field name="quotation_name" required="False"/></td>
 
 
                                 <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation*"/></td>
@@ -281,12 +282,14 @@
                 <field name="document_no"/>
                 <field name="document_reference"/>
                 <field name="partner_name"/>
-                <field name="name"/>
+                <field name="related_partner_code"/>
+                <field name="quotation_name"/>
                 <field name="amount_untaxed"/>
                 <field name="amount_tax"/>
                 <field name="tax_method"/>
                 <field name="message_needaction" invisible="1"/>
                 <field name="state" invisible="1" optional="show"/>
+                <field name="sales_rep"/>
             </tree>
         </field>
     </record>
@@ -301,10 +304,12 @@
                 <field name="document_no"/>
                 <field name="document_reference"/>
                 <field name="partner_name"/>
-                <field name="name"/>
+                <field name="related_partner_code"/>
+                <field name="quotation_name"/>
                 <field name="amount_untaxed"/>
                 <field name="amount_tax"/>
                 <field name="tax_method"/>
+                <filter name="sales_rep" domain="[('sales_rep','=',uid)]"/>
             </search>
         </field>
     </record>
@@ -331,7 +336,7 @@
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="view_id" ref="view_quotations_custom_tree"/>
-        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true','search_default_sales_rep': 1}</field>
         <field name="search_view_id" ref="product_custom_template_search_view"/>
     </record>
 
