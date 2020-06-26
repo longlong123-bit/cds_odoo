@@ -111,7 +111,7 @@ class NewClassPartnerCustom(models.Model):
     # 請求書印刷
     customer_print_invoice = fields.Boolean('Print Invoice', default=True)
     # 請求書選択
-    customer_select_invoice = fields.Selection([('form1', '請求書(書式1)'), ('note2', '請求書(書式2)')], 'Select Invoice',
+    customer_select_invoice = fields.Selection([('form1', '通常請求書'), ('form2', 'ヤマサ請求'), ('form3', '適用付請求'), ('form4', '当月請求書')], 'Select Invoice',
                                                default="form1")
     # 請求書日付印刷
     customer_print_invoice_date = fields.Boolean('Print Invoice Date', default=True)
