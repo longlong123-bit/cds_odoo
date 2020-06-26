@@ -2,6 +2,7 @@ from odoo import models, fields
 from __future__ import unicode_literals
 from six import PY2, text_type
 from datetime import datetime
+
 # from erajp.converter import strjpftime
 
 
@@ -46,15 +47,13 @@ class PrintSale(models.Model):
             era_year = "元"
         else:
             era_year = text_type(era_year)
-            
+
         format = format.replace("%o", era).replace("%O", era_ch).replace("%E", era_year)
         if PY2:
             strttime = time.strftime(format.encode("utf-8")).decode("utf-8")
         else:
             strttime = time.strftime(format)
         return strttime
-
-
 
     # Preview report
     def preview_report(self):
