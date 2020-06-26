@@ -4,7 +4,7 @@
         <template id="quotation_report_two">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <div class="page" style="page-break-after: always;">
+                    <div class="page" style="page-break-before: always;">
                         <t t-call="Quotation_Reports.quotation_report_two_template" t-lang="lang"/>
                     </div>
                 </t>
@@ -20,7 +20,7 @@
                 <t t-foreach="o.order_line" t-as="ll">
                     <t t-set="line_one_one" t-value="15"/>
                     <t t-if="ll.id>line_one_one_id">
-                        <div>
+                        <div class="page" style="page-break-before: always; font-family: メイリオ; font-size: 14px">
                             <div>
                                 <div style="text-align: center;">
                                     <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
@@ -72,6 +72,7 @@
                                     </div>
                                     <div style=" display: inline-block; width: 100%; margin-top: 20px; margin-bottom: 20px;">
                                         <div style="font-sze: 14px; float: left; display: inline-block;border-bottom: 1px solid;font-size: 18px;">
+                                            <t t-if="pager==1">
                                             <span style="">合計金額　</span>
                                             <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; width: 168px; overflow: hidden; white-space: nowrap;"
@@ -82,7 +83,7 @@
                                                       t-field="o.amount_total"></span>
                                             </t>
                                             <span>(税込)</span>
-
+                                            </t>
                                         </div>
                                         <div style="float: right; font-size: 18px;">
                                             <span style="display: inline-block; width: 286px; overflow: hidden; white-space: nowrap;"

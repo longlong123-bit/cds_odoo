@@ -9,7 +9,7 @@
             </t>
         </template>
         <template id="normal_report_template_1_in_1">
-            <div class="page" style="page-break-after: always; font-family: メイリオ; font-size: 14px">
+            <div class="page" style="page-break-before: always; font-family: メイリオ; font-size: 14px">
                 <t t-set="o" t-value="o.with_context(lang=lang)"/>
                 <t t-set="line_one_one_parent" t-value="o.order_line"/>
                 <t t-set="line_one_one_id" t-value="0"/>
@@ -17,7 +17,7 @@
                 <t t-foreach="o.order_line" t-as="ll">
                     <t t-set="line_one_one" t-value="15"/>
                     <t t-if="ll.id>line_one_one_id">
-                        <div style="display: block; page-break-after: always;">
+                        <div style="display: block; page-break-before: always;">
                             <div>
                                 <div style="text-align: center;">
                                     <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
@@ -70,17 +70,19 @@
                                         </div>
                                     </div>
                                     <div style=" display: inline-block; width: 100%; margin-top: 20px; margin-bottom: 20px;">
-                                        <div style="font-size: 18px;border-bottom: 1px solid; float: left; display: inline-block;">
-                                            <span style="">合計金額　</span>
-                                            <t t-if="tax_method == 'invoice'">
-                                                <span style="display: inline-block; width: 168px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.amount_untaxed"></span>
+                                        <div style="font-size: 18px;border-bottom: 1px solid; float: left; display: inline-block;"><null/>
+                                            <t t-if="pager==1">
+                                                <span style="">合計金額　</span>
+                                                <t t-if="tax_method == 'invoice'">
+                                                    <span style="display: inline-block; width: 168px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.amount_untaxed"></span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span style="display: inline-block; width: 168px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.amount_total"></span>
+                                                </t>
+                                                <span>(税込)</span>
                                             </t>
-                                            <t t-else="">
-                                                <span style="display: inline-block; width: 168px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.amount_total"></span>
-                                            </t>
-                                            <span>(税込)</span>
                                         </div>
                                         <div style="float: right; font-size: 18px">
                                             <span style="display: inline-block; width: 286px; overflow: hidden; white-space: nowrap;"
