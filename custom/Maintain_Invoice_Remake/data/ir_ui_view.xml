@@ -116,8 +116,8 @@
         </xpath>
 
         <xpath expr="//form/header/button[@name='action_reverse']"  position="after">
-          <field name="trigger_quotation_history"  widget="Maintain_Quotation_History.Order" z-index="92" attrs="{'invisible':[('state','in',['posted'])]}"/>
-          <field name="x_history_voucher" widget="Maintain_Sale_History.Voucher" z-index="92" attrs="{'invisible':[('state','in',['posted'])]}"/>
+          <field name="trigger_quotation_history" widget="button_field" z-index="92" options='{"model":"sale.order", "text":"見積履歴問合せ"}' attrs="{'invisible':[('state','in',['posted'])]}"/>
+          <field name="x_history_voucher" widget="button_field" z-index="92" options='{"model":"account.move", "text":"売上履歴問合せ"}' attrs="{'invisible':[('state','in',['posted'])]}"/>
         </xpath>
 
 <!--        <xpath expr="//header" position="inside">-->
@@ -300,7 +300,7 @@
                 <button name="button_update" type="object"
                   style="background : url('/web/static/src/img/form-toolbar/EditRecord16.png') no-repeat center;background-size:contain;background-color: transparent; display: inline-block; margin-left: 1px; margin-right: 1px; width: 16px; height: 16px; padding: 1px;border: none;" >
                 </button>
-                <field name="x_history_detail" style="display:none" domain="[('exclude_from_invoice_tab', '=', False)]" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
+                <field name="x_history_detail" style="display:none" domain="[('exclude_from_invoice_tab', '=', False)]" position="attributes"  widget="button_field" options='{"model":"account.move.line", "sort_cut": true, "text":"売上履歴問合せ"}' context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
 		        <field name="invoice_custom_line_no" required="True"/>
                 <field name="x_invoicelinetype" required="True" string="内訳区分"/>
 <!--                <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>-->
@@ -320,7 +320,7 @@
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="product_uom_id" string="UoM" style="text-align:right; justify-content: flex-end;"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
-                <field name="price_unit" string="Price"
+                <field name="price_unit" string="Price" readonly="0"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="invoice_custom_lineamount"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
@@ -360,6 +360,8 @@
                 <field name="exclude_from_invoice_tab" invisible="1"/>
                 <field name="account_internal_type" invisible="1"/>
                 <field name="always_set_currency_id" invisible="1"/>
+                <field name="price_no_tax" invisible="1"/>
+                <field name="price_include_tax" invisible="1"/>
             </tree>
         </xpath>
         <xpath expr = "//field[@name='line_ids']/tree/field[@name='account_id']" position = "before" >
@@ -377,9 +379,11 @@
             <field name="invoice_custom_lineamount"/>
             <field name="product_standard_price"/>
             <field name="x_product_cost_price"/>
-            <field name="x_history_detail" domain="[('exclude_from_invoice_tab', '=', False)]" invisible="1" position="attributes"  widget="Maintain_Sale_History.Detail" context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
+            <field name="x_history_detail" domain="[('exclude_from_invoice_tab', '=', False)]" invisible="1" position="attributes" widget="button_field" options='{"model":"account.move.line", "text":"売上履歴問合せ"}' context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
             <field name="invoice_custom_Description"/>
             <field name="tax_rate"/>
+            <field name="price_no_tax"/>
+            <field name="price_include_tax"/>
         </xpath>
         <xpath expr="//field[@name='line_ids']" poisition="attributes">
 		    <attribute name="context">{'default_line_ids': line_ids, 'default_move_id': id,'line_ids': line_ids, 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id != company_currency_id and currency_id or False}</attribute>

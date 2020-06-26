@@ -88,11 +88,12 @@
                                 <field name="product_uom_custom" style="width: 100%%"/>
                             </div>
                             <field name="setting_price"/>
-                            <div style="text-align: right; margin-right: -5px"><label for="standard_price" string="Standard Price"/></div>
-                            <div style="display: flex; padding: 0px 36px 0px 7px;">
-                                <field name="standard_price"/>
-                                <div style="margin-left: 5px"><field name="refer_standard_price" widget="Maintain_Product.Price"/></div>
-                            </div>
+                            <field name="standard_price"/>
+<!--                            <div style="text-align: right; margin-right: -5px"><label for="standard_price" string="Standard Price"/></div>-->
+<!--                            <div style="display: flex; padding: 0px 36px 0px 7px;">-->
+<!--                                <field name="standard_price"/>-->
+<!--                                <div style="margin-left: 5px"><field name="refer_standard_price" widget="button_field" options='{"model":"account.move.line","text":"売上単価選択"}'/></div>-->
+<!--                            </div>-->
                             <field name="cost"/>
                             <field name="product_tax_category" required="True"/>
                             <label for="taxes_id" string='Tax Category*' invisible="1"/>

@@ -11,7 +11,7 @@
 <!--                        <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>-->
 <!--                        <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '=', 'draft')]}" string="Reset To Draft" type="object"/>-->
 <!--                        <button name="cancel" states="draft" string="Cancel" type="object"/>-->
-                        <field name="history_payment" widget="Maintain_Billing_History.Order" z-index="92"/>
+                        <field name="history_payment" widget="button_field" options='{"model":"bill.info", "text":"請求履歴照会"}' z-index="92"/>
                     </header>
                     <table class="custom-form-table cols-8">
                         <tbody>

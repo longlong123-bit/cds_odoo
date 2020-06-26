@@ -19,8 +19,7 @@ _logger = logging.getLogger(__name__)
 
 class QuotationsCustom(models.Model):
     _inherit = "sale.order"
-    # _rec_name = 'document_no'
-    _order = 'document_no'
+    _order = "quotations_date desc, document_no desc"
 
     def get_order_lines(self):
         return len(self.order_line)
@@ -31,6 +30,7 @@ class QuotationsCustom(models.Model):
         return next
 
     name = fields.Char(string='Name', default=None)
+    quotation_name = fields.Char(string='Name', default=None)
     shipping_address = fields.Char(string='Shipping Address')
     expected_date = fields.Text(string='Expected Date')
     note = fields.Text(string='Note')
@@ -67,7 +67,7 @@ class QuotationsCustom(models.Model):
     quotations_date = fields.Date(string='Quotations Date', default=fields.Date.today())
     order_id = fields.Many2one('sale.order', string='Order', store=False)
     partner_id = fields.Many2one(string='Business Partner')
-    related_partner_code = fields.Char('Partner Code')
+    related_partner_code = fields.Char('Partner Code', related='partner_id.customer_code')
     partner_name = fields.Char(string='Partner Name')
     partner_name_2 = fields.Char(string='Partner Name 2', related='partner_id.customer_name_2')
     # minhnt add

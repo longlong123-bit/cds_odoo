@@ -1113,7 +1113,7 @@ class AccountMoveLine(models.Model):
     invoice_custom_Description = fields.Text('Description')
     # product_maker_name = fields.Many2one('freight.category.custom', string='Maker Code')
     product_maker_name = fields.Char(string='Maker Name')
-    price_unit = fields.Float(string='Unit Price', digits='Product Price')
+    price_unit = fields.Float(string='Unit Price', digits='Product Price', compute="compute_price_unit", store="True")
     quantity = fields.Float(string='Quantity', digits='(12,0)',
                             default=1.0,
                             help="The optional quantity expressed by this line, eg: number of product sold. "
@@ -1136,6 +1136,9 @@ class AccountMoveLine(models.Model):
 
     tax_rate = fields.Float('Tax Rate')
     product_code = fields.Char(string="Product Code")
+
+    price_no_tax = fields.Float('Price No Tax')
+    price_include_tax = fields.Float('Price Include Tax')
 
     @api.onchange('product_code')
     def _onchange_product_code(self):
@@ -1305,6 +1308,7 @@ class AccountMoveLine(models.Model):
                                                                          line.x_invoicelinetype)
             else:
                 line.line_tax_amount = 0
+            line._onchange_price_unit()
 
     def _get_computed_freigth_category(self):
         self.ensure_one()
@@ -1343,6 +1347,12 @@ class AccountMoveLine(models.Model):
             line.product_maker_name = line.product_id.product_maker_name
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
 
+            if line.product_id.setting_price:
+                setting_price = line.product_id.setting_price[5:]
+                line.price_include_tax = line.product_id["price_include_tax_" + setting_price]
+                line.price_no_tax = line.product_id["price_no_tax_" + setting_price]
+            line.price_unit = line._get_computed_price_unit()
+
             # Convert the unit price to the invoice's currency.
             company = line.move_id.company_id
             # line.price_unit = company.currency_id._convert(line.price_unit, line.move_id.currency_id, company,
@@ -1355,21 +1365,52 @@ class AccountMoveLine(models.Model):
         # if len(self) == 1:
         #     return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
 
+    @api.onchange('price_unit')
+    def _onchange_price_unit(self):
+        if self.move_id.partner_id.customer_apply_rate == "category":
+            exchange_rate = self.move_id.partner_id.customer_rate /100
+        else:
+            exchange_rate = 1
+        if self.move_id.x_voucher_tax_transfer == 'internal_tax':
+            self.price_include_tax = self.price_unit / exchange_rate
+            self.price_no_tax = self.price_unit / (self.tax_rate/100 + 1) / exchange_rate
+        elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
+            if self.product_id.product_tax_category == 'foreign':
+                self.price_no_tax = self.price_unit / exchange_rate
+                self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
+            elif self.product_id.product_tax_category == 'internal':
+                self.price_include_tax = self.price_unit / exchange_rate
+                self.price_no_tax = self.price_unit / (self.tax_rate / 100 + 1) / exchange_rate
+            else:
+                self.price_no_tax = self.price_unit / exchange_rate
+                self.price_include_tax = self.price_unit / exchange_rate
+        else:
+            self.price_no_tax = self.price_unit / exchange_rate
+            self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
+
+
     def _get_computed_price_unit(self):
         # Set price follow product code
-        # if self.move_id.x_voucher_tax_transfer == 'internal_tax':
-        #     price_unit = self.product_id.price_include_tax_1
-        # elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
-        #     if self.product_id.product_tax_category == 'foreign':
-        #         price_unit = self.product_id.price_no_tax_1
-        #     elif self.product_id.product_tax_category == 'internal':
-        #         price_unit = self.product_id.price_include_tax_1
-        #     else:
-        #         price_unit = self.product_id.price_by_setting
-        # else:
-        #     price_unit = self.product_id.price_no_tax_1
+        price_unit = 0
+        if self.move_id.x_voucher_tax_transfer == 'internal_tax':
+            price_unit = self.price_include_tax
+        elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
+            if self.product_id.product_tax_category == 'foreign':
+                price_unit = self.price_no_tax
+            elif self.product_id.product_tax_category == 'internal':
+                price_unit = self.price_include_tax
+            else:
+                price_unit = self.price_no_tax
+        else:
+            price_unit = self.price_no_tax
+        if self.move_id.partner_id.customer_apply_rate == "category":
+            price_unit = price_unit * self.move_id.partner_id.customer_rate /100
+        return price_unit
 
-        return self.product_id.price_by_setting
+    @api.depends('move_id.x_voucher_tax_transfer')
+    def compute_price_unit(self):
+        for line in self:
+            line.price_unit = line._get_computed_price_unit()
 
     def button_update(self):
         view = {
