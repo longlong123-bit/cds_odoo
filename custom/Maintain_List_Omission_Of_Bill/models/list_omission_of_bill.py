@@ -65,12 +65,16 @@ class ListOmissionOfBill(models.Model):
     id_voucher = fields.Integer('Id Voucher')
     # 締日
     start_day = fields.Integer('Closing Day')
+    closing_date_name = fields.Char('Closing Date Name')
     # 事業部
     department_id = fields.Integer('Division')
+    department_name = fields.Char('Division Name')
     # 営業担当者
     sales_rep = fields.Integer('Sales Representative')
+    sales_rep_name = fields.Char('Sales Representative Name')
     # 取引先グループ
     customer_supplier_group_code = fields.Integer('Customer Supplier Group Code')
+    customer_supplier_group_name = fields.Char('Customer Supplier Group Name')
     # 請求先
     customer_code_bill = fields.Char('Customer Code Bill')
 
@@ -84,11 +88,14 @@ class ListOmissionOfBill(models.Model):
     # 営業担当者
     input_sales_rep = fields.Char('Sales Representative', compute='_compute_fields', default='', store=False)
     # 取引先グループ
-    input_customer_supplier_group_code = fields.Char('Customer Supplier Group Code', compute='_compute_fields', default='', store=False)
+    input_customer_supplier_group_code = fields.Char('Customer Supplier Group Code', compute='_compute_fields',
+                                                     default='', store=False)
     # 請求先From
-    input_customer_code_bill_from = fields.Char('Customer Code Bill From', compute='_compute_fields', default='', store=False)
+    input_customer_code_bill_from = fields.Char('Customer Code Bill From', compute='_compute_fields', default='',
+                                                store=False)
     # 請求先To
-    input_customer_code_bill_to = fields.Char('Customer Code Bill To', compute='_compute_fields', default='', store=False)
+    input_customer_code_bill_to = fields.Char('Customer Code Bill To', compute='_compute_fields', default='',
+                                              store=False)
     # 発行形式
     input_issue_format = fields.Char('Issue Format', compute='_compute_fields', default='0', store=False)
     input_issue_format_str = fields.Char('Issue Format String', compute='_compute_fields', default='伝票単位', store=False)
@@ -102,14 +109,14 @@ class ListOmissionOfBill(models.Model):
                     SELECT
                     row_number() OVER(PARTITION BY account_move_line.move_id ORDER BY account_move_line.move_id) AS id_voucher,
                     account_move.x_studio_date_invoiced AS sales_date, -- 売上日付
-                    account_move."invoice_document_no_custom" AS invoice_no, -- 伝票Ｎｏ
+                    account_move.x_studio_document_no AS invoice_no, -- 伝票Ｎｏ
                     res_partner.NAME AS customer_name, -- 得意先名
                     sum( account_move.amount_untaxed ) AS amount_untaxed, -- 伝票合計額
                     sum( account_move.amount_tax ) AS amount_tax, -- 消費税額
                     count (account_move_line.id) OVER (PARTITION BY account_move.NAME) AS detail_number, -- 明細数
                     account_move_line.x_invoicelinetype AS invoice_line_type, -- 取引/内訳区分
                     account_move_line.product_barcode AS jan_code, -- JANコード
-                    account_move_line.product_id AS product_code, -- 商品コード
+                    account_move_line.product_code AS product_code, -- 商品コード
                     account_move_line.invoice_custom_standardnumber AS part_model_number, -- 品番/型番
                     account_move_line."product_maker_name" AS maker_name, -- メーカー名
                     account_move_line.product_name AS product_name, -- 商品名
@@ -130,9 +137,13 @@ class ListOmissionOfBill(models.Model):
                     END AS tax_rate, -- 税率
                     account_move.x_voucher_tax_transfer AS tax_transfer, -- 税転嫁（外／内／非、明／伝／請）
                     closing_date.start_day,
-                    hr_employee.department_id,
+                    closing_date.name as closing_date_name,
+                    hr_department.id AS department_id,
+                    hr_department.name AS department_name,
                     account_move.sales_rep,
+					hr_employee.name AS sales_rep_name,
                     res_partner.customer_supplier_group_code,
+                    business_partner_group_custom.name AS customer_supplier_group_name,
                     res_partner.customer_code_bill
                     FROM
                         account_move
@@ -145,28 +156,31 @@ class ListOmissionOfBill(models.Model):
                                                 AND closing_date.active = True
                         INNER JOIN hr_employee ON hr_employee.id = account_move.sales_rep
                                                 AND hr_employee.active = True
-                        
+                        INNER JOIN hr_department ON hr_department.id = hr_employee.department_id
+                                                AND hr_department.active = True
+                        INNER JOIN business_partner_group_custom ON business_partner_group_custom.id = res_partner.customer_supplier_group_code
+                                                AND business_partner_group_custom.active = True
                     WHERE
                         account_move.bill_status = 'not yet'
                         AND account_move.state = 'posted' 
                         AND account_move.invoice_payment_state = 'not_paid' 
-                        AND (
+       /*                 AND (
                             ( account_move.x_studio_date_invoiced <= date_trunc ( 'month', CURRENT_DATE ) :: DATE + closing_date.start_day - 1 )
                             OR (
                                 closing_date.start_day >= 28 AND 
                                 date_trunc ( 'month', CURRENT_DATE ) = date_trunc ( 'month', account_move.x_studio_date_invoiced )
                             )
-                        )
+                        )*/
                     GROUP BY
                         account_move.x_studio_date_invoiced,
                         account_move.name,
-                        account_move."invoice_document_no_custom",
+                        account_move.x_studio_document_no,
                         res_partner.NAME,
                         account_move_line.id,
                         hr_employee.department_id,
                         account_move_line.x_invoicelinetype,
                         account_move_line.product_barcode,
-                        account_move_line.product_id,
+                        account_move_line.product_code,
                         account_move_line.invoice_custom_standardnumber,
                         account_move_line."product_maker_name",
                         account_move_line.product_name,
@@ -177,8 +191,13 @@ class ListOmissionOfBill(models.Model):
                         account_move_line.tax_repartition_line_id,
                         account_move.x_voucher_tax_transfer,
                         closing_date.start_day,
+						closing_date.name,
+						hr_department.id,
+						hr_department.name,
                         account_move.sales_rep,
+						hr_employee.name,
                         res_partner.customer_supplier_group_code,
+                        business_partner_group_custom.name,
                         res_partner.customer_code_bill
             ) ) AS foo""")
 
@@ -235,21 +254,37 @@ class ListOmissionOfBill(models.Model):
             for record in args:
                 if '&' == record[0]:
                     continue
-                if 'start_day' == record[0]:
-                    val_start_day = int(record[2])
-                    continue
+                if 'closing_date' == record[0]:
+                    val_start_day = record[2]
+                    if record[2].isnumeric():
+                        record[0] = 'start_day'
+                        record[1] = '='
+                    else:
+                        record[0] = 'closing_date_name'
                 if 'sales_date' == record[0]:
                     val_sales_date = record[2]
                 if 'division' == record[0]:
-                    val_division = int(record[2])
-                    record[0] = 'department_id'
-                    record[2] = int(record[2])
+                    val_division = record[2]
+                    if record[2].isnumeric():
+                        record[0] = 'department_id'
+                        record[1] = '='
+                    else:
+                        record[0] = 'department_name'
                 if 'sales_rep' == record[0]:
-                    val_sales_rep = int(record[2])
-                    record[2] = int(record[2])
+                    val_sales_rep = record[2]
+                    if record[2].isnumeric():
+                        record[0] = 'sales_rep'
+                        record[1] = '='
+                    else:
+                        record[0] = 'sales_rep_name'
                 if 'customer_supplier_group_code' == record[0]:
-                    val_customer_supplier_group_code = int(record[2])
-                    record[2] = int(record[2])
+                    val_customer_supplier_group_code = record[2]
+                    if record[2].isnumeric():
+                        record[0] = 'customer_supplier_group_code'
+                        record[1] = '='
+                    else:
+                        record[0] = 'customer_supplier_group_name'
+
                 if 'customer_code_bill_from' == record[0]:
                     val_customer_code_bill_from = record[2]
                     record[0] = 'customer_code_bill'
@@ -262,7 +297,6 @@ class ListOmissionOfBill(models.Model):
 
                 domain += [record]
 
-            domain += [['start_day', '=', val_start_day]]
             if val_issue_format == '0':
                 domain += [['id_voucher', '=', 1]]
 
@@ -270,4 +304,7 @@ class ListOmissionOfBill(models.Model):
             domain = args
 
         res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+        if (len(domain) == 1 and val_issue_format == '0') or len(domain) == 0:
+            return []
+
         return res if count else self.browse(res)
