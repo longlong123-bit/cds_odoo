@@ -224,10 +224,12 @@
 <!--                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"-->
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->
                                     <field name="product_barcode" widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'/>
-                                    <field name="product_maker_name" widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'/>
+<!--                                    <field name="product_maker_name" widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'/>-->
+                                    <field name="product_maker_name"/>
                                     <field name="product_name"/>
                                     <field name="product_name2" invisible="True"/>
-                                    <field name="product_standard_number" widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'/>
+<!--                                    <field name="product_standard_number" widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'/>-->
+                                    <field name="product_standard_number"/>
                                     <field name="product_uom_qty"/>
                                     <field name="product_uom_id"/>
                                     <field name="price_unit"/>
