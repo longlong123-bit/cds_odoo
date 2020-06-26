@@ -201,7 +201,7 @@
                                             margin-right: 1px; width: 16px; height: 16px;
                                             padding: 1px;border: none;" >
                                     </button>
-                                    <field name="refer_detail_history" style="display:none" position="attributes" widget="button_field" z-index="92" options='{"model":"sale.order.line", "sort_cut": true, "text":"見積履歴問合せ"}'/>
+                                    <field name="refer_detail_history" style="display:none" position="attributes" widget="button_field" z-index="92" context="{'tree_view_ref':'Maintain_Quotations.view_order_line_tree_custom'}" options='{"model":"sale.order.line", "sort_cut": true, "text":"見積履歴問合せ"}'/>
                                     <field name="display_type" invisible="True"/>
                                     <field name="product_uom_category_id" invisible="True"/>
 
@@ -331,6 +331,33 @@
 <!--            </search>-->
 <!--        </field>-->
 <!--    </record>-->
+
+    <record model="ir.ui.view" id="view_order_line_tree_custom">
+        <field name="name">sale.order.line.custom.tree</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <tree>
+              <field name="quotation_date" optional="show" readonly="1"/>
+              <field name="document_no" optional="show" readonly="1"/>
+              <field name="display_type" optional="show" readonly="1"/>
+              <field name="customer_name" optional="show" readonly="1"/>
+              <field name="product_barcode" optional="show" readonly="1"/>
+              <field name="product_standard_number" optional="show" readonly="1"/>
+              <field name="product_maker_name" optional="show" readonly="1"/>
+              <field name="product_name" optional="show" readonly="1"/>
+              <field name="product_uom_qty" optional="show" readonly="1"/>
+              <field name="product_uom_id" optional="show"/>
+              <field name="price_unit" optional="show" readonly="1"/>
+              <field name="line_amount" optional="show" readonly="1"/>
+              <field name="tax_id" widget="many2many_tags"
+                                           domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
+                                           context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+                                           options="{'no_create': True}"
+                                           optional="show" readonly="1"/>
+<!--              <field name="x_tax_transfer_show_tree" optional="show" readonly="1"/>-->
+            </tree>
+        </field>
+    </record>
 
     <record id="quotation_custom_action" model="ir.actions.act_window">
         <field name="name">見積入力</field>

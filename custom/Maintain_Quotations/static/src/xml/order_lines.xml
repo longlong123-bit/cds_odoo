@@ -34,7 +34,7 @@
                     <td><span t-if="record.product_standard_number" t-esc="record.product_standard_number"/></td>
                     <td><span t-if="record.product_uom_qty" t-esc="record.product_uom_qty"/></td>
                     <td><span t-if="record.price_unit" t-esc="record.price_unit"/></td>
-                    <td><span t-if="record.product_uom_id" t-esc="record.product_uom_id"/></td>
+                    <td><span t-if="record.product_uom" t-esc="record.product_uom"/></td>
                     <td><span t-if="record.line_amount" t-esc="record.line_amount"/></td>
                     <td><span t-if="record.product_standard_price" t-esc="record.product_standard_price"/></td>
                     <td><span t-if="record.cost" t-esc="record.cost"/></td>

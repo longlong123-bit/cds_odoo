@@ -151,6 +151,13 @@ class QuotationsCustom(models.Model):
 
             self.order_line = lines
 
+    @api.constrains('quotations_date', 'order_line', 'partner_id', 'document_no')
+    def _change_date_invoiced(self):
+        for line in self.order_line:
+            line.quotation_date = self.quotations_date
+            line.partner_id = self.partner_id
+            line.document_no = self.document_no
+
     @api.depends('order_line.price_total')
     def _amount_all(self):
         """
@@ -418,6 +425,11 @@ class QuotationsLinesCustom(models.Model):
     product_uom = fields.Many2one(string='Product UOM')
     price_unit = fields.Float(string='Price Unit')
     description = fields.Text(string='Description')
+
+    partner_id = fields.Many2one(string='Business Partner')
+    customer_name = fields.Char(string="Customer Name")
+    quotation_date = fields.Date(string='Quotation Date')
+    document_no = fields.Char(string='Document No')
 
     class_item = fields.Selection([
         ('通常', '通常'),
