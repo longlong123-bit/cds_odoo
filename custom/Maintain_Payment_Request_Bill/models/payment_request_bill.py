@@ -133,6 +133,8 @@ class CollationPayment(models.Model):
 
         elif 'Cancel Billing' == ctx.get('view_name'):
             for record in args:
+                if record[0] == '&':
+                    continue
                 if 'customer_closing_date_id' == record[0]:
                     if record[2].isnumeric():
                         record[0] = 'customer_closing_date_id.start_day'

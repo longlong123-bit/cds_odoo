@@ -48,6 +48,24 @@ odoo.define('web.ListRender_Custom', function (require) {
             this._super.apply(this, arguments);
 
         },
+        /**
+         * Render the main body of the table, with all its content.  Note that it
+         * has been decided to always render at least 4 rows, even if we have less
+         * data.  The reason is that lists with 0 or 1 lines don't really look like
+         * a table.
+         *
+         * @private
+         * @returns {jQueryElement} a jquery element <tbody>
+         */
+        _renderBody: function () {
+            var self = this;
+            var $rows = this._renderRows();
+            while ($rows.length < 4) {
+                $rows.push(self._renderEmptyRow());
+            }
+            window.current_data = this.state.data;
+            return $('<tbody>').append($rows);
+        },
         _show_history_detail: function(){
             if (event.code == 'KeyS' && event.ctrlKey && event.shiftKey) {
                 $('.open_with_sort_cut').click();
