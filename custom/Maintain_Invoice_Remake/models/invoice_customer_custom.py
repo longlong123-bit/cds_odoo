@@ -160,7 +160,13 @@ def copy_data_from_quotation(rec, quotation, account):
 class ClassInvoiceCustom(models.Model):
     _inherit = 'account.move'
 
-    # register payment for payment_custom
+    # start register payment for payment_custom
+
+    # _sql_constraints = [
+    #     ('mail_followers_res_partner_res_model_id_uniq', 'unique(id, res_model,res_id,partner_id)',
+    #      'Error, a partner cannot follow twice the same object.')
+    # ]
+
     def _get_payment_vals(self):
         return {
             # 'partner_type': 'supplier',
@@ -201,6 +207,8 @@ class ClassInvoiceCustom(models.Model):
             self._cr.execute(query, params)
 
         return {'type': 'ir.actions.act_window_close'}
+
+    # end register payment for payment_custom
 
     invoice_line_ids_tax = fields.One2many('account.tax.line', 'move_id', string='Invoice lines', index=True,
                                            auto_join=True, help="The move of this entry line.")
@@ -378,7 +386,7 @@ class ClassInvoiceCustom(models.Model):
     customer_closing_date = fields.Date('Closing Date')
     customer_from_date = fields.Date('customer_from_date')
     customer_trans_classification_code = fields.Selection([('sale', '掛売'), ('cash', '現金'), ('account', '諸口')],
-                                                          string='Transaction Class')
+                                                          string='Transaction Class', default='sale')
     closing_date_compute = fields.Integer('Temp')
     x_customer_code_for_search = fields.Char('Customer Code', related='x_studio_business_partner.customer_code')
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
