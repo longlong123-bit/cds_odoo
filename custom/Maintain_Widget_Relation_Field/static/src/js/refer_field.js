@@ -13,6 +13,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
     var view_registry = require('web.view_registry');
     var select_create_controllers_registry = require('web.select_create_controllers_registry');
     var dom = require('web.dom');
+    var ajax = require('web.ajax');
     var _t = core._t;
 
     // custom ViewDialog
@@ -21,6 +22,20 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
         custom_events: _.extend({}, Dialog.prototype.custom_events, {
             push_state: '_onPushState',
         }),
+
+        _willStart: function () {
+            var proms = [];
+            if (this.xmlDependencies) {
+                proms.push.apply(proms, _.map(this.xmlDependencies, function (xmlPath) {
+                    return ajax.loadXML(xmlPath, core.qweb);
+                }));
+            }
+            if (this.jsLibs || this.cssLibs || this.assetLibs) {
+                proms.push(ajax.loadLibs(this));
+            }
+            return Promise.all(proms);
+        },
+
         /**
          * Wait for XML dependencies and instantiate the modal structure (except
          * modal-body).
@@ -29,7 +44,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
          */
         willStart: function () {
             var self = this;
-            return this._super.apply(this, arguments).then(function () {
+            return this._willStart().then(function () {
                 // Render modal once xml dependencies are loaded
                 self.$modal = $(QWeb.render('Dialog_Widget_Relation_Field', {
                     fullscreen: self.fullscreen,
