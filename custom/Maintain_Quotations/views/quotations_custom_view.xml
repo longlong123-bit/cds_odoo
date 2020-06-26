@@ -223,22 +223,26 @@
                                     <!--                                    <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"-->
 <!--                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"-->
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->
-                                    <field name="product_barcode" widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'/>
+                                    <field name="product_barcode" widget="refer_field"
+                                           attrs="{'invisible': [('class_item', '=', 'サンプル')]}"
+                                           options='{"model":"product.product","column": "barcode", "search_input": true}'/>
 <!--                                    <field name="product_maker_name" widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'/>-->
-                                    <field name="product_maker_name"/>
+                                    <field name="product_maker_name" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="product_name"/>
                                     <field name="product_name2" invisible="True"/>
 <!--                                    <field name="product_standard_number" widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'/>-->
-                                    <field name="product_standard_number"/>
-                                    <field name="product_uom_qty"/>
-                                    <field name="product_uom_id"/>
-                                    <field name="price_unit"/>
-                                    <field name="line_amount" widget="monetary"/>
-                                    <field name="product_standard_price" readonly="True"/>
-                                    <field name="cost"/>
-                                    <field name="description"/>
+                                    <field name="product_standard_number" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="product_uom_qty" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="product_uom_id" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="price_unit" readonly="False" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="line_amount" widget="monetary" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="product_standard_price" readonly="True" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="cost" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="description" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="tax_id" widget="many2many_tags" invisible="True"/>
-                                    <field name="tax_rate"/>
+                                    <field name="tax_rate" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="price_no_tax" invisible="1"/>
+                                    <field name="price_include_tax" invisible="1"/>
                                     <field name="line_tax_amount" widget="monetary" invisible="True"/>
                                     <field name="name" widget="section_and_note_text" invisible="True"
                                            optional="show" string="Description"
@@ -349,11 +353,12 @@
               <field name="product_uom_id" optional="show"/>
               <field name="price_unit" optional="show" readonly="1"/>
               <field name="line_amount" optional="show" readonly="1"/>
-              <field name="tax_id" widget="many2many_tags"
-                                           domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
-                                           context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
-                                           options="{'no_create': True}"
-                                           optional="show" readonly="1"/>
+              <field name="tax_rate" optional="show" readonly="1"/>
+<!--              <field name="tax_id" widget="many2many_tags"-->
+<!--                                           domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"-->
+<!--                                           context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"-->
+<!--                                           options="{'no_create': True}"-->
+<!--                                           optional="show" readonly="1"/>-->
 <!--              <field name="x_tax_transfer_show_tree" optional="show" readonly="1"/>-->
             </tree>
         </field>
@@ -365,7 +370,7 @@
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="view_id" ref="view_quotations_custom_tree"/>
-        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true','search_default_sales_rep': 1}</field>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
         <field name="search_view_id" ref="product_custom_template_search_view"/>
     </record>
 

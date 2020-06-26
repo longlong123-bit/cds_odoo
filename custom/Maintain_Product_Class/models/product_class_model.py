@@ -8,7 +8,7 @@ class ClassProductClass(models.Model):
 
     name = fields.Char('Class Name')
     product_class_code = fields.Char('Class Code')
-    product_class_rate = fields.Char('Discount Rate')
+    product_class_rate = fields.Float('Discount Rate')
     product_level = fields.Selection([('lv1','大分類'), ('lv2','中分類'), ('lv3','中小分類'), ('lv4','小分類')], string='Level')
     # parent_code = fields.Selection([('code1','大分類'), ('code2','中分類'), ('code3','中小分類'), ('code5','小分類')], string="Parent Code")
     product_parent_code = fields.Many2one('product.class', string="Parent Code")
