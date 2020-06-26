@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record id="paperformat_report_invoice_normal" model="report.paperformat">
+            <field name="name">Quotation Report</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">11</field>
+            <field name="margin_bottom">11</field>
+            <field name="margin_left">11</field>
+            <field name="margin_right">11</field>
+            <field name="dpi">90</field>
+        </record>
         <report
                 id="quotation_report"
                 model="sale.order"
@@ -9,33 +20,7 @@
                 attachment_use="False"
                 name="Quotation_Reports.quotation_report"
                 file="Quotation_Reports.quotation_report"
-        />
-        <report
-                id="normal_report_1_in_1"
-                model="sale.order"
-                string="Quotation Report One"
-                report_type="qweb-html"
-                attachment_use="False"
-                name="Quotation_Reports.normal_report_1_in_1"
-                file="Quotation_Reports.normal_report_1_in_1"
-        />
-        <report
-                id="quotation_report_two"
-                model="sale.order"
-                string="Quotation Report Two"
-                report_type="qweb-html"
-                attachment_use="False"
-                name="Quotation_Reports.quotation_report_two"
-                file="Quotation_Reports.quotation_report_two"
-        />
-        <report
-                id="quotation_report_three"
-                model="sale.order"
-                string="Quotation Report Three"
-                report_type="qweb-html"
-                attachment_use="False"
-                name="Quotation_Reports.quotation_report_three"
-                file="Quotation_Reports.quotation_report_three"
+                paperformat="Quotation_Reports.paperformat_report_invoice_normal"
         />
         <report
                 id="handover_one"
