@@ -5,13 +5,15 @@
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <div class="page" style="page-break-after: always;">
-                        <t t-call="Quotation_Reports.normal_report_template_1_in_1" t-lang="lang"/>
-                    </div>
-                    <div class="page" style="page-break-after: always;">
-                        <t t-call="Quotation_Reports.quotation_report_two_template" t-lang="lang"/>
-                    </div>
-                    <div class="page" style="page-break-after: always;">
-                        <t t-call="Quotation_Reports.quotation_report_three_template" t-lang="lang"/>
+                        <t t-if="o.partner_id.customer_quotation_selection == 'normal'">
+                            <t t-call="Quotation_Reports.normal_report_template_1_in_1" t-lang="lang"/>
+                        </t>
+                        <t t-elif="o.partner_id.customer_quotation_selection == 'billing'">
+                            <t t-call="Quotation_Reports.quotation_report_two_template" t-lang="lang"/>
+                        </t>
+                        <t t-elif="o.partner_id.customer_quotation_selection == 'type2'">
+                            <t t-call="Quotation_Reports.quotation_report_three_template" t-lang="lang"/>
+                        </t>
                     </div>
                 </t>
             </t>
