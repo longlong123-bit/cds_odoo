@@ -70,6 +70,12 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                 }
 
                 self.$modal.find('.modal-dialog').addClass('modal-widget modal-widget-relation-field');
+                var cls = self.getParent().attrs.class;
+
+                if (cls) {
+                    self.$modal.addClass(cls);
+                }
+
                 self.$modal.on('hidden.bs.modal', _.bind(self.destroy, self));
             });
         },
@@ -225,8 +231,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                 domain: domain,
                 modelName: this.res_model,
                 withBreadcrumbs: false,
-                withSearchPanel: false,
-                hasSelectors: false
+                withSearchPanel: false
             }));
             view.setController(selectCreateController);
 
@@ -268,18 +273,19 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
     var Widget = AbstractField.extend({
         template : "refer_field",
 
-        events : {
+        events : _.extend({}, AbstractField.prototype.events, {
             'click .o_button_refer_field': '_onClickButton',
             'click .o_input_refer_field': '_onClickInput',
             'keyup .o_input_refer_field': '_onKeyupInput',
             'change .o_input_refer_field': '_onChangeInput',
-        },
+        }),
 
         /**
          * @override
          */
         init: function () {
             this._super.apply(this, arguments);
+            this.recordParams = {fieldName: this.name, viewType: this.viewType};
         },
 
         /**
@@ -418,6 +424,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
         _openDialogSearch: function(){
             // get current context (language, param,...)
             var context = this.record.getContext(this.recordParams);
+            var domain = this.record.getDomain(this.recordParams);
             var options = this._getWidgetOptions();
             var searchVal = this.$el.find('input').val();
             var filters = null;
@@ -436,10 +443,11 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                     no_create: true,
                     readonly: true,
                     res_model: options.model,
-                    domain: null,
+                    domain: domain,
                     dynamicFilters: filters,
                     view_type:'list',
                     context: context,
+                    disable_multiple_selection: true
                 }).open();
         }
     });

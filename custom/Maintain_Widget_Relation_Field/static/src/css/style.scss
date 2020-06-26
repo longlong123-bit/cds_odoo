@@ -1,0 +1,14 @@
+.modal-widget-relation-field {}
+
+.widget-invoice-line-dialog{
+    .o_content table {
+        td, th{
+            display: none !important;
+            &:nth-child(1),
+            &:nth-child(3),
+            &:nth-child(7){
+                display: table-cell !important;
+            }
+        }
+    }
+}
