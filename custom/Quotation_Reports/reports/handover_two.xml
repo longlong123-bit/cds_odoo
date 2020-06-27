@@ -46,9 +46,14 @@
                                                       t-field="o.partner_id"><null/></span>
                                             </div>
                                             <div style="margin-top: 10px;">
-                                                <t t-if="o.is_print_date and o.quotations_date">f
-                                                    <span t-field="o.quotations_date"
-                                                          t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                <t t-if="o.quotations_date">f
+                                                    <t t-if="o.quotation_calendar == 'japan'">
+                                                        <span t-field="o.jp_calendar"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span t-field="o.quotations_date"
+                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                    </t>
                                                 </t>
                                                 <span t-else="">　　　年　　月　　日</span>
                                             </div>
@@ -63,7 +68,12 @@
                                                 <span style="font-sze: 14px">合計金額　</span>
                                                 <span style="display: inline-block; width: 168px; font-sze: 14px;  overflow: hidden; white-space: nowrap;"
                                                       t-field="o.amount_total"><nul/></span>
-                                                <span>（税込）</span>
+                                                <t t-if="o.tax_method =='invoice'">
+                                                    <span>（税別）</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span>(税込)</span>
+                                                </t>
                                             </div>
                                         </div>
                                         <div style="width: 32%; float: right; text-align: center; font-size: 11px">
@@ -144,7 +154,7 @@
                                                                         軽減税率</span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"><null/></span>
+                                                                    <span t-field="order.description" style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"><null/></span>
                                                                 </t>
                                                             </td>
                                                         </tr>
@@ -233,9 +243,14 @@
                                                       t-field="o.partner_id"><null/></span>
                                             </div>
                                             <div style="margin-top: 10px;">
-                                                <t t-if="o.is_print_date and o.quotations_date">f
-                                                    <span t-field="o.quotations_date"
-                                                          t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                <t t-if="o.quotations_date">f
+                                                    <t t-if="o.quotation_calendar == 'japan'">
+                                                        <span t-field="o.jp_calendar"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span t-field="o.quotations_date"
+                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                    </t>
                                                 </t>
                                                 <span t-else="">　　　年　　月　　日</span>
                                             </div>
@@ -250,7 +265,12 @@
                                                 <span style="font-sze: 14px">合計金額　</span>
                                                 <span style="display: inline-block; width: 168px; font-sze: 14px;  overflow: hidden; white-space: nowrap;"
                                                       t-field="o.amount_total"><nul/></span>
-                                                <span>（税込）</span>
+                                                <t t-if="o.tax_method =='invoice'">
+                                                    <span>（税別）</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span>(税込)</span>
+                                                </t>
                                             </div>
                                         </div>
                                         <div style="width: 32%; float: right; text-align: center; font-size: 11px">
@@ -331,7 +351,7 @@
                                                                         軽減税率</span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"><null/></span>
+                                                                    <span t-field="order.description" style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"><null/></span>
                                                                 </t>
                                                             </td>
                                                         </tr>
@@ -422,9 +442,14 @@
                                                       t-field="o.partner_id"><null/></span>
                                             </div>
                                             <div style="margin-top: 10px;">
-                                                <t t-if="o.is_print_date and o.quotations_date">f
-                                                    <span t-field="o.quotations_date"
-                                                          t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                <t t-if="o.quotations_date">f
+                                                    <t t-if="o.quotation_calendar == 'japan'">
+                                                        <span t-field="o.jp_calendar"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span t-field="o.quotations_date"
+                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                    </t>
                                                 </t>
                                                 <span t-else="">　　　年　　月　　日</span>
                                             </div>
@@ -439,7 +464,12 @@
                                                 <span style="font-sze: 14px">合計金額　</span>
                                                 <span style="display: inline-block; width: 168px; font-sze: 14px;  overflow: hidden; white-space: nowrap;"
                                                       t-field="o.amount_total"><nul/></span>
-                                                <span>（税込）</span>
+                                                <t t-if="o.tax_method =='invoice'">
+                                                    <span>（税別）</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span>(税込)</span>
+                                                </t>
                                             </div>
                                         </div>
                                         <div style="width: 32%; float: right; text-align: center; font-size: 11px">
@@ -520,7 +550,7 @@
                                                                         軽減税率</span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"><null/></span>
+                                                                    <span t-field="order.description" style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"><null/></span>
                                                                 </t>
                                                             </td>
                                                         </tr>
@@ -608,9 +638,14 @@
                                                       t-field="o.partner_id"><null/></span>
                                             </div>
                                             <div style="margin-top: 10px;">
-                                                <t t-if="o.is_print_date and o.quotations_date">f
-                                                    <span t-field="o.quotations_date"
-                                                          t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                <t t-if="o.quotations_date">f
+                                                    <t t-if="o.quotation_calendar == 'japan'">
+                                                        <span t-field="o.jp_calendar"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span t-field="o.quotations_date"
+                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                    </t>
                                                 </t>
                                                 <span t-else="">　　　年　　月　　日</span>
                                             </div>
@@ -625,7 +660,12 @@
                                                 <span style="font-sze: 14px">合計金額　</span>
                                                 <span style="display: inline-block; width: 168px; font-sze: 14px;  overflow: hidden; white-space: nowrap;"
                                                       t-field="o.amount_total"><nul/></span>
-                                                <span>（税込）</span>
+                                                <t t-if="o.tax_method =='invoice'">
+                                                    <span>（税別）</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span>(税込)</span>
+                                                </t>
                                             </div>
                                         </div>
                                         <div style="width: 32%; float: right; text-align: center; font-size: 11px">
@@ -706,7 +746,7 @@
                                                                         軽減税率</span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"><null/></span>
+                                                                    <span t-field="order.description" style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"><null/></span>
                                                                 </t>
                                                             </td>
                                                         </tr>
