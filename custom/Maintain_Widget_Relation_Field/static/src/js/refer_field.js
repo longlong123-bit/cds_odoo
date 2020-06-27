@@ -275,7 +275,6 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
 
         events : _.extend({}, AbstractField.prototype.events, {
             'click .o_button_refer_field': '_onClickButton',
-            'click .o_input_refer_field': '_onClickInput',
             'keyup .o_input_refer_field': '_onKeyupInput',
             'change .o_input_refer_field': '_onChangeInput',
         }),
@@ -288,6 +287,15 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
             this.recordParams = {fieldName: this.name, viewType: this.viewType};
         },
 
+        /**
+         * Returns the main field's DOM element (jQuery form) which can be focused
+         * by the browser.
+         *
+         * @returns {jQuery} main focusable element inside the widget
+         */
+        getFocusableElement: function () {
+          return this.$el.find('input') || $();
+        },
         /**
          * Get display field
          */
@@ -350,14 +358,6 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
             e.stopPropagation();
             e.preventDefault();
             this._openDialogSearch();
-        },
-
-        /**
-         * Event when click on input, stop all
-         */
-        _onClickInput: function(e){
-            e.stopPropagation();
-            e.preventDefault();
         },
 
         /**
