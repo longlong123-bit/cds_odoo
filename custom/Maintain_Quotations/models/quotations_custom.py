@@ -153,12 +153,13 @@ class QuotationsCustom(models.Model):
 
             self.order_line = lines
 
-    @api.constrains('quotations_date', 'order_line', 'partner_id', 'document_no')
+    @api.constrains('quotations_date', 'order_line', 'partner_name', 'document_no')
     def _change_date_invoiced(self):
         for line in self.order_line:
             line.quotation_date = self.quotations_date
             # line.partner_id = self.partner_id
             line.document_no = self.document_no
+            line.customer_name = self.partner_name
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
