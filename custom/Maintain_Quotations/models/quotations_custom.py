@@ -134,6 +134,7 @@ class QuotationsCustom(models.Model):
             for line in data.invoice_line_ids:
                 lines.append((0, 0, {
                     'product_id': line.product_id,
+                    'product_code': line.product_code,
                     'product_barcode': line.product_barcode,
                     'product_name': line.product_name,
                     'product_name2': line.product_name2,
