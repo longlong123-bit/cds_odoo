@@ -51,7 +51,7 @@ class ClassDetail(models.Model):
     tax_amount = fields.Float('tax_amount', compute='_get_account_move_line_db', readonly=True)
     product_maker_name = fields.Char('Product Maker Name', compute='_get_account_move_line_db', readonly=True)
     line_amount = fields.Float('line amount', compute='_get_account_move_line_db', readonly=True)
-    x_invoicelinetype =fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
+    x_invoicelinetype = fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
     tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
 
     def _get_account_move_line_db(self):
@@ -69,7 +69,6 @@ class ClassDetail(models.Model):
                 acc.line_amount = acc.account_move_line_id.invoice_custom_lineamount
                 acc.x_invoicelinetype = acc.account_move_line_id.x_invoicelinetype
                 acc.tax_rate = acc.account_move_line_id.tax_rate
-
 
 
 class ClassAccontMoveLineCustom(models.Model):
