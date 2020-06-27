@@ -66,7 +66,7 @@ class QuotationsCustom(models.Model):
 
     quotations_date = fields.Date(string='Quotations Date', default=fields.Date.today())
     order_id = fields.Many2one('sale.order', string='Order', store=False)
-    partner_id = fields.Many2one(string='Business Partner')
+    partner_id = fields.Many2one('res.partner', string='Business Partner')
     related_partner_code = fields.Char('Partner Code', related='partner_id.customer_code')
     partner_name = fields.Char(string='Partner Name')
     partner_name_2 = fields.Char(string='Partner Name 2', related='partner_id.customer_name_2')
@@ -426,7 +426,7 @@ class QuotationsLinesCustom(models.Model):
     price_unit = fields.Float(string='Price Unit')
     description = fields.Text(string='Description')
 
-    partner_id = fields.Many2one(string='Business Partner')
+    partner_id = fields.Many2one('res.partner', string='Business Partner')
     customer_name = fields.Char(string="Customer Name")
     quotation_date = fields.Date(string='Quotation Date')
     document_no = fields.Char(string='Document No')
