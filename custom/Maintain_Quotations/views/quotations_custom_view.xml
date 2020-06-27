@@ -342,13 +342,13 @@
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
             <tree>
-              <field name="quotation_date" optional="show" readonly="1"/>
-              <field name="document_no" optional="show" readonly="1"/>
-              <field name="display_type" optional="show" readonly="1"/>
-              <field name="customer_name" optional="show" readonly="1"/>
+              <field name="quotation_date" optional="show" readonly="1" string="見積日付"/>
+              <field name="document_no" optional="show" readonly="1" string="伝票Ｎｏ"/>
+              <field name="display_type" optional="show" readonly="1" invisible="1"/>
+              <field name="customer_name" optional="show" readonly="1" string="得意先名"/>
               <field name="product_barcode" optional="show" readonly="1"/>
               <field name="product_standard_number" optional="show" readonly="1"/>
-              <field name="product_maker_name" optional="show" readonly="1"/>
+              <field name="product_maker_name" optional="show" readonly="1" string="メーカー名"/>
               <field name="product_name" optional="show" readonly="1"/>
               <field name="product_uom_qty" optional="show" readonly="1"/>
               <field name="product_uom_id" optional="show"/>
