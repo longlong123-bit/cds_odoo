@@ -430,11 +430,11 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
             var filters = null;
 
             if (searchVal !== '') {
-                var domain = this._getDomain(searchVal, options);
+                var filterDomain = this._getDomain(searchVal, options);
 
                 filters = [{
                     description: _.str.sprintf(_t('Quick search: %s'), searchVal),
-                    domain: domain,
+                    domain: filterDomain,
                 }];
             }
 
