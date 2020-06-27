@@ -17,6 +17,8 @@ from operator import attrgetter, itemgetter
 _logger = logging.getLogger(__name__)
 
 
+
+
 class QuotationsCustom(models.Model):
     _inherit = "sale.order"
     _order = "quotations_date desc, document_no desc"
@@ -155,7 +157,7 @@ class QuotationsCustom(models.Model):
     def _change_date_invoiced(self):
         for line in self.order_line:
             line.quotation_date = self.quotations_date
-            line.partner_id = self.partner_id
+            # line.partner_id = self.partner_id
             line.document_no = self.document_no
 
     @api.depends('order_line.price_total')
@@ -412,6 +414,34 @@ class QuotationsCustom(models.Model):
             default['order_line'] = [(0, 0, line) for line in lines if line]
             self.order_line = default['order_line']
 
+    jp_calendar = fields.Char('jp_calendar', compute='set_jp_calendar')
+
+    def set_jp_calendar(self):
+        ERA_JP = (
+            ("M", "明治"),
+            ("T", "大正"),
+            ("S", "昭和"),
+            ("H", "平成"),
+            ("R", "令和"),
+        )
+        for record in self:
+            if record.quotations_date < datetime.strptime('1912-30-7', '%Y-%d-%m').date():
+                era_year = record.quotations_date.year - 1867
+                era, era_ch = ERA_JP[0]
+            elif record.quotations_date < datetime.strptime('1926-25-12', '%Y-%d-%m').date():
+                era_year = record.quotations_date.year - 1911
+                era, era_ch = ERA_JP[1]
+            elif record.quotations_date < datetime.strptime('1989-8-1', '%Y-%d-%m').date():
+                era_year = record.quotations_date.year - 1925
+                era, era_ch = ERA_JP[2]
+            elif record.quotations_date < datetime.strptime('2019-1-5', '%Y-%d-%m').date():
+                era_year = record.quotations_date.year - 1988
+                era, era_ch = ERA_JP[3]
+            else:
+                era_year = record.quotations_date.year - 2018
+                era, era_ch = ERA_JP[4]
+            jp_c = str(era_year) + str(era_ch) + str(record.quotations_date.month) + '月' + str(record.quotations_date.day) + '日'
+            record.jp_calendar = jp_c
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
@@ -423,7 +453,7 @@ class QuotationsLinesCustom(models.Model):
     product_id = fields.Many2one(string='Product')
     product_uom_qty = fields.Float(string='Product UOM Qty', digits='(12,0)', default=1.0)
     product_uom = fields.Many2one(string='Product UOM')
-    price_unit = fields.Float(string='Price Unit')
+    price_unit = fields.Float(string='Price Unit', digits='Product Price', compute="compute_price_unit", store="True")
     description = fields.Text(string='Description')
 
     partner_id = fields.Many2one('res.partner', string='Business Partner')
@@ -452,6 +482,9 @@ class QuotationsLinesCustom(models.Model):
 
     # Reference to open dialog
     refer_detail_history = fields.Many2one('sale.order.line', store=False)
+
+    price_no_tax = fields.Float('Price No Tax')
+    price_include_tax = fields.Float('Price Include Tax')
 
     def _get_default_line_no(self):
         context = dict(self._context or {})
@@ -559,6 +592,15 @@ class QuotationsLinesCustom(models.Model):
             line.cost = line.product_id.cost or 0.00
             line.tax_rate = line.product_id.product_tax_rate or 0.00
 
+            if line.product_id.setting_price:
+                setting_price = line.product_id.setting_price[5:]
+                # line.price_by_setting = line.product_id["price_" + setting_price]
+                if line.product_id.product_tax_category == 'exempt':
+                    line.price_include_tax = line.price_no_tax = line.product_id["price_" + setting_price]
+                else:
+                    line.price_include_tax = line.product_id["price_include_tax_" + setting_price]
+                    line.price_no_tax = line.product_id["price_no_tax_" + setting_price]
+
             line.compute_price_unit()
             line.compute_line_amount()
             line.compute_line_tax_amount()
@@ -603,21 +645,68 @@ class QuotationsLinesCustom(models.Model):
             line.compute_line_amount()
             line.compute_line_tax_amount()
 
+    @api.onchange('price_unit')
+    def _onchange_price_unit(self):
+        for line in self:
+            exchange_rate = 1
+            if line.order_id.partner_id.customer_apply_rate == "customer":
+                if line.order_id.partner_id.customer_rate and line.order_id.partner_id.customer_rate > 0:
+                    exchange_rate = line.order_id.partner_id.customer_rate / 100
+            elif line.order_id.partner_id.customer_apply_rate == "category":
+                if line.product_id.product_class_code_lv4 \
+                        and line.product_id.product_class_code_lv4.product_class_rate \
+                        and line.product_id.product_class_code_lv4.product_class_rate > 0:
+                    exchange_rate = line.product_id.product_class_code_lv4.product_class_rate / 100
+
+            if line.product_id.product_tax_category == 'exempt':
+                line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
+            else:
+                if line.order_id.tax_method == 'internal_tax':
+                    line.price_include_tax = line.price_unit / exchange_rate
+                    line.price_no_tax = line.price_unit / (line.tax_rate / 100 + 1) / exchange_rate
+                elif line.order_id.tax_method == 'custom_tax':
+                    if line.product_id.product_tax_category == 'foreign':
+                        line.price_no_tax = line.price_unit / exchange_rate
+                        line.price_include_tax = line.price_unit * (line.tax_rate / 100 + 1) / exchange_rate
+                    elif line.product_id.product_tax_category == 'internal':
+                        line.price_include_tax = line.price_unit / exchange_rate
+                        line.price_no_tax = line.price_unit / (line.tax_rate / 100 + 1) / exchange_rate
+                    else:
+                        line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
+                else:
+                    line.price_no_tax = line.price_unit / exchange_rate
+                    line.price_include_tax = line.price_unit * (line.tax_rate / 100 + 1) / exchange_rate
+
+            print(line.price_unit)
+            # print(line.price_by_setting)
+            print(line.price_no_tax)
+            print(line.price_include_tax)
+
+    @api.depends('order_id.tax_method')
     def compute_price_unit(self):
         for line in self:
             # todo set price follow product code
-            # if line.order_id.tax_method == 'internal_tax':
-            #     line.price_unit = line.product_id.price_include_tax_1 or 0.00
-            # elif line.order_id.tax_method == 'custom_tax':
-            #     if line.product_id.product_tax_category == 'foreign':
-            #         line.price_unit = line.product_id.price_no_tax_1
-            #     elif line.product_id.product_tax_category == 'internal':
-            #         line.price_unit = line.product_id.price_include_tax_1
-            #     else:
-            #         line.price_unit = line.product_id.price_by_setting
-            # else:
-            #     line.price_unit = line.product_id.price_no_tax_1 or 0.00
-            line.price_unit = line.product_id.price_by_setting
+            if line.order_id.tax_method == 'internal_tax':
+                price_unit = line.price_include_tax
+            elif line.order_id.tax_method == 'custom_tax':
+                if line.product_id.product_tax_category == 'foreign':
+                    price_unit = line.price_no_tax
+                elif line.product_id.product_tax_category == 'internal':
+                    price_unit = line.price_include_tax
+                else:
+                    price_unit = line.price_no_tax
+            else:
+                price_unit = line.price_no_tax
+
+            if line.order_id.partner_id.customer_apply_rate == "customer":
+                if line.order_id.partner_id.customer_rate and line.order_id.partner_id.customer_rate > 0:
+                    price_unit = price_unit * line.order_id.partner_id.customer_rate / 100
+            elif line.order_id.partner_id.customer_apply_rate == "category":
+                if line.product_id.product_class_code_lv4 \
+                        and line.product_id.product_class_code_lv4.product_class_rate \
+                        and line.product_id.product_class_code_lv4.product_class_rate > 0:
+                    price_unit = price_unit * line.product_id.product_class_code_lv4.product_class_rate / 100
+            line.price_unit = price_unit
 
     def compute_line_amount(self):
         for line in self:
@@ -641,6 +730,7 @@ class QuotationsLinesCustom(models.Model):
                                                                         line.class_item)
             else:
                 line.line_tax_amount = 0
+            line._onchange_price_unit()
 
     def get_compute_line_tax_amount(self, line_amount, line_taxes, line_rounding, line_type):
         if line_amount != 0:
