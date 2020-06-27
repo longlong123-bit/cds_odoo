@@ -458,7 +458,7 @@ class QuotationsLinesCustom(models.Model):
     price_unit = fields.Float(string='Price Unit', digits='Product Price', compute="compute_price_unit", store="True")
     description = fields.Text(string='Description')
 
-    partner_id = fields.Many2one(string='Business Partner')
+    partner_id = fields.Many2one('res.partner', string='Business Partner')
     customer_name = fields.Char(string="Customer Name")
     quotation_date = fields.Date(string='Quotation Date')
     document_no = fields.Char(string='Document No')
@@ -677,11 +677,6 @@ class QuotationsLinesCustom(models.Model):
                 else:
                     line.price_no_tax = line.price_unit / exchange_rate
                     line.price_include_tax = line.price_unit * (line.tax_rate / 100 + 1) / exchange_rate
-
-            print(line.price_unit)
-            # print(line.price_by_setting)
-            print(line.price_no_tax)
-            print(line.price_include_tax)
 
     @api.depends('order_id.tax_method')
     def compute_price_unit(self):
