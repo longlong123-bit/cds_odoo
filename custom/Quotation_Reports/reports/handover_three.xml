@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="handover_three">
-            <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="o">
-                    <div class="page" style="page-break-before: always;">
-                        <t t-call="Quotation_Reports.handover_three_template" t-lang="lang"/>
-                    </div>
-                </t>
-            </t>
-        </template>
-
+<!--        <template id="handover_three">-->
+<!--            <t t-call="web.html_container">-->
+<!--                <t t-foreach="docs" t-as="o">-->
+<!--                    <div class="page" style="page-break-before: always;">-->
+<!--                        <t t-call="Quotation_Reports.handover_three_template" t-lang="lang"/>-->
+<!--                    </div>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </template>-->
         <template id="handover_three_template">
             <div style="font-size: 11px; font-family: sans-serif;">
                 <t t-set="o" t-value="o.with_context(lang=lang)"/>
@@ -47,7 +46,7 @@
                                                       t-field="o.partner_id"><null/></span>
                                             </div>
                                             <div style="margin-top: 10px;">
-                                                <t t-if="o.quotations_date">f
+                                                <t t-if="o.is_print_date">
                                                     <t t-if="o.quotation_calendar == 'japan'">
                                                         <span t-field="o.jp_calendar"/>
                                                     </t>
@@ -240,7 +239,7 @@
                                                       t-field="o.partner_id"><null/></span>
                                             </div>
                                             <div style="margin-top: 10px;">
-                                                <t t-if="o.quotations_date">f
+                                                <t t-if="o.is_print_date">
                                                     <t t-if="o.quotation_calendar == 'japan'">
                                                         <span t-field="o.jp_calendar"/>
                                                     </t>
