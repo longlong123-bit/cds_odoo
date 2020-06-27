@@ -8,7 +8,7 @@
     'description': """
 """,
     'depends': [
-        'base_setup'
+        'base_setup', 'Maintain_Invoice_Remake'
     ],
     'website': '',
     'data': [
