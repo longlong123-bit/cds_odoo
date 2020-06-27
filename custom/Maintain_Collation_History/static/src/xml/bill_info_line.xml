@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <th>
-                        <span>Deadline</span>
+                        <span>Invoice Date</span>
                     </th>
                     <th>
                         <span>line no</span>
@@ -25,13 +25,13 @@
                         <span>Product Code</span>
                     </th>
                     <th>
+                        <span>Product Name</span>
+                    </th>
+                    <th>
                         <span>Product Model</span>
                     </th>
                     <th>
                         <span>Maker</span>
-                    </th>
-                    <th>
-                        <span>Product Name</span>
                     </th>
                     <th>
                         <span>Quantity</span>
@@ -54,12 +54,12 @@
                 <tr>
                     <td>
                         <span>
-                            <t t-esc="record.bill_date"/>
+                            <t t-esc="record.invoice_date"/>
                         </span>
                     </td>
                     <td>
                         <span>
-                            <t t-esc="record.bill_no"/>
+                            <t t-esc="record.invoice_no"/>
                         </span>
                     </td>
                     <td>
@@ -89,17 +89,17 @@
                     </td>
                     <td>
                         <span>
+                            <t t-esc="record.product_name"/>
+                        </span>
+                    </td>
+                    <td>
+                        <span>
                             <t t-esc="record.product_custom_standardnumber"/>
                         </span>
                     </td>
                     <td>
                         <span>
                             <t t-esc="record.product_maker_name"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span>
-                            <t t-esc="record.product_name"/>
                         </span>
                     </td>
                     <td>
@@ -123,9 +123,21 @@
                         </span>
                     </td>
                     <td>
-                        <span>
-                            <t t-esc="record.x_voucher_tax_transfer"/>
-                        </span>
+                        <t t-if="record.x_voucher_tax_transfer == 'foreign_tax'">
+                            <span>外税／明細</span>
+                        </t>
+                        <t t-if="record.x_voucher_tax_transfer == 'internal_tax'">
+                            <span>内税／明細</span>
+                        </t>
+                        <t t-if="record.x_voucher_tax_transfer == 'voucher'">
+                            <span>伝票</span>
+                        </t>
+                        <t t-if="record.x_voucher_tax_transfer == 'invoice'">
+                            <span>請求</span>
+                        </t>
+                        <t t-if="record.x_voucher_tax_transfer == 'custom_tax'">
+                            <span>税調整別途</span>
+                        </t>
                     </td>
                 </tr>
             </t>

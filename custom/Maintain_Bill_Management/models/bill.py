@@ -395,6 +395,8 @@ class BillingClass(models.Model):
                     'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                     'customer_closing_date_id': partner_ids.customer_closing_date.id,
                     'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
+                    'invoice_date': invoice.invoice_date,
+                    'invoice_no': invoice.x_studio_document_no,
                 })
 
                 for line in invoice.invoice_line_ids:
@@ -417,6 +419,8 @@ class BillingClass(models.Model):
                         'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                         'customer_closing_date_id': partner_ids.customer_closing_date.id,
                         'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
+                        'invoice_date': line.date,
+                        'invoice_no': line.invoice_no,
                     })
         advanced_search.val_bill_search_deadline = ''
         return {
@@ -575,28 +579,32 @@ class BillingClass(models.Model):
                 'hr_department_id': self.customer_agent.department_id.id,
                 'business_partner_group_custom_id': self.customer_supplier_group_code.id,
                 'customer_closing_date_id': self.customer_closing_date.id,
+                'invoice_date': invoice.invoice_date,
+                'invoice_no': invoice.x_studio_document_no,
             })
 
-            for line in invoice_line_ids:
-                self.env['bill.invoice.details'].create({
-                    'bill_info_id': _bill_info_ids.id,
-                    'bill_invoice_id': _bill_invoice_ids.id,
-                    'billing_code': self.customer_code,
-                    'billing_name': self.name,
-                    'bill_no': _bill_no,
-                    'bill_date': date.today(),
-                    'last_closing_date': ctx.get('last_closing_date'),
-                    'closing_date': ctx.get('deadline'),
-                    'deadline': ctx.get('deadline'),
-                    'customer_code': line.partner_id.customer_code,
-                    'customer_name': line.partner_id.name,
-                    'customer_trans_classification_code': invoice.customer_trans_classification_code,
-                    'account_move_line_id': line.id,
-                    'hr_employee_id': self.customer_agent.id,
-                    'hr_department_id': self.customer_agent.department_id.id,
-                    'business_partner_group_custom_id': self.customer_supplier_group_code.id,
-                    'customer_closing_date_id': self.customer_closing_date.id,
-                })
+        for line in invoice_line_ids:
+            self.env['bill.invoice.details'].create({
+                'bill_info_id': _bill_info_ids.id,
+                'bill_invoice_id': _bill_invoice_ids.id,
+                'billing_code': self.customer_code,
+                'billing_name': self.name,
+                'bill_no': _bill_no,
+                'bill_date': date.today(),
+                'last_closing_date': ctx.get('last_closing_date'),
+                'closing_date': ctx.get('deadline'),
+                'deadline': ctx.get('deadline'),
+                'customer_code': line.partner_id.customer_code,
+                'customer_name': line.partner_id.name,
+                'customer_trans_classification_code': line.move_id.customer_trans_classification_code,
+                'account_move_line_id': line.id,
+                'hr_employee_id': self.customer_agent.id,
+                'hr_department_id': self.customer_agent.department_id.id,
+                'business_partner_group_custom_id': self.customer_supplier_group_code.id,
+                'customer_closing_date_id': self.customer_closing_date.id,
+                'invoice_date': line.date,
+                'invoice_no': line.invoice_no,
+            })
         advanced_search.val_bill_search_deadline = ''
         self.ensure_one()
         action = self.env.ref('Maintain_Bill_Management.actions_bm_bill').read()[0]

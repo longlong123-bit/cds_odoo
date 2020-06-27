@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-18 09:51+0000\n"
-"PO-Revision-Date: 2020-06-18 09:51+0000\n"
+"POT-Creation-Date: 2020-06-27 09:19+0000\n"
+"PO-Revision-Date: 2020-06-27 09:19+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,34 +19,33 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
 msgid ""
 "<span style=\"float: left; border-bottom: 1px solid #0100f7; width: "
-"35%;\">Search Conditions</span>"
-msgstr "<span style=\"float: left; border-bottom: 1px solid #0100f7; width: "
 "35%;\">検索条件</span>"
+msgstr ""
 
 #. module: Maintain_Collation_History
 #: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "<span>Billing Code</span>"
-msgstr "<span>請求先コード</span>"
+msgid "<span>得意先コード： </span>"
+msgstr ""
 
 #. module: Maintain_Collation_History
 #: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "<span>Billing Name </span>"
-msgstr "<span>請求先名 </span>"
+msgid "<span>得意先名： </span>"
+msgstr ""
 
 #. module: Maintain_Collation_History
 #: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "<span>Deadline </span>"
-msgstr "<span>締切日  </span>"
+msgid "<span>締切日： </span>"
+msgstr ""
 
 #. module: Maintain_Collation_History
 #: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "<span>Customer Code </span>"
-msgstr "<span>得意先コード </span>"
+msgid "<span>請求先コード： </span>"
+msgstr ""
 
 #. module: Maintain_Collation_History
 #: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "<span>Customer Name </span>"
-msgstr "<span>得意先名 </span>"
+msgid "<span>請求先名： </span>"
+msgstr ""
 
 #. module: Maintain_Collation_History
 #: model:ir.model.fields,field_description:Maintain_Collation_History.field_account_move_line__move_id
@@ -59,16 +58,6 @@ msgstr ""
 #, python-format
 msgid "Amount"
 msgstr "金額"
-
-#. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "Amount Tax"
-msgstr "税率"
-
-#. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "Amount carried forward"
-msgstr "繰越金額"
 
 #. module: Maintain_Collation_History
 #: model:ir.model.fields,field_description:Maintain_Collation_History.field_bill_info__bill_detail_ids
@@ -90,31 +79,14 @@ msgid "Billing Name"
 msgstr "請求先名"
 
 #. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "Billing No"
-msgstr "伝票Ｎｏ"
-
-#. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "Billing amount"
-msgstr "金額"
-
-#. module: Maintain_Collation_History
-#. openerp-web
-#: code:addons/Maintain_Collation_History/static/src/xml/bill_info_line.xml:0
-#, python-format
-msgid "Closing Date"
-msgstr "締切日"
-
-#. module: Maintain_Collation_History
 #: model:ir.actions.act_window,name:Maintain_Collation_History.collation_history_action
 #: model:ir.ui.menu,name:Maintain_Collation_History.menu_ideas
 msgid "Collation History"
 msgstr "請求履歴照会"
 
 #. module: Maintain_Collation_History
-#: model:ir.actions.report,name:Maintain_Collation_History.collation_history_report_id
-msgid "Collation Report"
+#: model:ir.actions.report,name:Maintain_Collation_History.maintain_collation_history_id
+msgid "Collation History Report"
 msgstr "請求履歴照会"
 
 #. module: Maintain_Collation_History
@@ -124,7 +96,6 @@ msgstr "請求履歴照会"
 
 #. module: Maintain_Collation_History
 #: model:ir.model.fields,field_description:Maintain_Collation_History.field_bill_info__customer_other_cd
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
 msgid "Customer CD"
 msgstr "その他CD"
 
@@ -145,16 +116,11 @@ msgid "Customer Name"
 msgstr "得意先名"
 
 #. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "Deposit amount"
-msgstr "入金額"
-
-#. module: Maintain_Collation_History
 #. openerp-web
-#: code:addons/Maintain_Collation_History/static/src/xml/report_template.xml:0
+#: code:addons/Maintain_Collation_History/static/src/xml/bill_info_line.xml:0
 #, python-format
-msgid "Download"
-msgstr ""
+msgid "Deadline"
+msgstr "期日"
 
 #. module: Maintain_Collation_History
 #. openerp-web
@@ -166,12 +132,7 @@ msgstr "JANコード"
 #. module: Maintain_Collation_History
 #: model:ir.model,name:Maintain_Collation_History.model_account_move_line
 msgid "Journal Item"
-msgstr ""
-
-#. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "Last billed amount"
-msgstr "前回請求金額"
+msgstr "仕訳項目"
 
 #. module: Maintain_Collation_History
 #. openerp-web
@@ -179,18 +140,6 @@ msgstr "前回請求金額"
 #, python-format
 msgid "Maker"
 msgstr "メーカー名"
-
-#. module: Maintain_Collation_History
-#. openerp-web
-#: code:addons/Maintain_Collation_History/static/src/xml/bill_info_line.xml:0
-#, python-format
-msgid "Tax Transfer"
-msgstr "税転嫁"
-
-#. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "Number of sales"
-msgstr "売伝枚数"
 
 #. module: Maintain_Collation_History
 #: model:ir.model.fields,field_description:Maintain_Collation_History.field_account_move_line__partner_name
@@ -203,13 +152,6 @@ msgstr ""
 #, python-format
 msgid "Price"
 msgstr "単価"
-
-#. module: Maintain_Collation_History
-#. openerp-web
-#: code:addons/Maintain_Collation_History/static/src/xml/report_template.xml:0
-#, python-format
-msgid "Print"
-msgstr ""
 
 #. module: Maintain_Collation_History
 #. openerp-web
@@ -254,11 +196,6 @@ msgid "Product Name"
 msgstr "商品名"
 
 #. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "Purchase amount"
-msgstr "御買上金額"
-
-#. module: Maintain_Collation_History
 #. openerp-web
 #: code:addons/Maintain_Collation_History/static/src/xml/bill_info_line.xml:0
 #, python-format
@@ -286,14 +223,16 @@ msgid "Search Customer Name"
 msgstr ""
 
 #. module: Maintain_Collation_History
-#: model:ir.model.fields,field_description:Maintain_Collation_History.field_bill_info__search_x_studio_date_invoiced_from
-msgid "Search Date From"
+#: model:ir.model.fields,field_description:Maintain_Collation_History.field_bill_info__search_x_studio_deadline
+msgid "Search Deadline"
 msgstr ""
 
 #. module: Maintain_Collation_History
-#: model:ir.model.fields,field_description:Maintain_Collation_History.field_bill_info__search_x_studio_date_invoiced_to
-msgid "Search Date To"
-msgstr ""
+#. openerp-web
+#: code:addons/Maintain_Collation_History/static/src/xml/bill_info_line.xml:0
+#, python-format
+msgid "Tax Transfer"
+msgstr "税転嫁"
 
 #. module: Maintain_Collation_History
 #. openerp-web
@@ -307,22 +246,12 @@ msgstr "税率"
 #: code:addons/Maintain_Collation_History/static/src/xml/advanced_search.xml:0
 #, python-format
 msgid "The Deadline"
-msgstr ""
-
-#. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
-msgid "The deadline"
 msgstr "締切日"
 
 #. module: Maintain_Collation_History
 #: model:ir.model.fields,help:Maintain_Collation_History.field_account_move_line__move_id
 msgid "The move of this entry line."
-msgstr ""
-
-#. module: Maintain_Collation_History
-#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_tree_view
-msgid "Total"
-msgstr ""
+msgstr "このエントリー行を移動します。"
 
 #. module: Maintain_Collation_History
 #. openerp-web
@@ -374,8 +303,68 @@ msgid "tax_audit"
 msgstr ""
 
 #. module: Maintain_Collation_History
+#: model:ir.model.fields,field_description:Maintain_Collation_History.field_bill_invoice_details__tax_rate
+msgid "tax_rate"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model:ir.model.fields,field_description:Maintain_Collation_History.field_bill_invoice_details__x_invoicelinetype
+msgid "x_invoicelinetype"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "その他CD"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "今回請求金額"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "入金額"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "前回締日"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "前回請求金額"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "売伝枚数"
+msgstr ""
+
+#. module: Maintain_Collation_History
 #: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
 msgid "年　　月　　日"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "御買上金額"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "消費税"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "締切日"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "繰越金額"
 msgstr ""
 
 #. module: Maintain_Collation_History
@@ -383,4 +372,9 @@ msgstr ""
 msgid ""
 "請 求 履 歴 照\n"
 "                        会"
+msgstr ""
+
+#. module: Maintain_Collation_History
+#: model_terms:ir.ui.view,arch_db:Maintain_Collation_History.collation_history_report_template
+msgid "請求No"
 msgstr ""

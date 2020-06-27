@@ -26,3 +26,5 @@ class BillInvoiceDetailsClass(models.Model):
     business_partner_group_custom_id = fields.Many2one('business.partner.group.custom', string='Supplier Group')
     customer_closing_date_id = fields.Many2one('closing.date', string='Customer Closing Date')
     x_voucher_tax_transfer = fields.Char('x_voucher_tax_transfer')
+    invoice_date = fields.Date(string="Invoice Date")
+    invoice_no = fields.Char(string='Invoice No')
