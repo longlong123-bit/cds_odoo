@@ -293,6 +293,13 @@ msgid "line no"
 msgstr "伝票Ｎｏ"
 
 #. module: Maintain_Collation_History
+#. openerp-web
+#: code:addons/Maintain_Collation_History/static/src/xml/bill_info_line.xml:0
+#, python-format
+msgid "Invoice Date"
+msgstr "日付"
+
+#. module: Maintain_Collation_History
 #: model:ir.model.fields,field_description:Maintain_Collation_History.field_bill_invoice_details__tax_amount
 msgid "tax_amount"
 msgstr ""
