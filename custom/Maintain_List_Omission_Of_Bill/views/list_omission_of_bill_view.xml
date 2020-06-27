@@ -17,15 +17,22 @@
 					<field name="invoice_line_type" attrs="{'issue_format': '1'}"/>
 					<field name="jan_code" attrs="{'issue_format': '1'}"/>
                     <field name="product_code" attrs="{'issue_format': '1'}"/>
+					<field name="product_name" attrs="{'issue_format': '1'}"/>
 					<field name="part_model_number" attrs="{'issue_format': '1'}"/>
 					<field name="maker_name" attrs="{'issue_format': '1'}"/>
-					<field name="product_name" attrs="{'issue_format': '1'}"/>
 					<field name="quantity" attrs="{'issue_format': '1'}" sum="total"/>
 					<field name="unit" attrs="{'issue_format': '1'}"/>
 					<field name="price_unit" attrs="{'issue_format': '1'}"/>
 					<field name="price_total" attrs="{'issue_format': '1'}" sum="total"/>
 					<field name="tax_rate" attrs="{'issue_format': '1'}"/>
 					<field name="tax_transfer"/>
+					<field name="start_day" invisible="1"/>
+					<field name="closing_date_name" invisible="1"/>
+					<field name="department_id" invisible="1"/>
+					<field name="department_name" invisible="1"/>
+					<field name="sales_rep" invisible="1"/>
+					<field name="sales_rep_name" invisible="1"/>
+					<field name="customer_supplier_group_name" invisible="1"/>
 				</tree>
             </field>
         </record>

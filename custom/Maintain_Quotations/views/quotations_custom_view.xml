@@ -296,6 +296,7 @@
                 <field name="message_needaction" invisible="1"/>
                 <field name="state" invisible="1" optional="show"/>
                 <field name="sales_rep"/>
+                <field name="jp_calendar" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -341,24 +342,24 @@
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
             <tree>
-              <field name="quotation_date" optional="show" readonly="1"/>
-              <field name="document_no" optional="show" readonly="1"/>
-              <field name="display_type" optional="show" readonly="1"/>
-              <field name="customer_name" optional="show" readonly="1"/>
-              <field name="product_barcode" optional="show" readonly="1"/>
-              <field name="product_standard_number" optional="show" readonly="1"/>
-              <field name="product_maker_name" optional="show" readonly="1"/>
-              <field name="product_name" optional="show" readonly="1"/>
-              <field name="product_uom_qty" optional="show" readonly="1"/>
-              <field name="product_uom_id" optional="show"/>
-              <field name="price_unit" optional="show" readonly="1"/>
-              <field name="line_amount" optional="show" readonly="1"/>
-              <field name="tax_rate" optional="show" readonly="1"/>
-<!--              <field name="tax_id" widget="many2many_tags"-->
-<!--                                           domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"-->
-<!--                                           context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"-->
-<!--                                           options="{'no_create': True}"-->
-<!--                                           optional="show" readonly="1"/>-->
+                <field name="quotation_date" optional="show" readonly="1"/>
+                <field name="document_no" optional="show" readonly="1"/>
+                <field name="display_type" optional="show" readonly="1"/>
+                <field name="customer_name" optional="show" readonly="1"/>
+                <field name="product_code" optional="show" readonly="1"/>
+                <field name="product_barcode" optional="show" readonly="1"/>
+                <field name="product_standard_number" optional="show" readonly="1"/>
+                <field name="product_maker_name" optional="show" readonly="1"/>
+                <field name="product_name" optional="show" readonly="1"/>
+                <field name="product_uom_qty" optional="show" readonly="1"/>
+                <field name="product_uom_id" optional="show"/>
+                <field name="price_unit" optional="show" readonly="1"/>
+                <field name="line_amount" optional="show" readonly="1"/>
+                <field name="tax_id" widget="many2many_tags"
+                                           domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
+                                           context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+                                           options="{'no_create': True}"
+                                           optional="show" readonly="1"/>
 <!--              <field name="x_tax_transfer_show_tree" optional="show" readonly="1"/>-->
             </tree>
         </field>
