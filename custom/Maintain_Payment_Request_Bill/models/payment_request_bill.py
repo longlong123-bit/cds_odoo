@@ -17,8 +17,7 @@ search_claim_type = ''
 search_print_child = ''
 
 # Collation History
-search_x_studio_date_invoiced_from = ''
-search_x_studio_date_invoiced_to = ''
+search_x_studio_deadline = ''
 search_x_studio_document_no = 'a'
 search_name = ''
 search_invoice_partner_display_name = ''
@@ -149,24 +148,22 @@ class CollationPayment(models.Model):
                 domain += [record]
 
         elif ctx.get('view_name') == 'Bill History':
-            global search_x_studio_date_invoiced_from
-            global search_x_studio_date_invoiced_to
+            global search_x_studio_deadline
             global search_x_studio_document_no
             global search_name
             global search_invoice_partner_display_name
             global search_x_studio_name
-            search_x_studio_date_invoiced_from = ''
-            search_x_studio_date_invoiced_to = ''
+            search_x_studio_deadline = ''
             search_x_studio_document_no = ''
             search_name = ''
             search_invoice_partner_display_name = ''
             search_x_studio_name = ''
 
             for se in args:
-                if se[0] == 'last_closing_date' and se[1] == '>=':
-                    search_x_studio_date_invoiced_from = se[2]
-                if se[0] == 'last_closing_date' and se[1] == '<=':
-                    search_x_studio_date_invoiced_to = se[2]
+                if se[0] == '&':
+                    continue
+                if se[0] == "deadline":
+                    search_x_studio_deadline = se[2]
                 if se[0] == "billing_code":
                     search_x_studio_document_no = se[2]
                 if se[0] == "billing_name":
@@ -174,13 +171,13 @@ class CollationPayment(models.Model):
                 if se[0] == "customer_code":
                     se[0] = "billing_code"
                     search_invoice_partner_display_name = se[2]
-                    bill_ids = self.env['bill.invoice'].search([('customer_code', '=', se[2])])
+                    bill_ids = self.env['bill.invoice'].search([('customer_code', 'ilike', se[2])])
                     for i in bill_ids:
                         se[2] = i.billing_code
                 if se[0] == "customer_name":
                     se[0] = "billing_code"
                     search_x_studio_name = se[2]
-                    bill_ids = self.env['bill.invoice'].search([('customer_name', '=', se[2])])
+                    bill_ids = self.env['bill.invoice'].search([('customer_name', 'ilike', se[2])])
                     for i in bill_ids:
                         se[2] = i.billing_code
                 domain += [se]
@@ -220,9 +217,9 @@ class CollationPayment(models.Model):
                     search_list_hr_employee_id= record[2]
                 if record[0] == 'business_partner_group_custom_id':
                     search_list_business_partner_group_custom_id=record[2]
-                if record[0] =='billing_code' and record[1] =='gte':
+                if record[0] =='billing_code' and record[1] == 'gte':
                     search_list_billing_code_from =record[2]
-                if record[0] =='billing_code' and record[1] =='lte':
+                if record[0] =='billing_code' and record[1] == 'lte':
                     search_list_billing_code_to =record[2]
                 if 'display_order' == record[0]:
                     search_list_display_order = record[2]

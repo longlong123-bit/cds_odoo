@@ -27,36 +27,32 @@
 
                     <!-- RIGHT -->
                     <t t-foreach="docs" t-as="ass">
-                        <t t-if="ass.search_x_studio_date_invoiced_from != asset">
+                        <t t-if="ass.search_x_studio_deadline != asset">
                             <div style=" font-size: 18px; display: inline-block; width: 100%; padding-left: 30px;">
-                                <!--                            <div>-->
-                                <!--                                <span t-esc="ass.search_x_studio_document_no"/>-->
-                                <!--                            </div>-->
-                                <div style="text-align: left"><span>売上日付 </span>
-                                    <span t-field="ass.search_x_studio_date_invoiced_from"/> ~ <span
-                                            t-field="ass.search_x_studio_date_invoiced_to"/>
+                                <div style="text-align: left;">
+                                    <span>締切日： </span>
+                                    <span t-field="ass.search_x_studio_deadline"/>
                                 </div>
                                 <div style="text-align: left;">
-                                    <span>請求先コード </span>
+                                    <span>請求先コード： </span>
                                     <span t-field="ass.search_x_studio_document_no"/>
                                 </div>
                                 <div style="text-align: left;">
-                                    <span>請求先名 </span>
+                                    <span>請求先名： </span>
                                     <span t-field="ass.search_name"/>
                                 </div>
                                 <div style="text-align: left;">
-                                    <span>得意先コード </span>
+                                    <span>得意先コード： </span>
                                     <span t-field="ass.search_invoice_partner_display_name"/>
                                 </div>
                                 <div style="text-align: left;">
-                                    <span>得意先名 </span>
+                                    <span>得意先名： </span>
                                     <span t-field="ass.search_x_studio_name"/>
                                 </div>
                             </div>
-                            <t t-set="asset" t-value="ass.search_x_studio_date_invoiced_from"/>
+                            <t t-set="asset" t-value="ass.search_x_studio_deadline"/>
                         </t>
                     </t>
-
 
                     <!-- TABLE -->
                     <!--                <t t-set="display_discount" t-value="any([l.discount for l in o.invoice_line_ids])"/>-->
@@ -68,6 +64,8 @@
                                             name="th_id">請求No</td>
                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0; min-width: 100px"
                                             name="th_subtotal">前回締日</td>
+                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0; min-width: 100px"
+                                            name="th_subtotal">締切日</td>
                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
                                             name="th_description">前回請求金額</td>
                                         <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
@@ -95,6 +93,13 @@
                                             <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
                                                 <span><t t-if="line.last_closing_date">
                                                     <span t-field="line.last_closing_date"
+                                                          t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                                </t>
+                                                    <span t-else="">　　　年　　月　　日</span></span>
+                                            </td>
+                                            <td style="border: 1px solid #439eb2; border-right: 0; border-top: 0; text-align: right">
+                                                <span><t t-if="line.deadline">
+                                                    <span t-field="line.deadline"
                                                           t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
                                                 </t>
                                                     <span t-else="">　　　年　　月　　日</span></span>
