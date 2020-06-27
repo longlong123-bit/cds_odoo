@@ -177,13 +177,13 @@
                                 mode="tree,kanban"
                                 attrs="{'readonly': [('state', 'in', ('done','cancel'))]}"
                             >
-                                <form>
-                                    <field name="display_type" invisible="1"/>
-                                    <label for="name" string="Description" attrs="{'invisible': [('display_type', '!=', False)]}"/>
-                                    <label for="name" string="Section Name (eg. Products, Services)" attrs="{'invisible': [('display_type', '!=', 'line_section')]}"/>
-                                    <label for="name" string="Note" attrs="{'invisible': [('display_type', '!=', 'line_note')]}"/>
-                                    <field name="name"/>
-                                </form>
+<!--                                <form>-->
+<!--                                    <field name="display_type" invisible="1"/>-->
+<!--                                    <label for="name" string="Description" attrs="{'invisible': [('display_type', '!=', False)]}"/>-->
+<!--                                    <label for="name" string="Section Name (eg. Products, Services)" attrs="{'invisible': [('display_type', '!=', 'line_section')]}"/>-->
+<!--                                    <label for="name" string="Note" attrs="{'invisible': [('display_type', '!=', 'line_note')]}"/>-->
+<!--                                    <field name="name"/>-->
+<!--                                </form>-->
                                 <tree
                                     string="Sales Order Lines"
                                     editable="bottom" class="quotations_custom_details"
@@ -219,7 +219,10 @@
                                     <field name="quotation_custom_line_no" required="True" readonly="False"/>
                                     <field name="class_item" required="True"/>
                                     <field name="product_id" invisible="1" attrs="{'required': [('display_type', '=', False)]}"/>
-                                    <field name="product_code" widget="refer_field" attrs="{'invisible': [('display_type', '!=', False)]}" string="Product Code" options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "search_input": true}'/>
+                                    <field name="product_code" widget="refer_field"
+                                           attrs="{'invisible': [('display_type', '!=', False)]}"
+                                           string="Product Code" required="True"
+                                           options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "search_input": true}'/>
                                     <!--                                    <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"-->
 <!--                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"-->
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->
@@ -244,9 +247,9 @@
                                     <field name="price_no_tax" invisible="1"/>
                                     <field name="price_include_tax" invisible="1"/>
                                     <field name="line_tax_amount" widget="monetary" invisible="True"/>
-                                    <field name="name" widget="section_and_note_text" invisible="True"
-                                           optional="show" string="Description"
-                                           attrs="{'required': [('display_type', '!=', False)]}"/>
+<!--                                    <field name="name" widget="section_and_note_text" invisible="True"-->
+<!--                                           optional="show" string="Description"-->
+<!--                                           attrs="{'required': [('display_type', '!=', False)]}"/>-->
                                 </tree>
                             </field>
 

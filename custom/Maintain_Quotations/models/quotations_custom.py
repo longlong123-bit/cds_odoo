@@ -704,7 +704,8 @@ class QuotationsLinesCustom(models.Model):
                         and line.product_id.product_class_code_lv4.product_class_rate \
                         and line.product_id.product_class_code_lv4.product_class_rate > 0:
                     price_unit = price_unit * line.product_id.product_class_code_lv4.product_class_rate / 100
-            line.price_unit = price_unit
+
+            line.price_unit = rounding(price_unit, 0, line.order_id.customer_tax_rounding)
 
     def compute_line_amount(self):
         for line in self:
@@ -728,6 +729,7 @@ class QuotationsLinesCustom(models.Model):
                                                                         line.class_item)
             else:
                 line.line_tax_amount = 0
+
             line._onchange_price_unit()
 
     def get_compute_line_tax_amount(self, line_amount, line_taxes, line_rounding, line_type):

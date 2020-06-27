@@ -20,6 +20,7 @@ import json
 import re
 import calendar
 import math
+import decimal
 
 # forbidden fields
 INTEGRITY_HASH_MOVE_FIELDS = ('date', 'journal_id', 'company_id')
@@ -71,7 +72,12 @@ def rounding(number, pre=0, type_rounding='round'):
         elif type_rounding == 'rounddown':
             return math.floor(number * multiplier) / multiplier
         else:
-            return round(number, pre)
+            if pre < 0:
+                return round(number, pre)
+            else:
+                context = decimal.getcontext()
+                context.rounding = decimal.ROUND_HALF_UP
+                return float(round(decimal.Decimal(number), pre))
     else:
         return 0
 
@@ -1432,7 +1438,8 @@ class AccountMoveLine(models.Model):
                     and self.product_id.product_class_code_lv4.product_class_rate \
                     and self.product_id.product_class_code_lv4.product_class_rate > 0:
                 price_unit = price_unit * self.product_id.product_class_code_lv4.product_class_rate / 100
-        return price_unit
+
+        return rounding(price_unit, 0, self.move_id.customer_tax_rounding)
 
     @api.depends('move_id.x_voucher_tax_transfer')
     def compute_price_unit(self):
