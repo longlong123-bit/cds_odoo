@@ -17,8 +17,6 @@ from operator import attrgetter, itemgetter
 _logger = logging.getLogger(__name__)
 
 
-
-
 class QuotationsCustom(models.Model):
     _inherit = "sale.order"
     _order = "quotations_date desc, document_no desc"
@@ -157,7 +155,7 @@ class QuotationsCustom(models.Model):
     def _change_date_invoiced(self):
         for line in self.order_line:
             line.quotation_date = self.quotations_date
-            # line.partner_id = self.partner_id
+            line.partner_id = self.partner_id
             line.document_no = self.document_no
 
     @api.depends('order_line.price_total')
@@ -181,6 +179,10 @@ class QuotationsCustom(models.Model):
 
                     amount_untaxed += line.line_amount
                 # amount_tax += line.line_tax_amount
+
+            if order.tax_method == 'voucher':
+                amount_tax = rounding(amount_tax, 0, order.customer_tax_rounding)
+
             order.update({
                 'amount_untaxed': amount_untaxed,
                 'amount_tax': amount_tax,
@@ -456,7 +458,7 @@ class QuotationsLinesCustom(models.Model):
     price_unit = fields.Float(string='Price Unit', digits='Product Price', compute="compute_price_unit", store="True")
     description = fields.Text(string='Description')
 
-    partner_id = fields.Many2one('res.partner', string='Business Partner')
+    partner_id = fields.Many2one(string='Business Partner')
     customer_name = fields.Char(string="Customer Name")
     quotation_date = fields.Date(string='Quotation Date')
     document_no = fields.Char(string='Document No')
@@ -594,7 +596,6 @@ class QuotationsLinesCustom(models.Model):
 
             if line.product_id.setting_price:
                 setting_price = line.product_id.setting_price[5:]
-                # line.price_by_setting = line.product_id["price_" + setting_price]
                 if line.product_id.product_tax_category == 'exempt':
                     line.price_include_tax = line.price_no_tax = line.product_id["price_" + setting_price]
                 else:
@@ -641,7 +642,7 @@ class QuotationsLinesCustom(models.Model):
                 if line.product_uom_qty > 0:
                     line.product_uom_qty = line.product_uom_qty * (-1)
 
-            # line.compute_price_unit()
+            line.compute_price_unit()
             line.compute_line_amount()
             line.compute_line_tax_amount()
 
@@ -715,7 +716,7 @@ class QuotationsLinesCustom(models.Model):
 
     def get_compute_line_amount(self, price_unit=0, discount=0, quantity=0, line_rounding='round'):
         result = price_unit * quantity - (discount * price_unit / 100) * quantity
-        return rounding(result, 2, line_rounding)
+        return rounding(result, 0, line_rounding)
 
     def compute_line_tax_amount(self):
         for line in self:
@@ -734,7 +735,7 @@ class QuotationsLinesCustom(models.Model):
 
     def get_compute_line_tax_amount(self, line_amount, line_taxes, line_rounding, line_type):
         if line_amount != 0:
-            return rounding(line_amount * line_taxes / 100, 2, line_rounding)
+            return rounding(line_amount * line_taxes / 100, 0, line_rounding)
         else:
             return 0
 
