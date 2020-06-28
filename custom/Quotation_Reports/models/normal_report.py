@@ -8,7 +8,7 @@ class PrintSale(models.Model):
     def preview_report(self):
         return {
             'type': 'ir.actions.report',
-            'report_name': 'Quotation_Reports.handover_one',
+            'report_name': 'Quotation_Reports.handover_report',
             'model': 'sale.order',
             'report_type': "qweb-html",
         }
