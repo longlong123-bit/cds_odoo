@@ -237,5 +237,14 @@ class CollationPayment(models.Model):
         else:
             domain = args
 
+        if 'Cancel Billing' == ctx.get('view_name') and len(domain) == 0:
+            return []
+        elif 'bill_report' == ctx.get('view_code') and len(domain) == 0 and search_address_type == '':
+            return []
+        elif 'Billing List' == ctx.get('view_name') and len(domain) == 0 and search_list_display_order == '':
+            return []
+        elif 'Bill History' == ctx.get('view_name') and len(domain) == 0:
+            return []
+
         res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
