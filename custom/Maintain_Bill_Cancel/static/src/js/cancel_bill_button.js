@@ -21,6 +21,7 @@ odoo.define('bill.cancel_bill_button', function (require) {
                 this.$buttons.on('click', '.cancel_bill_button', function (e) {
                     const def = new $.Deferred();
                     var selected_data = [];
+                    data = window.current_data || data;
                     if (data) {
                         for (var i = 0; i < data.length; i++) {
                             if (self.getSelectedIds().includes(data[i].res_id)) {
