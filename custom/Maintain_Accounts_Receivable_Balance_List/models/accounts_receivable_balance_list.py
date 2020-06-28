@@ -177,6 +177,8 @@ class AccountsReceivableBalanceList(models.Model):
         else:
             domain = args
 
+        if 'Billing' == module_context.get('view_name') and len(domain) == 1:
+            return []
         res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
 
