@@ -307,9 +307,11 @@
 <!--                <field name="product_id" string="Product Code"  widget="product_many2one" context="{'show_product_code': 1}" attrs="{'required': [('parent.type', 'not in', ('in_invoice', 'in_refund','in_receipt'))]}"  domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>-->
 <!--                <field name="product_barcode" string="JAN/UPC/EAN"/>-->
                 <field name="product_id" invisible="1"/>
-                <field name="product_code" widget="refer_field" string="Product Code" required="True"
-                       options='{"model":"product.product", "read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "search_input": true}'/>
-                <field name="product_barcode" string="JAN/UPC/EAN" attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}" widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'/>
+                <field name="product_code" widget="refer_field" string="Product Code"
+                       options='{"model":"product.product", "read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"]}'/>
+                <field name="product_barcode" string="JAN/UPC/EAN"
+                       widget="refer_field" options='{"model":"product.product","column": "barcode"}'
+                       required="True"/>
 <!--                <field name="product_maker_name"-->
 <!--                       widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'-->
 <!--                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>-->
@@ -396,32 +398,32 @@
         <xpath expr = "//field[@name='line_ids']/tree/field[@name='discount']" position = "attributes" >
           <attribute name="invisible">0</attribute>
         </xpath>
-        <xpath expr = "//page[@id='aml_tab']" position = "after" >
-          <page id="invoice_tax" string="Invoice Tax" name="invoice_tax" >
-              <field name="invoice_line_ids_tax" class="custom_template">
-                  <tree editable="bottom" create="false" delete="false" string="Journal Items1">
-                      <button name="button_update" type="object" class="oe_edit_only"
-                              style="background : url('/web/static/src/img/form-toolbar/EditRecord16.png')
-                              no-repeat center;
-                              background-size: contain;
-                              background-color: transparent;
-                              display: inline-block;
-                              margin-left: 1px;
-                              margin-right: 1px;
-                              width: 16px;
-                              height: 16px;
-                              padding: 1px;
-                              border: none;"/>
-                      <field name="move_name" readonly="True"/>
-                      <field name="taxGroup" readonly="True"/>
-                      <field name="tax_base_amount" readonly="True"/>
-                      <field name="tax_amount" readonly="True"/>
-                      <field name="price_include_tax" invisible="1" readonly="True"/>
-                      <field name="tax_provider" readonly="True"/>
-                  </tree>
-                </field>
-          </page>
-        </xpath>
+<!--        <xpath expr = "//page[@id='aml_tab']" position = "after" >-->
+<!--          <page id="invoice_tax" string="Invoice Tax" name="invoice_tax" >-->
+<!--              <field name="invoice_line_ids_tax" class="custom_template">-->
+<!--                  <tree editable="bottom" create="false" delete="false" string="Journal Items1">-->
+<!--                      <button name="button_update" type="object" class="oe_edit_only"-->
+<!--                              style="background : url('/web/static/src/img/form-toolbar/EditRecord16.png')-->
+<!--                              no-repeat center;-->
+<!--                              background-size: contain;-->
+<!--                              background-color: transparent;-->
+<!--                              display: inline-block;-->
+<!--                              margin-left: 1px;-->
+<!--                              margin-right: 1px;-->
+<!--                              width: 16px;-->
+<!--                              height: 16px;-->
+<!--                              padding: 1px;-->
+<!--                              border: none;"/>-->
+<!--                      <field name="move_name" readonly="True"/>-->
+<!--                      <field name="taxGroup" readonly="True"/>-->
+<!--                      <field name="tax_base_amount" readonly="True"/>-->
+<!--                      <field name="tax_amount" readonly="True"/>-->
+<!--                      <field name="price_include_tax" invisible="1" readonly="True"/>-->
+<!--                      <field name="tax_provider" readonly="True"/>-->
+<!--                  </tree>-->
+<!--                </field>-->
+<!--          </page>-->
+<!--        </xpath>-->
         <xpath expr = "//page[@id='other_tab']" position = "attributes" >
           <attribute name="invisible">1</attribute>
         </xpath>

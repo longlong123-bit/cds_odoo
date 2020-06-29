@@ -156,7 +156,9 @@ def copy_data_from_quotation(rec, quotation, account):
                     'invoice_custom_lineamount': line.line_amount,
                     'tax_rate': line.tax_rate,
                     'line_tax_amount': line.line_tax_amount,
-                    'account_id': account.id
+                    'account_id': account.id,
+                    'price_include_tax': line.price_include_tax,
+                    'price_no_tax': line.price_no_tax
                 }))
 
         rec.invoice_line_ids = invoice_line_ids
@@ -409,6 +411,9 @@ class ClassInvoiceCustom(models.Model):
     # Field for trigger onchange when fill data
     # Just to trigger to change data, not store
     trigger_quotation_history = fields.Many2one('sale.order', store=False)
+
+    # get payment_amount from account_payment
+    amount_from_payment = fields.Float(string='Amount from payment')
 
     @api.onchange('trigger_quotation_history')
     def _compute_fill_data_with_quotation(self):
@@ -1153,30 +1158,76 @@ class AccountMoveLine(models.Model):
 
     price_no_tax = fields.Float('Price No Tax')
     price_include_tax = fields.Float('Price Include Tax')
+    temp_onchange_field = ''
 
     @api.onchange('product_code')
     def _onchange_product_code(self):
-        if self.product_code:
-            product = self.env['product.product'].search([
-                '|', '|', '|', '|', '|',
-                ['product_code_1', '=', self.product_code],
-                ['product_code_2', '=', self.product_code],
-                ['product_code_3', '=', self.product_code],
-                ['product_code_4', '=', self.product_code],
-                ['product_code_5', '=', self.product_code],
-                ['product_code_6', '=', self.product_code]
-            ])
-            self.product_id = product.id
-            self.product_barcode = product.barcode
+        if not self.temp_onchange_field:
+            self.temp_onchange_field = 'product_code'
+
+            if self.product_code:
+                product = self.env['product.product'].search([
+                    '|', '|', '|', '|', '|',
+                    ['product_code_1', '=', self.product_code],
+                    ['product_code_2', '=', self.product_code],
+                    ['product_code_3', '=', self.product_code],
+                    ['product_code_4', '=', self.product_code],
+                    ['product_code_5', '=', self.product_code],
+                    ['product_code_6', '=', self.product_code]
+                ])
+
+                if product:
+                    self.product_id = product.id
+                    self.product_barcode = product.barcode
+                    setting_price = "1"
+                    if self.product_code == product.product_code_2:
+                        setting_price = "2"
+                    elif self.product_code == product.product_code_3:
+                        setting_price = "3"
+                    elif self.product_code == product.product_code_4:
+                        setting_price = "4"
+                    elif self.product_code == product.product_code_5:
+                        setting_price = "5"
+                    elif self.product_code == product.product_code_6:
+                        setting_price = "6"
+                    if product.product_tax_category == 'exempt':
+                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                    else:
+                        self.price_include_tax = product["price_include_tax_" + setting_price]
+                        self.price_no_tax = product["price_no_tax_" + setting_price]
+
+                    self.price_unit = self._get_computed_price_unit()
+                    return
+
+            # else
+            self.product_barcode = ''
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
-        if self.product_barcode:
-            product = self.env['product.product'].search([
-                ['barcode', '=', self.product_barcode]
-            ])
-            self.product_id = product.id
-            self.product_code = product.code_by_setting
+        if not self.temp_onchange_field:
+            self.temp_onchange_field = 'product_barcode'
+
+            if self.product_barcode:
+                product = self.env['product.product'].search([
+                    ['barcode', '=', self.product_barcode]
+                ])
+
+                if product:
+                    self.product_id = product.id
+                    self.product_code = product.code_by_setting
+                    setting_price = '1'
+                    if product.setting_price:
+                        setting_price = product.setting_price[5:]
+                    if product.product_tax_category == 'exempt':
+                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                    else:
+                        self.price_include_tax = product["price_include_tax_" + setting_price]
+                        self.price_no_tax = product["price_no_tax_" + setting_price]
+                    self.price_unit = self._get_computed_price_unit()
+                    return
+
+            # else:
+            self.product_code = ''
 
     # # 消費税区分
     # line_tax_category = fields.Selection(
@@ -1285,10 +1336,6 @@ class AccountMoveLine(models.Model):
             else:
                 line.line_tax_amount = 0
 
-    @api.onchange('product_id')
-    def _onchange_product(self):
-        self.price_unit = self._get_computed_price_unit()
-
     @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype',
                   'move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding', 'tax_rate')
     def _onchange_price_subtotal(self):
@@ -1348,28 +1395,27 @@ class AccountMoveLine(models.Model):
     def _onchange_product_id(self):
         for line in self:
             if not line.product_id or line.display_type in ('line_section', 'line_note'):
+                line.name = ''
+                line.product_name = ''
+                line.product_standard_price = 0
+                line.x_product_cost_price = 0
+                line.account_id = ''
+                line.product_uom_id = ''
+                line.tax_rate = ''
+                line.product_maker_name = ''
+                line.invoice_custom_standardnumber = ''
+                company = ''
                 continue
             line.name = line._get_computed_name()
             line.product_name = line.product_id.name
             line.product_standard_price = line.product_id.standard_price
             line.x_product_cost_price = line.product_id.cost
-            line.product_barcode = line.product_id.barcode
             line.account_id = line._get_computed_account()
 
             line.product_uom_id = line.product_id.product_uom_custom
             line.tax_rate = line.product_id.product_tax_rate
             line.product_maker_name = line.product_id.product_maker_name
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
-
-            if line.product_id.setting_price:
-                setting_price = line.product_id.setting_price[5:]
-                if line.product_id.product_tax_category == 'exempt':
-                    line.price_include_tax = line.price_no_tax = line.product_id["price_" + setting_price]
-                else:
-                    line.price_include_tax = line.product_id["price_include_tax_" + setting_price]
-                    line.price_no_tax = line.product_id["price_no_tax_" + setting_price]
-
-            line.price_unit = line._get_computed_price_unit()
 
             # Convert the unit price to the invoice's currency.
             company = line.move_id.company_id

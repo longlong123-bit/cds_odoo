@@ -275,7 +275,6 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
 
         events : _.extend({}, AbstractField.prototype.events, {
             'click .o_button_refer_field': '_onClickButton',
-            'keyup .o_input_refer_field': '_onKeyupInput',
             'change .o_input_refer_field': '_onChangeInput',
         }),
 
@@ -325,33 +324,6 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
         },
 
         /**
-         * Check data
-         */
-        _checkData: function(e, options){
-            var s = this;
-
-            if (this.value == e.target.value) {
-                return;
-            }
-
-            var domain = this._getDomain(e.target.value, options);
-            var column = this._getReadColumn(options);
-
-            // Call to server
-            rpc.query({
-                model: options.model,
-                method: 'search_read',
-                domain: domain
-            }).then(function(res){
-                if (res.length > 0) {
-                    s._setValue(res[0][column]);
-                } else {
-                    s._openDialogSearch();
-                }
-            });
-        },
-
-        /**
          * Event when click on button, then open dialog search
          */
         _onClickButton: function(e){
@@ -361,28 +333,10 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
         },
 
         /**
-         * Event when keyup on input
-         * check if is enter then check data
-         */
-        _onKeyupInput: function(e){
-            var options = this._getWidgetOptions();
-
-            if (options.search_input && (e.which === $.ui.keyCode.ENTER || e.which === $.ui.keyCode.TAB)) {
-                this._checkData(e, options);
-            }
-        },
-
-        /**
          * Event when change value of input
          */
         _onChangeInput: function(e){
-            var options = this._getWidgetOptions();
-
-            if (options.search_input) {
-                this._checkData(e, options);
-            } else {
-                this._setValue(e.target.value);
-            }
+            this._setValue(e.target.value);
         },
 
         /**
@@ -404,7 +358,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                     domain.unshift('|');
                 }
 
-                domain.push([columns[i], 'ilike', searchVal]);
+                domain.push([columns[i], options.operator || 'ilike', searchVal]);
             }
 
             return domain;

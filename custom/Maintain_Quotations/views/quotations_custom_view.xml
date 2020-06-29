@@ -221,14 +221,14 @@
                                     <field name="product_id" invisible="1" attrs="{'required': [('display_type', '=', False)]}"/>
                                     <field name="product_code" widget="refer_field"
                                            attrs="{'invisible': [('display_type', '!=', False)]}"
-                                           string="Product Code" required="True"
-                                           options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "search_input": true}'/>
+                                           string="Product Code"
+                                           options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"]}'/>
                                     <!--                                    <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"-->
 <!--                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"-->
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->
                                     <field name="product_barcode" widget="refer_field"
-                                           attrs="{'invisible': [('class_item', '=', 'サンプル')]}"
-                                           options='{"model":"product.product","column": "barcode", "search_input": true}'/>
+                                           required="True"
+                                           options='{"model":"product.product","column": "barcode"}'/>
 <!--                                    <field name="product_maker_name" widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'/>-->
                                     <field name="product_maker_name" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="product_name"/>
@@ -345,14 +345,14 @@
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="quotation_date" optional="show" readonly="1"/>
-                <field name="document_no" optional="show" readonly="1"/>
-                <field name="customer_name" optional="show" readonly="1"/>
+                <field name="quotation_date" optional="show" readonly="1" string="見積日付"/>
+                <field name="document_no" optional="show" readonly="1" string="伝票Ｎｏ"/>
+                <field name="customer_name" optional="show" readonly="1" string="得意先名"/>
                 <field name="class_item" optional="show" readonly="1"/>
                 <field name="product_code" optional="show" readonly="1"/>
                 <field name="product_barcode" optional="show" readonly="1"/>
                 <field name="product_standard_number" optional="show" readonly="1"/>
-                <field name="product_maker_name" optional="show" readonly="1"/>
+                <field name="product_maker_name" optional="show" readonly="1" string="メーカー名"/>
                 <field name="product_name" optional="show" readonly="1"/>
                 <field name="product_uom_qty" optional="show" readonly="1"/>
                 <field name="product_uom_id" optional="show"/>

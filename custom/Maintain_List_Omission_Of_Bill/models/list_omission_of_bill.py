@@ -135,7 +135,18 @@ class ListOmissionOfBill(models.Model):
                                     5
                             END
                     END AS tax_rate, -- 税率
-                    account_move.x_voucher_tax_transfer AS tax_transfer, -- 税転嫁（外／内／非、明／伝／請）
+                    CASE
+                        WHEN account_move.x_voucher_tax_transfer = 'foreign_tax' THEN
+                            '外税／明細'
+                        WHEN account_move.x_voucher_tax_transfer = 'internal_tax' THEN
+                            '内税／明細'
+                        WHEN account_move.x_voucher_tax_transfer = 'voucher' THEN
+                            '伝票'
+                        WHEN account_move.x_voucher_tax_transfer = 'invoice' THEN 
+                            '請求'
+                        WHEN account_move.x_voucher_tax_transfer = 'custom_tax' THEN 
+                            '税調整別途'  
+                    END AS tax_transfer, -- 税転嫁（外／内／非、明／伝／請）
                     closing_date.start_day,
                     closing_date.name as closing_date_name,
                     hr_department.id AS department_id,
@@ -303,8 +314,7 @@ class ListOmissionOfBill(models.Model):
         else:
             domain = args
 
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         if (len(domain) == 1 and val_issue_format == '0') or len(domain) == 0:
             return []
-
+        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
