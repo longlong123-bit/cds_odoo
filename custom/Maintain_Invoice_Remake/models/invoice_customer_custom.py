@@ -1171,6 +1171,24 @@ class AccountMoveLine(models.Model):
             ])
             self.product_id = product.id
             self.product_barcode = product.barcode
+            setting_price = "1"
+            if self.product_code == product.product_code_2:
+              setting_price = "2"
+            elif self.product_code == product.product_code_3:
+              setting_price = "3"
+            elif self.product_code == product.product_code_4:
+              setting_price = "4"
+            elif self.product_code == product.product_code_5:
+              setting_price = "5"
+            elif self.product_code == product.product_code_6:
+              setting_price = "6"
+            if product.product_tax_category == 'exempt':
+                self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+            else:
+                self.price_include_tax = product["price_include_tax_" + setting_price]
+                self.price_no_tax = product["price_no_tax_" + setting_price]
+
+            self.price_unit = self._get_computed_price_unit()
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
@@ -1179,7 +1197,17 @@ class AccountMoveLine(models.Model):
                 ['barcode', '=', self.product_barcode]
             ])
             self.product_id = product.id
-            self.product_code = product.code_by_setting
+            #TODO FOR TOI
+            # self.product_code = product.code_by_setting
+            setting_price = '1'
+            if product.setting_price:
+              setting_price = product.setting_price[5:]
+            if product.product_tax_category == 'exempt':
+                self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+            else:
+                self.price_include_tax = product["price_include_tax_" + setting_price]
+                self.price_no_tax = product["price_no_tax_" + setting_price]
+            self.price_unit = self._get_computed_price_unit()
 
     # # 消費税区分
     # line_tax_category = fields.Selection(
@@ -1288,10 +1316,6 @@ class AccountMoveLine(models.Model):
             else:
                 line.line_tax_amount = 0
 
-    @api.onchange('product_id')
-    def _onchange_product(self):
-        self.price_unit = self._get_computed_price_unit()
-
     @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype',
                   'move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding', 'tax_rate')
     def _onchange_price_subtotal(self):
@@ -1351,28 +1375,27 @@ class AccountMoveLine(models.Model):
     def _onchange_product_id(self):
         for line in self:
             if not line.product_id or line.display_type in ('line_section', 'line_note'):
+                line.name = ''
+                line.product_name = ''
+                line.product_standard_price = 0
+                line.x_product_cost_price = 0
+                line.account_id = ''
+                line.product_uom_id = ''
+                line.tax_rate = ''
+                line.product_maker_name = ''
+                line.invoice_custom_standardnumber = ''
+                company = ''
                 continue
             line.name = line._get_computed_name()
             line.product_name = line.product_id.name
             line.product_standard_price = line.product_id.standard_price
             line.x_product_cost_price = line.product_id.cost
-            line.product_barcode = line.product_id.barcode
             line.account_id = line._get_computed_account()
 
             line.product_uom_id = line.product_id.product_uom_custom
             line.tax_rate = line.product_id.product_tax_rate
             line.product_maker_name = line.product_id.product_maker_name
             line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
-
-            if line.product_id.setting_price:
-                setting_price = line.product_id.setting_price[5:]
-                if line.product_id.product_tax_category == 'exempt':
-                    line.price_include_tax = line.price_no_tax = line.product_id["price_" + setting_price]
-                else:
-                    line.price_include_tax = line.product_id["price_include_tax_" + setting_price]
-                    line.price_no_tax = line.product_id["price_no_tax_" + setting_price]
-
-            line.price_unit = line._get_computed_price_unit()
 
             # Convert the unit price to the invoice's currency.
             company = line.move_id.company_id

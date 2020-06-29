@@ -542,6 +542,27 @@ class QuotationsLinesCustom(models.Model):
             self.product_id = product.id
             self.product_barcode = product.barcode
 
+            setting_price = "1"
+            if self.product_code == product.product_code_2:
+              setting_price = "2"
+            elif self.product_code == product.product_code_3:
+              setting_price = "3"
+            elif self.product_code == product.product_code_4:
+              setting_price = "4"
+            elif self.product_code == product.product_code_5:
+              setting_price = "5"
+            elif self.product_code == product.product_code_6:
+              setting_price = "6"
+            if product.product_tax_category == 'exempt':
+                self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+            else:
+                self.price_include_tax = product["price_include_tax_" + setting_price]
+                self.price_no_tax = product["price_no_tax_" + setting_price]
+
+            self.compute_price_unit()
+            self.compute_line_amount()
+            self.compute_line_tax_amount()
+
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
         if self.product_barcode:
@@ -549,7 +570,21 @@ class QuotationsLinesCustom(models.Model):
                 ['barcode', '=', self.product_barcode]
             ])
             self.product_id = product.id
-            self.product_code = product.code_by_setting
+            #TODO FOR TOI
+            # self.product_code = product.code_by_setting
+
+            setting_price = '1'
+            if product.setting_price:
+                setting_price = product.setting_price[5:]
+            if product.product_tax_category == 'exempt':
+                self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+            else:
+                self.price_include_tax = product["price_include_tax_" + setting_price]
+                self.price_no_tax = product["price_no_tax_" + setting_price]
+
+            self.compute_price_unit()
+            self.compute_line_amount()
+            self.compute_line_tax_amount()
 
     @api.onchange('refer_detail_history')
     def _get_detail_history(self):
@@ -581,32 +616,27 @@ class QuotationsLinesCustom(models.Model):
     def _get_detail_product(self):
         for line in self:
             if not line.product_id or line.display_type in ('line_section', 'line_note'):
+                line.product_id = ''
+                line.product_name = ''
+                line.product_name2 = ''
+                line.product_uom_id = ''
+                line.product_maker_name = ''
+                line.product_standard_number = ''
+                line.product_standard_price = 0
+                line.cost = 0
+                line.tax_rate = 0
                 continue
 
-            # if self.product_id:
-            #     for rec in self:
             line.product_id = line.product_id or ''
             line.product_name = line.product_id.name or ''
             line.product_name2 = line.product_id.product_custom_goodsnamef or ''
             line.product_uom_id = line.product_id.product_uom_custom or ''
-            line.product_barcode = line.product_id.barcode or ''
             line.product_maker_name = line.product_id.product_maker_name or ''
             line.product_standard_number = line.product_id.product_custom_standardnumber or ''
             line.product_standard_price = line.product_id.standard_price or 0.00
             line.cost = line.product_id.cost or 0.00
             line.tax_rate = line.product_id.product_tax_rate or 0.00
 
-            if line.product_id.setting_price:
-                setting_price = line.product_id.setting_price[5:]
-                if line.product_id.product_tax_category == 'exempt':
-                    line.price_include_tax = line.price_no_tax = line.product_id["price_" + setting_price]
-                else:
-                    line.price_include_tax = line.product_id["price_include_tax_" + setting_price]
-                    line.price_no_tax = line.product_id["price_no_tax_" + setting_price]
-
-            line.compute_price_unit()
-            line.compute_line_amount()
-            line.compute_line_tax_amount()
 
     def _compute_tax_id(self):
         for line in self:
