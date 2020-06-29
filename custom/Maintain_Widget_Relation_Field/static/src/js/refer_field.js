@@ -275,7 +275,6 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
 
         events : _.extend({}, AbstractField.prototype.events, {
             'click .o_button_refer_field': '_onClickButton',
-            'keyup .o_input_refer_field': '_onKeyupInput',
             'change .o_input_refer_field': '_onChangeInput',
         }),
 
@@ -331,18 +330,6 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
             e.stopPropagation();
             e.preventDefault();
             this._openDialogSearch();
-        },
-
-        /**
-         * Event when keyup on input
-         * check if is enter then check data
-         */
-        _onKeyupInput: function(e){
-            var options = this._getWidgetOptions();
-
-            if (e.which === $.ui.keyCode.ENTER || e.which === $.ui.keyCode.TAB) {
-                this._setValue(e.target.value);
-            }
         },
 
         /**
