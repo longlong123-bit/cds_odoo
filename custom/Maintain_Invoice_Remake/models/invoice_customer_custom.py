@@ -410,6 +410,9 @@ class ClassInvoiceCustom(models.Model):
     # Just to trigger to change data, not store
     trigger_quotation_history = fields.Many2one('sale.order', store=False)
 
+    # get payment_amount from account_payment
+    amount_from_payment = fields.Float(string='Amount from payment')
+
     @api.onchange('trigger_quotation_history')
     def _compute_fill_data_with_quotation(self):
         account = self.env.company.get_chart_of_accounts_or_fail()
