@@ -147,7 +147,9 @@ class QuotationsCustom(models.Model):
                     'tax_id': line.tax_ids,
                     'tax_rate': line.tax_rate,
                     'line_tax_amount': line.line_tax_amount,
-                    'description': line.invoice_custom_Description
+                    'description': line.invoice_custom_Description,
+                    'price_include_tax': line.price_include_tax,
+                    'price_no_tax': line.price_no_tax
                 }))
 
             self.order_line = lines
