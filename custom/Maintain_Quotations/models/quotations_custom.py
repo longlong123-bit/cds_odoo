@@ -545,29 +545,34 @@ class QuotationsLinesCustom(models.Model):
                     ['product_code_5', '=', self.product_code],
                     ['product_code_6', '=', self.product_code]
                 ])
-                self.product_id = product.id
-                self.product_barcode = product.barcode
 
-                setting_price = "1"
-                if self.product_code == product.product_code_2:
-                  setting_price = "2"
-                elif self.product_code == product.product_code_3:
-                  setting_price = "3"
-                elif self.product_code == product.product_code_4:
-                  setting_price = "4"
-                elif self.product_code == product.product_code_5:
-                  setting_price = "5"
-                elif self.product_code == product.product_code_6:
-                  setting_price = "6"
-                if product.product_tax_category == 'exempt':
-                    self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
-                else:
-                    self.price_include_tax = product["price_include_tax_" + setting_price]
-                    self.price_no_tax = product["price_no_tax_" + setting_price]
+                if product:
+                    self.product_id = product.id
+                    self.product_barcode = product.barcode
 
-                self.compute_price_unit()
-                self.compute_line_amount()
-                self.compute_line_tax_amount()
+                    setting_price = "1"
+                    if self.product_code == product.product_code_2:
+                        setting_price = "2"
+                    elif self.product_code == product.product_code_3:
+                        setting_price = "3"
+                    elif self.product_code == product.product_code_4:
+                        setting_price = "4"
+                    elif self.product_code == product.product_code_5:
+                        setting_price = "5"
+                    elif self.product_code == product.product_code_6:
+                        setting_price = "6"
+                    if product.product_tax_category == 'exempt':
+                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                    else:
+                        self.price_include_tax = product["price_include_tax_" + setting_price]
+                        self.price_no_tax = product["price_no_tax_" + setting_price]
+
+                    self.compute_price_unit()
+                    self.compute_line_amount()
+                    self.compute_line_tax_amount()
+                    return
+            # else
+            self.product_barcode = ''
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
@@ -578,21 +583,27 @@ class QuotationsLinesCustom(models.Model):
                 product = self.env['product.product'].search([
                     ['barcode', '=', self.product_barcode]
                 ])
-                self.product_id = product.id
-                self.product_code = product.code_by_setting
 
-                setting_price = '1'
-                if product.setting_price:
-                    setting_price = product.setting_price[5:]
-                if product.product_tax_category == 'exempt':
-                    self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
-                else:
-                    self.price_include_tax = product["price_include_tax_" + setting_price]
-                    self.price_no_tax = product["price_no_tax_" + setting_price]
+                if product:
+                    self.product_id = product.id
+                    self.product_code = product.code_by_setting
 
-                self.compute_price_unit()
-                self.compute_line_amount()
-                self.compute_line_tax_amount()
+                    setting_price = '1'
+                    if product.setting_price:
+                        setting_price = product.setting_price[5:]
+                    if product.product_tax_category == 'exempt':
+                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                    else:
+                        self.price_include_tax = product["price_include_tax_" + setting_price]
+                        self.price_no_tax = product["price_no_tax_" + setting_price]
+
+                    self.compute_price_unit()
+                    self.compute_line_amount()
+                    self.compute_line_tax_amount()
+                    return
+
+            # Else
+            self.product_code = ''
 
     @api.onchange('refer_detail_history')
     def _get_detail_history(self):
