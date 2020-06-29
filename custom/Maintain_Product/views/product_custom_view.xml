@@ -369,10 +369,10 @@
                 <field name="price_include_tax_6" invisible="True"/>
                 <field name="product_uom_custom"/>
                 <field name="setting_price" string="標準定価"/>
-                <field name="price_no_tax"/>
-                <field name="price_include_tax"/>
-                <field name="original_price_no_tax"/>
-                <field name="original_price_include_tax"/>
+                <field name="price_no_tax" invisible="1"/>
+                <field name="price_include_tax" invisible="1"/>
+                <field name="original_price_no_tax" invisible="1"/>
+                <field name="original_price_include_tax" invisible="1"/>
                 <field name="product_tax_rate" string="Tax Rate"/>
                 <field name="code_by_setting" invisible="1"/>
                 <field name="price_by_setting" invisible="1"/>
