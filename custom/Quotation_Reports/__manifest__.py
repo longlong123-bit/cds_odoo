@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 {
     'name': 'Quotation Reports',
     'version': '13.0',
@@ -21,11 +19,13 @@
         'reports/normal_reports_1_in_1.xml',
         'reports/quotation_report_2.xml',
         'reports/quotation_report_3.xml',
-        # 'reports/handover_report.xml',
-        # 'reports/handover_one.xml',
-        # 'reports/handover_two.xml',
-        # 'reports/handover_three.xml',
-        # 'reports/handover_four.xml',
+        'reports/handover_report.xml',
+        'reports/handover_one.xml',
+        'reports/handover_two.xml',
+        'reports/handover_three.xml',
+        'reports/handover_four.xml',
+        'reports/handover_five.xml',
+        'reports/handover_seven.xml',
     ],
     'qweb': [
         'static/src/xml/reports_template.xml',
