@@ -1158,58 +1158,76 @@ class AccountMoveLine(models.Model):
 
     price_no_tax = fields.Float('Price No Tax')
     price_include_tax = fields.Float('Price Include Tax')
+    temp_onchange_field = ''
 
     @api.onchange('product_code')
     def _onchange_product_code(self):
-        if self.product_code:
-            product = self.env['product.product'].search([
-                '|', '|', '|', '|', '|',
-                ['product_code_1', '=', self.product_code],
-                ['product_code_2', '=', self.product_code],
-                ['product_code_3', '=', self.product_code],
-                ['product_code_4', '=', self.product_code],
-                ['product_code_5', '=', self.product_code],
-                ['product_code_6', '=', self.product_code]
-            ])
-            self.product_id = product.id
-            self.product_barcode = product.barcode
-            setting_price = "1"
-            if self.product_code == product.product_code_2:
-              setting_price = "2"
-            elif self.product_code == product.product_code_3:
-              setting_price = "3"
-            elif self.product_code == product.product_code_4:
-              setting_price = "4"
-            elif self.product_code == product.product_code_5:
-              setting_price = "5"
-            elif self.product_code == product.product_code_6:
-              setting_price = "6"
-            if product.product_tax_category == 'exempt':
-                self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
-            else:
-                self.price_include_tax = product["price_include_tax_" + setting_price]
-                self.price_no_tax = product["price_no_tax_" + setting_price]
+        if not self.temp_onchange_field:
+            self.temp_onchange_field = 'product_code'
 
-            self.price_unit = self._get_computed_price_unit()
+            if self.product_code:
+                product = self.env['product.product'].search([
+                    '|', '|', '|', '|', '|',
+                    ['product_code_1', '=', self.product_code],
+                    ['product_code_2', '=', self.product_code],
+                    ['product_code_3', '=', self.product_code],
+                    ['product_code_4', '=', self.product_code],
+                    ['product_code_5', '=', self.product_code],
+                    ['product_code_6', '=', self.product_code]
+                ])
+
+                if product:
+                    self.product_id = product.id
+                    self.product_barcode = product.barcode
+                    setting_price = "1"
+                    if self.product_code == product.product_code_2:
+                        setting_price = "2"
+                    elif self.product_code == product.product_code_3:
+                        setting_price = "3"
+                    elif self.product_code == product.product_code_4:
+                        setting_price = "4"
+                    elif self.product_code == product.product_code_5:
+                        setting_price = "5"
+                    elif self.product_code == product.product_code_6:
+                        setting_price = "6"
+                    if product.product_tax_category == 'exempt':
+                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                    else:
+                        self.price_include_tax = product["price_include_tax_" + setting_price]
+                        self.price_no_tax = product["price_no_tax_" + setting_price]
+
+                    self.price_unit = self._get_computed_price_unit()
+                    return
+
+            # else
+            self.product_barcode = ''
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
-        if self.product_barcode:
-            product = self.env['product.product'].search([
-                ['barcode', '=', self.product_barcode]
-            ])
-            self.product_id = product.id
-            #TODO FOR TOI
-            # self.product_code = product.code_by_setting
-            setting_price = '1'
-            if product.setting_price:
-              setting_price = product.setting_price[5:]
-            if product.product_tax_category == 'exempt':
-                self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
-            else:
-                self.price_include_tax = product["price_include_tax_" + setting_price]
-                self.price_no_tax = product["price_no_tax_" + setting_price]
-            self.price_unit = self._get_computed_price_unit()
+        if not self.temp_onchange_field:
+            self.temp_onchange_field = 'product_barcode'
+
+            if self.product_barcode:
+                product = self.env['product.product'].search([
+                    ['barcode', '=', self.product_barcode]
+                ])
+
+                if product:
+                    self.product_id = product.id
+                    self.product_code = product.code_by_setting
+                    setting_price = '1'
+                    if product.setting_price:
+                        setting_price = product.setting_price[5:]
+                    if product.product_tax_category == 'exempt':
+                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                    else:
+                        self.price_include_tax = product["price_include_tax_" + setting_price]
+                        self.price_no_tax = product["price_no_tax_" + setting_price]
+                    self.price_unit = self._get_computed_price_unit()
+                    return
+
+            # else:
+            self.product_code = ''
 
     # # 消費税区分
     # line_tax_category = fields.Selection(
