@@ -354,7 +354,7 @@
                                     </table>
                                     <div>
                                         <t t-if="o.quotation_type =='invoice'">
-                                            <span>振込銀行口座 : <t t-esc="o.company_id.company_bank_account_1"/></span><br/>
+                                            <span>振込銀行口座 : <t t-field="o.company_id.company_bank_account_1"/></span><br/>
                                             <span style="display: block; width: 720px; overflow: hidden; white-space: nowrap;"
                                                   t-field="o.comment"><null/></span>
                                         </t>
