@@ -12,10 +12,10 @@
                             <t t-call="Quotation_Reports.handover_two_report" t-lang="lang"/>
                         </t>
                         <t t-elif="o.partner_id.customer_delivery_note == 'note3'">
-                            <t t-call="Quotation_Reports.handover_three_template" t-lang="lang"/>
+                            <t t-call="Quotation_Reports.handover_five_template" t-lang="lang"/>
                         </t>
                         <t t-elif="o.partner_id.customer_delivery_note == 'note4'">
-                            <t t-call="Quotation_Reports.handover_four_template" t-lang="lang"/>
+                            <t t-call="Quotation_Reports.handover_seven_template" t-lang="lang"/>
                         </t>
                     </div>
                 </t>
