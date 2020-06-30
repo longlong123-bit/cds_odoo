@@ -229,7 +229,7 @@
                                     <field name="product_code" widget="refer_field"
                                            attrs="{'invisible': [('display_type', '!=', False)]}"
                                            string="Product Code"
-                                           options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"]}'/>
+                                           options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "alternative_column":"product_barcode", "alternative_value":"barcode"}'/>
                                     <!--                                    <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"-->
 <!--                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"-->
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->
