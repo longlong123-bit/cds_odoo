@@ -808,7 +808,89 @@ odoo.define('web.ListRender_Custom', function (require) {
         this.$('thead .o_list_record_selector input').prop('checked', allChecked);
         this.trigger_up('selection_changed', { selection: this.selection });
         this._updateFooter();
+        },
+
+    /**
+     * Handles the keyboard navigation according to events triggered by field
+     * widgets.
+     * - previous: move to the first activable cell on the left if any, if not
+     *          move to the rightmost activable cell on the row above.
+     * - next: move to the first activable cell on the right if any, if not move
+     *          to the leftmost activable cell on the row below.
+     * - next_line: move to leftmost activable cell on the row below.
+     *
+     * Note: moving to a line below if on the last line or moving to a line
+     * above if on the first line automatically creates a new line.
+     *
+     * @private
+     * @param {OdooEvent} ev
+     */
+    _onNavigationMove: function (ev) {
+        var self = this;
+        // Don't stop the propagation when navigating up while not editing any row
+        if (this.currentRow === null && ev.data.direction === 'up') {
+            return;
         }
+        ev.stopPropagation(); // stop the event, the action is done by this renderer
+        switch (ev.data.direction) {
+            case 'previous':
+                if (this.currentFieldIndex > 0) {
+                    this._selectCell(this.currentRow, this.currentFieldIndex - 1, {inc: -1, wrap: false})
+                        .guardedCatch(this._moveToPreviousLine.bind(this));
+                } else {
+                    this._moveToPreviousLine();
+                }
+                break;
+            case 'next':
+                if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('invoice_create')){
+                  var focus_index = [3,4,8,10,this.columns.length - 2];
+                  var currentIndex = this.currentFieldIndex;
+                  var index = focus_index.findIndex(function(number) {
+                    return number > currentIndex;
+                  });
+                  this.currentFieldIndex = index > -1 ? focus_index[index] -1 : this.currentFieldIndex;
+                }
+                if (this.currentFieldIndex + 1 < this.columns.length) {
+                    this._selectCell(this.currentRow, this.currentFieldIndex + 1, {wrap: false})
+                        .guardedCatch(this._moveToNextLine.bind(this));
+                } else {
+                    this._moveToNextLine();
+                }
+                break;
+            case 'next_line':
+                // If the list is readonly and the current is the only record editable, we unselect the line
+                if (!this.editable && this.selection.length === 1 &&
+                    this._getRecordID(this.currentRow) === ev.target.dataPointID) {
+                    this.unselectRow();
+                } else {
+                    this._moveToNextLine({ forceCreate: true });
+                }
+                break;
+            case 'cancel':
+                // stop the original event (typically an ESCAPE keydown), to
+                // prevent from closing the potential dialog containing this list
+                // also auto-focus the 1st control, if any.
+                ev.data.originalEvent.stopPropagation();
+                var rowIndex = this.currentRow;
+                var cellIndex = this.currentFieldIndex + 1;
+                this.trigger_up('discard_changes', {
+                    recordID: ev.target.dataPointID,
+                    onSuccess: function () {
+                        self._enableRecordSelectors();
+                        var recordId = self._getRecordID(rowIndex);
+                        if (recordId) {
+                            var correspondingRow = self._getRow(recordId);
+                            correspondingRow.children().eq(cellIndex).focus();
+                        } else if (self.currentGroupId) {
+                            self.$('a[data-group-id="' + self.currentGroupId + '"]').focus();
+                        } else {
+                            self.$('.o_field_x2many_list_row_add a:first').focus(); // FIXME
+                        }
+                    }
+                });
+                break;
+        }
+    },
     });
     ListRender.include(My_ListRender);
 });

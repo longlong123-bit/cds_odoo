@@ -126,9 +126,19 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
 
                 for (var i = 0; i < state.count; i++) {
                     if (state.data[i] && state.data[i].ref === event.data.id) {
-                        parent._setValue(state.data[i].data[readColumn] || '');
-                        parent._render();
-                        break;
+                        if (state.data[i].data[readColumn]){
+                          parent._setValue(state.data[i].data[readColumn] || '');
+                          parent._render();
+                          break;
+                        } else {
+                          var alternative_column = options.alternative_column;
+                          var alternative_value = options.alternative_value;
+                          var current_row = this.getParent().$el.parent().parent().parent();
+                          var alternative_element = current_row.find('div[name="'+ alternative_column +'"]').find('input');
+                          alternative_element.val(state.data[i].data[alternative_value] || '');
+                          alternative_element.trigger("change");
+                          break;
+                        }
                     }
                 }
 
