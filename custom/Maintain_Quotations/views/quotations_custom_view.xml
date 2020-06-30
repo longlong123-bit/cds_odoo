@@ -39,8 +39,10 @@
                         <button name="action_cancel" states="draft,sent,sale" type="object" string="Cancel"/>
                         <button name="preview_report" states="draft,sent,sale" type="object" string="Preview"/>
                         <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/>
-                        <field name="order_id" widget="button_field" z-index="92" options='{"model":"sale.order", "text":"見積履歴問合せ"}'/>
-                        <field name="refer_invoice_history" widget="button_field" z-index="92" options='{"model":"account.move", "text":"売上履歴問合せ"}'/>
+                        <field name="order_id" widget="button_field" z-index="92" options='{"model":"sale.order", "text":"見積履歴問合せ"}'
+                               attrs="{'invisible':[('flag_history','=', 1)]}"/>
+                        <field name="refer_invoice_history" widget="button_field" z-index="92" options='{"model":"account.move", "text":"売上履歴問合せ"}'
+                               attrs="{'invisible':[('flag_history','=', 1)]}"/>
 <!--                        <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>-->
                     </header>
                     <table class="custom-form-table cols-8">
@@ -88,7 +90,8 @@
                             <tr>
                                 <td class="o_td_label"><label for="partner_name_2" string="Partner Name 2"/></td>
                                 <td colspan="2"><field name="partner_name_2"/></td>
-                                <td><field name="related_partner_code" invisible="1"/></td>
+<!--                                <td><field name="related_partner_code" invisible="1"/></td>-->
+                                <td><field name="flag_history" force_save="1" invisible="1"/></td>
 
                                 <td class="o_td_label"><label for="report_header" string="Report Title*" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>
                                 <td><field name="report_header"
@@ -163,6 +166,10 @@
                                 <td colspan="2"><field name="comment"/></td>
                                 <td class="o_td_label"><label for="create_date" string="Create Date"/></td>
                                 <td><field name="create_date"/></td>
+                            </tr>
+                            <tr>
+                                <td><field name="related_partner_code" invisible="1" optional="hide" force_save="1"
+                                           attrs="{'invisible':[('partner_id','=', False)]}" readonly="False"/></td>
                             </tr>
                         </tbody>
                     </table>
