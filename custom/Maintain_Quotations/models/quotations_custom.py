@@ -528,12 +528,12 @@ class QuotationsLinesCustom(models.Model):
 
     quotation_custom_line_no = fields.Integer('Line No', default=_get_default_line_no)
     product_uom_id = fields.Char(string='UoM')
-    temp_onchange_field = ''
+    is_code_changed_first = False
 
     @api.onchange('product_code')
     def _onchange_product_code(self):
-        if not self.temp_onchange_field:
-            self.temp_onchange_field = 'product_code'
+        if not self.is_code_changed_first:
+            self.is_code_changed_first = True
 
             if self.product_code:
                 product = self.env['product.product'].search([
@@ -576,8 +576,8 @@ class QuotationsLinesCustom(models.Model):
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
-        if not self.temp_onchange_field:
-            self.temp_onchange_field = 'product_barcode'
+        if not self.is_code_changed_first:
+            self.is_code_changed_first = True
 
             if self.product_barcode:
                 product = self.env['product.product'].search([
@@ -611,10 +611,12 @@ class QuotationsLinesCustom(models.Model):
             data = self.refer_detail_history
 
             if not data.display_type:
+                self.is_code_changed_first = True
                 self.class_item = data.class_item
                 self.product_id = data.product_id
                 self.product_name = data.product_name
                 self.product_name2 = data.product_name2
+                self.product_code = data.product_code
                 self.product_barcode = data.product_barcode
                 self.product_maker_name = data.product_maker_name
                 self.product_standard_number = data.product_standard_number
