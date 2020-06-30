@@ -92,11 +92,11 @@
                                             <span style="">合計金額　</span>
                                             <t t-if="tax_method == 'invoice'">
                                                 <span style="display: inline-block; width: 168px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.amount_untaxed"></span>
+                                                      t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"></span>
                                             </t>
                                             <t t-else="">
                                                 <span style="display: inline-block; width: 168px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.amount_total"></span>
+                                                      t-esc="'{0:,.0f}'.format(int(o.amount_total))"></span>
                                             </t>
                                             <t t-if="o.tax_method =='invoice'">
                                                     <span>（税別）</span>
@@ -156,16 +156,16 @@
                                                                 </td>
                                                                 <td style="border: 1px solid #000000;  text-align: right; border-top: 0">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_uom_qty"><null/></span></td>
+                                                                          t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))"><null/></span></td>
                                                                 <td style="border: 1px solid #000000;  text-align: center; border-top: 0">
                                                                     <span style="display: inline-block; width: 36px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_uom"><null/></span></td>
                                                                 <td style="border: 1px solid #000000; text-align: right;border-top: 0">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.price_unit"><null/></span></td>
+                                                                          t-esc="'{0:,.0f}'.format(int(order.price_unit))"><null/></span></td>
                                                                 <td style="border: 1px solid #000000; text-align: right;border-top: 0">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.line_amount"><null/></span></td>
+                                                                          t-esc="'{0:,.0f}'.format(int(order.line_amount))"><null/></span></td>
                                                                 <td style="border: 1px solid #000000; text-align: right; border-top: 0">
                                                                     <t t-if="order.tax_rate == 8">
                                                                         <span style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;">
@@ -217,7 +217,7 @@
                                                     <td style="border: 1px solid #000000;"></td>
                                                     <td style="border: 1px solid #000000; text-align: right;">
                                                         <span style="display: block; width: 77px; overflow: hidden; white-space: nowrap;"
-                                                              t-esc="subtotal_amount"><null/></span>
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_amount))"><null/></span>
                                                     </td>
                                                     <td style="border: 1px solid #000000;"></td>
                                                 </tr>
@@ -250,16 +250,16 @@
                                                         </td>
                                                         <td style="border: 1px solid #000000;  text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-field="order.product_uom_qty"><null/></span></td>
+                                                                  t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))"><null/></span></td>
                                                         <td style="border: 1px solid #000000;  text-align: center">
                                                             <span style="display: inline-block; width: 36px; overflow: hidden; white-space: nowrap;"
                                                                   t-field="order.product_uom"><null/></span></td>
                                                         <td style="border: 1px solid #000000; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-field="order.price_unit"><null/></span></td>
+                                                                  t-esc="'{0:,.0f}'.format(int(order.price_unit))"><null/></span></td>
                                                         <td style="border: 1px solid #000000; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-field="order.line_amount"><null/></span></td>
+                                                                  t-esc="'{0:,.0f}'.format(int(order.line_amount))"><null/></span></td>
                                                         <td style="border: 1px solid #000000; text-align: right">
                                                             <t t-if="order.tax_rate == 8">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
@@ -318,11 +318,11 @@
                                                 <td style="border: 1px solid #000000; text-align: right;">
                                                     <t t-if="subtotal_tax_amount8">
                                                         <span style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"
-                                                              t-esc="subtotal_tax_amount8"></span>
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_tax_amount8))"></span>
                                                     </t>
                                                     <t t-if="subtotal_tax_amount10">
                                                         <span style="display: inline-block; width: 77px; overflow: hidden; white-space: nowrap;"
-                                                              t-esc="subtotal_tax_amount10"></span>
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_tax_amount10))"></span>
                                                     </t>
                                                 </td>
                                                 <td style="border: 1px solid #000000;"></td>
@@ -338,7 +338,7 @@
                                                 <td style="border: 1px solid #000000;"></td>
                                                 <td style="border: 1px solid #000000; text-align: right;">
                                                     <span style="display: block; width: 77px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="subtotal_total_amount"><null/></span>
+                                                          t-esc="'{0:,.0f}'.format(int(subtotal_total_amount))"><null/></span>
                                                 </td>
                                                 <td style="border: 1px solid #000000;"></td>
                                             </tr>
