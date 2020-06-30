@@ -528,12 +528,12 @@ class QuotationsLinesCustom(models.Model):
 
     quotation_custom_line_no = fields.Integer('Line No', default=_get_default_line_no)
     product_uom_id = fields.Char(string='UoM')
-    is_code_changed_first = False
+    changed_fields = []
 
     @api.onchange('product_code')
     def _onchange_product_code(self):
-        if not self.is_code_changed_first:
-            self.is_code_changed_first = True
+        if 'product_code' not in self.changed_fields:
+            self.changed_fields.append('product_barcode')
 
             if self.product_code:
                 product = self.env['product.product'].search([
@@ -576,8 +576,8 @@ class QuotationsLinesCustom(models.Model):
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
-        if not self.is_code_changed_first:
-            self.is_code_changed_first = True
+        if 'product_barcode' not in self.changed_fields:
+            self.changed_fields.append('product_code')
 
             if self.product_barcode:
                 product = self.env['product.product'].search([
@@ -611,7 +611,7 @@ class QuotationsLinesCustom(models.Model):
             data = self.refer_detail_history
 
             if not data.display_type:
-                self.is_code_changed_first = True
+                self.changed_fields = ['product_code', 'product_barcode', 'product_id']
                 self.class_item = data.class_item
                 self.product_id = data.product_id
                 self.product_name = data.product_name
@@ -635,29 +635,29 @@ class QuotationsLinesCustom(models.Model):
 
     @api.onchange('product_id')
     def _get_detail_product(self):
-        for line in self:
-            if not line.product_id or line.display_type in ('line_section', 'line_note'):
-                line.product_id = ''
-                line.product_name = ''
-                line.product_name2 = ''
-                line.product_uom_id = ''
-                line.product_maker_name = ''
-                line.product_standard_number = ''
-                line.product_standard_price = 0
-                line.cost = 0
-                line.tax_rate = 0
-                continue
+        if 'product_id' not in self.changed_fields:
+            for line in self:
+                if not line.product_id or line.display_type in ('line_section', 'line_note'):
+                    line.product_id = ''
+                    line.product_name = ''
+                    line.product_name2 = ''
+                    line.product_uom_id = ''
+                    line.product_maker_name = ''
+                    line.product_standard_number = ''
+                    line.product_standard_price = 0
+                    line.cost = 0
+                    line.tax_rate = 0
+                    continue
 
-            line.product_id = line.product_id or ''
-            line.product_name = line.product_id.name or ''
-            line.product_name2 = line.product_id.product_custom_goodsnamef or ''
-            line.product_uom_id = line.product_id.product_uom_custom or ''
-            line.product_maker_name = line.product_id.product_maker_name or ''
-            line.product_standard_number = line.product_id.product_custom_standardnumber or ''
-            line.product_standard_price = line.product_id.standard_price or 0.00
-            line.cost = line.product_id.cost or 0.00
-            line.tax_rate = line.product_id.product_tax_rate or 0.00
-
+                line.product_id = line.product_id or ''
+                line.product_name = line.product_id.name or ''
+                line.product_name2 = line.product_id.product_custom_goodsnamef or ''
+                line.product_uom_id = line.product_id.product_uom_custom or ''
+                line.product_maker_name = line.product_id.product_maker_name or ''
+                line.product_standard_number = line.product_id.product_custom_standardnumber or ''
+                line.product_standard_price = line.product_id.standard_price or 0.00
+                line.cost = line.product_id.cost or 0.00
+                line.tax_rate = line.product_id.product_tax_rate or 0.00
 
     def _compute_tax_id(self):
         for line in self:

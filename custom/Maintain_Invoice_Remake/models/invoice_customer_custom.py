@@ -1034,7 +1034,7 @@ class AccountMoveLine(models.Model):
         for line in self:
             detail_history = line.x_history_detail
             if detail_history.id:
-                self.is_code_changed_first = True
+                self.changed_fields = ['product_code', 'product_barcode', 'product_id']
                 line.x_invoicelinetype = detail_history.x_invoicelinetype
                 line.product_code = detail_history.product_code
                 line.product_barcode = detail_history.product_barcode
@@ -1156,12 +1156,12 @@ class AccountMoveLine(models.Model):
 
     price_no_tax = fields.Float('Price No Tax')
     price_include_tax = fields.Float('Price Include Tax')
-    is_code_changed_first = False
+    changed_fields = []
 
     @api.onchange('product_code')
     def _onchange_product_code(self):
-        if not self.is_code_changed_first:
-            self.is_code_changed_first = True
+        if 'product_code' not in self.changed_fields:
+            self.changed_fields.append('product_barcode')
 
             if self.product_code:
                 product = self.env['product.product'].search([
@@ -1202,8 +1202,8 @@ class AccountMoveLine(models.Model):
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
-        if not self.is_code_changed_first:
-            self.is_code_changed_first = True
+        if 'product_barcode' not in self.changed_fields:
+            self.changed_fields.append('product_code')
 
             if self.product_barcode:
                 product = self.env['product.product'].search([
