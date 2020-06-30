@@ -843,7 +843,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                 break;
             case 'next':
                 if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('invoice_create')){
-                  var focus_index = [3,4,8,10,this.columns.length - 1];
+                  var focus_index = [3,4,8,10,this.columns.length - 2];
                   var currentIndex = this.currentFieldIndex;
                   var index = focus_index.findIndex(function(number) {
                     return number > currentIndex;
