@@ -30,7 +30,7 @@ class QuotationsCustom(models.Model):
         next = sequence.get_next_char(sequence.number_next_actual)
         return next
 
-    display_name = fields.Char(string='display_name', default='編集')
+    display_name = fields.Char(string='display_name', default='修正')
     name = fields.Char(string='Name', default=None)
     quotation_name = fields.Char(string='Name', default=None)
     shipping_address = fields.Char(string='Shipping Address')
