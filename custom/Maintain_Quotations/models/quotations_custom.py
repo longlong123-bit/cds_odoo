@@ -30,7 +30,7 @@ class QuotationsCustom(models.Model):
         next = sequence.get_next_char(sequence.number_next_actual)
         return next
 
-    display_name = fields.Char(string='display_name', default='編集')
+    display_name = fields.Char(string='display_name', default='修正')
     name = fields.Char(string='Name', default=None)
     quotation_name = fields.Char(string='Name', default=None)
     shipping_address = fields.Char(string='Shipping Address')
@@ -153,7 +153,7 @@ class QuotationsCustom(models.Model):
             #     rec.order_line = default['order_line'] or ()
 
             lines = []
-            self.order_line = ()
+            # self.order_line = ()
 
             for line in data.invoice_line_ids:
                 lines.append((0, 0, {
@@ -442,7 +442,7 @@ class QuotationsCustom(models.Model):
             self.is_print_date = sale_order.is_print_date
             self.tax_method = sale_order.tax_method
             self.comment_apply = sale_order.comment_apply
-            self.order_line = ()
+            # self.order_line = ()
 
             default = dict(None or [])
             lines = [rec.copy_data()[0] for rec in sale_order[0].order_line.sorted(key='id')]
@@ -557,12 +557,12 @@ class QuotationsLinesCustom(models.Model):
 
     quotation_custom_line_no = fields.Integer('Line No', default=_get_default_line_no)
     product_uom_id = fields.Char(string='UoM')
-    temp_onchange_field = ''
+    changed_fields = []
 
     @api.onchange('product_code')
     def _onchange_product_code(self):
-        if not self.temp_onchange_field:
-            self.temp_onchange_field = 'product_code'
+        if 'product_code' not in self.changed_fields:
+            self.changed_fields.append('product_barcode')
 
             if self.product_code:
                 product = self.env['product.product'].search([
@@ -605,8 +605,8 @@ class QuotationsLinesCustom(models.Model):
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
-        if not self.temp_onchange_field:
-            self.temp_onchange_field = 'product_barcode'
+        if 'product_barcode' not in self.changed_fields:
+            self.changed_fields.append('product_code')
 
             if self.product_barcode:
                 product = self.env['product.product'].search([
@@ -640,10 +640,12 @@ class QuotationsLinesCustom(models.Model):
             data = self.refer_detail_history
 
             if not data.display_type:
+                self.changed_fields = ['product_code', 'product_barcode', 'product_id']
                 self.class_item = data.class_item
                 self.product_id = data.product_id
                 self.product_name = data.product_name
                 self.product_name2 = data.product_name2
+                self.product_code = data.product_code
                 self.product_barcode = data.product_barcode
                 self.product_maker_name = data.product_maker_name
                 self.product_standard_number = data.product_standard_number
@@ -662,29 +664,29 @@ class QuotationsLinesCustom(models.Model):
 
     @api.onchange('product_id')
     def _get_detail_product(self):
-        for line in self:
-            if not line.product_id or line.display_type in ('line_section', 'line_note'):
-                line.product_id = ''
-                line.product_name = ''
-                line.product_name2 = ''
-                line.product_uom_id = ''
-                line.product_maker_name = ''
-                line.product_standard_number = ''
-                line.product_standard_price = 0
-                line.cost = 0
-                line.tax_rate = 0
-                continue
+        if 'product_id' not in self.changed_fields:
+            for line in self:
+                if not line.product_id or line.display_type in ('line_section', 'line_note'):
+                    line.product_id = ''
+                    line.product_name = ''
+                    line.product_name2 = ''
+                    line.product_uom_id = ''
+                    line.product_maker_name = ''
+                    line.product_standard_number = ''
+                    line.product_standard_price = 0
+                    line.cost = 0
+                    line.tax_rate = 0
+                    continue
 
-            line.product_id = line.product_id or ''
-            line.product_name = line.product_id.name or ''
-            line.product_name2 = line.product_id.product_custom_goodsnamef or ''
-            line.product_uom_id = line.product_id.product_uom_custom or ''
-            line.product_maker_name = line.product_id.product_maker_name or ''
-            line.product_standard_number = line.product_id.product_custom_standardnumber or ''
-            line.product_standard_price = line.product_id.standard_price or 0.00
-            line.cost = line.product_id.cost or 0.00
-            line.tax_rate = line.product_id.product_tax_rate or 0.00
-
+                line.product_id = line.product_id or ''
+                line.product_name = line.product_id.name or ''
+                line.product_name2 = line.product_id.product_custom_goodsnamef or ''
+                line.product_uom_id = line.product_id.product_uom_custom or ''
+                line.product_maker_name = line.product_id.product_maker_name or ''
+                line.product_standard_number = line.product_id.product_custom_standardnumber or ''
+                line.product_standard_price = line.product_id.standard_price or 0.00
+                line.cost = line.product_id.cost or 0.00
+                line.tax_rate = line.product_id.product_tax_rate or 0.00
 
     def _compute_tax_id(self):
         for line in self:
