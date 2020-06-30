@@ -415,8 +415,29 @@ class ClassInvoiceCustom(models.Model):
     # get payment_amount from account_payment
     amount_from_payment = fields.Float(string='Amount from payment')
 
+    # flag history button
+    flag_history = fields.Integer(string='flag_history', default=0)
+
+    # Check flag_history
+    @api.constrains('x_studio_business_partner')
+    def get_flag(self):
+        for rec in self:
+            rec.flag_history = 0
+
+    @api.onchange('x_studio_business_partner', 'x_studio_name', 'ref', 'x_bussiness_partner_name_2', 'x_studio_address_1',
+                  'x_studio_address_2', 'x_studio_address_3', 'x_studio_description', 'sales_rep', 'x_studio_cus_salesslipforms_table')
+    def _check_flag_history(self):
+        for rec in self:
+            if rec.x_studio_name or rec.x_studio_business_partner or rec.ref or rec.x_bussiness_partner_name_2 or rec.x_studio_address_1 \
+                    or rec.x_studio_address_2 or rec.x_studio_address_3 or rec.x_studio_description or rec.sales_rep or rec.x_studio_cus_salesslipforms_table :
+                rec.flag_history = 1
+
+
     @api.onchange('trigger_quotation_history')
     def _compute_fill_data_with_quotation(self):
+        for rec in self:
+            if rec.trigger_quotation_history:
+                rec.flag_history = 1
         account = self.env.company.get_chart_of_accounts_or_fail()
 
         for rec in self:
@@ -425,6 +446,9 @@ class ClassInvoiceCustom(models.Model):
                 copy_data_from_quotation(rec, rec.trigger_quotation_history, account)
 
                 # Form info
+                rec.x_studio_business_partner = rec.trigger_quotation_history.partner_id
+                rec.x_bussiness_partner_name_2 = rec.trigger_quotation_history.partner_name_2
+                rec.ref = rec.trigger_quotation_history.document_reference
                 rec.x_studio_business_partner = rec.trigger_quotation_history.partner_id
 
                 # Call method to set data when change partner
@@ -563,6 +587,10 @@ class ClassInvoiceCustom(models.Model):
 
     @api.onchange('x_history_voucher')
     def _onchange_x_test(self):
+        for rec in self:
+            if rec.x_history_voucher:
+                rec.flag_history = 1
+
         for voucher in self:
             result_l1 = []
             result_l2 = []
