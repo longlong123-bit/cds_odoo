@@ -128,7 +128,7 @@ def copy_data_from_partner(rec, partner):
 # Copy data for lines from quotation
 def copy_data_from_quotation(rec, quotation, account):
     if quotation:
-        rec.invoice_line_ids = ()
+        # rec.invoice_line_ids = ()
         invoice_line_ids = []
         line_ids = []
 
@@ -566,8 +566,8 @@ class ClassInvoiceCustom(models.Model):
         for voucher in self:
             result_l1 = []
             result_l2 = []
-            voucher.line_ids = ()
-            voucher.invoice_line_ids = ()
+            # voucher.line_ids = ()
+            # voucher.invoice_line_ids = ()
 
             # print(voucher.x_history_voucher.invoice_line_ids)
             for l in voucher.x_history_voucher.invoice_line_ids:
@@ -1391,41 +1391,42 @@ class AccountMoveLine(models.Model):
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
-        for line in self:
-            if not line.product_id or line.display_type in ('line_section', 'line_note'):
-                line.name = ''
-                line.product_name = ''
-                line.product_standard_price = 0
-                line.x_product_cost_price = 0
-                line.account_id = ''
-                line.product_uom_id = ''
-                line.tax_rate = ''
-                line.product_maker_name = ''
-                line.invoice_custom_standardnumber = ''
-                company = ''
-                continue
-            line.name = line._get_computed_name()
-            line.product_name = line.product_id.name
-            line.product_standard_price = line.product_id.standard_price
-            line.x_product_cost_price = line.product_id.cost
-            line.account_id = line._get_computed_account()
+        if 'product_id' not in self.changed_fields:
+            for line in self:
+                if not line.product_id or line.display_type in ('line_section', 'line_note'):
+                    line.name = ''
+                    line.product_name = ''
+                    line.product_standard_price = 0
+                    line.x_product_cost_price = 0
+                    line.account_id = ''
+                    line.product_uom_id = ''
+                    line.tax_rate = ''
+                    line.product_maker_name = ''
+                    line.invoice_custom_standardnumber = ''
+                    company = ''
+                    continue
+                line.name = line._get_computed_name()
+                line.product_name = line.product_id.name
+                line.product_standard_price = line.product_id.standard_price
+                line.x_product_cost_price = line.product_id.cost
+                line.account_id = line._get_computed_account()
 
-            line.product_uom_id = line.product_id.product_uom_custom
-            line.tax_rate = line.product_id.product_tax_rate
-            line.product_maker_name = line.product_id.product_maker_name
-            line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
+                line.product_uom_id = line.product_id.product_uom_custom
+                line.tax_rate = line.product_id.product_tax_rate
+                line.product_maker_name = line.product_id.product_maker_name
+                line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
 
-            # Convert the unit price to the invoice's currency.
-            company = line.move_id.company_id
-            # line.price_unit = company.currency_id._convert(line.price_unit, line.move_id.currency_id, company,
-            #                                                line.move_id.date)
+                # Convert the unit price to the invoice's currency.
+                company = line.move_id.company_id
+                # line.price_unit = company.currency_id._convert(line.price_unit, line.move_id.currency_id, company,
+                #                                                line.move_id.date)
 
-            # todo set price follow product code
-            # line.price_unit = line._get_computed_price_unit()
+                # todo set price follow product code
+                # line.price_unit = line._get_computed_price_unit()
 
-        # Comment for changing UOM, Category to Char
-        # if len(self) == 1:
-        #     return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
+            # Comment for changing UOM, Category to Char
+            # if len(self) == 1:
+            #     return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
 
     @api.onchange('price_unit')
     def _onchange_price_unit(self):
