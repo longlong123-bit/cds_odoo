@@ -116,9 +116,9 @@
             <attribute name="invisible">1</attribute>
         </xpath>
 
-        <xpath expr="//form/header/button[@name='action_reverse']"  position="after">
-          <field name="trigger_quotation_history" widget="button_field" z-index="92" options='{"model":"sale.order", "text":"見積履歴問合せ"}' attrs="{'invisible':[('state','in',['posted'])]}"/>
-          <field name="x_history_voucher" widget="button_field" z-index="92" options='{"model":"account.move", "text":"売上履歴問合せ"}' attrs="{'invisible':[('state','in',['posted'])]}"/>
+        <xpath expr="//form/header/button[@name='action_reverse']"  position="after">attrs="{'invisible':[('flag_history','=', 1)]}"
+          <field name="trigger_quotation_history" widget="button_field" z-index="92" options='{"model":"sale.order", "text":"見積履歴問合せ"}' attrs="{'invisible':['|', ('state','in',['posted']), ('flag_history','=', 1)]}"/>
+          <field name="x_history_voucher" widget="button_field" z-index="92" options='{"model":"account.move", "text":"売上履歴問合せ"}' attrs="{'invisible':['|', ('state','in',['posted']), ('flag_history','=', 1)]}"/>
         </xpath>
 
 <!--        <xpath expr="//header" position="inside">-->
@@ -133,6 +133,9 @@
         <table style ="vertical-align: baseline;" class="custom-form-table">
           <tbody>
             <!-- Row 1 -->
+              <tr>
+                  <td><field name="flag_history" force_save="1" invisible="1"/></td>
+              </tr>
               <tr>
                   <td class="col-label"><label for="x_studio_document_no" string="Document No"/></td>
                   <td class="col-field">
@@ -258,8 +261,8 @@
             <!-- Row 10 -->
             <tr>
               <!-- Column 1 -->
-              <td class="col-label"><label for="state" string="Document Status*"/></td>
-              <td class="col-field"><field name="state" string="Document Status*" readonly="1" required="1" class="o_input"/></td>
+              <td class="col-label"><label for="state" string="Document Status*" invisible="1"/></td>
+              <td class="col-field"><field name="state" string="Document Status*" required="1" class="o_input" invisible="1"/></td>
 
               <!-- Column 2 -->
                 <field name="customer_group" string="Customer Group" invisible="1"/>
