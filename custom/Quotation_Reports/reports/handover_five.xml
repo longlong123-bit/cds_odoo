@@ -30,27 +30,46 @@
                                         <span t-esc="pager"/>
                                     </div>
                                 </div>
+                                <div style="font-size: 14px;">
+                                    <div style="display: inline-block; ">
+                                        <span>お客様コードNo. </span>
+                                        <span style="width: 77px; overflow: hidden; white-space: nowrap;"
+                                              t-field="o.partner_id"><null/></span>
+                                    </div>
+                                    <div style="margin-top: 10px; float: right; width: 25%;">
+                                        <t t-if="o.is_print_date">
+                                            <t t-if="o.quotation_calendar == 'japan'">
+                                                <span t-field="o.jp_calendar"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                        </t>
+                                        <span t-else="">　　　年　　月　　日</span>
+                                    </div>
+                                </div>
                                 <!--      Middle      -->
                                 <div>
-                                    <div style="display: inline-block; width: 100%">
+                                    <div style="display: inline-block; width: 100%; font-size: 14px">
                                         <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
-                                            <div>
-                                                <span>お客様コードNo. </span>
-                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_id"><null/></span>
-                                            </div>
-                                            <div style="margin-top: 10px;">
-                                                <t t-if="o.is_print_date">
-                                                    <t t-if="o.quotation_calendar == 'japan'">
-                                                        <span t-field="o.jp_calendar"/>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <span t-field="o.quotations_date"
-                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
-                                                    </t>
-                                                </t>
-                                                <span t-else="">　　　年　　月　　日</span>
-                                            </div>
+<!--                                            <div>-->
+<!--                                                <span>お客様コードNo. </span>-->
+<!--                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"-->
+<!--                                                      t-field="o.partner_id"><null/></span>-->
+<!--                                            </div>-->
+<!--                                            <div style="margin-top: 10px;">-->
+<!--                                                <t t-if="o.is_print_date">-->
+<!--                                                    <t t-if="o.quotation_calendar == 'japan'">-->
+<!--                                                        <span t-field="o.jp_calendar"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-else="">-->
+<!--                                                        <span t-field="o.quotations_date"-->
+<!--                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <span t-else="">　　　年　　月　　日</span>-->
+<!--                                            </div>-->
                                             <div style="border-bottom: 2px solid; margin-top: 10px;">
                                                 <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name"><null/></span><br/>
@@ -78,7 +97,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 32%; float: right; text-align: center; font-size: 14px">
+                                        <div style="width: 35%; float: right; text-align: center; font-size: 14px">
                                             <div style="margin-bottom: 10px">
                                                 <span>買付先コード: <span t-field="o.partner_id.customer_other_cd"/></span>
                                             </div>
@@ -374,27 +393,46 @@
                                         <span t-esc="pager"/>
                                     </div>
                                 </div>
+                                <div style="font-size: 14px;">
+                                    <div style="display: inline-block; ">
+                                        <span>お客様コードNo. </span>
+                                        <span style="width: 77px; overflow: hidden; white-space: nowrap;"
+                                              t-field="o.partner_id"><null/></span>
+                                    </div>
+                                    <div style="margin-top: 10px; float: right; width: 25%;">
+                                        <t t-if="o.is_print_date">
+                                            <t t-if="o.quotation_calendar == 'japan'">
+                                                <span t-field="o.jp_calendar"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                        </t>
+                                        <span t-else="">　　　年　　月　　日</span>
+                                    </div>
+                                </div>
                                 <!--      Middle      -->
                                 <div>
-                                    <div style="display: inline-block; width: 100%">
+                                    <div style="font-size: 14px; display: inline-block; width: 100%">
                                         <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
-                                            <div>
-                                                <span>お客様コードNo. </span>
-                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_id"><null/></span>
-                                            </div>
-                                            <div style="margin-top: 10px;">
-                                                <t t-if="o.is_print_date">
-                                                    <t t-if="o.quotation_calendar == 'japan'">
-                                                        <span t-field="o.jp_calendar"/>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <span t-field="o.quotations_date"
-                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
-                                                    </t>
-                                                </t>
-                                                <span t-else="">　　　年　　月　　日</span>
-                                            </div>
+<!--                                            <div>-->
+<!--                                                <span>お客様コードNo. </span>-->
+<!--                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"-->
+<!--                                                      t-field="o.partner_id"><null/></span>-->
+<!--                                            </div>-->
+<!--                                            <div style="margin-top: 10px;">-->
+<!--                                                <t t-if="o.is_print_date">-->
+<!--                                                    <t t-if="o.quotation_calendar == 'japan'">-->
+<!--                                                        <span t-field="o.jp_calendar"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-else="">-->
+<!--                                                        <span t-field="o.quotations_date"-->
+<!--                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <span t-else="">　　　年　　月　　日</span>-->
+<!--                                            </div>-->
                                             <div style="border-bottom: 2px solid; margin-top: 10px;">
                                                 <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name"><null/></span><br/>
@@ -422,7 +460,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 32%; float: right; text-align: center; font-size: 11px">
+                                        <div style="width: 35%; float: right; text-align: center; font-size: 14px">
                                             <div style="margin-bottom: 10px">
                                                 <span>買付先コード: <span t-field="o.partner_id.customer_other_cd"/></span>
                                             </div>
@@ -714,27 +752,46 @@
                                         <span t-esc="pager"/>
                                     </div>
                                 </div>
+                                <div style="font-size: 14px;">
+                                    <div style="display: inline-block; ">
+                                        <span>お客様コードNo. </span>
+                                        <span style="width: 77px; overflow: hidden; white-space: nowrap;"
+                                              t-field="o.partner_id"><null/></span>
+                                    </div>
+                                    <div style="margin-top: 10px; float: right; width: 25%;">
+                                        <t t-if="o.is_print_date">
+                                            <t t-if="o.quotation_calendar == 'japan'">
+                                                <span t-field="o.jp_calendar"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                        </t>
+                                        <span t-else="">　　　年　　月　　日</span>
+                                    </div>
+                                </div>
                                 <!--      Middle      -->
                                 <div>
-                                    <div style="display: inline-block; width: 100%">
+                                    <div style="display: inline-block; width: 100%; font-size: 14px">
                                         <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
-                                            <div>
-                                                <span>お客様コードNo. </span>
-                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_id"><null/></span>
-                                            </div>
-                                            <div style="margin-top: 10px;">
-                                                <t t-if="o.is_print_date">
-                                                    <t t-if="o.quotation_calendar == 'japan'">
-                                                        <span t-field="o.jp_calendar"/>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <span t-field="o.quotations_date"
-                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
-                                                    </t>
-                                                </t>
-                                                <span t-else="">　　　年　　月　　日</span>
-                                            </div>
+<!--                                            <div>-->
+<!--                                                <span>お客様コードNo. </span>-->
+<!--                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"-->
+<!--                                                      t-field="o.partner_id"><null/></span>-->
+<!--                                            </div>-->
+<!--                                            <div style="margin-top: 10px;">-->
+<!--                                                <t t-if="o.is_print_date">-->
+<!--                                                    <t t-if="o.quotation_calendar == 'japan'">-->
+<!--                                                        <span t-field="o.jp_calendar"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-else="">-->
+<!--                                                        <span t-field="o.quotations_date"-->
+<!--                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <span t-else="">　　　年　　月　　日</span>-->
+<!--                                            </div>-->
                                             <div style="border-bottom: 2px solid; margin-top: 10px;">
                                                 <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name"><null/></span><br/>
@@ -762,7 +819,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 32%; float: right; text-align: center; font-size: 11px">
+                                        <div style="width: 35%; float: right; text-align: center; font-size: 14px">
                                             <div style="margin-bottom: 10px">
                                                 <span>買付先コード: <span t-field="o.partner_id.customer_other_cd"/></span>
                                             </div>
@@ -1056,27 +1113,46 @@
                                         <span t-esc="pager"/>
                                     </div>
                                 </div>
+                                <div style="font-size: 14px;">
+                                    <div style="display: inline-block; ">
+                                        <span>お客様コードNo. </span>
+                                        <span style="width: 77px; overflow: hidden; white-space: nowrap;"
+                                              t-field="o.partner_id"><null/></span>
+                                    </div>
+                                    <div style="margin-top: 10px; float: right; width: 25%;">
+                                        <t t-if="o.is_print_date">
+                                            <t t-if="o.quotation_calendar == 'japan'">
+                                                <span t-field="o.jp_calendar"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                        </t>
+                                        <span t-else="">　　　年　　月　　日</span>
+                                    </div>
+                                </div>
                                 <!--      Middle      -->
                                 <div>
-                                    <div style="display: inline-block; width: 100%">
+                                    <div style="display: inline-block; width: 100%; font-size: 14px">
                                         <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
-                                            <div>
-                                                <span>お客様コードNo. </span>
-                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_id"><null/></span>
-                                            </div>
-                                            <div style="margin-top: 10px;">
-                                                <t t-if="o.is_print_date">
-                                                    <t t-if="o.quotation_calendar == 'japan'">
-                                                        <span t-field="o.jp_calendar"/>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <span t-field="o.quotations_date"
-                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
-                                                    </t>
-                                                </t>
-                                                <span t-else="">　　　年　　月　　日</span>
-                                            </div>
+<!--                                            <div>-->
+<!--                                                <span>お客様コードNo. </span>-->
+<!--                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"-->
+<!--                                                      t-field="o.partner_id"><null/></span>-->
+<!--                                            </div>-->
+<!--                                            <div style="margin-top: 10px;">-->
+<!--                                                <t t-if="o.is_print_date">-->
+<!--                                                    <t t-if="o.quotation_calendar == 'japan'">-->
+<!--                                                        <span t-field="o.jp_calendar"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-else="">-->
+<!--                                                        <span t-field="o.quotations_date"-->
+<!--                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <span t-else="">　　　年　　月　　日</span>-->
+<!--                                            </div>-->
                                             <div style="border-bottom: 2px solid; margin-top: 10px;">
                                                 <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name"><null/></span><br/>
@@ -1104,7 +1180,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 32%; float: right; text-align: center; font-size: 11px">
+                                        <div style="width: 35%; float: right; text-align: center; font-size: 14px">
                                             <div style="margin-bottom: 10px">
                                                 <span>買付先コード: <span t-field="o.partner_id.customer_other_cd"/></span>
                                             </div>
@@ -1396,33 +1472,52 @@
                                         <!--                    <t t-set="pager" t-value="pager + 1"/>-->
                                     </div>
                                 </div>
+                                <div style="font-size: 14px;">
+                                    <div style="display: inline-block; ">
+                                        <span>お客様コードNo. </span>
+                                        <span style="width: 77px; overflow: hidden; white-space: nowrap;"
+                                              t-field="o.partner_id"><null/></span>
+                                    </div>
+                                    <div style="margin-top: 10px; float: right; width: 25%;">
+                                        <t t-if="o.is_print_date">
+                                            <t t-if="o.quotation_calendar == 'japan'">
+                                                <span t-field="o.jp_calendar"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                        </t>
+                                        <span t-else="">　　　年　　月　　日</span>
+                                    </div>
+                                </div>
                                 <!--      Middle      -->
                                 <div>
-                                    <div style="display: inline-block; width: 100%">
+                                    <div style="display: inline-block; width: 100%; font-size: 14px">
                                         <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
-                                            <div>
-                                                <span>お客様コードNo. </span>
-                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_id"><null/></span>
-                                            </div>
-                                            <div style="margin-top: 10px;">
-                                                <t t-if="o.is_print_date">
-                                                    <t t-if="o.quotation_calendar == 'japan'">
-                                                        <span t-field="o.jp_calendar"/>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <span t-field="o.quotations_date"
-                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
-                                                    </t>
-                                                </t>
-                                                <span t-else="">　　　年　　月　　日</span>
-                                            </div>
+<!--                                            <div>-->
+<!--                                                <span>お客様コードNo. </span>-->
+<!--                                                <span style="width: 77px; overflow: hidden; white-space: nowrap;"-->
+<!--                                                      t-field="o.partner_id"><null/></span>-->
+<!--                                            </div>-->
+<!--                                            <div style="margin-top: 10px;">-->
+<!--                                                <t t-if="o.is_print_date">-->
+<!--                                                    <t t-if="o.quotation_calendar == 'japan'">-->
+<!--                                                        <span t-field="o.jp_calendar"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-else="">-->
+<!--                                                        <span t-field="o.quotations_date"-->
+<!--                                                              t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <span t-else="">　　　年　　月　　日</span>-->
+<!--                                            </div>-->
                                             <div style="border-bottom: 2px solid; margin-top: 10px; font-size: 14px;">
                                                 <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name"><null/></span><br/>
                                                 <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_id.customer_name_2"><null/></span>
-                                                <span>㊞</span>
+                                                <span style="font-size: 20px">㊞</span>
                                             </div>
                                             <div t-if="pager == 1" style="margin-top: 20px; font-size: 14px;">
                                                 <span>合計金額　</span>
@@ -1436,7 +1531,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 32%; float: right; text-align: center; font-size: 11px">
+                                        <div style="width: 35%; float: right; text-align: center; font-size: 14px">
                                             <div style="margin-bottom: 10px">
                                                 <span>買付先コード: <span t-field="o.partner_id.customer_other_cd"/></span>
                                             </div>
