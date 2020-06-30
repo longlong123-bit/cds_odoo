@@ -247,7 +247,6 @@ class ProductTemplate(models.Model):
                         'jan': product.barcode,
                     }
                     temp = _name_get(mydict)
-                    print('asddddddddddddddddddddddddddddddd')
 
                     if temp not in result:
                         result.append(temp)
@@ -484,15 +483,14 @@ class ProductTemplate(models.Model):
     def _onchange_tax(self):
         for rec in self:
             for i in range(1, 7):
-                if rec['product_code_' + str(i)]:
-                    if rec['product_tax_category'] == 'foreign':
-                        rec['price_no_tax_' + str(i)] = rec['price_' + str(i)]
-                        rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (rec.product_tax_rate/100 + 1)
-                    elif rec['product_tax_category'] == 'internal':
-                        rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
-                        rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (rec.product_tax_rate/100 + 1)
-                    else:
-                        rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
+                if rec['product_tax_category'] == 'foreign':
+                    rec['price_no_tax_' + str(i)] = rec['price_' + str(i)]
+                    rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (rec.product_tax_rate/100 + 1)
+                elif rec['product_tax_category'] == 'internal':
+                    rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
+                    rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (rec.product_tax_rate/100 + 1)
+                else:
+                    rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
 
     @api.onchange('product_class_code')
     def _get_product_class_name(self):
