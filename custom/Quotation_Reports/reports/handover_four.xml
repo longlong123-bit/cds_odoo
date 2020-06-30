@@ -193,7 +193,7 @@
                                                 <td style="border: 1px solid #000000;"></td>
                                                 <td style="border: 1px solid #000000; text-align: right;">
                                                     <span style="display: block; width: 77px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="subtotal_amount1"/>
+                                                          t-esc="'{0:,.0f}'.format(int(subtotal_amount1))"/>
                                                 </td>
                                                 <td style="border: 1px solid #000000;"></td>
                                             </tr>
@@ -386,7 +386,7 @@
                                                 <td style="border: 1px solid #000000;"></td>
                                                 <td style="border: 1px solid #000000; text-align: right;">
                                                     <span style="display: block; width: 77px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="subtotal_amount"/>
+                                                          t-esc="'{0:,.0f}'.format(int(subtotal_amount))"/>
                                                 </td>
                                                 <td style="border: 1px solid #000000;"></td>
                                             </tr>

@@ -20,6 +20,7 @@ _logger = logging.getLogger(__name__)
 class QuotationsCustom(models.Model):
     _inherit = "sale.order"
     _order = "quotations_date desc, document_no desc"
+    _rec_name = "display_name"
 
     def get_order_lines(self):
         return len(self.order_line)
@@ -29,6 +30,7 @@ class QuotationsCustom(models.Model):
         next = sequence.get_next_char(sequence.number_next_actual)
         return next
 
+    display_name = fields.Char(string='display_name', default='編集')
     name = fields.Char(string='Name', default=None)
     quotation_name = fields.Char(string='Name', default=None)
     shipping_address = fields.Char(string='Shipping Address')
@@ -94,8 +96,30 @@ class QuotationsCustom(models.Model):
     # Reference to account move to copy data to quotation
     refer_invoice_history = fields.Many2one('account.move', store=False)
 
+    # flag history button
+    flag_history = fields.Integer(string='flag_history', default=0)
+
+    # Check flag_history
+    @api.constrains('partner_id')
+    def get_flag(self):
+        for rec in self:
+            rec.flag_history = 0
+
+    @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
+                  'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id')
+    def _check_flag_history(self):
+        for rec in self:
+            if rec.partner_name or rec.partner_id or rec.quotation_name or rec.document_reference or rec.expected_date \
+                    or rec.shipping_address or rec.note or rec.expiration_date or rec.comment or rec.comment_apply \
+                    or rec.cb_partner_sales_rep_id:
+                rec.flag_history = 1
+
+
     @api.onchange('refer_invoice_history')
     def _onchange_refer_invoice_history(self):
+        for rec in self:
+            if rec.refer_invoice_history:
+                rec.flag_history = 1
         if self.refer_invoice_history:
             data = self.refer_invoice_history
 
@@ -109,7 +133,7 @@ class QuotationsCustom(models.Model):
             self.note = data.x_studio_description
             self.expiration_date = data.customer_closing_date
             self.comment = ''
-            self.quotations_date = ''
+            self.quotations_date = fields.Date.today() or ''
             self.is_print_date = False
 
             # self.cb_partner_sales_rep_id = data.cb_partner_sales_rep_id
@@ -387,6 +411,10 @@ class QuotationsCustom(models.Model):
 
     @api.onchange('order_id')
     def _onchange_order_id(self):
+        for rec in self:
+            if rec.order_id:
+                rec.flag_history = 1
+
         self.set_order(self.order_id.id)
 
     @api.model
@@ -399,6 +427,7 @@ class QuotationsCustom(models.Model):
             self.name = sale_order.name
             self.partner_id = sale_order.partner_id
             self.partner_name = sale_order.partner_name
+            self.quotation_name = sale_order.quotation_name
             self.cb_partner_sales_rep_id = sale_order.cb_partner_sales_rep_id
             self.shipping_address = sale_order.shipping_address
             self.sales_rep = sale_order.sales_rep
