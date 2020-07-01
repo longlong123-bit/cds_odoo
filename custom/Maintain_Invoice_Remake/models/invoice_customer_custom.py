@@ -222,15 +222,12 @@ class ClassInvoiceCustom(models.Model):
                                            auto_join=True, help="The move of this entry line.")
 
     def _get_default_partner_id(self):
-        return self.env["res.partner"].search([], limit=1, order='id').id
+        return self.env.user.company_id.partner_id.id
 
     def _get_default_organization_id(self):
-        return self.env["res.company"].search([], limit=1, order='id').id
+        return self.env.user.company_id.id
 
     def _get_default_client_id(self):
-        return self.env["res.company"].search([], limit=1, order='id').id
-
-    def _get_default_target_doctype_id(self):
         return self.env["res.company"].search([], limit=1, order='id').id
 
     def _get_default_document_no(self):
@@ -344,7 +341,6 @@ class ClassInvoiceCustom(models.Model):
     x_studio_address_2 = fields.Char('address 2')
     x_studio_address_3 = fields.Char('address 3')
     search_key = fields.Char('search key')
-    x_studio_target_doc_type = fields.Many2one('account.journal', default=_get_default_target_doctype_id)
     x_studio_document_no = fields.Char(string="Document No", readonly=True, copy=False, default=_get_latest_document_no)
     invoice_document_no_custom = fields.Char(string="Document", readonly=True, copy=False,
                                              default=_get_default_document_no)
@@ -621,7 +617,6 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_studio_address_2 = voucher.x_history_voucher.x_studio_address_2
                 voucher.x_studio_address_3 = voucher.x_history_voucher.x_studio_address_3
                 voucher.search_key = voucher.x_history_voucher.search_key
-                voucher.x_studio_target_doc_type = voucher.x_history_voucher.x_studio_target_doc_type
                 voucher.invoice_document_no_custom = voucher.x_history_voucher.invoice_document_no_custom
                 voucher.x_studio_cus_salesslipforms_table = voucher.x_history_voucher.x_studio_cus_salesslipforms_table
                 voucher.x_studio_date_invoiced = voucher.x_history_voucher.x_studio_date_invoiced
