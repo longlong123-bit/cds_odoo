@@ -21,9 +21,15 @@
                             <div>
                                 <div style="text-align: center;">
                                     <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
-                                        <h4 class="mt0" t-field="o.report_header"
-                                            style="font-size: 26px;font-weight: 600; color: #000000; border-bottom: 3px solid #000000; margin: 0; padding: 0">
-                                        </h4>
+                                        <t t-if="o.report_header">
+                                            <h4 class="mt0" t-field="o.report_header"
+                                                style="font-size: 26px;font-weight: 600; color: #000000; border-bottom: 3px solid #000000; margin: 0; padding: 0">
+                                            </h4>
+                                        </t>
+                                        <t t-else="">
+                                            <h4 class="mt0" style="font-size: 26px;font-weight: 600; color: #000000; border-bottom: 3px solid #000000; margin: 0; padding: 0">
+                                            見 積 書</h4>
+                                        </t>
                                     </div>
                                     <div style="float: right; text-align: right; display: inline-block;">
                                         <span t-field="o.document_no" class="mt0"
@@ -130,8 +136,8 @@
                                                         <t t-if="line_one_one > 0">
                                                             <t t-set="line_one_one" t-value="line_one_one - 1"/>
                                                             <t t-set="line_one_one_id" t-value="order.id"/>
-                                                                <t t-set="subtotal_amount"
-                                                                   t-value="subtotal_amount + order.line_amount"/>
+                                                            <t t-set="subtotal_amount"
+                                                               t-value="subtotal_amount + order.line_amount"/>
                                                             <tr style="font-size: 14px">
                                                                 <td style=" height: 33px; border: 1px solid #000000;border-top: 0">
                                                                     <!--                                                        <span t-esc="line_id"/>-->
@@ -174,7 +180,8 @@
                                                 </t>
                                                 <t t-if="17 > line_one_one">
                                                     <t t-if=" line_one_one > 0">
-                                                        <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]" t-as="i">
+                                                        <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]"
+                                                           t-as="i">
                                                             <t t-if="line_one_one > 0">
                                                                 <t t-set="line_one_one" t-value="line_one_one - 1"/>
                                                                 <tr>
