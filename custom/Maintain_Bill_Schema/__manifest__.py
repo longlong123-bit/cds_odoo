@@ -8,7 +8,10 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'Maintain_Client', 'Maintain_Organization'
+        'base_setup',
+        'l10n_jp',
+        'Maintain_Client',
+        'Maintain_Organization'
     ],
     'website': '',
     'data': [
