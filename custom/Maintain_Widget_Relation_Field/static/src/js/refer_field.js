@@ -289,6 +289,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
 
         events : _.extend({}, AbstractField.prototype.events, {
             'click .o_button_refer_field': '_onClickButton',
+            'keyup .o_input_refer_field': '_onKeyupInput',
             'change .o_input_refer_field': '_onChangeInput',
         }),
 
@@ -345,12 +346,54 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
             e.preventDefault();
             this._openDialogSearch();
         },
+        /**
+         * Check data
+         */
+        _checkData: function(e, options){
+          var s = this;
+
+          if (this.value == e.target.value) {
+              return;
+          }
+
+          var domain = this._getDomain(e.target.value, options);
+          var column = this._getReadColumn(options);
+
+          // Call to server
+          rpc.query({
+              model: options.model,
+              method: 'search_read',
+              domain: domain
+          }).then(function(res){
+              if (res.length > 0) {
+                  s._setValue(e.target.value);
+              } else {
+                  s._openDialogSearch();
+              }
+          });
+        },
+        /**
+         * Event when keyup on input
+         * check if is enter then check data
+         */
+        _onKeyupInput: function(e){
+          var options = this._getWidgetOptions();
+
+          if (e.which === $.ui.keyCode.ENTER || e.which === $.ui.keyCode.TAB) {
+              this._checkData(e, options);
+          }
+        },
 
         /**
          * Event when change value of input
          */
         _onChangeInput: function(e){
-            this._setValue(e.target.value);
+            var options = this._getWidgetOptions();
+            if (options.search_input) {
+                this._checkData(e, options);
+            } else {
+                this._setValue(e.target.value);
+            }
         },
 
         /**

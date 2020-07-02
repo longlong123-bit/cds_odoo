@@ -311,9 +311,9 @@
 <!--                <field name="product_barcode" string="JAN/UPC/EAN"/>-->
                 <field name="product_id" invisible="1"/>
                 <field name="product_code" widget="refer_field" string="Product Code"
-                       options='{"model":"product.product", "read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "alternative_column":"product_barcode", "alternative_value":"barcode"}'/>
+                       options='{"model":"product.product", "read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "alternative_column":"product_barcode", "alternative_value":"barcode", "search_input": true}'/>
                 <field name="product_barcode" string="JAN/UPC/EAN"
-                       widget="refer_field" options='{"model":"product.product","column": "barcode"}'
+                       widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'
                        required="True"/>
 <!--                <field name="product_maker_name"-->
 <!--                       widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'-->
