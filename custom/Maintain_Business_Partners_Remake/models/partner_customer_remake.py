@@ -132,6 +132,19 @@ class NewClassPartnerCustom(models.Model):
         ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
     ]
 
+    property_account_receivable_id = fields.Many2one(default=lambda self: self.get_default_receivable_account())
+    property_account_payable_id = fields.Many2one(default=lambda self: self.get_default_payable_account())
+
+    def get_default_receivable_account(self):
+        account = self.env['account.account'].search([('company_id', '=', self.env.user.company_id.id),
+                                                      ('internal_type', '=', 'receivable')], limit=1)
+        return account.id
+
+    def get_default_payable_account(self):
+        account = self.env['account.account'].search([('company_id', '=', self.env.user.company_id.id),
+                                                      ('internal_type', '=', 'payable')], limit=1)
+        return account.id
+
     def name_get(self):
         result = []
         for record in self:
