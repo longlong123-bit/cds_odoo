@@ -21,8 +21,8 @@
                         <t t-set="detail_line_default" t-value="7"/>
                         <t t-foreach="range(1, 4)" t-as="for_range">
                             <t t-set="div_goods_receipt" t-value="'display: inline-block;'"/>
-                            <t t-if="for_range == 2 and for_range == 3">
-                                <t t-set="div_goods_receipt" t-value="'display: inline-block; margin-bottom: 40px'"/>
+                            <t t-if="for_range == 2 or for_range == 3">
+                                <t t-set="div_goods_receipt" t-value="'display: inline-block; margin-bottom: 20px'"/>
                             </t>
                             <div t-att-style="div_goods_receipt">
                                 <t t-set="o_title" t-value="'売　上　票'"/>
@@ -39,7 +39,7 @@
                                         <div style="width: 60%; float: left;">
                                             <div style="float: right; margin-right: 9%;">
                                                 <h4 class="mt0"
-                                                    style="font-size: 22px; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0" t-esc="o_title"/>
+                                                    style="font-size: 22px; font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0" t-esc="o_title"/>
                                             </div>
                                         </div>
                                         <div style="width: 40%; float: left;">
@@ -57,7 +57,7 @@
                                         <div style="width: 60%; float: left;">
                                             <div style="float: right; margin-right: 9%;">
                                                 <h4 class="mt0"
-                                                    style="font-size: 22px; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0" t-esc="o_title"/>
+                                                    style="font-size: 22px; font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0" t-esc="o_title"/>
                                             </div>
                                         </div>
                                         <div style="width: 40%; float: left;">
@@ -97,32 +97,32 @@
                                                 <span t-field="o.partner_id.street2"/><br/>
                                                 <span t-field="o.partner_id.address3"/>
                                             </div>
-                                            <div style="display: inline-block; border-bottom: 2px solid;">
-                                                <t t-set="p_style" t-value="'white-space: nowrap; max-width: 391px; overflow: hidden;
+                                            <div style="display: inline-block; border-bottom: 1px solid; width: 384px;">
+                                                <t t-set="p_style" t-value="'white-space: nowrap; max-width: 323px; overflow: hidden;
                                                             text-overflow: clip; margin: 0; float: left;'"/>
                                                 <t t-if="o.partner_id.customer_name_2">
-                                                    <t t-set="p_style" t-value="'white-space: nowrap; width: 450px; overflow: hidden;
+                                                    <t t-set="p_style" t-value="'white-space: nowrap; width: 380px; overflow: hidden;
                                                             text-overflow: clip; margin: 0; float: left;'"/>
                                                 </t>
                                                 <p t-att-style="p_style"
                                                    t-field="o.partner_id.name">
                                                 </p>
                                                 <t t-if="o.partner_id.customer_name_2">
-                                                    <p style="white-space: nowrap; max-width: 391px; overflow: hidden;
+                                                    <p style="white-space: nowrap; max-width: 323px; overflow: hidden;
                                                                 text-overflow: clip; margin: 0; float: left;"
                                                        t-field="o.partner_id.customer_name_2">
                                                     </p>
                                                 </t>
                                                 <t t-if="o.partner_id.title">
                                                     <p style="float: left; margin: 0;">　</p>
-                                                    <p style="float: left; margin: 0;" t-field="o.partner_id.title"></p>
+                                                    <p style="float: right; margin: 0;" t-field="o.partner_id.title"></p>
                                                 </t>
                                                 <t t-else="">
                                                     <t t-set="o_greeting" t-value="'　様'"/>
                                                     <t t-if="user.partner_id.lang == 'en_US'">
                                                         <t t-set="o_greeting" t-value="'　Mr.'"/>
                                                     </t>
-                                                    <p style="float: left; margin: 0;" t-esc="o_greeting"></p>
+                                                    <p style="float: right; margin: 0;" t-esc="o_greeting"></p>
                                                 </t>
                                             </div>
                                             <div style="margin-top: 10px; margin-left: 20px;">
