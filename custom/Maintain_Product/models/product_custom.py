@@ -18,6 +18,22 @@ from lxml import etree
 _logger = logging.getLogger(__name__)
 
 
+class InheritProductTemplate(models.Model):
+    _inherit = "product.template"
+    property_account_income_id = fields.Many2one(default=lambda self: self.get_default_income_account())
+    property_account_expense_id = fields.Many2one(default=lambda self: self.get_default_expenses_account())
+
+    def get_default_income_account(self):
+        account = self.env['account.account'].search([('company_id', '=', self.env.user.company_id.id),
+                                            ('internal_type', '=', 'other')], limit=1)
+        return account.id
+
+    def get_default_expenses_account(self):
+        account = self.env['account.account'].search([('company_id', '=', self.env.user.company_id.id),
+                                            ('internal_type', '=', 'other')], limit=1)
+        return account.id
+
+
 class ProductTemplate(models.Model):
     _inherit = "product.product"
     _rec_name = 'product_code_1'
