@@ -111,11 +111,11 @@
                                    readonly="True"/>
                         </group>
                         <group name="properties" invisible="1">
-                            <group string="Receivables" modifiers="{}">
+                            <group string="Receivables">
                                 <field name="property_account_income_id"
                                        domain="[('internal_type','=','other'),('deprecated','=',False)]"/>
                             </group>
-                            <group string="Payables" name="payables" modifiers="{}">
+                            <group string="Payables" name="payables">
                                 <field name="property_account_expense_id"
                                        domain="[('internal_type','=','other'),('deprecated','=',False)]"/>
                             </group>
