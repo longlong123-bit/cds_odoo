@@ -13,16 +13,16 @@
             <t t-set="subtotal_tax_amount_10" t-value="0"/>
             <t t-set="subtotal_tax_amount_8" t-value="0"/>
             <t t-set="total" t-value="0"/>
+            <t t-set="o" t-value="o.with_context(lang=user.partner_id.lang)"/>
             <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.id)" t-as="account_move_line">
                 <t t-if="account_move_line.id>line_id_1">
-                    <div class="page" style="font-size: 14px; line-height: 1.2;">
-                        <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                    <div class="page" style="page-break-after:auto; font-size: 14px; line-height: 1.2; font-family: Lato !important;">
                         <t t-set="line_parent" t-value="o.invoice_line_ids"/>
                         <t t-set="detail_line_default" t-value="7"/>
                         <t t-foreach="range(1, 3)" t-as="for_range">
                             <t t-set="div_goods_receipt" t-value="'display: inline-block;'"/>
                             <t t-if="for_range == 2">
-                                <t t-set="div_goods_receipt" t-value="'display: inline-block; margin-bottom: 40px'"/>
+                                <t t-set="div_goods_receipt" t-value="'display: inline-block; margin-bottom: 20px'"/>
                             </t>
                             <div t-att-style="div_goods_receipt">
                                 <t t-set="o_title" t-value="'売　上　票'"/>
@@ -31,12 +31,12 @@
                                 </t>
 
                                 <t t-if="for_range == 2">
-                                    <div style="border: 1px dashed #000;margin-top: 35px;margin-bottom: 35px;"></div>
+                                    <div style="border: 1px dashed #000;margin-top: 33px;margin-bottom: 32px;"></div>
                                     <div style="display: inline-block; width: 100%;">
                                         <div style="width: 60%; float: left;">
                                             <div style="float: right; margin-right: 9%;">
                                                 <h4 class="mt0"
-                                                    style="font-size: 21px; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0" t-esc="o_title"/>
+                                                    style="font-size: 22px; font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0" t-esc="o_title"/>
                                             </div>
                                         </div>
                                         <div style="width: 40%; float: left;">
@@ -54,7 +54,7 @@
                                         <div style="width: 60%; float: left;">
                                             <div style="float: right; margin-right: 9%;">
                                                 <h4 class="mt0"
-                                                    style="font-size: 22px; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0" t-esc="o_title"/>
+                                                    style="font-size: 22px; font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0" t-esc="o_title"/>
                                             </div>
                                         </div>
                                         <div style="width: 40%; float: left;">
@@ -94,35 +94,51 @@
                                                 <span t-field="o.partner_id.street2"/><br/>
                                                 <span t-field="o.partner_id.address3"/>
                                             </div>
-                                            <div style="display: inline-block; border-bottom: 2px solid;">
-                                                <p style="white-space: nowrap; width: 360px; overflow: hidden;
-                                                            text-overflow: clip; margin: 0; float: left;"
+                                            <div style="display: inline-block; border-bottom: 1px solid; width: 384px;">
+                                                <t t-set="p_style" t-value="'white-space: nowrap; max-width: 323px; overflow: hidden;
+                                                            text-overflow: clip; margin: 0; float: left;'"/>
+                                                <t t-if="o.partner_id.customer_name_2">
+                                                    <t t-set="p_style" t-value="'white-space: nowrap; width: 380px; overflow: hidden;
+                                                            text-overflow: clip; margin: 0; float: left;'"/>
+                                                </t>
+                                                <p t-att-style="p_style"
                                                    t-field="o.partner_id.name">
                                                 </p>
                                                 <t t-if="o.partner_id.customer_name_2">
-                                                    <p style="white-space: nowrap; width: 360px; overflow: hidden;
+                                                    <p style="white-space: nowrap; max-width: 323px; overflow: hidden;
                                                                 text-overflow: clip; margin: 0; float: left;"
                                                        t-field="o.partner_id.customer_name_2">
                                                     </p>
                                                 </t>
-                                                <span style="float: right;">　様/御中</span>
+                                                <t t-if="o.partner_id.title">
+                                                    <p style="float: left; margin: 0;">　</p>
+                                                    <p style="float: right; margin: 0;" t-field="o.partner_id.title"></p>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="o_greeting" t-value="'　様'"/>
+                                                    <t t-if="user.partner_id.lang == 'en_US'">
+                                                        <t t-set="o_greeting" t-value="'　Mr.'"/>
+                                                    </t>
+                                                    <p style="float: right; margin: 0;" t-esc="o_greeting"></p>
+                                                </t>
                                             </div>
                                             <div style="margin-top: 10px; margin-left: 20px;">
                                                 <t t-if="pager == 1">
-                                                    <span style="font-size: 17px">合計金額　￥</span>
-                                                    <span style="width: 168px; font-size: 17px;  overflow: hidden; white-space: nowrap;
-                                                            border-bottom: 1px solid;" t-esc="'{0:,.0f}'.format(int(o.amount_total))"></span>
+                                                    <span style="font-size: 17px; float: left;">合計金額　</span>
+                                                    <span style="font-size: 17px; border-bottom: 1px solid; float: left;">￥</span>
+                                                    <span style="max-width: 168px; font-size: 17px;  overflow: hidden; white-space: nowrap;
+                                                            border-bottom: 1px solid; float: left;" t-esc="'{0:,.0f}'.format(int(o.amount_total))"></span>
                                                     <t t-if="o.x_voucher_tax_transfer == 'invoice'">
-                                                        <span>（税別）</span>
+                                                        <span style="float: left;">（税別）</span>
                                                     </t>
                                                     <t t-else="">
-                                                        <span>（税込）</span>
+                                                        <span style="float: left;">（税込）</span>
                                                     </t>
                                                 </t>
                                             </div>
                                         </div>
                                         <div style="width: 42%; float: right; text-align: center; font-size: 14px; margin-top: 27px">
-                                            <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span><br/>
+                                            <span style="font-size: 22px">株式会社　ト　ラ　ヤ</span><br/>
                                             <span>代表取締役　　遠 藤 孝 二</span><br/>
                                             <span>本　社　千葉県銚子市新生町2丁目12番地の5</span><br/>
                                             <span>TEL　0479-22-3515　FAX　0479-24-9376</span><br/>
@@ -139,7 +155,7 @@
                                 </div>
                                 <div>
                                     <table border="0" cellspacing="0" cellpadding="5"
-                                           style="width: 100%; line-height: 1; font-size: 14px">
+                                           style="width: 100%; line-height: 1; font-size: 14px; font-family: Lato !important;">
                                         <thead>
                                             <tr>
                                                 <td style="border: 1px solid #000000; border-right: 0; text-align: center; width: 50%">
@@ -195,15 +211,20 @@
                                                         <tr>
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
                                                                 <div style="display: inline-block; width: 100%;">
-                                                                    <span t-field="order.product_id.name"/>
-                                                                    <div style="float: right;">
-                                                                        <span t-field="order.product_id.product_maker_name"/>
-                                                                        <span>　</span>
-                                                                        <span t-field="order.product_id.product_custom_standardnumber"/> <br/>
+                                                                    <div style="float: left; width: 229px; height: 28px; white-space: nowrap; overflow: hidden;">
+                                                                        <span t-field="order.product_name"/>
                                                                     </div>
-                                                                </div>
-                                                                <div  style="display: inline-block; height: 14px">
-                                                                    <span t-field="order.product_id.product_custom_goodsnamef"/>
+                                                                    <div style="float: right;">
+                                                                        <div style="float: left; width: 63px; height: 14px; white-space: nowrap; overflow: hidden;">
+                                                                            <span t-field="order.product_maker_name"/>
+                                                                        </div>
+                                                                        <div style="float: left; width: 14px; height: 14px; white-space: nowrap; overflow: hidden;">
+                                                                            <span>　</span>
+                                                                        </div>
+                                                                        <div style="float: left; width: 63px; height: 14px; white-space: nowrap; overflow: hidden;">
+                                                                            <span t-field="order.invoice_custom_standardnumber"/> <br/>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </td>
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right">
