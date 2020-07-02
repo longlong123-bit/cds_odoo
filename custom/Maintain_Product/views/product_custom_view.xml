@@ -110,6 +110,16 @@
                             <field name="write_date" style="width: auto !important; min-width: 195px; padding: 0 5px;"
                                    readonly="True"/>
                         </group>
+                        <group name="properties" invisible="1">
+                            <group string="Receivables">
+                                <field name="property_account_income_id"
+                                       domain="[('internal_type','=','other'),('deprecated','=',False)]"/>
+                            </group>
+                            <group string="Payables" name="payables">
+                                <field name="property_account_expense_id"
+                                       domain="[('internal_type','=','other'),('deprecated','=',False)]"/>
+                            </group>
+                        </group>
                     </group>
                 </form>
             </xpath>

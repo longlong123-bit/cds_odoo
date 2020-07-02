@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_report_invoice_normal" model="report.paperformat">
+            <field name="name">Report Invoice Normal</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">6</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">6</field>
+            <field name="margin_right">6</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+        <report
+                id="invoice_report"
+                model="account.move"
+                string="Report Invoice Normal"
+                report_type="qweb-html"
+                attachment_use="False"
+                name="Maintain_Invoice_Reports.invoice_reports"
+                file="Maintain_Invoice_Reports.invoice_reports"
+                paperformat="Maintain_Invoice_Reports.paperformat_report_invoice_normal"
+        />
+    </data>
+</odoo>
