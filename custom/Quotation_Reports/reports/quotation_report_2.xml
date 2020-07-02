@@ -12,7 +12,7 @@
         </template>
         <template id="quotation_report_two_template">
             <div style="font-size: 14px;">
-                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <t t-set="o" t-value="o.with_context(lang=user.partner_id.lang)"/>
                 <t t-set="line_one_one_parent" t-value="o.order_line"/>
                 <t t-set="line_one_one_id" t-value="0"/>
                 <t t-set="pager" t-value="1"/>
@@ -155,7 +155,7 @@
                                                                           t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))"><null/></span></td>
                                                                 <td style="border: 1px solid #000000;  text-align: center; border-top: 0">
                                                                     <span style="display: inline-block; width: 36px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_uom"><null/></span></td>
+                                                                          t-field="order.product_uom_id"><null/></span></td>
                                                                 <td style="border: 1px solid #000000; text-align: right;border-top: 0">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-esc="'{0:,.0f}'.format(int(order.price_unit))"><null/></span></td>
@@ -259,7 +259,7 @@
                                                                           t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))"><null/></span></td>
                                                                 <td style="border: 1px solid #000000;  text-align: center">
                                                                     <span style="display: inline-block; width: 36px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_uom"><null/></span></td>
+                                                                          t-field="order.product_uom_id"><null/></span></td>
                                                                 <td style="border: 1px solid #000000; text-align: right">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-esc="'{0:,.0f}'.format(int(order.price_unit))"><null/></span></td>
