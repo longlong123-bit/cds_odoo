@@ -1,7 +1,7 @@
 <template>
     <!-- Main layout (iframe) -->
     <div t-name="report.client_action">
-        <div style="padding: 20px; margin: 30px auto; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; width: 995px; height: 1336px; background: #ffffff">
+        <div style="padding: 20px !important; margin: 30px auto; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; width: 995px; height: 1336px; background: #ffffff">
             <iframe  style="position: relative; margin: 0" class="o_report_iframe"/>
         </div>
     </div>

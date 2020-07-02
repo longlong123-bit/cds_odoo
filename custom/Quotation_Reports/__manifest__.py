@@ -26,6 +26,8 @@
         # 'reports/handover_four.xml',
         'reports/handover_five.xml',
         'reports/handover_seven.xml',
+        'reports/reports.xml',
+
     ],
     'qweb': [
         'static/src/xml/reports_template.xml',
