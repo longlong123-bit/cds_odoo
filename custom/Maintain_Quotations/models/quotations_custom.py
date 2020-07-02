@@ -562,7 +562,6 @@ class QuotationsLinesCustom(models.Model):
     @api.onchange('product_code')
     def _onchange_product_code(self):
         if 'product_code' not in self.changed_fields:
-            self.changed_fields.append('product_barcode')
 
             if self.product_code:
                 product = self.env['product.product'].search([
@@ -576,6 +575,7 @@ class QuotationsLinesCustom(models.Model):
                 ])
 
                 if product:
+                    self.changed_fields.append('product_barcode')
                     self.product_id = product.id
                     self.product_barcode = product.barcode
 
@@ -602,11 +602,12 @@ class QuotationsLinesCustom(models.Model):
                     return
             # else
             self.product_barcode = ''
+        else:
+            self.changed_fields.remove('product_code')
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
         if 'product_barcode' not in self.changed_fields:
-            self.changed_fields.append('product_code')
 
             if self.product_barcode:
                 product = self.env['product.product'].search([
@@ -614,6 +615,7 @@ class QuotationsLinesCustom(models.Model):
                 ])
 
                 if product:
+                    self.changed_fields.append('product_code')
                     self.product_id = product.id
                     self.product_code = product.code_by_setting
 
@@ -633,6 +635,8 @@ class QuotationsLinesCustom(models.Model):
 
             # Else
             self.product_code = ''
+        else:
+            self.changed_fields.remove('product_barcode')
 
     @api.onchange('refer_detail_history')
     def _get_detail_history(self):
