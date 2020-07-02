@@ -1184,8 +1184,6 @@ class AccountMoveLine(models.Model):
     @api.onchange('product_code')
     def _onchange_product_code(self):
         if 'product_code' not in self.changed_fields:
-            self.changed_fields.append('product_barcode')
-
             if self.product_code:
                 product = self.env['product.product'].search([
                     '|', '|', '|', '|', '|',
@@ -1196,8 +1194,8 @@ class AccountMoveLine(models.Model):
                     ['product_code_5', '=', self.product_code],
                     ['product_code_6', '=', self.product_code]
                 ])
-
                 if product:
+                    self.changed_fields.append('product_barcode')
                     self.product_id = product.id
                     self.product_barcode = product.barcode
                     setting_price = "1"
@@ -1222,18 +1220,19 @@ class AccountMoveLine(models.Model):
 
             # else
             self.product_barcode = ''
+        else:
+            self.changed_fields.remove('product_code')
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
         if 'product_barcode' not in self.changed_fields:
-            self.changed_fields.append('product_code')
-
             if self.product_barcode:
                 product = self.env['product.product'].search([
                     ['barcode', '=', self.product_barcode]
                 ])
 
                 if product:
+                    self.changed_fields.append('product_code')
                     self.product_id = product.id
                     self.product_code = product.code_by_setting
                     setting_price = '1'
@@ -1249,7 +1248,47 @@ class AccountMoveLine(models.Model):
 
             # else:
             self.product_code = ''
+        else:
+            self.changed_fields.remove('product_barcode')
 
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        if 'product_id' not in self.changed_fields:
+            for line in self:
+                if not line.product_id or line.display_type in ('line_section', 'line_note'):
+                    line.name = ''
+                    line.product_name = ''
+                    line.product_standard_price = 0
+                    line.x_product_cost_price = 0
+                    line.account_id = ''
+                    line.product_uom_id = ''
+                    line.tax_rate = ''
+                    line.product_maker_name = ''
+                    line.invoice_custom_standardnumber = ''
+                    company = ''
+                    continue
+                line.name = line._get_computed_name()
+                line.product_name = line.product_id.name
+                line.product_standard_price = line.product_id.standard_price
+                line.x_product_cost_price = line.product_id.cost
+                line.account_id = line._get_computed_account()
+
+                line.product_uom_id = line.product_id.product_uom_custom
+                line.tax_rate = line.product_id.product_tax_rate
+                line.product_maker_name = line.product_id.product_maker_name
+                line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
+
+                # Convert the unit price to the invoice's currency.
+                company = line.move_id.company_id
+                # line.price_unit = company.currency_id._convert(line.price_unit, line.move_id.currency_id, company,
+                #                                                line.move_id.date)
+
+                # todo set price follow product code
+                # line.price_unit = line._get_computed_price_unit()
+
+            # Comment for changing UOM, Category to Char
+            # if len(self) == 1:
+            #     return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
     # # 消費税区分
     # line_tax_category = fields.Selection(
     #     [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
@@ -1412,44 +1451,6 @@ class AccountMoveLine(models.Model):
         else:
             return False
 
-    @api.onchange('product_id')
-    def _onchange_product_id(self):
-        if 'product_id' not in self.changed_fields:
-            for line in self:
-                if not line.product_id or line.display_type in ('line_section', 'line_note'):
-                    line.name = ''
-                    line.product_name = ''
-                    line.product_standard_price = 0
-                    line.x_product_cost_price = 0
-                    line.account_id = ''
-                    line.product_uom_id = ''
-                    line.tax_rate = ''
-                    line.product_maker_name = ''
-                    line.invoice_custom_standardnumber = ''
-                    company = ''
-                    continue
-                line.name = line._get_computed_name()
-                line.product_name = line.product_id.name
-                line.product_standard_price = line.product_id.standard_price
-                line.x_product_cost_price = line.product_id.cost
-                line.account_id = line._get_computed_account()
-
-                line.product_uom_id = line.product_id.product_uom_custom
-                line.tax_rate = line.product_id.product_tax_rate
-                line.product_maker_name = line.product_id.product_maker_name
-                line.invoice_custom_standardnumber = line._get_computed_stantdard_number()
-
-                # Convert the unit price to the invoice's currency.
-                company = line.move_id.company_id
-                # line.price_unit = company.currency_id._convert(line.price_unit, line.move_id.currency_id, company,
-                #                                                line.move_id.date)
-
-                # todo set price follow product code
-                # line.price_unit = line._get_computed_price_unit()
-
-            # Comment for changing UOM, Category to Char
-            # if len(self) == 1:
-            #     return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
 
     @api.onchange('price_unit')
     def _onchange_price_unit(self):
