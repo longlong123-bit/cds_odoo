@@ -97,9 +97,9 @@ class ClassAccontMoveLineCustom(models.Model):
     product_custom_standardnumber = fields.Char('Product Custom Standard Number',
                                                 compute='_get_product_custom_standerdnumber', readonly=True)
 
-    def _get_product_maker_name(self):
-        for maker in self:
-            if maker.product_maker_name:
-                maker.product_maker_name = maker.product_id.product_maker_name
+    # def _get_product_maker_name(self):
+    #     for maker in self:
+    #         if maker.product_maker_name:
+    #             maker.product_maker_name = maker.product_id.product_maker_name
 
-    product_maker_name = fields.Char('Product Maker Name', compute='_get_product_maker_name', readonly=True)
+    # product_maker_name = fields.Char('Product Maker Name', compute='_get_product_maker_name', readonly=True)
