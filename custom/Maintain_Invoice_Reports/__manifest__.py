@@ -19,9 +19,6 @@
         'reports/invoice_normal_report3.xml',
         'reports/invoice_reports.xml',
     ],
-    'qweb': [
-        'static/src/xml/report_template.xml'
-    ],
     'demo': [],
     'installable': True,
     'application': True,
