@@ -773,12 +773,14 @@ class ClassInvoiceCustom(models.Model):
 
     @api.model
     def create(self, vals):
+        if not vals.get('invoice_line_ids', []):
+            raise UserError(_("You need to add a line before save."))
         if vals.get('x_studio_document_no', _('0')) == _('0'):
             vals['x_studio_document_no'] = self.env['ir.sequence'].next_by_code('document.sequence') or _('New')
         result = super(ClassInvoiceCustom, self).create(vals)
         return result
 
-    # lấy thông tin office từ khách hàng
+    # Get customer office method
     def _compute_get_customer_office(self):
         for rec in self:
             temp = ''
