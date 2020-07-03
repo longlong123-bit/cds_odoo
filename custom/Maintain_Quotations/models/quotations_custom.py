@@ -97,13 +97,13 @@ class QuotationsCustom(models.Model):
     refer_invoice_history = fields.Many2one('account.move', store=False)
 
     # flag history button
-    flag_history = fields.Integer(string='flag_history', default=0)
+    flag_history = fields.Integer(string='flag_history', default=0, compute='_check_flag_history')
 
     # Check flag_history
-    @api.constrains('partner_id')
-    def get_flag(self):
-        for rec in self:
-            rec.flag_history = 0
+    # @api.constrains('partner_id')
+    # def get_flag(self):
+    #     for rec in self:
+    #         rec.flag_history = 0
 
     @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
                   'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id')
@@ -113,6 +113,8 @@ class QuotationsCustom(models.Model):
                     or rec.shipping_address or rec.note or rec.expiration_date or rec.comment or rec.comment_apply \
                     or rec.cb_partner_sales_rep_id:
                 rec.flag_history = 1
+            else:
+                rec.flag_history = 0
 
 
     @api.onchange('refer_invoice_history')
