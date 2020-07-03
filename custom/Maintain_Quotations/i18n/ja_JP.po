@@ -776,4 +776,9 @@ msgstr "伝票"
 #: code:addons/Maintain_Quotations/models/quotations_custom.py:0
 #, python-format
 msgid "You need to add a line before save."
-msgstr "無ければ”明細が無いので保存できません"
+msgstr "明細が無いので保存できません。"
+
+#. module: account
+#: model:ir.model.constraint,message:account.constraint_account_move_line_check_accountable_required_fields
+msgid "Missing required account on accountable invoice line."
+msgstr "必須フィールドに入力がありません。"
