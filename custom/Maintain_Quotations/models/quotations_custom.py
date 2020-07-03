@@ -475,7 +475,7 @@ class QuotationsCustom(models.Model):
             else:
                 era_year = record.quotations_date.year - 2018
                 era, era_ch = ERA_JP[4]
-            jp_c = str(era_year) + str(era_ch) + str(record.quotations_date.month) + '月' + str(record.quotations_date.day) + '日'
+            jp_c = str(era_ch) + str(era_year) + '年' + str(record.quotations_date.month) + '月' + str(record.quotations_date.day) + '日'
             record.jp_calendar = jp_c
 
 class QuotationsLinesCustom(models.Model):
