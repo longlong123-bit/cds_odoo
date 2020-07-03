@@ -3,7 +3,7 @@
     <data>
         <template id="handover_report">
             <t t-call="web.html_container">
-                <div class="page" style="page-break-before: always;">
+                <div class="page">
                     <t t-if="o.partner_id.customer_delivery_note == 'note1'">
                         <t t-call="Quotation_Reports.handover_one_template1" t-lang="lang"/>
                     </t>

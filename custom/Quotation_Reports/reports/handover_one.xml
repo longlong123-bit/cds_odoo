@@ -9,8 +9,10 @@
             <t t-set="pager" t-value="1"/>
             <t t-set="subtotal_tax_amount1_8" t-value="0"/>
             <t t-set="subtotal_tax_amount1_10" t-value="0"/>
+            <t t-set="subtotal_tax_amount1_o" t-value="0"/>
             <t t-set="subtotal_tax_amount8" t-value="0"/>
             <t t-set="subtotal_tax_amount10" t-value="0"/>
+            <t t-set="subtotal_tax_amount_o" t-value="0"/>
             <t t-foreach="o.order_line" t-as="ll">
                 <t t-set="line" t-value="8"/>
                 <t t-if="ll.id>line_id">
@@ -31,26 +33,6 @@
                                     <span t-esc="pager"/>
                                 </div>
                             </div>
-
-                            <!--                                <div style="font-size: 14px;">-->
-                            <!--                                    <div style="display: inline-block; ">-->
-                            <!--                                        <span>お客様コードNo. </span>-->
-                            <!--                                        <span style="width: 77px; overflow: hidden; white-space: nowrap;"-->
-                            <!--                                              t-field="o.partner_id"><null/></span>-->
-                            <!--                                    </div>-->
-                            <!--                                    <div style="margin-top: 10px; float: right; width: 25%;">-->
-                            <!--                                        <t t-if="o.is_print_date">-->
-                            <!--                                            <t t-if="o.quotation_calendar == 'japan'">-->
-                            <!--                                                <span t-field="o.jp_calendar"/>-->
-                            <!--                                            </t>-->
-                            <!--                                            <t t-else="">-->
-                            <!--                                                <span t-field="o.quotations_date"-->
-                            <!--                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>-->
-                            <!--                                            </t>-->
-                            <!--                                        </t>-->
-                            <!--                                        <span t-else="">　　　年　　月　　日</span>-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
                             <!--      Middle      -->
                             <div>
                                 <div style="display: inline-block; width: 100%">
@@ -293,6 +275,7 @@
                                         <tbody>
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
+                                            <t t-set="subtotal_amount1_o" t-value="0"/>
                                             <t t-foreach="o.order_line" t-as="order">
                                                 <t t-if="order.id>line_id_1">
                                                     <t t-if="line > 0">
@@ -315,6 +298,12 @@
                                                                t-value="subtotal_amount1_10 + order.line_amount"/>
                                                             <t t-set="subtotal_tax_amount1_10"
                                                                t-value="subtotal_tax_amount1_10 + order.line_tax_amount"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-set="subtotal_amount1_o"
+                                                               t-value="subtotal_amount1_o + order.line_amount"/>
+                                                            <t t-set="subtotal_tax_amount1_o"
+                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                         </t>
                                                         <tr style="font-size: 10px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
@@ -449,6 +438,10 @@
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
                                                         </t>
+                                                        <t t-if="subtotal_amount1_o">
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        </t>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
@@ -481,6 +474,10 @@
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
                                                         </t>
+                                                        <t t-if="subtotal_tax_amount1_o">
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
+                                                        </t>
                                                     </td>
                                                     <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
                                                 </tr>
@@ -496,7 +493,7 @@
                                 <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
                                     <h4 class="mt0"
                                         style="font-size: 22px; color: #000000; border-bottom: 2px solid #000000; margin: 0 auto; width: 120px; padding: 0">
-                                        納　品　書
+                                        物 品 受 領 書
                                     </h4>
                                 </div>
                                 <div style="float: right; text-align: right; display: inline-block;">
@@ -785,6 +782,7 @@
                                         <tbody>
                                             <t t-set="subtotal_amount8" t-value="0"/>
                                             <t t-set="subtotal_amount10" t-value="0"/>
+                                            <t t-set="subtotal_amount_o" t-value="0"/>
                                             <t t-foreach="o.order_line" t-as="order">
                                                 <t t-if="order.id>line_id">
                                                     <t t-if="line > 0">
@@ -801,6 +799,12 @@
                                                                t-value="subtotal_amount10 + order.line_amount"/>
                                                             <t t-set="subtotal_tax_amount10"
                                                                t-value="subtotal_tax_amount10 + order.line_tax_amount"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-set="subtotal_amount_o"
+                                                               t-value="subtotal_amount_o + order.line_amount"/>
+                                                            <t t-set="subtotal_tax_amount_o"
+                                                               t-value="subtotal_tax_amount_o + order.line_tax_amount"/>
                                                         </t>
                                                         <tr style="font-size: 10px; height: 30px">
                                                             <td style="border: 1px solid #000000; border-top: 0;  padding: 0; line-height: 1.2; height: 27px;">
@@ -938,6 +942,10 @@
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
                                                         </t>
+                                                        <t t-if="subtotal_amount1_o">
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        </t>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
@@ -1000,6 +1008,10 @@
                                                         <t t-if="subtotal_tax_amount1_10">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(subtotal_tax_amount10)"></span>
+                                                        </t>
+                                                        <t t-if="subtotal_tax_amount_o">
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount_o)"></span>
                                                         </t>
                                                     </td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0;border-right: 0;"></td>
