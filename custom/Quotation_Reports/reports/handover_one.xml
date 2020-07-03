@@ -20,7 +20,7 @@
                             <div style="text-align: center;">
                                 <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
                                     <h4 class="mt0"
-                                        style="font-size: 22px; color: #000000; border-bottom: 1px solid #000000; margin: 0 auto; width: max-content; padding: 0">
+                                        style="font-size: 22px; color: #000000; border-bottom: 1px solid #000000; margin: 0 auto; width: 120px; padding: 0">
                                         納　品　書
                                     </h4>
                                 </div>
@@ -75,12 +75,12 @@
                                             <span t-else="">　　　年　　月　　日</span>
                                         </div>
                                         <div style="border-bottom: 2px solid; margin-top: 10px;">
-                                            <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                   t-field="o.partner_name">
                                                 <null/>
                                             </span>
                                             <br/>
-                                            <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                   t-field="o.partner_id.customer_name_2">
                                                 <null/>
                                             </span>
@@ -132,7 +132,7 @@
                             </div>
                             <div style="margin-top: 8px">
                                 <table border="1" cellspacing="0" cellpadding="5"
-                                       style="width: 100%; border: 1px solid #000000; border-bottom: 0;">
+                                       style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                     <thead>
                                         <tr>
                                             <td style="border: 1px solid #000000; border-top: 0;  text-align: center; width: auto">
@@ -495,7 +495,7 @@
                             <div style="text-align: center;">
                                 <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
                                     <h4 class="mt0"
-                                        style="font-size: 22px; color: #000000; border-bottom: 2px solid #000000; margin: 0 auto; width: max-content; padding: 0">
+                                        style="font-size: 22px; color: #000000; border-bottom: 2px solid #000000; margin: 0 auto; width: 120px; padding: 0">
                                         納　品　書
                                     </h4>
                                 </div>
@@ -549,12 +549,12 @@
                                             <span t-else="">　　　年　　月　　日</span>
                                         </div>
                                         <div style="border-bottom: 2px solid; margin-top: 10px;">
-                                            <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                   t-field="o.partner_name">
                                                 <null/>
                                             </span>
                                             <br/>
-                                            <span style="display: inline-block; width: 374px; overflow: hidden; white-space: nowrap;"
+                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                   t-field="o.partner_id.customer_name_2">
                                                 <null/>
                                             </span>
