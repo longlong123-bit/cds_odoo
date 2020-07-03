@@ -145,6 +145,7 @@ def copy_data_from_quotation(rec, quotation, account):
             if line.product_id:
                 invoice_line_ids.append((0, False, {
                     'product_id': line.product_id,
+                    'product_code': line.product_code,
                     'product_barcode': line.product_barcode,
                     'product_name': line.product_name,
                     'product_name2': line.product_name2,
