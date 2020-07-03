@@ -10,5 +10,5 @@ class InvoiceReports(models.Model):
             'type': 'ir.actions.report',
             'report_name': 'Maintain_Invoice_Reports.invoice_reports',
             'model': 'account.move',
-            'report_type': "qweb-html",
+            'report_type': "qweb-pdf",
         }
