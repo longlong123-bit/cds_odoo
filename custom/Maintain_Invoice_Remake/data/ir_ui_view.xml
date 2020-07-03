@@ -212,7 +212,7 @@
               <td></td>
               <td colspan="3" class="col-field"><field name="x_studio_address_2" string="Address 2" class="o_address_city"
                                                        placeholder="Address 2..." force_save="1"  widget="input" z-index="102" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
-              <td colspan="2" class="col-field"><field name="x_studio_address_3" string="Address 3" class="o_address_city" placeholder="Address 3..." force_save="1"  widget="input" z-index="103" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+              <td colspan="2" class="col-field"><field name="x_studio_address_3" string="Address 3" class="o_address_city" placeholder="Address 3..." force_save="1"  widget="input" z-index="103" attrs="{'readonly':[('state','in',['posted'])]}" invisible="1"/></td>
 
              <td class="col-label"><label for="x_voucher_tax_transfer" string="Tax Transfer*"/></td>
               <td class="col-field"><field name="x_voucher_tax_transfer" string="Tax Transfer*" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}" required="True"/></td>
