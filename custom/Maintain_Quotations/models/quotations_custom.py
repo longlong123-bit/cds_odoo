@@ -281,6 +281,8 @@ class QuotationsCustom(models.Model):
         # set document_no
         # if not ('document_no' in values):
         # get all document no. is number
+        if not values.get('order_line', []):
+            raise UserError(_("You need to add a line before save."))
         self._cr.execute('''
                         SELECT document_no
                         FROM sale_order

@@ -37,7 +37,7 @@
 <!--                        <button name="action_quotation_send" type="object" string="Send PRO-FORMA Invoice" groups="sale.group_proforma_sales" attrs="{'invisible': ['|', ('state', '=', 'draft'), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>-->
                         <button name="action_quotation_send" string="Send by Email" type="object" states="sent,sale"/>
                         <button name="action_cancel" states="draft,sent,sale" type="object" string="Cancel"/>
-                        <button name="preview_report" states="draft,sent,sale" type="object" string="Preview"/>
+                        <button name="preview_report" states="draft,sent,sale" type="object" string="Preview" invisible="1"/>
                         <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/>
                         <field name="order_id" widget="button_field" z-index="92" options='{"model":"sale.order", "text":"見積履歴問合せ"}'
                                attrs="{'invisible':[('flag_history','=', 1)]}"/>
@@ -382,12 +382,12 @@
     </record>
 
     <menuitem id="menu_ideas" name="Quotations Custom" sequence="1"/>
-    <menuitem id="quotation" parent="menu_ideas" name="見積入力" sequence="1" action="quotation_custom_action"/>
+    <menuitem id="quotation" parent="menu_ideas" name="Sale Order" sequence="1" action="quotation_custom_action"/>
 
     <data>
         <!-- Sequences for sale.order -->
         <record id="seq_quotations_custom" model="ir.sequence">
-            <field name="name">見積入力</field>
+            <field name="name">Sale Order</field>
             <field name="code">sale.order</field>
             <field name="padding">7</field>
             <field name="number_next">1000000</field>
