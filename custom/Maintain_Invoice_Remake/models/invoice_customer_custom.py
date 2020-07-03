@@ -253,43 +253,44 @@ class ClassInvoiceCustom(models.Model):
         :param show_ref:    A flag indicating of the display name must include or not the journal entry reference.
         :return:            A string representing the invoice.
         '''
-        self.ensure_one()
-        draft_name = ''
-        if self.state == 'draft':
-            draft_name += {
-                'out_invoice': _('Draft Invoice'),
-                'out_refund': _('Draft Credit Note'),
-                'in_invoice': _('Draft Bill'),
-                'in_refund': _('Draft Vendor Credit Note'),
-                'out_receipt': _('Draft Sales Receipt'),
-                'in_receipt': _('Draft Purchase Receipt'),
-                'entry': _('Draft Entry'),
-            }[self.type]
-            if not self.name or self.name == '/':
-                if self.type == 'out_invoice':
-                    draft_name += ' / %s' % str(self.x_studio_document_no)
-                else:
-                    draft_name += ' (* %s)' % str(self.id)
-            else:
-                if self.type == 'out_invoice':
-                    draft_name += ' ' + self.x_studio_document_no
-                else:
-                    draft_name += ' ' + self.name
-        # trường hợp state
-        if self.state == 'posted':
-            if not self.name or self.name == '/':
-                if self.type == 'out_invoice':
-                    draft_name += ' / %s' % str(self.x_studio_document_no)
-                else:
-                    draft_name += ' (* %s)' % str(self.id)
-            else:
-                if self.type == 'out_invoice':
-                    draft_name += ' ' + self.x_studio_document_no
-                else:
-                    draft_name += ' ' + self.name
+        return "修正"
+        # self.ensure_one()
+        # draft_name = ''
+        # if self.state == 'draft':
+        #     draft_name += {
+        #         'out_invoice': _('Draft Invoice'),
+        #         'out_refund': _('Draft Credit Note'),
+        #         'in_invoice': _('Draft Bill'),
+        #         'in_refund': _('Draft Vendor Credit Note'),
+        #         'out_receipt': _('Draft Sales Receipt'),
+        #         'in_receipt': _('Draft Purchase Receipt'),
+        #         'entry': _('Draft Entry'),
+        #     }[self.type]
+        #     if not self.name or self.name == '/':
+        #         if self.type == 'out_invoice':
+        #             draft_name += ' / %s' % str(self.x_studio_document_no)
+        #         else:
+        #             draft_name += ' (* %s)' % str(self.id)
+        #     else:
+        #         if self.type == 'out_invoice':
+        #             draft_name += ' ' + self.x_studio_document_no
+        #         else:
+        #             draft_name += ' ' + self.name
+        # # trường hợp state
+        # if self.state == 'posted':
+        #     if not self.name or self.name == '/':
+        #         if self.type == 'out_invoice':
+        #             draft_name += ' / %s' % str(self.x_studio_document_no)
+        #         else:
+        #             draft_name += ' (* %s)' % str(self.id)
+        #     else:
+        #         if self.type == 'out_invoice':
+        #             draft_name += ' ' + self.x_studio_document_no
+        #         else:
+        #             draft_name += ' ' + self.name
 
-        return (draft_name or self.name) + (
-                show_ref and self.ref and ' (%s%s)' % (self.ref[:50], '...' if len(self.ref) > 50 else '') or '')
+        # return (draft_name or self.name) + (
+        #         show_ref and self.ref and ' (%s%s)' % (self.ref[:50], '...' if len(self.ref) > 50 else '') or '')
 
     # Calculate due date
     def _get_due_date(self):
@@ -412,13 +413,13 @@ class ClassInvoiceCustom(models.Model):
     amount_from_payment = fields.Float(string='Amount from payment')
 
     # flag history button
-    flag_history = fields.Integer(string='flag_history', default=0)
+    flag_history = fields.Integer(string='flag_history', default=0, compute='_check_flag_history')
 
-    # Check flag_history
-    @api.constrains('x_studio_business_partner')
-    def get_flag(self):
-        for rec in self:
-            rec.flag_history = 0
+    # # Check flag_history
+    # @api.constrains('x_studio_business_partner')
+    # def get_flag(self):
+    #     for rec in self:
+    #         rec.flag_history = 0
 
     @api.onchange('x_studio_business_partner', 'x_studio_name', 'ref', 'x_bussiness_partner_name_2', 'x_studio_address_1',
                   'x_studio_address_2', 'x_studio_address_3', 'x_studio_description', 'sales_rep', 'x_studio_cus_salesslipforms_table')
@@ -427,6 +428,8 @@ class ClassInvoiceCustom(models.Model):
             if rec.x_studio_name or rec.x_studio_business_partner or rec.ref or rec.x_bussiness_partner_name_2 or rec.x_studio_address_1 \
                     or rec.x_studio_address_2 or rec.x_studio_address_3 or rec.x_studio_description or rec.sales_rep or rec.x_studio_cus_salesslipforms_table :
                 rec.flag_history = 1
+            else:
+                rec.flag_history = 0
 
 
     @api.onchange('trigger_quotation_history')
@@ -770,12 +773,14 @@ class ClassInvoiceCustom(models.Model):
 
     @api.model
     def create(self, vals):
+        if not vals.get('invoice_line_ids', []):
+            raise UserError(_("You need to add a line before save."))
         if vals.get('x_studio_document_no', _('0')) == _('0'):
             vals['x_studio_document_no'] = self.env['ir.sequence'].next_by_code('document.sequence') or _('New')
         result = super(ClassInvoiceCustom, self).create(vals)
         return result
 
-    # lấy thông tin office từ khách hàng
+    # Get customer office method
     def _compute_get_customer_office(self):
         for rec in self:
             temp = ''

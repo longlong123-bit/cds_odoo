@@ -1372,4 +1372,10 @@ msgstr ""
 #: model:ir.ui.menu,name:account.account_invoicing_menu
 #: model:ir.ui.menu,name:account.menu_finance
 msgid "Invoicing"
-msgstr "売上入力"
+msgstr "売上管理"
+
+#. module: Maintain_Invoice_Remake
+#: code:addons/Maintain_Invoice_Remake/models/invoice_customer_custom.py:0
+#, python-format
+msgid "You need to add a line before save."
+msgstr "無ければ”明細が無いので保存できません"

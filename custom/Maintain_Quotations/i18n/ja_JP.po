@@ -729,8 +729,8 @@ msgstr ""
 #. module: Maintain_Quotations
 #: model:ir.actions.act_window,name:Maintain_Quotations.quotation_custom_action
 #: model:ir.ui.menu,name:Maintain_Quotations.quotation
-msgid "見積入力"
-msgstr "見積管理"
+msgid "Sale Order"
+msgstr "見積入力"
 
 #. module: Maintain_Quotations
 #. openerp-web
@@ -771,3 +771,9 @@ msgstr ""
 #: model:ir.actions.report,name:Quotation_Reports.reports
 msgid "Report"
 msgstr "伝票"
+
+#. module: Maintain_Quotations
+#: code:addons/Maintain_Quotations/models/quotations_custom.py:0
+#, python-format
+msgid "You need to add a line before save."
+msgstr "無ければ”明細が無いので保存できません"
