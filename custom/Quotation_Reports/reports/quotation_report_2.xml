@@ -61,10 +61,21 @@
                                     <div style="display: inline-block; width: 100%">
                                         <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
                                             <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
-                                                <span style="display: inline-block; width: 340px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_name"><null/></span><br/>
-                                                <span style="display: inline-block; width: 340px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_id.customer_name_2"><null/></span>
+                                                <t t-if="o.partner_id.customer_name_2">
+                                                    <span style="width: 320px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.partner_name">
+                                                        <null/>
+                                                    </span>
+                                                    <br/>
+                                                    <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.partner_id.customer_name_2">
+                                                    </span>
+                                                </t>
+                                                <span t-else=""
+                                                      style="width: 320px; overflow: hidden; white-space: nowrap;"
+                                                      t-field="o.partner_name">
+                                                    <null/>
+                                                </span>
                                                 <t t-if="o.partner_id.title">
                                                     <span t-field="o.partner_id.title" style="font-size: 16px"></span>
                                                 </t>
