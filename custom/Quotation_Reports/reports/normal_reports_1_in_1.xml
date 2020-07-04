@@ -20,15 +20,15 @@
                         <div style="display: block; page-break-before: always;">
                             <div>
                                 <div style="text-align: center;">
-                                    <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
                                         <t t-if="o.report_header">
                                             <h4 class="mt0" t-field="o.report_header"
-                                                style="font-size: 26px;font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0; width: fit-content">
+                                                style="font-size: 26px;font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0; width: max-content">
                                             </h4>
                                         </t>
                                         <t t-else="">
                                             <h4 class="mt0"
-                                                style="font-size: 26px;font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0;  width: fit-content">
+                                                style="font-size: 26px;font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0;  width: max-content">
                                                 見 積 書
                                             </h4>
                                         </t>
