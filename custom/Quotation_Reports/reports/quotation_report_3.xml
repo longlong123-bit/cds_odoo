@@ -10,6 +10,7 @@
                 </t>
             </t>
         </template>
+        
         <template id="quotation_report_three_template">
             <div style="font-size: 11px;">
                 <t t-set="o" t-value="o.with_context(lang=user.partner_id.lang)"/>
