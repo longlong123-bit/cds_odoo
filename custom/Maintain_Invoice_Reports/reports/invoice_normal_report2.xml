@@ -89,13 +89,13 @@
                                             <div style="margin-bottom: 10px; margin-left: 20px; height: 14px;">
                                                 <span t-field="o.partner_id.zip_code"/>
                                             </div>
-                                            <div style="margin-bottom: 10px; margin-left: 20px; height: 42px;">
+                                            <div style="margin-bottom: 8px; margin-left: 20px; height: 42px;">
                                                 <span t-field="o.partner_id.street"/><br/>
                                                 <span t-field="o.partner_id.street2"/><br/>
                                                 <span t-field="o.partner_id.address3"/>
                                             </div>
-                                            <div style="display: inline-block; border-bottom: 1px solid; width: 384px;">
-                                                <t t-set="p_style" t-value="'height: 14px; white-space: nowrap; max-width: 323px; overflow: hidden;
+                                            <div style="display: inline-block; border-bottom: 1px solid; width: 384px; font-size: 14px">
+                                                <t t-set="p_style" t-value="'height: 16px; white-space: nowrap; max-width: 323px; overflow: hidden;
                                                             text-overflow: clip; margin: 0; float: left;'"/>
                                                 <t t-if="o.partner_id.customer_name_2">
                                                     <t t-set="p_style" t-value="'height: 14px; white-space: nowrap; width: 380px; overflow: hidden;
