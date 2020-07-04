@@ -57,15 +57,21 @@
                                             <span t-else="">　　　年　　月　　日</span>
                                         </div>
                                         <div style="border-bottom: 2px solid; margin-top: 10px;">
-                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
-                                                  t-field="o.partner_name">
-                                                <null/>
-                                            </span>
-                                            <br/>
-                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
-                                                  t-field="o.partner_id.customer_name_2">
-                                                <null/>
-                                            </span>
+                                            <t t-if="o.partner_id.customer_name_2">
+                                                    <span style="width: 320px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.partner_name">
+                                                        <null/>
+                                                    </span>
+                                                    <br/>
+                                                    <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.partner_id.customer_name_2">
+                                                    </span>
+                                                </t>
+                                                <span t-else=""
+                                                      style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
+                                                      t-field="o.partner_name">
+                                                    <null/>
+                                                </span>
                                             <t t-if="o.partner_id.title">
                                                 <span t-field="o.partner_id.title" style="font-size: 18px"></span>
                                             </t>
@@ -546,15 +552,21 @@
                                             <span t-else="">　　　年　　月　　日</span>
                                         </div>
                                         <div style="border-bottom: 2px solid; margin-top: 10px;">
-                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
-                                                  t-field="o.partner_name">
-                                                <null/>
-                                            </span>
-                                            <br/>
-                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
-                                                  t-field="o.partner_id.customer_name_2">
-                                                <null/>
-                                            </span>
+                                            <t t-if="o.partner_id.customer_name_2">
+                                                    <span style="width: 320px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.partner_name">
+                                                        <null/>
+                                                    </span>
+                                                    <br/>
+                                                    <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.partner_id.customer_name_2">
+                                                    </span>
+                                                </t>
+                                                <span t-else=""
+                                                      style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
+                                                      t-field="o.partner_name">
+                                                    <null/>
+                                                </span>
                                             <t t-if="o.partner_id.title">
                                                 <span t-field="o.partner_id.title" style="font-size: 18px"></span>
                                             </t>
