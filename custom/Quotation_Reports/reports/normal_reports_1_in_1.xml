@@ -9,7 +9,7 @@
             </t>
         </template>
         <template id="normal_report_template_1_in_1">
-            <div class="page" style="page-break-before: always; font-family: メイリオ; font-size: 14px">
+            <div class="page" style="page-break-before: always; font-family: メイリオ; font-size: 14px; line-height: 1.2;">
                 <t t-set="o" t-value="o.with_context(lang=user.partner_id.lang)"/>
                 <t t-set="line_one_one_parent" t-value="o.order_line"/>
                 <t t-set="line_one_one_id" t-value="0"/>
@@ -60,20 +60,27 @@
                                     </div>
                                     <div style="display: inline-block; width: 100%">
                                         <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
-                                            <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
+                                            <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid; max-width:90%;">
+                                                <t t-if="o.partner_id.customer_name_2">
+                                                    <span style="width: 320px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.partner_name">
+                                                        <null/>
+                                                    </span>
+                                                    <br/>
+                                                    <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
+                                                          t-field="o.partner_id.customer_name_2">
+                                                    </span>
+                                                </t>
+                                                <span t-else=""
+                                                      style="width: 320px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name">
                                                     <null/>
                                                 </span>
-                                                <br/>
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_id.customer_name_2">
-                                                    <null/>
-                                                </span>
                                                 <t t-if="o.partner_id.title">
-                                                    <span t-field="o.partner_id.title" style="font-size: 18px"></span>
+                                                    <span t-field="o.partner_id.title"
+                                                          style="font-size: 18px; float: right;"></span>
                                                 </t>
-                                                <span t-else="" style="font-size: 18px">様</span>
+                                                <span t-else="" style="float: right; font-size: 18px">様</span>
                                             </div>
                                             <div style="margin-top: 30px;font-size: 18px;">
                                                 <span>下記のとおりご</span>
@@ -135,7 +142,7 @@
                                         <thead>
                                             <tr style="font-size: 16px;">
                                                 <td style="border: 1px solid #000000; border-top: 0;  text-align: center; width: auto">
-                                                   品　名
+                                                    品　名
                                                 </td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 10%">
                                                     数　量
@@ -167,7 +174,7 @@
                                                             <t t-set="subtotal_amount"
                                                                t-value="subtotal_amount + order.line_amount"/>
                                                             <tr style="font-size: 14px; height: 40px;">
-                                                                <td style="border: 1px solid #000000; border-top: 0; padding: 0; line-height: 1.2; height: 27px;">
+                                                                <td style="border: 1px solid #000000; border-top: 0; padding: 0 0 0 5px; line-height: 1.2; height: 27px;">
                                                                     <!--                                                        <span t-esc="line_id"/>-->
                                                                     <div>
                                                                         <span style="display: -webkit-box; width: 280px;height: 32px;float: left;margin: 0 auto;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
@@ -323,7 +330,7 @@
                                                                    t-value="subtotal_tax_amount_o + order.line_tax_amount"/>
                                                             </t>
                                                             <tr style="font-size: 14px; height: 40px;">
-                                                                <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
+                                                                <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                                     <!--                                                        <span t-esc="line_id"/>-->
                                                                     <div>
                                                                         <span style="display: -webkit-box; width: 280px;height: 32px;float: left;margin: 0 auto;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
