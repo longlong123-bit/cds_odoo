@@ -350,6 +350,7 @@
                                                             <div style="display: inline-block; width: 40%; float: right; text-align: center;">
                                                                 <t t-if="subtotal_tax_amount1_8">
                                                                     <span>（8％消費税）</span>
+                                                                    <br/>
                                                                 </t>
                                                                 <t t-if="subtotal_tax_amount1_10">
                                                                     <span>（10％消費税）</span>
@@ -686,7 +687,7 @@
                                                                 消　　費　　税</div>
                                                             <div style="display: inline-block; width: 40%; float: right; text-align: center;">
                                                                 <t t-if="subtotal_tax_amount1_8">
-                                                                    <span>（8％消費税）</span>
+                                                                    <span>（8％消費税）</span><br/>
                                                                 </t>
                                                                 <t t-if="subtotal_tax_amount1_10">
                                                                     <span>（10％消費税）</span>
@@ -1026,6 +1027,7 @@
                                                             <div style="display: inline-block; width: 40%; float: right; text-align: center;">
                                                                 <t t-if="subtotal_tax_amount1_8">
                                                                     <span>（8％消費税）</span>
+                                                                    <br/>
                                                                 </t>
                                                                 <t t-if="subtotal_tax_amount1_10">
                                                                     <span>（10％消費税）</span>
@@ -1367,6 +1369,7 @@
                                                             <div style="display: inline-block; width: 40%; float: right; text-align: center;">
                                                                 <t t-if="subtotal_tax_amount1_8">
                                                                     <span>（8％消費税）</span>
+                                                                    <br/>
                                                                 </t>
                                                                 <t t-if="subtotal_tax_amount1_10">
                                                                     <span>（10％消費税）</span>
