@@ -102,7 +102,7 @@ class NewClassPartnerCustom(models.Model):
     # 売上伝票印刷
     customer_print_voucher = fields.Boolean('Print Voucher', default=True)
     # 売上伝票選択
-    customer_select_sales_slip = fields.Selection([('slip1', '通常伝票1'), ('slip2', '通常伝票2と3'), ('slip3', '鹿島伝票')], 'Sales Slip', default="slip1")
+    customer_select_sales_slip = fields.Selection([('slip1', '通常伝票1'), ('slip2', '通常伝票2'), ('slip3', '通常伝票３'), ('slip4', '鹿島伝票')], 'Sales Slip', default="slip1")
     # 納品書選択
     customer_delivery_note = fields.Selection([('note1', '通常'), ('note2', 'ヤマサタイプ'),('note3','岡田土建タイプ'),('note4','銚子信用金庫')], 'Delivery Note',
                                               default="note1")
