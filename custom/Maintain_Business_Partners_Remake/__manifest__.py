@@ -8,8 +8,14 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'Maintain_Discount_Schema', 'Maintain_Invoice_Print', 'Maintain_Bill_Schema', 'account', 'Maintain_Business_Partner_Group', 'Maintain_Closing_Date', 'Maintain_Custom_Company_Office',
-        'Maintain_Custom_Employee'
+        'base_setup',
+        'Maintain_Discount_Schema',
+        'Maintain_Bill_Schema',
+        'account',
+        'Maintain_Business_Partner_Group',
+        'Maintain_Closing_Date',
+        'Maintain_Custom_Company_Office',
+        'Maintain_Custom_Employee',
     ],
     'website': '',
     'data': [
