@@ -4,16 +4,16 @@
         <template id="invoice_reports">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-if="o.partner_id.customer_select_invoice == 'form1'">
+                    <t t-if="o.partner_id.customer_select_sales_slip == 'slip1'">
                         <t t-call="Maintain_Invoice_Reports.invoice_normal_report" t-lang="lang"/>
                     </t>
-                    <t t-elif="o.partner_id.customer_select_invoice == 'form2'">
+                    <t t-elif="o.partner_id.customer_select_sales_slip == 'slip2'">
                         <t t-call="Maintain_Invoice_Reports.invoice_normal_report2" t-lang="lang"/>
                     </t>
-                    <t t-elif="o.partner_id.customer_select_invoice == 'form3'">
+                    <t t-elif="o.partner_id.customer_select_sales_slip == 'slip3'">
                         <t t-call="Maintain_Invoice_Reports.invoice_normal_report3" t-lang="lang"/>
                     </t>
-<!--                        <t t-elif="o.partner_id.customer_select_invoice == 'form4'">-->
+<!--                        <t t-elif="o.partner_id.customer_select_sales_slip == 'slip4'">-->
 <!--                            <t t-call="Maintain_Invoice_Reports.invoice_normal_report4_template" t-lang="lang"/>-->
 <!--                        </t>-->
                 </t>
