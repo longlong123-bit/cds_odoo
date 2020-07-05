@@ -147,9 +147,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
@@ -256,9 +256,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
@@ -350,6 +350,7 @@
                                                             <div style="display: inline-block; width: 40%; float: right; text-align: center;">
                                                                 <t t-if="subtotal_tax_amount1_8">
                                                                     <span>（8％消費税）</span>
+                                                                    <br/>
                                                                 </t>
                                                                 <t t-if="subtotal_tax_amount1_10">
                                                                     <span>（10％消費税）</span>
@@ -490,9 +491,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
@@ -593,9 +594,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
@@ -686,7 +687,7 @@
                                                                 消　　費　　税</div>
                                                             <div style="display: inline-block; width: 40%; float: right; text-align: center;">
                                                                 <t t-if="subtotal_tax_amount1_8">
-                                                                    <span>（8％消費税）</span>
+                                                                    <span>（8％消費税）</span><br/>
                                                                 </t>
                                                                 <t t-if="subtotal_tax_amount1_10">
                                                                     <span>（10％消費税）</span>
@@ -829,9 +830,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
@@ -932,9 +933,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
@@ -1026,6 +1027,7 @@
                                                             <div style="display: inline-block; width: 40%; float: right; text-align: center;">
                                                                 <t t-if="subtotal_tax_amount1_8">
                                                                     <span>（8％消費税）</span>
+                                                                    <br/>
                                                                 </t>
                                                                 <t t-if="subtotal_tax_amount1_10">
                                                                     <span>（10％消費税）</span>
@@ -1170,9 +1172,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
@@ -1273,9 +1275,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
@@ -1367,6 +1369,7 @@
                                                             <div style="display: inline-block; width: 40%; float: right; text-align: center;">
                                                                 <t t-if="subtotal_tax_amount1_8">
                                                                     <span>（8％消費税）</span>
+                                                                    <br/>
                                                                 </t>
                                                                 <t t-if="subtotal_tax_amount1_10">
                                                                     <span>（10％消費税）</span>
@@ -1522,9 +1525,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
@@ -1626,9 +1629,9 @@
                                                                     <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.name"><null/></span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name"><null/></span>
+                                                                          t-field="order.product_maker_name"><null/></span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1"><null/></span> <br/>
+                                                                          t-field="order.product_standard_number"><null/></span> <br/>
                                                                     <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.product_id.product_custom_goodsnamef"><null/></span>
                                                                 </td>
