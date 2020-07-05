@@ -10,7 +10,7 @@
                 </t>
             </t>
         </template>
-        
+
         <template id="quotation_report_three_template">
             <div style="font-size: 11px;">
                 <t t-set="o" t-value="o.with_context(lang=user.partner_id.lang)"/>
@@ -115,9 +115,6 @@
                                         <br/>
                                         <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
                                         <br/>
-                                        <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>
-                                        <br/>
-                                        <span>TEL　043-224-9050　FAX　043-222-6176</span>
                                     </div>
                                 </div>
                                 <div style=" display: inline-block; width: 100%;">
@@ -133,20 +130,28 @@
                                                       t-esc="'{0:,.0f}'.format(int(o.amount_total))"></span>
                                             </t>
                                             <t t-if="o.tax_method =='invoice'">
-                                                <span>（税別）</span>
+                                                <span>（税抜）</span>
                                             </t>
                                             <t t-else="">
                                                 <span>(税込)</span>
                                             </t>
                                         </t>
                                     </div>
-                                    <div style="float: right;font-size: 18px;">
-                                        <span>摘要欄</span>
-                                        <span style="display: inline-block; width: 286px; overflow: hidden; white-space: nowrap;"
-                                              t-field="o.comment_apply">
-                                            <null/>
-                                        </span>
-
+                                    <div style="float: right; font-size: 16px; display: block; margin-top: -18px;">
+                                        <div>
+                                            <span>要件：</span>
+                                            <span style="display: inline-block; width: 286px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.quotation_name">
+                                                <null/>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span>摘要欄</span>
+                                            <span style="display: inline-block; width: 286px; overflow: hidden; white-space: nowrap;"
+                                                  t-field="o.comment_apply">
+                                                <null/>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -196,11 +201,11 @@
                                                                         <null/>
                                                                     </span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name">
+                                                                          t-field="order.product_maker_name">
                                                                         <null/>
                                                                     </span>
                                                                     <span style="display: inline-block; width: 65px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1">
+                                                                          t-field="order.product_standard_number">
                                                                         <null/>
                                                                     </span>
                                                                 </div>
@@ -352,11 +357,11 @@
                                                                         <null/>
                                                                     </span>
                                                                     <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_maker_name">
+                                                                          t-field="order.product_maker_name">
                                                                         <null/>
                                                                     </span>
                                                                     <span style="display: inline-block; width: 65px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_id.product_code_1">
+                                                                          t-field="order.product_standard_number">
                                                                         <null/>
                                                                     </span>
                                                                 </div>
@@ -478,6 +483,10 @@
                                                         <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                               t-esc="'{0:,.0f}'.format(int(subtotal_amount10))"></span>
                                                     </t>
+                                                    <t t-if="subtotal_amount_o">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_amount_o))"></span>
+                                                    </t>
                                                 </td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
                                             </tr>
@@ -516,7 +525,7 @@
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
                                             </tr>
                                             <t t-set="subtotal_total_amount"
-                                               t-value="subtotal_amount8+ subtotal_amount10 + subtotal_tax_amount8 + subtotal_tax_amount10"/>
+                                               t-value="subtotal_amount8+ subtotal_amount10 + subtotal_tax_amount8 + subtotal_tax_amount10 + subtotal_tax_amount_o + subtotal_amount_o"/>
                                             <tr style="height: 40px;">
                                                 <td style="border: 1px solid #000000; border-top: 0;font-size: 18px; text-align: center;">
                                                     <span>税　込　合　計</span>
@@ -525,7 +534,7 @@
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right;">
-                                                    <span style="display: block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(int(subtotal_total_amount))">
                                                         <null/>
                                                     </span>
@@ -535,11 +544,20 @@
                                         </tbody>
                                     </t>
                                 </table>
-                                <div>
-                                    <null/>
-                                    <span style="display: block; height: 80px; font-size: 14px; width: 100%; overflow: hidden;"
-                                          t-field="o.comment">
-                                        <null/>
+                                <div style="font-size: 14px; font-weight: 600; padding: 10px 0 10px 30px;" t-if="o.report_header.name =='請求書'">
+                                    <span>振込口座:</span>
+                                    <span t-field="o.company_id.company_bank_account_1"/>
+                                </div>
+                                <div t-else="">
+                                    <span style="font-size: 14px; font-weight: 600; padding: 10px 0 10px 30px;">
+                                        主要取扱メーカー
+                                    </span>
+                                    <br/>
+                                    <span style="display: block; max-height: 80px; width: 100%; overflow: hidden;">
+                                        事務機器　 キャノン・理想理学・NEC・富士通・シャープ・東芝テック・アマノ
+                                        オフィス家具　イトーキ・ウチダ・コクヨ・ライオン・オカムラ・　プラス・アイリスチトセ・ホウトク
+                                        教育機器　島津理化・ウチダ・学研・ケニス・　日本医療器・美術出版・京都科学標本・　キハラ・ヤガミ
+                                        事務用品　 コクヨ事務用品外全版
                                     </span>
                                 </div>
                             </div>
