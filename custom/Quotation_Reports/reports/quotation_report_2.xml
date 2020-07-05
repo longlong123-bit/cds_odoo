@@ -426,7 +426,7 @@
                                                 </t>
                                                 <tr style="height: 40px;">
                                                     <td style="border: 1px solid #000000; border-top: 0; font-size: 18px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
+                                                        <div style="display: inline-block; width: 60%; float: left; text-align: center;">
                                                             小　　　　計
                                                         </div>
                                                         <div style="display: inline-block; width: 40%; float: right; text-align: center;">
@@ -460,7 +460,7 @@
                                                 </tr>
                                                 <tr style="height: 40px;">
                                                     <td style="border: 1px solid #000000;border-top: 0; font-size: 18px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
+                                                        <div style="display: inline-block; width: 60%; float: left; text-align: center;">
                                                             消　　費　　税
                                                         </div>
                                                         <div style="display: inline-block; width: 40%; float: right; text-align: center;">
@@ -496,7 +496,9 @@
                                                    t-value="subtotal_amount8+ subtotal_amount10 + subtotal_tax_amount8 + subtotal_tax_amount10 + subtotal_tax_amount_o + subtotal_amount_o"/>
                                                 <tr style="height: 40px;">
                                                     <td style="border: 1px solid #000000; border-top: 0;font-size: 18px; text-align: center;">
-                                                        <span>税　込　合　計</span>
+                                                        <div style="float: left; display: inline-block; width: 60%; text-align: center;">
+                                                            <span>税　込　合　計</span>
+                                                        </div>
                                                     </td>
                                                     <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
                                                     <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
@@ -516,13 +518,15 @@
                                         <span>振込口座: </span>
                                         <span t-field="o.company_id.company_bank_account_1"/>
                                     </div>
-                                    <div t-else="">
-                                        <span style="font-size: 14px; font-weight: 600; padding: 10px 0 10px 30px;">主要取扱メーカー</span>
+                                    <div style="padding-top: 5px;" t-else="">
+                                        <span style="font-size: 14px; font-weight: 600; padding: 10px 0 10px 292px; text-align: center;">
+                                            主要取扱メーカー
+                                        </span>
                                         <br/>
                                         <span style="display: block; max-height: 80px; width: 100%; overflow: hidden;">
-                                            事務機器　 キャノン・理想理学・NEC・富士通・シャープ・東芝テック・アマノ
-                                            オフィス家具　イトーキ・ウチダ・コクヨ・ライオン・オカムラ・　プラス・アイリスチトセ・ホウトク
-                                            教育機器　島津理化・ウチダ・学研・ケニス・　日本医療器・美術出版・京都科学標本・　キハラ・ヤガミ
+                                            事務機器　 キャノン・理想理学・NEC・富士通・シャープ・東芝テック・アマノ<br/>
+                                            オフィス家具　イトーキ・ウチダ・コクヨ・ライオン・オカムラ・　プラス・アイリスチトセ・ホウトク<br/>
+                                            教育機器　島津理化・ウチダ・学研・ケニス・　日本医療器・美術出版・京都科学標本・　キハラ・ヤガミ<br/>
                                             事務用品　 コクヨ事務用品外全版
                                         </span>
                                     </div>
