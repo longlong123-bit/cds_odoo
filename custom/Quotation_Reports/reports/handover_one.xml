@@ -724,13 +724,16 @@
                                                         <t t-if="line>0">
                                                             <t t-set="line" t-value="line - 1"/>
                                                             <tr style="height: 30px">
-                                                                <td style=" border: 1px solid #000000;">
+                                                                <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
                                                                     <br/>
+                                                                    <span style="display: inline-block; width: 363px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
                                                                 </td>
-                                                                <td style="border: 1px solid #000000; border-top: 0;   text-align: right">
+                                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: right">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
