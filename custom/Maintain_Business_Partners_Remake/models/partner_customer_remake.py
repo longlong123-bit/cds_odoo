@@ -126,8 +126,9 @@ class NewClassPartnerCustom(models.Model):
         ('quote3', '鹿島見積')], 'Select Quote',
         default="quote1")
     # 見積票選択
-    customer_quotation_selection = fields.Selection([('normal', '通常見積'), ('billing', '通常見積（請求単位）'),  ('type2', '鹿島見積2種')],
+    customer_quotation_selection = fields.Selection([('normal', '通常'), ('billing', '神栖営業所用'),  ('type2', '鹿島見積')],
                                                string='Quotation Select', default='normal')
+                                   
     _sql_constraints = [
         ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
     ]

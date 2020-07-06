@@ -891,6 +891,134 @@ odoo.define('web.ListRender_Custom', function (require) {
                 break;
         }
     },
+    /**
+     * Moves the focus to the nearest editable row before or after the current one.
+     * If we arrive at the end of the list (or of a group in the grouped case) and the list
+     * is editable="bottom", we create a new record, otherwise, we move the
+     * cursor to the first row (of the next group in the grouped case).
+     *
+     * @private
+     * @param {number} next whether to move to the next or previous row
+     * @param {Object} [options]
+     * @param {boolean} [options.forceCreate=false] typically set to true when
+     *   navigating with ENTER ; in this case, if the next row is the 'Add a
+     *   row' one, always create a new record (never skip it, like TAB does
+     *   under some conditions)
+     */
+    _moveToSideLine: function (next, options) {
+        options = options || {};
+        const recordID = this._getRecordID(this.currentRow);
+        this.commitChanges(recordID).then(() => {
+            const record = this._getRecord(recordID);
+            const multiEdit = this.isInMultipleRecordEdition(recordID);
+            if (!multiEdit) {
+                const fieldNames = this.canBeSaved(recordID);
+                if (fieldNames.length && (record.isDirty() || options.forceCreate)) {
+                    // the current row is invalid, we only leave it if it is not dirty
+                    // (we didn't make any change on this row, which is a new one) and
+                    // we are navigating with TAB (forceCreate=false)
+                    return;
+                }
+            }
+            // compute the index of the next (record) row to select, if any
+            const side = next ? 'first' : 'last';
+            const borderRowIndex = this._getBorderRow(side).prop('rowIndex') - 1;
+            var cellIndex = 0;
+            if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('invoice_create')){
+              cellIndex = next ? 3 : this.allFieldWidgets[recordID].length - 1;
+            } else {
+              cellIndex = next ? 0 : this.allFieldWidgets[recordID].length - 1;
+            }
+            const cellOptions = { inc: next ? 1 : -1, force: true };
+            const $currentRow = this._getRow(recordID);
+            const $nextRow = this._getNearestEditableRow($currentRow, next);
+            let nextRowIndex = null;
+            let groupId;
+
+            if (!this.isGrouped) {
+                // ungrouped case
+                if ($nextRow.length) {
+                    nextRowIndex = $nextRow.prop('rowIndex') - 1;
+                } else if (!this.editable) {
+                    nextRowIndex = borderRowIndex;
+                } else if (!options.forceCreate && !record.isDirty()) {
+                    this.trigger_up('discard_changes', {
+                        recordID: recordID,
+                        onSuccess: this.trigger_up.bind(this, 'activate_next_widget', { side: side }),
+                    });
+                    return;
+                }
+            } else {
+                // grouped case
+                var $directNextRow = $currentRow.next();
+                if (next && this.editable === "bottom" && $directNextRow.hasClass('o_add_record_row')) {
+                    // the next row is the 'Add a line' row (i.e. the current one is the last record
+                    // row of the group)
+                    if (options.forceCreate || record.isDirty()) {
+                        // if we modified the current record, add a row to create a new record
+                        groupId = $directNextRow.data('group-id');
+                    } else {
+                        // if we didn't change anything to the current line (e.g. we pressed TAB on
+                        // each cell without modifying/entering any data), we discard that line (if
+                        // it was a new one) and move to the first record of the next group
+                        nextRowIndex = ($nextRow.prop('rowIndex') - 1) || null;
+                        this.trigger_up('discard_changes', {
+                            recordID: recordID,
+                            onSuccess: () => {
+                                if (nextRowIndex !== null) {
+                                    if (!record.res_id) {
+                                        // the current record was a new one, so we decrement
+                                        // nextRowIndex as that row has been removed meanwhile
+                                        nextRowIndex--;
+                                    }
+                                    this._selectCell(nextRowIndex, cellIndex, cellOptions);
+                                } else {
+                                    // we were in the last group, so go back to the top
+                                    this._selectCell(borderRowIndex, cellIndex, cellOptions);
+                                }
+                            },
+                        });
+                        return;
+                    }
+                } else {
+                    // there is no 'Add a line' row (i.e. the create feature is disabled), or the
+                    // list is editable="top", we focus the first record of the next group if any,
+                    // or we go back to the top of the list
+                    nextRowIndex = $nextRow.length ?
+                        ($nextRow.prop('rowIndex') - 1) :
+                        borderRowIndex;
+                }
+            }
+
+            // if there is a (record) row to select, select it, otherwise, add a new record (in the
+            // correct group, if the view is grouped)
+            if (nextRowIndex !== null) {
+                // cellOptions.force = true;
+                this._selectCell(nextRowIndex, cellIndex, cellOptions);
+            } else if (this.editable) {
+                // if for some reason (e.g. create feature is disabled) we can't add a new
+                // record, select the first record row
+                this.unselectRow().then(this.trigger_up.bind(this, 'add_record', {
+                    groupId: groupId,
+                    onFail: this._selectCell.bind(this, borderRowIndex, cellIndex, cellOptions),
+                }));
+            }
+        });
+    },
+    /**
+     * Edit a given record in the list
+     *
+     * @param {string} recordID
+     */
+    editRecord: function (recordID) {
+        var $row = this._getRow(recordID);
+        var rowIndex = $row.prop('rowIndex') - 1;
+        if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('invoice_create')){
+          this._selectCell(rowIndex, 3);
+        } else {
+          this._selectCell(rowIndex, 0);
+        }
+    },
     });
     ListRender.include(My_ListRender);
 });

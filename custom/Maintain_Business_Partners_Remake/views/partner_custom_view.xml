@@ -121,8 +121,8 @@
                             <td class="col-label"><label for="zip_code" string="Zip"/></td>
                             <td colspan="2"><field name="zip_code" widget="mask" data-inputmask-mask="〒999-9999"/></td>
                             <td></td>
-                            <td class="col-label"><label for="customer_select_sales_slip" string="Sales Slip"/></td>
-                            <td class="col-field"><field name="customer_select_sales_slip"/></td>
+                            <td class="col-label"><label for="customer_quotation_selection" string="Quotation Select"/></td>
+                            <td class="col-field"><field name="customer_quotation_selection"/></td>
                             <td></td>
                             <td class="col-checkbox">
                                 <field name="customer_bill_discount"/>
@@ -135,8 +135,8 @@
                         <tr>
                             <td class="col-label"><label for="street" string="Address 1"/></td>
                             <td colspan="3"><field name="street"/></td>
-                            <td class="col-label"><label for="customer_delivery_note" string="Delivery Note"/></td>
-                            <td class="col-field"><field name="customer_delivery_note"/></td>
+                            <td class="col-label"><label for="customer_select_sales_slip" string="Sales Slip"/></td>
+                            <td class="col-field"><field name="customer_select_sales_slip"/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="customer_except_request"/><label for="customer_except_request" string="Excerpt Request"/></td>
                         </tr>
@@ -148,8 +148,8 @@
                             <td class="col-label"><label for="address3" string="Address 3" invisible="1"/></td>
                             <td class="col-field"><field name="address3" invisible="1"/></td>
 <!--                            <td></td>-->
-                            <td class="col-label"><label for="customer_select_invoice" string="Select Invoice"/></td>
-                            <td class="col-field"><field name="customer_select_invoice"/></td>
+                            <td class="col-label"><label for="customer_delivery_note" string="Delivery Note"/></td>
+                            <td class="col-field"><field name="customer_delivery_note"/></td>
 <!--                            <td class="col-checkbox"><field name="customer_select_invoice"/><label for="customer_select_invoice" string="Select Invoice"/></td>-->
                             <td></td>
                             <td class="col-checkbox"><field name="customer_print_invoice_date"/><label for="customer_print_invoice_date" string="Print Invoice Date"/></td>
@@ -161,10 +161,9 @@
                             <td class="col-field"><field name="customer_phone"/></td>
                             <td class="col-label"><label for="customer_fax" string="Fax"/></td>
                             <td class="col-field"><field name="customer_fax"/></td>
-
-                            <td class="col-label"><label for="customer_quotation_selection" string="Quotation Select"/></td>
-                            <td class="col-field"><field name="customer_quotation_selection"/></td>
-
+                            <td class="col-label"><label for="customer_select_invoice" string="Select Invoice"/></td>
+                            <td class="col-field"><field name="customer_select_invoice"/></td>
+                           
                             <td></td>
                             <td class="col-checkbox"><field name="customer_print_sales_slip_date"/><label for="customer_print_sales_slip_date" string="Print Sales Slip Date"/></td>
                         </tr>
@@ -198,8 +197,8 @@
                             <td class="col-field"><field name="customer_industry_code" options='{"no_quick_create": True}'/></td>
                             <td class="col-label"><label for="customer_agent" string="Representative/Agent*"/></td>
                             <td class="col-field"><field name="customer_agent" required="1"/></td>
-                            <td class="col-label"><label for="customer_quote" string="Select Quote"/></td>
-                            <td class="col-field"><field name="customer_quote"/></td>
+                            <!-- <td class="col-label"><label for="customer_quote" string="Select Quote"/></td>
+                            <td class="col-field"><field name="customer_quote"/></td> -->
 <!--                            <td></td>-->
                         </tr>
 

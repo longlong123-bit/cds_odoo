@@ -416,6 +416,9 @@ class ClassInvoiceCustom(models.Model):
     # flag history button
     flag_history = fields.Integer(string='flag_history', default=0, compute='_check_flag_history')
 
+    billing_place_id = fields.Many2one('res.partner')
+
+    bill_status = fields.Char(default="not yet")
     # # Check flag_history
     # @api.constrains('x_studio_business_partner')
     # def get_flag(self):
