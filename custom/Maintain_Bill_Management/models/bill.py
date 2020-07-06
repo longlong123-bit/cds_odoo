@@ -633,15 +633,6 @@ class BillingClass(models.Model):
 
         return True
 
-
-class InvoiceClass(models.Model):
-    _inherit = 'account.move'
-
-    billing_place_id = fields.Many2one('res.partner')
-
-    bill_status = fields.Char(default="not yet")
-
-
 class InvoiceLineClass(models.Model):
     _inherit = 'account.move.line'
 

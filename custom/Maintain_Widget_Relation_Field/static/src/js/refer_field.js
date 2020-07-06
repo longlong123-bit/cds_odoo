@@ -356,6 +356,12 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
               return;
           }
 
+          if(e.target.value == '') {
+            // s._setValue(e.target.value);
+            this.record.data[this.name] = '';
+            return;
+          }
+
           var domain = this._getDomain(e.target.value, options);
           var column = this._getReadColumn(options);
 

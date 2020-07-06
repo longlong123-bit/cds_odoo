@@ -25,8 +25,10 @@
         # 'reports/handover_three.xml',
         # 'reports/handover_four.xml',
         'reports/handover_five.xml',
-        'reports/handover_seven.xml',
+        # 'reports/handover_seven.xml',
+        'reports/handover_eight.xml',
         'reports/reports.xml',
+
 
     ],
     'qweb': [
