@@ -13,9 +13,9 @@
                     <t t-elif="o.partner_id.customer_select_sales_slip == 'slip3'">
                         <t t-call="Maintain_Invoice_Reports.invoice_normal_report3" t-lang="lang"/>
                     </t>
-<!--                        <t t-elif="o.partner_id.customer_select_sales_slip == 'slip4'">-->
-<!--                            <t t-call="Maintain_Invoice_Reports.invoice_normal_report4_template" t-lang="lang"/>-->
-<!--                        </t>-->
+                    <t t-elif="o.partner_id.customer_select_sales_slip == 'slip4'">
+                        <t t-call="Maintain_Invoice_Reports.invoice_normal_report4" t-lang="lang"/>
+                    </t>
                 </t>
             </t>
         </template>
