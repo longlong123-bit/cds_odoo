@@ -115,6 +115,9 @@
         <xpath expr="//form/header/button[@name='action_reverse']"  position="attributes">
             <attribute name="invisible">1</attribute>
         </xpath>
+        <xpath expr="//form/header/button[@name='button_draft']"  position="attributes">
+            <attribute name="attrs">{'invisible' : ['|', ('restrict_mode_hash_table', '=', True), ('state', 'not in', ('posted', 'cancel')), ('bill_status', '=','billed')]}</attribute>
+        </xpath>
 
         <xpath expr="//form/header/button[@name='action_reverse']"  position="after">attrs="{'invisible':[('flag_history','=', 1)]}"
           <field name="trigger_quotation_history" widget="button_field" z-index="92" options='{"model":"sale.order", "text":"見積履歴問合せ"}' attrs="{'invisible':['|', ('state','in',['posted']), ('flag_history','=', 1)]}"/>
@@ -134,7 +137,10 @@
           <tbody>
             <!-- Row 1 -->
               <tr>
-                  <td><field name="flag_history" force_save="1" invisible="1"/></td>
+                  <td>
+                    <field name="flag_history" force_save="1" invisible="1"/>
+                    <field name="bill_status" invisible="1"/>
+                  </td>
               </tr>
               <tr>
                   <td class="col-label"><label for="x_studio_document_no" string="Document No"/></td>
