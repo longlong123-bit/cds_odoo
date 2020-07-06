@@ -241,16 +241,16 @@
             </tr>
             <tr>
               <!-- Column 1 -->
-              <td class="col-label"><label for="amount_untaxed" string="Total Lines*"/></td>
-              <td class="col-field"><field name="amount_untaxed" widget="float" string="Total Lines*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
+              <td class="col-label"><label for="amount_untaxed" string="Total Lines*" invisible="True"/></td>
+              <td class="col-field"><field name="amount_untaxed" widget="float" invisible="True" string="Total Lines*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
 
               <!-- Column 2 -->
-              <td class="col-label"><label for="x_voucher_tax_amount" string="Voucher Tax Amount*"/></td>
-              <td class="col-field"><field name="x_voucher_tax_amount" attrs="{'readonly': [('x_voucher_tax_transfer', '!=', 'custom_tax')]}" string="Voucher Tax Amount*" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
+              <td class="col-label"><label for="x_voucher_tax_amount" invisible="True" string="Voucher Tax Amount*"/></td>
+              <td class="col-field"><field name="x_voucher_tax_amount" invisible="True" attrs="{'readonly': [('x_voucher_tax_transfer', '!=', 'custom_tax')]}" string="Voucher Tax Amount*" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
 
               <!-- Column 3 -->
-              <td class="col-label"><label for="amount_total" string="Grand Total*"/></td>
-              <td class="col-field"><field name="amount_total" string="Grand Total*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
+              <td class="col-label"><label for="amount_total" invisible="True" string="Grand Total*"/></td>
+              <td class="col-field"><field name="amount_total" invisible="True" string="Grand Total*" required="1" readonly="1" class="o_input" style="text-align:right; justify-content: flex-end;"/></td>
                 <!-- Column 4-->
 
                 <field name="customer_office" string="Customer Office" invisible="1"/>
@@ -430,8 +430,19 @@
         <xpath expr = "//page[@id='other_tab']" position = "attributes" >
           <attribute name="invisible">1</attribute>
         </xpath>
-        <xpath expr = "//group[@class='oe_subtotal_footer']" position = "attributes" >
-          <attribute name="invisible">1</attribute>
+        <xpath expr = "//group[@class='oe_subtotal_footer']" position = "replace" >
+            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}" string="Total Lines*"/>
+                <field name="x_voucher_tax_amount"
+                       attrs="{'readonly': [('x_voucher_tax_transfer', '!=', 'custom_tax')]}" string="Voucher Tax Amount*"
+                       options="{'currency_field': 'currency_id'}"/>
+                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                    <label for="amount_total" string="Grand Total*"/>
+                </div>
+                <field name="amount_total" nolabel="1" string="Grand Total*"
+                       class="oe_subtotal_footer_separator" widget='monetary'
+                       options="{'currency_field': 'currency_id'}"/>
+            </group>
         </xpath>
     </field>
   </record>
