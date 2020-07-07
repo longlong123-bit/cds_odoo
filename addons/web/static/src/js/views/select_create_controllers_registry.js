@@ -48,6 +48,7 @@ var SelectCreateListController = ListController.extend({
         this.trigger_up('select_record', {
             id: selectedRecord.res_id,
             display_name: selectedRecord.data.display_name,
+            target: ev.data.target,
         });
     },
 });
