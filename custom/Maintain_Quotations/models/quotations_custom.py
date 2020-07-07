@@ -828,10 +828,7 @@ class QuotationsLinesCustom(models.Model):
         for re in self:
             if (re.order_id.tax_method == 'voucher'
                     and re.product_id.product_tax_category != 'exempt'):
-                re.voucher_line_tax_amount = self.get_compute_line_tax_amount(re.line_amount,
-                                                                              re.tax_rate,
-                                                                              re.order_id.customer_tax_rounding,
-                                                                              re.class_item)
+                re.voucher_line_tax_amount = (re.line_amount * re.tax_rate)/100
             else:
                 re.voucher_line_tax_amount = 0
 
