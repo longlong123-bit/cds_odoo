@@ -79,6 +79,8 @@ class ClassAccontMoveLineCustom(models.Model):
         for par in self:
             if par.partner_id:
                 par.partner_name = par.partner_id.name
+            else:
+                par.partner_name = ''
 
     partner_name = fields.Char('Partner Name', compute='_get_partner_name', readonly=True)
 
