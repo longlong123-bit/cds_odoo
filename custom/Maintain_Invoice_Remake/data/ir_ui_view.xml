@@ -102,6 +102,19 @@
         <xpath expr="//sheet/field[@name='invoice_sequence_number_next']" position="attributes">
             <attribute name="invisible">1</attribute>
         </xpath >
+        <xpath expr="//sheet//div[2]//field[@name='type']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//sheet//div[2]/span[2]" attrs="{'invisible': [('invoice_sequence_number_next_prefix', '=', False)]}"
+               position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//sheet//div//field[@name='invoice_sequence_number_next_prefix']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//sheet//div//field[@name='invoice_sequence_number_next']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath >
 <!--        <xpath expr="//form/header/button[@name='action_invoice_register_payment']"  position="attributes">-->
 <!--            <attribute name="attrs">{'invisible': [('customer_trans_classification_code','!=','cash')]}</attribute>-->
 <!--        </xpath>-->
