@@ -1539,6 +1539,18 @@ class AccountMoveLine(models.Model):
         }
         return view
 
+    voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='set_voucher_line_tax_amount', default=0)
+
+    @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding',
+                 'move_id.invoice_line_ids')
+    def set_voucher_line_tax_amount(self):
+        for line in self:
+            if (line.move_id.x_voucher_tax_transfer == 'voucher'
+                    and line.product_id.product_tax_category != 'exempt'):
+                line.voucher_line_tax_amount = line.invoice_custom_lineamount * line.tax_rate / 100
+            else:
+                line.voucher_line_tax_amount = 0
+
 
 class ClassGetProductCode(models.Model):
     _inherit = 'product.product'
