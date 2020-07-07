@@ -17,6 +17,7 @@
         'reports/invoice_normal_report.xml',
         'reports/invoice_normal_report2.xml',
         'reports/invoice_normal_report3.xml',
+        'reports/invoice_normal_report4.xml',
         'reports/invoice_reports.xml',
     ],
     'demo': [],
