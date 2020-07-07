@@ -16,6 +16,10 @@
                 <t t-set="line_one_one_parent" t-value="o.order_line"/>
                 <t t-set="line_one_one_id" t-value="0"/>
                 <t t-set="pager" t-value="1"/>
+                <t t-set="subtotal_tax_amount8" t-value="0"/>
+                <t t-set="subtotal_tax_amount10" t-value="0"/>
+                <t t-set="subtotal_tax_amount_o" t-value="0"/>
+                <t t-set="subtotal_total_amount" t-value="0"/>
                 <t t-foreach="o.order_line" t-as="ll">
                     <t t-set="line_one_one" t-value="15"/>
                     <t t-if="ll.id>line_one_one_id">
@@ -164,19 +168,19 @@
                                                             <t t-set="subtotal_amount8"
                                                                t-value="subtotal_amount8 + order.line_amount"/>
                                                             <t t-set="subtotal_tax_amount8"
-                                                               t-value="subtotal_tax_amount8 + order.line_tax_amount"/>
+                                                               t-value="subtotal_tax_amount8 + int(order.line_tax_amount)"/>
                                                         </t>
                                                         <t t-elif="order.tax_rate == 10">
                                                             <t t-set="subtotal_amount10"
                                                                t-value="subtotal_amount10 + order.line_amount"/>
                                                             <t t-set="subtotal_tax_amount10"
-                                                               t-value="subtotal_tax_amount10 + order.line_tax_amount"/>
+                                                               t-value="subtotal_tax_amount10 + int(order.line_tax_amount)"/>
                                                         </t>
                                                         <t t-else="">
                                                             <t t-set="subtotal_amount_o"
                                                                t-value="subtotal_amount_o + order.line_amount"/>
                                                             <t t-set="subtotal_tax_amount_o"
-                                                               t-value="subtotal_tax_amount_o + order.line_tax_amount"/>
+                                                               t-value="subtotal_tax_amount_o + int(order.line_tax_amount)"/>
                                                         </t>
                                                         <tr style="font-size: 14px; height: 40px;">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
@@ -244,6 +248,14 @@
                                                     </t>
                                                 </t>
                                             </t>
+<!--                                            <t t-if="subtotal_amount8">-->
+<!--                                                <t t-set="subtotal_tax_amount8"-->
+<!--                                                   t-value="subtotal_amount8*0.08"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-if="subtotal_amount10">-->
+<!--                                                <t t-set="subtotal_tax_amount10"-->
+<!--                                                   t-value="subtotal_amount10*0.1"/>-->
+<!--                                            </t>-->
                                             <t t-if="15 > line_one_one">
                                                 <t t-if=" line_one_one > 0">
                                                     <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14]" t-as="i">
@@ -387,8 +399,8 @@
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount8"
                                                                t-value="subtotal_amount8 + order.line_amount"/>
-                                                            <t t-set="subtotal_tax_amount8"
-                                                               t-value="subtotal_tax_amount8 + order.voucher_line_tax_amount"/>
+<!--                                                            <t t-set="subtotal_tax_amount8"-->
+<!--                                                               t-value="subtotal_tax_amount8 + order.voucher_line_tax_amount"/>-->
                                                         </t>
                                                         <t t-elif="order.tax_rate == 10">
                                                             <t t-set="subtotal_amount10"
@@ -546,9 +558,10 @@
                                                 </td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
                                             </tr>
-                                            <t t-set="subtotal_total_amount"
-                                               t-value="subtotal_total_amount + subtotal_amount8+ subtotal_amount10 + subtotal_amount_o"/>
+<!--                                            <t t-set="subtotal_total_amount"-->
+<!--                                               t-value="subtotal_total_amount + subtotal_amount8+ subtotal_amount10 + subtotal_amount_o"/>-->
                                             <t t-if="line_check > 0">
+                                                <t t-set="subtotal_tax_amount8" t-value="o.amount_tax - int(subtotal_tax_amount10) - int(subtotal_tax_amount_o)"/>
                                                 <tr style="height: 40px;">
                                                     <td style="border: 1px solid #000000;border-top: 0; font-size: 18px; text-align: center;">
                                                         <div style="display: inline-block; width: 60%; float: left; text-align: center;">
@@ -583,8 +596,8 @@
                                                     </td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
                                                 </tr>
-                                                <t t-set="subtotal_total_amount"
-                                                   t-value="subtotal_total_amount + subtotal_tax_amount8 + subtotal_tax_amount10 + subtotal_tax_amount_o"/>
+<!--                                                <t t-set="subtotal_total_amount"-->
+<!--                                                   t-value="subtotal_total_amount + subtotal_tax_amount8 + subtotal_tax_amount10 + subtotal_tax_amount_o"/>-->
                                                 <tr style="height: 40px;">
                                                     <td style="border: 1px solid #000000; border-top: 0;font-size: 18px; text-align: center;">
                                                         <div style="float: left; display: inline-block; width: 60%; text-align: center;">
@@ -596,7 +609,7 @@
                                                     <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right;">
                                                         <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(int(subtotal_total_amount))">
+                                                              t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))">
                                                             <null/>
                                                         </span>
                                                     </td>
