@@ -139,16 +139,15 @@
                                     </div>
                                     <div style="float: right; font-size: 16px; display: block; margin-top: -18px;">
                                         <div>
-                                            <span>要件：</span>
                                             <span style="display: inline-block; width: 286px; overflow: hidden; white-space: nowrap;"
-                                                  t-field="o.quotation_name">
+                                                  t-field="o.comment_apply">
                                                 <null/>
                                             </span>
                                         </div>
                                         <div>
-                                            <span>摘要欄</span>
+                                            <span>要件：</span>
                                             <span style="display: inline-block; width: 286px; overflow: hidden; white-space: nowrap;"
-                                                  t-field="o.comment_apply">
+                                                  t-field="o.quotation_name">
                                                 <null/>
                                             </span>
                                         </div>
