@@ -116,7 +116,7 @@
             <attribute name="invisible">1</attribute>
         </xpath>
         <xpath expr="//form/header/button[@name='button_draft']"  position="attributes">
-            <attribute name="attrs">{'invisible' : ['|', ('restrict_mode_hash_table', '=', True), ('state', 'not in', ('posted', 'cancel')), ('bill_status', '=','billed')]}</attribute>
+            <attribute name="attrs">{'invisible' : ['|', ('restrict_mode_hash_table', '=', True), '|', ('state', 'not in', ('posted', 'cancel')), ('bill_status', '=','billed')]}</attribute>
         </xpath>
 
         <xpath expr="//form/header/button[@name='action_reverse']"  position="after">attrs="{'invisible':[('flag_history','=', 1)]}"
