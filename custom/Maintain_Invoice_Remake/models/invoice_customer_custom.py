@@ -1424,6 +1424,7 @@ class AccountMoveLine(models.Model):
                 line.product_maker_name = ''
                 line.invoice_custom_standardnumber = ''
                 line.invoice_custom_Description = ''
+                line.product_uom_id = ''
 
             if not line.move_id.is_invoice(include_receipts=True):
                 continue
