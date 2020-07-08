@@ -1412,12 +1412,18 @@ class AccountMoveLine(models.Model):
             if line.exclude_from_invoice_tab == False:
                 self._validate_price_unit()
                 self._validate_discountrate()
-            if line.x_invoicelinetype in ('通常', 'サンプル'):
+            if line.x_invoicelinetype == '通常':
                 if line.quantity < 0:
                     line.quantity = line.quantity * (-1)
-            else:
+            elif line.x_invoicelinetype in ('返品', '値引') :
                 if line.quantity > 0:
                     line.quantity = line.quantity * (-1)
+            elif line.x_invoicelinetype == 'サンプル':
+                line.quantity = 0
+                line.price_unit = 0
+                line.product_maker_name = ''
+                line.invoice_custom_standardnumber = ''
+                line.invoice_custom_Description = ''
 
             if not line.move_id.is_invoice(include_receipts=True):
                 continue
