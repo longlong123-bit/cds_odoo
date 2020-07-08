@@ -44,7 +44,7 @@
                                 </t>
 
                                 <t t-if="for_range == 2">
-                                    <div style="border: 1px dashed #000;margin-top: 67px;margin-bottom: 46px;"/>
+                                    <div style="border: 1px dashed #000;margin-top: 67px;margin-bottom: 20px;"/>
                                     <div style="display: inline-block; width: 100%;">
                                         <div style="width: 60%; float: left;">
                                             <div style="float: right; margin-right: 9%;">
@@ -382,8 +382,8 @@
                                                     <td>
                                                       <div style="line-height: 1.2 !important; height: 42px; float: right;">
                                                         <div style="position: relative; font-size: 14px !important; bottom: 25px;">
-                                                          <p style="margin: 0; float: left;">小　計　</p>
-                                                          <p style="margin: 0; float: left; white-space: nowrap; overflow: hidden; width: 98px" t-esc="'{0:,.0f}'.format(int(subtotal_amount_10 + subtotal_amount_8 + subtotal_amount))"></p>
+<!--                                                          <p style="margin: 0; float: left;">小　計　</p>-->
+<!--                                                          <p style="margin: 0; float: left; white-space: nowrap; overflow: hidden; width: 98px" t-esc="'{0:,.0f}'.format(int(subtotal_amount_10 + subtotal_amount_8 + subtotal_amount))"></p>-->
                                                         </div>
                                                       </div>
                                                     </td>
