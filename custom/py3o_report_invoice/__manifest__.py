@@ -12,6 +12,7 @@ Py3o Report Invoice
     """,
     'author': 'SK Company',
     'depends': [
+        'account',
         'report_py3o',
         ],
     'data': ['report.xml'],
