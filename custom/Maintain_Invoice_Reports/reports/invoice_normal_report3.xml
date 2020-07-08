@@ -41,7 +41,7 @@
                                 </t>
 
                                 <t t-if="for_range == 2">
-                                    <div style="border: 1px dashed #000;margin-top: 50px;margin-bottom: 49px;"></div>
+                                    <div style="border: 1px dashed #000;margin-top: 50px;margin-bottom: 20px;"></div>
                                     <div style="display: inline-block; width: 100%;">
                                         <div style="width: 60%; float: left;">
                                             <div style="float: right; margin-right: 9%;">
@@ -672,7 +672,7 @@
                                         </tbody>
                                     </table>
                                     <div style="width: 65%;">
-                                        <div style="width: 56%; margin-top: -76px; border-bottom: 1px solid;">
+                                        <div style="width: 56%; margin-top: -78px; border-bottom: 1px solid;">
                                             <div style="width: 11%; float: left;">適用：</div>
                                             <div style="width: 87%; white-space: nowrap; overflow: hidden; height: 16px;">
                                                 <p style="width: 912px; margin: 0;" t-esc="o.x_studio_cus_salesslipforms_table"><null/></p>
