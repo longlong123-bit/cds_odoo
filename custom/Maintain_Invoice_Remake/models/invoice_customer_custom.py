@@ -597,26 +597,21 @@ class ClassInvoiceCustom(models.Model):
         for voucher in self:
             result_l1 = []
             result_l2 = []
-            # voucher.line_ids = ()
-            # voucher.invoice_line_ids = ()
 
-            # print(voucher.x_history_voucher.invoice_line_ids)
             for l in voucher.x_history_voucher.invoice_line_ids:
                 fields_line = l.fields_get()
                 line_data = {attr: getattr(l, attr) for attr in fields_line}
                 del line_data['move_id']
                 result_l1.append((0, False, line_data))
 
-            # for l in voucher.x_history_voucher.line_ids.filtered(lambda line: not line.exclude_from_invoice_tab):
-            for l in voucher.x_history_voucher.line_ids:
-                fields_line = l.fields_get()
-                line_data = {attr: getattr(l, attr) for attr in fields_line}
-                del line_data['move_id']
-                result_l2.append((0, False, line_data))
+            # for l in voucher.x_history_voucher.line_ids:
+            #     fields_line = l.fields_get()
+            #     line_data = {attr: getattr(l, attr) for attr in fields_line}
+            #     del line_data['move_id']
+            #     result_l2.append((0, False, line_data))
             if voucher.x_history_voucher._origin.id:
                 voucher.x_studio_business_partner = voucher.x_history_voucher.x_studio_business_partner
                 voucher.partner_id = voucher.x_studio_business_partner
-
                 voucher.x_studio_client_2 = voucher.x_history_voucher.x_studio_client_2
                 voucher.x_studio_organization = voucher.x_history_voucher.x_studio_organization
                 voucher.x_studio_name = voucher.x_history_voucher.x_studio_name
@@ -644,11 +639,8 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.x_bussiness_partner_name_2
                 voucher.x_voucher_tax_transfer = voucher.x_history_voucher.x_voucher_tax_transfer
                 voucher.customer_tax_rounding = voucher.x_history_voucher.customer_tax_rounding
-            voucher.line_ids = result_l2
+            # voucher.line_ids = result_l2
             voucher.invoice_line_ids = result_l1
-
-        # self._set_tax_counting()
-        # self._onchange_invoice_line_ids()
 
     def action_view_form_modelname(self):
         view = self.env.ref('Maintain_Invoice_Remake.view_move_custom_form')
@@ -1059,34 +1051,34 @@ class AccountTaxLine(models.Model):
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
 
-    @api.onchange('x_history_detail')
-    def _onchange_x_test(self):
-        result_l1 = []
-        result_l2 = []
-        for line in self:
-            detail_history = line.x_history_detail
-            if detail_history.id:
-                self.changed_fields = ['product_code', 'product_barcode', 'product_id']
-                line.x_invoicelinetype = detail_history.x_invoicelinetype
-                line.product_code = detail_history.product_code
-                line.product_barcode = detail_history.product_barcode
-                line.x_product_modelnumber = detail_history.x_product_modelnumber
-                line.product_name = detail_history.product_name
-                line.product_name2 = detail_history.product_name2
-                line.product_uom_id = detail_history.product_uom_id
-                line.tax_rate = detail_history.tax_rate
-                line.product_standard_price = detail_history.product_standard_price
-                line.invoice_custom_standardnumber = detail_history.invoice_custom_standardnumber
-                line.x_product_cost_price = detail_history.x_product_cost_price
-                line.invoice_custom_discountunitprice = detail_history.invoice_custom_discountunitprice
-                line.invoice_custom_discountrate = detail_history.invoice_custom_discountrate
-                line.invoice_custom_lineamount = detail_history.invoice_custom_lineamount
-                line.invoice_custom_Description = detail_history.invoice_custom_Description
-                line.invoice_custom_salesunitprice = detail_history.invoice_custom_salesunitprice
-                line.product_maker_name = detail_history.product_maker_name
-                line.price_unit = detail_history.price_unit
-                line.quantity = detail_history.quantity
-                line.product_id = detail_history.product_id
+    # @api.onchange('x_history_detail')
+    # def _onchange_x_test(self):
+    #     result_l1 = []
+    #     result_l2 = []
+    #     for line in self:
+    #         detail_history = line.x_history_detail
+    #         if detail_history.id:
+    #             self.changed_fields = ['product_code', 'product_barcode', 'product_id']
+    #             line.x_invoicelinetype = detail_history.x_invoicelinetype
+    #             line.product_code = detail_history.product_code
+    #             line.product_barcode = detail_history.product_barcode
+    #             line.x_product_modelnumber = detail_history.x_product_modelnumber
+    #             line.product_name = detail_history.product_name
+    #             line.product_name2 = detail_history.product_name2
+    #             line.product_uom_id = detail_history.product_uom_id
+    #             line.tax_rate = detail_history.tax_rate
+    #             line.product_standard_price = detail_history.product_standard_price
+    #             line.invoice_custom_standardnumber = detail_history.invoice_custom_standardnumber
+    #             line.x_product_cost_price = detail_history.x_product_cost_price
+    #             line.invoice_custom_discountunitprice = detail_history.invoice_custom_discountunitprice
+    #             line.invoice_custom_discountrate = detail_history.invoice_custom_discountrate
+    #             line.invoice_custom_lineamount = detail_history.invoice_custom_lineamount
+    #             line.invoice_custom_Description = detail_history.invoice_custom_Description
+    #             line.invoice_custom_salesunitprice = detail_history.invoice_custom_salesunitprice
+    #             line.product_maker_name = detail_history.product_maker_name
+    #             line.price_unit = detail_history.price_unit
+    #             line.quantity = detail_history.quantity
+    #             line.product_id = detail_history.product_id
 
     def get_default_line_no(self):
         context = dict(self._context or {})
@@ -1412,12 +1404,21 @@ class AccountMoveLine(models.Model):
             if line.exclude_from_invoice_tab == False:
                 self._validate_price_unit()
                 self._validate_discountrate()
-            if line.x_invoicelinetype in ('通常', 'サンプル'):
+            if line.x_invoicelinetype == '通常':
                 if line.quantity < 0:
                     line.quantity = line.quantity * (-1)
-            else:
+            elif line.x_invoicelinetype in ('返品', '値引') :
                 if line.quantity > 0:
                     line.quantity = line.quantity * (-1)
+            elif line.x_invoicelinetype == 'サンプル':
+                line.quantity = 0
+                line.price_unit = 0
+                line.tax_rate = 0
+                line.product_maker_name = ''
+                line.invoice_custom_standardnumber = ''
+                line.invoice_custom_Description = ''
+                line.product_uom_id = ''
+                
 
             if not line.move_id.is_invoice(include_receipts=True):
                 continue
@@ -1519,7 +1520,8 @@ class AccountMoveLine(models.Model):
 
         return rounding(price_unit, 0, self.move_id.customer_tax_rounding)
 
-    @api.depends('move_id.x_voucher_tax_transfer')
+    @api.depends('move_id.x_studio_business_partner',
+    'move_id.x_voucher_tax_transfer')
     def compute_price_unit(self):
         for line in self:
             line.price_unit = line._get_computed_price_unit()

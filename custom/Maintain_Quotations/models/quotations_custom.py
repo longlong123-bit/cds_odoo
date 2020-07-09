@@ -726,13 +726,21 @@ class QuotationsLinesCustom(models.Model):
                 'price_subtotal': taxes['total_excluded'],
             })
 
-            if line.class_item in ('通常', 'サンプル'):
+            if line.class_item == '通常':
                 if line.product_uom_qty < 0:
                     line.product_uom_qty = line.product_uom_qty * (-1)
-            else:
+            elif line.class_item in ('返品', '値引'):
                 if line.product_uom_qty > 0:
                     line.product_uom_qty = line.product_uom_qty * (-1)
-
+            elif line.class_item == 'サンプル':
+                line.product_uom_qty = 0
+                line.price_unit = 0
+                line.tax_rate = 0
+                line.product_maker_name = ''
+                line.product_standard_number = ''
+                line.description = ''
+                line.product_uom_id = ''
+                
             line.compute_price_unit()
             line.compute_line_amount()
             line.compute_line_tax_amount()
@@ -794,7 +802,10 @@ class QuotationsLinesCustom(models.Model):
                         and line.product_id.product_class_code_lv4.product_class_rate > 0:
                     price_unit = price_unit * line.product_id.product_class_code_lv4.product_class_rate / 100
 
-            line.price_unit = rounding(price_unit, 0, line.order_id.customer_tax_rounding)
+            if line.class_item == 'サンプル':
+                line.price_unit = 0
+            else:
+                line.price_unit = rounding(price_unit, 0, line.order_id.customer_tax_rounding)
 
     def compute_line_amount(self):
         for line in self:
