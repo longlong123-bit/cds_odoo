@@ -252,13 +252,13 @@
                                                                     </div>
                                                                     <div style="float: right;">
                                                                         <div style="float: left; width: 63px; height: 12px; white-space: nowrap; overflow: hidden;">
-                                                                            <span t-field="order.product_maker_name"/>
+                                                                            <span t-if="order.product_maker_name" t-field="order.product_maker_name"/>
                                                                         </div>
                                                                         <div style="float: left; width: 14px; height: 12px; white-space: nowrap; overflow: hidden;">
                                                                             <span>　</span>
                                                                         </div>
                                                                         <div style="float: left; width: 63px; height: 12px; white-space: nowrap; overflow: hidden;">
-                                                                            <span t-field="order.invoice_custom_standardnumber"/>
+                                                                            <span t-if="order.invoice_custom_standardnumber" t-field="order.invoice_custom_standardnumber"/>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -267,7 +267,7 @@
                                                                 <div style="float: right; width: 61px;">
                                                                     <p style="white-space: nowrap; overflow: hidden;
                                                                                 text-overflow: clip; margin: 0;"
-                                                                       t-esc="'{0:,.0f}'.format(int(order.quantity))">
+                                                                       t-if="order.quantity" t-esc="'{0:,.0f}'.format(int(order.quantity))">
                                                                     </p>
                                                                 </div>
                                                             </td>
@@ -275,7 +275,7 @@
                                                                 <div style="width: 40px;">
                                                                     <p style="white-space: nowrap; overflow: hidden;
                                                                             text-overflow: clip; margin: 0;"
-                                                                       t-field="order.product_uom_id">
+                                                                       t-if="order.product_uom_id" t-field="order.product_uom_id">
                                                                     </p>
                                                                 </div>
                                                             </td>
@@ -283,7 +283,7 @@
                                                                 <div style="float: right; width: 91px;">
                                                                     <p style="white-space: nowrap; overflow: hidden;
                                                                             text-overflow: clip; margin: 0;"
-                                                                        t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                        t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
                                                                     </p>
                                                                 </div>
                                                             </td>
@@ -291,7 +291,7 @@
                                                                 <div style="float: right; width: 91px;">
                                                                     <p style="white-space: nowrap; overflow: hidden;
                                                                                 text-overflow: clip; margin: 0;"
-                                                                       t-esc="'{0:,.0f}'.format(int(order.invoice_custom_lineamount))">
+                                                                       t-if="order.invoice_custom_lineamount" t-esc="'{0:,.0f}'.format(int(order.invoice_custom_lineamount))">
                                                                     </p>
                                                                 </div>
                                                             </td>
