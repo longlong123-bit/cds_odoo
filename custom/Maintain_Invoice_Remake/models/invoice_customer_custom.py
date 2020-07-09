@@ -598,17 +598,17 @@ class ClassInvoiceCustom(models.Model):
             result_l1 = []
             result_l2 = []
 
-            # for l in voucher.x_history_voucher.invoice_line_ids:
-            #     fields_line = l.fields_get()
-            #     line_data = {attr: getattr(l, attr) for attr in fields_line}
-            #     del line_data['move_id']
-            #     result_l1.append((0, False, line_data))
-
-            for l in voucher.x_history_voucher.line_ids:
+            for l in voucher.x_history_voucher.invoice_line_ids:
                 fields_line = l.fields_get()
                 line_data = {attr: getattr(l, attr) for attr in fields_line}
                 del line_data['move_id']
-                result_l2.append((0, False, line_data))
+                result_l1.append((0, False, line_data))
+
+            # for l in voucher.x_history_voucher.line_ids:
+            #     fields_line = l.fields_get()
+            #     line_data = {attr: getattr(l, attr) for attr in fields_line}
+            #     del line_data['move_id']
+            #     result_l2.append((0, False, line_data))
             if voucher.x_history_voucher._origin.id:
                 voucher.x_studio_business_partner = voucher.x_history_voucher.x_studio_business_partner
                 voucher.partner_id = voucher.x_studio_business_partner
