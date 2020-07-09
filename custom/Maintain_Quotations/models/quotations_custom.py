@@ -174,7 +174,8 @@ class QuotationsCustom(models.Model):
                     'line_tax_amount': line.line_tax_amount,
                     'description': line.invoice_custom_Description,
                     'price_include_tax': line.price_include_tax,
-                    'price_no_tax': line.price_no_tax
+                    'price_no_tax': line.price_no_tax,
+                    'quotation_custom_line_no': line.invoice_custom_line_no
                 }))
 
             self.order_line = lines
@@ -447,10 +448,16 @@ class QuotationsCustom(models.Model):
             self.comment_apply = sale_order.comment_apply
             # self.order_line = ()
 
-            default = dict(None or [])
-            lines = [rec.copy_data()[0] for rec in sale_order[0].order_line.sorted(key='id')]
-            default['order_line'] = [(0, 0, line) for line in lines if line]
-            self.order_line = default['order_line']
+            # default = dict(None or [])
+            # lines = [rec.copy_data()[0] for rec in sale_order[0].order_line.sorted(key='id')]
+            order_lines = []
+            for line in sale_order[0].order_line.sorted(key='id'):
+                copied_data = line.copy_data()[0]
+                copied_data['quotation_custom_line_no'] = line.quotation_custom_line_no
+                order_lines += [[0, 0, copied_data]]
+            # default['order_line'] = [(0, 0, line) for line in lines if line]
+            self.order_line = order_lines
+
 
     jp_calendar = fields.Char('jp_calendar', compute='set_jp_calendar')
 
