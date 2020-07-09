@@ -116,7 +116,6 @@ class QuotationsCustom(models.Model):
             else:
                 rec.flag_history = 0
 
-
     @api.onchange('refer_invoice_history')
     def _onchange_refer_invoice_history(self):
         for rec in self:
@@ -479,8 +478,10 @@ class QuotationsCustom(models.Model):
             else:
                 era_year = record.quotations_date.year - 2018
                 era, era_ch = ERA_JP[4]
-            jp_c = str(era_ch) + str(era_year) + '年' + str(record.quotations_date.month) + '月' + str(record.quotations_date.day) + '日'
+            jp_c = str(era_ch) + str(era_year) + '年' + str(record.quotations_date.month) + '月' + str(
+                record.quotations_date.day) + '日'
             record.jp_calendar = jp_c
+
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
@@ -725,13 +726,21 @@ class QuotationsLinesCustom(models.Model):
                 'price_subtotal': taxes['total_excluded'],
             })
 
-            if line.class_item in ('通常', 'サンプル'):
+            if line.class_item == '通常':
                 if line.product_uom_qty < 0:
                     line.product_uom_qty = line.product_uom_qty * (-1)
-            else:
+            elif line.class_item in ('返品', '値引'):
                 if line.product_uom_qty > 0:
                     line.product_uom_qty = line.product_uom_qty * (-1)
-
+            elif line.class_item == 'サンプル':
+                line.product_uom_qty = 0
+                line.price_unit = 0
+                line.tax_rate = 0
+                line.product_maker_name = ''
+                line.product_standard_number = ''
+                line.description = ''
+                line.product_uom_id = ''
+                
             line.compute_price_unit()
             line.compute_line_amount()
             line.compute_line_tax_amount()
@@ -793,7 +802,10 @@ class QuotationsLinesCustom(models.Model):
                         and line.product_id.product_class_code_lv4.product_class_rate > 0:
                     price_unit = price_unit * line.product_id.product_class_code_lv4.product_class_rate / 100
 
-            line.price_unit = rounding(price_unit, 0, line.order_id.customer_tax_rounding)
+            if line.class_item == 'サンプル':
+                line.price_unit = 0
+            else:
+                line.price_unit = rounding(price_unit, 0, line.order_id.customer_tax_rounding)
 
     def compute_line_amount(self):
         for line in self:
@@ -819,6 +831,17 @@ class QuotationsLinesCustom(models.Model):
                 line.line_tax_amount = 0
 
             line._onchange_price_unit()
+
+    # Set tax for tax_method = voucher
+    voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='set_voucher_line_tax_amount', default=0)
+
+    def set_voucher_line_tax_amount(self):
+        for re in self:
+            if (re.order_id.tax_method == 'voucher'
+                    and re.product_id.product_tax_category != 'exempt'):
+                re.voucher_line_tax_amount = (re.line_amount * re.tax_rate)/100
+            else:
+                re.voucher_line_tax_amount = 0
 
     def get_compute_line_tax_amount(self, line_amount, line_taxes, line_rounding, line_type):
         if line_amount != 0:

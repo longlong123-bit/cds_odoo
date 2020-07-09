@@ -102,6 +102,19 @@
         <xpath expr="//sheet/field[@name='invoice_sequence_number_next']" position="attributes">
             <attribute name="invisible">1</attribute>
         </xpath >
+        <xpath expr="//sheet//div[2]//field[@name='type']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//sheet//div[2]/span[2]" attrs="{'invisible': [('invoice_sequence_number_next_prefix', '=', False)]}"
+               position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//sheet//div//field[@name='invoice_sequence_number_next_prefix']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//sheet//div//field[@name='invoice_sequence_number_next']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath >
 <!--        <xpath expr="//form/header/button[@name='action_invoice_register_payment']"  position="attributes">-->
 <!--            <attribute name="attrs">{'invisible': [('customer_trans_classification_code','!=','cash')]}</attribute>-->
 <!--        </xpath>-->
@@ -114,6 +127,9 @@
         </xpath>
         <xpath expr="//form/header/button[@name='action_reverse']"  position="attributes">
             <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//form/header/button[@name='button_draft']"  position="attributes">
+            <attribute name="attrs">{'invisible' : ['|', ('restrict_mode_hash_table', '=', True), '|', ('state', 'not in', ('posted', 'cancel')), ('bill_status', '=','billed')]}</attribute>
         </xpath>
 
         <xpath expr="//form/header/button[@name='action_reverse']"  position="after">attrs="{'invisible':[('flag_history','=', 1)]}"
@@ -134,7 +150,10 @@
           <tbody>
             <!-- Row 1 -->
               <tr>
-                  <td><field name="flag_history" force_save="1" invisible="1"/></td>
+                  <td>
+                    <field name="flag_history" force_save="1" invisible="1"/>
+                    <field name="bill_status" invisible="1"/>
+                  </td>
               </tr>
               <tr>
                   <td class="col-label"><label for="x_studio_document_no" string="Document No"/></td>

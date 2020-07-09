@@ -416,6 +416,9 @@ class ClassInvoiceCustom(models.Model):
     # flag history button
     flag_history = fields.Integer(string='flag_history', default=0, compute='_check_flag_history')
 
+    billing_place_id = fields.Many2one('res.partner')
+
+    bill_status = fields.Char(default="not yet")
     # # Check flag_history
     # @api.constrains('x_studio_business_partner')
     # def get_flag(self):
@@ -1409,12 +1412,21 @@ class AccountMoveLine(models.Model):
             if line.exclude_from_invoice_tab == False:
                 self._validate_price_unit()
                 self._validate_discountrate()
-            if line.x_invoicelinetype in ('通常', 'サンプル'):
+            if line.x_invoicelinetype == '通常':
                 if line.quantity < 0:
                     line.quantity = line.quantity * (-1)
-            else:
+            elif line.x_invoicelinetype in ('返品', '値引') :
                 if line.quantity > 0:
                     line.quantity = line.quantity * (-1)
+            elif line.x_invoicelinetype == 'サンプル':
+                line.quantity = 0
+                line.price_unit = 0
+                line.tax_rate = 0
+                line.product_maker_name = ''
+                line.invoice_custom_standardnumber = ''
+                line.invoice_custom_Description = ''
+                line.product_uom_id = ''
+                
 
             if not line.move_id.is_invoice(include_receipts=True):
                 continue
@@ -1516,7 +1528,8 @@ class AccountMoveLine(models.Model):
 
         return rounding(price_unit, 0, self.move_id.customer_tax_rounding)
 
-    @api.depends('move_id.x_voucher_tax_transfer')
+    @api.depends('move_id.x_studio_business_partner',
+    'move_id.x_voucher_tax_transfer')
     def compute_price_unit(self):
         for line in self:
             line.price_unit = line._get_computed_price_unit()
@@ -1535,6 +1548,18 @@ class AccountMoveLine(models.Model):
             'res_id': self.id,
         }
         return view
+
+    voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='set_voucher_line_tax_amount', default=0)
+
+    @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding',
+                 'move_id.invoice_line_ids')
+    def set_voucher_line_tax_amount(self):
+        for line in self:
+            if (line.move_id.x_voucher_tax_transfer == 'voucher'
+                    and line.product_id.product_tax_category != 'exempt'):
+                line.voucher_line_tax_amount = line.invoice_custom_lineamount * line.tax_rate / 100
+            else:
+                line.voucher_line_tax_amount = 0
 
 
 class ClassGetProductCode(models.Model):

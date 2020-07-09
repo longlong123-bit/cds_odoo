@@ -122,7 +122,21 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                 var parent = this.getParent();
                 var options = parent._getWidgetOptions();
                 var state = this.viewController.renderer.state;
-                var readColumn = parent._getReadColumn(options);
+                var mapColumn = {
+                  '5':'product_code_1',
+                  '6':'product_code_1',
+                  '7':'product_code_2',
+                  '8':'product_code_2',
+                  '9':'product_code_3',
+                  '10':'product_code_3',
+                  '11':'product_code_4',
+                  '12':'product_code_4',
+                  '13':'product_code_5',
+                  '14':'product_code_5',
+                  '15':'product_code_6',
+                  '16':'product_code_6',
+                }
+                var readColumn = parent._getReadColumn(options) == 'code_by_setting' ? (mapColumn[$(event.data.target).index()] || parent._getReadColumn(options)) : parent._getReadColumn(options);
 
                 for (var i = 0; i < state.count; i++) {
                     if (state.data[i] && state.data[i].ref === event.data.id) {
@@ -354,6 +368,12 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
 
           if (this.value == e.target.value) {
               return;
+          }
+
+          if(e.target.value == '') {
+            // s._setValue(e.target.value);
+            this.record.data[this.name] = '';
+            return;
           }
 
           var domain = this._getDomain(e.target.value, options);

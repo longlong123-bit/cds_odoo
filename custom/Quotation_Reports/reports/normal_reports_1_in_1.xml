@@ -14,6 +14,10 @@
                 <t t-set="line_one_one_parent" t-value="o.order_line"/>
                 <t t-set="line_one_one_id" t-value="0"/>
                 <t t-set="pager" t-value="1"/>
+                <t t-set="subtotal_tax_amount8" t-value="0"/>
+                <t t-set="subtotal_tax_amount10" t-value="0"/>
+                <t t-set="subtotal_tax_amount_o" t-value="0"/>
+                <t t-set="subtotal_total_amount" t-value="0"/>
                 <t t-foreach="o.order_line" t-as="ll">
                     <t t-set="line_one_one" t-value="15"/>
                     <t t-if="ll.id>line_one_one_id">
@@ -115,7 +119,7 @@
                                                 </t>
                                                 <t t-else="">
                                                     <span style="display: inline-block; max-width: 168px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(int(o.amount_total))"></span>
+                                                          t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))"></span>
                                                 </t>
                                                 <t t-if="o.tax_method =='invoice'">
                                                     <span>（税抜）</span>
@@ -159,315 +163,416 @@
                                             </tr>
 
                                         </thead>
-                                        <t t-if="o.tax_method =='invoice'">
-                                            <tbody>
-                                                <t t-set="line_one_one" t-value="17"/>
-                                                <t t-set="subtotal_amount" t-value="0"/>
-                                                <t t-foreach="o.order_line" t-as="order">
-                                                    <t t-if="order.id>line_one_one_id">
-                                                        <t t-if="line_one_one > 0">
-                                                            <t t-set="line_one_one" t-value="line_one_one - 1"/>
-                                                            <t t-set="line_one_one_id" t-value="order.id"/>
-                                                            <t t-set="subtotal_amount"
-                                                               t-value="subtotal_amount + order.line_amount"/>
-                                                            <tr style="font-size: 14px; height: 40px;">
-                                                                <td style="border: 1px solid #000000; border-top: 0; padding: 0 0 0 5px; line-height: 1.2; height: 27px;">
-                                                                    <!--                                                        <span t-esc="line_id"/>-->
-                                                                    <div>
-                                                                        <span style="display: -webkit-box; width: 280px;height: 32px;float: left;margin: 0 auto;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
-                                                                              t-field="order.product_name">
-                                                                            <null/>
-                                                                        </span>
-                                                                        <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                              t-field="order.product_maker_name">
-                                                                            <null/>
-                                                                        </span>
-                                                                        <span style="display: inline-block; width: 65px; overflow: hidden; white-space: nowrap;"
-                                                                              t-field="order.product_standard_number">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: right">
-                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
-                                                                        <null/>
-                                                                    </span>
-                                                                </td>
-                                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: center">
-                                                                    <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_uom_id">
-                                                                        <null/>
-                                                                    </span>
-                                                                </td>
-                                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
-                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="'{0:,.0f}'.format(int(order.price_unit))">
-                                                                        <null/>
-                                                                    </span>
-                                                                </td>
-                                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
-                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="'{0:,.0f}'.format(int(order.line_amount))">
-                                                                        <null/>
-                                                                    </span>
-                                                                </td>
-                                                                <td style="border-bottom: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0; text-align: right;">
-                                                                    <t t-if="order.tax_rate == 8">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            軽減税率
-                                                                        </span>
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                              t-field="order.description">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </t>
-                                                                    <t t-else="">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        </span>
-                                                                        <span t-field="order.description"
-                                                                              style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </t>
-                                                                </td>
-                                                            </tr>
+                                        <tbody t-if="o.tax_method == 'foreign_tax' or o.tax_method == 'internal_tax'">
+                                            <t t-set="subtotal_amount8" t-value="0"/>
+                                            <t t-set="subtotal_amount10" t-value="0"/>
+                                            <t t-set="subtotal_amount_o" t-value="0"/>
+                                            <t t-set="subtotal_tax_amount8" t-value="0"/>
+                                            <t t-set="subtotal_tax_amount10" t-value="0"/>
+                                            <t t-set="subtotal_tax_amount_o" t-value="0"/>
+                                            <t t-foreach="o.order_line" t-as="order">
+                                                <t t-if="order.id>line_one_one_id">
+                                                    <t t-if="line_one_one > 0">
+                                                        <t t-set="line_one_one" t-value="line_one_one - 1"/>
+                                                        <t t-set="line_one_one_id" t-value="order.id"/>
+                                                        <t t-if="order.tax_rate == 8">
+                                                            <t t-set="subtotal_amount8"
+                                                               t-value="subtotal_amount8 + order.line_amount"/>
+                                                            <t t-set="subtotal_tax_amount8"
+                                                               t-value="subtotal_tax_amount8 + int(order.line_tax_amount)"/>
                                                         </t>
+                                                        <t t-elif="order.tax_rate == 10">
+                                                            <t t-set="subtotal_amount10"
+                                                               t-value="subtotal_amount10 + order.line_amount"/>
+                                                            <t t-set="subtotal_tax_amount10"
+                                                               t-value="subtotal_tax_amount10 + int(order.line_tax_amount)"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-set="subtotal_amount_o"
+                                                               t-value="subtotal_amount_o + order.line_amount"/>
+                                                            <t t-set="subtotal_tax_amount_o"
+                                                               t-value="subtotal_tax_amount_o + int(order.line_tax_amount)"/>
+                                                        </t>
+                                                        <tr style="font-size: 14px; height: 40px;">
+                                                            <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                                <!--                                                        <span t-esc="line_id"/>-->
+                                                                <div>
+                                                                    <span style="display: -webkit-box; width: 280px;height: 32px;float: left;margin: 0 auto;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                          t-field="order.product_name">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.product_maker_name">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span  t-if="order.product_standard_number" style="display: inline-block; width: 65px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.product_standard_number">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                                <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
+                                                                <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; ">
+                                                                <t t-if="order.tax_rate == 8">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        軽減税率
+                                                                    </span>
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.description">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-field="order.description"
+                                                                          style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
                                                     </t>
                                                 </t>
-                                                <t t-if="17 > line_one_one">
-                                                    <t t-if=" line_one_one > 0">
-                                                        <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]"
-                                                           t-as="i">
-                                                            <t t-if="line_one_one > 0">
-                                                                <t t-set="line_one_one" t-value="line_one_one - 1"/>
-                                                                <tr style="height: 40px;">
-                                                                    <td style="border: 1px solid #000000; border-top: 0; ">
-                                                                        <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                        <br/>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
-                                                                        <span style="display: inline-block; width: 40; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0;">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                            </t>
-                                                        </t>
-                                                    </t>
-                                                </t>
-                                                <tr>
-                                                    <td style="border: 1px solid #000000; font-size: 18px; text-align: center;border-top: 0;">
-                                                        <span>合　計</span>
-                                                    </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
-                                                        <span style="display: block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(int(subtotal_amount))">
-                                                            <null/>
-                                                        </span>
-                                                    </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0"></td>
-                                                </tr>
-                                            </tbody>
-                                        </t>
-                                        <t t-else="">
-                                            <tbody>
-                                                <t t-set="subtotal_amount8" t-value="0"/>
-                                                <t t-set="subtotal_amount10" t-value="0"/>
-                                                <t t-set="subtotal_amount_o" t-value="0"/>
-                                                <t t-set="subtotal_tax_amount8" t-value="0"/>
-                                                <t t-set="subtotal_tax_amount10" t-value="0"/>
-                                                <t t-set="subtotal_tax_amount_o" t-value="0"/>
-                                                <t t-foreach="o.order_line" t-as="order">
-                                                    <t t-if="order.id>line_one_one_id">
+                                            </t>
+<!--                                            <t t-if="subtotal_amount8">-->
+<!--                                                <t t-set="subtotal_tax_amount8"-->
+<!--                                                   t-value="subtotal_amount8*0.08"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-if="subtotal_amount10">-->
+<!--                                                <t t-set="subtotal_tax_amount10"-->
+<!--                                                   t-value="subtotal_amount10*0.1"/>-->
+<!--                                            </t>-->
+                                            <t t-if="15 > line_one_one">
+                                                <t t-if=" line_one_one > 0">
+                                                    <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14]" t-as="i">
                                                         <t t-if="line_one_one > 0">
                                                             <t t-set="line_one_one" t-value="line_one_one - 1"/>
-                                                            <t t-set="line_one_one_id" t-value="order.id"/>
-                                                            <t t-if="order.tax_rate == 8">
-                                                                <t t-set="subtotal_amount8"
-                                                                   t-value="subtotal_amount8 + order.line_amount"/>
-                                                                <t t-set="subtotal_tax_amount8"
-                                                                   t-value="subtotal_tax_amount8 + order.line_tax_amount"/>
-                                                            </t>
-                                                            <t t-elif="order.tax_rate == 10">
-                                                                <t t-set="subtotal_amount10"
-                                                                   t-value="subtotal_amount10 + order.line_amount"/>
-                                                                <t t-set="subtotal_tax_amount10"
-                                                                   t-value="subtotal_tax_amount10 + order.line_tax_amount"/>
-                                                            </t>
-                                                            <t t-else="">
-                                                                <t t-set="subtotal_amount_o"
-                                                                   t-value="subtotal_amount_o + order.line_amount"/>
-                                                                <t t-set="subtotal_tax_amount_o"
-                                                                   t-value="subtotal_tax_amount_o + order.line_tax_amount"/>
-                                                            </t>
-                                                            <tr style="font-size: 14px; height: 40px;">
-                                                                <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
-                                                                    <!--                                                        <span t-esc="line_id"/>-->
-                                                                    <div>
-                                                                        <span style="display: -webkit-box; width: 280px;height: 32px;float: left;margin: 0 auto;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
-                                                                              t-field="order.product_name">
-                                                                            <null/>
-                                                                        </span>
-                                                                        <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                              t-field="order.product_maker_name">
-                                                                            <null/>
-                                                                        </span>
-                                                                        <span style="display: inline-block; width: 65px; overflow: hidden; white-space: nowrap;"
-                                                                              t-field="order.product_standard_number">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </div>
+                                                            <tr style="height: 40px;">
+                                                                <td style="border: 1px solid #000000; border-top: 0; ">
+                                                                    <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <br/>
                                                                 </td>
                                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
-                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
                                                                 </td>
                                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
-                                                                    <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_uom_id">
+                                                                    <span style="display: inline-block; width: 40; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
                                                                 </td>
-                                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
                                                                 </td>
-                                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
                                                                 </td>
-                                                                <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; ">
-                                                                    <t t-if="order.tax_rate == 8">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            軽減税率
-                                                                        </span>
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                              t-field="order.description">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </t>
-                                                                    <t t-else="">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                        <span t-field="order.description"
-                                                                              style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </t>
+                                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0;">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
                                                                 </td>
                                                             </tr>
                                                         </t>
                                                     </t>
                                                 </t>
-                                                <t t-if="15 > line_one_one">
-                                                    <t t-if=" line_one_one > 0">
-                                                        <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14]" t-as="i">
-                                                            <t t-if="line_one_one > 0">
-                                                                <t t-set="line_one_one" t-value="line_one_one - 1"/>
-                                                                <tr style="height: 40px;">
-                                                                    <td style="border: 1px solid #000000; border-top: 0; ">
-                                                                        <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                        <br/>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
-                                                                        <span style="display: inline-block; width: 40; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0;">
-                                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                            <null/>
-                                                                        </span>
-                                                                    </td>
-                                                                </tr>
-                                                            </t>
-                                                        </t>
-                                                    </t>
-                                                </t>
-                                                <tr style="height: 40px;">
-                                                    <td style="border: 1px solid #000000; border-top: 0; font-size: 18px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: center;">
-                                                            小　　　　計
-                                                        </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                            <t t-if="subtotal_amount8">
-                                                                <span>（8％対象）</span>
-                                                                <br/>
-                                                            </t>
-                                                            <t t-if="subtotal_amount10">
-                                                                <span>（10％対象）</span>
-                                                            </t>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
+                                            </t>
+                                            <tr style="height: 40px;">
+                                                <td style="border: 1px solid #000000; border-top: 0; font-size: 18px; text-align: center;">
+                                                    <div style="display: inline-block; width: 60%; float: left; text-align: center;">
+                                                        合　　　　計
+                                                    </div>
+                                                    <div style="display: inline-block; width: 40%; float: right; text-align: center;">
                                                         <t t-if="subtotal_amount8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(int(subtotal_amount8))"></span>
+                                                            <span>（8％対象）</span>
+                                                            <br/>
                                                         </t>
                                                         <t t-if="subtotal_amount10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(int(subtotal_amount10))"></span>
+                                                            <span>（10％対象）</span>
                                                         </t>
-                                                        <t t-if="subtotal_amount_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(int(subtotal_amount_o))"></span>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
+                                                    <t t-if="subtotal_amount8">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_amount8))"></span>
+                                                    </t>
+                                                    <t t-if="subtotal_amount10">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_amount10))"></span>
+                                                    </t>
+                                                    <t t-if="subtotal_amount_o">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_amount_o))"></span>
+                                                    </t>
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
+                                            </tr>
+                                            <tr style="height: 40px;">
+                                                <td style="border: 1px solid #000000;border-top: 0; font-size: 18px; text-align: center;">
+                                                    <div style="display: inline-block; width: 60%; float: left; text-align: center;">
+                                                        消　　費　　税
+                                                    </div>
+                                                    <div style="display: inline-block; width: 40%; float: right; text-align: center;">
+                                                        <t t-if="subtotal_tax_amount8">
+                                                            <span>（8％消費税）</span>
+                                                            <br/>
                                                         </t>
-                                                    </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
-                                                </tr>
+                                                        <t t-if="subtotal_tax_amount10">
+                                                            <span>（10％消費税）</span>
+                                                        </t>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
+                                                    <t t-if="subtotal_tax_amount8">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_tax_amount8))"></span>
+                                                    </t>
+                                                    <t t-if="subtotal_tax_amount10">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_tax_amount10))"></span>
+                                                    </t>
+                                                    <t t-if="subtotal_tax_amount_o">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_tax_amount_o))"></span>
+                                                    </t>
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
+                                            </tr>
+                                            <t t-set="subtotal_total_amount"
+                                               t-value="subtotal_amount8+ subtotal_amount10 + subtotal_tax_amount8 + subtotal_tax_amount10 +subtotal_tax_amount_o + subtotal_amount_o"/>
+                                            <tr style="height: 40px;">
+                                                <td style="border: 1px solid #000000; border-top: 0;font-size: 18px; text-align: center;">
+                                                    <div style="float: left; display: inline-block; width: 60%; text-align: center;">
+                                                        <span>税　込　合　計</span>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right;">
+                                                    <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(int(subtotal_total_amount))">
+                                                        <null/>
+                                                    </span>
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody t-if="o.tax_method == 'voucher'">
+                                            <t t-set="line_one_one" t-value="17"/>
+                                            <t t-set="subtotal_amount8" t-value="0"/>
+                                            <t t-set="subtotal_amount10" t-value="0"/>
+                                            <t t-set="subtotal_amount_o" t-value="0"/>
+                                            <t t-foreach="o.order_line" t-as="order">
+                                                <t t-if="order.id>line_one_one_id">
+                                                    <t t-if="line_one_one > 0">
+                                                        <t t-set="line_one_one" t-value="line_one_one - 1"/>
+                                                        <t t-set="line_one_one_id" t-value="order.id"/>
+                                                        <t t-if="order.tax_rate == 8">
+                                                            <t t-set="subtotal_amount8"
+                                                               t-value="subtotal_amount8 + order.line_amount"/>
+<!--                                                            <t t-set="subtotal_tax_amount8"-->
+<!--                                                               t-value="subtotal_tax_amount8 + order.voucher_line_tax_amount"/>-->
+                                                        </t>
+                                                        <t t-elif="order.tax_rate == 10">
+                                                            <t t-set="subtotal_amount10"
+                                                               t-value="subtotal_amount10 + order.line_amount"/>
+                                                            <t t-set="subtotal_tax_amount10"
+                                                               t-value="subtotal_tax_amount10 + order.voucher_line_tax_amount"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-set="subtotal_amount_o"
+                                                               t-value="subtotal_amount_o + order.line_amount"/>
+                                                            <t t-set="subtotal_tax_amount_o"
+                                                               t-value="subtotal_tax_amount_o + order.voucher_line_tax_amount"/>
+                                                        </t>
+                                                        <tr style="font-size: 14px; height: 40px;">
+                                                            <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                                <!--                                                        <span t-esc="line_id"/>-->
+                                                                <div>
+                                                                    <span style="display: -webkit-box; width: 280px;height: 32px;float: left;margin: 0 auto;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                          t-field="order.product_name">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.product_maker_name">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span  t-if="order.product_standard_number" style="display: inline-block; width: 65px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.product_standard_number">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                                <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
+                                                                <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; ">
+                                                                <t t-if="order.tax_rate == 8">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        軽減税率
+                                                                    </span>
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.description">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-field="order.description"
+                                                                          style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <t t-set="line_check" t-value="0"/>
+                                            <t t-if="17 > line_one_one and line_one_one > 0">
+                                                <t t-set="line_one_one" t-value="line_one_one -2"/>
+                                                <t t-set="line_check" t-value="line_one_one"/>
+                                                <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14]" t-as="i">
+                                                    <t t-if="line_one_one > 0">
+                                                        <t t-set="line_one_one" t-value="line_one_one - 1"/>
+                                                        <tr style="height: 40px;">
+                                                            <td style="border: 1px solid #000000; border-top: 0; ">
+                                                                <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                                <br/>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
+                                                                <span style="display: inline-block; width: 40; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                                <!--                                                </t>-->
+                                            </t>
+                                            <tr style="height: 40px;">
+                                                <td style="border: 1px solid #000000; border-top: 0; font-size: 18px; text-align: center;">
+                                                    <div style="display: inline-block; width: 60%; float: left; text-align: center;">
+                                                        合　　　　計
+                                                    </div>
+                                                    <div style="display: inline-block; width: 40%; float: right; text-align: center;">
+                                                        <t t-if="subtotal_amount8">
+                                                            <span>（8％対象）</span>
+                                                            <br/>
+                                                        </t>
+                                                        <t t-if="subtotal_amount10">
+                                                            <span>（10％対象）</span>
+                                                        </t>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
+                                                    <t t-if="subtotal_amount8">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_amount8))"></span>
+                                                    </t>
+                                                    <t t-if="subtotal_amount10">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_amount10))"></span>
+                                                    </t>
+                                                    <t t-if="subtotal_amount_o">
+                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(subtotal_amount_o))"></span>
+                                                    </t>
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
+                                            </tr>
+<!--                                            <t t-set="subtotal_total_amount"-->
+<!--                                               t-value="subtotal_total_amount + subtotal_amount8+ subtotal_amount10 + subtotal_amount_o"/>-->
+                                            <t t-if="line_check > 0">
+                                                <t t-set="subtotal_tax_amount8" t-value="o.amount_tax - int(subtotal_tax_amount10) - int(subtotal_tax_amount_o)"/>
                                                 <tr style="height: 40px;">
                                                     <td style="border: 1px solid #000000;border-top: 0; font-size: 18px; text-align: center;">
                                                         <div style="display: inline-block; width: 60%; float: left; text-align: center;">
@@ -502,8 +607,8 @@
                                                     </td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
                                                 </tr>
-                                                <t t-set="subtotal_total_amount"
-                                                   t-value="subtotal_amount8+ subtotal_amount10 + subtotal_tax_amount8 + subtotal_tax_amount10 +subtotal_tax_amount_o + subtotal_amount_o"/>
+<!--                                                <t t-set="subtotal_total_amount"-->
+<!--                                                   t-value="subtotal_total_amount + subtotal_tax_amount8 + subtotal_tax_amount10 + subtotal_tax_amount_o"/>-->
                                                 <tr style="height: 40px;">
                                                     <td style="border: 1px solid #000000; border-top: 0;font-size: 18px; text-align: center;">
                                                         <div style="float: left; display: inline-block; width: 60%; text-align: center;">
@@ -515,16 +620,321 @@
                                                     <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right;">
                                                         <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(int(subtotal_total_amount))">
+                                                              t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))">
                                                             <null/>
                                                         </span>
                                                     </td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"></td>
                                                 </tr>
-                                            </tbody>
-                                        </t>
+                                            </t>
+                                        </tbody>
+                                        <tbody t-if="o.tax_method == 'invoice'">
+                                            <t t-set="line_one_one" t-value="17"/>
+                                            <t t-set="subtotal_amount" t-value="0"/>
+                                            <t t-foreach="o.order_line" t-as="order">
+                                                <t t-if="order.id>line_one_one_id">
+                                                    <t t-if="line_one_one > 0">
+                                                        <t t-set="line_one_one" t-value="line_one_one - 1"/>
+                                                        <t t-set="line_one_one_id" t-value="order.id"/>
+                                                        <t t-set="subtotal_amount"
+                                                           t-value="subtotal_amount + order.line_amount"/>
+                                                        <tr style="font-size: 14px; height: 40px;">
+                                                            <td style="border: 1px solid #000000; border-top: 0; padding: 0 0 0 5px; line-height: 1.2; height: 27px;">
+                                                                <!--                                                        <span t-esc="line_id"/>-->
+                                                                <div>
+                                                                    <span style="display: -webkit-box; width: 280px;height: 32px;float: left;margin: 0 auto;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                          t-field="order.product_name">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.product_maker_name">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span  t-if="order.product_standard_number" style="display: inline-block; width: 65px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.product_standard_number">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: right">
+                                                                <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: center">
+                                                                <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border-bottom: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0; text-align: right;">
+                                                                <t t-if="order.tax_rate == 8">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        軽減税率
+                                                                    </span>
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.description">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                    </span>
+                                                                    <span t-field="order.description"
+                                                                          style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <t t-if="17 > line_one_one">
+                                                <t t-if=" line_one_one > 0">
+                                                    <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]"
+                                                       t-as="i">
+                                                        <t t-if="line_one_one > 0">
+                                                            <t t-set="line_one_one" t-value="line_one_one - 1"/>
+                                                            <tr style="height: 40px;">
+                                                                <td style="border: 1px solid #000000; border-top: 0; ">
+                                                                    <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <br/>
+                                                                </td>
+                                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                </td>
+                                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
+                                                                    <span style="display: inline-block; width: 40; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                </td>
+                                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                </td>
+                                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                </td>
+                                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0;">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <tr>
+                                                <td style="border: 1px solid #000000; font-size: 18px; text-align: center;border-top: 0;">
+                                                    <span>合　計</span>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
+                                                    <span style="display: block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(int(subtotal_amount))">
+                                                        <null/>
+                                                    </span>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0"></td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody t-if="o.tax_method == 'custom_tax'">
+                                            <t t-set="line_one_one" t-value="17"/>
+                                            <t t-set="subtotal_amount" t-value="0"/>
+                                            <t t-foreach="o.order_line" t-as="order">
+                                                <t t-if="order.id>line_one_one_id">
+                                                    <t t-if="line_one_one > 0">
+                                                        <t t-set="line_one_one" t-value="line_one_one - 1"/>
+                                                        <t t-set="line_one_one_id" t-value="order.id"/>
+                                                        <t t-set="subtotal_amount"
+                                                           t-value="subtotal_amount + order.line_amount"/>
+                                                        <tr style="font-size: 14px; height: 40px;">
+                                                            <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                                <!--                                                        <span t-esc="line_id"/>-->
+                                                                <div>
+                                                                    <span style="display: -webkit-box; width: 280px;height: 32px;float: left;margin: 0 auto;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                          t-field="order.product_name">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.product_maker_name">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number" style="display: inline-block; width: 65px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.product_standard_number">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                                <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
+                                                                <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; ">
+                                                                <t t-if="order.tax_rate == 8">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        軽減税率
+                                                                    </span>
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                          t-field="order.description">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-field="order.description"
+                                                                          style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <t t-set="line_check" t-value="0"/>
+                                            <t t-if="17 > line_one_one and line_one_one > 0">
+                                                <t t-set="line_one_one" t-value="line_one_one -2"/>
+                                                <t t-set="line_check" t-value="line_one_one"/>
+                                                <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12,13,14]" t-as="i">
+                                                    <t t-if="line_one_one > 0">
+                                                        <t t-set="line_one_one" t-value="line_one_one - 1"/>
+                                                        <tr style="height: 40px;">
+                                                            <td style="border: 1px solid #000000; border-top: 0; ">
+                                                                <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                                <br/>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
+                                                                <span style="display: inline-block; width: 40; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                                <!--                                                </t>-->
+                                            </t>
+                                            <tr>
+                                                <td style="border: 1px solid #000000; font-size: 18px; text-align: center;border-top: 0;">
+                                                    <span>合　計</span>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
+                                                    <span style="display: block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(int(subtotal_amount))">
+                                                        <null/>
+                                                    </span>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0"></td>
+                                            </tr>
+                                            <t t-if="line_check > 0">
+                                                <tr>
+                                                    <td style="border: 1px solid #000000; font-size: 18px; text-align: center;border-top: 0;">
+                                                        <span>消　　費　　税</span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
+                                                        <span style="display: block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(o.amount_tax))">
+                                                            <null/>
+                                                        </span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #000000; font-size: 18px; text-align: center;border-top: 0;">
+                                                        <span>税 込 合 計</span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
+                                                        <span style="display: block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))">
+                                                            <null/>
+                                                        </span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;border-right: 0"></td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                        <!--                                        <t t-else="o.tax_method =='custom_tax'"></t>-->
+
                                     </table>
-                                    <div style="font-size: 14px; font-weight: 600; padding: 10px 0 10px 30px;" t-if="o.report_header.name =='請求書'">
+                                    <div style="font-size: 14px; font-weight: 600; padding: 10px 0 10px 30px;"
+                                         t-if="o.report_header.name =='請求書'">
                                         <span>振込口座:</span>
                                         <span t-field="o.company_id.company_bank_account_1"/>
                                     </div>
@@ -534,9 +944,12 @@
                                         </span>
                                         <br/>
                                         <span style="display: block; max-height: 80px; width: 100%; overflow: hidden;">
-                                            事務機器　 キャノン・理想理学・NEC・富士通・シャープ・東芝テック・アマノ<br/>
-                                            オフィス家具　イトーキ・ウチダ・コクヨ・ライオン・オカムラ・　プラス・アイリスチトセ・ホウトク <br/>
-                                            教育機器　島津理化・ウチダ・学研・ケニス・　日本医療器・美術出版・京都科学標本・　キハラ・ヤガミ<br/>
+                                            事務機器　 キャノン・理想理学・NEC・富士通・シャープ・東芝テック・アマノ
+                                            <br/>
+                                            オフィス家具　イトーキ・ウチダ・コクヨ・ライオン・オカムラ・　プラス・アイリスチトセ・ホウトク
+                                            <br/>
+                                            教育機器　島津理化・ウチダ・学研・ケニス・　日本医療器・美術出版・京都科学標本・　キハラ・ヤガミ
+                                            <br/>
                                             事務用品　 コクヨ事務用品外全版
                                         </span>
                                     </div>
