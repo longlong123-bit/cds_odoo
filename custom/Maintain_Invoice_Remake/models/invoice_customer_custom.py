@@ -141,7 +141,7 @@ def copy_data_from_quotation(rec, quotation, account):
             # line.unlink()
 
         # Copy line
-        for line_no, line in enumerate(rec.trigger_quotation_history.order_line, 1):
+        for line in rec.trigger_quotation_history.order_line:
             if line.product_id:
                 invoice_line_ids.append((0, False, {
                     'product_id': line.product_id,
@@ -160,7 +160,7 @@ def copy_data_from_quotation(rec, quotation, account):
                     'account_id': account.id,
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
-                    'invoice_custom_line_no': line_no
+                    'invoice_custom_line_no': line.quotation_custom_line_no
                 }))
 
         rec.invoice_line_ids = invoice_line_ids
@@ -599,11 +599,11 @@ class ClassInvoiceCustom(models.Model):
             result_l1 = []
             result_l2 = []
 
-            for line_no, l in enumerate(voucher.x_history_voucher.invoice_line_ids, 1):
+            for l in voucher.x_history_voucher.invoice_line_ids:
                 fields_line = l.fields_get()
                 line_data = {attr: getattr(l, attr) for attr in fields_line}
                 del line_data['move_id']
-                line_data['invoice_custom_line_no'] = line_no
+                line_data['invoice_custom_line_no'] = l.invoice_custom_line_no
                 result_l1.append((0, False, line_data))
 
             # for l in voucher.x_history_voucher.line_ids:
