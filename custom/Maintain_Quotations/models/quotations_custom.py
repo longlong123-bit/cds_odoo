@@ -735,10 +735,12 @@ class QuotationsLinesCustom(models.Model):
             elif line.class_item == 'サンプル':
                 line.product_uom_qty = 0
                 line.price_unit = 0
+                line.tax_rate = 0
                 line.product_maker_name = ''
                 line.product_standard_number = ''
                 line.description = ''
                 line.product_uom_id = ''
+                
             line.compute_price_unit()
             line.compute_line_amount()
             line.compute_line_tax_amount()

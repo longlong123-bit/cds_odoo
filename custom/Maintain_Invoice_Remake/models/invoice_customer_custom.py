@@ -1421,10 +1421,12 @@ class AccountMoveLine(models.Model):
             elif line.x_invoicelinetype == 'サンプル':
                 line.quantity = 0
                 line.price_unit = 0
+                line.tax_rate = 0
                 line.product_maker_name = ''
                 line.invoice_custom_standardnumber = ''
                 line.invoice_custom_Description = ''
                 line.product_uom_id = ''
+                
 
             if not line.move_id.is_invoice(include_receipts=True):
                 continue
@@ -1526,7 +1528,8 @@ class AccountMoveLine(models.Model):
 
         return rounding(price_unit, 0, self.move_id.customer_tax_rounding)
 
-    @api.depends('move_id.x_voucher_tax_transfer')
+    @api.depends('move_id.x_studio_business_partner',
+    'move_id.x_voucher_tax_transfer')
     def compute_price_unit(self):
         for line in self:
             line.price_unit = line._get_computed_price_unit()
