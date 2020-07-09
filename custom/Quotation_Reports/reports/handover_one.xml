@@ -147,6 +147,9 @@
                                         <t t-set="subtotal_amount1_8" t-value="0"/>
                                         <t t-set="subtotal_amount1_10" t-value="0"/>
                                         <t t-set="subtotal_amount1_o" t-value="0"/>
+                                        <t t-set="subtotal_tax_amount8" t-value="0"/>
+                                        <t t-set="subtotal_tax_amount10" t-value="0"/>
+                                        <t t-set="subtotal_tax_amount_o" t-value="0"/>
                                         <t t-foreach="o.order_line" t-as="order">
                                             <t t-if="order.id>line_id_1">
                                                 <t t-if="line > 0">
@@ -183,52 +186,58 @@
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
-                                                            <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_maker_name">
+                                                            <span t-if="order.product_maker_name"
+                                                                  style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                  t-field="order.product_maker_name">
                                                                 <null/>
                                                             </span>
                                                             <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_standard_number" t-field="order.product_standard_number">
+                                                                  t-if="order.product_standard_number"
+                                                                  t-field="order.product_standard_number">
                                                                 <null/>
                                                             </span>
                                                             <br/>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
-                                                            <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span t-if="order.product_uom_qty"
+                                                                  style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
                                                             <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                  t-if="order.product_uom_id"
+                                                                  t-field="order.product_uom_id">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                  t-if="order.price_unit"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.price_unit))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                  t-if="order.line_amount"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.line_amount))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block;">
-                                                            <t t-if="order.tax_rate == 8">
+                                                            <div t-if="order.tax_rate == 8">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                     軽減税率
                                                                 </span>
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-field="order.description">
+                                                                      t-if="order.description" t-field="order.description">
                                                                     <null/>
                                                                 </span>
-                                                            </t>
+                                                            </div>
                                                             <t t-else="">
-                                                                <span t-field="order.description"
+                                                                <span t-if="order.description" t-field="order.description"
                                                                       style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
@@ -390,37 +399,43 @@
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
-                                                            <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_maker_name">
+                                                            <span t-if="order.product_maker_name"
+                                                                  style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                  t-field="order.product_maker_name">
                                                                 <null/>
                                                             </span>
                                                             <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_standard_number" t-field="order.product_standard_number">
+                                                                  t-if="order.product_standard_number"
+                                                                  t-field="order.product_standard_number">
                                                                 <null/>
                                                             </span>
                                                             <br/>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
-                                                            <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span t-if="order.product_uom_qty"
+                                                                  style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
                                                             <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                  t-if="order.product_uom_id"
+                                                                  t-field="order.product_uom_id">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                  t-if="order.price_unit"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.price_unit))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                  t-if="order.line_amount"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.line_amount))">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -430,12 +445,12 @@
                                                                     軽減税率
                                                                 </span>
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-field="order.description">
+                                                                      t-if="order.description" t-field="order.description">
                                                                     <null/>
                                                                 </span>
                                                             </t>
                                                             <t t-else="">
-                                                                <span t-field="order.description"
+                                                                <span t-if="order.description" t-field="order.description"
                                                                       style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
@@ -581,37 +596,43 @@
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
-                                                            <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_maker_name">
+                                                            <span t-if="order.product_maker_name"
+                                                                  style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                  t-field="order.product_maker_name">
                                                                 <null/>
                                                             </span>
                                                             <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_standard_number" t-field="order.product_standard_number">
+                                                                  t-if="order.product_standard_number"
+                                                                  t-field="order.product_standard_number">
                                                                 <null/>
                                                             </span>
                                                             <br/>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: right">
-                                                            <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span t-if="order.product_uom_qty"
+                                                                  style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: center">
                                                             <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                  t-if="order.product_uom_id"
+                                                                  t-field="order.product_uom_id">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                  t-if="order.price_unit"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.price_unit))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                  t-if="order.line_amount"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.line_amount))">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -621,12 +642,12 @@
                                                                     軽減税率
                                                                 </span>
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-field="order.description">
+                                                                      t-if="order.description" t-field="order.description">
                                                                     <null/>
                                                                 </span>
                                                             </t>
                                                             <t t-else="">
-                                                                <span t-field="order.description"
+                                                                <span t-if="order.description" t-field="order.description"
                                                                       style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
@@ -737,37 +758,43 @@
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
-                                                            <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_maker_name">
+                                                            <span t-if="order.product_maker_name"
+                                                                  style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                  t-field="order.product_maker_name">
                                                                 <null/>
                                                             </span>
                                                             <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_standard_number" t-field="order.product_standard_number">
+                                                                  t-if="order.product_standard_number"
+                                                                  t-field="order.product_standard_number">
                                                                 <null/>
                                                             </span>
                                                             <br/>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
-                                                            <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span t-if="order.product_uom_qty"
+                                                                  style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center">
                                                             <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                  t-if="order.product_uom_id"
+                                                                  t-field="order.product_uom_id">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                  t-if="order.price_unit"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.price_unit))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                  t-if="order.line_amount"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.line_amount))">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -777,12 +804,12 @@
                                                                     軽減税率
                                                                 </span>
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-field="order.description">
+                                                                      t-if="order.description" t-field="order.description">
                                                                     <null/>
                                                                 </span>
                                                             </t>
                                                             <t t-else="">
-                                                                <span t-field="order.description"
+                                                                <span t-if="order.description" t-field="order.description"
                                                                       style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
@@ -1060,37 +1087,43 @@
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
-                                                            <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_maker_name">
+                                                            <span t-if="order.product_maker_name"
+                                                                  style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                  t-field="order.product_maker_name">
                                                                 <null/>
                                                             </span>
                                                             <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_standard_number" t-field="order.product_standard_number">
+                                                                  t-if="order.product_standard_number"
+                                                                  t-field="order.product_standard_number">
                                                                 <null/>
                                                             </span>
                                                             <br/>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: right">
-                                                            <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span t-if="order.product_uom_qty"
+                                                                  style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: center">
                                                             <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                  t-if="order.product_uom_id"
+                                                                  t-field="order.product_uom_id">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                  t-if="order.price_unit"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.price_unit))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                  t-if="order.line_amount"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.line_amount))">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -1100,12 +1133,12 @@
                                                                     軽減税率
                                                                 </span>
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-field="order.description">
+                                                                      t-if="order.description" t-field="order.description">
                                                                     <null/>
                                                                 </span>
                                                             </t>
                                                             <t t-else="">
-                                                                <span t-field="order.description"
+                                                                <span t-if="order.description" t-field="order.description"
                                                                       style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
@@ -1321,37 +1354,43 @@
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
-                                                            <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_maker_name">
+                                                            <span t-if="order.product_maker_name"
+                                                                  style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                  t-field="order.product_maker_name">
                                                                 <null/>
                                                             </span>
                                                             <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_standard_number" t-field="order.product_standard_number">
+                                                                  t-if="order.product_standard_number"
+                                                                  t-field="order.product_standard_number">
                                                                 <null/>
                                                             </span>
                                                             <br/>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: right">
-                                                            <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span t-if="order.product_uom_qty"
+                                                                  style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: center">
                                                             <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                  t-if="order.product_uom_id"
+                                                                  t-field="order.product_uom_id">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                  t-if="order.price_unit"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.price_unit))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                  t-if="order.line_amount"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.line_amount))">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -1361,12 +1400,12 @@
                                                                     軽減税率
                                                                 </span>
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-field="order.description">
+                                                                      t-if="order.description" t-field="order.description">
                                                                     <null/>
                                                                 </span>
                                                             </t>
                                                             <t t-else="">
-                                                                <span t-field="order.description"
+                                                                <span t-if="order.description" t-field="order.description"
                                                                       style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
@@ -1537,37 +1576,43 @@
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
-                                                            <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_maker_name">
+                                                            <span t-if="order.product_maker_name"
+                                                                  style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                  t-field="order.product_maker_name">
                                                                 <null/>
                                                             </span>
                                                             <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_standard_number" t-field="order.product_standard_number">
+                                                                  t-if="order.product_standard_number"
+                                                                  t-field="order.product_standard_number">
                                                                 <null/>
                                                             </span>
                                                             <br/>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: right">
-                                                            <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span t-if="order.product_uom_qty"
+                                                                  style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: center">
                                                             <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                  t-if="order.product_uom_id"
+                                                                  t-field="order.product_uom_id">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                  t-if="order.price_unit"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.price_unit))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                  t-if="order.line_amount"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.line_amount))">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -1577,12 +1622,12 @@
                                                                     軽減税率
                                                                 </span>
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-field="order.description">
+                                                                      t-if="order.description" t-field="order.description">
                                                                     <null/>
                                                                 </span>
                                                             </t>
                                                             <t t-else="">
-                                                                <span t-field="order.description"
+                                                                <span t-if="order.description" t-field="order.description"
                                                                       style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
@@ -1697,37 +1742,43 @@
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
-                                                            <span t-if="order.product_maker_name" style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.product_maker_name">
+                                                            <span t-if="order.product_maker_name"
+                                                                  style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
+                                                                  t-field="order.product_maker_name">
                                                                 <null/>
                                                             </span>
                                                             <span style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_standard_number" t-field="order.product_standard_number">
+                                                                  t-if="order.product_standard_number"
+                                                                  t-field="order.product_standard_number">
                                                                 <null/>
                                                             </span>
                                                             <br/>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: right">
-                                                            <span t-if="order.product_uom_qty" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span t-if="order.product_uom_qty"
+                                                                  style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(int(order.product_uom_qty))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0;  text-align: center">
                                                             <span style="display: inline-block; width: 40px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                  t-if="order.product_uom_id"
+                                                                  t-field="order.product_uom_id">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                  t-if="order.price_unit"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.price_unit))">
                                                                 <null/>
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.line_amount" t-esc="'{0:,.0f}'.format(int(order.line_amount))">
+                                                                  t-if="order.line_amount"
+                                                                  t-esc="'{0:,.0f}'.format(int(order.line_amount))">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -1737,12 +1788,12 @@
                                                                     軽減税率
                                                                 </span>
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-field="order.description">
+                                                                      t-if="order.description" t-field="order.description">
                                                                     <null/>
                                                                 </span>
                                                             </t>
                                                             <t t-else="">
-                                                                <span t-field="order.description"
+                                                                <span t-if="order.description" t-field="order.description"
                                                                       style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
