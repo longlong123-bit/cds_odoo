@@ -3,7 +3,7 @@ from odoo import models
 
 
 class AccountMove(models.Model):
-    _inherit = 'account.move'
+    _inherit = 'bill.info'
 
     def get_date(self):
         self.ensure_one()
