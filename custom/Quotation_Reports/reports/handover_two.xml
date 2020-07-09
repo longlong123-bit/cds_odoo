@@ -228,12 +228,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -435,12 +435,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -626,12 +626,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -782,12 +782,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -1112,12 +1112,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -1319,12 +1319,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -1510,12 +1510,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -1661,12 +1661,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -1980,12 +1980,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -2187,12 +2187,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
@@ -2378,12 +2378,12 @@
                                                                         軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                          t-field="order.description">
+                                                                          t-if="order.description" t-field="order.description">
                                                                         <null/>
                                                                     </span>
                                                                 </t>
                                                                 <t t-else="">
-                                                                    <span t-field="order.description"
+                                                                    <span t-if="order.description" t-field="order.description"
                                                                           style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         <null/>
                                                                     </span>
