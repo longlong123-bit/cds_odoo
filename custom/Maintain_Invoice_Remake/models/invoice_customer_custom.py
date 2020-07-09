@@ -606,7 +606,7 @@ class ClassInvoiceCustom(models.Model):
                 line_data['invoice_custom_line_no'] = line_no
                 result_l1.append((0, False, line_data))
 
-            # for l in enumerate(voucher.x_history_voucher.invoice_line_ids, 1):
+            # for l in voucher.x_history_voucher.line_ids:
             #     fields_line = l.fields_get()
             #     line_data = {attr: getattr(l, attr) for attr in fields_line}
             #     del line_data['move_id']
