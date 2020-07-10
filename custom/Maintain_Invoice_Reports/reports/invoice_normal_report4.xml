@@ -19,16 +19,16 @@
             <t t-set="subtotal_voucher_tax_amount_8" t-value="0"/>
             <t t-set="total" t-value="0"/>
             <t t-set="o" t-value="o.with_context(lang=user.partner_id.lang)"/>
-            <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.id)" t-as="account_move_line">
+            <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.invoice_custom_line_no)" t-as="account_move_line">
                 <!--Row Tax Transfer = (foreign_tax, internal_tax)-->
                 <t t-if="o.x_voucher_tax_transfer == 'foreign_tax' or o.x_voucher_tax_transfer == 'internal_tax'">
                     <t t-set="subtotal_tax_amount_10" t-value="0"/>
                     <t t-set="subtotal_tax_amount_8" t-value="0"/>
                     <t t-set="total" t-value="0"/>
                 </t>
-                <t t-if="account_move_line.id&gt;line_id_1">
+                <t t-if="account_move_line.invoice_custom_line_no&gt;line_id_1">
                     <div class="page"
-                         style="page-break-before: always; height: 100%; font-size: 10px; line-height: 1 !important; font-family: Lato !important;">
+                         style="display: inline-block; page-break-before: always; height: 100%; font-size: 10px; line-height: 1 !important; font-family: Lato !important;">
                         <t t-set="line_parent" t-value="o.invoice_line_ids"/>
                         <t t-set="detail_line_default" t-value="7"/>
                         <t t-foreach="range(1, 4)" t-as="for_range">
@@ -106,7 +106,7 @@
                                 <div style="display: block; width: 100%, height: 30px">
                                     <div style="width: 70%; position: relative; float: left;">
                                         <t t-if="o.partner_id.zip_code">
-                                            <span t-field="o.partner_id.zip_code"/>
+                                            <span style="margin-left: 10px;" t-field="o.partner_id.zip_code"/>
                                         </t>
                                     </div>
                                     <div style="width: 30%; position: relative; float: left;">
@@ -130,9 +130,9 @@
 
                                     <div style="width: 45%; position: relative; float: left; text-align: left; border-bottom: 1px solid;">
                                         <!-- Position 4 -->
-                                        <span t-field="o.partner_id.street"/>
+                                        <span style="margin-left: 10px;" t-field="o.partner_id.street"/>
                                         <br/>
-                                        <span t-field="o.partner_id.street2"/>
+                                        <span style="margin-left: 10px;" t-field="o.partner_id.street2"/>
                                         <br/>
                                         <div style="height: 5px;"/>
 
@@ -263,14 +263,14 @@
                                                 <t t-set="subtotal_amount_10" t-value="0"/>
                                                 <t t-set="subtotal_amount_8" t-value="0"/>
                                             </t>
-                                            <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.id)" t-as="order">
-                                                <t t-if="order.id&gt;line_id_2">
+                                            <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.invoice_custom_line_no)" t-as="order">
+                                                <t t-if="order.invoice_custom_line_no&gt;line_id_2">
                                                     <t t-if="detail_line_default &gt; 0">
                                                         <t t-set="detail_line_default"
                                                            t-value="detail_line_default - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.invoice_custom_line_no"/>
                                                         <t t-if="for_range == 3">
-                                                            <t t-set="line_id_2" t-value="order.id"/>
+                                                            <t t-set="line_id_2" t-value="order.invoice_custom_line_no"/>
                                                         </t>
                                                         <t t-if="for_range == 1">
                                                             <t t-set="order_line_tax_amount"

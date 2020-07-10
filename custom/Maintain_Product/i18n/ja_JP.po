@@ -41,6 +41,7 @@ msgstr "蓄積数量"
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_pricelist_item__product_price_is_active
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_custom_is_active
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__product_purchasing_is_active
+#: model:ir.model.fields,field_description:Maintain_Product.field_tax_tax__active
 msgid "Active"
 msgstr "アクティブ"
 
@@ -859,6 +860,7 @@ msgid "Tax Exempt"
 msgstr "非課税"
 
 #. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_tax_id
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_tax_rate
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_tree_view
@@ -1017,11 +1019,6 @@ msgid "分類名"
 msgstr ""
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_tree_view
-msgid "単位"
-msgstr ""
-
-#. module: Maintain_Product
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_search_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_tree_view
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_custom_template_search_view
@@ -1053,11 +1050,6 @@ msgstr ""
 #. module: Maintain_Product
 #: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__code_2
 msgid "商品コード2"
-msgstr ""
-
-#. module: Maintain_Product
-#: model:ir.model.fields.selection,name:Maintain_Product.selection__product_product__setting_price__code_3
-msgid "商品コード3"
 msgstr ""
 
 #. module: Maintain_Product
@@ -1110,11 +1102,6 @@ msgid "大分類"
 msgstr ""
 
 #. module: Maintain_Product
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "小分類"
-msgstr ""
-
-#. module: Maintain_Product
 #: code:addons/Maintain_Product/models/product_custom.py:0
 #: code:addons/Maintain_Product/models/product_custom.py:0
 #, python-format
@@ -1131,3 +1118,26 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_confirm_tree_view
 msgid "税率"
 msgstr ""
+
+#. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_tax_tax__code
+msgid "Tax Rate Code"
+msgstr "税率コード"
+
+#. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_tax_tax__name
+msgid "Tax Rate Name"
+msgstr "税率名"
+
+#. module: Maintain_Product
+#: model:ir.actions.act_window,name:Maintain_Product.action_tax_tax
+#: model:ir.model,name:Maintain_Product.model_tax_tax
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.view_tax_tax_form
+msgid "Taxes"
+msgstr "税"
+
+#. module: Maintain_Product
+#: model:ir.model.fields,field_description:Maintain_Product.field_tax_tax__amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.view_tax_tax_form
+msgid "Rate"
+msgstr "税率"
