@@ -20,6 +20,7 @@
         <menuitem id="menu_product" parent="submenu_second" name="Product" sequence="7" action="Maintain_Product.product_template_action"/>
         <menuitem id="menu_customer" parent="submenu_second" name="Customer Master" sequence="3" action="Maintain_Business_Partners_Remake.res_partner_action_customer"/>
         <menuitem id="menu_confirm_product" parent="submenu_second" name="商品マスタ一覧" sequence="7" action="Maintain_Product.product_confirm_action"/>
+        <menuitem id="menu_taxes" parent="submenu_second" name="Taxes" sequence="30" action="Maintain_Product.action_tax_tax"/>
         <menuitem id="menu_customer_reference" parent="submenu_second" name="Customer Master Reference" sequence="4" action="Maintain_Business_Partners_Remake.res_partner_action_customer_reference"/>
 
 <!--        <menuitem id="menu_state" parent="parent_menu_master" name="Country State" sequence="3" action="action_country_state"/>-->

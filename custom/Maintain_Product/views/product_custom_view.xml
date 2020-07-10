@@ -100,7 +100,8 @@
                             <div>
                                 <field name="taxes_id" widget="many2many_tags" style="width: 100%%" invisible="1"/>
                             </div>
-                            <field name="product_tax_rate" style="width: 100%%" string="Tax Rate"/>
+                            <field name="product_tax_id" style="width: 100%%" string="Tax Rate"/>
+                            <field name="product_tax_rate" string="Tax Rate" invisible="1"/>
                             <label for="product_custom_is_discontinued" invisible="True"/>
                             <div>
                                 <field name="product_custom_is_discontinued" widget="boolean_tags"/>

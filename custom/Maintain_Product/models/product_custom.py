@@ -131,7 +131,16 @@ class ProductTemplate(models.Model):
     model_number = fields.Char('Model number')
     model_name = fields.Char('Model name')
     # add extra field tax
-    product_tax_rate = fields.Float('Tax Rate')
+    product_tax_id = fields.Many2one(
+        string='Tax Rate',
+        comodel_name='tax.tax',
+        default=lambda self: self._get_default_tax(),
+        ondelete='restrict'
+    )
+    product_tax_rate = fields.Float(
+        string='Tax Rate',
+        compute='_compute_tax_rate',
+        store=True)
 
     type = fields.Selection(
         [('asset', 'Asset'), ('expense_type', 'Expense type'), ('item', 'Item'), ('resource', 'Resource'),
@@ -143,6 +152,18 @@ class ProductTemplate(models.Model):
 
     # Refer to open dialog get history of price
     refer_standard_price = fields.Many2one('account.move.line', store=False)
+
+    def _get_default_tax(self):
+        default_tax = self.env.ref('Maintain_Product.product_tax_10', False)
+        tax_id = False
+        if default_tax:
+            tax_id = default_tax.id
+        return tax_id
+
+    @api.depends('product_tax_id')
+    def _compute_tax_rate(self):
+        for product in self:
+            self.product_tax_rate = product.product_tax_id.amount or 0.0
 
     @api.onchange('refer_standard_price')
     def _onchange_refer_standard_price(self):
