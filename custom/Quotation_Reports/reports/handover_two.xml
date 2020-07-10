@@ -13,9 +13,9 @@
                 <t t-set="subtotal_tax_amount8" t-value="0"/>
                 <t t-set="subtotal_tax_amount10" t-value="0"/>
                 <t t-set="subtotal_tax_amount_o" t-value="0"/>
-                <t t-foreach="o.order_line" t-as="ll">
+                <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="ll">
                     <t t-set="line" t-value="8"/>
-                    <t t-if="ll.id>line_id">
+                    <t t-if="ll.quotation_custom_line_no>line_id">
                         <div style="page-break-before: always;">
                             <div style="padding-bottom: 10px; border-bottom: 1px dashed;">
                                 <t t-set="line_id_1" t-value="line_id"/>
@@ -156,11 +156,11 @@
                                         <t t-set="subtotal_tax_amount1_10" t-value="0"/>
                                         <t t-set="subtotal_tax_amount1_o" t-value="0"/>
                                         <t t-set="line" t-value="7"/>
-                                        <t t-foreach="o.order_line" t-as="order">
-                                            <t t-if="order.id>line_id_1">
+                                        <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                 <t t-if="line > 0">
                                                     <t t-set="line" t-value="line - 1"/>
-                                                    <t t-set="line_id_1" t-value="order.id"/>
+                                                    <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                     <!--                                                        <t t-set="subtotal_amount1"-->
                                                     <!--                                                           t-value="subtotal_amount1 + order.line_amount"/>-->
                                                     <!--                                                        <t t-if="o.tax_method == 'foreign_tax' or o.tax_method == 'custom_tax'">-->
@@ -378,11 +378,11 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount1_8"
                                                                t-value="subtotal_amount1_8 + order.line_amount"/>
@@ -585,11 +585,11 @@
                                         </tbody>
                                         <tbody t-if="o.tax_method =='invoice'">
                                             <t t-set="subtotal_amount1" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
                                                         <tr style="font-size: 10px; height: 30px">
@@ -719,11 +719,11 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <!--                                                        <t t-set="subtotal_amount1"-->
                                                         <!--                                                           t-value="subtotal_amount1 + order.line_amount"/>-->
                                                         <!--                                                        <t t-if="o.tax_method == 'foreign_tax' or o.tax_method == 'custom_tax'">-->
@@ -1056,11 +1056,11 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount1_8"
                                                                t-value="subtotal_amount1_8 + order.line_amount"/>
@@ -1263,11 +1263,11 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount1_8"
                                                                t-value="subtotal_amount1_8 + order.line_amount"/>
@@ -1470,11 +1470,11 @@
                                         </tbody>
                                         <tbody t-if="o.tax_method =='invoice'">
                                             <t t-set="subtotal_amount1" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
                                                         <tr style="font-size: 10px; height: 30px">
@@ -1604,11 +1604,11 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
 
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount1_8"
@@ -1925,11 +1925,11 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount1_8"
                                                                t-value="subtotal_amount1_8 + order.line_amount"/>
@@ -2132,11 +2132,11 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount1_8"
                                                                t-value="subtotal_amount1_8 + order.line_amount"/>
@@ -2339,11 +2339,11 @@
                                         </tbody>
                                         <tbody t-if="o.tax_method =='invoice'">
                                             <t t-set="subtotal_amount1" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
                                                         <tr style="font-size: 10px; height: 30px">
@@ -2473,11 +2473,11 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id_1">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id_1">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id_1" t-value="order.id"/>
+                                                        <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount1_8"
                                                                t-value="subtotal_amount1_8 + order.line_amount"/>
@@ -2808,11 +2808,11 @@
                                         <t t-set="subtotal_tax_amount10" t-value="0"/>
                                         <t t-set="subtotal_tax_amount_o" t-value="0"/>
                                         <t t-set="line" t-value="7"/>
-                                        <t t-foreach="o.order_line" t-as="order">
-                                            <t t-if="order.id>line_id">
+                                        <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-if="order.quotation_custom_line_no>=line_id">
                                                 <t t-if="line > 0">
                                                     <t t-set="line" t-value="line - 1"/>
-                                                    <t t-set="line_id" t-value="order.id"/>
+                                                    <t t-set="line_id" t-value="order.quotation_custom_line_no"/>
                                                     <t t-if="order.tax_rate == 8">
                                                         <t t-set="subtotal_amount8"
                                                            t-value="subtotal_amount8 + order.line_amount"/>
@@ -3078,11 +3078,11 @@
                                             <t t-set="subtotal_amount8" t-value="0"/>
                                             <t t-set="subtotal_amount10" t-value="0"/>
                                             <t t-set="subtotal_amount_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id" t-value="order.id"/>
+                                                        <t t-set="line_id" t-value="order.quotation_custom_line_no"/>
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount8"
                                                                t-value="subtotal_amount8 + order.line_amount"/>
@@ -3309,11 +3309,11 @@
                                         </tbody>
                                         <tbody t-if="o.tax_method =='invoice'">
                                             <t t-set="subtotal_amount" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id" t-value="order.id"/>
+                                                        <t t-set="line_id" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount"
                                                            t-value="subtotal_amount + order.line_amount"/>
 
@@ -3460,11 +3460,11 @@
                                             <t t-set="subtotal_amount8" t-value="0"/>
                                             <t t-set="subtotal_amount10" t-value="0"/>
                                             <t t-set="subtotal_amount_o" t-value="0"/>
-                                            <t t-foreach="o.order_line" t-as="order">
-                                                <t t-if="order.id>line_id">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                                <t t-if="order.quotation_custom_line_no>=line_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <t t-set="line_id" t-value="order.id"/>
+                                                        <t t-set="line_id" t-value="order.quotation_custom_line_no"/>
                                                         <t t-if="order.tax_rate == 8">
                                                             <t t-set="subtotal_amount8"
                                                                t-value="subtotal_amount8 + order.line_amount"/>
