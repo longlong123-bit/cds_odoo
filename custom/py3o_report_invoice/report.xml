@@ -2,16 +2,16 @@
 <odoo>
 
     <record id="reqular_invoice_report_py3o" model="ir.actions.report">
-        <field name="name">Regular Invoice Report</field>
-        <field name="model">account.move</field>
+        <field name="name">Payment Request Report</field>
+        <field name="model">bill.info</field>
         <field name="report_name">py3o_reqular_invoice_report</field>
         <field name="report_type">py3o</field>
         <field name="py3o_filetype">pdf</field>
         <field name="py3o_template_fallback" >regular_invoice.odt</field>
         <field name="module">py3o_report_invoice</field>
-        <field name="binding_model_id" ref="account.model_account_move" />
+        <field name="binding_model_id" ref="Maintain_Bill_Management.model_bill_info" />
         <field name="binding_type">report</field>
-        <field name="print_report_name">"Regular Invoice"</field>
+        <field name="print_report_name">"Payment Request Report"</field>
     </record>
 
 </odoo>

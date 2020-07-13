@@ -12,7 +12,7 @@ Py3o Report Invoice
     """,
     'author': 'SK Company',
     'depends': [
-        'account',
+        'Maintain_Bill_Management',
         'report_py3o',
         ],
     'data': ['report.xml'],
