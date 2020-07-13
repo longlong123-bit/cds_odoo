@@ -13,10 +13,13 @@
     'website': '',
     'depends':['product', 'purchase', 'sale'],
     'data': [
+        'data/tax_tax_data.xml',
+
         'security/ir.model.access.csv',
         'views/add_js.xml',
         'views/product_custom_view.xml',
-        'views/product_confirm_view.xml'
+        'views/product_confirm_view.xml',
+        'views/tax_tax_view.xml',
     ],
     'qweb': [
         'static/src/xml/advanced_search.xml'

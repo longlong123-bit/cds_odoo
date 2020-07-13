@@ -156,7 +156,7 @@ class QuotationsCustom(models.Model):
             lines = []
             # self.order_line = ()
 
-            for line in data.invoice_line_ids:
+            for line in data.invoice_line_ids.sorted(key=lambda i: i.invoice_custom_line_no):
                 lines.append((0, 0, {
                     'product_id': line.product_id,
                     'product_code': line.product_code,
@@ -451,7 +451,7 @@ class QuotationsCustom(models.Model):
             # default = dict(None or [])
             # lines = [rec.copy_data()[0] for rec in sale_order[0].order_line.sorted(key='id')]
             order_lines = []
-            for line in sale_order[0].order_line.sorted(key='id'):
+            for line in sale_order[0].order_line.sorted(key='quotation_custom_line_no'):
                 copied_data = line.copy_data()[0]
                 copied_data['quotation_custom_line_no'] = line.quotation_custom_line_no
                 order_lines += [[0, 0, copied_data]]
@@ -492,6 +492,7 @@ class QuotationsCustom(models.Model):
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
+    _order = "quotation_custom_line_no asc"
 
     name = fields.Text(string='Description', default=None)
     tax_id = fields.Many2many(string='Taxes')
