@@ -64,12 +64,12 @@
                                 <div style="display: inline-block; width: 100%">
                                     <div style="margin-top: 0px; margin-bottom: 10px; width: max-content; display: inline-block;">
                                         <div style="border-bottom: 2px solid;">
-                                            <t t-if="o.partner_id.customer_name_2">
+                                            <t t-if="o.partner_name_2">
                                                 <span style="width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.partner_name">
                                                     <null/>
                                                 </span>
                                                 <br/>
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.partner_id.customer_name_2">
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.partner_name_2">
                                                 </span>
                                             </t>
                                             <span t-else="" style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.partner_name">
