@@ -121,7 +121,7 @@
                                 <div style="display: block; width: 100%; height: 60px;">
                                     <t t-set="name_style"
                                        t-value="'height: 20px; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: clip;'"/>
-                                    <t t-if="o.partner_id.customer_name_2">
+                                    <t t-if="o.x_bussiness_partner_name_2">
                                         <t t-set="name_style"
                                            t-value="'height: 20px; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: clip;'"/>
                                     </t>
@@ -131,25 +131,25 @@
 
                                     <div style="width: 45%; position: relative; float: left; text-align: left; border-bottom: 1px solid;">
                                         <!-- Position 4 -->
-                                        <span style="margin-left: 10px;" t-field="o.partner_id.street"/>
+                                        <span style="margin-left: 10px;" t-field="o.x_studio_address_1"/>
                                         <br/>
-                                        <span style="margin-left: 10px;" t-field="o.partner_id.street2"/>
+                                        <span style="margin-left: 10px;" t-field="o.x_studio_address_2"/>
                                         <br/>
                                         <div style="height: 5px;"/>
 
                                         <!-- Position 5 -->
                                         <div style="display: block; width: 100%;">
                                             <div style="width: 80%; position: relative; float: left;">
-                                                <span t-att-style="name_style" t-field="o.partner_id.name"/>
+                                                <span t-att-style="name_style" t-field="o.x_studio_name"/>
                                                 <br/>
-                                                <t t-if="o.partner_id.customer_name_2">
+                                                <t t-if="o.x_bussiness_partner_name_2">
                                                     <span t-att-style="name2_style"
-                                                          t-field="o.partner_id.customer_name_2"/>
+                                                          t-field="o.x_bussiness_partner_name_2"/>
                                                     <br/>
                                                 </t>
                                             </div>
                                             <div style="width: 20%; position: relative; float: right;">
-                                                <t t-if="o.partner_id.customer_name_2">
+                                                <t t-if="o.x_bussiness_partner_name_2">
                                                     <div style="height: 15px"/>
                                                 </t>
                                                 <t t-else="">
