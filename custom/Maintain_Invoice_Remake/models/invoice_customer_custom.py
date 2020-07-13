@@ -94,7 +94,8 @@ def copy_data_from_partner(rec, partner):
         rec.x_studio_payment_rule_1 = partner.payment_rule
         rec.x_studio_price_list = partner.property_product_pricelist
         rec.invoice_payment_terms_custom = partner.payment_terms
-        rec.x_bussiness_partner_name_2 = partner.customer_name_kana
+        # rec.x_bussiness_partner_name_2 = partner.customer_name_kana
+        rec.x_bussiness_partner_name_2 = partner.customer_name_2
         rec.customer_tax_rounding = partner.customer_tax_rounding
         # Add customer info
         rec.customer_group = partner.customer_supplier_group_code.name

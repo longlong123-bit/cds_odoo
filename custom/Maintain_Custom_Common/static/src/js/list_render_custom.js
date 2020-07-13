@@ -42,7 +42,9 @@ odoo.define('web.ListRender_Custom', function (require) {
             'click tbody tr td div.o_data_cell': '_onCellClick',
             'click thead tr th div.o_column_sortable': '_onSortColumn',
             'keydown tbody .o_data_cell': '_show_history_detail',
-            'click .o_field_x2many_list_row_delete_m': 'onRemoveMultiClick'
+            'click .o_field_x2many_list_row_delete_m': 'onRemoveMultiClick',
+            // 'click .o_field_x2many_list_row_add a:eq(1)': '_onSearchQuotation',
+            // 'click .o_field_x2many_list_row_add a:eq(2)': '_onSearchInvoice',
         }),
         init: function () {
             this._super.apply(this, arguments);
@@ -71,7 +73,42 @@ odoo.define('web.ListRender_Custom', function (require) {
                 $('.open_with_sort_cut').click();
             }
         },
+        _onSearchQuotation: function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            // get current context (language, param,...)
+            var context = [];
+            var domain = [];
 
+            // new dialog and show
+            new SearchDialog(this, {
+                    no_create: true,
+                    readonly: true,
+                    res_model: "sale.order.line",
+                    domain: domain,
+                    view_type:'list',
+                    context: context
+                    // disable_multiple_selection: true
+                }).open();
+        },
+        _onSearchInvoice: function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            // get current context (language, param,...)
+            var context = {};
+            var domain = [["exclude_from_invoice_tab", "=", false]];
+
+            // new dialog and show
+            new SearchDialog(this, {
+                    no_create: true,
+                    readonly: true,
+                    res_model: "account.move.line",
+                    domain: domain,
+                    view_type:'list',
+                    context: context
+                    // disable_multiple_selection: true
+                }).open();
+        },
         // Add custom
         /**
          * Event when click on first
@@ -913,7 +950,7 @@ odoo.define('web.ListRender_Custom', function (require) {
             const multiEdit = this.isInMultipleRecordEdition(recordID);
             if (!multiEdit) {
                 const fieldNames = this.canBeSaved(recordID);
-                if (fieldNames.length && (record.isDirty() || options.forceCreate)) {
+                if (fieldNames.length && ((record && record.isDirty()) || options.forceCreate)) {
                     // the current row is invalid, we only leave it if it is not dirty
                     // (we didn't make any change on this row, which is a new one) and
                     // we are navigating with TAB (forceCreate=false)
@@ -941,7 +978,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                     nextRowIndex = $nextRow.prop('rowIndex') - 1;
                 } else if (!this.editable) {
                     nextRowIndex = borderRowIndex;
-                } else if (!options.forceCreate && !record.isDirty()) {
+                } else if (!options.forceCreate && (record && !record.isDirty())) {
                     this.trigger_up('discard_changes', {
                         recordID: recordID,
                         onSuccess: this.trigger_up.bind(this, 'activate_next_widget', { side: side }),
@@ -954,7 +991,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                 if (next && this.editable === "bottom" && $directNextRow.hasClass('o_add_record_row')) {
                     // the next row is the 'Add a line' row (i.e. the current one is the last record
                     // row of the group)
-                    if (options.forceCreate || record.isDirty()) {
+                    if (options.forceCreate || (record && record.isDirty())) {
                         // if we modified the current record, add a row to create a new record
                         groupId = $directNextRow.data('group-id');
                     } else {
