@@ -101,23 +101,23 @@
                                                 <span t-field="o.partner_id.zip_code"/>
                                             </div>
                                             <div style="margin-bottom: 8px; margin-left: 20px; height: 42px;">
-                                                <span t-field="o.partner_id.street"/><br/>
-                                                <span t-field="o.partner_id.street2"/><br/>
+                                                <span t-field="o.x_studio_address_1"/><br/>
+                                                <span t-field="o.x_studio_address_2"/><br/>
                                                 <span t-field="o.partner_id.address3"/>
                                             </div>
                                             <div style="display: inline-block; border-bottom: 1px solid; width: 384px; font-size: 14px">
                                                 <t t-set="p_style" t-value="'height: 16px; white-space: nowrap; max-width: 323px; overflow: hidden;
                                                             text-overflow: clip; margin: 0; float: left;'"/>
-                                                <t t-if="o.partner_id.customer_name_2">
+                                                <t t-if="o.x_bussiness_partner_name_2">
                                                     <t t-set="p_style" t-value="'height: 14px; white-space: nowrap; width: 380px; overflow: hidden;
                                                             text-overflow: clip; margin: 0; float: left;'"/>
                                                 </t>
                                                 <p t-att-style="p_style"
-                                                   t-field="o.partner_id.name">
+                                                   t-field="o.x_studio_name">
                                                 </p>
                                                 <p style="height: 14px; white-space: nowrap; max-width: 323px; overflow: hidden;
                                                             text-overflow: clip; margin: 0; float: left;"
-                                                   t-field="o.partner_id.customer_name_2">
+                                                   t-field="o.x_bussiness_partner_name_2">
                                                 </p>
                                                 <t t-if="o.partner_id.title">
                                                     <p style="float: left; margin: 0;">　</p>
