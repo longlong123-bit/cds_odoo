@@ -5,6 +5,7 @@
             <t t-set="line_id" t-value="0"/>
             <t t-set="line_id_1" t-value="line_id"/>
             <t t-set="line_id_2" t-value="line_id"/>
+            <t t-set="line_id_3" t-value="line_id"/>
             <t t-set="pager" t-value="1"/>
             <t t-set="len_invoice_line" t-value="len(o.invoice_line_ids)"/>
             <t t-set="subtotal_amount" t-value="0"/>
@@ -217,13 +218,14 @@
                                                 <t t-set="subtotal_amount_8" t-value="0"/>
                                             </t>
                                             <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.invoice_custom_line_no)" t-as="order">
-                                                <t t-if="order.invoice_custom_line_no>line_id_2">
+                                                <t t-if="order.invoice_custom_line_no>=line_id_2 and order.id != line_id_3">
                                                     <t t-if="detail_line_default > 0">
                                                         <t t-set="detail_line_default"
                                                            t-value="detail_line_default - 1"/>
                                                         <t t-set="line_id_1" t-value="order.invoice_custom_line_no"/>
                                                         <t t-if="for_range == 2">
                                                             <t t-set="line_id_2" t-value="order.invoice_custom_line_no"/>
+                                                            <t t-set="line_id_3" t-value="order.id"/>
                                                         </t>
                                                         <t t-if="for_range == 1">
                                                             <t t-set="order_line_tax_amount"
