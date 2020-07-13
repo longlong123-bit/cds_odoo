@@ -71,7 +71,7 @@ class QuotationsCustom(models.Model):
     partner_id = fields.Many2one('res.partner', string='Business Partner')
     related_partner_code = fields.Char('Partner Code', related='partner_id.customer_code')
     partner_name = fields.Char(string='Partner Name')
-    partner_name_2 = fields.Char(string='Partner Name 2', related='partner_id.customer_name_2')
+    partner_name_2 = fields.Char(string='Partner Name 2')
     # minhnt add
     quotation_calendar = fields.Selection([('japan', '和暦'), ('origin', '西暦')], string='Calendar', default='origin')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, default=lambda self: self.env.uid,
@@ -105,13 +105,22 @@ class QuotationsCustom(models.Model):
     #     for rec in self:
     #         rec.flag_history = 0
 
+    @api.onchange('partner_id')
+    def onchange_partner(self):
+        if not self.partner_name_2:
+            if self.order_id.partner_name_2:
+                self.partner_name_2 = self.order_id.partner_name_2
+            else:
+                self.partner_name_2 = self.partner_id.customer_name_2
+
     @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
-                  'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id')
+                  'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
+                  'partner_name_2')
     def _check_flag_history(self):
         for rec in self:
             if rec.partner_name or rec.partner_id or rec.quotation_name or rec.document_reference or rec.expected_date \
                     or rec.shipping_address or rec.note or rec.expiration_date or rec.comment or rec.comment_apply \
-                    or rec.cb_partner_sales_rep_id:
+                    or rec.cb_partner_sales_rep_id or rec.partner_name_2:
                 rec.flag_history = 1
             else:
                 rec.flag_history = 0
