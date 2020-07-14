@@ -32,6 +32,7 @@ class BillingClass(models.Model):
                 ('date', '<=', _last_closing_date),
                 ('bill_status', '=', 'not yet'),
                 ('account_internal_type', '=', 'other'),
+                ('parent_state', '=', 'posted'),
             ])
 
             if len(invoice_line_ids) != 0:
@@ -180,10 +181,19 @@ class BillingClass(models.Model):
             for invoice in invoice_ids:
                 for line in invoice.invoice_line_ids:
                     if line.bill_status != 'billed':
-                        _amount_untaxed = _amount_untaxed + line.invoice_custom_lineamount
-                        _tax_amount = _tax_amount + line.line_tax_amount
-                        _amount_total = _amount_total + line.invoice_custom_lineamount + line.line_tax_amount
-                        if line.move_id.x_voucher_tax_transfer == 'invoice':
+                        if line.move_id.x_voucher_tax_transfer == 'foreign_tax' \
+                                or line.move_id.x_voucher_tax_transfer == 'voucher':
+                            _untax_amount = line.invoice_custom_lineamount
+                            _tax = line.tax_rate * line.invoice_custom_lineamount / 100
+                            _amount = _untax_amount + _tax
+                        elif line.move_id.x_voucher_tax_transfer == 'internal_tax':
+                            _untax_amount = line.invoice_custom_lineamount
+                            _tax = 0
+                            _amount = _untax_amount
+                        elif line.move_id.x_voucher_tax_transfer == 'invoice':
+                            _untax_amount = line.invoice_custom_lineamount
+                            _tax = 0
+                            _amount = _untax_amount + _tax
                             if line.product_id.product_tax_category == 'foreign':
                                 _line_compute_amount_tax = _line_compute_amount_tax + (
                                         line.invoice_custom_lineamount * line.tax_rate / 100)
@@ -191,17 +201,55 @@ class BillingClass(models.Model):
                                 _line_compute_amount_tax = _line_compute_amount_tax + 0
                             else:
                                 _line_compute_amount_tax = _line_compute_amount_tax + 0
+                        elif line.move_id.x_voucher_tax_transfer == 'custom_tax':
+                            _untax_amount = line.invoice_custom_lineamount
+                            _tax = 0
+                            _amount = _untax_amount
 
-            if record.customer_tax_rounding == 'round':
-                _line_compute_amount_tax = round(_line_compute_amount_tax)
-            elif record.customer_tax_rounding == 'roundup':
-                _line_compute_amount_tax = math.ceil(_line_compute_amount_tax)
-            else:
-                _line_compute_amount_tax = math.floor(_line_compute_amount_tax)
+                        if line.move_id.x_voucher_tax_transfer != 'voucher':
+                            if record.customer_tax_rounding == 'round':
+                                _untax_amount = round(_untax_amount)
+                                _tax = round(_tax)
+                                _amount = round(_amount)
+                            elif record.customer_tax_rounding == 'roundup':
+                                _untax_amount = math.ceil(_untax_amount)
+                                _tax = math.ceil(_tax)
+                                _amount = math.ceil(_amount)
+                            else:
+                                _untax_amount = math.floor(_untax_amount)
+                                _tax = math.floor(_tax)
+                                _amount = math.floor(_amount)
+
+                        _amount_untaxed = _amount_untaxed + _untax_amount
+                        _tax_amount = _tax_amount + _tax
+                        _amount_total = _amount_total + _amount
+
+                if line.move_id.x_voucher_tax_transfer == 'voucher':
+                    if record.customer_tax_rounding == 'round':
+                        _amount_untaxed = round(_amount_untaxed)
+                        _tax_amount = round(_tax_amount)
+                        _amount_total = round(_amount_total)
+                    elif record.customer_tax_rounding == 'roundup':
+                        _amount_untaxed = math.ceil(_amount_untaxed)
+                        _tax_amount = math.ceil(_tax_amount)
+                        _amount_total = math.ceil(_amount_total)
+                    else:
+                        _amount_untaxed = math.floor(_amount_untaxed)
+                        _tax_amount = math.floor(_tax_amount)
+                        _amount_total = math.floor(_amount_total)
+                elif line.move_id.x_voucher_tax_transfer == 'custom_tax':
+                    _tax_amount = invoice.amount_tax
+                    _amount_total = _amount_total + _tax_amount
+                elif line.move_id.x_voucher_tax_transfer == 'invoice':
+                    if record.customer_tax_rounding == 'round':
+                        _line_compute_amount_tax = round(_line_compute_amount_tax)
+                    elif record.customer_tax_rounding == 'roundup':
+                        _line_compute_amount_tax = math.ceil(_line_compute_amount_tax)
+                    else:
+                        _line_compute_amount_tax = math.floor(_line_compute_amount_tax)
 
             _tax_amount = _tax_amount + _line_compute_amount_tax
             _amount_total = _amount_total + _line_compute_amount_tax
-
             # Compute data for billed_amount field
             _billed_amount = _amount_total + _balance_amount
 
@@ -295,7 +343,6 @@ class BillingClass(models.Model):
 
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
-            print(rec)
             if (rec['last_billed_amount'] + rec['deposit_amount'] + rec['balance_amount'] + rec['amount_untaxed'] \
                     + rec['tax_amount'] + rec['billed_amount'] == 0):
                 continue
@@ -633,6 +680,7 @@ class BillingClass(models.Model):
 
         return True
 
+
 class InvoiceLineClass(models.Model):
     _inherit = 'account.move.line'
 
@@ -649,3 +697,4 @@ class InvoiceLineClass(models.Model):
 
     customer_code = fields.Char(compute=compute_data, string='Customer Code', store=False)
     customer_name = fields.Char(compute=compute_data, string='Customer Name', store=False)
+o
