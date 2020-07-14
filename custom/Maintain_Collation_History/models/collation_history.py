@@ -45,6 +45,7 @@ class ClassDetail(models.Model):
                                                 compute='_get_account_move_line_db', readonly=True)
     product_default_code = fields.Char('Product Default Code', compute='_get_account_move_line_db',
                                        readonly=True)
+    product_uom = fields.Char('Product Uom', compute='_get_account_move_line_db')
     quantity = fields.Float('Product Maker Name', compute='_get_account_move_line_db', readonly=True)
     price_unit = fields.Float(string='Unit Price', compute='_get_account_move_line_db', digits='Product Price')
     tax_audit = fields.Char('tax_audit', compute='_get_account_move_line_db', readonly=True)
@@ -61,6 +62,7 @@ class ClassDetail(models.Model):
                 acc.product_name = acc.account_move_line_id.product_name
                 acc.product_custom_standardnumber = acc.account_move_line_id.invoice_custom_standardnumber
                 acc.product_default_code = acc.account_move_line_id.product_id.id
+                acc.product_uom = acc.account_move_line_id.product_uom_id
                 acc.quantity = acc.account_move_line_id.quantity
                 acc.price_unit = acc.account_move_line_id.price_unit
                 acc.tax_audit = acc.account_move_line_id.tax_audit
