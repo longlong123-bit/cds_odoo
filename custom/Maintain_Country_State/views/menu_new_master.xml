@@ -15,13 +15,14 @@
         <menuitem id="submenu_second" parent="parent_menu_master" sequence="2" name="Sales" />
         <menuitem id="menu_partner_group" parent="submenu_second" name="Partner Group" sequence="1" action="Maintain_Business_Partner_Group.action_partner_group"/>
         <menuitem id="menu_closing_date" parent="submenu_second" name="Closing Date" sequence="2" action="Maintain_Closing_Date.action_closing_date"/>
-        <menuitem id="menu_freight" parent="submenu_second" name="Maker" sequence="5" action="Maintain_Freight_Category.action_freight_cate"/>
-        <menuitem id="menu_product_class" parent="submenu_second" name="Product Class" sequence="6" action="Maintain_Product_Class.action_product_class"/>
-        <menuitem id="menu_product" parent="submenu_second" name="Product" sequence="7" action="Maintain_Product.product_template_action"/>
-        <menuitem id="menu_customer" parent="submenu_second" name="Customer Master" sequence="3" action="Maintain_Business_Partners_Remake.res_partner_action_customer"/>
-        <menuitem id="menu_confirm_product" parent="submenu_second" name="商品マスタ一覧" sequence="7" action="Maintain_Product.product_confirm_action"/>
+        <menuitem id="menu_action_payment_term_form" parent="submenu_second" name="Payment Terms" sequence="3" action="account.action_payment_term_form"/>
+        <menuitem id="menu_customer" parent="submenu_second" name="Customer Master" sequence="4" action="Maintain_Business_Partners_Remake.res_partner_action_customer"/>
+        <menuitem id="menu_customer_reference" parent="submenu_second" name="Customer Master Reference" sequence="5" action="Maintain_Business_Partners_Remake.res_partner_action_customer_reference"/>
+        <menuitem id="menu_freight" parent="submenu_second" name="Maker" sequence="6" action="Maintain_Freight_Category.action_freight_cate"/>
+        <menuitem id="menu_product_class" parent="submenu_second" name="Product Class" sequence="7" action="Maintain_Product_Class.action_product_class"/>
+        <menuitem id="menu_product" parent="submenu_second" name="Product" sequence="8" action="Maintain_Product.product_template_action"/>
+        <menuitem id="menu_confirm_product" parent="submenu_second" name="商品マスタ一覧" sequence="9" action="Maintain_Product.product_confirm_action"/>
         <menuitem id="menu_taxes" parent="submenu_second" name="Taxes" sequence="30" action="Maintain_Product.action_tax_tax"/>
-        <menuitem id="menu_customer_reference" parent="submenu_second" name="Customer Master Reference" sequence="4" action="Maintain_Business_Partners_Remake.res_partner_action_customer_reference"/>
 
 <!--        <menuitem id="menu_state" parent="parent_menu_master" name="Country State" sequence="3" action="action_country_state"/>-->
 <!--        <menuitem id="menu_tax_rate" parent="parent_menu_master" name="Tax Rate" sequence="8" action="Maintain_Tax_Rate.action_tax_rate"/>-->
