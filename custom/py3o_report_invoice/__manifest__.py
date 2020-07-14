@@ -12,6 +12,7 @@ Py3o Report Invoice
     """,
     'author': 'SK Company',
     'depends': [
+        'Maintain_Collation_History',
         'Maintain_Bill_Management',
         'report_py3o',
         ],
