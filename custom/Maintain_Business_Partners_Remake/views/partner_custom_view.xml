@@ -65,7 +65,7 @@
 
                             <td></td>
                             <td class="col-label"><label for="customer_closing_date" string="Closing Date*"/></td>
-                            <td class="col-field"><field name="customer_closing_date" required="1" options="{ 'no_quick_create' : True, 'no_create_edit': True, 'no_open': True,}"/></td>
+                            <td class="col-field"><field name="customer_closing_date" required="1" options="{ 'no_quick_create' : True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/></td>
 
                         </tr>
                         <!--row 3.5-->
@@ -73,7 +73,7 @@
                                 <td class="col-label"><label for="customer_code_bill" string="Billing Code*"/></td>
                                 <td><field name="customer_code_bill" force_save="1"/></td>
                                 <td class="col-field"><field name="customer_get_billing_code"
-                                                             domain="[('customer_rank','>', 0)]" options="{'no_create_edit': True, 'no_open': True}"/></td>
+                                                             domain="[('customer_rank','>', 0)]" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/></td>
                                 <td class="col-field"><field name="customer_get_billing_code_name"/></td>
 
                                 <td class="col-label"><label for="customer_payment_method" string="Payment Method*"/></td>
@@ -95,7 +95,7 @@
                             <td class="col-label"><label for="customer_name_kana" string="Customer Name Kana"/></td>
                             <td colspan="3"><field name="customer_name_kana"/></td>
                             <td class="col-label"><label for="payment_terms" string="Payment Terms*"/></td>
-                            <td class="col-field"><field name="payment_terms" required="1" options="{ 'no_quick_create' : True, 'no_create_edit': True, 'no_open': True}"/></td>
+                            <td class="col-field"><field name="payment_terms" required="1" options="{ 'no_quick_create' : True, 'no_create': True, 'no_edit': True, 'no_open': True}"/></td>
                             <td></td>
                             <td class="col-checkbox">
                                 <field name="customer_print_invoice"/>
@@ -106,7 +106,7 @@
                         <!-- Row 6 -->
                         <tr>
                             <td class="col-label"><label for="title" string="Greeting"/></td>
-                            <td class="col-field"><field name="title" options="{'no_create_edit': True, 'no_open': True,}"/></td>
+                            <td class="col-field"><field name="title" options="{'no_create': True, 'no_edit': True, 'no_open': True,}"/></td>
 <!--                            <td colspan="2"></td>-->
                             <td class="col-label"><label for="customer_apply_rate" string="Apply Rate"/></td>
                             <td class="col-field"><field name="customer_apply_rate"/></td>
@@ -171,7 +171,7 @@
                         <!-- Row 11 -->
                         <tr>
                             <td class="col-label"><label for="customer_state" string="State"/></td>
-                            <td class="col-field"><field name="customer_state" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True,}"/></td>
+                            <td class="col-field"><field name="customer_state" options="{'no_quick_create': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/></td>
                             <td></td>
                             <td></td>
                             <td class="col-label"><label for="customer_other_cd" string="Customer CD"/></td>
@@ -183,7 +183,7 @@
                         <!-- Row 12 -->
                         <tr>
                             <td class="col-label"><label for="customer_supplier_group_code" string="Supplier Group Code*"/></td>
-                            <td class="col-field"><field name="customer_supplier_group_code" required="1" options='{"no_quick_create": True, "no_create_edit": True, "no_open": True,}'/></td>
+                            <td class="col-field"><field name="customer_supplier_group_code" required="1" options='{"no_quick_create": True, "no_create": True, "no_edit": True, "no_open": True,}'/></td>
                             <td></td>
                             <td></td>
                             <td class="col-label"><label for="customer_comment" string="Comment"/></td>
@@ -194,9 +194,9 @@
                         <!-- Row 13 -->
                         <tr>
                             <td class="col-label"><label for="customer_industry_code" string="Industry Code"/></td>
-                            <td class="col-field"><field name="customer_industry_code" options='{"no_quick_create": True, "no_create_edit": True, "no_open": True,}'/></td>
+                            <td class="col-field"><field name="customer_industry_code" options='{"no_quick_create": True, "no_create": True, "no_edit": True, "no_open": True,}'/></td>
                             <td class="col-label"><label for="customer_agent" string="Representative/Agent*"/></td>
-                            <td class="col-field"><field name="customer_agent" required="1" options="{'no_create_edit': True, 'no_open': True,}"/></td>
+                            <td class="col-field"><field name="customer_agent" required="1" options="{'no_create': True, 'no_edit': True, 'no_open': True,}"/></td>
                             <!-- <td class="col-label"><label for="customer_quote" string="Select Quote"/></td>
                             <td class="col-field"><field name="customer_quote"/></td> -->
 <!--                            <td></td>-->
