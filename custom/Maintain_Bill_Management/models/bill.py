@@ -208,9 +208,9 @@ class BillingClass(models.Model):
 
                         if line.move_id.x_voucher_tax_transfer != 'voucher':
                             if record.customer_tax_rounding == 'round':
-                                _untax_amount = round(_untax_amount)
-                                _tax = round(_tax)
-                                _amount = round(_amount)
+                                _untax_amount = int(round(_untax_amount, 1) + 0.5)
+                                _tax = int(round(_tax, 1) + 0.5)
+                                _amount = int(round(_amount, 1) + 0.5)
                             elif record.customer_tax_rounding == 'roundup':
                                 _untax_amount = math.ceil(_untax_amount)
                                 _tax = math.ceil(_tax)
@@ -226,9 +226,9 @@ class BillingClass(models.Model):
 
                 if line.move_id.x_voucher_tax_transfer == 'voucher':
                     if record.customer_tax_rounding == 'round':
-                        _amount_untaxed = round(_amount_untaxed)
-                        _tax_amount = round(_tax_amount)
-                        _amount_total = round(_amount_total)
+                        _amount_untaxed = int(round(_amount_untaxed, 1) + 0.5)
+                        _tax_amount = int(round(_tax_amount, 1) + 0.5)
+                        _amount_total = int(round(_amount_total, 1) + 0.5)
                     elif record.customer_tax_rounding == 'roundup':
                         _amount_untaxed = math.ceil(_amount_untaxed)
                         _tax_amount = math.ceil(_tax_amount)
@@ -242,7 +242,7 @@ class BillingClass(models.Model):
                     _amount_total = _amount_total + _tax_amount
                 elif line.move_id.x_voucher_tax_transfer == 'invoice':
                     if record.customer_tax_rounding == 'round':
-                        _line_compute_amount_tax = round(_line_compute_amount_tax)
+                        _line_compute_amount_tax = int(round(_line_compute_amount_tax, 1) + 0.5)
                     elif record.customer_tax_rounding == 'roundup':
                         _line_compute_amount_tax = math.ceil(_line_compute_amount_tax)
                     else:
