@@ -513,6 +513,18 @@
 <!--                                            <t t-set="subtotal_total_amount"-->
 <!--                                               t-value="subtotal_total_amount + subtotal_amount8+ subtotal_amount10 + subtotal_amount_o"/>-->
                                             <t t-if="line_check &gt; 0">
+                                                <t t-if="o.partner_id.customer_tax_rounding == 'round'">
+                                                    <t t-set="subtotal_tax_amount10"
+                                                       t-value="int(round(subtotal_tax_amount10, 1) + 0.5)"/>
+                                                </t>
+                                                <t t-elif="o.partner_id.customer_tax_rounding == 'roundup'">
+                                                    <t t-set="subtotal_tax_amount10"
+                                                       t-value="int(round(subtotal_tax_amount10, 1) + 0.9)"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="subtotal_tax_amount10"
+                                                       t-value="int(subtotal_tax_amount10)"/>
+                                                </t>
                                                 <t t-set="subtotal_tax_amount8" t-value="o.amount_tax - int(subtotal_tax_amount10) - int(subtotal_tax_amount_o)"/>
                                                 <tr style="height: 40px;">
                                                     <td style="border: 1px solid #000000;border-top: 0; font-size: 18px; text-align: center;">
