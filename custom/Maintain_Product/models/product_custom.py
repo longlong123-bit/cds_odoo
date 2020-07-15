@@ -118,8 +118,9 @@ class ProductTemplate(models.Model):
 
     # 消費税区分
     product_tax_category = fields.Selection(
-        [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
-        string='Tax Category', default='foreign')
+        # [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
+        [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax')],
+        string='Tax Category*', default='foreign')
 
     standard_price = fields.Float('Standard price')
     price_no_tax = fields.Float('Price no tax')

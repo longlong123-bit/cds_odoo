@@ -846,8 +846,8 @@ msgstr "仕入先価格リスト"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_product__product_tax_category
-msgid "Tax Category"
-msgstr "消費税区分"
+msgid "Tax Category*"
+msgstr "消費税区分*"
 
 #. module: Maintain_Product
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
@@ -1141,3 +1141,8 @@ msgstr "税"
 #: model_terms:ir.ui.view,arch_db:Maintain_Product.view_tax_tax_form
 msgid "Rate"
 msgstr "税率"
+
+#. module: Maintain_Product
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
+msgid "Tax Rate*"
+msgstr "税率*"
