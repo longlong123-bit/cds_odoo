@@ -18,3 +18,11 @@ class BillInvoiceDetail(models.Model):
         self.ensure_one()
         date = self.invoice_date.strftime('%y/%m/%d')
         return date
+
+    def format_tax_title(self):
+        self.ensure_one()
+        if (self.x_voucher_tax_transfer == 'foreign_tax') or (self.x_voucher_tax_transfer == 'voucher'):
+            tax_title = '税転嫁'
+        else:
+            tax_title = ''
+        return tax_title
