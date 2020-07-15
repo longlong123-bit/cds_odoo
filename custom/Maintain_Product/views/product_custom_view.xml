@@ -25,7 +25,7 @@
                             <field name="product_custom_goodsnamef"/>
                             <field name="product_custom_standardnumber"/>
 <!--                            <field name="product_custom_freight_category"/>-->
-                            <field name="product_custom_freight_category" context="{'showcode': 'ok'}"  options="{'always_reload': True, 'no_create_edit': True, 'no_open': True,}"/>
+                            <field name="product_custom_freight_category" context="{'showcode': 'ok'}"  options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                             <field name="product_maker_name" force_save="1"/>
                             <div style="text-align: right;">
                                 <div style="margin-bottom: 10px; margin-top: 2px;"><label for="product_class_code_lv1" string="大分類"/></div>
@@ -35,10 +35,10 @@
                             </div>
                             <table style="margin-right: 36px; margin-left: 8px">
                                 <td style="width: 44%; vertical-align: top;">
-                                    <field name="product_class_code_lv1" domain="[('product_level', '=', 'lv1')]" options="{'no_create_edit': True,}"/>
-                                    <field name="product_class_code_lv2"  domain="[('product_level', '=', 'lv2')]" options="{'no_create_edit': True,}"/>
-                                    <field name="product_class_code_lv3" domain="[('product_level', '=', 'lv3')]" options="{'no_create_edit': True,}"/>
-                                    <field name="product_class_code_lv4" domain="[('product_level', '=', 'lv4')]" options="{'no_create_edit': True,}"/>
+                                    <field name="product_class_code_lv1" domain="[('product_level', '=', 'lv1')]" options="{'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                    <field name="product_class_code_lv2"  domain="[('product_level', '=', 'lv2')]" options="{'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                    <field name="product_class_code_lv3" domain="[('product_level', '=', 'lv3')]" options="{'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                    <field name="product_class_code_lv4" domain="[('product_level', '=', 'lv4')]" options="{'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 </td>
 <!--                                <td style="width: 12%; vertical-align: top; text-align: right"><label for="product_class_name_lv1"/></td>-->
                                 <td style="width: 44%; vertical-align: top;">
@@ -100,7 +100,7 @@
                             <div>
                                 <field name="taxes_id" widget="many2many_tags" style="width: 100%%" invisible="1"/>
                             </div>
-                            <field name="product_tax_id" style="width: 100%%" string="Tax Rate" options="{'no_create_edit': True, 'no_open': True,}"/>
+                            <field name="product_tax_id" required="True" style="width: 100%%" string="Tax Rate*" options="{'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                             <field name="product_tax_rate" string="Tax Rate" invisible="1"/>
                             <label for="product_custom_is_discontinued" invisible="True"/>
                             <div>
