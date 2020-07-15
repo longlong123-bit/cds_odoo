@@ -151,7 +151,8 @@
                                             <t t-set="subtotal_tax_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_tax_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_tax_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -367,7 +368,8 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -541,6 +543,18 @@
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <t t-if="check_line != 0">
+                                                <t t-if="o.partner_id.customer_tax_rounding == 'round'">
+                                                    <t t-set="subtotal_tax_amount1_10"
+                                                       t-value="int(round(subtotal_tax_amount1_10, 1) + 0.5)"/>
+                                                </t>
+                                                <t t-elif="o.partner_id.customer_tax_rounding == 'roundup'">
+                                                    <t t-set="subtotal_tax_amount1_10"
+                                                       t-value="int(round(subtotal_tax_amount1_10, 1) + 0.9)"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="subtotal_tax_amount1_10"
+                                                       t-value="int(subtotal_tax_amount1_10)"/>
+                                                </t>
                                                 <t t-set="subtotal_tax_amount1_8"
                                                    t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
                                                 <tr>
@@ -584,7 +598,8 @@
                                         </tbody>
                                         <tbody t-if="o.tax_method =='invoice'">
                                             <t t-set="subtotal_amount1" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -727,7 +742,8 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -1046,7 +1062,8 @@
                                         </thead>
                                         <tbody t-if="o.tax_method == 'foreign_tax' or o.tax_method == 'internal_tax'">
                                             <t t-set="line" t-value="7"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -1189,7 +1206,8 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -1332,7 +1350,8 @@
                                         </tbody>
                                         <tbody t-if="o.tax_method =='invoice'">
                                             <t t-set="subtotal_amount1" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -1454,7 +1473,8 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -1728,7 +1748,8 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -1939,7 +1960,8 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -2150,7 +2172,8 @@
                                         </tbody>
                                         <tbody t-if="o.tax_method =='invoice'">
                                             <t t-set="subtotal_amount1" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -2290,7 +2313,8 @@
                                             <t t-set="subtotal_amount1_8" t-value="0"/>
                                             <t t-set="subtotal_amount1_10" t-value="0"/>
                                             <t t-set="subtotal_amount1_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -2609,7 +2633,8 @@
                                             <t t-set="subtotal_tax_amount8" t-value="0"/>
                                             <t t-set="subtotal_tax_amount10" t-value="0"/>
                                             <t t-set="subtotal_tax_amount_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -2783,49 +2808,50 @@
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
-<!--                                            <t t-if="check_line != 0">-->
-                                                <tr>
-                                                    <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
-                                                        </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                            <t t-if="subtotal_tax_amount8">
-                                                                <span>（8％消費税）</span>
-                                                                <br/>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount10">
-                                                                <span>（10％消費税）</span>
-                                                            </t>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <t t-if="subtotal_tax_amount8">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount8)"></span>
-                                                                <br/>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount10)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount_o">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount_o)"></span>
-                                                            </t>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;border-right: 0;"></td>
-                                                </tr>
-<!--                                            </t>-->
+                                            <!--                                            <t t-if="check_line != 0">-->
+                                            <tr>
+                                                <td colspan="4"
+                                                    style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
+                                                    <div style="display: inline-block; width: 60%; float: left; text-align: right;">
+                                                        消　　費　　税
+                                                    </div>
+                                                    <div style="display: inline-block; width: 40%; float: right; text-align: center;">
+                                                        <t t-if="subtotal_tax_amount8">
+                                                            <span>（8％消費税）</span>
+                                                            <br/>
+                                                        </t>
+                                                        <t t-if="subtotal_tax_amount10">
+                                                            <span>（10％消費税）</span>
+                                                        </t>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
+                                                        <t t-if="subtotal_tax_amount8">
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount8)"></span>
+                                                            <br/>
+                                                        </t>
+                                                        <t t-if="subtotal_tax_amount1_10">
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount10)"></span>
+                                                        </t>
+                                                        <t t-if="subtotal_tax_amount_o">
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount_o)"></span>
+                                                        </t>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;border-right: 0;"></td>
+                                            </tr>
+                                            <!--                                            </t>-->
                                         </tbody>
                                         <tbody t-if="o.tax_method == 'voucher'">
                                             <t t-set="subtotal_amount8" t-value="0"/>
                                             <t t-set="subtotal_amount10" t-value="0"/>
                                             <t t-set="subtotal_amount_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -2998,6 +3024,18 @@
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <t t-if="check_line != 0">
+                                                <t t-if="o.partner_id.customer_tax_rounding == 'round'">
+                                                    <t t-set="subtotal_tax_amount10"
+                                                       t-value="int(round(subtotal_tax_amount10, 1) + 0.5)"/>
+                                                </t>
+                                                <t t-elif="o.partner_id.customer_tax_rounding == 'roundup'">
+                                                    <t t-set="subtotal_tax_amount10"
+                                                       t-value="int(round(subtotal_tax_amount10, 1) + 0.9)"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="subtotal_tax_amount10"
+                                                       t-value="int(subtotal_tax_amount10)"/>
+                                                </t>
                                                 <t t-set="subtotal_tax_amount8"
                                                    t-value="o.amount_tax - int(subtotal_tax_amount10) - int(subtotal_tax_amount_o)"/>
                                                 <tr>
@@ -3039,7 +3077,8 @@
                                         </tbody>
                                         <tbody t-if="o.tax_method =='invoice'">
                                             <t t-set="subtotal_amount" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
@@ -3179,7 +3218,8 @@
                                             <t t-set="subtotal_amount8" t-value="0"/>
                                             <t t-set="subtotal_amount10" t-value="0"/>
                                             <t t-set="subtotal_amount_o" t-value="0"/>
-                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="order">
+                                            <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
+                                               t-as="order">
                                                 <t t-if="order.quotation_custom_line_no>=line_id and order.id != line_id_id">
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
