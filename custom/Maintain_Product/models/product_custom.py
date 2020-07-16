@@ -118,8 +118,8 @@ class ProductTemplate(models.Model):
 
     # 消費税区分
     product_tax_category = fields.Selection(
-        # [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
-        [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax')],
+        [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
+        # [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax')],
         string='Tax Category*', default='foreign')
 
     standard_price = fields.Float('Standard price')
@@ -510,6 +510,12 @@ class ProductTemplate(models.Model):
                 raise ValidationError(_('既に登録されています。'))
 
         return True
+
+    @api.onchange('product_tax_category')
+    def _onchange_product_tax_category(self):
+        if self.product_tax_category == 'exempt':
+            self.update({'product_tax_id': False,
+                         'product_tax_rate': 0.0})
 
     @api.onchange('product_code_1', 'price_1', 'price_no_tax_1', 'price_include_tax_1',
                   'product_code_2', 'price_2', 'price_no_tax_2', 'price_include_tax_2',

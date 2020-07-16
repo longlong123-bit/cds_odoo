@@ -24,9 +24,9 @@ ListRenderer.include({
         navigation_move: '_onNavigationMove',
     }),
     events: _.extend({}, ListRenderer.prototype.events, {
-        'click .o_field_x2many_list_row_add a': '_onAddRecord',
+        'click .o_field_x2many_list_row_add a:first': '_onAddRecord',
         'click .o_group_field_row_add a': '_onAddRecordToGroup',
-        'keydown .o_field_x2many_list_row_add a': '_onKeyDownAddRecord',
+        'keydown .o_field_x2many_list_row_add a:first': '_onKeyDownAddRecord',
         'click tbody td.o_data_cell': '_onCellClick',
         'click tbody tr:not(.o_data_row)': '_onEmptyRowClick',
         'click tfoot': '_onFooterClick',

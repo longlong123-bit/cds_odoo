@@ -152,7 +152,7 @@ var Dialog = Widget.extend({
         if (this.$content) {
             this.setElement(this.$content);
         }
-        this.$el.addClass('modal-body ' + this.dialogClass);
+        this.$el.addClass('modal-body' + this.dialogClass);
     },
     //--------------------------------------------------------------------------
     // Public
