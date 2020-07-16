@@ -776,8 +776,6 @@ class ClassInvoiceCustom(models.Model):
             raise UserError(_("You need to add a line before save."))
         if vals.get('x_studio_document_no', _('0')) == _('0'):
             vals['x_studio_document_no'] = self.env['ir.sequence'].next_by_code('document.sequence') or _('New')
-        import traceback
-        traceback.print_stack()
         result = super(ClassInvoiceCustom, self).create(vals)
         return result
 
@@ -1524,7 +1522,7 @@ class AccountMoveLine(models.Model):
                     and self.product_id.product_class_code_lv4.product_class_rate > 0:
                 price_unit = price_unit * self.product_id.product_class_code_lv4.product_class_rate / 100
 
-        return rounding(price_unit, 0, self.move_id.customer_tax_rounding)
+        return price_unit
 
     @api.depends('move_id.x_studio_business_partner',
     'move_id.x_voucher_tax_transfer')
