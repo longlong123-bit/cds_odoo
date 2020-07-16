@@ -427,6 +427,61 @@ class ClassInvoiceCustom(models.Model):
     #     for rec in self:
     #         rec.flag_history = 0
 
+    copy_history_item = fields.Char(default="")
+    copy_history_from = fields.Char(default="")
+
+    @api.onchange('copy_history_item')
+    def copy_from_history(self):
+        if not self.copy_history_item:
+            return
+        products = []
+        invoice_line_ids = []
+        if self.copy_history_from == 'sale.order.line' and self.copy_history_item:
+            products = self.env["sale.order.line"].search([('id','in', self.copy_history_item.split(','))])
+            for line in products:
+             self.invoice_line_ids = [(0, False, {
+                'product_id': line.product_id,
+                'product_code': line.product_code,
+                'product_barcode': line.product_barcode,
+                'product_name': line.product_name,
+                'product_name2': line.product_name2,
+                'invoice_custom_standardnumber': line.product_standard_number,
+                'product_maker_name': line.product_maker_name,
+                'quantity': line.product_uom_qty,
+                'price_unit': line.price_unit,
+                'product_uom_id': line.product_uom_id,
+                'invoice_custom_lineamount': line.line_amount,
+                'tax_rate': line.tax_rate,
+                'line_tax_amount': line.line_tax_amount,
+                'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
+                'price_include_tax': line.price_include_tax,
+                'price_no_tax': line.price_no_tax,
+                'invoice_custom_line_no': len(self.invoice_line_ids) + 1
+            })]
+        elif self.copy_history_from == 'account.move.line' and self.copy_history_item:
+            products = self.env["account.move.line"].search([('id','in', self.copy_history_item.split(','))])
+            for line in products:
+                self.invoice_line_ids = [(0, False, {
+                    'product_id': line.product_id,
+                    'product_code': line.product_code,
+                    'product_barcode': line.product_barcode,
+                    'product_name': line.product_name,
+                    'product_name2': line.product_name2,
+                    'invoice_custom_standardnumber': line.invoice_custom_standardnumber,
+                    'product_maker_name': line.product_maker_name,
+                    'quantity': line.quantity,
+                    'price_unit': line.price_unit,
+                    'product_uom_id': line.product_uom_id,
+                    'invoice_custom_lineamount': line.invoice_custom_lineamount,
+                    'tax_rate': line.tax_rate,
+                    'line_tax_amount': line.line_tax_amount,
+                    'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
+                    'price_include_tax': line.price_include_tax,
+                    'price_no_tax': line.price_no_tax,
+                    'invoice_custom_line_no': len(self.invoice_line_ids) + 1
+                })]
+        self.copy_history_item = ''
+
     @api.onchange('x_studio_business_partner', 'x_studio_name', 'ref', 'x_bussiness_partner_name_2', 'x_studio_address_1',
                   'x_studio_address_2', 'x_studio_address_3', 'x_studio_description', 'sales_rep', 'x_studio_cus_salesslipforms_table')
     def _check_flag_history(self):

@@ -498,6 +498,60 @@ class QuotationsCustom(models.Model):
                 record.quotations_date.day) + '日'
             record.jp_calendar = jp_c
 
+    copy_history_item = fields.Char(default="")
+    copy_history_from = fields.Char(default="")
+
+    @api.onchange('copy_history_item')
+    def copy_from_history(self):
+        if not self.copy_history_item:
+            return
+        products = []
+        invoice_line_ids = []
+        if self.copy_history_from == 'sale.order.line' and self.copy_history_item:
+            products = self.env["sale.order.line"].search([('id','in', self.copy_history_item.split(','))])
+            for line in products:
+             self.order_line = [(0, False, {
+                'product_id': line.product_id,
+                'product_code': line.product_code,
+                'product_barcode': line.product_barcode,
+                'product_name': line.product_name,
+                'product_name2': line.product_name2,
+                'product_standard_number': line.product_standard_number,
+                'product_maker_name': line.product_maker_name,
+                'product_uom_qty': line.product_uom_qty,
+                'price_unit': line.price_unit,
+                'product_uom_id': line.product_uom_id,
+                'line_amount': line.line_amount,
+                'tax_rate': line.tax_rate,
+                'line_tax_amount': line.line_tax_amount,
+                'price_include_tax': line.price_include_tax,
+                'price_no_tax': line.price_no_tax,
+                'description' : line.description,
+                'quotation_custom_line_no': len(self.order_line) + 1
+            })]
+        elif self.copy_history_from == 'account.move.line' and self.copy_history_item:
+            products = self.env["account.move.line"].search([('id','in', self.copy_history_item.split(','))])
+            for line in products:
+                self.order_line = [(0, False, {
+                    'product_id': line.product_id,
+                    'product_code': line.product_code,
+                    'product_barcode': line.product_barcode,
+                    'product_name': line.product_name,
+                    'product_name2': line.product_name2,
+                    'product_standard_number': line.invoice_custom_standardnumber,
+                    'product_maker_name': line.product_maker_name,
+                    'product_uom_qty': line.quantity,
+                    'price_unit': line.price_unit,
+                    'product_uom_id': line.product_uom_id,
+                    'line_amount': line.invoice_custom_lineamount,
+                    'tax_rate': line.tax_rate,
+                    'line_tax_amount': line.line_tax_amount,
+                    'price_include_tax': line.price_include_tax,
+                    'price_no_tax': line.price_no_tax,
+                    'description' : line.description,
+                    'quotation_custom_line_no': len(self.order_line) + 1
+                })]
+        self.copy_history_item = ''
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
