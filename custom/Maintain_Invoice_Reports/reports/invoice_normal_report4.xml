@@ -109,6 +109,9 @@
                                         <t t-if="o.partner_id.zip_code">
                                             <span style="margin-left: 10px;" t-field="o.partner_id.zip_code"/>
                                         </t>
+                                        <t t-else="">
+                                            <span style="margin-left: 10px;">　</span>
+                                        </t>
                                     </div>
                                     <div style="width: 30%; position: relative; float: left;">
                                         <span style="font-weight: 600; font-size: 16px; margin-left: 60px; margin-bottom: 50px;">
@@ -189,33 +192,34 @@
                                 <!-- Row six -->
                                 <div style="display: inline-block; width: 100%; height: 20px;">
                                     <div style="width: 45%; position: relative; float: left; text-align: left; margin-left: 10px;">
-                                        <t t-if="pager == 1">
-                                            <!-- Position 6 -->
-                                            <span style="font-size: 12px; float: left;">合計金額　</span>
-                                            <span style="font-size: 12px; border-bottom: 1px solid; float: left;">￥
-                                            </span>
-                                            <t t-if="o.x_voucher_tax_transfer == 'custom_tax'">
-                                                <!-- Case: the value of x_voucher_tax_transfer is 'customer_tax' -->
-                                                <span style="font-size: 12px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid; float: left;"
-                                                      t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.x_voucher_tax_amount))"/>
-                                            </t>
-                                            <t t-else="">
-                                                <!-- Case: the value of x_voucher_tax_transfer is 'foreign_tax', 'internal_tax', 'voucher', 'invoice' -->
-                                                <span style="font-size: 12px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid; float: left;"
-                                                      t-esc="'{0:,.0f}'.format(int(o.amount_total))"/>
-                                            </t>
-                                            <!-- Position 7 -->
-                                            <t t-if="o.x_voucher_tax_transfer == 'invoice'">
-                                                <span style="font-size: 12px; float: left;">　（税別）</span>
-                                            </t>
-                                            <t t-else="">
-                                                <span style="ont-size: 12px; float: left;">　（税込）</span>
-                                            </t>
-                                        </t>
-                                        <t t-else="">
-                                            <!-- Position 6 -->
-                                            <span style="font-size: 12px; float: left;">　</span>
-                                        </t>
+<!--                                        <t t-if="pager == 1">-->
+<!--                                            &lt;!&ndash; Position 6 &ndash;&gt;-->
+<!--                                            <span style="font-size: 12px; float: left;">合計金額　</span>-->
+<!--                                            <span style="font-size: 12px; border-bottom: 1px solid; float: left;">￥-->
+<!--                                            </span>-->
+<!--                                            <t t-if="o.x_voucher_tax_transfer == 'custom_tax'">-->
+<!--                                                &lt;!&ndash; Case: the value of x_voucher_tax_transfer is 'customer_tax' &ndash;&gt;-->
+<!--                                                <span style="font-size: 12px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid; float: left;"-->
+<!--                                                      t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.x_voucher_tax_amount))"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                                &lt;!&ndash; Case: the value of x_voucher_tax_transfer is 'foreign_tax', 'internal_tax', 'voucher', 'invoice' &ndash;&gt;-->
+<!--                                                <span style="font-size: 12px; overflow: hidden; white-space: nowrap; border-bottom: 1px solid; float: left;"-->
+<!--                                                      t-esc="'{0:,.0f}'.format(int(o.amount_total))"/>-->
+<!--                                            </t>-->
+<!--                                            &lt;!&ndash; Position 7 &ndash;&gt;-->
+<!--                                            <t t-if="o.x_voucher_tax_transfer == 'invoice'">-->
+<!--                                                <span style="font-size: 12px; float: left;">　（税別）</span>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                                <span style="ont-size: 12px; float: left;">　（税込）</span>-->
+<!--                                            </t>-->
+<!--                                        </t>-->
+<!--                                        <t t-else="">-->
+<!--                                            &lt;!&ndash; Position 6 &ndash;&gt;-->
+<!--                                            <span style="font-size: 12px; float: left;">　</span>-->
+<!--                                        </t>-->
+                                         <span style="font-size: 12px; float: left;">　</span>
                                     </div>
                                     <div style="width: 25%"/>
                                     <div style="width: 30%; position: relative; float: right; text-align: left;">

@@ -1228,6 +1228,9 @@ var ListRenderer = BasicRenderer.extend({
                 var id = $(ev.currentTarget).data('id');
                 if (id) {
                     if(ev.delegateTarget.className.includes("dialog_show")===true){
+                        if( $(ev.currentTarget).children()[0].className.includes("o_list_record_selector")===true ){
+                            $($(ev.currentTarget).children()[0]).find('input').trigger('click');
+                        }
                         return;
                     }
                     else if(ev.delegateTarget.className.startsWith("forward_edit")===true){

@@ -297,9 +297,9 @@ class IncomePaymentCustom(models.Model):
             if rec.account_payment_line_ids:
                 print('document_no')
                 query = "UPDATE account_payment " \
-                        "SET payment_amount=%s" \
+                        "SET payment_amount=%s,amount=%s" \
                         "WHERE document_no=%s "
-                params = [total_payment_amounts, rec.document_no]
+                params = [total_payment_amounts, total_payment_amounts, rec.document_no]
 
                 self._cr.execute(query, params)
 
