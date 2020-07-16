@@ -442,7 +442,7 @@ class BillingClass(models.Model):
                     'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                     'customer_closing_date_id': partner_ids.customer_closing_date.id,
                     'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
-                    'invoice_date': invoice.invoice_date,
+                    'invoice_date': invoice.x_studio_date_invoiced,
                     'invoice_no': invoice.x_studio_document_no,
                 })
 
@@ -626,7 +626,7 @@ class BillingClass(models.Model):
                 'hr_department_id': self.customer_agent.department_id.id,
                 'business_partner_group_custom_id': self.customer_supplier_group_code.id,
                 'customer_closing_date_id': self.customer_closing_date.id,
-                'invoice_date': invoice.invoice_date,
+                'invoice_date': invoice.x_studio_date_invoiced,
                 'invoice_no': invoice.x_studio_document_no,
             })
 
