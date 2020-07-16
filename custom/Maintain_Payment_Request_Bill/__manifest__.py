@@ -14,8 +14,9 @@
     'data': [
         'views/add_js.xml',
         'security/ir.model.access.csv',
-        'views/payment_request_template.xml',
-        'views/payment_request_template_custom.xml',
+        'reports/payment_request_template.xml',
+        'reports/reports.xml',
+        'views/report_format.xml',
         'views/payment_request_bill.xml',
     ],
     'qweb': [
