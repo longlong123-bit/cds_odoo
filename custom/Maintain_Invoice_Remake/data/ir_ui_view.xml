@@ -143,9 +143,9 @@
 
       <!-- BEGIN FORM -->
       <xpath expr="//group[1]" position="replace">
-          <div style="text-align: right; font-weight: bold; font-size: 1.2rem; margin-bottom: 20px; margin-right: 80px;">
-            <field name="x_studio_line_info" readonly="1" class="no-border"/>
-          </div>
+<!--          <div style="text-align: right; font-weight: bold; font-size: 1.2rem; margin-bottom: 20px; margin-right: 80px;">-->
+<!--            <field name="x_studio_line_info" readonly="1" class="no-border"/>-->
+<!--          </div>-->
         <table style ="vertical-align: baseline;" class="custom-form-table">
           <tbody>
             <!-- Row 1 -->
@@ -240,8 +240,10 @@
             </tr>
             <tr>
               <!-- Column 1 -->
-              <td class="col-label"><label for="x_studio_cus_salesslipforms_table" string="cus_salesslipforms_Table"/></td>
-              <td class="col-field"><field name="x_studio_cus_salesslipforms_table" string="cus_salesslipforms_Table" z-index="105" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+<!--              <td class="col-label"><label for="x_studio_cus_salesslipforms_table" string="cus_salesslipforms_Table"/></td>-->
+<!--              <td class="col-field"><field name="x_studio_cus_salesslipforms_table" string="cus_salesslipforms_Table" z-index="105" attrs="{'readonly':[('state','in',['posted'])]}"/></td>-->
+              <td></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -252,8 +254,8 @@
             </tr>
             <tr>
               <!-- Column 1 -->
-              <td class="col-label"><label for="x_studio_description" string="Description"/></td>
-              <td colspan="5" class="col-field"><field name="x_studio_description" string="Description" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+              <td class="col-label"><label for="x_studio_summary" string="Summary"/></td>
+              <td colspan="5" class="col-field"><field name="x_studio_summary" string="Summary" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
                 <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>
                 <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1" force_save="1"/></td>
               <!-- Column 2 -->
