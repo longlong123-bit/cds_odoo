@@ -31,3 +31,14 @@ class BillInvoiceClass(models.Model):
     x_voucher_tax_transfer = fields.Char('x_voucher_tax_transfer')
     invoice_date = fields.Date(string="Invoice Date")
     invoice_no = fields.Char(string='Invoice No')
+
+    type = fields.Selection(selection=[
+        ('entry', 'Journal Entry'),
+        ('out_invoice', 'Customer Invoice'),
+        ('out_refund', 'Customer Credit Note'),
+        ('in_invoice', 'Vendor Bill'),
+        ('in_refund', 'Vendor Credit Note'),
+        ('out_receipt', 'Sales Receipt'),
+        ('in_receipt', 'Purchase Receipt'),
+    ], string='Type', required=True, store=True, index=True, readonly=True, tracking=True,
+        default="entry", change_default=True)

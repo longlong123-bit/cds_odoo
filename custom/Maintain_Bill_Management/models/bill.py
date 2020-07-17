@@ -322,17 +322,36 @@ class BillingClass(models.Model):
             'name': 'Billing Details',
             'view_mode': 'form',
             'target': 'current',
-            'res_model': 'res.partner',
+            'res_model': 'bill.details',
             'res_id': self.id,
-            'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_form').id, 'form')],
+            'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_details_form').id, 'form')],
             'context': {'form_view_initial_mode': 'edit', 'bill_management_module': True,
                         'view_name': 'Billing Details',
+                        'billing_code': self.customer_code,
+                        'billing_name': self.name,
                         'bill_account_move_ids': self.bill_account_move_ids,
                         'bill_move_ids': self.bill_account_move_ids.ids,
                         'last_closing_date': self.last_closing_date,
                         'deadline': self.deadline,
                         },
         }
+
+        # return {
+        #     'type': 'ir.actions.act_window',
+        #     'name': 'Billing Details',
+        #     'view_mode': 'form',
+        #     'target': 'current',
+        #     'res_model': 'res.partner',
+        #     'res_id': self.id,
+        #     'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_form').id, 'form')],
+        #     'context': {'form_view_initial_mode': 'edit', 'bill_management_module': True,
+        #                 'view_name': 'Billing Details',
+        #                 'bill_account_move_ids': self.bill_account_move_ids,
+        #                 'bill_move_ids': self.bill_account_move_ids.ids,
+        #                 'last_closing_date': self.last_closing_date,
+        #                 'deadline': self.deadline,
+        #                 },
+        # }
 
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
@@ -443,6 +462,7 @@ class BillingClass(models.Model):
                     'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
                     'invoice_date': invoice.x_studio_date_invoiced,
                     'invoice_no': invoice.x_studio_document_no,
+                    'type': invoice.type,
                 })
 
                 for line in invoice.invoice_line_ids:
@@ -473,6 +493,7 @@ class BillingClass(models.Model):
                         'tax_amount': line.line_tax_amount,
                         'line_amount': line.invoice_custom_lineamount,
                         'voucher_line_tax_amount': line.voucher_line_tax_amount,
+                        'payment_id': line.payment_id,
                     })
             for payment in payment_ids:
                 self.env['bill.invoice.details'].create({
@@ -518,27 +539,13 @@ class BillingClass(models.Model):
             ('billing_place_id', '=', self.id),
             ('selected', '=', True),
             ('move_id', 'in', ctx.get('bill_move_ids')),
+            ('bill_status', '=', 'not yet'),
         ])
-
-        invoice_line_ids.write({
-            'bill_status': 'billed'
-        })
 
         invoice_ids = self.env['account.move'].search([
             ('id', 'in', invoice_line_ids.move_id.ids),
             ('billing_place_id', '=', self.id),
         ])
-
-        for invoice in invoice_ids:
-            is_billed_invoice = True
-            for line in invoice.invoice_line_ids:
-                if line.bill_status == 'not yet':
-                    is_billed_invoice = False
-                    break
-            if is_billed_invoice:
-                invoice.write({
-                    'bill_status': 'billed'
-                })
 
         res_partner_id = self.env["res.partner"].search(
             ['|', ('customer_code', '=', self.customer_code),
@@ -561,27 +568,127 @@ class BillingClass(models.Model):
         _sum_amount_tax_cashed = 0
         _sum_amount_untaxed_cashed = 0
         _sum_amount_total_cashed = 0
+        _untax_amount_voucher = 0
+        _tax_voucher = 0
+        _amount_voucher = 0
         _line_compute_amount_tax = 0
+        # for line in invoice_line_ids:
+        #     _sum_amount_untaxed = _sum_amount_untaxed + line.invoice_custom_lineamount
+        #     _sum_amount_tax = _sum_amount_tax + line.line_tax_amount
+        #     _sum_amount_total = _sum_amount_total + line.invoice_custom_lineamount + line.line_tax_amount
+        #     if line.move_id.x_voucher_tax_transfer == 'invoice':
+        #         if line.product_id.product_tax_category == 'foreign':
+        #             _line_compute_amount_tax = _line_compute_amount_tax + (
+        #                     line.invoice_custom_lineamount * line.tax_rate / 100)
+        #         elif line.product_id.product_tax_category == 'internal':
+        #             _line_compute_amount_tax = _line_compute_amount_tax + 0
+        #         else:
+        #             _line_compute_amount_tax = _line_compute_amount_tax + 0
+        # if line.partner_id.customer_tax_rounding == 'round':
+        #     _line_compute_amount_tax = round(_line_compute_amount_tax)
+        # elif line.partner_id.customer_tax_rounding == 'roundup':
+        #     _line_compute_amount_tax = math.ceil(_line_compute_amount_tax)
+        # else:
+        #     _line_compute_amount_tax = math.floor(_line_compute_amount_tax)
+        # _sum_amount_tax = _sum_amount_tax + _line_compute_amount_tax
+        # _sum_amount_total = _sum_amount_total + _line_compute_amount_tax
+
         for line in invoice_line_ids:
-            _sum_amount_untaxed = _sum_amount_untaxed + line.invoice_custom_lineamount
-            _sum_amount_tax = _sum_amount_tax + line.line_tax_amount
-            _sum_amount_total = _sum_amount_total + line.invoice_custom_lineamount + line.line_tax_amount
-            if line.move_id.x_voucher_tax_transfer == 'invoice':
-                if line.product_id.product_tax_category == 'foreign':
-                    _line_compute_amount_tax = _line_compute_amount_tax + (
-                            line.invoice_custom_lineamount * line.tax_rate / 100)
-                elif line.product_id.product_tax_category == 'internal':
-                    _line_compute_amount_tax = _line_compute_amount_tax + 0
-                else:
-                    _line_compute_amount_tax = _line_compute_amount_tax + 0
-        if line.partner_id.customer_tax_rounding == 'round':
-            _line_compute_amount_tax = round(_line_compute_amount_tax)
-        elif line.partner_id.customer_tax_rounding == 'roundup':
-            _line_compute_amount_tax = math.ceil(_line_compute_amount_tax)
-        else:
-            _line_compute_amount_tax = math.floor(_line_compute_amount_tax)
-        _sum_amount_tax = _sum_amount_tax + _line_compute_amount_tax
-        _sum_amount_total = _sum_amount_total + _line_compute_amount_tax
+            _untax_amount = 0
+            _tax = 0
+            _amount = 0
+            if line.bill_status != 'billed':
+                if line.move_id.x_voucher_tax_transfer == 'foreign_tax':
+                    _untax_amount = line.invoice_custom_lineamount
+                    _tax = line.tax_rate * line.invoice_custom_lineamount / 100
+                    _amount = _untax_amount + _tax
+                elif line.move_id.x_voucher_tax_transfer == 'internal_tax':
+                    _untax_amount = line.invoice_custom_lineamount
+                    _tax = 0
+                    _amount = _untax_amount
+                elif line.move_id.x_voucher_tax_transfer == 'invoice':
+                    _untax_amount = line.invoice_custom_lineamount
+                    _tax = 0
+                    _amount = _untax_amount + _tax
+                    if line.product_id.product_tax_category == 'foreign':
+                        _line_compute_amount_tax = _line_compute_amount_tax + (
+                                line.invoice_custom_lineamount * line.tax_rate / 100)
+                    elif line.product_id.product_tax_category == 'internal':
+                        _line_compute_amount_tax = _line_compute_amount_tax + 0
+                    else:
+                        _line_compute_amount_tax = _line_compute_amount_tax + 0
+                elif line.move_id.x_voucher_tax_transfer == 'custom_tax':
+                    _untax_amount = line.invoice_custom_lineamount
+                    _tax = 0
+                    _amount = _untax_amount
+                elif line.move_id.x_voucher_tax_transfer == 'voucher':
+                    _untax_amount_voucher = line.invoice_custom_lineamount
+                    _tax_voucher = line.tax_rate * line.invoice_custom_lineamount / 100
+                    _amount_voucher = _untax_amount_voucher + _tax_voucher
+
+                if line.move_id.x_voucher_tax_transfer != 'voucher':
+                    if line.move_id.customer_tax_rounding == 'round':
+                        _untax_amount = round(_untax_amount)
+                        _tax = round(_tax)
+                        _amount = round(_amount)
+                    elif line.move_id.customer_tax_rounding == 'roundup':
+                        _untax_amount = math.ceil(_untax_amount)
+                        _tax = math.ceil(_tax)
+                        _amount = math.ceil(_amount)
+                    else:
+                        _untax_amount = math.floor(_untax_amount)
+                        _tax = math.floor(_tax)
+                        _amount = math.floor(_amount)
+
+                _sum_amount_untaxed = _sum_amount_untaxed + _untax_amount
+                _sum_amount_tax = _sum_amount_tax + _tax
+                _sum_amount_total = _sum_amount_total + _amount
+
+        print("self => ", self)
+        print("ctx => ", ctx)
+        if _untax_amount_voucher:
+            if self.customer_tax_rounding == 'round':
+                _untax_amount_voucher = int(round(_untax_amount_voucher, 1) + 0.5)
+                _tax_voucher = int(round(_tax_voucher, 1) + 0.5)
+                _amount_voucher = int(round(_amount_voucher, 1) + 0.5)
+            elif self.customer_tax_rounding == 'roundup':
+                _untax_amount_voucher = math.ceil(_untax_amount_voucher)
+                _tax_voucher = math.ceil(_tax_voucher)
+                _amount_voucher = math.ceil(_amount_voucher)
+            else:
+                _untax_amount_voucher = math.floor(_untax_amount_voucher)
+                _tax_voucher = math.floor(_tax_voucher)
+                _amount_voucher = math.floor(_amount_voucher)
+
+        _sum_amount_untaxed = _sum_amount_untaxed + _untax_amount_voucher
+        _sum_amount_tax = _sum_amount_tax + _tax_voucher
+        _sum_amount_total = _sum_amount_total + _amount_voucher
+        # if line.move_id.x_voucher_tax_transfer == 'voucher':
+        #     if record.customer_tax_rounding == 'round':
+        #         _amount_untaxed = int(round(_amount_untaxed, 1) + 0.5)
+        #         _tax_amount = int(round(_tax_amount, 1) + 0.5)
+        #         _amount_total = int(round(_amount_total, 1) + 0.5)
+        #     elif record.customer_tax_rounding == 'roundup':
+        #         _amount_untaxed = math.ceil(_amount_untaxed)
+        #         _tax_amount = math.ceil(_tax_amount)
+        #         _amount_total = math.ceil(_amount_total)
+        #     else:
+        #         _amount_untaxed = math.floor(_amount_untaxed)
+        #         _tax_amount = math.floor(_tax_amount)
+        #         _amount_total = math.floor(_amount_total)
+        # elif line.move_id.x_voucher_tax_transfer == 'custom_tax':
+        #     _tax_amount = invoice.amount_tax
+        #     _amount_total = _amount_total + _tax_amount
+        # elif line.move_id.x_voucher_tax_transfer == 'invoice':
+        #     if record.customer_tax_rounding == 'round':
+        #         _line_compute_amount_tax = int(round(_line_compute_amount_tax, 1) + 0.5)
+        #     elif record.customer_tax_rounding == 'roundup':
+        #         _line_compute_amount_tax = math.ceil(_line_compute_amount_tax)
+        #     else:
+        #         _line_compute_amount_tax = math.floor(_line_compute_amount_tax)
+        #
+        # _tax_amount = _tax_amount + _line_compute_amount_tax
+        # _amount_total = _amount_total + _line_compute_amount_tax
 
         for invoice in invoice_cash_ids:
             _sum_amount_untaxed = _sum_amount_untaxed + invoice.amount_untaxed
@@ -613,6 +720,21 @@ class BillingClass(models.Model):
         _balance_amount = _last_billed_amount - _deposit_amount
 
         _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
+
+        invoice_line_ids.write({
+            'bill_status': 'billed'
+        })
+
+        for invoice in invoice_ids:
+            is_billed_invoice = True
+            for line in invoice.invoice_line_ids:
+                if line.bill_status == 'not yet':
+                    is_billed_invoice = False
+                    break
+            if is_billed_invoice:
+                invoice.write({
+                    'bill_status': 'billed'
+                })
 
         _bill_info_ids = self.env['bill.info'].create({
             'billing_code': self.customer_code,
@@ -665,6 +787,7 @@ class BillingClass(models.Model):
                 'customer_closing_date_id': self.customer_closing_date.id,
                 'invoice_date': invoice.x_studio_date_invoiced,
                 'invoice_no': invoice.x_studio_document_no,
+                'type': invoice.type,
             })
 
         for line in invoice_line_ids:
@@ -688,6 +811,7 @@ class BillingClass(models.Model):
                 'customer_closing_date_id': self.customer_closing_date.id,
                 'invoice_date': line.date,
                 'invoice_no': line.invoice_no,
+                'payment_id': line.payment_id,
             })
         advanced_search.val_bill_search_deadline = ''
         self.ensure_one()

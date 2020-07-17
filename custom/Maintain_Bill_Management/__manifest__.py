@@ -23,6 +23,7 @@
         'security/ir.model.access.csv',
         'views/assets.xml',
         'views/bill.xml',
+        'views/bill_details.xml',
         'views/menu_bill_management.xml',
         'views/many_payment_view.xml',
     ],
