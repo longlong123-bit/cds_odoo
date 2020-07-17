@@ -234,11 +234,11 @@
                                                                 <!--Rounding up tax rate-->
                                                                 <t t-if="o.customer_tax_rounding == 'round'">
                                                                     <t t-set="order_line_tax_amount"
-                                                                       t-value="int(round(order_line_tax_amount, 1) + 0.5)"/>
+                                                                       t-value="int(round(order_line_tax_amount, 2) + 0.5)"/>
                                                                 </t>
                                                                 <t t-elif="o.customer_tax_rounding == 'roundup'">
                                                                     <t t-set="order_line_tax_amount"
-                                                                       t-value="int(round(order_line_tax_amount, 1) + 0.9)"/>
+                                                                       t-value="int(round(order_line_tax_amount, 2) + 0.9)"/>
                                                                 </t>
                                                                 <t t-else="">
                                                                     <t t-set="order_line_tax_amount"
@@ -325,25 +325,44 @@
                                                                 <div style="float: right; width: 91px;">
                                                                     <p style="white-space: nowrap; overflow: hidden;
                                                                             text-overflow: clip; margin: 0;"
-                                                                       t-if="order.price_unit" t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                       t-if="order.price_unit" t-esc="'{0:,.2f}'.format(order.price_unit)">
                                                                     </p>
                                                                 </div>
                                                             </td>
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right">
                                                                 <div style="float: right; width: 91px;">
+                                                                    <!--Rounding up amount-->
+                                                                    <t t-if="o.customer_tax_rounding == 'round'">
+                                                                        <t t-set="order_invoice_custom_lineamount"
+                                                                           t-value="int(round(order.invoice_custom_lineamount, 2) + 0.5)"/>
+                                                                    </t>
+                                                                    <t t-elif="o.customer_tax_rounding == 'roundup'">
+                                                                        <t t-set="order_invoice_custom_lineamount"
+                                                                           t-value="int(round(order.invoice_custom_lineamount, 2) + 0.9)"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <t t-set="order_invoice_custom_lineamount"
+                                                                           t-value="int(order.invoice_custom_lineamount)"/>
+                                                                    </t>
                                                                     <p style="white-space: nowrap; overflow: hidden;
                                                                                 text-overflow: clip; margin: 0;"
-                                                                       t-if="order.invoice_custom_lineamount" t-esc="'{0:,.0f}'.format(int(order.invoice_custom_lineamount))">
+                                                                       t-if="order.invoice_custom_lineamount" t-esc="'{0:,.0f}'.format(order_invoice_custom_lineamount)">
                                                                     </p>
                                                                 </div>
                                                             </td>
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: left">
                                                                 <div style="display: inline-block; height: 12px; width: 100%;">
-                                                                    <t t-if="order.tax_rate == 8">
-                                                                        <p style="white-space: nowrap; width: 82px; overflow: hidden;
-                                                                                text-overflow: clip; margin: 0; float: left; font-size: 10px !important">
-                                                                            ※軽減税率
-                                                                        </p>
+                                                                    <t t-if="order.product_id.product_tax_category == 'exempt'">
+                                                                       <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left;">
+                                                                           ※非課税
+                                                                       </span>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <t t-if="order.tax_rate == 8">
+                                                                            <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left;">
+                                                                                ※軽減税率
+                                                                            </span>
+                                                                        </t>
                                                                     </t>
                                                                 </div>
                                                                 <div style="display: inline-block; height: 14px; width: 82px">
@@ -426,23 +445,23 @@
                                                 <!--Rounding up tax rate-->
                                                 <t t-if="o.customer_tax_rounding == 'round'">
                                                     <t t-set="subtotal_voucher_tax_amount_10"
-                                                       t-value="int(round(subtotal_voucher_tax_amount_10, 1) + 0.5)"/>
+                                                       t-value="int(round(subtotal_voucher_tax_amount_10, 2) + 0.5)"/>
                                                     <t t-set="subtotal_voucher_tax_amount"
-                                                       t-value="int(round(subtotal_voucher_tax_amount, 1) + 0.5)"/>
-                                                    <t t-set="total" t-value="int(round(total, 1) + 0.5)"/>
+                                                       t-value="int(round(subtotal_voucher_tax_amount, 2) + 0.5)"/>
+                                                    <t t-set="total" t-value="int(round(total, 2) + 0.5)"/>
                                                     <t t-set="total_tax_rate"
-                                                       t-value="int(round(total_tax_rate, 1) + 0.5)"/>
+                                                       t-value="int(round(total_tax_rate, 2) + 0.5)"/>
                                                     <t t-set="subtotal_voucher_tax_amount_8"
                                                        t-value="int(total_tax_rate - subtotal_voucher_tax_amount_10 - subtotal_voucher_tax_amount)"/>
                                                 </t>
                                                 <t t-elif="o.customer_tax_rounding == 'roundup'">
                                                     <t t-set="subtotal_voucher_tax_amount_10"
-                                                       t-value="int(round(subtotal_voucher_tax_amount_10, 1) + 0.9)"/>
+                                                       t-value="int(round(subtotal_voucher_tax_amount_10, 2) + 0.9)"/>
                                                     <t t-set="subtotal_voucher_tax_amount"
-                                                       t-value="int(round(subtotal_voucher_tax_amount, 1) + 0.9)"/>
-                                                    <t t-set="total" t-value="int(round(total, 1) + 0.9)"/>
+                                                       t-value="int(round(subtotal_voucher_tax_amount, 2) + 0.9)"/>
+                                                    <t t-set="total" t-value="int(round(total, 2) + 0.9)"/>
                                                     <t t-set="total_tax_rate"
-                                                       t-value="int(round(total_tax_rate, 1) + 0.9)"/>
+                                                       t-value="int(round(total_tax_rate, 2) + 0.9)"/>
                                                     <t t-set="subtotal_voucher_tax_amount_8"
                                                        t-value="int(total_tax_rate - subtotal_voucher_tax_amount_10 - subtotal_voucher_tax_amount)"/>
                                                 </t>
@@ -456,6 +475,38 @@
                                                     <t t-set="subtotal_voucher_tax_amount_8"
                                                        t-value="int(total_tax_rate - subtotal_voucher_tax_amount_10 - subtotal_voucher_tax_amount)"/>
                                                 </t>
+                                            </t>
+
+                                            <!--Rounding up total amount and subtotal amount-->
+                                            <t t-if="o.customer_tax_rounding == 'round'">
+                                                <t t-set="total"
+                                                   t-value="int(round(total, 2) + 0.5)"/>
+                                                <t t-set="subtotal_amount"
+                                                   t-value="int(round(subtotal_amount, 2) + 0.5)"/>
+                                                <t t-set="subtotal_amount_8"
+                                                   t-value="int(round(subtotal_amount_8, 2) + 0.5)"/>
+                                                <t t-set="subtotal_amount_10"
+                                                   t-value="int(round(subtotal_amount_10, 2) + 0.5)"/>
+                                            </t>
+                                            <t t-elif="o.customer_tax_rounding == 'roundup'">
+                                                <t t-set="total"
+                                                   t-value="int(round(total, 2) + 0.9)"/>
+                                                <t t-set="subtotal_amount"
+                                                   t-value="int(round(subtotal_amount, 2) + 0.9)"/>
+                                                <t t-set="subtotal_amount_8"
+                                                   t-value="int(round(subtotal_amount_8, 2) + 0.9)"/>
+                                                <t t-set="subtotal_amount_10"
+                                                   t-value="int(round(subtotal_amount_10, 2) + 0.9)"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="total"
+                                                   t-value="int(total)"/>
+                                                <t t-set="subtotal_amount"
+                                                   t-value="int(subtotal_amount)"/>
+                                                <t t-set="subtotal_amount_8"
+                                                   t-value="int(subtotal_amount_8)"/>
+                                                <t t-set="subtotal_amount_10"
+                                                   t-value="int(subtotal_amount_10)"/>
                                             </t>
 
                                             <t t-set="div_sub_total"
