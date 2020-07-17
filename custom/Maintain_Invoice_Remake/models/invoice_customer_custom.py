@@ -456,6 +456,7 @@ class ClassInvoiceCustom(models.Model):
                 'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
                 'price_include_tax': line.price_include_tax,
                 'price_no_tax': line.price_no_tax,
+                'invoice_custom_Description': line.description,
                 'invoice_custom_line_no': len(self.invoice_line_ids) + 1
             })]
         elif self.copy_history_from == 'account.move.line' and self.copy_history_item:
@@ -478,6 +479,7 @@ class ClassInvoiceCustom(models.Model):
                     'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
+                    'invoice_custom_Description': line.invoice_custom_Description,
                     'invoice_custom_line_no': len(self.invoice_line_ids) + 1
                 })]
         self.copy_history_item = ''
