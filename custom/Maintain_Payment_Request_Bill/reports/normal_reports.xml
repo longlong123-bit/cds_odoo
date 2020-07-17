@@ -2,8 +2,332 @@
 <odoo>
     <data>
         <template id="normal_report">
-            <div class="page" style="page-break-before: always; font-family: メイリオ; font-size: 14px; line-height: 1.2;">
+            <div class="page"
+                 style="page-break-before: always; font-size: 14px; line-height: 1.2; font-family: メイリオ;">
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+                <t t-set="pager" t-value="1"/>
+                <div style="display: inline-block;">
+                    <t t-set="o_title" t-value="'請　求　書'"/>
+                    <!--                        <div style="border: 1px dashed #000;margin-top: 67px;margin-bottom: 20px;"/>-->
+                    <div style="display: inline-block; width: 100%;">
+                        <div style="width: 22%;float: left;">
+                            <div>
+                                <span>お客様コードNo.</span>
+                                <span t-field="o.partner_id.customer_code"></span>
+                            </div>
+                        </div>
+                        <div style="width: 38%; float: left;">
+                            <div style="float: right; margin-right: 9%;">
+                                <h4 class="mt0"
+                                    style="font-size: 26px; font-weight: 800; color: #000000; margin: 0; padding: 0"
+                                    t-esc="o_title"/>
+                            </div>
+                        </div>
+                        <div style="width: 40%; float: left;">
+                            <div style="text-align: right; margin-top: 15px;">
+                                <span class="mt0" t-field="o.bill_no"
+                                      style="color: #000000; margin: 0; padding: 0"></span>
+                                -
+                                <span t-esc="pager"></span>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div>
+                        <div style="text-align: center;">
+                            <t t-if="o.deadline">
+                                <span t-field="o.deadline"
+                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"></span>
+                            </t>
+                            <span t-else="">　　　年　　月　　日</span>
+                            <span>締切分 (</span>
+                            <span t-field="o.partner_id.customer_closing_date"/>
+                            <span>)</span>
+                        </div>
+                        <div style="display: inline-block; width: 100%; height: 224px">
+                            <div style="margin-top: 10px; width: 50%; display: inline-block;">
+                                <div style="margin-bottom: 10px; margin-left: 30px; height: 16px;">
+                                    <span t-field="o.partner_id.zip_code"><null/></span>
+                                </div>
+                                <div style="margin-bottom: 10px; margin-left: 20px; height: 38px; font-size: 16px; width: 384px">
+                                    <p t-field="o.partner_id.street"
+                                       style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                        <null/>
+                                    </p>
+                                    <p t-field="o.partner_id.street"
+                                       style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                        <null/>
+                                    </p>
+                                </div>
+                                <div style="display: inline-block; width: 384px; margin-left: 20px; margin-bottom: 10px; font-size: 16px;">
+                                    <t t-set="p_style"
+                                       t-value="'height: 19px; white-space: nowrap; max-width: 384px; overflow: hidden; text-overflow: clip; margin: 0; float: left;'"/>
+                                    <p t-field="o.partner_id.name"
+                                       style="height: 19px; white-space: nowrap; max-width: 384px; overflow: hidden; text-overflow: clip; margin: 0; float: left;"></p>
+                                    <br/>
+                                    <p t-field="o.partner_id.customer_name_2" style="height: 19px; white-space: nowrap; max-width: 365px; overflow: hidden;
+                                                text-overflow: clip; margin: 0; float: left;">
+
+                                    </p>
+                                    <p style="float: right; margin: 0;">様</p>
+                                </div>
+                                <div style="display: inline-block; width: 384px; margin-left: 20px; font-size: 16px;">
+                                    <span>TEL　0299-97-4416</span>
+                                    <span>　FAX　0299-90-6530</span>
+                                </div>
+                                <div style="margin-top: 54px; margin-left: 10px;">
+                                    <span>毎度ありがとうございます。下記の通り御請求申し上げます。</span>
+                                </div>
+                            </div>
+                            <div style="width: 42%; float: right; text-align: center; font-size: 16px; margin-top: 27px;">
+                                <span style="font-size: 24px; font-weight: 600">株式会社　ト　ラ　ヤ</span>
+                                <br/>
+                                <span>代表取締役　　遠 藤 孝 二</span>
+                                <br/>
+                                <span>本　社　千葉県銚子市新生町2丁目12番地の5</span>
+                                <br/>
+                                <span>TEL　0479-22-3515　FAX　0479-24-9376</span>
+                                <br/>
+                                <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span>
+                                <br/>
+                                <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
+                                <div style="margin-top: 2%; font-size: 14px;">
+                                    <span t-field="user.company_id.company_bank_name_1"><null/></span>
+                                    <span t-field="user.company_id.company_bank_account_1"><null/></span>
+                                    <br/>
+                                    <span t-field="user.company_id.company_bank_name_2"><null/></span>
+                                    <span t-field="user.company_id.company_bank_account_2"><null/></span>
+                                    <br/>
+                                    <span t-field="user.company_id.company_bank_name_3"><null/></span>
+                                    <span t-field="user.company_id.company_bank_account_3"><null/></span>
+                                    <br/>
+                                    <span t-field="user.company_id.company_bank_name_4"><null/></span>
+                                    <span t-field="user.company_id.company_bank_account_4"><null/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="width: 100%;">
+                        <div style="width: 84%; margin-bottom: 10px; float: left;">
+                            <table border="0" cellspacing="0" cellpadding="5"
+                                   style="width: 100%; line-height: 1; font-size: 14px; font-family: Lato;">
+                                <thead>
+                                    <tr>
+                                        <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                            前 回 御 請 求 額
+                                        </td>
+                                        <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                            御　入　金　額
+                                        </td>
+                                        <td style="border: 1px solid #000000; border-right: 0; text-align: center">
+                                            調　整　額
+                                        </td>
+                                        <td style="border: 1px solid #000000; border-right: 0; text-align: center">
+                                            繰 越 金 額
+                                        </td>
+                                        <td style="border: 1px solid #000000; border-right: 0; text-align: center">
+                                            御 買 上 額
+                                        </td>
+                                        <td style="border: 1px solid #000000; text-align: center">
+                                            今 回 御 請 求 額
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; height: 38px;">
+                                            <div style="display: inline-block; width: 110px; text-align: center; padding-top: 11px;">
+                                                <p t-esc="o.last_billed_amount"
+                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <null/>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
+                                            <div style="float: right; width: 110px; text-align: center; padding-top: 11px;">
+                                                <p t-esc="o.deposit_amount"
+                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <null/>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: center;">
+                                            <div style="width: 110px; text-align: center; padding-top: 11px;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <null/>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
+                                            <div style="float: right; width: 110px; text-align: center; padding-top: 11px;">
+                                                <p t-esc="o.balance_amount"
+                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <null/>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
+                                            <div style="float: right; width: 110px; text-align: center; padding-top: 11px;">
+                                                <p t-esc="o.amount_total"
+                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <null/>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: left;">
+                                            <div style="display: inline-block; width: 112px; text-align: center; padding-top: 11px;">
+                                                <p t-esc="o.billed_amount"
+                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <null/>
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width: 16%; float: left;">
+                            <span style="border: 1px solid #000000; width: 66px; height: 62px; border-right: none; float: left; margin-left: 10px;"/>
+                            <span style="border: 1px solid #000000; width: 66px; height: 62px; float: left;"/>
+                        </div>
+                    </div>
+
+                    <div style="width: 100%;">
+                        <table border="0" cellspacing="0" cellpadding="5"
+                               style="width: 100%; line-height: 1; font-size: 14px; font-family: Lato;">
+                            <thead>
+                                <tr>
+                                    <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                        伝 票 日 付
+                                    </td>
+                                    <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                        伝票No
+                                    </td>
+                                    <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                        品　　　　　　名
+                                    </td>
+                                    <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                        数　　　量
+                                    </td>
+                                    <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                        単 位
+                                    </td>
+                                    <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                        単　　　価
+                                    </td>
+                                    <td style="border: 1px solid #000000; text-align: center;">
+                                        金　　　額
+                                    </td>
+                                </tr>
+                            </thead>
+                            <t t-foreach="o.bill_invoice_ids.sorted(key=lambda r: r.invoice_date)" t-as="line_inv">
+                                <tbody>
+                                    <!--                                    <t t-foreach="range(1, 20)" t-as="for_range">-->
+                                    <tr>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 70px; text-align: center;">
+                                                <p t-field="line_inv.invoice_date"
+                                                   t-options="{&quot;format&quot;: &quot;yy/MM/dd&quot;}"
+                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 100px; text-align: center;">
+                                                <p t-field="line_inv.invoice_no"
+                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 359px;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 75px; text-align: right;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 34px; text-align: center;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 100px; text-align: right;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; border-right: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 100px; text-align: right;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="line_inv.bill_invoice_details_ids.sorted(key=lambda r: r.invoice_no)" t-as="line_detail">
+                                        <tr>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 70px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 100px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 359px;">
+                                                    <span t-field="line_detail.product_name" style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    </span>
+                                                    <span t-field="line_detail.product_maker_name" style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    </span>
+                                                    <span t-field="line_detail.product_custom_standardnumber" style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    </span>
+
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 75px; text-align: right;">
+                                                    <p t-field="line_detail.quantity" style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 34px; text-align: center;">
+                                                    <p t-field="line_detail.product_uom" style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 100px; text-align: right;">
+                                                    <p t-field="line_detail.price_unit" style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; border-right: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 100px; text-align: right;">
+                                                    <p t-field="line_detail.line_amount" style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <!--                                    </t>-->
+                                </tbody>
+                            </t>
+                        </table>
+                    </div>
+                </div>
             </div>
         </template>
     </data>
