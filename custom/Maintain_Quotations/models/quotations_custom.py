@@ -876,8 +876,7 @@ class QuotationsLinesCustom(models.Model):
             if line.class_item == 'サンプル':
                 line.price_unit = 0
             else:
-                # line.price_unit = price_unit
-                line.price_unit = rounding(price_unit, 0, line.order_id.customer_tax_rounding)
+                line.price_unit = price_unit
 
     def compute_line_amount(self):
         for line in self:

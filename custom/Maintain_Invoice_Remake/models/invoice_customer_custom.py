@@ -1577,8 +1577,7 @@ class AccountMoveLine(models.Model):
                     and self.product_id.product_class_code_lv4.product_class_rate > 0:
                 price_unit = price_unit * self.product_id.product_class_code_lv4.product_class_rate / 100
 
-        # return price_unit
-        return rounding(price_unit, 0, self.move_id.customer_tax_rounding)
+        return price_unit
 
     @api.depends('move_id.x_studio_business_partner',
     'move_id.x_voucher_tax_transfer')
