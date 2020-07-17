@@ -234,7 +234,7 @@
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.price_unit"
-                                                                      t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                      t-esc="'{0:,.2f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -246,7 +246,17 @@
                                                                 </span>
                                                             </td>
                                                             <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; ">
-                                                                <t t-if="order.tax_rate == 8">
+                                                                <t t-if="order.product_id.product_tax_category == 'exempt'">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        ※非課税
+                                                                    </span>
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                          t-if="order.description"
+                                                                          t-field="order.description">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                                <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         軽減税率
                                                                     </span>
@@ -477,7 +487,7 @@
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.price_unit"
-                                                                      t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                      t-esc="'{0:,.2f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -489,7 +499,17 @@
                                                                 </span>
                                                             </td>
                                                             <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; ">
-                                                                <t t-if="order.tax_rate == 8">
+                                                                <t t-if="order.product_id.product_tax_category == 'exempt'">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        ※非課税
+                                                                    </span>
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                          t-if="order.description"
+                                                                          t-field="order.description">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                                <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         軽減税率
                                                                     </span>
@@ -597,11 +617,11 @@
                                             <t t-if="line_check &gt; 0">
                                                 <t t-if="o.partner_id.customer_tax_rounding == 'round'">
                                                     <t t-set="subtotal_tax_amount10"
-                                                       t-value="int(round(subtotal_tax_amount10, 1) + 0.5)"/>
+                                                       t-value="int(round(subtotal_tax_amount10, 2) + 0.5)"/>
                                                 </t>
                                                 <t t-elif="o.partner_id.customer_tax_rounding == 'roundup'">
                                                     <t t-set="subtotal_tax_amount10"
-                                                       t-value="int(round(subtotal_tax_amount10, 1) + 0.9)"/>
+                                                       t-value="int(round(subtotal_tax_amount10, 2) + 0.9)"/>
                                                 </t>
                                                 <t t-else="">
                                                     <t t-set="subtotal_tax_amount10"
@@ -714,7 +734,7 @@
                                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.price_unit"
-                                                                      t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                      t-esc="'{0:,.2f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -726,7 +746,17 @@
                                                                 </span>
                                                             </td>
                                                             <td style="border-bottom: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0; text-align: right;">
-                                                                <t t-if="order.tax_rate == 8">
+                                                                <t t-if="order.product_id.product_tax_category == 'exempt'">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        ※非課税
+                                                                    </span>
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                          t-if="order.description"
+                                                                          t-field="order.description">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                                <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         軽減税率
                                                                     </span>
@@ -858,7 +888,7 @@
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.price_unit"
-                                                                      t-esc="'{0:,.0f}'.format(int(order.price_unit))">
+                                                                      t-esc="'{0:,.2f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -870,7 +900,17 @@
                                                                 </span>
                                                             </td>
                                                             <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; ">
-                                                                <t t-if="order.tax_rate == 8">
+                                                                <t t-if="order.product_id.product_tax_category == 'exempt'">
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
+                                                                        ※非課税
+                                                                    </span>
+                                                                    <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                          t-if="order.description"
+                                                                          t-field="order.description">
+                                                                        <null/>
+                                                                    </span>
+                                                                </t>
+                                                                <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
                                                                         軽減税率
                                                                     </span>
