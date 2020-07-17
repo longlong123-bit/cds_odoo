@@ -338,7 +338,7 @@
                                                                    t-value="subtotal_voucher_tax_amount + order.voucher_line_tax_amount"/>
                                                             </t>
                                                         </t>
-                                                        <tr>
+                                                        <tr style="">
                                                             <!-- Position 12: 品　0　・　品　名 -->
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
                                                                 <div style="display: inline-block; width: 100%;">
@@ -395,10 +395,17 @@
                                                             <!-- Position 17: 備　考 -->
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: left">
                                                                 <div style="display: inline-block; width: 100%;">
-                                                                    <t t-if="order.tax_rate == 8">
-                                                                        <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left;">
-                                                                            ※軽減税率
-                                                                        </span>
+                                                                    <t t-if="order.product_id.product_tax_category == 'exempt'">
+                                                                       <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left;">
+                                                                           ※非課税
+                                                                       </span>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <t t-if="order.tax_rate == 8">
+                                                                            <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left;">
+                                                                                ※軽減税率
+                                                                            </span>
+                                                                        </t>
                                                                     </t>
                                                                 </div>
                                                                 <div style="display: inline-block; width: 100%">
@@ -815,7 +822,7 @@
                                                     <span>適用：</span>
                                                 </div>
                                                 <div style="width: 89%; position: relative; float: right; text-align: left;">
-                                                    <span t-esc="o.x_studio_cus_salesslipforms_table"/>
+                                                    <span t-esc="o.x_studio_summary"/>
                                                 </div>
                                             </div>
                                             <div style="width: 20%; position: relative; float: left; text-align: left;">
