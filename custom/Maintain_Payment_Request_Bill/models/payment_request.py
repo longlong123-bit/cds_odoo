@@ -30,6 +30,14 @@ class BillInfoGet(models.Model):
     # その他CD
     customer_other_cd = fields.Char('Customer CD', readonly=True, compute='_get_customer_other_cd')
 
+    def preview_invoice(self):
+        return {
+            'type': 'ir.actions.report',
+            'report_name': 'Maintain_Payment_Request_Bill.reports',
+            'model': 'bill.info',
+            'report_type': "qweb-pdf",
+        }
+
 
 class PartnerClass(models.Model):
     _inherit = 'res.partner'

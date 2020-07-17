@@ -8,14 +8,15 @@
     'description': """
 """,
     'depends': [
-        'base_setup', 'account', 'Maintain_Bill_Cancel', 'Maintain_Invoice_Remake', 'Maintain_Bill_Management', 'Maintain_Business_Partners_Remake'
+        'base_setup', 'account', 'Maintain_Bill_Cancel', 'Maintain_Bill_Management',
+        'Maintain_Collation_History', 'Maintain_Business_Partners_Remake'
     ],
     'website': '',
     'data': [
-        'views/add_js.xml',
         'security/ir.model.access.csv',
-        'reports/payment_request_template.xml',
         'reports/reports.xml',
+        'reports/normal_reports.xml',
+        'views/add_js.xml',
         'views/report_format.xml',
         'views/payment_request_bill.xml',
     ],

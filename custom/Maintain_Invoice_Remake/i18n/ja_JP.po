@@ -247,8 +247,8 @@ msgstr "デフォルト"
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_payment_term__note
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 #, python-format
-msgid "Description"
-msgstr "備考"
+msgid "Summary"
+msgstr "摘要"
 
 #. module: Maintain_Invoice_Remake
 #: model:ir.model.fields.selection,name:Maintain_Invoice_Remake.selection__account_move__x_studio_payment_rule_1__rule_direct_debit
@@ -581,6 +581,11 @@ msgstr "名称*"
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Name..."
 msgstr "名称..."
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Name2..."
+msgstr "名称2..."
 
 #. module: Maintain_Invoice_Remake
 #: code:addons/Maintain_Invoice_Remake/models/invoice_customer_custom.py:0
@@ -1394,3 +1399,8 @@ msgstr "商品追加"
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Search from quotation"
 msgstr "見積履歴参照"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Search from invoice"
+msgstr "売上履歴参照"
