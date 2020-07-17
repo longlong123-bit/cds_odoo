@@ -548,7 +548,7 @@ class QuotationsCustom(models.Model):
                     'line_tax_amount': line.line_tax_amount,
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
-                    'description' : line.description,
+                    'description' : line.invoice_custom_Description,
                     'quotation_custom_line_no': len(self.order_line) + 1
                 })]
         self.copy_history_item = ''
