@@ -399,7 +399,7 @@ odoo.define('web.ListRender_Custom', function (require) {
             e.stopPropagation();
             e.preventDefault();
             // get current context (language, param,...)
-            var context = {};
+            var context = {tree_view_ref:'account.view_move_line_tree_grouped_general'};
             var domain = [["exclude_from_invoice_tab", "=", false]];
 
             // new dialog and show
