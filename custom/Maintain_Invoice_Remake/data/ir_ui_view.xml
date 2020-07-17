@@ -195,8 +195,8 @@
               <td class="col-label"><label for="ref" string="Order Reference"/></td>
               <td class="col-field"><field name="ref" string="Order Reference" z-index="92" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
 
-                <td class="col-label"><label for="x_studio_payment_rule_1" string="Payment Rule"/></td>
-                <td class="col-field"><field name="x_studio_payment_rule_1" string="Payment Rule" attrs="{'readonly':[('state','in',['posted'])]}" z-index="97"/></td>
+              <td class="col-label"><label for="x_voucher_tax_transfer" string="Tax Transfer*"/></td>
+              <td class="col-field"><field name="x_voucher_tax_transfer" string="Tax Transfer*" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}" required="True"/></td>
 
               <td class="col-label"><label for="x_studio_price_list" string="Price List*" invisible="1"/></td>
               <td class="col-field"><field name="x_studio_price_list" string="Price List*" attrs="{'readonly':[('state','in',['posted'])]}" force_save="1" invisible="1" z-index="93"/></td>
@@ -204,20 +204,15 @@
             </tr>
             <tr>
                 <td></td>
-                <td class="col-label"><label for="x_bussiness_partner_name_2" string="名称2"/></td>
-                <td colspan="2" class="col-field"><field name="x_bussiness_partner_name_2" string="名称2" attrs="{'readonly':[('state','in',['posted'])]}" force_save="1"  z-index="93"/></td>
+                <td></td>
+                <td colspan="2" class="col-field"><field name="x_bussiness_partner_name_2" string="名称2" placeholder="Name 2..." attrs="{'readonly':[('state','in',['posted'])]}" force_save="1"  z-index="93"/></td>
                 <td class="col-label"><label for="sales_rep" string="Sales Rep"/></td>
                 <td class="col-field"><field name="sales_rep" string="Sales Rep" z-index="96" attrs="{'readonly':[('state','in',['posted'])]}"
                                              options="{'no_quick_create':True,'no_create_edit':True , 'no_open' : True}" class="o_input"/></td>
 
-                <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term"
-                                           attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]} "/></td>
-              <td class="col-field">
-                  <field name="invoice_payment_terms_custom"
-                         class="o_input" force_save="1"
-                         attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]}"
-                         options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True}"/>
-              </td>
+                <td class="col-label"><label for="x_studio_date_printed" string="Date Printed"/></td>
+                <td class="col-field"><field autocomplete="off" name="x_studio_date_printed" string="Date Printed" z-index="100" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
+
             </tr>
             <tr>
               <td class="col-label"><label for="x_studio_address_1" string="Address"/></td>
@@ -225,42 +220,34 @@
                    placeholder="Address 1..." force_save="1" widget="input" z-index="101" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
               <td></td>
               <td></td>
-
-              <td class="col-label"><label for="x_studio_date_printed" string="Date Printed"/></td>
-              <td class="col-field"><field autocomplete="off" name="x_studio_date_printed" string="Date Printed" z-index="100" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
-            </tr>
+              <td></td>
+              <td></td>
+              </tr>
             <tr>
               <td></td>
               <td colspan="3" class="col-field"><field name="x_studio_address_2" string="Address 2" class="o_address_city"
                                                        placeholder="Address 2..." force_save="1"  widget="input" z-index="102" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
-              <td colspan="2" class="col-field"><field name="x_studio_address_3" string="Address 3" class="o_address_city" placeholder="Address 3..." force_save="1"  widget="input" z-index="103" attrs="{'readonly':[('state','in',['posted'])]}" invisible="1"/></td>
-
-             <td class="col-label"><label for="x_voucher_tax_transfer" string="Tax Transfer*"/></td>
-              <td class="col-field"><field name="x_voucher_tax_transfer" string="Tax Transfer*" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}" required="True"/></td>
-            </tr>
-            <tr>
-              <!-- Column 1 -->
-<!--              <td class="col-label"><label for="x_studio_cus_salesslipforms_table" string="cus_salesslipforms_Table"/></td>-->
-<!--              <td class="col-field"><field name="x_studio_cus_salesslipforms_table" string="cus_salesslipforms_Table" z-index="105" attrs="{'readonly':[('state','in',['posted'])]}"/></td>-->
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-                <td class="col-label"><label for="x_voucher_deadline" string="締切"/></td>
+              <td class="col-label"><label for="x_voucher_deadline" string="締切"/></td>
               <td class="col-field"><field name="x_voucher_deadline" string="締切" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
-              <td class="col-field"><field name="customer_tax_rounding" string="消費税端数処理" z-index="107" invisible="True"/></td>
+              <td class="col-label"><label for="x_studio_payment_rule_1" string="Payment Rule"/></td>
+              <td class="col-field"><field name="x_studio_payment_rule_1" string="Payment Rule" attrs="{'readonly':[('state','in',['posted'])]}" z-index="97"/></td>
             </tr>
             <tr>
               <!-- Column 1 -->
               <td class="col-label"><label for="x_studio_summary" string="Summary"/></td>
-              <td colspan="5" class="col-field"><field name="x_studio_summary" string="Summary" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
-                <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>
-                <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1" force_save="1"/></td>
-              <!-- Column 2 -->
-              <td></td>
-              <!--<td class="col-checkbox"><field name="x_studio_price_includes_tax" string="Price includes Tax"/><label for="x_studio_price_includes_tax" string="Price includes Tax"/></td>-->
+              <td colspan="3" class="col-field"><field name="x_studio_summary" string="Summary" widget="input" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+              <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>
+              <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1" force_save="1"/></td>
+              <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term"
+                                           attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]} "/></td>
+              <td class="col-field">
+                  <field name="invoice_payment_terms_custom"
+                         class="o_input" force_save="1"
+                         attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]}"
+                         options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True}"/>
+              </td>
+              <td class="col-field"><field name="x_studio_address_3" invisible="1"/></td>
+              <td class="col-field"><field name="customer_tax_rounding" string="消費税端数処理" z-index="107" invisible="True"/></td>
             </tr>
             <tr>
               <!-- Column 1 -->
