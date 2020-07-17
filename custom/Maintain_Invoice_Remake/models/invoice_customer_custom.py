@@ -237,14 +237,14 @@ class ClassInvoiceCustom(models.Model):
         return self.env["account.payment"].search([], limit=1, order='id desc').name
 
     # 4明細 - (JPY)明細行合計:3,104.00 / 総合計: 3,104.00 = 3,104.00
-    def get_default_num_line(self):
-        # for l in self:
-        amount_untaxed_format = "{:,.2f}".format(self.amount_untaxed)
-        amount_total_format = "{:,.2f}".format(self.amount_total)
-        return str(len(self.invoice_line_ids)) + '明細 - (JPY)明細行合計:' + str(amount_untaxed_format) + str(
-            self.currency_id.symbol) + ' / 総合計:' \
-               + str(amount_total_format) + str(self.currency_id.symbol) + ' = ' + str(amount_total_format) + str(
-            self.currency_id.symbol)
+    # def get_default_num_line(self):
+    #     # for l in self:
+    #     amount_untaxed_format = "{:,.2f}".format(self.amount_untaxed)
+    #     amount_total_format = "{:,.2f}".format(self.amount_total)
+    #     return str(len(self.invoice_line_ids)) + '明細 - (JPY)明細行合計:' + str(amount_untaxed_format) + str(
+    #         self.currency_id.symbol) + ' / 総合計:' \
+    #            + str(amount_total_format) + str(self.currency_id.symbol) + ' = ' + str(amount_total_format) + str(
+    #         self.currency_id.symbol)
 
     # get currency symbol
     currency_id = fields.Many2one('res.currency', 'Currency',
@@ -348,7 +348,7 @@ class ClassInvoiceCustom(models.Model):
     x_studio_document_no = fields.Char(string="Document No", readonly=True, copy=False, default=_get_latest_document_no)
     invoice_document_no_custom = fields.Char(string="Document", readonly=True, copy=False,
                                              default=_get_default_document_no)
-    x_studio_cus_salesslipforms_table = fields.Selection([('cus_1', '指定なし'), ('cus_2', '通常'), ('cus_3', '専伝・仮伝')])
+    # x_studio_cus_salesslipforms_table = fields.Selection([('cus_1', '指定なし'), ('cus_2', '通常'), ('cus_3', '専伝・仮伝')])
     x_studio_date_invoiced = fields.Date(string='Invoice Date', default=date.today())
     x_studio_date_printed = fields.Date(string='Date Printed', default=date.today())
     x_studio_date_shipment = fields.Date(string='Shipment Date', default=date.today())
@@ -367,7 +367,7 @@ class ClassInvoiceCustom(models.Model):
     x_studio_printed = fields.Boolean('printed', compute=_get_printed_boolean)
     invoice_total_paid = fields.Monetary('invoice_total_paid', compute='_compute_invoice_total_paid')
 
-    x_studio_line_info = fields.Char('', default=get_default_num_line, store=False)
+    # x_studio_line_info = fields.Char('', default=get_default_num_line, store=False)
     x_due_date = fields.Date('', default=_get_due_date, store=False)
     line_len = fields.Integer('', default=get_line_len, store=False)
 
@@ -399,7 +399,7 @@ class ClassInvoiceCustom(models.Model):
     x_customer_code_for_search = fields.Char('Customer Code', related='x_studio_business_partner.customer_code')
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
     x_bussiness_partner_name_2 = fields.Char('名称2')
-    x_studio_description = fields.Text('説明')
+    x_studio_summary = fields.Text('摘要')
     x_userinput_id = fields.Many2one('res.users', 'Current User', default=lambda self: self.env.uid)
     related_userinput_name = fields.Char('Sales rep name', related='x_userinput_id.name')
     x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
@@ -483,11 +483,11 @@ class ClassInvoiceCustom(models.Model):
         self.copy_history_item = ''
 
     @api.onchange('x_studio_business_partner', 'x_studio_name', 'ref', 'x_bussiness_partner_name_2', 'x_studio_address_1',
-                  'x_studio_address_2', 'x_studio_address_3', 'x_studio_description', 'sales_rep', 'x_studio_cus_salesslipforms_table')
+                  'x_studio_address_2', 'x_studio_address_3', 'x_studio_summary', 'sales_rep')
     def _check_flag_history(self):
         for rec in self:
             if rec.x_studio_name or rec.x_studio_business_partner or rec.ref or rec.x_bussiness_partner_name_2 or rec.x_studio_address_1 \
-                    or rec.x_studio_address_2 or rec.x_studio_address_3 or rec.x_studio_description or rec.sales_rep or rec.x_studio_cus_salesslipforms_table :
+                    or rec.x_studio_address_2 or rec.x_studio_address_3 or rec.x_studio_summary or rec.sales_rep :
                 rec.flag_history = 1
             else:
                 rec.flag_history = 0
@@ -678,7 +678,7 @@ class ClassInvoiceCustom(models.Model):
                 voucher.x_studio_address_3 = voucher.x_history_voucher.x_studio_address_3
                 voucher.search_key = voucher.x_history_voucher.search_key
                 voucher.invoice_document_no_custom = voucher.x_history_voucher.invoice_document_no_custom
-                voucher.x_studio_cus_salesslipforms_table = voucher.x_history_voucher.x_studio_cus_salesslipforms_table
+                # voucher.x_studio_cus_salesslipforms_table = voucher.x_history_voucher.x_studio_cus_salesslipforms_table
                 voucher.x_studio_date_invoiced = voucher.x_history_voucher.x_studio_date_invoiced
                 voucher.x_studio_date_printed = voucher.x_history_voucher.x_studio_date_printed
                 voucher.x_studio_date_shipment = voucher.x_history_voucher.x_studio_date_shipment
@@ -687,12 +687,12 @@ class ClassInvoiceCustom(models.Model):
                 voucher.invoice_payment_terms_custom = voucher.x_history_voucher.invoice_payment_terms_custom
                 voucher.x_studio_printed = voucher.x_history_voucher.x_studio_printed
                 voucher.invoice_total_paid = voucher.x_history_voucher.invoice_total_paid
-                voucher.x_studio_line_info = voucher.x_history_voucher.x_studio_line_info
+                # voucher.x_studio_line_info = voucher.x_history_voucher.x_studio_line_info
                 voucher.x_due_date = voucher.x_history_voucher.x_due_date
                 voucher.line_len = voucher.x_history_voucher.line_len
                 voucher.x_transaction_type = voucher.x_history_voucher.x_transaction_type
                 voucher.x_voucher_tax_amount = voucher.x_history_voucher.x_voucher_tax_amount
-                voucher.x_studio_description = voucher.x_history_voucher.x_studio_description
+                voucher.x_studio_summary = voucher.x_history_voucher.x_studio_summary
                 voucher.x_studio_price_list = voucher.x_history_voucher.x_studio_price_list
                 voucher.x_bussiness_partner_name_2 = voucher.x_history_voucher.x_bussiness_partner_name_2
                 voucher.x_voucher_tax_transfer = voucher.x_history_voucher.x_voucher_tax_transfer
@@ -919,7 +919,7 @@ class ClassInvoiceCustom(models.Model):
                 group.id
             ) for group, amounts in res]
 
-            move.x_studio_line_info = move.get_default_num_line()
+            # move.x_studio_line_info = move.get_default_num_line()
             move.line_len = move.get_line_len()
 
     def _get_reconciled_info_JSON_values(self):
@@ -1577,8 +1577,7 @@ class AccountMoveLine(models.Model):
                     and self.product_id.product_class_code_lv4.product_class_rate > 0:
                 price_unit = price_unit * self.product_id.product_class_code_lv4.product_class_rate / 100
 
-        # return price_unit
-        return rounding(price_unit, 0, self.move_id.customer_tax_rounding)
+        return price_unit
 
     @api.depends('move_id.x_studio_business_partner',
     'move_id.x_voucher_tax_transfer')
