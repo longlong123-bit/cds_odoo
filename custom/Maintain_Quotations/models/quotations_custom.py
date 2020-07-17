@@ -140,7 +140,7 @@ class QuotationsCustom(models.Model):
             # self.expected_date = data.expected_date
             self.shipping_address = str(data.x_studio_address_1 or '') + str(data.x_studio_address_2 or '') + str(
                 data.x_studio_address_3 or '')
-            self.note = data.x_studio_description
+            self.note = data.x_studio_summary
             self.expiration_date = data.customer_closing_date
             self.comment = ''
             self.quotations_date = fields.Date.today() or ''
@@ -876,8 +876,7 @@ class QuotationsLinesCustom(models.Model):
             if line.class_item == 'サンプル':
                 line.price_unit = 0
             else:
-                # line.price_unit = price_unit
-                line.price_unit = rounding(price_unit, 0, line.order_id.customer_tax_rounding)
+                line.price_unit = price_unit
 
     def compute_line_amount(self):
         for line in self:
