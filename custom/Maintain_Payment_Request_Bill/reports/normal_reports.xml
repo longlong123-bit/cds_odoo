@@ -72,9 +72,9 @@
                                     <p style="float: right; margin: 0;">様</p>
                                 </div>
                                 <div style="display: inline-block; width: 384px; margin-left: 20px; font-size: 16px;">
-                                    <span>TEL　</span>
+                                    <span>TEL:　</span>
                                     <span t-field="o.partner_id.customer_phone"/>
-                                    <span>　FAX　</span>
+                                    <span>　FAX:　</span>
                                     <span t-field="o.partner_id.customer_fax"/>
                                 </div>
                                 <div style="margin-top: 54px; margin-left: 10px;">
@@ -109,7 +109,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div style="width: 100%;">
                         <div style="width: 84%; margin-bottom: 10px; float: left;">
                             <table border="0" cellspacing="0" cellpadding="5"
@@ -194,7 +193,6 @@
                             <span style="border: 1px solid #000000; width: 66px; height: 62px; float: left;"/>
                         </div>
                     </div>
-
                     <div style="width: 100%;">
                         <table border="0" cellspacing="0" cellpadding="5"
                                style="width: 100%; line-height: 1; font-size: 14px; font-family: Lato;">
@@ -234,6 +232,7 @@
                                                 <div style="display: inline-block; width: 70px; text-align: center;">
                                                     <p t-if="inv_date !=line_inv.invoice_date"
                                                        t-field="line_inv.invoice_date"
+                                                       t-options="{&quot;format&quot;: &quot;yy年MM月dd日&quot;}"
                                                        style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                         <null/>
                                                     </p>
@@ -260,8 +259,8 @@
                                                     </span>
                                                     <span t-field="line_detail.product_custom_standardnumber"
                                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
-                                                    </span>
-
+                                                    </span><br/>
+                                                    <span t-if="line_detail.tax_rate ==8">※軽減税率</span>
                                                 </div>
                                             </td>
                                             <td style="border-left: 1px solid #000000; padding-bottom: 0;">
@@ -294,6 +293,56 @@
                                             </td>
                                         </tr>
                                     </t>
+                                    <tr>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 70px; text-align: center;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <null/>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 100px; text-align: center;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <null/>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div t-if="line_inv.x_voucher_tax_transfer == 'foreign_tax' or line_inv.x_voucher_tax_transfer == 'voucher'"
+                                                 style="display: inline-block; width: 359px;">
+                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    消費税
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 75px; text-align: right;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 34px; text-align: center;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 100px; text-align: right;">
+                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td style="border-left: 1px solid #000000; border-right: 1px solid #000000; padding-bottom: 0;">
+                                            <div style="display: inline-block; width: 100px; text-align: right;">
+                                                <p t-if="line_inv.x_voucher_tax_transfer == 'foreign_tax' or line_inv.x_voucher_tax_transfer == 'voucher'"
+                                                   t-esc="line_inv.amount_tax"
+                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 </t>
                             </tbody>
                         </table>
