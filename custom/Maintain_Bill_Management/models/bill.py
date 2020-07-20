@@ -644,8 +644,6 @@ class BillingClass(models.Model):
                 _sum_amount_tax = _sum_amount_tax + _tax
                 _sum_amount_total = _sum_amount_total + _amount
 
-        print("self => ", self)
-        print("ctx => ", ctx)
         if _untax_amount_voucher:
             if self.customer_tax_rounding == 'round':
                 _untax_amount_voucher = int(round(_untax_amount_voucher, 1) + 0.5)

@@ -49,7 +49,9 @@
                                     <field name="invoice_custom_standardnumber" string="Standard Number" readonly='1'/>
                                     <field name="quantity" string="Quantity" readonly='1'/>
                                     <field name="price_unit" string="Price Unit" readonly='1'/>
-                                    <field name="invoice_custom_lineamount" string="Amount" readonly='1'/>
+                                    <field name="invoice_custom_lineamount" string="Untaxed Amount" readonly='1'/>
+                                    <field name="invoice_custom_lineamount" string="Tax Amount" readonly='1'/>
+                                    <field name="invoice_custom_lineamount" string="Line Amount" readonly='1'/>
                                     <field name="invoice_custom_Description" string="Note" readonly='1'/>
                                 </tree>
                             </field>
