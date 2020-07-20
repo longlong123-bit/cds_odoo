@@ -153,7 +153,7 @@ class QuotationsCustom(models.Model):
             # self.paperformat_id = data.paperformat_id
             # self.paper_format = data.paper_format
             # self.is_print_date = data.is_print_date
-            # self.tax_method = data.tax_method
+            self.tax_method = data.x_voucher_tax_transfer
             # self.comment_apply = data.comment_apply
 
             # default = dict(None or [])
@@ -246,9 +246,13 @@ class QuotationsCustom(models.Model):
             for rec in self:
                 rec.partner_id = self.partner_id or ''
                 rec.partner_name = self.partner_id.name or ''
-                rec.customer_tax_rounding = self.partner_id.customer_tax_rounding or ''
-                rec.cb_partner_sales_rep_id = self.partner_id.customer_agent or ''
-                rec.tax_method = get_tax_method(tax_unit=rec.partner_id.customer_tax_unit)
+                rec.customer_tax_rounding =\
+                    self.partner_id.customer_tax_rounding or ''
+                rec.cb_partner_sales_rep_id =\
+                    self.partner_id.customer_agent or ''
+                if not rec.order_id and not rec.refer_invoice_history:
+                    rec.tax_method = get_tax_method(
+                        tax_unit=rec.partner_id.customer_tax_unit)
 
     def get_lines(self):
         records = self.env['sale.order.line'].search([
@@ -433,7 +437,7 @@ class QuotationsCustom(models.Model):
     @api.model
     def set_order(self, order_id):
         # TODO set order
-        sale_order = self.env['sale.order'].search([('id', '=', order_id)])
+        sale_order = self.env['sale.order'].browse(order_id)
 
         if sale_order:
             self.document_reference = sale_order.document_reference
