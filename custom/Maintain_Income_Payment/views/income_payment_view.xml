@@ -10,9 +10,9 @@
             <xpath expr="//form" position="replace">
                 <form string="Register Payment" class="custom_template payment_custom">
                     <header>
-                        <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/>
-                        <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '=', 'draft')]}" string="Reset To Draft" type="object"/>
-                        <button name="cancel" states="draft" string="Cancel" type="object"/>
+                        <!-- <button name="post" class="oe_highlight" states="draft" string="Confirm" type="object"/> -->
+                        <!-- <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '!=', 'cancel')]}" string="Reset To Draft" type="object"/> -->
+                        <!-- <button name="cancel" states="draft" string="Cancel" type="object"/> -->
 <!--                        <field name="invoice_history" widget="Maintain_Sale_History.Voucher" z-index="92"/>-->
                     </header>
                     <table class="custom-form-table cols-8">
@@ -70,7 +70,8 @@
                                 <td class="o_td_label"><label for="partner_payment_address2" string="Address2"/></td>
                                 <td><field name="partner_payment_address2"/></td>
                                 <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="cbpartner_salesrep_id"/></td>
-                                <td><field name="cb_partner_sales_rep_id" options="{'no_open': True, 'no_create': True, 'no_create_edit':True}"/></td>
+                                <td><field name="cb_partner_sales_rep_id" options="{'no_open': True, 'no_create': True, 'no_create_edit':True}"
+                                    attrs="{'readonly':[('state', '!=', 'draft')]}"/></td>
                             </tr>
 
                             <!-- Row 6 -->
@@ -118,7 +119,7 @@
                         <!-- PaymentLine -->
                         <page name="payment_line" string="PaymentLine">
                             <field name="account_payment_line_ids" widget="section_and_note_one2many"
-                                   attrs="{'readonly': ['|', ('id', '=', True)]}">
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}">
                                 <tree editable="bottom">
                                     <control>
                                         <create name="add_product_control" string="Add a payment"/>

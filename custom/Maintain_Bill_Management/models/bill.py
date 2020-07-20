@@ -389,6 +389,7 @@ class BillingClass(models.Model):
             payment_ids.write({
                 'bill_status': 'billed'
             })
+            payment_ids.post()
 
             _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
 

@@ -7,9 +7,9 @@
     'category': 'Extra Tools',
     'description': """
 """,
-    'depends': [
-        'base_setup', 'sale_management', 'Maintain_Organization', 'Maintain_Client', 'Maintain_Widget_Billing_History'
-    ],
+    # 'depends': [
+    #     'base_setup', 'sale_management', 'Maintain_Organization', 'Maintain_Client', 'Maintain_Widget_Billing_History'
+    # ],
     'website': '',
     'depends': ['product', 'purchase', 'sale', 'account'],
     'data': [
