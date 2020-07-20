@@ -5,6 +5,9 @@ odoo.define('Invoice.Search', function(require){
         advancedSearch: _.extend({}, FilterMenu.prototype.advancedSearch || {}, {
             'account.move': {
                 template: 'invoice.advanced_search'
+            },
+            'account.move.line': {
+                'account.move.line.search': {template: 'invoice_line.advanced_search'}
             }
         })
     });

@@ -15,6 +15,7 @@
         'Maintain_Custom_Employee', 'Maintain_Business_Partner_Group', 'Maintain_Closing_Date',
         'Maintain_Product_Class', 'Maintain_Product', 'Maintain_Freight_Category',
         'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake', 'Maintain_Accounts_Receivable_Balance_List',
+        'Maintain_Income_Payment'
     ],
 
     # always loaded
@@ -23,6 +24,7 @@
         'views/assets.xml',
         'views/bill.xml',
         'views/menu_bill_management.xml',
+        'views/many_payment_view.xml',
     ],
     'qweb': [
         'static/src/xml/bill_advanced_search.xml',
