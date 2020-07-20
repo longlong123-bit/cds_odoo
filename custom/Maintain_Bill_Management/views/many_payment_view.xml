@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- many.payment inherit form view -->
+    <record id="view_many_payment_form_inherit" model="ir.ui.view">
+        <field name="name">many.payment.inherit.view.form</field>
+        <field name="model">many.payment</field>
+        <field name="inherit_id" ref="Maintain_Income_Payment.many_payment_form"/>
+        <field name="arch" type="xml">
+            <!-- Add your xpath here -->
+            <header position="inside">
+                <field name="history_payment" widget="button_field" options='{"model":"bill.info", "text":"請求履歴照会"}' z-index="92"/>
+            </header>
+        </field>
+    </record>
+</odoo>

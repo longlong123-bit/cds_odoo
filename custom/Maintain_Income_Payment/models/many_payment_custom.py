@@ -34,8 +34,6 @@ class ManyPaymentCustom(models.Model):
 
     order_id = fields.Many2one('sale.order', string='Order', store=False)
 
-    history_payment = fields.Many2one('bill.info', string='History payment', store=False)
-
     @api.onchange('history_payment')
     def _onchange_history_payment(self):
         if self.history_payment:
