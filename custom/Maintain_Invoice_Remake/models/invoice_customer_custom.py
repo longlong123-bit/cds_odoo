@@ -192,6 +192,12 @@ class ClassInvoiceCustom(models.Model):
             'account_invoice_id': self.id
         }
 
+    def action_post(self):
+        for move in self:
+            if move.customer_trans_classification_code == 'cash':
+                move.expense_post_payment()
+        return super(ClassInvoiceCustom, self).action_post()
+
     def expense_post_payment(self):
         self.ensure_one()
         company = self.company_id
