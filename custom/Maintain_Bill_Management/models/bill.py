@@ -46,24 +46,17 @@ class BillingClass(models.Model):
         return closing_date
 
     # Get invoices list by partner id
-    def _get_invoices_by_partner_id(self, partner_id, last_closing_date, deadline):
+    def _get_invoices_by_partner_id(
+            self, partner_id, last_closing_date, deadline):
+        domain = [('partner_id', 'in', partner_id),
+                  ('x_studio_date_invoiced', '<=', deadline),
+                  ('state', '=', 'posted'),
+                  ('type', '=', 'out_invoice'),
+                  ('bill_status', '!=', 'billed')]
         if last_closing_date:
-            return self.env['account.move'].search([
-                ('partner_id', 'in', partner_id),
-                ('x_studio_date_invoiced', '>', last_closing_date),
-                ('x_studio_date_invoiced', '<=', deadline),
-                ('state', '=', 'posted'),
-                ('type', '=', 'out_invoice'),
-                ('bill_status', '!=', 'billed')
-            ])
-        else:
-            return self.env['account.move'].search([
-                ('partner_id', 'in', partner_id),
-                ('x_studio_date_invoiced', '<=', deadline),
-                ('state', '=', 'posted'),
-                ('type', '=', 'out_invoice'),
-                ('bill_status', '!=', 'billed')
-            ])
+            domain += [('x_studio_date_invoiced', '>', last_closing_date)]
+        out_invoices = self.env['account.move'].search(domain)
+        return out_invoices
 
     def _get_invoices_sales_by_partner_id(self, partner_id, last_closing_date, deadline):
         if last_closing_date:
@@ -382,14 +375,14 @@ class BillingClass(models.Model):
                 ('partner_id', 'in', res_partner_id.ids),
                 ('payment_date', '>', rec['last_closing_date']),
                 ('payment_date', '<=', rec['deadline']),
-                ('state', '=', 'posted'),
+                ('state', '=', 'draft'),
                 ('bill_status', '!=', 'billed'),
             ])
 
-            payment_ids.write({
-                'bill_status': 'billed'
-            })
-            payment_ids.post()
+            # payment_ids.write({
+            #     'bill_status': 'billed'
+            # })
+            # payment_ids.post()
 
             _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
 
@@ -469,7 +462,43 @@ class BillingClass(models.Model):
                         'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
                         'invoice_date': line.date,
                         'invoice_no': line.invoice_no,
+                        'tax_rate': line.tax_rate,
+                        'quantity': line.quantity,
+                        'price_unit': line.price_unit,
+                        'tax_amount': line.line_tax_amount,
+                        'line_amount': line.invoice_custom_lineamount,
                     })
+            for payment in payment_ids:
+                self.env['bill.invoice.details'].create({
+                    'bill_info_id': _bill_info_ids.id,
+                    'bill_invoice_id': _bill_invoice_ids.id,
+                    'billing_code': rec['customer_code'],
+                    'billing_name': rec['name'],
+                    'bill_no': _bill_no,
+                    'bill_date': date.today(),
+                    'last_closing_date': rec['last_closing_date'],
+                    'closing_date': rec['deadline'],
+                    'deadline': rec['deadline'],
+                    'customer_code': payment.partner_id.customer_code,
+                    'customer_name': payment.partner_payment_name1,
+                    'customer_trans_classification_code': 'sale',
+                    # 'account_move_line_id': line.id,
+                    'hr_employee_id': partner_ids.customer_agent.id,
+                    'hr_department_id': partner_ids.customer_agent.department_id.id,
+                    'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
+                    'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                    'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
+                    'quantity': 1,
+                    'price_unit': payment.amount,
+                    'invoice_date': payment.payment_date,
+                    'invoice_no': payment.document_no,
+                    'line_amount': payment.amount,
+                })
+            payment_ids.write({
+                'bill_status': 'billed'
+            })
+            payment_ids.post()
+
         advanced_search.val_bill_search_deadline = ''
         return {
             'type': 'ir.actions.client',
