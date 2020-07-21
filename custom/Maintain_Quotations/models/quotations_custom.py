@@ -515,6 +515,7 @@ class QuotationsCustom(models.Model):
             products = self.env["sale.order.line"].search([('id','in', self.copy_history_item.split(','))])
             for line in products:
              self.order_line = [(0, False, {
+                'class_item': line.class_item,
                 'product_id': line.product_id,
                 'product_code': line.product_code,
                 'product_barcode': line.product_barcode,
@@ -537,6 +538,7 @@ class QuotationsCustom(models.Model):
             products = self.env["account.move.line"].search([('id','in', self.copy_history_item.split(','))])
             for line in products:
                 self.order_line = [(0, False, {
+                    'class_item': line.x_invoicelinetype,
                     'product_id': line.product_id,
                     'product_code': line.product_code,
                     'product_barcode': line.product_barcode,

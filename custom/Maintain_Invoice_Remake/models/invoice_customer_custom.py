@@ -463,6 +463,7 @@ class ClassInvoiceCustom(models.Model):
             products = self.env["sale.order.line"].search([('id','in', self.copy_history_item.split(','))])
             for line in products:
              self.invoice_line_ids = [(0, False, {
+                'x_invoicelinetype': line.class_item,
                 'product_id': line.product_id,
                 'product_code': line.product_code,
                 'product_barcode': line.product_barcode,
@@ -486,6 +487,7 @@ class ClassInvoiceCustom(models.Model):
             products = self.env["account.move.line"].search([('id','in', self.copy_history_item.split(','))])
             for line in products:
                 self.invoice_line_ids = [(0, False, {
+                    'x_invoicelinetype': line.x_invoicelinetype,
                     'product_id': line.product_id,
                     'product_code': line.product_code,
                     'product_barcode': line.product_barcode,
