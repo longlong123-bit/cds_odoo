@@ -51,8 +51,10 @@ class BillingClass(models.Model):
             payment_ids.write({
                 'bill_status': 'not yet'
             })
+            payment_ids.cancel()
+            payment_ids.action_draft()
 
-            self.env['bill.info'].search([('id', 'in', argsSelectedIds)]).unlink()
+            self.env['bill.info'].browse(argsSelectedIds).unlink()
 
             if rec['last_closing_date']:
                 self.env['bill.invoice'].search([

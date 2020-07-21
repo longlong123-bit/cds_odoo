@@ -198,32 +198,46 @@ class ClassInvoiceCustom(models.Model):
                 move.expense_post_payment()
         return super(ClassInvoiceCustom, self).action_post()
 
+    def button_draft(self):
+        for move in self:
+            payment = move.cash_payment_id
+            if payment:
+                payment.cancel()
+                payment.action_draft()
+                payment.unlink()
+        return super(ClassInvoiceCustom, self).button_draft()
+
     def expense_post_payment(self):
         self.ensure_one()
         company = self.company_id
         self = self.with_context(force_company=company.id, company_id=company.id)
         context = dict(self._context or {})
-        active_ids = context.get('active_ids', [])
+        if not self.cash_payment_id:
+            active_ids = context.get('active_ids', [])
+            payment_vals = self._get_payment_vals()
+            payment_vals.update({'journal_id': self.journal_id.id})
+            # Create payment and post it
+            payment = self.env['account.payment'].create(payment_vals)
+            # Reconcile the payment and the expense, i.e. lookup on the payable account move lines
+            # account_move_lines_to_reconcile = self.env['account.move.line']
+            # for line in payment.move_line_ids:
+            #     if line.account_id.internal_type == 'payable' and not line.reconciled:
+            #         account_move_lines_to_reconcile |= line
+            # account_move_lines_to_reconcile.reconcile()
 
-        # Create payment and post it
-        payment = self.env['account.payment'].create(self._get_payment_vals())
-        payment.post()
+            if self.id:
+                query = '''UPDATE account_move
+                        SET invoice_payment_state='paid',
+                        cash_payment_id=%s
+                        WHERE id=%s;
+                        '''
+                params = [payment.id, self.id]
+                self._cr.execute(query, params)
+        else:
+            payment = self.cash_payment_id
 
-        # Reconcile the payment and the expense, i.e. lookup on the payable account move lines
-        # account_move_lines_to_reconcile = self.env['account.move.line']
-        # for line in payment.move_line_ids:
-        #     if line.account_id.internal_type == 'payable' and not line.reconciled:
-        #         account_move_lines_to_reconcile |= line
-        # account_move_lines_to_reconcile.reconcile()
+        return payment.post()
 
-        if self.id:
-            query = "UPDATE account_move " \
-                    "SET invoice_payment_state='paid'" \
-                    "WHERE id=%s "
-            params = [self.id]
-            self._cr.execute(query, params)
-
-        return {'type': 'ir.actions.act_window_close'}
 
     # end register payment for payment_custom
 
@@ -427,6 +441,9 @@ class ClassInvoiceCustom(models.Model):
     billing_place_id = fields.Many2one('res.partner')
 
     bill_status = fields.Char(default="not yet")
+    cash_payment_id = fields.Many2one(
+        comodel_name='account.payment'
+    )
     # # Check flag_history
     # @api.constrains('x_studio_business_partner')
     # def get_flag(self):
@@ -446,6 +463,7 @@ class ClassInvoiceCustom(models.Model):
             products = self.env["sale.order.line"].search([('id','in', self.copy_history_item.split(','))])
             for line in products:
              self.invoice_line_ids = [(0, False, {
+                'x_invoicelinetype': line.class_item,
                 'product_id': line.product_id,
                 'product_code': line.product_code,
                 'product_barcode': line.product_barcode,
@@ -469,6 +487,7 @@ class ClassInvoiceCustom(models.Model):
             products = self.env["account.move.line"].search([('id','in', self.copy_history_item.split(','))])
             for line in products:
                 self.invoice_line_ids = [(0, False, {
+                    'x_invoicelinetype': line.x_invoicelinetype,
                     'product_id': line.product_id,
                     'product_code': line.product_code,
                     'product_barcode': line.product_barcode,
@@ -667,6 +686,8 @@ class ClassInvoiceCustom(models.Model):
                 fields_line = l.fields_get()
                 line_data = {attr: getattr(l, attr) for attr in fields_line}
                 del line_data['move_id']
+                if 'payment_id' in line_data:
+                    del line_data['payment_id']
                 line_data['invoice_custom_line_no'] = l.invoice_custom_line_no
                 result_l1.append((0, False, line_data))
 
