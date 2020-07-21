@@ -34,20 +34,21 @@ class ManyPaymentCustom(models.Model):
 
     order_id = fields.Many2one('sale.order', string='Order', store=False)
 
-    history_payment = fields.Many2one('bill.info', string='History payment', store=False)
-
     @api.onchange('history_payment')
     def _onchange_history_payment(self):
         if self.history_payment:
             results = []
-            data = self.env['bill.info'].search([('id', '=', self.history_payment.id)])
+            data = self.history_payment
+            journal_id = self.env['account.journal']._search(
+                [('type', '=', 'sale')], limit=1)
             if data:
                 for line in data.bill_detail_ids:
                     results.append((0, 0, {
                         'partner_id': data.partner_id,
                         'partner_payment_name1': line.customer_name,
                         'payment_amount': line.line_amount + line.tax_amount,
-                        'payment_method_id': 1 or '',
+                        'payment_method_id':
+                        journal_id and journal_id[0] or False,
                         'vj_c_payment_category': 'cash'
                     }))
 

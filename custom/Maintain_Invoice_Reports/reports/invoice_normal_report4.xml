@@ -44,7 +44,7 @@
 
                                 <!-- Row one：Position 2 and 8 -->
                                 <t t-if="for_range == 1">
-                                    <div style="border: 1px dashed #FFF;margin-top: 0px;margin-bottom: 0px;"/>
+                                    <div style="border: 1px dashed #FFF;margin-top: 0px;margin-bottom: 5px;"/>
                                     <div style="display: inline-block; width: 100%;">
                                         <div style="width: 60%; float: left;">
                                             <div style="float: right;">
@@ -65,7 +65,7 @@
                                     </div>
                                 </t>
                                 <t t-if="for_range == 2 or for_range == 3">
-                                    <div style="border: 1px dashed #000;margin-top: 0px; margin-bottom: 10px;"/>
+                                    <div style="border: 1px dashed #000;margin-top: 0px; margin-bottom: 5px;"/>
                                     <div style="display: inline-block; width: 100%;">
                                         <div style="width: 60%; float: left;">
                                             <div style="float: right; margin-right: 9%;">
@@ -234,7 +234,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="height: 10px;"/>
+                                <div style="height: 2px;"/>
                                 <!-- Row seven - table -->
                                 <div style="display: inline-block; position: relative;">
                                     <table border="0" cellspacing="0" cellpadding="5"
@@ -342,10 +342,10 @@
                                                             <!-- Position 12: 品　0　・　品　名 -->
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
                                                                 <div style="display: inline-block; width: 100%;">
-                                                                    <div style="position: relative; float: left; width: 50%; white-space: nowrap; overflow: hidden; height: 20px;">
+                                                                    <div style="position: relative; float: left; width: 62%; white-space: nowrap; overflow: hidden; height: 13px;">
                                                                         <span t-field="order.product_name"/>
                                                                     </div>
-                                                                    <div style="position: relative; float: right; width: 50%">
+                                                                    <div style="position: relative; float: right; width: 38%">
                                                                         <div style="float: left; width: 45%; white-space: nowrap; overflow: hidden;">
                                                                             <span t-if="order.product_maker_name" t-field="order.product_maker_name"/>
                                                                         </div>
@@ -406,23 +406,24 @@
                                                             </td>
 
                                                             <!-- Position 17: 備　考 -->
-                                                            <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: left">
+                                                            <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: left;">
                                                                 <div style="display: inline-block; width: 100%;">
                                                                     <t t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                       <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left;">
-                                                                           ※非課税
-                                                                       </span>
+                                                                        <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left; height: 8px; font-size: 8px;">
+                                                                            ※非課税
+                                                                        </span>
                                                                     </t>
                                                                     <t t-else="">
                                                                         <t t-if="order.tax_rate == 8">
-                                                                            <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left;">
+                                                                            <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left; height: 8px; font-size: 8px;">
                                                                                 ※軽減税率
                                                                             </span>
                                                                         </t>
                                                                     </t>
                                                                 </div>
-                                                                <div style="display: inline-block; width: 100%">
-                                                                    <span t-if="order.invoice_custom_Description" style="white-space: nowrap; overflow: hidden; text-overflow: clip; float: left; height: 10px;"
+                                                                <div style="display: inline-block; width: 100%;">
+                                                                    <span t-if="order.invoice_custom_Description"
+                                                                          style="white-space: nowrap; overflow: hidden; text-overflow: clip; float: left; width: 80px; height: 8px; font-size: 8px;"
                                                                           t-field="order.invoice_custom_Description">
                                                                     </span>
                                                                 </div>
@@ -438,7 +439,7 @@
                                                 <t t-foreach="range(1, line_empty)" t-as="order">
                                                     <tr>
                                                         <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
-                                                            <div style="display: inline-block;">
+                                                            <div style="display: inline-block; height: 14px;">
                                                                 <span>
                                                                     <null/>
                                                                 </span>
@@ -587,7 +588,7 @@
                                                                     <div t-if="subtotal_amount_10">（10%対象）</div>
                                                                     <div t-if="subtotal_amount_8">（8%対象）</div>
                                                                     <t t-if="subtotal_amount">
-                                                                        <div style="font-size: 10px;"></div>
+                                                                        <div style="font-size: 10px;"/>
                                                                     </t>
                                                                 </div>
                                                             </div>
@@ -625,7 +626,7 @@
                                                                     <div t-if="subtotal_tax_amount_10">（10%対象）</div>
                                                                     <div t-if="subtotal_tax_amount_8">（8%対象）</div>
                                                                     <t t-if="subtotal_tax_amount">
-                                                                        <div style="font-size: 10px;"></div>
+                                                                        <div style="font-size: 10px;"/>
                                                                     </t>
                                                                 </div>
                                                             </div>
@@ -902,10 +903,10 @@
                                         <div>
                                             <!-- Position 18 -->
                                             <div style="width: 42%; position: relative; float: left; text-align: left; margin-right: 15px; border-bottom: 1px solid #000000; bottom: -40px">
-                                                <div style="width: 11%; position: relative; float: left; text-align: left;">
+                                                <div style="width: 11%; position: relative; float: left; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                     <span>適用：</span>
                                                 </div>
-                                                <div style="width: 89%; position: relative; float: right; text-align: left;">
+                                                <div style="width: 89%; position: relative; float: right; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                     <span t-esc="o.x_studio_summary"/>
                                                 </div>
                                             </div>
