@@ -38,6 +38,34 @@ class BillInfoGet(models.Model):
             'report_type': "qweb-pdf",
         }
 
+    def subtotal_amount_tax8(self):
+        subtotal = 0
+        for line in self.bill_detail_ids:
+            if line.tax_rate == 8:
+                subtotal += line.line_amount
+        return subtotal
+
+    def subtotal_amount_tax10(self):
+        subtotal = 0
+        for line in self.bill_detail_ids:
+            if line.tax_rate == 10:
+                subtotal += line.line_amount
+        return subtotal
+
+    def amount_tax8(self):
+        subtotal = 0
+        for line in self.bill_detail_ids:
+            if line.tax_rate == 8:
+                subtotal += line.tax_amount
+        return subtotal
+
+    def amount_tax10(self):
+        subtotal = 0
+        for line in self.bill_detail_ids:
+            if line.tax_rate == 10:
+                subtotal += line.tax_amount
+        return subtotal
+
 
 class PartnerClass(models.Model):
     _inherit = 'res.partner'
