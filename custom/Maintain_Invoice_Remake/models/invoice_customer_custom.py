@@ -83,7 +83,7 @@ def rounding(number, pre=0, type_rounding='round'):
 
 
 # Copy data from partner
-def copy_data_from_partner(rec, partner):
+def copy_data_from_partner(rec, partner, quotation):
     if partner:
         rec.partner_id = partner
         rec.x_studio_name = partner.name
@@ -103,7 +103,10 @@ def copy_data_from_partner(rec, partner):
         rec.customer_industry = partner.customer_industry_code.name
         rec.customer_trans_classification_code = partner.customer_trans_classification_code
 
-        rec.x_voucher_tax_transfer = get_tax_method(tax_unit=partner.customer_tax_unit)
+        if quotation:
+            rec.x_voucher_tax_transfer = quotation.tax_method
+        else:
+            rec.x_voucher_tax_transfer = get_tax_method(tax_unit=partner.customer_tax_unit)
 
         # # set default 税転嫁 by 消費税区分 & 消費税計算区分
         # customer_tax_category = partner.customer_tax_category
@@ -539,7 +542,7 @@ class ClassInvoiceCustom(models.Model):
                 rec.x_studio_business_partner = rec.trigger_quotation_history.partner_id
 
                 # Call method to set data when change partner
-                copy_data_from_partner(rec, rec.x_studio_business_partner)
+                copy_data_from_partner(rec, rec.x_studio_business_partner, rec.trigger_quotation_history)
 
     @api.depends(
         'line_ids.debit',
@@ -745,7 +748,7 @@ class ClassInvoiceCustom(models.Model):
     @api.onchange('x_studio_business_partner')
     def _get_detail_business_partner(self):
         for rec in self:
-            copy_data_from_partner(rec, rec.x_studio_business_partner)
+            copy_data_from_partner(rec, rec.x_studio_business_partner, '')
 
             # # call onchange of 税転嫁
             # if rec.x_voucher_tax_transfer:
