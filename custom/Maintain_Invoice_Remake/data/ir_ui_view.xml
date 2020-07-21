@@ -13,6 +13,7 @@
                   <field name="date" optional="show" readonly="1" string="売上日付"/>
                   <field name="invoice_no" optional="show" readonly="1"/>
                   <field name="x_invoicelinetype" optional="show" readonly="1" string="取引/内訳区分"/>
+                  <field name="partner_id" optional="show" readonly="1" string="得意先コード"/>
                   <field name="x_customer_show_in_tree" optional="show" readonly="1" string="得意先名"/>
                   <field name="product_barcode" optional="show" readonly="1" string="JANコード"/>
 <!--                  <field name="x_product_code_show_in_tree" optional="show" readonly="1"/>-->
@@ -23,12 +24,13 @@
                   <field name="product_uom_id" optional="show" string="単位"/>
                   <field name="price_unit" optional="show" readonly="1" string="単価"/>
                   <field name="invoice_custom_lineamount" optional="show" readonly="1" string="金額"/>
+                  <field name="tax_rate" optional="show" readonly="1" string="税率"/>
                   <field name="tax_ids" widget="many2many_tags"
                                                domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
                                                context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
                                                options="{'no_create': True}"
                                                optional="show" readonly="1"
-                                                string="税率"/>
+                                                string="税率" invisible="1"/>
                   <field name="x_tax_transfer_show_tree" optional="show" readonly="1" string="税転嫁"/>
               </tree>
             </xpath>
