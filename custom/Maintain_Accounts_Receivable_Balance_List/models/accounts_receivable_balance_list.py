@@ -105,6 +105,7 @@ class AccountsReceivableBalanceList(models.Model):
         info_liabilities = self._get_info_liabilities(condition_division_sales_rep=condition_division_sales_rep,
                                                       closing_date=closing_date)
 
+        
         # set information Accounts receivable balance list
         for item in self:
             item.accounts_receivable_last_month = 0
@@ -116,9 +117,15 @@ class AccountsReceivableBalanceList(models.Model):
             if info_liabilities:
                 for item_info_liabilities in info_liabilities:
                     if item.id == item_info_liabilities[0]:
+                        deposits = self.env['account.payment'].search(
+                            [('partner_id', '=', item.id),
+                             ('payment_date', '>=', closing_date['last_closing_date']),
+                             ('payment_date', '<=', closing_date['current_closing_date']),
+                             ('state', '=', 'draft')])
                         amount_total_signed_last_month = item_info_liabilities[1] and item_info_liabilities[1] or 0
                         deposit_amount_last_month = item_info_liabilities[2] and item_info_liabilities[2] or 0
-                        deposit_amount = item_info_liabilities[3] and item_info_liabilities[3] or 0
+                        # deposit_amount = item_info_liabilities[3] and item_info_liabilities[3] or 0
+                        deposit_amount = sum(deposits.mapp('amount'))
                         purchase_amount = item_info_liabilities[4] and item_info_liabilities[4] or 0
                         consumption_tax = item_info_liabilities[5] and item_info_liabilities[5] or 0
 

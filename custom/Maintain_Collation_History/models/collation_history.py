@@ -46,14 +46,14 @@ class ClassDetail(models.Model):
     product_default_code = fields.Char('Product Default Code', compute='_get_account_move_line_db',
                                        readonly=True)
     product_uom = fields.Char('Product Uom', compute='_get_account_move_line_db')
-    quantity = fields.Float('Product Maker Name', compute='_get_account_move_line_db', readonly=True)
-    price_unit = fields.Float(string='Unit Price', compute='_get_account_move_line_db', digits='Product Price')
+    # quantity = fields.Float('Product Maker Name', compute='_get_account_move_line_db', readonly=True)
+    # price_unit = fields.Float(string='Unit Price', compute='_get_account_move_line_db', digits='Product Price')
     tax_audit = fields.Char('tax_audit', compute='_get_account_move_line_db', readonly=True)
-    tax_amount = fields.Float('tax_amount', compute='_get_account_move_line_db', readonly=True)
+    # tax_amount = fields.Float('tax_amount', compute='_get_account_move_line_db', readonly=True)
     product_maker_name = fields.Char('Product Maker Name', compute='_get_account_move_line_db', readonly=True)
-    line_amount = fields.Float('line amount', compute='_get_account_move_line_db', readonly=True)
+    # line_amount = fields.Float('line amount', compute='_get_account_move_line_db', readonly=True)
     x_invoicelinetype = fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
-    tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
+    # tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
 
     def _get_account_move_line_db(self):
         for acc in self:
@@ -63,14 +63,28 @@ class ClassDetail(models.Model):
                 acc.product_custom_standardnumber = acc.account_move_line_id.invoice_custom_standardnumber
                 acc.product_default_code = acc.account_move_line_id.product_id.id
                 acc.product_uom = acc.account_move_line_id.product_uom_id
-                acc.quantity = acc.account_move_line_id.quantity
-                acc.price_unit = acc.account_move_line_id.price_unit
+                # acc.quantity = acc.account_move_line_id.quantity
+                # acc.price_unit = acc.account_move_line_id.price_unit
                 acc.tax_audit = acc.account_move_line_id.tax_audit
-                acc.tax_amount = acc.account_move_line_id.line_tax_amount
+                # acc.tax_amount = acc.account_move_line_id.line_tax_amount
                 acc.product_maker_name = acc.account_move_line_id.product_maker_name
-                acc.line_amount = acc.account_move_line_id.invoice_custom_lineamount
+                # acc.line_amount = acc.account_move_line_id.invoice_custom_lineamount
                 acc.x_invoicelinetype = acc.account_move_line_id.x_invoicelinetype
-                acc.tax_rate = acc.account_move_line_id.tax_rate
+                # acc.tax_rate = acc.account_move_line_id.tax_rate
+            else:
+                acc.jan_code = False
+                acc.product_name = False
+                acc.product_custom_standardnumber = False
+                acc.product_default_code = False
+                acc.product_uom = False
+                # acc.quantity = False
+                # acc.price_unit = False
+                acc.tax_audit = False
+                # acc.tax_amount = False
+                acc.product_maker_name = False
+                # acc.line_amount = False
+                acc.x_invoicelinetype = False
+                # acc.tax_rate = False
 
 
 class ClassAccontMoveLineCustom(models.Model):

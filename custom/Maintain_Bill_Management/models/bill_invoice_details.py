@@ -7,7 +7,6 @@ class BillInvoiceDetailsClass(models.Model):
     bill_info_id = fields.Many2one('bill.info')
     bill_invoice_id = fields.Many2one('bill.invoice')
     account_move_line_id = fields.Many2one('account.move.line')
-    account_move_line_id = fields.Many2one('account.move.line')
 
     billing_code = fields.Char(string='Billing Code')
     billing_name = fields.Char(string='Billing Name')
@@ -28,3 +27,8 @@ class BillInvoiceDetailsClass(models.Model):
     x_voucher_tax_transfer = fields.Char('x_voucher_tax_transfer')
     invoice_date = fields.Date(string="Invoice Date")
     invoice_no = fields.Char(string='Invoice No')
+    quantity = fields.Float('Quantity', readonly=True)
+    price_unit = fields.Float(string='Unit Price', digits='Product Price')
+    tax_amount = fields.Float('tax_amount', readonly=True)
+    line_amount = fields.Float('line amount', readonly=True)
+    tax_rate = fields.Float('tax_rate', readonly=True)

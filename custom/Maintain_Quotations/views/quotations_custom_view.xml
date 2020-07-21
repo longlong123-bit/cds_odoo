@@ -361,18 +361,19 @@
             <tree>
                 <field name="quotation_date" optional="show" readonly="1" string="見積日付"/>
                 <field name="document_no" optional="show" readonly="1" string="伝票Ｎｏ"/>
+                <field name="partner_id" optional="show" readonly="1" string="得意先コード"/>
                 <field name="customer_name" optional="show" readonly="1" string="得意先名"/>
-                <field name="class_item" optional="show" readonly="1"/>
-                <field name="product_code" optional="show" readonly="1"/>
-                <field name="product_barcode" optional="show" readonly="1"/>
-                <field name="product_standard_number" optional="show" readonly="1"/>
+                <field name="class_item" optional="show" readonly="1" string="内訳区分"/>
+                <field name="product_code" optional="show" readonly="1" string="商品コード"/>
+                <field name="product_barcode" optional="show" readonly="1" string="ＪＡＮコード"/>
+                <field name="product_standard_number" optional="show" readonly="1" string="品番/型番"/>
                 <field name="product_maker_name" optional="show" readonly="1" string="メーカー名"/>
-                <field name="product_name" optional="show" readonly="1"/>
-                <field name="product_uom_qty" optional="show" readonly="1"/>
-                <field name="product_uom_id" optional="show"/>
-                <field name="price_unit" optional="show" readonly="1"/>
-                <field name="line_amount" optional="show" readonly="1"/>
-                <field name="tax_rate"/>
+                <field name="product_name" optional="show" readonly="1" string="商品名"/>
+                <field name="product_uom_qty" optional="show" readonly="1" string="数量"/>
+                <field name="product_uom_id" optional="show" string="単位"/>
+                <field name="price_unit" optional="show" readonly="1" string="単価"/>
+                <field name="line_amount" optional="show" readonly="1" string="金額"/>
+                <field name="tax_rate" string="税率"/>
 <!--              <field name="x_tax_transfer_show_tree" optional="show" readonly="1"/>-->
             </tree>
         </field>
