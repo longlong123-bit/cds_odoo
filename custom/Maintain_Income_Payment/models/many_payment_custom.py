@@ -18,6 +18,12 @@ class ManyPaymentCustom(models.Model):
     _rec_name = "payment_date"
     _order = 'write_date desc'
 
+    @api.model
+    def get_default_journal(self):
+        journal_id = self.env['account.journal']._search(
+                [('type', '=', 'sale')], limit=1)
+        return journal_id and journal_id[0] or False
+
     name = fields.Char(string='新規', default='新規')
     many_payment_line_ids = fields.One2many('account.payment', 'many_payment_id', string='PaymentLine', copy=True,
                                             auto_join=True)
@@ -30,7 +36,7 @@ class ManyPaymentCustom(models.Model):
     state = fields.Selection(
         [('draft', 'Draft'), ('posted', 'Validated'), ('sent', 'Sent'), ('reconciled', 'Reconciled'),
          ('cancelled', 'Cancelled')], readonly=True, default='draft', copy=False, string="Status")
-    journal_id = fields.Many2one(string='vj_collection_method', default=1)
+    journal_id = fields.Many2one(string='vj_collection_method', default=lambda self: self.get_default_journal())
 
     order_id = fields.Many2one('sale.order', string='Order', store=False)
 

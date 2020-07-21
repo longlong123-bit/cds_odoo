@@ -98,7 +98,7 @@ class IncomePaymentCustom(models.Model):
     comment_apply = fields.Text(string='commentapply', readonly=True, states={'draft': [('readonly', False)]})
     vj_summary = fields.Selection([('vj_sum_1', '専伝・仮伝'), ('vj_sum_2', '指定なし'), ('vj_sum_3', '通常')],
                                   string='vj_summary', readonly=True, states={'draft': [('readonly', False)]})
-    journal_id = fields.Many2one(string='vj_collection_method', default=1)
+    journal_id = fields.Many2one(string='vj_collection_method', default=lambda self: self.get_default_journal())
 
     state = fields.Selection(string='Document Status')
 
@@ -109,6 +109,12 @@ class IncomePaymentCustom(models.Model):
     customer_from_date = fields.Date('From Date')
 
     invoice_history = fields.Many2one('account.move', string='Journal Entry', store=False)
+
+    @api.model
+    def get_default_journal(self):
+        journal_id = self.env['account.journal']._search(
+                [('type', '=', 'sale')], limit=1)
+        return journal_id and journal_id[0] or False
 
     @api.onchange('invoice_history')
     def _onchange_invoice_history(self):
@@ -580,11 +586,17 @@ class IncomePaymentLineCustom(models.Model):
     partner_id = fields.Many2one(string='Business Partner')
     partner_payment_name1 = fields.Char(string='paymentname1', readonly=True, states={'draft': [('readonly', False)]})
     company_id = fields.Many2one('res.company', 'Organization', default=lambda self: self.env.company.id, index=1)
-    journal_id = fields.Many2one(string='vj_collection_method', default=1)
-    payment_method_id = fields.Many2one('account.payment.method', string='Payment Method', required=False, default=1)
+    journal_id = fields.Many2one(string='vj_collection_method', default=lambda self: self.get_default_journal())
+    payment_method_id = fields.Many2one('account.payment.method', string='Payment Method', required=False)
     payment_type = fields.Selection(
         [('outbound', 'Send Money'), ('inbound', 'Receive Money'), ('transfer', 'Internal Transfer')],
         string='Payment Type', required=True, readonly=True, states={'draft': [('readonly', False)]}, default='inbound')
+
+    @api.model
+    def get_default_journal(self):
+        journal_id = self.env['account.journal']._search(
+                [('type', '=', 'sale')], limit=1)
+        return journal_id and journal_id[0] or False
 
     # Check payment_amount
     @api.constrains('payment_amount')
