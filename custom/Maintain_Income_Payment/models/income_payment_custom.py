@@ -586,7 +586,10 @@ class IncomePaymentLineCustom(models.Model):
     partner_id = fields.Many2one(string='Business Partner')
     partner_payment_name1 = fields.Char(string='paymentname1', readonly=True, states={'draft': [('readonly', False)]})
     company_id = fields.Many2one('res.company', 'Organization', default=lambda self: self.env.company.id, index=1)
-    journal_id = fields.Many2one(string='vj_collection_method', default=lambda self: self.get_default_journal())
+    journal_id = fields.Many2one(
+        string='vj_collection_method',
+        comodel_name='account.journal',
+        default=lambda self: self.get_default_journal())
     payment_method_id = fields.Many2one('account.payment.method', string='Payment Method', required=False)
     payment_type = fields.Selection(
         [('outbound', 'Send Money'), ('inbound', 'Receive Money'), ('transfer', 'Internal Transfer')],

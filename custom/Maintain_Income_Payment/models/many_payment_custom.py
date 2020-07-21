@@ -36,7 +36,10 @@ class ManyPaymentCustom(models.Model):
     state = fields.Selection(
         [('draft', 'Draft'), ('posted', 'Validated'), ('sent', 'Sent'), ('reconciled', 'Reconciled'),
          ('cancelled', 'Cancelled')], readonly=True, default='draft', copy=False, string="Status")
-    journal_id = fields.Many2one(string='vj_collection_method', default=lambda self: self.get_default_journal())
+    journal_id = fields.Many2one(
+        string='vj_collection_method',
+        comodel_name='account.journal',
+        default=lambda self: self.get_default_journal())
 
     order_id = fields.Many2one('sale.order', string='Order', store=False)
 
