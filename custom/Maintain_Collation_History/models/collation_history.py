@@ -74,18 +74,18 @@ class ClassDetail(models.Model):
                 acc.voucher_line_tax_amount = acc.account_move_line_id.voucher_line_tax_amount
                 # acc.tax_rate = acc.account_move_line_id.tax_rate
             else:
-                acc.jan_code = False
-                acc.product_name = False
-                acc.product_custom_standardnumber = False
-                acc.product_default_code = False
-                acc.product_uom = False
+                acc.jan_code = ''
+                acc.product_name = ''
+                acc.product_custom_standardnumber = ''
+                acc.product_default_code = ''
+                acc.product_uom = ''
                 # acc.quantity = False
                 # acc.price_unit = False
-                acc.tax_audit = False
+                acc.tax_audit = ''
                 # acc.tax_amount = False
-                acc.product_maker_name = False
+                acc.product_maker_name = ''
                 # acc.line_amount = False
-                acc.x_invoicelinetype = False
+                acc.x_invoicelinetype = ''
                 # acc.tax_rate = False
                 # acc.voucher_line_tax_amount = 0
 
