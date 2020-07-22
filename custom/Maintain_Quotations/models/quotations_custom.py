@@ -606,6 +606,9 @@ class QuotationsLinesCustom(models.Model):
 
     price_no_tax = fields.Float('Price No Tax')
     price_include_tax = fields.Float('Price Include Tax')
+    product_tax_category = fields.Selection(
+        related="product_id.product_tax_category"
+    )
 
     def _get_default_line_no(self):
         context = dict(self._context or {})
