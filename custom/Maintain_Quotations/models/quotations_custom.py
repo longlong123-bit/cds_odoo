@@ -26,7 +26,8 @@ class QuotationsCustom(models.Model):
         return len(self.order_line)
 
     def _get_next_quotation_no(self):
-        sequence = self.env['ir.sequence'].search([('code', '=', 'sale.order'), ('number_next', '=', '1000000')])
+        sequence = self.env['ir.sequence'].search(
+            [('code', '=', 'sale.order'), ('prefix', '=', 'ARQ-')])
         next = sequence.get_next_char(sequence.number_next_actual)
         return next
 
@@ -304,7 +305,10 @@ class QuotationsCustom(models.Model):
         query_res = self._cr.fetchall()
 
         # generate new document no. by sequence
-        seq = self.env['ir.sequence'].next_by_code('sale.order')
+        if values.get('document_no'):
+            seq = values['document_no']
+        else:
+            seq = self.env['ir.sequence'].next_by_code('sale.order')
         # if new document no. already exits, do again
         while seq in [res[0] for res in query_res]:
             seq = self.env['ir.sequence'].next_by_code('sale.order')
@@ -602,6 +606,9 @@ class QuotationsLinesCustom(models.Model):
 
     price_no_tax = fields.Float('Price No Tax')
     price_include_tax = fields.Float('Price Include Tax')
+    product_tax_category = fields.Selection(
+        related="product_id.product_tax_category"
+    )
 
     def _get_default_line_no(self):
         context = dict(self._context or {})

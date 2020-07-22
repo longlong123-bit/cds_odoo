@@ -50,7 +50,7 @@
                             <!-- Row 0 -->
                             <tr>
                                 <td class="o_td_label"><label for="document_no" string="Document No"/></td>
-                                <td><field name="document_no" readonly="True"/></td>
+                                <td><field name="document_no" readonly="True" force_save="1"/></td>
                             </tr>
 
                             <!-- Row 1 -->
@@ -256,11 +256,13 @@
                                     <field name="cost" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="description" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="tax_id" widget="many2many_tags" invisible="True"/>
-                                    <field name="tax_rate" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="tax_rate" attrs="{'invisible': [('class_item', '=', 'サンプル')],
+                                                                   'readonly': [('product_tax_category', '=', 'exempt')]}"/>
                                     <field name="price_no_tax" invisible="1"/>
                                     <field name="price_include_tax" invisible="1"/>
                                     <field name="line_tax_amount" widget="monetary" invisible="True"/>
                                     <field name="voucher_line_tax_amount" widget="monetary" invisible="True"/>
+                                    <field name="product_tax_category" invisible="1"/>
 <!--                                    <field name="name" widget="section_and_note_text" invisible="True"-->
 <!--                                           optional="show" string="Description"-->
 <!--                                           attrs="{'required': [('display_type', '!=', False)]}"/>-->

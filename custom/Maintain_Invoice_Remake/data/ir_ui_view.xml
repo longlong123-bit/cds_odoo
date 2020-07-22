@@ -357,9 +357,11 @@
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="invoice_custom_Description"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
-                <field name="tax_rate" string="Tax Rate" readonly="0"
-                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="tax_rate" string="Tax Rate"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')],
+                               'readonly': [('product_tax_category', '=', 'exempt')]}"/>
                 <field name="move_name" invisible="1"/>
+                <field name="product_tax_category" invisible="1"/>
                 <field name="account_id" invisible="1" groups="account.group_account_user" domain="[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id)]" attrs="{'required': [('display_type', '=', False)]}"/>
                 <field name="analytic_account_id" invisible="1" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting" optional="show"/>
                 <field name="analytic_tag_ids" invisible="1" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_tags" optional="show" widget="many2many_tags"/>

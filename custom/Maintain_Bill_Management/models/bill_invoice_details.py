@@ -33,3 +33,4 @@ class BillInvoiceDetailsClass(models.Model):
     line_amount = fields.Float('line amount', readonly=True)
     tax_rate = fields.Float('tax_rate', readonly=True)
     voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', readonly=True)
+    payment_category = fields.Selection([('cash', '現金'), ('bank', '銀行')], readonly=True)

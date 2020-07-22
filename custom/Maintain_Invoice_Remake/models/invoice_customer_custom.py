@@ -1262,6 +1262,9 @@ class AccountMoveLine(models.Model):
 
     tax_rate = fields.Float('Tax Rate')
     product_code = fields.Char(string="Product Code")
+    product_tax_category = fields.Selection(
+        related="product_id.product_tax_category"
+    )
 
     price_no_tax = fields.Float('Price No Tax')
     price_include_tax = fields.Float('Price Include Tax')
