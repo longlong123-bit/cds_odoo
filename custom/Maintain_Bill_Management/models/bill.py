@@ -467,6 +467,7 @@ class BillingClass(models.Model):
                         'price_unit': line.price_unit,
                         'tax_amount': line.line_tax_amount,
                         'line_amount': line.invoice_custom_lineamount,
+                        'voucher_line_tax_amount': line.voucher_line_tax_amount,
                     })
             for payment in payment_ids:
                 self.env['bill.invoice.details'].create({
