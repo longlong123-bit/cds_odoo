@@ -1,20 +1,5 @@
-from odoo import api, fields, models
-# from datetime import date
-from datetime import date, timedelta
-from odoo.tools.float_utils import float_round
-
-
-def rounding(number, pre=0, type_rounding='round'):
-    """Rounding number by type rounding(round, roundup, rounddown)."""
-    if number != 0:
-        if type_rounding == 'roundup':
-            return float_round(number, pre, None, 'UP')
-        elif type_rounding == 'rounddown':
-            return float_round(number, pre, None, 'DOWN')
-        else:
-            return float_round(number, pre)
-    else:
-        return 0
+from odoo import fields, models
+from custom.Maintain_Invoice_Remake.models.invoice_customer_custom import rounding
 
 
 class PrintPaymentRequest(models.Model):
@@ -120,7 +105,7 @@ class BillInfoGet(models.Model):
                         subtotal += rounding(line.line_amount * line.tax_rate, 2,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
             if line.x_voucher_tax_transfer == 'custom_tax':
-                subtotal += amount_tax
+                subtotal += re.amount_tax
         return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
 
 
