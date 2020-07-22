@@ -79,21 +79,6 @@ class BillingClass(models.Model):
                 ('customer_trans_classification_code', '!=', 'cash'),
             ])
 
-    def _compute_voucher_number(self, record):
-        # Temporary variables are used to calculate voucher number
-        number = 0
-
-        # Get the records in the "res_partner" table with the same "請求先" as billing_code
-        res_partner_id = self.env["res.partner"].search(
-            ['|', ('customer_code', '=', record.customer_code), ('customer_code_bill', '=', record.customer_code)])
-
-        # Calculate voucher number
-        for rec in res_partner_id:
-            number = number + len(self._get_invoices_sales_by_partner_id(partner_id=rec.ids,
-                                                                         last_closing_date=record.last_closing_date,
-                                                                         deadline=record.deadline))
-        return number
-
     def _set_data_to_fields(self):
         for record in self:
             _last_billed_amount = 0
@@ -109,9 +94,6 @@ class BillingClass(models.Model):
                 record.last_closing_date = _closing_date['last_closing_date']
                 record.deadline = _closing_date['deadline']
 
-            # Set data for voucher_number field
-            record.voucher_number = self._compute_voucher_number(record=record)
-
             # Set data for department field
             record.department = record.customer_agent.department_id.id
 
@@ -124,51 +106,40 @@ class BillingClass(models.Model):
             for bill in bill_info_ids:
                 _last_billed_amount = bill.billed_amount
 
-            # Compute data for deposit_amount field
-            if record.last_closing_date:
-                payment_ids = self.env['account.payment'].search([
-                    ('partner_id', 'in', record.ids),
-                    ('payment_date', '>', record.last_closing_date),
-                    ('payment_date', '<=', record.deadline),
-                    ('state', '=', 'posted'),
-                    ('bill_status', '!=', 'billed'),
-                ])
-            else:
-                payment_ids = self.env['account.payment'].search([
-                    ('partner_id', 'in', record.ids),
-                    ('payment_date', '<=', record.deadline),
-                    ('state', '=', 'posted'),
-                    ('bill_status', '!=', 'billed'),
-                ])
+            # Compute data for amount_untaxed, tax_amount, billed_amount fields
+            res_partner_id = self.env["res.partner"].search(['|', ('customer_code', '=', record.customer_code),
+                                                             ('customer_code_bill', '=', record.customer_code)])
 
+            invoice_ids_domain = [
+                ('partner_id', 'in', res_partner_id.ids),
+                ('x_studio_date_invoiced', '<=', record.deadline),
+                ('state', '=', 'posted'),
+                ('type', '=', 'out_invoice'),
+                ('bill_status', '!=', 'billed')
+            ]
+            payment_ids_domain = [
+                ('partner_id', 'in', record.ids),
+                ('payment_date', '<=', record.deadline),
+                ('state', '=', 'draft'),
+                ('bill_status', '!=', 'billed'),
+            ]
+            if record.last_closing_date:
+                payment_ids_domain += [('payment_date', '>', record.last_closing_date)]
+                invoice_ids_domain += [('x_studio_date_invoiced', '>', record.last_closing_date)]
+
+            invoice_ids = self.env['account.move'].search(invoice_ids_domain)
+            payment_ids = self.env['account.payment'].search(payment_ids_domain)
+
+            # Set data for voucher_number field
+            record.voucher_number = len(invoice_ids) + len(payment_ids)
+
+            # Compute data for deposit_amount field
             for payment_id in payment_ids:
                 if payment_id.payment_amount:
                     _deposit_amount = _deposit_amount + payment_id.payment_amount
 
             # Compute data for balance_amount field
             _balance_amount = _last_billed_amount - _deposit_amount
-
-            # Compute data for amount_untaxed, tax_amount, billed_amount fields
-            res_partner_id = self.env["res.partner"].search(
-                ['|', ('customer_code', '=', record.customer_code), ('customer_code_bill', '=', record.customer_code)])
-
-            if record.last_closing_date:
-                invoice_ids = self.env['account.move'].search([
-                    ('partner_id', 'in', res_partner_id.ids),
-                    ('x_studio_date_invoiced', '>', record.last_closing_date),
-                    ('x_studio_date_invoiced', '<=', record.deadline),
-                    ('state', '=', 'posted'),
-                    ('type', '=', 'out_invoice'),
-                    ('bill_status', '!=', 'billed')
-                ])
-            else:
-                invoice_ids = self.env['account.move'].search([
-                    ('partner_id', 'in', res_partner_id.ids),
-                    ('x_studio_date_invoiced', '<=', record.deadline),
-                    ('state', '=', 'posted'),
-                    ('type', '=', 'out_invoice'),
-                    ('bill_status', '!=', 'billed')
-                ])
 
             _line_compute_amount_tax = 0
             for invoice in invoice_ids:
@@ -303,20 +274,6 @@ class BillingClass(models.Model):
 
     # Button [抜粋/Excerpt]
     def bm_bill_excerpt_button(self):
-        res_partner_id = self.env["res.partner"].search(
-            ['|', ('customer_code', '=', self.customer_code), ('customer_code_bill', '=', self.customer_code)])
-
-        self.bill_account_move_ids = self._get_invoices_sales_by_partner_id(partner_id=res_partner_id.ids,
-                                                                            last_closing_date=self.last_closing_date,
-                                                                            deadline=self.deadline)
-
-        self.bill_account_move_line_ids = self.env['account.move.line'].search([
-            ('move_id', 'in', self.bill_account_move_ids.ids),
-            ('partner_id', 'in', res_partner_id.ids),
-            ('account_internal_type', '=', 'other'),
-            ('bill_status', '!=', 'billed'),
-        ])
-
         return {
             'type': 'ir.actions.act_window',
             'name': 'Billing Details',
@@ -329,8 +286,6 @@ class BillingClass(models.Model):
                         'view_name': 'Billing Details',
                         'billing_code': self.customer_code,
                         'billing_name': self.name,
-                        'bill_account_move_ids': self.bill_account_move_ids,
-                        'bill_move_ids': self.bill_account_move_ids.ids,
                         'last_closing_date': self.last_closing_date,
                         'deadline': self.deadline,
                         },
