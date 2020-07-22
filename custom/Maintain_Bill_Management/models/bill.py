@@ -4,6 +4,7 @@ from odoo import models, fields, api
 from datetime import datetime, date, timedelta
 import math
 from ...Maintain_Accounts_Receivable_Balance_List.models import accounts_receivable_balance_list as advanced_search
+from ...Maintain_Invoice_Remake.models.invoice_customer_custom import rounding
 
 
 class BillingClass(models.Model):
@@ -58,27 +59,6 @@ class BillingClass(models.Model):
         out_invoices = self.env['account.move'].search(domain)
         return out_invoices
 
-    def _get_invoices_sales_by_partner_id(self, partner_id, last_closing_date, deadline):
-        if last_closing_date:
-            return self.env['account.move'].search([
-                ('partner_id', 'in', partner_id),
-                ('x_studio_date_invoiced', '>', last_closing_date),
-                ('x_studio_date_invoiced', '<=', deadline),
-                ('state', '=', 'posted'),
-                ('type', '=', 'out_invoice'),
-                ('bill_status', '!=', 'billed'),
-                ('customer_trans_classification_code', '!=', 'cash'),
-            ])
-        else:
-            return self.env['account.move'].search([
-                ('partner_id', 'in', partner_id),
-                ('x_studio_date_invoiced', '<=', deadline),
-                ('state', '=', 'posted'),
-                ('type', '=', 'out_invoice'),
-                ('bill_status', '!=', 'billed'),
-                ('customer_trans_classification_code', '!=', 'cash'),
-            ])
-
     def _set_data_to_fields(self):
         for record in self:
             _last_billed_amount = 0
@@ -110,13 +90,9 @@ class BillingClass(models.Model):
             res_partner_id = self.env["res.partner"].search(['|', ('customer_code', '=', record.customer_code),
                                                              ('customer_code_bill', '=', record.customer_code)])
 
-            invoice_ids_domain = [
-                ('partner_id', 'in', res_partner_id.ids),
-                ('x_studio_date_invoiced', '<=', record.deadline),
-                ('state', '=', 'posted'),
-                ('type', '=', 'out_invoice'),
-                ('bill_status', '!=', 'billed')
-            ]
+            invoice_ids = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
+                                                           last_closing_date=record.last_closing_date,
+                                                           deadline=record.deadline)
             payment_ids_domain = [
                 ('partner_id', 'in', record.ids),
                 ('payment_date', '<=', record.deadline),
@@ -125,9 +101,6 @@ class BillingClass(models.Model):
             ]
             if record.last_closing_date:
                 payment_ids_domain += [('payment_date', '>', record.last_closing_date)]
-                invoice_ids_domain += [('x_studio_date_invoiced', '>', record.last_closing_date)]
-
-            invoice_ids = self.env['account.move'].search(invoice_ids_domain)
             payment_ids = self.env['account.payment'].search(payment_ids_domain)
 
             # Set data for voucher_number field
@@ -171,46 +144,23 @@ class BillingClass(models.Model):
                             _amount = _untax_amount
 
                         if line.move_id.x_voucher_tax_transfer != 'voucher':
-                            if record.customer_tax_rounding == 'round':
-                                _untax_amount = int(round(_untax_amount, 1) + 0.5)
-                                _tax = int(round(_tax, 1) + 0.5)
-                                _amount = int(round(_amount, 1) + 0.5)
-                            elif record.customer_tax_rounding == 'roundup':
-                                _untax_amount = math.ceil(_untax_amount)
-                                _tax = math.ceil(_tax)
-                                _amount = math.ceil(_amount)
-                            else:
-                                _untax_amount = math.floor(_untax_amount)
-                                _tax = math.floor(_tax)
-                                _amount = math.floor(_amount)
+                            _untax_amount = rounding(_untax_amount, 0, record.customer_tax_rounding)
+                            _tax = rounding(_tax, 0, record.customer_tax_rounding)
+                            _amount = rounding(_amount, 0, record.customer_tax_rounding)
 
                         _amount_untaxed = _amount_untaxed + _untax_amount
                         _tax_amount = _tax_amount + _tax
                         _amount_total = _amount_total + _amount
 
                 if line.move_id.x_voucher_tax_transfer == 'voucher':
-                    if record.customer_tax_rounding == 'round':
-                        _amount_untaxed = int(round(_amount_untaxed, 1) + 0.5)
-                        _tax_amount = int(round(_tax_amount, 1) + 0.5)
-                        _amount_total = int(round(_amount_total, 1) + 0.5)
-                    elif record.customer_tax_rounding == 'roundup':
-                        _amount_untaxed = math.ceil(_amount_untaxed)
-                        _tax_amount = math.ceil(_tax_amount)
-                        _amount_total = math.ceil(_amount_total)
-                    else:
-                        _amount_untaxed = math.floor(_amount_untaxed)
-                        _tax_amount = math.floor(_tax_amount)
-                        _amount_total = math.floor(_amount_total)
+                    _amount_untaxed = rounding(_amount_untaxed, 0, record.customer_tax_rounding)
+                    _tax_amount = rounding(_tax_amount, 0, record.customer_tax_rounding)
+                    _amount_total = rounding(_amount_total, 0, record.customer_tax_rounding)
                 elif line.move_id.x_voucher_tax_transfer == 'custom_tax':
                     _tax_amount = invoice.amount_tax
                     _amount_total = _amount_total + _tax_amount
                 elif line.move_id.x_voucher_tax_transfer == 'invoice':
-                    if record.customer_tax_rounding == 'round':
-                        _line_compute_amount_tax = int(round(_line_compute_amount_tax, 1) + 0.5)
-                    elif record.customer_tax_rounding == 'roundup':
-                        _line_compute_amount_tax = math.ceil(_line_compute_amount_tax)
-                    else:
-                        _line_compute_amount_tax = math.floor(_line_compute_amount_tax)
+                    _line_compute_amount_tax = rounding(_line_compute_amount_tax, 0, record.customer_tax_rounding)
 
             _tax_amount = _tax_amount + _line_compute_amount_tax
             _amount_total = _amount_total + _line_compute_amount_tax
@@ -291,27 +241,10 @@ class BillingClass(models.Model):
                         },
         }
 
-        # return {
-        #     'type': 'ir.actions.act_window',
-        #     'name': 'Billing Details',
-        #     'view_mode': 'form',
-        #     'target': 'current',
-        #     'res_model': 'res.partner',
-        #     'res_id': self.id,
-        #     'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_form').id, 'form')],
-        #     'context': {'form_view_initial_mode': 'edit', 'bill_management_module': True,
-        #                 'view_name': 'Billing Details',
-        #                 'bill_account_move_ids': self.bill_account_move_ids,
-        #                 'bill_move_ids': self.bill_account_move_ids.ids,
-        #                 'last_closing_date': self.last_closing_date,
-        #                 'deadline': self.deadline,
-        #                 },
-        # }
-
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
             if (rec['last_billed_amount'] + rec['deposit_amount'] + rec['balance_amount'] + rec['amount_untaxed'] \
-                    + rec['tax_amount'] + rec['billed_amount'] == 0):
+                + rec['tax_amount'] + rec['billed_amount'] == 0) or rec['last_closing_date'] > rec['deadline']:
                 continue
 
             if advanced_search.val_bill_search_deadline:
@@ -325,13 +258,6 @@ class BillingClass(models.Model):
             invoice_ids = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
                                                            last_closing_date=rec['last_closing_date'],
                                                            deadline=rec['deadline'])
-
-            invoice_ids.write({
-                'bill_status': 'billed'
-            })
-            self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
-                'bill_status': 'billed'
-            })
 
             _invoice_details_number = 0
             _sum_amount_tax_cashed = 0
@@ -355,13 +281,6 @@ class BillingClass(models.Model):
                 payment_domain += [('payment_date', '>', rec['last_closing_date'])]
 
             payment_ids = self.env['account.payment'].search(payment_domain)
-            print('aaaaaaaaaaa', payment_ids)
-
-
-            # payment_ids.write({
-            #     'bill_status': 'billed'
-            # })
-            # payment_ids.post()
 
             _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
 
@@ -373,7 +292,7 @@ class BillingClass(models.Model):
                 'last_closing_date': rec['last_closing_date'],
                 'closing_date': rec['deadline'],
                 'deadline': rec['deadline'],
-                'invoices_number': len(invoice_ids),
+                'invoices_number': len(invoice_ids) + len(payment_ids),
                 'invoices_details_number': _invoice_details_number,
                 'last_billed_amount': rec['last_billed_amount'],
                 'deposit_amount': rec['deposit_amount'],
@@ -477,16 +396,26 @@ class BillingClass(models.Model):
                     'line_amount': payment.amount,
                     'payment_category': payment.vj_c_payment_category,
                 })
+            invoice_ids.write({
+                'bill_status': 'billed'
+            })
+            self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
+                'bill_status': 'billed'
+            })
             payment_ids.write({
                 'bill_status': 'billed'
             })
             payment_ids.post()
 
         advanced_search.val_bill_search_deadline = ''
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'reload',
-        }
+
+        if len(argsSelectedData) == 0:
+            return False
+        else:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'reload',
+            }
 
     def create_bill_details(self):
         ctx = self._context.copy()
