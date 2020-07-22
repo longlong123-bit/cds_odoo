@@ -94,7 +94,7 @@ class BillingClass(models.Model):
                                                            last_closing_date=record.last_closing_date,
                                                            deadline=record.deadline)
             payment_ids_domain = [
-                ('partner_id', 'in', record.ids),
+                ('partner_id', 'in', res_partner_id.ids),
                 ('payment_date', '<=', record.deadline),
                 ('state', '=', 'draft'),
                 ('bill_status', '!=', 'billed'),
