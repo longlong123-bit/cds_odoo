@@ -54,6 +54,7 @@ class ClassDetail(models.Model):
     line_amount = fields.Float('line amount', compute='_get_account_move_line_db', readonly=True)
     x_invoicelinetype = fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
     tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
+    voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='_get_account_move_line_db')
 
     def _get_account_move_line_db(self):
         for acc in self:
@@ -71,6 +72,7 @@ class ClassDetail(models.Model):
                 acc.line_amount = acc.account_move_line_id.invoice_custom_lineamount
                 acc.x_invoicelinetype = acc.account_move_line_id.x_invoicelinetype
                 acc.tax_rate = acc.account_move_line_id.tax_rate
+                acc.voucher_line_tax_amount = acc.account_move_line_id.voucher_line_tax_amount
 
 
 class ClassAccontMoveLineCustom(models.Model):
