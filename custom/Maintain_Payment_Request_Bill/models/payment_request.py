@@ -8,11 +8,11 @@ def rounding(number, pre=0, type_rounding='round'):
     """Rounding number by type rounding(round, roundup, rounddown)."""
     if number != 0:
         if type_rounding == 'roundup':
-            return float_round(number, pre, 'UP')
+            return float_round(number, pre, None, 'UP')
         elif type_rounding == 'rounddown':
-            return float_round(number, pre, 'DOWN')
+            return float_round(number, pre, None, 'DOWN')
         else:
-            return float_round(number, pre)
+            return float_round(number, pre, None, None)
     else:
         return 0
 
