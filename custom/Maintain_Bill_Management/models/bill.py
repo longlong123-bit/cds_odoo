@@ -499,6 +499,7 @@ class BillingClass(models.Model):
                     'invoice_date': payment.payment_date,
                     'invoice_no': payment.document_no,
                     'line_amount': payment.amount,
+                    'payment_category': payment.vj_c_payment_category,
                 })
             payment_ids.write({
                 'bill_status': 'billed'
