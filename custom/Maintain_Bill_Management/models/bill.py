@@ -336,7 +336,6 @@ class BillingClass(models.Model):
                     'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
                     'invoice_date': invoice.x_studio_date_invoiced,
                     'invoice_no': invoice.x_studio_document_no,
-                    'type': invoice.type,
                 })
 
                 for line in invoice.invoice_line_ids:
@@ -693,7 +692,6 @@ class BillingClass(models.Model):
                 'customer_closing_date_id': self.customer_closing_date.id,
                 'invoice_date': line.date,
                 'invoice_no': line.invoice_no,
-                'payment_id': line.payment_id,
             })
         advanced_search.val_bill_search_deadline = ''
         self.ensure_one()
