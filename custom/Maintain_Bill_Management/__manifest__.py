@@ -11,11 +11,11 @@
 
     # any module necessary for this one to work correctly
     'depends': [
-        'base_setup', 'Maintain_Custom_Department', 'Maintain_Custom_Department_Section',
-        'Maintain_Custom_Employee', 'Maintain_Business_Partner_Group', 'Maintain_Closing_Date',
-        'Maintain_Product_Class', 'Maintain_Product', 'Maintain_Freight_Category',
-        'Maintain_Business_Partners_Remake', 'Maintain_Invoice_Remake', 'Maintain_Accounts_Receivable_Balance_List',
-        'Maintain_Income_Payment'
+        'base_setup',
+        'Maintain_Business_Partners_Remake',
+        'Maintain_Invoice_Remake',
+        'Maintain_Income_Payment',
+        'Maintain_Accounts_Receivable_Balance_List',
     ],
 
     # always loaded
@@ -25,6 +25,7 @@
         'views/bill.xml',
         'views/menu_bill_management.xml',
         'views/many_payment_view.xml',
+        'views/bill_details.xml',
     ],
     'qweb': [
         'static/src/xml/bill_advanced_search.xml',
