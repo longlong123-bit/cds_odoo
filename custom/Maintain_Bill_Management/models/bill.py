@@ -371,13 +371,18 @@ class BillingClass(models.Model):
                     _sum_amount_tax_cashed = _sum_amount_tax_cashed + invoice.amount_tax
                     _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
 
-            payment_ids = self.env['account.payment'].search([
+            payment_domain = [
                 ('partner_id', 'in', res_partner_id.ids),
-                ('payment_date', '>', rec['last_closing_date']),
                 ('payment_date', '<=', rec['deadline']),
                 ('state', '=', 'draft'),
                 ('bill_status', '!=', 'billed'),
-            ])
+            ]
+            if rec.get('last_closing_date'):
+                payment_domain += [('payment_date', '>', rec['last_closing_date'])]
+
+            payment_ids = self.env['account.payment'].search(payment_domain)
+            print('aaaaaaaaaaa', payment_ids)
+
 
             # payment_ids.write({
             #     'bill_status': 'billed'
@@ -472,7 +477,7 @@ class BillingClass(models.Model):
             for payment in payment_ids:
                 self.env['bill.invoice.details'].create({
                     'bill_info_id': _bill_info_ids.id,
-                    'bill_invoice_id': _bill_invoice_ids.id,
+                    # 'bill_invoice_id': _bill_invoice_ids.id,
                     'billing_code': rec['customer_code'],
                     'billing_name': rec['name'],
                     'bill_no': _bill_no,
@@ -488,7 +493,7 @@ class BillingClass(models.Model):
                     'hr_department_id': partner_ids.customer_agent.department_id.id,
                     'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                     'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                    'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
+                    # 'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
                     'quantity': 1,
                     'price_unit': payment.amount,
                     'invoice_date': payment.payment_date,
