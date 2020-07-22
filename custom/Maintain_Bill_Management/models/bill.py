@@ -244,7 +244,7 @@ class BillingClass(models.Model):
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
             if (rec['last_billed_amount'] + rec['deposit_amount'] + rec['balance_amount'] + rec['amount_untaxed'] \
-                + rec['tax_amount'] + rec['billed_amount'] == 0) or rec['last_closing_date'] > rec['deadline']:
+                + rec['tax_amount'] + rec['billed_amount'] == 0) or (rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']):
                 continue
 
             if advanced_search.val_bill_search_deadline:
@@ -366,7 +366,6 @@ class BillingClass(models.Model):
                         'tax_amount': line.line_tax_amount,
                         'line_amount': line.invoice_custom_lineamount,
                         'voucher_line_tax_amount': line.voucher_line_tax_amount,
-                        'payment_id': line.payment_id,
                     })
             for payment in payment_ids:
                 self.env['bill.invoice.details'].create({
@@ -668,7 +667,6 @@ class BillingClass(models.Model):
                 'customer_closing_date_id': self.customer_closing_date.id,
                 'invoice_date': invoice.x_studio_date_invoiced,
                 'invoice_no': invoice.x_studio_document_no,
-                'type': invoice.type,
             })
 
         for line in invoice_line_ids:
