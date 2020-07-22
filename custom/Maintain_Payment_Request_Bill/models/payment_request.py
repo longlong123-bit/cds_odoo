@@ -1,5 +1,20 @@
-from odoo import fields, models
-from custom.Maintain_Invoice_Remake.models.invoice_customer_custom import rounding
+from odoo import api, fields, models
+# from datetime import date
+from datetime import date, timedelta
+from odoo.tools.float_utils import float_round
+
+
+def rounding(number, pre=0, type_rounding='round'):
+    """Rounding number by type rounding(round, roundup, rounddown)."""
+    if number != 0:
+        if type_rounding == 'roundup':
+            return float_round(number, pre, None, 'UP')
+        elif type_rounding == 'rounddown':
+            return float_round(number, pre, None, 'DOWN')
+        else:
+            return float_round(number, pre)
+    else:
+        return 0
 
 
 class PrintPaymentRequest(models.Model):
@@ -62,39 +77,11 @@ class BillInfoGet(models.Model):
                 subtotal += line.line_amount
         return subtotal
 
-    def amount_tax8(self):
-        subtotal = 0
-        for line in self.bill_detail_ids:
-            if line.tax_rate == 8:
-                if line.x_voucher_tax_transfer == 'foreign_tax':
-                    subtotal += rounding(line.tax_amount, 0, line.account_move_line_id.move_id.customer_tax_rounding)
-                elif line.x_voucher_tax_transfer == 'voucher':
-                    subtotal += rounding(line.voucher_line_tax_amount, 2,
-                                         line.account_move_line_id.move_id.customer_tax_rounding)
-                elif line.x_voucher_tax_transfer == 'invoice':
-                    subtotal += rounding(line.line_amount * line.tax_rate, 2,
-                                         line.account_move_line_id.move_id.customer_tax_rounding)
-        return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
-
-    def amount_tax10(self):
-        subtotal = 0
-        for line in self.bill_detail_ids:
-            if line.tax_rate == 10:
-                if line.x_voucher_tax_transfer == 'foreign_tax':
-                    subtotal += rounding(line.tax_amount, 0, line.account_move_line_id.move_id.customer_tax_rounding)
-                elif line.x_voucher_tax_transfer == 'voucher':
-                    subtotal += rounding(line.voucher_line_tax_amount, 2,
-                                         line.account_move_line_id.move_id.customer_tax_rounding)
-                elif line.x_voucher_tax_transfer == 'invoice':
-                    subtotal += rounding(line.line_amount * line.tax_rate, 2,
-                                         line.account_move_line_id.move_id.customer_tax_rounding)
-        return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
-
-    def amount_tax_o(self):
+    def amount_tax(self, tax_rate=0):
         subtotal = 0
         for re in self.bill_invoice_ids:
             for line in re.bill_invoice_details_ids:
-                if line.tax_rate != 10 and line.tax_rate != 8:
+                if line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8):
                     if line.x_voucher_tax_transfer == 'foreign_tax':
                         subtotal += rounding(line.tax_amount, 0,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
@@ -104,9 +91,55 @@ class BillInfoGet(models.Model):
                     elif line.x_voucher_tax_transfer == 'invoice':
                         subtotal += rounding(line.line_amount * line.tax_rate, 2,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
-            if line.x_voucher_tax_transfer == 'custom_tax':
+            if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
                 subtotal += re.amount_tax
         return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
+
+    # def amount_tax8(self):
+    #     subtotal = 0
+    #     for line in self.bill_detail_ids:
+    #         if line.tax_rate == 8:
+    #             if line.x_voucher_tax_transfer == 'foreign_tax':
+    #                 subtotal += rounding(line.tax_amount, 0, line.account_move_line_id.move_id.customer_tax_rounding)
+    #             elif line.x_voucher_tax_transfer == 'voucher':
+    #                 subtotal += rounding(line.voucher_line_tax_amount, 2,
+    #                                      line.account_move_line_id.move_id.customer_tax_rounding)
+    #             elif line.x_voucher_tax_transfer == 'invoice':
+    #                 subtotal += rounding(line.line_amount * line.tax_rate, 2,
+    #                                      line.account_move_line_id.move_id.customer_tax_rounding)
+    #     return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
+    #
+    # def amount_tax10(self):
+    #     subtotal = 0
+    #     for line in self.bill_detail_ids:
+    #         if line.tax_rate == 10:
+    #             if line.x_voucher_tax_transfer == 'foreign_tax':
+    #                 subtotal += rounding(line.tax_amount, 0, line.account_move_line_id.move_id.customer_tax_rounding)
+    #             elif line.x_voucher_tax_transfer == 'voucher':
+    #                 subtotal += rounding(line.voucher_line_tax_amount, 2,
+    #                                      line.account_move_line_id.move_id.customer_tax_rounding)
+    #             elif line.x_voucher_tax_transfer == 'invoice':
+    #                 subtotal += rounding(line.line_amount * line.tax_rate, 2,
+    #                                      line.account_move_line_id.move_id.customer_tax_rounding)
+    #     return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
+    #
+    # def amount_tax_o(self):
+    #     subtotal = 0
+    #     for re in self.bill_invoice_ids:
+    #         for line in re.bill_invoice_details_ids:
+    #             if line.tax_rate != 10 and line.tax_rate != 8:
+    #                 if line.x_voucher_tax_transfer == 'foreign_tax':
+    #                     subtotal += rounding(line.tax_amount, 0,
+    #                                          line.account_move_line_id.move_id.customer_tax_rounding)
+    #                 elif line.x_voucher_tax_transfer == 'voucher':
+    #                     subtotal += rounding(line.voucher_line_tax_amount, 2,
+    #                                          line.account_move_line_id.move_id.customer_tax_rounding)
+    #                 elif line.x_voucher_tax_transfer == 'invoice':
+    #                     subtotal += rounding(line.line_amount * line.tax_rate, 2,
+    #                                          line.account_move_line_id.move_id.customer_tax_rounding)
+    #         if line.x_voucher_tax_transfer == 'custom_tax':
+    #             subtotal += re.amount_tax
+    #     return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
 
 
 class PartnerClass(models.Model):
