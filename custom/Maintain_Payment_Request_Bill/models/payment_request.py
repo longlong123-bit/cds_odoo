@@ -12,7 +12,7 @@ def rounding(number, pre=0, type_rounding='round'):
         elif type_rounding == 'rounddown':
             return float_round(number, pre, None, 'DOWN')
         else:
-            return float_round(number, pre, None, None)
+            return float_round(number, pre)
     else:
         return 0
 
