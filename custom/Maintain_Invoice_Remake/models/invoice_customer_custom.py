@@ -15,7 +15,7 @@ from itertools import groupby
 from itertools import zip_longest
 from hashlib import sha256
 from json import dumps
-
+from odoo.tools import float_round
 import json
 import re
 import calendar
@@ -66,18 +66,12 @@ def get_tax_method(tax_category=None, tax_unit=None):
 def rounding(number, pre=0, type_rounding='round'):
     """Rounding number by type rounding(round, roundup, rounddown)."""
     if number != 0:
-        multiplier = 10 ** pre
         if type_rounding == 'roundup':
-            return math.ceil(number * multiplier) / multiplier
+            return float_round(number, pre, None, 'UP')
         elif type_rounding == 'rounddown':
-            return math.floor(number * multiplier) / multiplier
+            return float_round(number, pre, None, 'DOWN')
         else:
-            if pre < 0:
-                return round(number, pre)
-            else:
-                context = decimal.getcontext()
-                context.rounding = decimal.ROUND_HALF_UP
-                return float(round(decimal.Decimal(number), pre))
+            return float_round(number, pre)
     else:
         return 0
 
@@ -1268,6 +1262,9 @@ class AccountMoveLine(models.Model):
 
     tax_rate = fields.Float('Tax Rate')
     product_code = fields.Char(string="Product Code")
+    product_tax_category = fields.Selection(
+        related="product_id.product_tax_category"
+    )
 
     price_no_tax = fields.Float('Price No Tax')
     price_include_tax = fields.Float('Price Include Tax')

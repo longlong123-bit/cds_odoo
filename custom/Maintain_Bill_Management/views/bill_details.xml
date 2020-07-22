@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+     <!-- FORM VIEW -->
+    <record model="ir.ui.view" id="bm_bill_details_form">
+        <field name="name">bm.bill.details.form</field>
+        <field name="model">bill.details</field>
+        <field name="arch" type="xml">
+            <form string="Bill Form" delete="false" duplicate="false" create="false" edit="true">
+                <header>
+                    <button name="create_bill_details" string="Create bill" class="btn btn-primary" type="object"/>
+                    <button name="check_all_button" string="Check All" class="btn btn-primary" type="object"/>
+                    <button name="uncheck_all_button" string="Uncheck All" class="btn" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <group>
+                                    <field name="billing_code" string="Billing Code"/>
+                                </group>
+                            </div>
+                            <div class="col-md-4">
+                                <group>
+                                    <field name="billing_name" string="Billing Name"/>
+                                </group>
+                            </div>
+                            <div class="col-md-4">
+                                <group>
+                                    <field name="deadline"/>
+                                </group>
+                            </div>
+                        </div>
+                    </group>
+
+                    <notebook>
+                        <page string="Details Line">
+                            <field name="bill_account_move_line_ids">
+                                <tree string="Details Line" editable="bottom" create="false" delete="false">
+                                    <field name="selected" string=" "/>
+                                    <field name="date" string="Invoice Date" readonly='1'/>
+                                    <field name="invoice_no" string="Invoice No" readonly='1'/>
+                                    <field name="customer_code" string="Customer Code" readonly='1'/>
+                                    <field name="customer_name" string="Customer Name" readonly='1'/>
+                                    <field name="x_invoicelinetype" string="Invoice Line Type" readonly="1"/>
+                                    <field name="product_id" string="Product Code" readonly='1'/>
+                                    <field name="product_name" string="Product Name" readonly='1'/>
+                                    <field name="product_maker_name" string="Product Maker Name"
+                                           readonly='1'/>
+                                    <field name="invoice_custom_standardnumber" string="Standard Number" readonly='1'/>
+                                    <field name="quantity" string="Quantity" readonly='1'/>
+                                    <field name="price_unit" string="Price Unit" readonly='1'/>
+                                    <field name="invoice_custom_lineamount" string="Untaxed Amount" readonly='1'/>
+                                    <field name="invoice_custom_lineamount" string="Tax Amount" readonly='1'/>
+                                    <field name="invoice_custom_lineamount" string="Line Amount" readonly='1'/>
+                                    <field name="invoice_custom_Description" string="Note" readonly='1'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACTIONS -->
+    <record model="ir.actions.act_window" id="actions_bm_bill_details">
+        <field name="name">Billing Details</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bill.details</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="bm_bill_details_form"/>
+        <field name="domain"></field>
+        <field name="context">{'bill_management_module': True, 'view_name': 'Billing Details'}</field>
+    </record>
+</odoo>
