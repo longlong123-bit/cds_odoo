@@ -293,7 +293,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 359px;">
+                                                    <div t-if="line_detail.account_move_line_id" style="display: inline-block; width: 359px;">
                                                         <span t-field="line_detail.product_name"
                                                               style="max-height: 26px; vertical-align: top; display: inline-block; max-width: 235px; overflow: hidden; margin: 0;">
                                                         </span>
@@ -308,6 +308,16 @@
                                                             ※非課税
                                                         </span>
                                                         <span t-elif="line_detail.tax_rate ==8">※軽減税率</span>
+                                                    </div>
+                                                    <div t-else="" style="display: inline-block; width: 359px;">
+                                                        <span tyle="max-height: 26px; vertical-align: top; display: inline-block; max-width: 235px; overflow: hidden; margin: 0;">
+                                                        【入金　（</span>
+                                                        <span t-field="line_detail.payment_category"
+                                                              style="max-width: 62px; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
+                                                        </span>
+                                                        <span style="max-width: 62px; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
+                                                            ）】
+                                                        </span>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
@@ -326,9 +336,10 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <p t-esc="'{0:,.2f}'.format(line_detail.price_unit)"
+                                                        <span t-esc="'{0:,.2f}'.format(line_detail.price_unit)"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
-                                                        </p>
+                                                        </span>
+                                                        <span t-if="line_detail.x_voucher_tax_transfer == 'internal_tax'">※</span>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
@@ -506,9 +517,9 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax10())"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax8())"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_o())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -716,9 +727,9 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax10())"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax8())"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_o())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
