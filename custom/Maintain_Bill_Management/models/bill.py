@@ -224,27 +224,32 @@ class BillingClass(models.Model):
 
     # Button [抜粋/Excerpt]
     def bm_bill_excerpt_button(self):
+        bill = self.env['bill.details'].create(
+            {
+                # 'billing_place_id': self.id,
+                'billing_code': self.customer_code,
+                'billing_name': self.name,
+                'last_closing_date': self.last_closing_date,
+                'deadline': self.deadline,
+            })
         return {
             'type': 'ir.actions.act_window',
             'name': 'Billing Details',
             'view_mode': 'form',
             'target': 'current',
             'res_model': 'bill.details',
-            'res_id': self.id,
+            'res_id': bill.id,
             'views': [(self.env.ref('Maintain_Bill_Management.bm_bill_details_form').id, 'form')],
             'context': {'form_view_initial_mode': 'edit', 'bill_management_module': True,
                         'view_name': 'Billing Details',
-                        'billing_code': self.customer_code,
-                        'billing_name': self.name,
-                        'last_closing_date': self.last_closing_date,
-                        'deadline': self.deadline,
                         },
         }
 
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
             if (rec['last_billed_amount'] + rec['deposit_amount'] + rec['balance_amount'] + rec['amount_untaxed'] \
-                + rec['tax_amount'] + rec['billed_amount'] == 0) or (rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']):
+                + rec['tax_amount'] + rec['billed_amount'] == 0) or (
+                    rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']):
                 continue
 
             if advanced_search.val_bill_search_deadline:
