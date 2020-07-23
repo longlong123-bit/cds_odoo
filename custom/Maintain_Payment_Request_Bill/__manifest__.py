@@ -16,6 +16,8 @@
         'security/ir.model.access.csv',
         'reports/reports.xml',
         'reports/normal_reports.xml',
+        'reports/current_month_reports.xml',
+        'reports/abstract_payment_reports.xml',
         'views/add_js.xml',
         'views/report_format.xml',
         'views/payment_request_bill.xml',

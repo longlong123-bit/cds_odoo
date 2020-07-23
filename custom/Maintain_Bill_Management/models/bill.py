@@ -336,6 +336,7 @@ class BillingClass(models.Model):
                     'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
                     'invoice_date': invoice.x_studio_date_invoiced,
                     'invoice_no': invoice.x_studio_document_no,
+                    'x_studio_summary': invoice.x_studio_summary,
                 })
 
                 for line in invoice.invoice_line_ids:

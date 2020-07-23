@@ -31,3 +31,4 @@ class BillInvoiceClass(models.Model):
     x_voucher_tax_transfer = fields.Char('x_voucher_tax_transfer')
     invoice_date = fields.Date(string="Invoice Date")
     invoice_no = fields.Char(string='Invoice No')
+    x_studio_summary = fields.Text('Summary')
