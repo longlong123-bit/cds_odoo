@@ -53,6 +53,15 @@
                                     <field name="tax_amount" string="Tax Amount" readonly='1'/>
                                     <field name="line_amount" string="Line Amount" readonly='1'/>
                                     <field name="note" string="Note" readonly='1'/>
+
+                                    <!-- Invisible fields -->
+                                    <field name="account_move_id" string="Account Move Id" readonly='1' invisible="1"/>
+                                    <field name="account_move_line_id" string="Account Move Line Id" readonly='1'
+                                           invisible="1"/>
+                                    <field name="billing_place_id" string="Billing Place Id" readonly='1'
+                                           invisible="1"/>
+                                    <field name="partner_id" string="Partner Id" readonly='1' invisible="1"/>
+                                    <field name="payment_id" string="Payment Id" readonly='1' invisible="1"/>
                                 </tree>
                             </field>
                         </page>

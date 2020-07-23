@@ -1,7 +1,7 @@
 import datetime
 
 from odoo import models, fields, api
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 import math
 from ...Maintain_Accounts_Receivable_Balance_List.models import accounts_receivable_balance_list as advanced_search
 from ...Maintain_Invoice_Remake.models.invoice_customer_custom import rounding
@@ -226,11 +226,12 @@ class BillingClass(models.Model):
     def bm_bill_excerpt_button(self):
         bill = self.env['bill.details'].create(
             {
-                # 'billing_place_id': self.id,
+                'billing_place_id': self.id,
                 'billing_code': self.customer_code,
                 'billing_name': self.name,
                 'last_closing_date': self.last_closing_date,
                 'deadline': self.deadline,
+                'last_billed_amount': self.last_billed_amount,
             })
         return {
             'type': 'ir.actions.act_window',
