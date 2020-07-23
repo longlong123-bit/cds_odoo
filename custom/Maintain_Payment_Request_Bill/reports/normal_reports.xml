@@ -29,7 +29,6 @@
                         <t t-set="style_title" t-value="'width: 38%; float: left;'"/>
                         <t t-set="style_bill_no" t-value="'width: 40%; float: left;'"/>
                         <t t-set="o_title" t-value="'請　求　書'"/>
-                        <!--                        <div style="border: 1px dashed #000;margin-top: 67px;margin-bottom: 20px;"/>-->
                         <t t-if="range_docs_index == 2">
                             <t t-set="o_title" t-value="'請　求　書【控】'"/>
                             <t t-set="style_title" t-value="'width: 44%; float: left;'"/>
