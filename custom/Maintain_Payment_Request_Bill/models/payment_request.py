@@ -2,6 +2,7 @@ from odoo import api, fields, models
 # from datetime import date
 from datetime import date, timedelta
 from odoo.tools.float_utils import float_round
+from . import payment_request_bill
 
 
 def rounding(number, pre=0, type_rounding='round'):
@@ -55,6 +56,39 @@ class BillInfoGet(models.Model):
             'model': 'bill.info',
             'report_type': "qweb-pdf",
         }
+
+    def subtotal_amount_tax_month(self, tax_rate=0):
+        subtotal = 0
+        for line in self.bill_detail_ids:
+            if line.x_voucher_tax_transfer and (
+                    line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
+                if line.invoice_date.month == payment_request_bill.search_payment_closing_date.month and line.invoice_date.year == payment_request_bill.search_payment_closing_date.year:
+                    subtotal += line.line_amount
+                else:
+                    subtotal += 0
+        return subtotal
+
+    def amount_tax_month(self, tax_rate=0):
+        subtotal = 0
+        for re in self.bill_invoice_ids:
+            if re.invoice_date.month == payment_request_bill.search_payment_closing_date.month and re.invoice_date.year == payment_request_bill.search_payment_closing_date.year:
+                for line in re.bill_invoice_details_ids:
+                    if line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8):
+                        if line.x_voucher_tax_transfer == 'foreign_tax':
+                            subtotal += rounding(line.tax_amount, 0,
+                                                 line.account_move_line_id.move_id.customer_tax_rounding)
+                        elif line.x_voucher_tax_transfer == 'voucher':
+                            subtotal += rounding(line.voucher_line_tax_amount, 2,
+                                                 line.account_move_line_id.move_id.customer_tax_rounding)
+                        elif line.x_voucher_tax_transfer == 'invoice':
+                            subtotal += rounding(line.line_amount * line.tax_rate, 2,
+                                                 line.account_move_line_id.move_id.customer_tax_rounding)
+                if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
+                    subtotal += re.amount_tax
+            else:
+
+                subtotal += 0
+        return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
 
     def subtotal_amount_tax(self, tax_rate=0):
         subtotal = 0

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="normal_report">
+        <template id="yamasa_report">
             <!-- total_record_detail = total_detail + total_line_tax_of_invoice + total_line_of_【合計、税別御買上計、消費税】-->
             <t t-set="total_record_detail" t-value="len(o.bill_detail_ids) + len(o.bill_invoice_ids) + 3"/>
             <t t-set="total_page_detail" t-value="2"/>
@@ -108,7 +108,11 @@
                                         <span>毎度ありがとうございます。下記の通り御請求申し上げます。</span>
                                     </div>
                                 </div>
-                                <div style="width: 42%; float: right; text-align: center; font-size: 16px; margin-top: 27px;">
+                                <div style="width: 42%; float: right; text-align: center; font-size: 16px; margin-top: 9px;">
+                                    <div style="font-size: 14px; text-align: left; padding-left: 40px; width: 370px; white-space: nowrap; overflow: hidden; text-overflow: clip; margin-bottom: 2px;">
+                                      <span>買付先コード　</span>
+                                      <span t-esc="o.partner_id.customer_other_cd"/>
+                                    </div>
                                     <span style="font-size: 24px; font-weight: 600">株式会社　ト　ラ　ヤ</span>
                                     <br/>
                                     <span>代表取締役　　遠 藤 孝 二</span>
@@ -535,9 +539,9 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month(10))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month(8))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month())"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -624,7 +628,7 @@
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 359px;">
                                                         <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
-                                                            【　合　　計　】
+                                                            【税込御買上計　】
                                                         </span>
                                                     </div>
                                                 </td>
@@ -676,7 +680,7 @@
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 359px;">
                                                         <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
-                                                            【　合　　計　】
+                                                            【税込御買上計　】
                                                         </span>
                                                     </div>
                                                 </td>
@@ -760,9 +764,9 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month(10))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month(8))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month())"/>
                                                     </div>
                                                 </td>
                                             </tr>

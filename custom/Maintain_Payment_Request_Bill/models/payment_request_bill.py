@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from calendar import calendar
-from datetime import date, timedelta
-
+from datetime import date, timedelta, datetime
 from odoo import api, fields, models, _
-
 from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
 
 ADDRESS_FIELDS = ('street', 'street2', 'address3', 'zip', 'city', 'state_id', 'country_id')
@@ -15,6 +13,7 @@ search_address_type = ''
 search_cash_type = ''
 search_claim_type = ''
 search_print_child = ''
+search_payment_closing_date = datetime
 
 # Collation History
 search_x_studio_deadline = ''
@@ -23,17 +22,16 @@ search_name = ''
 search_invoice_partner_display_name = ''
 search_x_studio_name = ''
 
-#Billing List
-search_list_claim_zero=''
-search_list_customer_closing_date_id =''
-search_list_closing_date =''
-search_list_hr_department_id =''
-search_list_hr_employee_id =''
-search_list_business_partner_group_custom_id=''
-search_list_billing_code_from =''
-search_list_billing_code_to =''
-search_list_display_order=''
-
+# Billing List
+search_list_claim_zero = ''
+search_list_customer_closing_date_id = ''
+search_list_closing_date = ''
+search_list_hr_department_id = ''
+search_list_hr_employee_id = ''
+search_list_business_partner_group_custom_id = ''
+search_list_billing_code_from = ''
+search_list_billing_code_to = ''
+search_list_display_order = ''
 
 
 class CollationPayment(models.Model):
@@ -92,11 +90,13 @@ class CollationPayment(models.Model):
             global search_claim_type
             global search_bill_job_title
             global search_print_child
+            global search_payment_closing_date
             search_address_type = ''
             search_cash_type = ''
             search_claim_type = ''
             search_bill_job_title = ''
             search_print_child = ''
+            search_payment_closing_date = datetime
 
             for se in args:
                 if 'customer_closing_date_id' == se[0]:
@@ -105,6 +105,8 @@ class CollationPayment(models.Model):
                         se[1] = '='
                     domain += [se]
                 if se[0] == 'closing_date':
+                    search_payment_closing_date = datetime.strptime(se[2], '%Y-%m-%d')
+                    # print('aaaaaaaaaaaaa', search_payment_closing_date.month, type(search_payment_closing_date))
                     domain += [se]
                 if se[0] == 'billing_code' and se[1] == '>=':
                     domain += [se]
@@ -214,13 +216,13 @@ class CollationPayment(models.Model):
                 if record[0] == 'hr_department_id':
                     search_list_hr_department_id = record[2]
                 if record[0] == 'hr_employee_id':
-                    search_list_hr_employee_id= record[2]
+                    search_list_hr_employee_id = record[2]
                 if record[0] == 'business_partner_group_custom_id':
-                    search_list_business_partner_group_custom_id=record[2]
-                if record[0] =='billing_code' and record[1] == 'gte':
-                    search_list_billing_code_from =record[2]
-                if record[0] =='billing_code' and record[1] == 'lte':
-                    search_list_billing_code_to =record[2]
+                    search_list_business_partner_group_custom_id = record[2]
+                if record[0] == 'billing_code' and record[1] == 'gte':
+                    search_list_billing_code_from = record[2]
+                if record[0] == 'billing_code' and record[1] == 'lte':
+                    search_list_billing_code_to = record[2]
                 if 'display_order' == record[0]:
                     search_list_display_order = record[2]
                     if record[2] == '0':
