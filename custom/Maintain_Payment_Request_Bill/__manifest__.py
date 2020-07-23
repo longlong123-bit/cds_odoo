@@ -17,6 +17,7 @@
         'reports/reports.xml',
         'reports/normal_reports.xml',
         'reports/current_month_reports.xml',
+        'reports/yamasa_invoice_reports.xml',
         'reports/abstract_payment_reports.xml',
         'views/add_js.xml',
         'views/report_format.xml',
