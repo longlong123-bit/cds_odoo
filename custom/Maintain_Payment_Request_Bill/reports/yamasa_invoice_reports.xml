@@ -110,8 +110,8 @@
                                 </div>
                                 <div style="width: 42%; float: right; text-align: center; font-size: 16px; margin-top: 9px;">
                                     <div style="font-size: 14px; text-align: left; padding-left: 40px; width: 370px; white-space: nowrap; overflow: hidden; text-overflow: clip; margin-bottom: 2px;">
-                                      <span>買付先コード　</span>
-                                      <span t-esc="o.partner_id.customer_other_cd"/>
+                                        <span>買付先コード　</span>
+                                        <span t-esc="o.partner_id.customer_other_cd"/>
                                     </div>
                                     <span style="font-size: 24px; font-weight: 600">株式会社　ト　ラ　ヤ</span>
                                     <br/>
@@ -173,13 +173,13 @@
                                                     調　整　額
                                                 </td>
                                                 <td style="border: 1px solid #000000; border-right: 0; text-align: center">
-                                                    繰 越 金 額
+                                                    当 月 御 買 上 額
                                                 </td>
                                                 <td style="border: 1px solid #000000; border-right: 0; text-align: center">
-                                                    御 買 上 額
+                                                    当 月 消 費 税 額
                                                 </td>
                                                 <td style="border: 1px solid #000000; text-align: center">
-                                                    今 回 御 請 求 額
+                                                    当 月 御 請 求 額
                                                 </td>
                                             </tr>
                                         </thead>
@@ -187,16 +187,14 @@
                                             <tr>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; height: 38px;">
                                                     <div style="display: inline-block; width: 110px; text-align: center; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(o.last_billed_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="float: right; width: 110px; text-align: center; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(o.deposit_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
@@ -210,7 +208,7 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="float: right; width: 110px; text-align: center; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(o.balance_amount)"
+                                                        <p t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8) + o.subtotal_amount_tax(10) + o.subtotal_amount_tax())"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             <null/>
                                                         </p>
@@ -218,7 +216,7 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="float: right; width: 110px; text-align: center; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(o.amount_total)"
+                                                        <p t-esc="'{0:,.0f}'.format(o.amount_tax(8) + o.amount_tax(10) + o.amount_tax())"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             <null/>
                                                         </p>
@@ -226,7 +224,7 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: left;">
                                                     <div style="display: inline-block; width: 112px; text-align: center; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(o.billed_amount)"
+                                                        <p t-esc="'{0:,.0f}'.format(o.amount_total)"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             <null/>
                                                         </p>
@@ -539,9 +537,9 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month(8))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -764,9 +762,9 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month(8))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax_month())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
