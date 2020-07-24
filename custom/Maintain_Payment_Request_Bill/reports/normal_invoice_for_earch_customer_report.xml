@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="normal_invoice_for_each_customer_report">
+            <!-- total_record_detail = total_detail + total_line_tax_of_invoice + total_line_of_【合計、税別御買上計、消費税】-->
+            <t t-set="total_record_detail" t-value="len(o.bill_detail_ids) + len(o.bill_invoice_ids) + 3"/>
+            <t t-set="total_page_detail" t-value="2"/>
+            <t t-if="total_record_detail &gt; 20">
+                <t t-set="total_page2_detail" t-value="(total_record_detail - 20)/22"/>
+                <t t-if="1 &gt; total_page2_detail">
+                    <t t-set="total_page2_detail" t-value="1"/>
+                </t>
+                <t t-set="total_page_detail" t-value="int(total_page2_detail + 0.9 + 2)"/>
+            </t>
+            <t t-set="total_page_detail_tax" t-value="total_page_detail"/>
+            <t t-set="count_page_detail" t-value="0"/>
+            <t t-set="count_rows_total_page" t-value="1"/>
+            <t t-set="count_detail" t-value="1"/>
+            <t t-set="pager" t-value="0"/>
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <t t-set="tax_transfer_previous_data" t-value=""/>
+            <t t-set="amount_tax_previous_data" t-value="0"/>
+            <t t-foreach="range(1, total_page_detail)" t-as="range_total_page_detail">
+            </t>
+        </template>
+    </data>
+</odoo>
