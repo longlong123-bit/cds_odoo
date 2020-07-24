@@ -35,7 +35,14 @@ class BillingClass(models.Model):
                 ('parent_state', '=', 'posted'),
             ])
 
-            if invoice_line_ids:
+            payment_ids = self.env['account.payment'].search([
+                ('partner_id', 'in', res_partner_ids.ids),
+                ('payment_date', '<=', _last_closing_date),
+                ('state', '=', 'draft'),
+                ('bill_status', '!=', 'billed'),
+            ])
+
+            if invoice_line_ids or payment_ids:
                 _last_closing_date = last_data_bill_info_ids.last_closing_date
 
         closing_date = {
