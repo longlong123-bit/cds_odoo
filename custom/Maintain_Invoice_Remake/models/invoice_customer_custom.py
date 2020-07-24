@@ -201,6 +201,7 @@ class ClassInvoiceCustom(models.Model):
             if payment:
                 payment.cancel()
                 payment.action_draft()
+                payment.move_name = ''
                 payment.unlink()
         return super(ClassInvoiceCustom, self).button_draft()
 
@@ -273,7 +274,11 @@ class ClassInvoiceCustom(models.Model):
         :param show_ref:    A flag indicating of the display name must include or not the journal entry reference.
         :return:            A string representing the invoice.
         '''
-        return "修正"
+        ctx = self.env.context.copy()
+        if ctx.get('force_default_name'):
+            return "修正"
+        else:
+            return self.x_studio_document_no
         # self.ensure_one()
         # draft_name = ''
         # if self.state == 'draft':
