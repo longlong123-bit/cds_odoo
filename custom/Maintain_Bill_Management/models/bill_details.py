@@ -203,63 +203,64 @@ class BillingDetailsClass(models.TransientModel):
                 'customer_excerpt_request': self.billing_place_id.customer_except_request,
             })
 
-            # Create data fro bill_invoice table
-            for invoice in self.bill_details_line_ids.filtered(lambda l: l.selected).mapped(
-                    'account_move_line_id.move_id'):
-                _line_selected_in_invoice = self.bill_details_line_ids.filtered(
-                    lambda l: (l.selected and l.account_move_id.id == invoice.id))
-                _all_line_selected_in_invoice = self.bill_details_line_ids.filtered(
-                    lambda l: (l.account_move_id.id == invoice.id))
-                _invoice_untaxed_amount = 0
-                _invoice_tax_amount = 0
-                _invoice_amount_total = 0
-                for line in _line_selected_in_invoice:
-                    _invoice_untaxed_amount += line.untaxed_amount
-                    _invoice_tax_amount += line.tax_amount
-                    _invoice_amount_total += line.line_amount
-
-                if invoice.x_voucher_tax_transfer == 'custom_tax' \
-                        and len(_line_selected_in_invoice) == len(_all_line_selected_in_invoice):
-                    _invoice_tax_amount += invoice.amount_tax
-                    _invoice_amount_total += invoice.amount_tax
-
-                _bill_invoice_ids = self.env['bill.invoice'].create({
-                    'bill_info_id': _bill_info_ids.id,
-                    'billing_code': self.billing_code,
-                    'billing_name': self.billing_name,
-                    'bill_no': _bill_no,
-                    'bill_date': date.today(),
-                    'last_closing_date': self.last_closing_date,
-                    'closing_date': self.deadline,
-                    'deadline': self.deadline,
-                    'customer_code': invoice.partner_id.customer_code,
-                    'customer_name': invoice.partner_id.name,
-                    'amount_untaxed': _invoice_untaxed_amount,
-                    'amount_tax': _invoice_tax_amount,
-                    'amount_total': _invoice_amount_total,
-                    'customer_trans_classification_code': invoice.customer_trans_classification_code,
-                    'account_move_id': invoice.id,
-                    'hr_employee_id': self.billing_place_id.customer_agent.id,
-                    'hr_department_id': self.billing_place_id.customer_agent.department_id.id,
-                    'business_partner_group_custom_id': self.billing_place_id.customer_supplier_group_code.id,
-                    'customer_closing_date_id': self.billing_place_id.customer_closing_date.id,
-                    'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
-                    'invoice_date': invoice.x_studio_date_invoiced,
-                    'invoice_no': invoice.x_studio_document_no,
-                    'x_studio_summary': invoice.x_studio_summary,
-                })
-
-                if len(_line_selected_in_invoice) == len(_all_line_selected_in_invoice):
-                    # Update bill_status for records in account_move_line table
-                    invoice.write({
-                        'bill_status': 'billed'
-                    })
-
+            invoiced_ids = []
             for line in self.bill_details_line_ids.filtered(lambda l: l.selected):
+                invoice = line.account_move_id
+                _bill_invoice_ids = None
+                if invoice and invoice.id not in invoiced_ids:
+                    invoiced_ids.append(invoice.id)
+                    _line_selected_in_invoice = self.bill_details_line_ids.filtered(
+                        lambda l: (l.selected and l.account_move_id.id == invoice.id))
+                    _all_line_selected_in_invoice = self.bill_details_line_ids.filtered(
+                        lambda l: (l.account_move_id.id == invoice.id))
+                    _invoice_untaxed_amount = 0
+                    _invoice_tax_amount = 0
+                    _invoice_amount_total = 0
+                    for line in _line_selected_in_invoice:
+                        _invoice_untaxed_amount += line.untaxed_amount
+                        _invoice_tax_amount += line.tax_amount
+                        _invoice_amount_total += line.line_amount
+
+                    if invoice.x_voucher_tax_transfer == 'custom_tax' \
+                            and len(_line_selected_in_invoice) == len(_all_line_selected_in_invoice):
+                        _invoice_tax_amount += invoice.amount_tax
+                        _invoice_amount_total += invoice.amount_tax
+
+                    # Create data fro bill_invoice table
+                    _bill_invoice_ids = self.env['bill.invoice'].create({
+                        'bill_info_id': _bill_info_ids.id,
+                        'billing_code': self.billing_code,
+                        'billing_name': self.billing_name,
+                        'bill_no': _bill_no,
+                        'bill_date': date.today(),
+                        'last_closing_date': self.last_closing_date,
+                        'closing_date': self.deadline,
+                        'deadline': self.deadline,
+                        'customer_code': invoice.partner_id.customer_code,
+                        'customer_name': invoice.partner_id.name,
+                        'amount_untaxed': _invoice_untaxed_amount,
+                        'amount_tax': _invoice_tax_amount,
+                        'amount_total': _invoice_amount_total,
+                        'customer_trans_classification_code': invoice.customer_trans_classification_code,
+                        'account_move_id': invoice.id,
+                        'hr_employee_id': self.billing_place_id.customer_agent.id,
+                        'hr_department_id': self.billing_place_id.customer_agent.department_id.id,
+                        'business_partner_group_custom_id': self.billing_place_id.customer_supplier_group_code.id,
+                        'customer_closing_date_id': self.billing_place_id.customer_closing_date.id,
+                        'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
+                        'invoice_date': invoice.x_studio_date_invoiced,
+                        'invoice_no': invoice.x_studio_document_no,
+                        'x_studio_summary': invoice.x_studio_summary,
+                    })
+                    if len(_line_selected_in_invoice) == len(_all_line_selected_in_invoice):
+                        # Update bill_status for records in account_move_line table
+                        invoice.write({
+                            'bill_status': 'billed'
+                        })
                 # Create data for bill_invoice_details table
                 self.env['bill.invoice.details'].create({
                     'bill_info_id': _bill_info_ids.id,
-                    'bill_invoice_id': _bill_invoice_ids.id,
+                    'bill_invoice_id': _bill_invoice_ids and _bill_invoice_ids.id or False,
                     'billing_code': self.billing_code,
                     'billing_name': self.billing_name,
                     'bill_no': _bill_no,
@@ -297,10 +298,9 @@ class BillingDetailsClass(models.TransientModel):
                         'bill_status': 'billed'
                     })
 
+            self.prepare_data_for_bill_details_line()
+
             advanced_search.val_bill_search_deadline = ''
-            self.ensure_one()
-            action = self.env.ref('Maintain_Bill_Management.actions_bm_bill').read()[0]
-            return action
         return True
 
     def check_all_button(self):
