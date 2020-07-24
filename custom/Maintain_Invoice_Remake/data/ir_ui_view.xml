@@ -596,9 +596,9 @@
       <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
   </record>
 
-  <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
+  <!-- <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
       <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'force_default_name': 1}</field>
-  </record>
+  </record> -->
 
     <menuitem action="account.action_move_out_invoice_type" parent="account.menu_finance" sequence="1" id="menu_action_invoice" name="Invoicing"/>
 
