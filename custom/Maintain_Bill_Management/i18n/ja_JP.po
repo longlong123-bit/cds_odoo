@@ -153,26 +153,28 @@ msgid "Billing Address"
 msgstr "請求先"
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details__billing_code
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__billing_code
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__billing_code
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__billing_code
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Billing Code"
 msgstr "請求先コード"
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details__billing_name
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__billing_name
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__billing_name
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__billing_name
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 msgid "Billing Name"
 msgstr "請求先名（得意先名）"
 
 #. module: Maintain_Bill_Management
-#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_account_move__billing_place_id
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_account_move_line__billing_place_id
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details__billing_place_id
 msgid "Billing Place"
 msgstr "請求先"
 
@@ -183,7 +185,7 @@ msgid "Cash"
 msgstr "現金"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Check All"
 msgstr "全選択"
 
@@ -209,12 +211,14 @@ msgstr "原価"
 #. module: Maintain_Bill_Management
 #. openerp-web
 #: code:addons/Maintain_Bill_Management/static/src/xml/create_bill_button.xml:0
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 #, python-format
 msgid "Create bill"
 msgstr "実行"
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details__create_uid
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__create_uid
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__create_uid
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__create_uid
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__create_uid
@@ -222,6 +226,8 @@ msgid "Created by"
 msgstr ""
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details__create_date
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__create_date
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__create_date
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__create_date
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__create_date
@@ -259,21 +265,24 @@ msgstr "締日（締日グループ）"
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_account_move_line__customer_code
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__customer_code
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__customer_code
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__customer_code
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Customer Code"
 msgstr "得意先コード"
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_account_move_line__customer_name
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__customer_name
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__customer_name
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__customer_name
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Customer Name"
 msgstr "得意先名"
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details__deadline
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__deadline
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__deadline
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__deadline
@@ -311,11 +320,13 @@ msgid "Description"
 msgstr "備考"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Details Line"
 msgstr "売上請求伝票明細"
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details__display_name
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__display_name
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__display_name
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__display_name
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__display_name
@@ -336,6 +347,8 @@ msgid "Excerpt Request"
 msgstr "抜粋請求区分"
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details__id
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__id
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__id
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__id
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__id
@@ -343,17 +356,24 @@ msgid "ID"
 msgstr ""
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__invoice_date
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__invoice_date
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__invoice_date
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Invoice Date"
 msgstr "売上日付"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__invoice_line_type
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Invoice Line Type"
 msgstr "内訳区分"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__invoice_no
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__invoice_no
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__invoice_no
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Invoice No"
 msgstr "伝票No"
 
@@ -428,6 +448,8 @@ msgstr ""
 #. module: Maintain_Bill_Management
 #. openerp-web
 #: code:addons/Maintain_Bill_Management/static/src/xml/bill_product_lines.xml:0
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__line_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 #, python-format
 msgid "Line Amount"
 msgstr "金額"
@@ -454,7 +476,8 @@ msgid "No"
 msgstr "なし"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__note
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Note"
 msgstr "備考"
 
@@ -481,7 +504,8 @@ msgid "Price"
 msgstr "単価"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__price_unit
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Price Unit"
 msgstr "単価"
 
@@ -493,24 +517,29 @@ msgid "Product"
 msgstr "商品コード"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__product_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Product Code"
 msgstr "商品コード"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__product_maker_name
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Product Maker Name"
 msgstr "メーカー名"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__product_name
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Product Name"
 msgstr "商品名"
 
 #. module: Maintain_Bill_Management
 #. openerp-web
 #: code:addons/Maintain_Bill_Management/static/src/xml/bill_product_lines.xml:0
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__quantity
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details__quantity
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 #, python-format
 msgid "Quantity"
 msgstr "数量"
@@ -535,11 +564,12 @@ msgstr "掛売"
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_account_move_line__selected
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__selected
 msgid "Selected"
 msgstr ""
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Standard Number"
 msgstr "品番／型番"
 
@@ -556,9 +586,11 @@ msgstr "取引先グループ"
 #. module: Maintain_Bill_Management
 #. openerp-web
 #: code:addons/Maintain_Bill_Management/static/src/xml/bill_product_lines.xml:0
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__tax_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__tax_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__tax_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__tax_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
 #, python-format
 msgid "Tax Amount"
@@ -595,7 +627,7 @@ msgid "Transaction classification"
 msgstr "取引区分"
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Uncheck All"
 msgstr "全解除"
 
@@ -669,3 +701,49 @@ msgstr ""
 #, python-format
 msgid "商品名2"
 msgstr ""
+
+#. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__account_move_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
+msgid "Account Move Id"
+msgstr ""
+
+#. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__account_move_line_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
+msgid "Account Move Line Id"
+msgstr ""
+
+#. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__bill_details_id
+msgid "Bill Details"
+msgstr ""
+
+#. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__billing_place_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
+msgid "Billing Place Id"
+msgstr ""
+
+#. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__partner_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
+msgid "Partner Id"
+msgstr ""
+
+#. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__payment_id
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
+msgid "Payment Id"
+msgstr ""
+
+#. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__product_standard_number
+msgid "Product Standard Number"
+msgstr "品番／型番"
+
+#. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__untaxed_amount
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
+msgid "Untaxed Amount"
+msgstr "伝票合計額"
