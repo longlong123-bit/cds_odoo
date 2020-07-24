@@ -78,7 +78,11 @@ class BillingClass(models.Model):
                     ('billing_code', '=', rec['billing_code']),
                     ('bill_date', '=', rec['bill_date']),
                 ]).unlink()
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'reload',
-        }
+        if not argsSelectedData:
+            return False
+        else:
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'reload',
+            }
+
