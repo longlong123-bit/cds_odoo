@@ -13,7 +13,7 @@ search_address_type = ''
 search_cash_type = ''
 search_claim_type = ''
 search_print_child = ''
-search_payment_closing_date = datetime
+search_payment_closing_date = datetime.today()
 
 # Collation History
 search_x_studio_deadline = ''
@@ -96,7 +96,7 @@ class CollationPayment(models.Model):
             search_claim_type = ''
             search_bill_job_title = ''
             search_print_child = ''
-            search_payment_closing_date = datetime
+            search_payment_closing_date = datetime.today()
 
             for se in args:
                 if 'customer_closing_date_id' == se[0]:
@@ -106,7 +106,6 @@ class CollationPayment(models.Model):
                     domain += [se]
                 if se[0] == 'closing_date':
                     search_payment_closing_date = datetime.strptime(se[2], '%Y-%m-%d')
-                    # print('aaaaaaaaaaaaa', search_payment_closing_date.month, type(search_payment_closing_date))
                     domain += [se]
                 if se[0] == 'billing_code' and se[1] == '>=':
                     domain += [se]
