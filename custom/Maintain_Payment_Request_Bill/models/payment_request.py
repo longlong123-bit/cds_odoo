@@ -103,6 +103,14 @@ class BillInfoGet(models.Model):
     #             subtotal += 0
     #     return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
 
+    def subtotal_amount_tax_child(self, tax_rate=0, customer_code=None):
+        subtotal = 0
+        for line in self.bill_detail_ids:
+            if line.x_voucher_tax_transfer and (
+                    line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
+                subtotal += line.line_amount
+        return subtotal
+
     def subtotal_amount_tax(self, tax_rate=0):
         subtotal = 0
         for line in self.bill_detail_ids:
