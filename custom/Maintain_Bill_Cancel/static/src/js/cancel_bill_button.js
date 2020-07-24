@@ -40,7 +40,9 @@ odoo.define('bill.cancel_bill_button', function (require) {
                         timeout: 3000,
                         shadow: true
                     }).then(function (result) {
-                        return self.do_action(result)
+                        if (result) {
+                            return self.do_action(result)
+                        }
                     })
                     return def;
                 });
