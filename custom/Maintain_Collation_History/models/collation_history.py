@@ -55,9 +55,14 @@ class ClassDetail(models.Model):
     x_invoicelinetype = fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
     # voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='_get_account_move_line_db')
     # tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
+    flag_child_billing_code = fields.Integer('Flag Child Billing Code')
 
     def _get_account_move_line_db(self):
         for acc in self:
+            if acc.billing_code == acc.customer_code:
+                acc.flag_child_billing_code = 0
+            else:
+                acc.flag_child_billing_code = 1
             if acc.account_move_line_id:
                 acc.jan_code = acc.account_move_line_id.product_barcode
                 acc.product_name = acc.account_move_line_id.product_name
