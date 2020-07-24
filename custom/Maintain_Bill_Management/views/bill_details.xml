@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-     <!-- FORM VIEW -->
+    <!-- FORM VIEW -->
     <record model="ir.ui.view" id="bm_bill_details_form">
         <field name="name">bm.bill.details.form</field>
         <field name="model">bill.details</field>
         <field name="arch" type="xml">
             <form string="Bill Form" delete="false" duplicate="false" create="false" edit="true">
                 <header>
-                    <button name="create_bill_details" string="Create bill" class="btn btn-primary" type="object"/>
-                    <button name="check_all_button" string="Check All" class="btn btn-primary" type="object"/>
-                    <button name="uncheck_all_button" string="Uncheck All" class="btn" type="object"/>
+                    <button name="create_bill_details" string="Create bill" class="btn btn-primary" type="object" attrs="{'invisible': [('bill_details_line_ids', '=', [])]}"/>
+                    <button name="check_all_button" string="Check All" class="btn btn-primary" type="object" attrs="{'invisible': [('bill_details_line_ids', '=', [])]}"/>
+                    <button name="uncheck_all_button" string="Uncheck All" class="btn" type="object" attrs="{'invisible': [('bill_details_line_ids', '=', [])]}"/>
                 </header>
                 <sheet>
                     <group>
@@ -34,25 +34,34 @@
 
                     <notebook>
                         <page string="Details Line">
-                            <field name="bill_account_move_line_ids">
-                                <tree string="Details Line" editable="bottom" create="false" delete="false">
+                            <field name="bill_details_line_ids" readonly="0">
+                                <tree string="Details Line" editable="top" create="false" delete="false">
                                     <field name="selected" string=" "/>
-                                    <field name="date" string="Invoice Date" readonly='1'/>
+                                    <field name="invoice_date" string="Invoice Date" readonly='1'/>
                                     <field name="invoice_no" string="Invoice No" readonly='1'/>
                                     <field name="customer_code" string="Customer Code" readonly='1'/>
                                     <field name="customer_name" string="Customer Name" readonly='1'/>
-                                    <field name="x_invoicelinetype" string="Invoice Line Type" readonly="1"/>
-                                    <field name="product_id" string="Product Code" readonly='1'/>
+                                    <field name="invoice_line_type" string="Invoice Line Type" readonly="1"/>
+                                    <field name="product_code" string="Product Code" readonly='1'/>
                                     <field name="product_name" string="Product Name" readonly='1'/>
                                     <field name="product_maker_name" string="Product Maker Name"
                                            readonly='1'/>
-                                    <field name="invoice_custom_standardnumber" string="Standard Number" readonly='1'/>
+                                    <field name="product_standard_number" string="Standard Number" readonly='1'/>
                                     <field name="quantity" string="Quantity" readonly='1'/>
                                     <field name="price_unit" string="Price Unit" readonly='1'/>
-                                    <field name="invoice_custom_lineamount" string="Untaxed Amount" readonly='1'/>
-                                    <field name="invoice_custom_lineamount" string="Tax Amount" readonly='1'/>
-                                    <field name="invoice_custom_lineamount" string="Line Amount" readonly='1'/>
-                                    <field name="invoice_custom_Description" string="Note" readonly='1'/>
+                                    <field name="untaxed_amount" string="Untaxed Amount" readonly='1'/>
+                                    <field name="tax_amount" string="Tax Amount" readonly='1'/>
+                                    <field name="line_amount" string="Line Amount" readonly='1'/>
+                                    <field name="note" string="Note" readonly='1'/>
+
+                                    <!-- Invisible fields -->
+                                    <field name="account_move_id" string="Account Move Id" readonly='1' invisible="1"/>
+                                    <field name="account_move_line_id" string="Account Move Line Id" readonly='1'
+                                           invisible="1"/>
+                                    <field name="billing_place_id" string="Billing Place Id" readonly='1'
+                                           invisible="1"/>
+                                    <field name="partner_id" string="Partner Id" readonly='1' invisible="1"/>
+                                    <field name="payment_id" string="Payment Id" readonly='1' invisible="1"/>
                                 </tree>
                             </field>
                         </page>
@@ -70,6 +79,8 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="bm_bill_details_form"/>
         <field name="domain"></field>
-        <field name="context">{'bill_management_module': True, 'view_name': 'Billing Details'}</field>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true',
+            'bill_management_module': True, 'view_name': 'Billing Details'}
+        </field>
     </record>
 </odoo>
