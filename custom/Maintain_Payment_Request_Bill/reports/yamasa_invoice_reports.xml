@@ -272,7 +272,7 @@
                                     <t t-set="inv_date" t-value=""/>
                                     <t t-set="inv_no" t-value=""/>
                                     <t t-set="count_invoice_detail" t-value="0"/>
-                                    <t t-foreach="o.bill_detail_ids.sorted(key=lambda r: (r.invoice_no, r.invoice_date))"
+                                    <t t-foreach="o.bill_detail_ids.sorted(key=lambda r: (r.invoice_date, r.invoice_no))"
                                        t-as="line_detail">
                                         <t t-set="count_invoice_detail" t-value="count_invoice_detail + 1"/>
                                         <t t-if="((pager == 1 and 20 &gt;= count_detail) or (pager &gt; 1 and 22 &gt;= count_detail)) and count_invoice_detail &gt;= count_page_detail">
