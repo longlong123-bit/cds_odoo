@@ -7,9 +7,9 @@
         <field name="arch" type="xml">
             <form string="Bill Form" delete="false" duplicate="false" create="false" edit="true">
                 <header>
-                    <button name="create_bill_details" string="Create bill" class="btn btn-primary" type="object"/>
-                    <button name="check_all_button" string="Check All" class="btn btn-primary" type="object"/>
-                    <button name="uncheck_all_button" string="Uncheck All" class="btn" type="object"/>
+                    <button name="create_bill_details" string="Create bill" class="btn btn-primary" type="object" attrs="{'invisible': [('bill_details_line_ids', '=', [])]}"/>
+                    <button name="check_all_button" string="Check All" class="btn btn-primary" type="object" attrs="{'invisible': [('bill_details_line_ids', '=', [])]}"/>
+                    <button name="uncheck_all_button" string="Uncheck All" class="btn" type="object" attrs="{'invisible': [('bill_details_line_ids', '=', [])]}"/>
                 </header>
                 <sheet>
                     <group>
