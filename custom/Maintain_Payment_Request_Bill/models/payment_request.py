@@ -129,6 +129,46 @@ class BillInfoGet(models.Model):
                 subtotal += re.amount_tax
         return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
 
+    def subtotal_amount_tax_child(self, tax_rate=0, customer_code=None):
+        subtotal = 0
+        for line in self.bill_detail_ids:
+            if line.customer_code == customer_code:
+                if line.x_voucher_tax_transfer and (
+                        line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
+                    subtotal += line.line_amount
+                else:
+                    subtotal += 0
+
+        return subtotal
+
+    def amount_tax_child(self, tax_rate=0, customer_code=None):
+        subtotal = 0
+        for re in self.bill_invoice_ids:
+            if re.customer_code == customer_code:
+                for line in re.bill_invoice_details_ids:
+                    if line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8):
+                        if line.x_voucher_tax_transfer == 'foreign_tax':
+                            subtotal += rounding(line.tax_amount, 0,
+                                                 line.account_move_line_id.move_id.customer_tax_rounding)
+                        elif line.x_voucher_tax_transfer == 'voucher':
+                            subtotal += rounding(line.voucher_line_tax_amount, 2,
+                                                 line.account_move_line_id.move_id.customer_tax_rounding)
+                        elif line.x_voucher_tax_transfer == 'invoice':
+                            subtotal += rounding(line.line_amount * line.tax_rate, 2,
+                                                 line.account_move_line_id.move_id.customer_tax_rounding)
+                    if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
+                        subtotal += re.amount_tax
+                    else:
+                        subtotal += 0
+        return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
+
+    def count_customer_in_bill(self):
+        arr = []
+        for record in self.bill_invoice_ids:
+            if record.customer_code not in arr:
+                arr.append(record.customer_code)
+        return len(arr)
+
 
 class PartnerClass(models.Model):
     _inherit = 'res.partner'
