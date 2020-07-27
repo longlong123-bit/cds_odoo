@@ -125,7 +125,7 @@ class AccountsReceivableBalanceList(models.Model):
                         amount_total_signed_last_month = item_info_liabilities[1] and item_info_liabilities[1] or 0
                         deposit_amount_last_month = item_info_liabilities[2] and item_info_liabilities[2] or 0
                         # deposit_amount = item_info_liabilities[3] and item_info_liabilities[3] or 0
-                        deposit_amount = sum(deposits.mapp('amount'))
+                        deposit_amount = sum(deposits.mapped('amount'))
                         purchase_amount = item_info_liabilities[4] and item_info_liabilities[4] or 0
                         consumption_tax = item_info_liabilities[5] and item_info_liabilities[5] or 0
 
