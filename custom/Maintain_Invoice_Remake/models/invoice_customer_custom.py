@@ -276,9 +276,9 @@ class ClassInvoiceCustom(models.Model):
         '''
         ctx = self.env.context.copy()
         if ctx.get('force_default_name'):
-            return "修正"
-        else:
             return self.x_studio_document_no
+        else:
+            return "修正"
         # self.ensure_one()
         # draft_name = ''
         # if self.state == 'draft':

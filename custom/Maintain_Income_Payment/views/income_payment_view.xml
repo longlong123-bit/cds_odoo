@@ -42,7 +42,7 @@
                                 <td><field name="document_no" readonly="True" style="font-weight: bold;"/></td>
                                 <td class="o_td_label"><label for="account_invoice_id" string="Invoice"/></td>
                                 <td><field name="account_invoice_id" domain="[('state','=','posted')]" options="{'no_open': True, 'no_create': True, 'no_create_edit':True}"
-                                            context="{'showname': 1}"/></td>
+                                            context="{'showname': 1, 'force_default_name': 1}"/></td>
                                 <td colspan="2"><field name="company_id" readonly="True" invisible="1"/></td>
 <!--                                <field name="set_read_only" invisible="True"/>-->
                             </tr>
@@ -173,7 +173,7 @@
                 <field name="partner_id" string="Customer"/>
 <!--                <field name="partner_bank_account_id" string="Bank Account"/>-->
                 <field name="state" string="Document Status"/>
-                <field name="account_invoice_id" string="Invoice"/>
+                <field name="account_invoice_id" string="Invoice" context="{'force_default_name': 1}"/>
             </search>
         </field>
     </record>
@@ -191,6 +191,7 @@
             'default_partner_type': 'customer',
             'search_default_inbound_filter': 1,
             'res_partner_search_mode': 'customer',
+            'force_default_name': 1
             }</field>
         <field name="search_view_id" ref="view_account_payment_custom_search"/>
     </record>
