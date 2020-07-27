@@ -234,8 +234,8 @@ class ClassInvoiceCustom(models.Model):
         else:
             payment = self.cash_payment_id
 
-        return payment.post()
-
+        payment.write({'state': 'sent'})
+        return True
 
     # end register payment for payment_custom
 
@@ -276,9 +276,9 @@ class ClassInvoiceCustom(models.Model):
         '''
         ctx = self.env.context.copy()
         if ctx.get('force_default_name'):
-            return "修正"
-        else:
             return self.x_studio_document_no
+        else:
+            return "修正"
         # self.ensure_one()
         # draft_name = ''
         # if self.state == 'draft':
