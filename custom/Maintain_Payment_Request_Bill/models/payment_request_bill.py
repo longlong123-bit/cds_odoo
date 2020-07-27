@@ -238,7 +238,7 @@ class CollationPayment(models.Model):
         else:
             domain = args
 
-        if 'Cancel Billing' == ctx.get('view_name') and len(domain) == 0:
+        if 'Cancel Billing' == ctx.get('view_name') and len(domain) == 1:
             return []
         elif 'bill_report' == ctx.get('view_code') and len(domain) == 0 and search_address_type == '':
             return []
