@@ -234,8 +234,8 @@ class ClassInvoiceCustom(models.Model):
         else:
             payment = self.cash_payment_id
 
-        return payment.post()
-
+        payment.write({'state': 'sent'})
+        return True
 
     # end register payment for payment_custom
 
