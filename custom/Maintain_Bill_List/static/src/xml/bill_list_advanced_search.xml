@@ -4,6 +4,15 @@
     <t t-name="bill_list.advanced_search">
         <table>
             <tr>
+                <th>Search Category</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="search_category">
+                        <option value="like">Like</option>
+                        <option value="equal">Equal</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <th>Customer Closing Date</th>
                 <td>
                     <input class="filter-item" data-operator="ilike" data-name="customer_closing_date_id"
