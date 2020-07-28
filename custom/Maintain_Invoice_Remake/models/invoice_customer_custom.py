@@ -413,7 +413,9 @@ class ClassInvoiceCustom(models.Model):
     customer_group = fields.Char('Customer Group')
     customer_state = fields.Char('Customer State')
     customer_industry = fields.Char('Customer Industry')
-    customer_closing_date = fields.Date('Closing Date')
+    customer_closing_date = fields.Many2one(
+        string='Closing Date',
+        related='x_studio_business_partner.customer_closing_date')
     customer_from_date = fields.Date('customer_from_date')
     customer_trans_classification_code = fields.Selection([('sale', '掛売'), ('cash', '現金'), ('account', '諸口')],
                                                           string='Transaction Class', default='sale')
@@ -827,56 +829,56 @@ class ClassInvoiceCustom(models.Model):
             line.date = self.x_studio_date_invoiced
             line.partner_id = self.x_studio_business_partner
 
-    # tính ngày closing date dựa theo start day của customer
-    @api.onchange('closing_date_compute', 'x_studio_date_invoiced', 'x_voucher_deadline', 'x_studio_business_partner')
-    def _get_closing_date(self):
-        for rec in self:
-            rec.closing_date_compute = rec.x_studio_business_partner.customer_closing_date.start_day
-            # day = int(rec.x_studio_date_invoiced.strftime('%d'))
-            if rec.x_studio_date_invoiced:
-                day = int(rec.x_studio_date_invoiced.strftime('%d'))
-                closing_date = rec.closing_date_compute
-                invoice_year = rec.x_studio_date_invoiced.year
-                invoice_month = rec.x_studio_date_invoiced.month
-                if int(day) > int(rec.closing_date_compute):
-                    if rec.x_voucher_deadline == '今回':
-                        try:
-                            rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
-                                months=1)
-                        except ValueError:
-                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
-                            rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
-                                months=1)
-                    else:
-                        try:
-                            rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
-                                months=2)
-                        except ValueError:
-                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
-                            rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
-                                months=2)
-                else:
-                    if rec.x_voucher_deadline == '今回':
-                        try:
-                            rec.customer_closing_date = date(invoice_year, invoice_month, closing_date)
-                        except ValueError:
-                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
-                            rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day)
+    # # tính ngày closing date dựa theo start day của customer
+    # @api.onchange('closing_date_compute', 'x_studio_date_invoiced', 'x_voucher_deadline', 'x_studio_business_partner')
+    # def _get_closing_date(self):
+    #     for rec in self:
+    #         rec.closing_date_compute = rec.x_studio_business_partner.customer_closing_date.start_day
+    #         # day = int(rec.x_studio_date_invoiced.strftime('%d'))
+    #         if rec.x_studio_date_invoiced:
+    #             day = int(rec.x_studio_date_invoiced.strftime('%d'))
+    #             closing_date = rec.closing_date_compute
+    #             invoice_year = rec.x_studio_date_invoiced.year
+    #             invoice_month = rec.x_studio_date_invoiced.month
+    #             if int(day) > int(rec.closing_date_compute):
+    #                 if rec.x_voucher_deadline == '今回':
+    #                     try:
+    #                         rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
+    #                             months=1)
+    #                     except ValueError:
+    #                         cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+    #                         rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
+    #                             months=1)
+    #                 else:
+    #                     try:
+    #                         rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
+    #                             months=2)
+    #                     except ValueError:
+    #                         cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+    #                         rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
+    #                             months=2)
+    #             else:
+    #                 if rec.x_voucher_deadline == '今回':
+    #                     try:
+    #                         rec.customer_closing_date = date(invoice_year, invoice_month, closing_date)
+    #                     except ValueError:
+    #                         cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+    #                         rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day)
 
-                    else:
-                        try:
-                            rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
-                                months=1)
-                        except ValueError:
-                            cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
-                            rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
-                                months=1)
+    #                 else:
+    #                     try:
+    #                         rec.customer_closing_date = date(invoice_year, invoice_month, closing_date) + relativedelta(
+    #                             months=1)
+    #                     except ValueError:
+    #                         cutoff_day = calendar.monthrange(invoice_year, invoice_month)[1]
+    #                         rec.customer_closing_date = date(invoice_year, invoice_month, cutoff_day) + relativedelta(
+    #                             months=1)
 
-            day = int(rec.customer_closing_date.strftime('%d'))
-            year = rec.customer_closing_date.year
-            month = rec.customer_closing_date.month
+    #         day = int(rec.customer_closing_date.strftime('%d'))
+    #         year = rec.customer_closing_date.year
+    #         month = rec.customer_closing_date.month
 
-            rec.customer_from_date = date(year, month, day) - relativedelta(months=1) - relativedelta(days=1)
+    #         rec.customer_from_date = date(year, month, day) - relativedelta(months=1) - relativedelta(days=1)
 
     @api.constrains('x_studio_date_invoiced')
     def _validate_plate(self):
