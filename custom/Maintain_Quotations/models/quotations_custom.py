@@ -560,6 +560,36 @@ class QuotationsCustom(models.Model):
                     'description': line.invoice_custom_Description,
                     'quotation_custom_line_no': len(self.order_line) + 1
                 })]
+        elif self.copy_history_from == 'product.product':
+            product_ids = [int(product_id) for product_id in
+                           self.copy_history_item.split(',')]
+            products = self.env["product.product"].browse(product_ids)
+            line_vals = []
+            for i, product in enumerate(products, 1):
+
+                line_vals +=\
+                    [(0, False,
+                     {'product_id': product.id,
+                      'product_code': product.product_code,
+                      'product_barcode': product.barcode,
+                      'product_name': product.name,
+                      'product_name2': product.product_custom_goodsnamef,
+                      'product_standard_number':
+                      product.product_custom_standardnumber,
+                      'product_maker_name': product.product_maker_name,
+                      'product_uom': product.uom_id.id,
+                      'product_uom_id': product.product_uom_custom,
+                      'cost': product.cost,
+                      'product_standard_price': product.standard_price or 0.00,
+                      'tax_rate': product.product_tax_rate,
+                      'quotation_custom_line_no': len(self.order_line) + i})]
+            self.order_line = line_vals
+            for line in self.order_line:
+                if line.product_code:
+                    line._onchange_product_code()
+                elif line.product_barcode:
+                    line._onchange_product_barcode()
+                # line.compute_price_unit()
         self.copy_history_item = ''
 
 

@@ -347,8 +347,9 @@ odoo.define('web.ListRender_Custom', function (require) {
             'click thead tr th div.o_column_sortable': '_onSortColumn',
             'keydown tbody .o_data_cell': '_show_history_detail',
             'click .o_field_x2many_list_row_delete_m': 'onRemoveMultiClick',
-            'click .o_field_x2many_list_row_add a:eq(1)': '_onSearchQuotation',
-            'click .o_field_x2many_list_row_add a:eq(2)': '_onSearchInvoice',
+            'click .o_field_x2many_list_row_add a:eq(1)': '_onSearchProduct',
+            'click .o_field_x2many_list_row_add a:eq(2)': '_onSearchQuotation',
+            'click .o_field_x2many_list_row_add a:eq(3)': '_onSearchInvoice',
         }),
         init: function () {
             this._super.apply(this, arguments);
@@ -389,6 +390,24 @@ odoo.define('web.ListRender_Custom', function (require) {
                     no_create: true,
                     readonly: true,
                     res_model: "sale.order.line",
+                    domain: domain,
+                    view_type:'list',
+                    context: context
+                    // disable_multiple_selection: true
+                }).open();
+        },
+        _onSearchProduct: function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            // get current context (language, param,...)
+            var context = {tree_view_ref:'Maintain_Product.product_product_custom_tree_view'};
+            var domain = [];
+
+            // new dialog and show
+            new SearchDialog(this, {
+                    no_create: true,
+                    readonly: true,
+                    res_model: "product.product",
                     domain: domain,
                     view_type:'list',
                     context: context
