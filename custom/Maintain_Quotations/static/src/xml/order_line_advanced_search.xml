@@ -4,11 +4,11 @@
     <t t-name="order_line.advanced_search">
         <table>
             <tr>
-                <th>Search Category</th>
+                <th>あいまい</th>
                 <td>
                     <select class="filter-item" data-operator="like" data-name="search_category">
-                        <option value="equal">Equal</option>
-                        <option value="like">Like</option>
+                        <option value="like">あいまい検索</option>
+                        <option value="equal"> 完全一致</option>
                     </select>
                 </td>
             </tr>

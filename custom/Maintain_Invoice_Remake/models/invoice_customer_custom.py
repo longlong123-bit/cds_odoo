@@ -462,31 +462,31 @@ class ClassInvoiceCustom(models.Model):
         products = []
         invoice_line_ids = []
         if self.copy_history_from == 'sale.order.line' and self.copy_history_item:
-            products = self.env["sale.order.line"].search([('id','in', self.copy_history_item.split(','))])
+            products = self.env["sale.order.line"].search([('id', 'in', self.copy_history_item.split(','))])
             for line in products:
-             self.invoice_line_ids = [(0, False, {
-                'x_invoicelinetype': line.class_item,
-                'product_id': line.product_id,
-                'product_code': line.product_code,
-                'product_barcode': line.product_barcode,
-                'product_name': line.product_name,
-                'product_name2': line.product_name2,
-                'invoice_custom_standardnumber': line.product_standard_number,
-                'product_maker_name': line.product_maker_name,
-                'quantity': line.product_uom_qty,
-                'price_unit': line.price_unit,
-                'product_uom_id': line.product_uom_id,
-                'invoice_custom_lineamount': line.line_amount,
-                'tax_rate': line.tax_rate,
-                'line_tax_amount': line.line_tax_amount,
-                'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
-                'price_include_tax': line.price_include_tax,
-                'price_no_tax': line.price_no_tax,
-                'invoice_custom_Description': line.description,
-                'invoice_custom_line_no': len(self.invoice_line_ids) + 1
-            })]
+                self.invoice_line_ids = [(0, False, {
+                    'x_invoicelinetype': line.class_item,
+                    'product_id': line.product_id,
+                    'product_code': line.product_code,
+                    'product_barcode': line.product_barcode,
+                    'product_name': line.product_name,
+                    'product_name2': line.product_name2,
+                    'invoice_custom_standardnumber': line.product_standard_number,
+                    'product_maker_name': line.product_maker_name,
+                    'quantity': line.product_uom_qty,
+                    'price_unit': line.price_unit,
+                    'product_uom_id': line.product_uom_id,
+                    'invoice_custom_lineamount': line.line_amount,
+                    'tax_rate': line.tax_rate,
+                    'line_tax_amount': line.line_tax_amount,
+                    'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
+                    'price_include_tax': line.price_include_tax,
+                    'price_no_tax': line.price_no_tax,
+                    'invoice_custom_Description': line.description,
+                    'invoice_custom_line_no': len(self.invoice_line_ids) + 1
+                })]
         elif self.copy_history_from == 'account.move.line' and self.copy_history_item:
-            products = self.env["account.move.line"].search([('id','in', self.copy_history_item.split(','))])
+            products = self.env["account.move.line"].search([('id', 'in', self.copy_history_item.split(','))])
             for line in products:
                 self.invoice_line_ids = [(0, False, {
                     'x_invoicelinetype': line.x_invoicelinetype,
@@ -511,16 +511,16 @@ class ClassInvoiceCustom(models.Model):
                 })]
         self.copy_history_item = ''
 
-    @api.onchange('x_studio_business_partner', 'x_studio_name', 'ref', 'x_bussiness_partner_name_2', 'x_studio_address_1',
+    @api.onchange('x_studio_business_partner', 'x_studio_name', 'ref', 'x_bussiness_partner_name_2',
+                  'x_studio_address_1',
                   'x_studio_address_2', 'x_studio_address_3', 'x_studio_summary', 'sales_rep')
     def _check_flag_history(self):
         for rec in self:
             if rec.x_studio_name or rec.x_studio_business_partner or rec.ref or rec.x_bussiness_partner_name_2 or rec.x_studio_address_1 \
-                    or rec.x_studio_address_2 or rec.x_studio_address_3 or rec.x_studio_summary or rec.sales_rep :
+                    or rec.x_studio_address_2 or rec.x_studio_address_3 or rec.x_studio_summary or rec.sales_rep:
                 rec.flag_history = 1
             else:
                 rec.flag_history = 0
-
 
     @api.onchange('trigger_quotation_history')
     def _compute_fill_data_with_quotation(self):
@@ -1217,7 +1217,8 @@ class AccountMoveLine(models.Model):
         for p in self:
             p.x_crm_purchased_products._rec_name = 'aaaaaa'
 
-    date = fields.Date(related='move_id.x_studio_date_invoiced', store=True, readonly=True, index=True, copy=False, group_operator='min')
+    date = fields.Date(related='move_id.x_studio_date_invoiced', store=True, readonly=True, index=True, copy=False,
+                       group_operator='min')
     invoice_custom_line_no = fields.Integer('Line No', default=get_default_line_no)
     # Update 2020/04/28 - START
     x_invoicelinetype = fields.Selection([('通常', '通常'), ('返品', '返品'), ('値引', '値引'), ('サンプル', 'サンプル')],
@@ -1383,6 +1384,7 @@ class AccountMoveLine(models.Model):
             # Comment for changing UOM, Category to Char
             # if len(self) == 1:
             #     return {'domain': {'product_uom_id': [('category_id', '=', self.product_uom_id.category_id.id)]}}
+
     # # 消費税区分
     # line_tax_category = fields.Selection(
     #     [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
@@ -1500,7 +1502,7 @@ class AccountMoveLine(models.Model):
             if line.x_invoicelinetype == '通常':
                 if line.quantity < 0:
                     line.quantity = line.quantity * (-1)
-            elif line.x_invoicelinetype in ('返品', '値引') :
+            elif line.x_invoicelinetype in ('返品', '値引'):
                 if line.quantity > 0:
                     line.quantity = line.quantity * (-1)
             elif line.x_invoicelinetype == 'サンプル':
@@ -1511,7 +1513,6 @@ class AccountMoveLine(models.Model):
                 line.invoice_custom_standardnumber = ''
                 line.invoice_custom_Description = ''
                 line.product_uom_id = ''
-                
 
             if not line.move_id.is_invoice(include_receipts=True):
                 continue
@@ -1554,7 +1555,6 @@ class AccountMoveLine(models.Model):
         else:
             return False
 
-
     @api.onchange('price_unit')
     def _onchange_price_unit(self):
         exchange_rate = 1
@@ -1572,7 +1572,7 @@ class AccountMoveLine(models.Model):
         else:
             if self.move_id.x_voucher_tax_transfer == 'internal_tax':
                 self.price_include_tax = self.price_unit / exchange_rate
-                self.price_no_tax = self.price_unit / (self.tax_rate/100 + 1) / exchange_rate
+                self.price_no_tax = self.price_unit / (self.tax_rate / 100 + 1) / exchange_rate
             elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
                 if self.product_id.product_tax_category == 'foreign':
                     self.price_no_tax = self.price_unit / exchange_rate
@@ -1585,7 +1585,6 @@ class AccountMoveLine(models.Model):
             else:
                 self.price_no_tax = self.price_unit / exchange_rate
                 self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
-
 
     def _get_computed_price_unit(self):
         # Set price follow product code
@@ -1614,7 +1613,7 @@ class AccountMoveLine(models.Model):
         return price_unit
 
     @api.depends('move_id.x_studio_business_partner',
-    'move_id.x_voucher_tax_transfer')
+                 'move_id.x_voucher_tax_transfer')
     def compute_price_unit(self):
         for line in self:
             line.price_unit = line._get_computed_price_unit()
@@ -1645,6 +1644,64 @@ class AccountMoveLine(models.Model):
                 line.voucher_line_tax_amount = line.invoice_custom_lineamount * line.tax_rate / 100
             else:
                 line.voucher_line_tax_amount = 0
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        odoo/models.py
+        """
+        domain = []
+        check = 0
+        for se in args:
+            if se[0] == 'search_category' and se[2] == 'equal':
+                check = 1
+            if se[0] == 'x_studio_document_no' and se[1] == '>=':
+                domain += [se]
+            if se[0] == 'x_studio_document_no' and se[1] == '<=':
+                domain += [se]
+            if se[0] == 'date' and se[1] == '>=':
+                domain += [se]
+            if se[0] == 'date' and se[1] == '<=':
+                domain += [se]
+            if check == 1:
+                if se[0] == 'partner_id':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'partner_id.name':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'move_id.x_userinput_id':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'customer_state':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'customer_group':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'customer_industry':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'customer_trans_classification_code':
+                    se[1] = '=like'
+                    domain += [se]
+            else:
+                if se[0] == 'partner_id':
+                    domain += [se]
+                if se[0] == 'partner_id.name':
+                    domain += [se]
+                if se[0] == 'move_id.x_userinput_id':
+                    domain += [se]
+                if se[0] == 'customer_state':
+                    domain += [se]
+                if se[0] == 'customer_group':
+                    domain += [se]
+                if se[0] == 'customer_industry':
+                    domain += [se]
+                if se[0] == 'customer_trans_classification_code':
+                    domain += [se]
+        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+        return res if count else self.browse(res)
 
 
 class ClassGetProductCode(models.Model):
