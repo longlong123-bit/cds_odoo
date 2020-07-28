@@ -216,10 +216,10 @@ class BillingDetailsClass(models.TransientModel):
                     _invoice_untaxed_amount = 0
                     _invoice_tax_amount = 0
                     _invoice_amount_total = 0
-                    for line in _line_selected_in_invoice:
-                        _invoice_untaxed_amount += line.untaxed_amount
-                        _invoice_tax_amount += line.tax_amount
-                        _invoice_amount_total += line.line_amount
+                    for li in _line_selected_in_invoice:
+                        _invoice_untaxed_amount += li.untaxed_amount
+                        _invoice_tax_amount += li.tax_amount
+                        _invoice_amount_total += li.line_amount
 
                     if invoice.x_voucher_tax_transfer == 'custom_tax' \
                             and len(_line_selected_in_invoice) == len(_all_line_selected_in_invoice):

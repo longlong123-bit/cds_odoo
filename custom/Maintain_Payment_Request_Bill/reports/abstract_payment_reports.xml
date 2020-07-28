@@ -646,7 +646,7 @@
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
                                                         <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
+                                                        <span t-if="o.subtotal_amount_tax()" t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -708,7 +708,7 @@
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_tax(8))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
+                                                        <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -871,7 +871,7 @@
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
                                                         <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
+                                                        <span t-if="o.subtotal_amount_tax()" t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -932,7 +932,7 @@
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_tax(8))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
+                                                        <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
