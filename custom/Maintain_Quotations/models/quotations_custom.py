@@ -247,9 +247,9 @@ class QuotationsCustom(models.Model):
             for rec in self:
                 rec.partner_id = self.partner_id or ''
                 rec.partner_name = self.partner_id.name or ''
-                rec.customer_tax_rounding =\
+                rec.customer_tax_rounding = \
                     self.partner_id.customer_tax_rounding or ''
-                rec.cb_partner_sales_rep_id =\
+                rec.cb_partner_sales_rep_id = \
                     self.partner_id.customer_agent or ''
                 if not rec.order_id and not rec.refer_invoice_history:
                     rec.tax_method = get_tax_method(
@@ -475,7 +475,6 @@ class QuotationsCustom(models.Model):
             # default['order_line'] = [(0, 0, line) for line in lines if line]
             self.order_line = order_lines
 
-
     jp_calendar = fields.Char('jp_calendar', compute='set_jp_calendar')
 
     def set_jp_calendar(self):
@@ -516,30 +515,30 @@ class QuotationsCustom(models.Model):
         products = []
         invoice_line_ids = []
         if self.copy_history_from == 'sale.order.line' and self.copy_history_item:
-            products = self.env["sale.order.line"].search([('id','in', self.copy_history_item.split(','))])
+            products = self.env["sale.order.line"].search([('id', 'in', self.copy_history_item.split(','))])
             for line in products:
-             self.order_line = [(0, False, {
-                'class_item': line.class_item,
-                'product_id': line.product_id,
-                'product_code': line.product_code,
-                'product_barcode': line.product_barcode,
-                'product_name': line.product_name,
-                'product_name2': line.product_name2,
-                'product_standard_number': line.product_standard_number,
-                'product_maker_name': line.product_maker_name,
-                'product_uom_qty': line.product_uom_qty,
-                'price_unit': line.price_unit,
-                'product_uom_id': line.product_uom_id,
-                'line_amount': line.line_amount,
-                'tax_rate': line.tax_rate,
-                'line_tax_amount': line.line_tax_amount,
-                'price_include_tax': line.price_include_tax,
-                'price_no_tax': line.price_no_tax,
-                'description' : line.description,
-                'quotation_custom_line_no': len(self.order_line) + 1
-            })]
+                self.order_line = [(0, False, {
+                    'class_item': line.class_item,
+                    'product_id': line.product_id,
+                    'product_code': line.product_code,
+                    'product_barcode': line.product_barcode,
+                    'product_name': line.product_name,
+                    'product_name2': line.product_name2,
+                    'product_standard_number': line.product_standard_number,
+                    'product_maker_name': line.product_maker_name,
+                    'product_uom_qty': line.product_uom_qty,
+                    'price_unit': line.price_unit,
+                    'product_uom_id': line.product_uom_id,
+                    'line_amount': line.line_amount,
+                    'tax_rate': line.tax_rate,
+                    'line_tax_amount': line.line_tax_amount,
+                    'price_include_tax': line.price_include_tax,
+                    'price_no_tax': line.price_no_tax,
+                    'description': line.description,
+                    'quotation_custom_line_no': len(self.order_line) + 1
+                })]
         elif self.copy_history_from == 'account.move.line' and self.copy_history_item:
-            products = self.env["account.move.line"].search([('id','in', self.copy_history_item.split(','))])
+            products = self.env["account.move.line"].search([('id', 'in', self.copy_history_item.split(','))])
             for line in products:
                 self.order_line = [(0, False, {
                     'class_item': line.x_invoicelinetype,
@@ -558,7 +557,7 @@ class QuotationsCustom(models.Model):
                     'line_tax_amount': line.line_tax_amount,
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
-                    'description' : line.invoice_custom_Description,
+                    'description': line.invoice_custom_Description,
                     'quotation_custom_line_no': len(self.order_line) + 1
                 })]
         elif self.copy_history_from == 'product.product':
@@ -592,6 +591,7 @@ class QuotationsCustom(models.Model):
                     line._onchange_product_barcode()
                 # line.compute_price_unit()
         self.copy_history_item = ''
+
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
@@ -854,7 +854,7 @@ class QuotationsLinesCustom(models.Model):
                 line.product_standard_number = ''
                 line.description = ''
                 line.product_uom_id = ''
-                
+
             line.compute_price_unit()
             line.compute_line_amount()
             line.compute_line_tax_amount()
@@ -953,7 +953,7 @@ class QuotationsLinesCustom(models.Model):
         for re in self:
             if (re.order_id.tax_method == 'voucher'
                     and re.product_id.product_tax_category != 'exempt'):
-                re.voucher_line_tax_amount = (re.line_amount * re.tax_rate)/100
+                re.voucher_line_tax_amount = (re.line_amount * re.tax_rate) / 100
             else:
                 re.voucher_line_tax_amount = 0
 
@@ -977,6 +977,64 @@ class QuotationsLinesCustom(models.Model):
             'res_id': self.id,
         }
         return view
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        odoo/models.py
+        """
+        domain = []
+        check = 0
+        for se in args:
+            if se[0] == 'search_category' and se[2] == 'equal':
+                check = 1
+            if se[0] == 'document_no' and se[1] == '>=':
+                domain += [se]
+            if se[0] == 'document_no' and se[1] == '<=':
+                domain += [se]
+            if se[0] == 'billing_code' and se[1] == '>=':
+                domain += [se]
+            if se[0] == 'billing_code' and se[1] == '<=':
+                domain += [se]
+            if check == 1:
+                if se[0] == 'partner_id':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'partner_id.name':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'order_id.sales_rep':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'product_code':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'product_barcode':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'product_standard_number':
+                    se[1] = '=like'
+                    domain += [se]
+                if se[0] == 'product_maker_name':
+                    se[1] = '=like'
+                    domain += [se]
+            else:
+                if se[0] == 'partner_id':
+                    domain += [se]
+                if se[0] == 'partner_id.name':
+                    domain += [se]
+                if se[0] == 'order_id.sales_rep':
+                    domain += [se]
+                if se[0] == 'product_code':
+                    domain += [se]
+                if se[0] == 'product_barcode':
+                    domain += [se]
+                if se[0] == 'product_standard_number':
+                    domain += [se]
+                if se[0] == 'product_maker_name':
+                    domain += [se]
+        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+        return res if count else self.browse(res)
 
 
 class QuotationReportHeaderCustom(models.Model):
