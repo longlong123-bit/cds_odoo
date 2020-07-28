@@ -314,6 +314,7 @@
             <tree editable="bottom" class="invoice_create" string="Journal Items" default_order="invoice_custom_line_no" widget="section_and_note_one2many" context="{'show_address': 1}">
                 <control>
                     <create name="add_product_control" string="Add a product"/>
+                    <create name="search_multi_product_control" string="Add multi products"/>
                     <create name="search_from_quotation_control" widget="button_field" string="Search from quotation"/>
                     <create name="search_from_invoice_control" string="Search from invoice"/>
                 </control>

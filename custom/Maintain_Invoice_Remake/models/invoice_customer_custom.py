@@ -509,6 +509,34 @@ class ClassInvoiceCustom(models.Model):
                     'invoice_custom_Description': line.invoice_custom_Description,
                     'invoice_custom_line_no': len(self.invoice_line_ids) + 1
                 })]
+        elif self.copy_history_from == 'product.product':
+            product_ids = [int(product_id) for product_id in
+                           self.copy_history_item.split(',')]
+            products = self.env["product.product"].browse(product_ids)
+            line_vals = []
+            for i, product in enumerate(products, 1):
+
+                line_vals +=\
+                    [(0, False,
+                     {'product_id': product.id,
+                      'product_code': product.product_code,
+                      'product_barcode': product.barcode,
+                      'product_name': product.name,
+                      'product_name2': product.product_custom_goodsnamef,
+                      'invoice_custom_standardnumber':
+                      product.product_custom_standardnumber,
+                      'product_maker_name': product.product_maker_name,
+                      'product_uom_id': product.product_uom_custom,
+                      'x_product_cost_price': product.cost,
+                      'product_standard_price': product.standard_price,
+                      'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
+                      'invoice_custom_line_no': len(self.invoice_line_ids) + i})]
+            self.invoice_line_ids = line_vals
+            for line in self.invoice_line_ids:
+                if line.product_code:
+                    line._onchange_product_code()
+                elif line.product_barcode:
+                    line._onchange_product_barcode()
         self.copy_history_item = ''
 
     @api.onchange('x_studio_business_partner', 'x_studio_name', 'ref', 'x_bussiness_partner_name_2', 'x_studio_address_1',
