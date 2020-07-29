@@ -297,7 +297,7 @@ class BillingDetailsClass(models.TransientModel):
                     line.account_move_line_id.write({
                         'bill_status': 'billed'
                     })
-
+            self.last_billed_amount = _billed_amount
             self.prepare_data_for_bill_details_line()
 
             advanced_search.val_bill_search_deadline = ''
