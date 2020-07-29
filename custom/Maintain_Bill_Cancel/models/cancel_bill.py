@@ -1,4 +1,5 @@
-from odoo import models
+from odoo import models, _
+from odoo.exceptions import UserError
 
 
 class BillingClass(models.Model):
@@ -67,6 +68,7 @@ class BillingClass(models.Model):
                 bill_invoice_ids.unlink()
                 bill_invoice_details_ids.unlink()
             else:
+                raise UserError(_("You can only cancel a billing process that has the latest deadline."))
                 return False
 
         if not argsSelectedData:
