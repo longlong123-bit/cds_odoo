@@ -566,23 +566,22 @@ class QuotationsCustom(models.Model):
             products = self.env["product.product"].browse(product_ids)
             line_vals = []
             for i, product in enumerate(products, 1):
-
-                line_vals +=\
+                line_vals += \
                     [(0, False,
-                     {'product_id': product.id,
-                      'product_code': product.product_code,
-                      'product_barcode': product.barcode,
-                      'product_name': product.name,
-                      'product_name2': product.product_custom_goodsnamef,
-                      'product_standard_number':
-                      product.product_custom_standardnumber,
-                      'product_maker_name': product.product_maker_name,
-                      'product_uom': product.uom_id.id,
-                      'product_uom_id': product.product_uom_custom,
-                      'cost': product.cost,
-                      'product_standard_price': product.standard_price or 0.00,
-                      'tax_rate': product.product_tax_rate,
-                      'quotation_custom_line_no': len(self.order_line) + i})]
+                      {'product_id': product.id,
+                       'product_code': product.product_code,
+                       'product_barcode': product.barcode,
+                       'product_name': product.name,
+                       'product_name2': product.product_custom_goodsnamef,
+                       'product_standard_number':
+                           product.product_custom_standardnumber,
+                       'product_maker_name': product.product_maker_name,
+                       'product_uom': product.uom_id.id,
+                       'product_uom_id': product.product_uom_custom,
+                       'cost': product.cost,
+                       'product_standard_price': product.standard_price or 0.00,
+                       'tax_rate': product.product_tax_rate,
+                       'quotation_custom_line_no': len(self.order_line) + i})]
             self.order_line = line_vals
             for line in self.order_line:
                 if line.product_code:
@@ -591,6 +590,42 @@ class QuotationsCustom(models.Model):
                     line._onchange_product_barcode()
                 # line.compute_price_unit()
         self.copy_history_item = ''
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        odoo/models.py
+        """
+
+        ctx = self._context.copy()
+
+        domain = []
+        if ctx.get('view_name') == 'main_sale_order':
+            check = 0
+            for se in args:
+                if se[0] == '&':
+                    continue
+                if se[0] == 'search_category' and se[2] == 'equal':
+                    check = 1
+                arr = ["quotation_name", "related_partner_code", "partner_name", "related_sales_rep_name"]
+                if check == 1 and se[0] in arr:
+                    se[1] = '=like'
+                if se[0] != 'search_category':
+                    domain += [se]
+        if ctx.get('view_name') == 'confirm_sale_order':
+            check = 0
+            for se in args:
+                if se[0] == '&':
+                    continue
+                if se[0] == 'search_category' and se[2] == 'equal':
+                    check = 1
+                arr = ["related_partner_code", "partner_name", "related_sales_rep_name"]
+                if check == 1 and se[0] in arr:
+                    se[1] = '=like'
+                if se[0] != 'search_category':
+                    domain += [se]
+        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+        return res if count else self.browse(res)
 
 
 class QuotationsLinesCustom(models.Model):
@@ -986,53 +1021,16 @@ class QuotationsLinesCustom(models.Model):
         domain = []
         check = 0
         for se in args:
+            if se[0] == '&':
+                continue
             if se[0] == 'search_category' and se[2] == 'equal':
                 check = 1
-            if se[0] == 'document_no' and se[1] == '>=':
+            arr = ["partner_id", "partner_id.name", "order_id.sales_rep", "product_code", "product_barcode",
+                   "product_standard_number", "product_maker_name"]
+            if check == 1 and se[0] in arr:
+                se[1] = '=like'
+            if se[0] != 'search_category':
                 domain += [se]
-            if se[0] == 'document_no' and se[1] == '<=':
-                domain += [se]
-            if se[0] == 'billing_code' and se[1] == '>=':
-                domain += [se]
-            if se[0] == 'billing_code' and se[1] == '<=':
-                domain += [se]
-            if check == 1:
-                if se[0] == 'partner_id':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'partner_id.name':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'order_id.sales_rep':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'product_code':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'product_barcode':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'product_standard_number':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'product_maker_name':
-                    se[1] = '=like'
-                    domain += [se]
-            else:
-                if se[0] == 'partner_id':
-                    domain += [se]
-                if se[0] == 'partner_id.name':
-                    domain += [se]
-                if se[0] == 'order_id.sales_rep':
-                    domain += [se]
-                if se[0] == 'product_code':
-                    domain += [se]
-                if se[0] == 'product_barcode':
-                    domain += [se]
-                if se[0] == 'product_standard_number':
-                    domain += [se]
-                if se[0] == 'product_maker_name':
-                    domain += [se]
         res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
 

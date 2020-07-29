@@ -100,6 +100,8 @@ class CollationPayment(models.Model):
             check = 0
 
             for se in args:
+                if se[0] == '&':
+                    continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
                 if 'customer_closing_date_id' == se[0]:
@@ -148,6 +150,8 @@ class CollationPayment(models.Model):
         elif 'Cancel Billing' == ctx.get('view_name'):
             check = 0
             for se in args:
+                if se[0] == '&':
+                    continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
                 arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
@@ -193,6 +197,8 @@ class CollationPayment(models.Model):
             search_x_studio_name = ''
             check = 0
             for se in args:
+                if se[0] == '&':
+                    continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
                 arr = ["deadline", "billing_code", "billing_name", "customer_code", "customer_name"]
