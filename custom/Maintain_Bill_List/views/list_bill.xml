@@ -49,7 +49,7 @@
         <field name="res_model">bill.info</field>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="bm_bill_list_tree"/>
-        <field name="domain">[]</field>
+<!--        <field name="domain">[]</field>-->
         <field name="context">{'bill_management_module': True, 'view_name': 'Billing List'}</field>
     </record>
 

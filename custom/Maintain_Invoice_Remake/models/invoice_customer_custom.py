@@ -517,22 +517,22 @@ class ClassInvoiceCustom(models.Model):
             products = self.env["product.product"].browse(product_ids)
             line_vals = []
             for i, product in enumerate(products, 1):
-
-                line_vals +=\
+                line_vals += \
                     [(0, False,
-                     {'product_id': product.id,
-                      'product_code': product.product_code,
-                      'product_barcode': product.barcode,
-                      'product_name': product.name,
-                      'product_name2': product.product_custom_goodsnamef,
-                      'invoice_custom_standardnumber':
-                      product.product_custom_standardnumber,
-                      'product_maker_name': product.product_maker_name,
-                      'product_uom_id': product.product_uom_custom,
-                      'x_product_cost_price': product.cost,
-                      'product_standard_price': product.standard_price,
-                      'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
-                      'invoice_custom_line_no': len(self.invoice_line_ids) + i})]
+                      {'product_id': product.id,
+                       'product_code': product.product_code,
+                       'product_barcode': product.barcode,
+                       'product_name': product.name,
+                       'product_name2': product.product_custom_goodsnamef,
+                       'invoice_custom_standardnumber':
+                           product.product_custom_standardnumber,
+                       'product_maker_name': product.product_maker_name,
+                       'product_uom_id': product.product_uom_custom,
+                       'x_product_cost_price': product.cost,
+                       'product_standard_price': product.standard_price,
+                       'tax_rate': product.product_tax_rate,
+                       'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
+                       'invoice_custom_line_no': len(self.invoice_line_ids) + i})]
             self.invoice_line_ids = line_vals
             for line in self.invoice_line_ids:
                 if line.product_code:
@@ -1129,6 +1129,27 @@ class ClassInvoiceCustom(models.Model):
             # sums = [res[1] for res in query_res]
             # raise UserError(_("Cannot create unbalanced journal entry. Ids: %s\nDifferences debit - credit: %s") % (ids, sums))
 
+    # @api.model
+    # def search(self, args, offset=0, limit=None, order=None, count=False):
+    #     """
+    #     odoo/models.py
+    #     """
+    #     domain = []
+    #     check = 0
+    #     for se in args:
+    #         if se[0] == '&':
+    #             continue
+    #         if se[0] == 'search_category' and se[2] == 'equal':
+    #             check = 1
+    #         arr = ["x_customer_code_for_search", "x_studio_name", "related_userinput_name", "related_sale_rep_name", "customer_state",
+    #                "customer_group", "customer_industry", "customer_trans_classification_code"]
+    #         if check == 1 and se[0] in arr:
+    #             se[1] = '=like'
+    #         if se[0] != 'search_category':
+    #             domain += [se]
+    #     res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+    #     return res if count else self.browse(res)
+
 
 class AccountTaxLine(models.Model):
     _name = 'account.tax.line'
@@ -1683,53 +1704,16 @@ class AccountMoveLine(models.Model):
         domain = []
         check = 0
         for se in args:
+            if se[0] == '&':
+                continue
             if se[0] == 'search_category' and se[2] == 'equal':
                 check = 1
-            if se[0] == 'x_studio_document_no' and se[1] == '>=':
+            arr = ["partner_id", "partner_id.name", "move_id.x_userinput_id", "customer_state", "customer_group",
+                   "customer_industry", "customer_trans_classification_code"]
+            if check == 1 and se[0] in arr:
+                se[1] = '=like'
+            if se[0] != 'search_category':
                 domain += [se]
-            if se[0] == 'x_studio_document_no' and se[1] == '<=':
-                domain += [se]
-            if se[0] == 'date' and se[1] == '>=':
-                domain += [se]
-            if se[0] == 'date' and se[1] == '<=':
-                domain += [se]
-            if check == 1:
-                if se[0] == 'partner_id':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'partner_id.name':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'move_id.x_userinput_id':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'customer_state':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'customer_group':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'customer_industry':
-                    se[1] = '=like'
-                    domain += [se]
-                if se[0] == 'customer_trans_classification_code':
-                    se[1] = '=like'
-                    domain += [se]
-            else:
-                if se[0] == 'partner_id':
-                    domain += [se]
-                if se[0] == 'partner_id.name':
-                    domain += [se]
-                if se[0] == 'move_id.x_userinput_id':
-                    domain += [se]
-                if se[0] == 'customer_state':
-                    domain += [se]
-                if se[0] == 'customer_group':
-                    domain += [se]
-                if se[0] == 'customer_industry':
-                    domain += [se]
-                if se[0] == 'customer_trans_classification_code':
-                    domain += [se]
         res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
 
