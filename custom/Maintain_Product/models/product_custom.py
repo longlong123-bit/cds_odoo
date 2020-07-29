@@ -25,12 +25,12 @@ class InheritProductTemplate(models.Model):
 
     def get_default_income_account(self):
         account = self.env['account.account'].search([('company_id', '=', self.env.user.company_id.id),
-                                            ('internal_type', '=', 'other')], limit=1)
+                                                      ('internal_type', '=', 'other')], limit=1)
         return account.id
 
     def get_default_expenses_account(self):
         account = self.env['account.account'].search([('company_id', '=', self.env.user.company_id.id),
-                                            ('internal_type', '=', 'other')], limit=1)
+                                                      ('internal_type', '=', 'other')], limit=1)
         return account.id
 
 
@@ -195,7 +195,9 @@ class ProductTemplate(models.Model):
                     'product_code_4', 'product_code_5', 'product_code_6')
     def assign_product(self):
         for rec in self:
-            rec.product_total = (rec.product_code_1 or '_') + '_' + (rec.product_code_2 or '_') + '_' + (rec.product_code_3 or '_') + '_' + (rec.product_code_4 or '_') + '_' + (rec.product_code_5 or '_') + '_' + (rec.product_code_6 or '_')
+            rec.product_total = (rec.product_code_1 or '_') + '_' + (rec.product_code_2 or '_') + '_' + (
+                        rec.product_code_3 or '_') + '_' + (rec.product_code_4 or '_') + '_' + (
+                                            rec.product_code_5 or '_') + '_' + (rec.product_code_6 or '_')
 
     def name_get(self):
         # TDE: this could be cleaned a bit I think
@@ -529,10 +531,12 @@ class ProductTemplate(models.Model):
             for i in range(1, 7):
                 if rec['product_tax_category'] == 'foreign':
                     rec['price_no_tax_' + str(i)] = rec['price_' + str(i)]
-                    rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (rec.product_tax_rate/100 + 1)
+                    rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (
+                                rec.product_tax_rate / 100 + 1)
                 elif rec['product_tax_category'] == 'internal':
                     rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
-                    rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (rec.product_tax_rate/100 + 1)
+                    rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (
+                                rec.product_tax_rate / 100 + 1)
                 else:
                     rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
 
@@ -602,6 +606,36 @@ class ProductTemplate(models.Model):
             # to assign parter_list value in domain
             domain = {'product_class_code_lv4': [('id', '=', class_list)]}
         return {'domain': domain}
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        odoo/models.py
+        """
+
+        domain = []
+
+        check = 0
+        for se in args:
+            if se[0] == '&':
+                continue
+            if se[0] == 'search_category' and se[2] == 'equal':
+                check = 1
+            if check == 1 and se[0] == 'product_total':
+                domain += ['|', '|', '|', '|', '|', ("product_code_1", "=like", se[2]),
+                           ("product_code_2", "=like", se[2]), ("product_code_3", "=like", se[2]),
+                           ("product_code_4", "=like", se[2]), ("product_code_5", "=like", se[2]),
+                           ("product_code_6", "=like", se[2])]
+            arr = ["barcode", "product_maker_name", "product_custom_standardnumber", "name",
+                   "product_custom_goodsnamef"]
+            if check == 1 and se[0] in arr:
+                se[1] = '=like'
+            if se[0] != 'search_category':
+                domain += [se]
+        print(domain)
+
+        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+        return res if count else self.browse(res)
 
 
 class ProductCustomTemplate(models.Model):
