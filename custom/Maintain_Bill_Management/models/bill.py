@@ -11,6 +11,7 @@ class BillingClass(models.Model):
 
     def _compute_closing_date_for_bill(self, record):
         _last_closing_date = ''
+        _last_closing_date_display = ''
         _deadline = date.today()
         if advanced_search.val_bill_search_deadline:
             _deadline = datetime.strptime(advanced_search.val_bill_search_deadline, '%Y-%m-%d').date()
@@ -25,6 +26,7 @@ class BillingClass(models.Model):
 
         if last_data_bill_info_ids:
             _last_closing_date = last_data_bill_info_ids.deadline
+            _last_closing_date_display = last_data_bill_info_ids.deadline
 
         if _last_closing_date:
             invoice_line_ids = self.env['account.move.line'].search([
@@ -48,8 +50,8 @@ class BillingClass(models.Model):
         closing_date = {
             'last_closing_date': _last_closing_date,
             'deadline': _deadline,
+            'last_closing_date_display': _last_closing_date_display,
         }
-
         return closing_date
 
     # Get invoices list by partner id
@@ -79,13 +81,14 @@ class BillingClass(models.Model):
                 _closing_date = self._compute_closing_date_for_bill(record=record)
                 record.last_closing_date = _closing_date['last_closing_date']
                 record.deadline = _closing_date['deadline']
+                record.last_closing_date_display = _closing_date['last_closing_date_display']
 
             # Set data for department field
             record.department = record.customer_agent.department_id.id
 
             # Compute data for last_billed_amount field
             bill_info_ids = self.env['bill.info'].search([('billing_code', '=', record.customer_code),
-                                                          ('deadline', '<=', record.last_closing_date),
+                                                          ('deadline', '<=', record.last_closing_date_display),
                                                           ('active_flag', '=', True)],
                                                          order="deadline desc, bill_no desc", limit=1)
 
@@ -193,6 +196,9 @@ class BillingClass(models.Model):
 
     # 前回締日
     last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
+
+    # 前回締日 for display
+    last_closing_date_display = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
 
     # 締切日
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)

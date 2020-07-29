@@ -8,7 +8,8 @@
             <tree string="Bill Tree" class="forward_edit">
                 <field name="customer_code" string="Billing Code"/>
                 <field name="name" string="Billing Name"/>
-                <field name="last_closing_date" string="Last Closing Date"/>
+                <field name="last_closing_date" string="Last Closing Date" invisible="1"/>
+                <field name="last_closing_date_display" string="Last Closing Date"/>
                 <field name="last_billed_amount" string="Last Billed Amount"/>
                 <field name="deposit_amount" string="Deposit Amount"/>
                 <field name="balance_amount" string="Balance Amount"/>
