@@ -530,6 +530,7 @@ class ClassInvoiceCustom(models.Model):
                        'product_uom_id': product.product_uom_custom,
                        'x_product_cost_price': product.cost,
                        'product_standard_price': product.standard_price,
+                       'tax_rate': product.product_tax_rate,
                        'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
                        'invoice_custom_line_no': len(self.invoice_line_ids) + i})]
             self.invoice_line_ids = line_vals
