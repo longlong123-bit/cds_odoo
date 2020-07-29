@@ -1129,26 +1129,26 @@ class ClassInvoiceCustom(models.Model):
             # sums = [res[1] for res in query_res]
             # raise UserError(_("Cannot create unbalanced journal entry. Ids: %s\nDifferences debit - credit: %s") % (ids, sums))
 
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-        odoo/models.py
-        """
-        domain = []
-        check = 0
-        for se in args:
-            if se[0] == '&':
-                continue
-            if se[0] == 'search_category' and se[2] == 'equal':
-                check = 1
-            arr = ["x_customer_code_for_search", "x_studio_name", "related_userinput_name", "related_sale_rep_name", "customer_state",
-                   "customer_group", "customer_industry", "customer_trans_classification_code"]
-            if check == 1 and se[0] in arr:
-                se[1] = '=like'
-            if se[0] != 'search_category':
-                domain += [se]
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+    # @api.model
+    # def search(self, args, offset=0, limit=None, order=None, count=False):
+    #     """
+    #     odoo/models.py
+    #     """
+    #     domain = []
+    #     check = 0
+    #     for se in args:
+    #         if se[0] == '&':
+    #             continue
+    #         if se[0] == 'search_category' and se[2] == 'equal':
+    #             check = 1
+    #         arr = ["x_customer_code_for_search", "x_studio_name", "related_userinput_name", "related_sale_rep_name", "customer_state",
+    #                "customer_group", "customer_industry", "customer_trans_classification_code"]
+    #         if check == 1 and se[0] in arr:
+    #             se[1] = '=like'
+    #         if se[0] != 'search_category':
+    #             domain += [se]
+    #     res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+    #     return res if count else self.browse(res)
 
 
 class AccountTaxLine(models.Model):
