@@ -153,7 +153,6 @@ class AccountsReceivableBalanceList(models.Model):
             File path Override: /odoo/models.py
         """
         # ctx = self._context.copy()
-        print(args)
         module_context = self._context.copy()
         if module_context.get('have_advance_search'):
             domain = []
@@ -164,14 +163,14 @@ class AccountsReceivableBalanceList(models.Model):
                     order = get_condition_search_of_module['order']
             else:
                 check = 0
+                arr = ["department", "customer_code", "customer_code_bill", "name", "customer_name_kana",
+                       "street", "customer_phone", "customer_state", "customer_supplier_group_code",
+                       "customer_industry_code", "customer_agent"]
                 for record in args:
-                    if '&' == record[0]:
+                    if '&' == record[0] or '|' == record[0]:
                         continue
                     if record[0] == 'search_category' and record[2] == 'equal':
                         check = 1
-                    arr = ["department", "customer_code", "customer_code_bill", "name", "customer_name_kana",
-                           "street", "customer_phone", "customer_state", "customer_supplier_group_code",
-                           "customer_industry_code", "customer_agent"]
                     if check == 1 and record[0] in arr:
                         record[1] = '=like'
                     if 'customer_closing_date' == record[0]:

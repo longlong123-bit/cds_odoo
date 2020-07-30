@@ -1138,13 +1138,13 @@ class ClassInvoiceCustom(models.Model):
         if ctx.get('have_advance_search'):
             domain = []
             check = 0
+            arr = ["x_customer_code_for_search", "x_studio_name", "related_userinput_name", "related_sale_rep_name",
+                   "customer_state", "customer_group", "customer_industry", "customer_trans_classification_code"]
             for se in args:
-                if se[0] == '&':
+                if se[0] == '&' or se[0] =='|':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
-                arr = ["x_customer_code_for_search", "x_studio_name", "related_userinput_name", "related_sale_rep_name", "customer_state",
-                       "customer_group", "customer_industry", "customer_trans_classification_code"]
                 if check == 1 and se[0] in arr:
                     se[1] = '=like'
                 if se[0] != 'search_category':
@@ -1705,17 +1705,17 @@ class AccountMoveLine(models.Model):
         odoo/models.py
         """
         ctx = self._context.copy()
-        print(args)
         if ctx.get('have_advance_search'):
             domain = []
             check = 0
+            arr = ["partner_id", "partner_id.name", "move_id.x_userinput_id", "customer_state", "customer_group",
+                   "customer_industry", "customer_trans_classification_code"]
             for se in args:
-                if se[0] == '&':
+                if se[0] == '&' or se[0] == '|':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
-                arr = ["partner_id", "partner_id.name", "move_id.x_userinput_id", "customer_state", "customer_group",
-                       "customer_industry", "customer_trans_classification_code"]
+
                 if check == 1 and se[0] in arr:
                     se[1] = '=like'
                 if se[0] != 'search_category':

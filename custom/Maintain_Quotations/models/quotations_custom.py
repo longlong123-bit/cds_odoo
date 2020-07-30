@@ -603,12 +603,12 @@ class QuotationsCustom(models.Model):
         # if ctx.get('view_name') == 'main_sale_order':
         if ctx.get('have_advance_search'):
             check = 0
+            arr = ["quotation_name", "related_partner_code", "partner_name", "related_sales_rep_name"]
             for se in args:
-                if se[0] == '&':
+                if se[0] == '&' or se[0] == '|':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
-                arr = ["quotation_name", "related_partner_code", "partner_name", "related_sales_rep_name"]
                 if check == 1 and se[0] in arr:
                     se[1] = '=like'
                 if se[0] != 'search_category':
@@ -1029,13 +1029,13 @@ class QuotationsLinesCustom(models.Model):
         if ctx.get('have_advance_search'):
             domain = []
             check = 0
+            arr = ["partner_id", "partner_id.name", "order_id.sales_rep", "product_code", "product_barcode",
+                   "product_standard_number", "product_maker_name"]
             for se in args:
-                if se[0] == '&':
+                if se[0] == '&' or se[0] =='|':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
-                arr = ["partner_id", "partner_id.name", "order_id.sales_rep", "product_code", "product_barcode",
-                       "product_standard_number", "product_maker_name"]
                 if check == 1 and se[0] in arr:
                     se[1] = '=like'
                 if se[0] != 'search_category':
