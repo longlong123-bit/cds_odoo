@@ -309,6 +309,15 @@ class ProductTemplate(models.Model):
             recs = self.search([('product_code_1', operator, name)] + args, limit=limit)
         return recs.name_get()
 
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        ctx = self.env.context
+        if ctx.get('limit') and args:
+            limit = ctx['limit']
+        result = super(ProductTemplate, self).search(
+            args, offset=offset, limit=limit, order=order, count=count)
+        return result
+
     def open_pricelist(self):
         self.ensure_one()
         domain = ['|',
