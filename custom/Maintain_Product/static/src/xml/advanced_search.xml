@@ -1,15 +1,15 @@
 <template>
     <t t-name="Product.advanced_search">
         <table>
-<!--            <tr>-->
-<!--                <th>Search Category</th>-->
-<!--                <td>-->
-<!--                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">-->
-<!--                        <option value="like">Like</option>-->
-<!--                        <option value="equal">Equal</option>-->
-<!--                    </select>-->
-<!--                </td>-->
-<!--            </tr>-->
+            <tr>
+                <th>Search Category</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">
+                        <option value="like">Like</option>
+                        <option value="equal">Equal</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <th>Product Code</th>
                 <td>

@@ -79,227 +79,210 @@ class CollationPayment(models.Model):
         """
         odoo/models.py
         """
-
         ctx = self._context.copy()
-
-        domain = []
-
-        if ctx.get('view_code') == 'bill_report':
-            global search_address_type
-            global search_cash_type
-            global search_claim_type
-            global search_bill_job_title
-            global search_print_child
-            global search_payment_closing_date
-            search_address_type = ''
-            search_cash_type = ''
-            search_claim_type = ''
-            search_bill_job_title = ''
-            search_print_child = ''
-            search_payment_closing_date = datetime.today()
-            check = 0
-
-            for se in args:
-                if se[0] == '&':
-                    continue
-                if se[0] == 'search_category' and se[2] == 'equal':
-                    check = 1
-                if 'customer_closing_date_id' == se[0]:
-                    if se[2].isnumeric():
-                        se[0] = 'customer_closing_date_id.start_day'
-                        se[1] = '='
-                    domain += [se]
-                if se[0] == 'closing_date':
-                    search_payment_closing_date = datetime.strptime(se[2], '%Y-%m-%d')
-                    domain += [se]
-                if se[0] == 'billing_code' and se[1] == '>=':
-                    domain += [se]
-                if se[0] == 'billing_code' and se[1] == '<=':
-                    domain += [se]
-                if check == 1:
-                    if se[0] == 'hr_department_id':
-                        se[1] = '=like'
-                        search_bill_job_title = se[2]
-                        domain += [se]
-                    if se[0] == 'hr_employee_id':
-                        se[1] = '=like'
-                        domain += [se]
-                    if se[0] == 'business_partner_group_custom_id':
-                        se[1] = '=like'
-                        domain += [se]
-                else:
-                    if se[0] == 'hr_department_id':
-                        search_bill_job_title = se[2]
-                        domain += [se]
-                    if se[0] == 'hr_employee_id':
-                        domain += [se]
-                    if se[0] == 'business_partner_group_custom_id':
-                        domain += [se]
-                if se[0] == 'address_type':
-                    search_address_type = se[2]
-                    if se[2] == 1:
-                        order = 'user_id'
-                    else:
-                        order = 'billing_code'
-                if se[0] == 'cash_type':
-                    search_cash_type = se[2]
-                if se[0] == 'claim_type':
-                    search_claim_type = se[2]
-                if se[0] == 'print_child':
-                    search_print_child = se[2]
-        elif 'Cancel Billing' == ctx.get('view_name'):
-            check = 0
-            arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
-                   "business_partner_group_custom_id"]
-            for se in args:
-                if se[0] == '&':
-                    continue
-                if se[0] == 'search_category' and se[2] == 'equal':
-                    check = 1
-                if check == 1 and se[0] in arr:
-                    se[1] = '=like'
-                if 'customer_closing_date_id' == se[0]:
-                    if se[2].isnumeric():
-                        se[0] = 'customer_closing_date_id.start_day'
-                        se[1] = '=like'
-                    domain += [se]
-                if 'customer_excerpt_request' == se[0]:
-                    if se[2] == 'True':
-                        se[2] = True
-                        domain += [se]
-                    elif se[2] == 'False':
-                        se[2] = False
-                        domain += [se]
-                    else:
-                        continue
-                if se[0] == 'closing_date':
-                    domain += [se]
-                if se[0] == 'billing_code' and se[1] == '>=':
-                    domain += [se]
-                if se[0] == 'billing_code' and se[1] == '<=':
-                    domain += [se]
-                if se[0] == 'hr_department_id':
-                    domain += [se]
-                if se[0] == 'hr_employee_id':
-                    domain += [se]
-                if se[0] == 'business_partner_group_custom_id':
-                    domain += [se]
-        elif ctx.get('view_name') == 'Bill History':
-            global search_x_studio_deadline
-            global search_x_studio_document_no
-            global search_name
-            global search_invoice_partner_display_name
-            global search_x_studio_name
-            search_x_studio_deadline = ''
-            search_x_studio_document_no = ''
-            search_name = ''
-            search_invoice_partner_display_name = ''
-            search_x_studio_name = ''
-            check = 0
-            for se in args:
-                if se[0] == '&':
-                    continue
-                if se[0] == 'search_category' and se[2] == 'equal':
-                    check = 1
-                arr = ["deadline", "billing_code", "billing_name", "customer_code", "customer_name"]
-                if check == 1 and se[0] in arr:
-                    se[1] = '=like'
-                if se[0] == "deadline":
-                    search_x_studio_deadline = se[2]
-                    domain += [se]
-                if se[0] == "billing_code":
-                    search_x_studio_document_no = se[2]
-                    domain += [se]
-                if se[0] == "billing_name":
-                    search_name = se[2]
-                    domain += [se]
-                if se[0] == "customer_code":
-                    se[0] = "billing_code"
-                    search_invoice_partner_display_name = se[2]
-                    bill_ids = self.env['bill.invoice'].search([('customer_code', 'ilike', se[2])])
-                    for i in bill_ids:
-                        se[2] = i.billing_code
-                    domain += [se]
-                if se[0] == "customer_name":
-                    se[0] = "billing_code"
-                    search_x_studio_name = se[2]
-                    bill_ids = self.env['bill.invoice'].search([('customer_name', 'ilike', se[2])])
-                    for i in bill_ids:
-                        se[2] = i.billing_code
-                    domain += [se]
-
-        elif 'Billing List' == ctx.get('view_name'):
-            global search_list_claim_zero
-            global search_list_customer_closing_date_id
-            global search_list_closing_date
-            global search_list_hr_department_id
-            global search_list_hr_employee_id
-            global search_list_business_partner_group_custom_id
-            global search_list_billing_code_from
-            global search_list_billing_code_to
-            global search_list_display_order
-            search_list_claim_zero = ''
-            search_list_customer_closing_date_id = ''
-            search_list_closing_date = ''
-            search_list_hr_department_id = ''
-            search_list_hr_employee_id = ''
-            search_list_business_partner_group_custom_id = ''
-            search_list_billing_code_from = ''
-            search_list_billing_code_to = ''
-            search_list_display_order = ''
+        if ctx.get('have_advance_search'):
             domain = []
-            check = 0
-            for record in args:
-                if record[0] == '&':
-                    continue
-                if record[0] == 'search_category' and record[2] == 'equal':
-                    check = 1
+            if ctx.get('view_code') == 'bill_report':
+                global search_address_type
+                global search_cash_type
+                global search_claim_type
+                global search_bill_job_title
+                global search_print_child
+                global search_payment_closing_date
+                search_address_type = ''
+                search_cash_type = ''
+                search_claim_type = ''
+                search_bill_job_title = ''
+                search_print_child = ''
+                search_payment_closing_date = datetime.today()
+                check = 0
+                arr = ["hr_department_id","hr_employee_id","business_partner_group_custom_id"]
+                for se in args:
+                    if se[0] == '&':
+                        continue
+                    if se[0] == 'search_category' and se[2] == 'equal':
+                        check = 1
+                    if check == 1 and se[0] in arr:
+                        se[1] = '=like'
+                    if 'customer_closing_date_id' == se[0]:
+                        if se[2].isnumeric():
+                            se[0] = 'customer_closing_date_id.start_day'
+                            se[1] = '='
+                        domain += [se]
+                    if se[0] == 'closing_date':
+                        search_payment_closing_date = datetime.strptime(se[2], '%Y-%m-%d')
+                        domain += [se]
+                    if se[0] == 'billing_code' and se[1] == '>=':
+                        domain += [se]
+                    if se[0] == 'billing_code' and se[1] == '<=':
+                        domain += [se]
+
+                    if se[0] == 'hr_department_id':
+                        search_bill_job_title = se[2]
+                        domain += [se]
+                    if se[0] == 'hr_employee_id':
+                        domain += [se]
+                    if se[0] == 'business_partner_group_custom_id':
+                        domain += [se]
+                    if se[0] == 'address_type':
+                        search_address_type = se[2]
+                        if se[2] == 1:
+                            order = 'user_id'
+                        else:
+                            order = 'billing_code'
+                    if se[0] == 'cash_type':
+                        search_cash_type = se[2]
+                    if se[0] == 'claim_type':
+                        search_claim_type = se[2]
+                    if se[0] == 'print_child':
+                        search_print_child = se[2]
+                args = domain
+            elif 'Cancel Billing' == ctx.get('view_name'):
+                check = 0
                 arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
                        "business_partner_group_custom_id"]
-                if check == 1 and record[0] in arr:
-                    record[1] = '=like'
-                if record[0] == 'customer_closing_date_id':
-                    search_list_customer_closing_date_id = record[2]
-                    if record[2].isnumeric():
-                        record[0] = 'customer_closing_date_id.start_day'
+                for se in args:
+                    if se[0] == '&':
+                        continue
+                    if se[0] == 'search_category' and se[2] == 'equal':
+                        check = 1
+                    if check == 1 and se[0] in arr:
+                        se[1] = '=like'
+                    if 'customer_closing_date_id' == se[0]:
+                        if se[2].isnumeric():
+                            se[0] = 'customer_closing_date_id.start_day'
+                            se[1] = '=like'
+                        domain += [se]
+                    if 'customer_excerpt_request' == se[0]:
+                        if se[2] == 'True':
+                            se[2] = True
+                            domain += [se]
+                        elif se[2] == 'False':
+                            se[2] = False
+                            domain += [se]
+                        else:
+                            continue
+                    if se[0] == 'closing_date':
+                        domain += [se]
+                    if se[0] == 'billing_code' and se[1] == '>=':
+                        domain += [se]
+                    if se[0] == 'billing_code' and se[1] == '<=':
+                        domain += [se]
+                    if se[0] == 'hr_department_id':
+                        domain += [se]
+                    if se[0] == 'hr_employee_id':
+                        domain += [se]
+                    if se[0] == 'business_partner_group_custom_id':
+                        domain += [se]
+                args = domain
+            elif ctx.get('view_name') == 'Bill History':
+                global search_x_studio_deadline
+                global search_x_studio_document_no
+                global search_name
+                global search_invoice_partner_display_name
+                global search_x_studio_name
+                search_x_studio_deadline = ''
+                search_x_studio_document_no = ''
+                search_name = ''
+                search_invoice_partner_display_name = ''
+                search_x_studio_name = ''
+                check = 0
+                arr = ["billing_code", "billing_name", "bill_detail_ids.customer_code", "bill_detail_ids.customer_name"]
+                for se in args:
+                    if se[0] == '&':
+                        continue
+                    if se[0] == 'search_category' and se[2] == 'equal':
+                        check = 1
+                    if check == 1 and se[0] in arr:
+                        se[1] = '=like'
+                    if se[0] == "deadline":
+                        search_x_studio_deadline = se[2]
+                        domain += [se]
+                    if se[0] == "billing_code":
+                        search_x_studio_document_no = se[2]
+                        domain += [se]
+                    if se[0] == "billing_name":
+                        search_name = se[2]
+                        domain += [se]
+                    if se[0] == "bill_detail_ids.customer_code":
+                        search_invoice_partner_display_name = se[2]
+                        domain += [se]
+                    if se[0] == "bill_detail_ids.customer_name":
+                        search_x_studio_name = se[2]
+                        domain += [se]
+                args = domain
+
+            elif 'Billing List' == ctx.get('view_name'):
+                global search_list_claim_zero
+                global search_list_customer_closing_date_id
+                global search_list_closing_date
+                global search_list_hr_department_id
+                global search_list_hr_employee_id
+                global search_list_business_partner_group_custom_id
+                global search_list_billing_code_from
+                global search_list_billing_code_to
+                global search_list_display_order
+                search_list_claim_zero = ''
+                search_list_customer_closing_date_id = ''
+                search_list_closing_date = ''
+                search_list_hr_department_id = ''
+                search_list_hr_employee_id = ''
+                search_list_business_partner_group_custom_id = ''
+                search_list_billing_code_from = ''
+                search_list_billing_code_to = ''
+                search_list_display_order = ''
+                domain = []
+                check = 0
+                arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
+                       "business_partner_group_custom_id"]
+                for record in args:
+                    if record[0] == '&':
+                        continue
+                    if record[0] == 'search_category' and record[2] == 'equal':
+                        check = 1
+
+                    if check == 1 and record[0] in arr:
                         record[1] = '=like'
-                if record[0] == 'closing_date':
-                    search_list_closing_date = record[2]
-                if record[0] == 'hr_department_id':
-                    search_list_hr_department_id = record[2]
-                if record[0] == 'hr_employee_id':
-                    search_list_hr_employee_id = record[2]
-                if record[0] == 'business_partner_group_custom_id':
-                    search_list_business_partner_group_custom_id = record[2]
-                if record[0] == 'billing_code' and record[1] == 'gte':
-                    search_list_billing_code_from = record[2]
-                if record[0] == 'billing_code' and record[1] == 'lte':
-                    search_list_billing_code_to = record[2]
-                if 'display_order' == record[0]:
-                    search_list_display_order = record[2]
-                    if record[2] == '0':
-                        order = 'hr_employee_id'
-                    else:
-                        order = 'billing_code'
-                    continue
-                if 'claim_zero' == record[0]:
-                    search_list_claim_zero = record[2]
-                    if record[2] == 'True':
-                        claim_zero = 1
-                    continue
-                if record[0] != 'search_category':
-                    domain += [record]
-        else:
-            domain = args
+                    if record[0] == 'customer_closing_date_id':
+                        search_list_customer_closing_date_id = record[2]
+                        if record[2].isnumeric():
+                            record[0] = 'customer_closing_date_id.start_day'
+                            record[1] = '=like'
+                    if record[0] == 'closing_date':
+                        search_list_closing_date = record[2]
+                    if record[0] == 'hr_department_id':
+                        search_list_hr_department_id = record[2]
+                    if record[0] == 'hr_employee_id':
+                        search_list_hr_employee_id = record[2]
+                    if record[0] == 'business_partner_group_custom_id':
+                        search_list_business_partner_group_custom_id = record[2]
+                    if record[0] == 'billing_code' and record[1] == 'gte':
+                        search_list_billing_code_from = record[2]
+                    if record[0] == 'billing_code' and record[1] == 'lte':
+                        search_list_billing_code_to = record[2]
+                    if 'display_order' == record[0]:
+                        search_list_display_order = record[2]
+                        if record[2] == '0':
+                            order = 'hr_employee_id'
+                        else:
+                            order = 'billing_code'
+                        continue
+                    if 'claim_zero' == record[0]:
+                        search_list_claim_zero = record[2]
+                        if record[2] == 'True':
+                            claim_zero = 1
+                        continue
+                    if record[0] != 'search_category':
+                        domain += [record]
+                args = domain
+        if 'Cancel Billing' == ctx.get('view_name') and len(args) == 0:
+            return []
+        elif 'bill_report' == ctx.get('view_code') and len(args) == 0 and search_address_type == '':
+            return []
+        elif 'Billing List' == ctx.get('view_name') and len(args) == 0 and search_list_display_order == '':
+            return []
+        elif 'Bill History' == ctx.get('view_name') and len(args) == 0:
+            return []
 
-        if 'Cancel Billing' == ctx.get('view_name') and len(domain) == 0:
-            return []
-        elif 'bill_report' == ctx.get('view_code') and len(domain) == 0 and search_address_type == '':
-            return []
-        elif 'Billing List' == ctx.get('view_name') and len(domain) == 0 and search_list_display_order == '':
-            return []
-        elif 'Bill History' == ctx.get('view_name') and len(domain) == 0:
-            return []
-
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+        # res = super(CollationPayment, self).search(args=domain, offset=offset, limit=limit, order=order, count=count)
+        return super(CollationPayment, self).search(args, offset=offset, limit=limit, order=order, count=count)
