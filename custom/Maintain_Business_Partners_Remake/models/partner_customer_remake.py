@@ -102,17 +102,21 @@ class NewClassPartnerCustom(models.Model):
     # 売上伝票印刷
     customer_print_voucher = fields.Boolean('Print Voucher', default=True)
     # 売上伝票選択
-    customer_select_sales_slip = fields.Selection([('slip1', '通常伝票1'), ('slip2', '通常伝票2'), ('slip3', '通常伝票３'), ('slip4', '鹿島伝票')], 'Sales Slip', default="slip1")
+    customer_select_sales_slip = fields.Selection(
+        [('slip1', '通常伝票1'), ('slip2', '通常伝票2'), ('slip3', '通常伝票３'), ('slip4', '鹿島伝票')], 'Sales Slip', default="slip1")
     # 納品書選択
-    customer_delivery_note = fields.Selection([('note1', '通常'), ('note2', 'ヤマサタイプ'),('note3','岡田土建タイプ'),('note4','銚子信用金庫')], 'Delivery Note',
-                                              default="note1")
+    customer_delivery_note = fields.Selection(
+        [('note1', '通常'), ('note2', 'ヤマサタイプ'), ('note3', '岡田土建タイプ'), ('note4', '銚子信用金庫')], 'Delivery Note',
+        default="note1")
     # 売上伝票日付印字
     customer_print_sales_slip_date = fields.Boolean('Print Sales Slip Date', default=True)
     # 請求書印刷
     customer_print_invoice = fields.Boolean('Print Invoice', default=True)
     # 請求書選択
-    customer_select_invoice = fields.Selection([('form1', '通常請求書'), ('form2', 'ヤマサ請求'), ('form3', '適用付請求'), ('form4', '当月請求書'), ('form5', '通常請求書(得意先毎)')], 'Select Invoice',
-                                               default="form1")
+    customer_select_invoice = fields.Selection(
+        [('form1', '通常請求書'), ('form2', 'ヤマサ請求'), ('form3', '適用付請求'), ('form4', '当月請求書'), ('form5', '通常請求書(得意先毎)')],
+        'Select Invoice',
+        default="form1")
     # 請求書日付印刷
     customer_print_invoice_date = fields.Boolean('Print Invoice Date', default=True)
     # その他CD
@@ -126,9 +130,9 @@ class NewClassPartnerCustom(models.Model):
         ('quote3', '鹿島見積')], 'Select Quote',
         default="quote1")
     # 見積票選択
-    customer_quotation_selection = fields.Selection([('normal', '通常'), ('billing', '神栖営業所用'),  ('type2', '鹿島見積')],
-                                               string='Quotation Select', default='normal')
-                                   
+    customer_quotation_selection = fields.Selection([('normal', '通常'), ('billing', '神栖営業所用'), ('type2', '鹿島見積')],
+                                                    string='Quotation Select', default='normal')
+
     _sql_constraints = [
         ('name_code_uniq', 'unique(customer_code)', 'The code must be unique!')
     ]
@@ -229,6 +233,34 @@ class NewClassPartnerCustom(models.Model):
     def _check_code_bill(self):
         if not self.customer_code_bill:
             self.customer_code_bill = self.customer_code
+
+    # @api.model
+    # def search(self, args, offset=0, limit=None, order=None, count=False):
+    #     """
+    #     odoo/models.py
+    #     """
+    #
+    #     domain = []
+    #     module_context = self._context.copy()
+    #     if 'customer' == module_context.get('res_partner_search_mode'):
+    #         check = 0
+    #         for se in args:
+    #             if se[0] == '&':
+    #                 continue
+    #             if se[0] == 'search_category' and se[2] == 'equal':
+    #                 check = 1
+    #             arr = ["customer_code", "customer_code_bill", "name", "customer_name_kana",
+    #                    "street", "customer_phone", "customer_state", "customer_supplier_group_code",
+    #                    "customer_industry_code", "customer_agent"]
+    #             if check == 1 and se[0] in arr:
+    #                 se[1] = '=like'
+    #             if se[0] != 'search_category':
+    #                 domain += [se]
+    #         args = domain
+    #
+    #     # res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+    #     return res if count else self.browse(res)
+
 
 class ClassRelationPartnerCustom(models.Model):
     _name = 'relation.partner.model'
