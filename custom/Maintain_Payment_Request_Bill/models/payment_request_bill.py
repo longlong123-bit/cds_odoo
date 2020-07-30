@@ -107,7 +107,7 @@ class CollationPayment(models.Model):
                 if 'customer_closing_date_id' == se[0]:
                     if se[2].isnumeric():
                         se[0] = 'customer_closing_date_id.start_day'
-                        se[1] = '=like'
+                        se[1] = '='
                     domain += [se]
                 if se[0] == 'closing_date':
                     search_payment_closing_date = datetime.strptime(se[2], '%Y-%m-%d')
