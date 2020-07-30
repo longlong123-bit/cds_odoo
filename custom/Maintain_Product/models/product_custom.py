@@ -607,35 +607,35 @@ class ProductTemplate(models.Model):
             domain = {'product_class_code_lv4': [('id', '=', class_list)]}
         return {'domain': domain}
 
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-        odoo/models.py
-        """
-
-        domain = []
-
-        check = 0
-        for se in args:
-            if se[0] == '&':
-                continue
-            if se[0] == 'search_category' and se[2] == 'equal':
-                check = 1
-            if check == 1 and se[0] == 'product_total':
-                domain += ['|', '|', '|', '|', '|', ("product_code_1", "=like", se[2]),
-                           ("product_code_2", "=like", se[2]), ("product_code_3", "=like", se[2]),
-                           ("product_code_4", "=like", se[2]), ("product_code_5", "=like", se[2]),
-                           ("product_code_6", "=like", se[2])]
-            arr = ["barcode", "product_maker_name", "product_custom_standardnumber", "name",
-                   "product_custom_goodsnamef"]
-            if check == 1 and se[0] in arr:
-                se[1] = '=like'
-            if se[0] != 'search_category':
-                domain += [se]
-        print(domain)
-
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+    # @api.model
+    # def search(self, args, offset=0, limit=None, order=None, count=False):
+    #     """
+    #     odoo/models.py
+    #     """
+    #
+    #     domain = []
+    #
+    #     check = 0
+    #     for se in args:
+    #         if se[0] == '&':
+    #             continue
+    #         if se[0] == 'search_category' and se[2] == 'equal':
+    #             check = 1
+    #         if check == 1 and se[0] == 'product_total':
+    #             domain += ['|', '|', '|', '|', '|', ("product_code_1", "=like", se[2]),
+    #                        ("product_code_2", "=like", se[2]), ("product_code_3", "=like", se[2]),
+    #                        ("product_code_4", "=like", se[2]), ("product_code_5", "=like", se[2]),
+    #                        ("product_code_6", "=like", se[2])]
+    #         arr = ["barcode", "product_maker_name", "product_custom_standardnumber", "name",
+    #                "product_custom_goodsnamef"]
+    #         if check == 1 and se[0] in arr:
+    #             se[1] = '=like'
+    #         if se[0] != 'search_category':
+    #             domain += [se]
+    #     print(domain)
+    #
+    #     res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+    #     return res if count else self.browse(res)
 
 
 class ProductCustomTemplate(models.Model):

@@ -234,31 +234,32 @@ class NewClassPartnerCustom(models.Model):
         if not self.customer_code_bill:
             self.customer_code_bill = self.customer_code
 
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-        odoo/models.py
-        """
-
-        domain = []
-        module_context = self._context.copy()
-        if 'customer' == module_context.get('res_partner_search_mode'):
-            check = 0
-            for se in args:
-                if se[0] == '&':
-                    continue
-                if se[0] == 'search_category' and se[2] == 'equal':
-                    check = 1
-                arr = ["customer_code", "customer_code_bill", "name", "customer_name_kana",
-                       "street", "customer_phone", "customer_state", "customer_supplier_group_code",
-                       "customer_industry_code", "customer_agent"]
-                if check == 1 and se[0] in arr:
-                    se[1] = '=like'
-                if se[0] != 'search_category':
-                    domain += [se]
-
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+    # @api.model
+    # def search(self, args, offset=0, limit=None, order=None, count=False):
+    #     """
+    #     odoo/models.py
+    #     """
+    #
+    #     domain = []
+    #     module_context = self._context.copy()
+    #     if 'customer' == module_context.get('res_partner_search_mode'):
+    #         check = 0
+    #         for se in args:
+    #             if se[0] == '&':
+    #                 continue
+    #             if se[0] == 'search_category' and se[2] == 'equal':
+    #                 check = 1
+    #             arr = ["customer_code", "customer_code_bill", "name", "customer_name_kana",
+    #                    "street", "customer_phone", "customer_state", "customer_supplier_group_code",
+    #                    "customer_industry_code", "customer_agent"]
+    #             if check == 1 and se[0] in arr:
+    #                 se[1] = '=like'
+    #             if se[0] != 'search_category':
+    #                 domain += [se]
+    #         args = domain
+    #
+    #     # res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+    #     return res if count else self.browse(res)
 
 
 class ClassRelationPartnerCustom(models.Model):

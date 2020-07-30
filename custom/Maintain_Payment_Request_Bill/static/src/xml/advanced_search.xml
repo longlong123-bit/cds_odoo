@@ -3,19 +3,19 @@
 <template>
     <t t-name="payment_request_bill.advanced_search">
         <table>
-            <tr>
-                <th>Search Category</th>
-                <td>
-                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">
-                        <option value="like">Like</option>
-                        <option value="equal">Equal</option>
-                    </select>
-                </td>
-            </tr>
+<!--            <tr>-->
+<!--                <th>Search Category</th>-->
+<!--                <td>-->
+<!--                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">-->
+<!--                        <option value="like">Like</option>-->
+<!--                        <option value="equal">Equal</option>-->
+<!--                    </select>-->
+<!--                </td>-->
+<!--            </tr>-->
             <tr>
                 <th>締日（締日グループ)</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="customer_closing_date_id"
+                    <input class="filter-item" data-operator="" data-name="customer_closing_date_id"
                            type="search"/>
                 </td>
             </tr>

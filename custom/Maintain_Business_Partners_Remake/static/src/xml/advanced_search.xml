@@ -4,7 +4,7 @@
             <tr>
                 <th>Search Category</th>
                 <td>
-                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">
+                    <select class="filter-item" data-operator="=like" data-name="search_category" style="height:25px;">
                         <option value="like">Like</option>
                         <option value="equal">Equal</option>
                     </select>
@@ -23,7 +23,6 @@
                   <input class="filter-item" data-operator="ilike" data-name="customer_code_bill"/>
                 </td>
              </tr>
-
             <tr>
               <th>Customer Name</th>
                 <td>
