@@ -149,13 +149,13 @@ class CollationPayment(models.Model):
                     search_print_child = se[2]
         elif 'Cancel Billing' == ctx.get('view_name'):
             check = 0
+            arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
+                   "business_partner_group_custom_id"]
             for se in args:
                 if se[0] == '&':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
-                arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
-                       "business_partner_group_custom_id"]
                 if check == 1 and se[0] in arr:
                     se[1] = '=like'
                 if 'customer_closing_date_id' == se[0]:
