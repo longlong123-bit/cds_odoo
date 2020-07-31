@@ -98,7 +98,7 @@ class CollationPayment(models.Model):
                 check = 0
                 arr = ["hr_department_id","hr_employee_id","business_partner_group_custom_id"]
                 for se in args:
-                    if se[0] == '&':
+                    if se[0] in ["&", "|"]:
                         continue
                     if se[0] == 'search_category' and se[2] == 'equal':
                         check = 1
@@ -142,7 +142,7 @@ class CollationPayment(models.Model):
                 arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
                        "business_partner_group_custom_id"]
                 for se in args:
-                    if se[0] == '&':
+                    if se[0] in ["&", "|"]:
                         continue
                     if se[0] == 'search_category' and se[2] == 'equal':
                         check = 1
@@ -151,7 +151,7 @@ class CollationPayment(models.Model):
                     if 'customer_closing_date_id' == se[0]:
                         if se[2].isnumeric():
                             se[0] = 'customer_closing_date_id.start_day'
-                            se[1] = '=like'
+                            se[1] = '='
                         domain += [se]
                     if 'customer_excerpt_request' == se[0]:
                         if se[2] == 'True':
@@ -189,7 +189,7 @@ class CollationPayment(models.Model):
                 check = 0
                 arr = ["billing_code", "billing_name", "bill_detail_ids.customer_code", "bill_detail_ids.customer_name"]
                 for se in args:
-                    if se[0] == '&':
+                    if se[0] in ["&", "|"]:
                         continue
                     if se[0] == 'search_category' and se[2] == 'equal':
                         check = 1
@@ -236,7 +236,7 @@ class CollationPayment(models.Model):
                 arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
                        "business_partner_group_custom_id"]
                 for record in args:
-                    if record[0] == '&':
+                    if record[0] in ["&", "|"]:
                         continue
                     if record[0] == 'search_category' and record[2] == 'equal':
                         check = 1
@@ -247,7 +247,7 @@ class CollationPayment(models.Model):
                         search_list_customer_closing_date_id = record[2]
                         if record[2].isnumeric():
                             record[0] = 'customer_closing_date_id.start_day'
-                            record[1] = '=like'
+                            record[1] = '='
                     if record[0] == 'closing_date':
                         search_list_closing_date = record[2]
                     if record[0] == 'hr_department_id':
