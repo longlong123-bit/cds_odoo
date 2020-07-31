@@ -105,7 +105,6 @@ class AccountsReceivableBalanceList(models.Model):
         info_liabilities = self._get_info_liabilities(condition_division_sales_rep=condition_division_sales_rep,
                                                       closing_date=closing_date)
 
-        
         # set information Accounts receivable balance list
         for item in self:
             item.accounts_receivable_last_month = 0
@@ -153,41 +152,49 @@ class AccountsReceivableBalanceList(models.Model):
             Overriding function search from file models.py
             File path Override: /odoo/models.py
         """
-        domain = []
+        # ctx = self._context.copy()
         module_context = self._context.copy()
         if module_context and module_context.get('liabilities_module'):
             get_condition_search_of_module = self._get_condition_search_of_module(self=self, args=args)
-            domain = get_condition_search_of_module['args']
+            args = get_condition_search_of_module['args']
             if get_condition_search_of_module['order']:
                 order = get_condition_search_of_module['order']
-
-        elif 'Billing' == module_context.get('view_name'):
-            for record in args:
-                if '&' == record[0]:
-                    continue
-                if 'customer_closing_date' == record[0]:
-                    if record[2].isnumeric():
-                        record[0] = 'customer_closing_date.start_day'
-                        record[1] = '='
-                if 'customer_except_request' == record[0]:
-                    if record[2] == 'True':
-                        record[2] = True
-                    elif record[2] == 'False':
-                        record[2] = False
-                    else:
-                        continue
-                if 'deadline' == record[0]:
-                    global val_bill_search_deadline
-                    val_bill_search_deadline = record[2]
-                domain += [record]
-
         else:
-            domain = args
-
-        if 'Billing' == module_context.get('view_name') and len(domain) == 1:
+            if module_context.get('have_advance_search'):
+                domain = []
+                check = 0
+                arr = ["department", "customer_code", "customer_code_bill", "name", "customer_name_kana",
+                       "street", "customer_phone", "customer_state", "customer_supplier_group_code",
+                       "customer_industry_code", "customer_agent"]
+                for record in args:
+                    if record[0] == '&':
+                        continue
+                    if record[0] == 'search_category' and record[2] == 'equal':
+                        check = 1
+                    if check == 1 and record[0] in arr:
+                        record[1] = '=like'
+                    if 'customer_closing_date' == record[0]:
+                        if record[2].isnumeric():
+                            record[0] = 'customer_closing_date.start_day'
+                            record[1] = '='
+                    if 'customer_except_request' == record[0]:
+                        if record[2] == 'True':
+                            record[2] = True
+                        elif record[2] == 'False':
+                            record[2] = False
+                        else:
+                            continue
+                    if 'deadline' == record[0]:
+                        global val_bill_search_deadline
+                        val_bill_search_deadline = record[2]
+                    if record[0] != 'search_category':
+                        domain += [record]
+                args = domain
+        if 'Billing' == module_context.get('view_name') and len(args) == 1:
             return []
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+        # res = super(AccountsReceivableBalanceList, self).search(args=domain, offset=offset, limit=limit, order=order, count=count)
+        return super(AccountsReceivableBalanceList, self).search(args, offset=offset, limit=limit, order=order,
+                                                                 count=count)
 
     @api.constrains('customer_code', 'customer_code_bill')
     def _check_billing_liabilities(self):

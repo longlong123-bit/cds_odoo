@@ -591,41 +591,48 @@ class QuotationsCustom(models.Model):
                 # line.compute_price_unit()
         self.copy_history_item = ''
 
-    # @api.model
-    # def search(self, args, offset=0, limit=None, order=None, count=False):
-    #     """
-    #     odoo/models.py
-    #     """
-    #
-    #     ctx = self._context.copy()
-    #
-    #     domain = []
-    #     if ctx.get('view_name') == 'main_sale_order':
-    #         check = 0
-    #         for se in args:
-    #             if se[0] == '&':
-    #                 continue
-    #             if se[0] == 'search_category' and se[2] == 'equal':
-    #                 check = 1
-    #             arr = ["quotation_name", "related_partner_code", "partner_name", "related_sales_rep_name"]
-    #             if check == 1 and se[0] in arr:
-    #                 se[1] = '=like'
-    #             if se[0] != 'search_category':
-    #                 domain += [se]
-    #     if ctx.get('view_name') == 'confirm_sale_order':
-    #         check = 0
-    #         for se in args:
-    #             if se[0] == '&':
-    #                 continue
-    #             if se[0] == 'search_category' and se[2] == 'equal':
-    #                 check = 1
-    #             arr = ["related_partner_code", "partner_name", "related_sales_rep_name"]
-    #             if check == 1 and se[0] in arr:
-    #                 se[1] = '=like'
-    #             if se[0] != 'search_category':
-    #                 domain += [se]
-    #     res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-    #     return res if count else self.browse(res)
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        odoo/models.py
+        """
+
+        ctx = self._context.copy()
+        domain = []
+        # print('aaaaaaaa', ctx.get('have_advance_search'))
+        # if ctx.get('view_name') == 'main_sale_order':
+        if ctx.get('have_advance_search'):
+            check = 0
+            arr = ["quotation_name", "related_partner_code", "partner_name", "related_sales_rep_name"]
+            for se in args:
+                if se[0] == '&':
+                    continue
+                if se[0] == 'search_category' and se[2] == 'equal':
+                    check = 1
+                if check == 1 and se[0] in arr:
+                    se[1] = '=like'
+                if se[0] != 'search_category':
+                    domain += [se]
+            args = domain
+        res = super(QuotationsCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        # if ctx.get('view_name') == 'confirm_sale_order':
+        #     check = 0
+        #     for se in args:
+        #         if se[0] == '&':
+        #             continue
+        #         # if se[0] == 'search_category' and se[2] == 'equal':
+        #         #     check = 1
+        #         # arr = ["related_partner_code", "partner_name", "related_sales_rep_name"]
+        #         # if check == 1 and se[0] in arr:
+        #         #     se[1] = '=like'
+        #         if se[0] != 'search_category':
+        #             domain += [se]
+        #     args = domain
+        # record = super(QuotationsCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
+
+        # else:
+        #     res = self._search(args, offset=offset, limit=limit, order=order, count=count)
+        return res
 
 
 class QuotationsLinesCustom(models.Model):
@@ -1018,21 +1025,24 @@ class QuotationsLinesCustom(models.Model):
         """
         odoo/models.py
         """
-        domain = []
-        check = 0
-        for se in args:
-            if se[0] == '&':
-                continue
-            if se[0] == 'search_category' and se[2] == 'equal':
-                check = 1
+        ctx = self._context.copy()
+        if ctx.get('have_advance_search'):
+            domain = []
+            check = 0
             arr = ["partner_id", "partner_id.name", "order_id.sales_rep", "product_code", "product_barcode",
                    "product_standard_number", "product_maker_name"]
-            if check == 1 and se[0] in arr:
-                se[1] = '=like'
-            if se[0] != 'search_category':
-                domain += [se]
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+            for se in args:
+                if se[0] == '&':
+                    continue
+                if se[0] == 'search_category' and se[2] == 'equal':
+                    check = 1
+                if check == 1 and se[0] in arr:
+                    se[1] = '=like'
+                if se[0] != 'search_category':
+                    domain += [se]
+            args = domain
+        res = super(QuotationsLinesCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        return res
 
 
 class QuotationReportHeaderCustom(models.Model):

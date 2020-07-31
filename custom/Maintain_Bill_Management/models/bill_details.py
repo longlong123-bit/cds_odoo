@@ -12,10 +12,11 @@ class BillingDetailsClass(models.TransientModel):
     def prepare_data_for_bill_details_line(self):
         ctx = self._context.copy()
         domain = [
-            ('partner_id.customer_code_bill', '=', self.billing_code),
             ('x_studio_date_invoiced', '<=', self.deadline),
             ('state', '=', 'posted'),
-            ('bill_status', '!=', 'billed')
+            ('bill_status', '!=', 'billed'),
+            '|', ('partner_id.customer_code_bill', '=', self.billing_code),
+                 ('partner_id.customer_code', '=', self.billing_code),
         ]
         if ctx.get('last_closing_date'):
             domain += [('x_studio_date_invoiced', '>', self.last_closing_date)]
@@ -31,10 +32,11 @@ class BillingDetailsClass(models.TransientModel):
         ]
 
         payment_line_domain = [
-            ('partner_id.customer_code_bill', '=', self.billing_code),
             ('payment_date', '<=', self.deadline),
             ('state', '=', 'draft'),
             ('bill_status', '!=', 'billed'),
+            '|', ('partner_id.customer_code_bill', '=', self.billing_code),
+                 ('partner_id.customer_code', '=', self.billing_code),
         ]
 
         if ctx.get('last_closing_date'):

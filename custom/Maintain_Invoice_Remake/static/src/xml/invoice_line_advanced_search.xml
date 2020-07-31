@@ -3,15 +3,15 @@
 <template>
     <t t-name="invoice_line.advanced_search">
         <table>
-<!--            <tr>-->
-<!--                <th>あいまい</th>-->
-<!--                <td>-->
-<!--                    <select class="filter-item" data-operator="like" data-name="search_category">-->
-<!--                        <option value="like">あいまい検索</option>-->
-<!--                        <option value="equal">完全一致</option>-->
-<!--                    </select>-->
-<!--                </td>-->
-<!--            </tr>-->
+            <tr>
+                <th>条件</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">
+                        <option value="like">あいまい検索</option>
+                        <option value="equal">完全一致</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <th>売上伝票No</th>
                 <td>
@@ -76,6 +76,30 @@
                 <th>取引区分コード</th>
                 <td>
                     <input class="filter-item" data-operator="ilike" data-name="customer_trans_classification_code"/>
+                </td>
+            </tr>
+            <tr>
+                <th>商品コード</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="product_code"/>
+                </td>
+            </tr>
+            <tr>
+                <th>JAN/UPC/EANコード</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="product_barcode"/>
+                </td>
+            </tr>
+            <tr>
+                <th>品番/規格</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="invoice_custom_standardnumber"/>
+                </td>
+            </tr>
+            <tr>
+                <th>メーカー名</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="product_maker_name"/>
                 </td>
             </tr>
         </table>
