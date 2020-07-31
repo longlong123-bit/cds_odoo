@@ -582,7 +582,7 @@ class IncomePaymentCustom(models.Model):
                 if se[0] != 'search_category':
                     domain += [se]
             args = domain
-        res = super(ProductTemplate, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        res = super(IncomePaymentCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
 
 
