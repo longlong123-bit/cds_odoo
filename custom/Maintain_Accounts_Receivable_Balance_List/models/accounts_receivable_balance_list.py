@@ -170,7 +170,6 @@ class AccountsReceivableBalanceList(models.Model):
                     if record[0] == '&':
                         continue
                     if record[0] == 'search_category' and record[2] == 'equal':
-
                         check = 1
                     if check == 1 and record[0] in arr:
                         record[1] = '=like'
