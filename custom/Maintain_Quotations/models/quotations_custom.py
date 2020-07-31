@@ -605,7 +605,7 @@ class QuotationsCustom(models.Model):
             check = 0
             arr = ["quotation_name", "related_partner_code", "partner_name", "related_sales_rep_name"]
             for se in args:
-                if se[0] == '&' or se[0] == '|':
+                if se[0] == '&':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
@@ -1032,7 +1032,7 @@ class QuotationsLinesCustom(models.Model):
             arr = ["partner_id", "partner_id.name", "order_id.sales_rep", "product_code", "product_barcode",
                    "product_standard_number", "product_maker_name"]
             for se in args:
-                if se[0] == '&' or se[0] =='|':
+                if se[0] == '&':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1

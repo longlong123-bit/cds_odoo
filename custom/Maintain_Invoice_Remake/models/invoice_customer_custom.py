@@ -1141,7 +1141,7 @@ class ClassInvoiceCustom(models.Model):
             arr = ["x_customer_code_for_search", "x_studio_name", "related_userinput_name", "related_sale_rep_name",
                    "customer_state", "customer_group", "customer_industry", "customer_trans_classification_code"]
             for se in args:
-                if se[0] == '&' or se[0] =='|':
+                if se[0] == '&':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
@@ -1711,7 +1711,7 @@ class AccountMoveLine(models.Model):
             arr = ["partner_id", "partner_id.name", "move_id.x_userinput_id", "customer_state", "customer_group",
                    "customer_industry", "customer_trans_classification_code"]
             for se in args:
-                if se[0] == '&' or se[0] == '|':
+                if se[0] == '&':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
