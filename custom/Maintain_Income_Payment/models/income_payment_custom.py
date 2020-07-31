@@ -563,6 +563,28 @@ class IncomePaymentCustom(models.Model):
             if line.payment_amount < 0:
                 raise ValidationError(_('payment_amount must be more than 0'))
 
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        odoo/models.py
+        """
+        ctx = self._context.copy()
+        if ctx.get('have_advance_search'):
+            domain = []
+            check = 0
+            for se in args:
+                if se[0] in ["&", "|"]:
+                    continue
+                if se[0] == 'search_category' and se[2] == 'equal':
+                    check = 1
+                if check == 1 and se[0] in ["partner_payment_name1", "sales_rep"]:
+                    se[1] = '=like'
+                if se[0] != 'search_category':
+                    domain += [se]
+            args = domain
+        res = super(IncomePaymentCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        return res
+
 
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
