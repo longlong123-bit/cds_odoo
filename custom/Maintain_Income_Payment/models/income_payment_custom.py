@@ -573,7 +573,7 @@ class IncomePaymentCustom(models.Model):
             domain = []
             check = 0
             for se in args:
-                if se[0] in ["&", "|"]:
+                if se[0] =='&':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1

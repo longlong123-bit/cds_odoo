@@ -167,7 +167,7 @@ class AccountsReceivableBalanceList(models.Model):
                        "street", "customer_phone", "customer_state", "customer_supplier_group_code",
                        "customer_industry_code", "customer_agent"]
                 for record in args:
-                    if '&' == record[0]:
+                    if record[0] == '&':
                         continue
                     if record[0] == 'search_category' and record[2] == 'equal':
                         check = 1

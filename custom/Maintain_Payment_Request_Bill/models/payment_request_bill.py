@@ -98,7 +98,7 @@ class CollationPayment(models.Model):
                 check = 0
                 arr = ["hr_department_id","hr_employee_id","business_partner_group_custom_id"]
                 for se in args:
-                    if se[0] in ["&", "|"]:
+                    if se[0] =='&':
                         continue
                     if se[0] == 'search_category' and se[2] == 'equal':
                         check = 1
@@ -142,7 +142,7 @@ class CollationPayment(models.Model):
                 arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
                        "business_partner_group_custom_id"]
                 for se in args:
-                    if se[0] in ["&", "|"]:
+                    if se[0] == '&':
                         continue
                     if se[0] == 'search_category' and se[2] == 'equal':
                         check = 1
@@ -189,7 +189,7 @@ class CollationPayment(models.Model):
                 check = 0
                 arr = ["billing_code", "billing_name", "bill_detail_ids.customer_code", "bill_detail_ids.customer_name"]
                 for se in args:
-                    if se[0] in ["&", "|"]:
+                    if se[0] == '&':
                         continue
                     if se[0] == 'search_category' and se[2] == 'equal':
                         check = 1
@@ -236,7 +236,7 @@ class CollationPayment(models.Model):
                 arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
                        "business_partner_group_custom_id"]
                 for record in args:
-                    if record[0] in ["&", "|"]:
+                    if record[0] == '&':
                         continue
                     if record[0] == 'search_category' and record[2] == 'equal':
                         check = 1
