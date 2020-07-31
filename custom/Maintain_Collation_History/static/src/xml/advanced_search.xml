@@ -3,15 +3,15 @@
 <template>
     <t t-name="collation_history.advanced_search">
         <table>
-<!--            <tr>-->
-<!--                <th>Search Category</th>-->
-<!--                <td>-->
-<!--                    <select class="filter-item" data-operator="eq" data-name="search_category">-->
-<!--                        <option value="like">Like</option>-->
-<!--                        <option value="equal">Equal</option>-->
-<!--                    </select>-->
-<!--                </td>-->
-<!--            </tr>-->
+            <tr>
+                <th>Search Category</th>
+                <td>
+                    <select class="filter-item" data-operator="eq" data-name="search_category" style="height:25px;">
+                        <option value="like">Like</option>
+                        <option value="equal">Equal</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <th>The Deadline</th>
                 <td>
@@ -33,13 +33,13 @@
             <tr>
                 <th>Customer Code</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="customer_code"/>
+                    <input class="filter-item" data-operator="ilike" data-name="bill_detail_ids.customer_code"/>
                 </td>
             </tr>
             <tr>
                 <th>Customer Name</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="customer_name"/>
+                    <input class="filter-item" data-operator="ilike" data-name="bill_detail_ids.customer_name"/>
                 </td>
             </tr>
         </table>

@@ -3,15 +3,15 @@
 <template>
     <t t-name="payment_request_bill.advanced_search">
         <table>
-<!--            <tr>-->
-<!--                <th>Search Category</th>-->
-<!--                <td>-->
-<!--                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">-->
-<!--                        <option value="like">Like</option>-->
-<!--                        <option value="equal">Equal</option>-->
-<!--                    </select>-->
-<!--                </td>-->
-<!--            </tr>-->
+            <tr>
+                <th>Search Category</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">
+                        <option value="like">Like</option>
+                        <option value="equal">Equal</option>
+                    </select>
+                </td>
+            </tr>
             <tr>
                 <th>締日（締日グループ)</th>
                 <td>
