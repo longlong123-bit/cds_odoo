@@ -154,14 +154,14 @@ class AccountsReceivableBalanceList(models.Model):
         """
         # ctx = self._context.copy()
         module_context = self._context.copy()
-        if module_context.get('have_advance_search'):
-            domain = []
-            if module_context and module_context.get('liabilities_module'):
-                get_condition_search_of_module = self._get_condition_search_of_module(self=self, args=args)
-                args = get_condition_search_of_module['args']
-                if get_condition_search_of_module['order']:
-                    order = get_condition_search_of_module['order']
-            else:
+        if module_context and module_context.get('liabilities_module'):
+            get_condition_search_of_module = self._get_condition_search_of_module(self=self, args=args)
+            args = get_condition_search_of_module['args']
+            if get_condition_search_of_module['order']:
+                order = get_condition_search_of_module['order']
+        else:
+            if module_context.get('have_advance_search'):
+                domain = []
                 check = 0
                 arr = ["department", "customer_code", "customer_code_bill", "name", "customer_name_kana",
                        "street", "customer_phone", "customer_state", "customer_supplier_group_code",
