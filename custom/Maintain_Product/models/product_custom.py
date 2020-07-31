@@ -621,7 +621,7 @@ class ProductTemplate(models.Model):
             arr = ["barcode", "product_maker_name", "product_custom_standardnumber", "name",
                    "product_custom_goodsnamef"]
             for se in args:
-                if se[0] == '&' or se[0] == '|':
+                if se[0] == '&':
                     continue
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1

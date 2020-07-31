@@ -195,38 +195,38 @@ class BillingClass(models.Model):
                 record.billing_liabilities_flg = False
 
     # 前回締日
-    last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
+    last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True)
 
     # 前回締日 for display
-    last_closing_date_display = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
+    last_closing_date_display = fields.Date(compute=_set_data_to_fields, readonly=True)
 
     # 締切日
-    deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
+    deadline = fields.Date(compute=_set_data_to_fields, readonly=True)
 
     # 前回請求金額
     last_billed_amount = fields.Float(compute=_set_data_to_fields, string='Last Billed Amount', readonly=True,
-                                      store=False)
+                                      )
 
     # 入金額
-    deposit_amount = fields.Float(compute=_set_data_to_fields, string='Deposit Amount', readonly=True, store=False)
+    deposit_amount = fields.Float(compute=_set_data_to_fields, string='Deposit Amount', readonly=True)
 
     # 繰越金額
-    balance_amount = fields.Float(compute=_set_data_to_fields, string='Balance Amount', readonly=True, store=False)
+    balance_amount = fields.Float(compute=_set_data_to_fields, string='Balance Amount', readonly=True)
 
     # 御買上金額
-    amount_untaxed = fields.Float(compute=_set_data_to_fields, string='Amount Untaxed', readonly=True, store=False)
+    amount_untaxed = fields.Float(compute=_set_data_to_fields, string='Amount Untaxed', readonly=True)
 
     # 消費税
-    tax_amount = fields.Float(compute=_set_data_to_fields, string='Tax Amount', readonly=True, store=False)
+    tax_amount = fields.Float(compute=_set_data_to_fields, string='Tax Amount', readonly=True)
 
     # 今回請求金額
-    billed_amount = fields.Float(compute=_set_data_to_fields, string='Billed Amount', readonly=True, store=False)
+    billed_amount = fields.Float(compute=_set_data_to_fields, string='Billed Amount', readonly=True)
 
     # 売伝枚数
-    voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True, store=False)
+    voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True)
 
     # 事業部
-    department = fields.Many2one('hr.department', compute=_set_data_to_fields, readonly=True, store=False)
+    department = fields.Many2one('hr.department', compute=_set_data_to_fields, readonly=True)
 
     # Button [抜粋/Excerpt]
     def bm_bill_excerpt_button(self):
