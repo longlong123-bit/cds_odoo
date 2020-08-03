@@ -259,7 +259,7 @@ class ListOmissionOfBill(models.Model):
         val_issue_format = '0'
 
         module_context = self._context.copy()
-        if module_contextget('have_advance_search') and module_context.get('list_omission_of_bill_module'):
+        if module_context.get('have_advance_search') and module_context.get('list_omission_of_bill_module'):
             domain = []
             arr = ["division", "sales_rep", "customer_supplier_group_code"]
             check = 0
