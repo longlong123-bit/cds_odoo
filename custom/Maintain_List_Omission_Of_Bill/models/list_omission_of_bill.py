@@ -309,7 +309,7 @@ class ListOmissionOfBill(models.Model):
                 if 'issue_format' == record[0]:
                     val_issue_format = record[2]
                     continue
-                if se[0] != 'search_category':
+                if record[0] != 'search_category':
                     domain += [record]
             if val_issue_format == '0':
                 domain += [['id_voucher', '=', 1]]
