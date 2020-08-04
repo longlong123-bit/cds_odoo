@@ -7,8 +7,8 @@
             <t t-set="total_record_detail"
                t-value="o.count_detail_line() + 3*len(o.bill_invoice_ids) + 3*(len_customer - 1) + 9"/>
             <t t-set="total_page_detail" t-value="2"/>
-            <t t-if="total_record_detail &gt; 52">
-                <t t-set="total_page2_detail" t-value="(total_record_detail - 52)/60"/>
+            <t t-if="total_record_detail &gt; 50">
+                <t t-set="total_page2_detail" t-value="(total_record_detail - 50)/56"/>
                 <t t-if="1 &gt; total_page2_detail">
                     <t t-set="total_page2_detail" t-value="1"/>
                 </t>
@@ -278,11 +278,11 @@
                                     <t t-foreach="o.bill_detail_ids.sorted(key=lambda r: (r.flag_child_billing_code, r.invoice_date, r.invoice_no))"
                                        t-as="line_detail">
                                         <t t-set="count_invoice_detail" t-value="count_invoice_detail + line_detail.count_detail_line()"/>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and count_invoice_detail &gt;= count_page_detail">
-                                            <t t-if="(pager == 1 and count_detail == 52) or (pager &gt; 1 and count_detail == 60)">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and count_invoice_detail &gt;= count_page_detail">
+                                            <t t-if="(pager == 1 and count_detail == 50) or (pager &gt; 1 and count_detail == 56)">
                                                 <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>
                                             </t>
-                                            <t t-if="inv_no and tax_transfer_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail)">
+                                            <t t-if="inv_no and tax_transfer_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail)">
                                                 <tr style="height: 45px; vertical-align: top;">
                                                     <td style="padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 70px; text-align: center;">
@@ -337,7 +337,7 @@
                                             </t>
 
                                             <t t-if="o.partner_id.customer_tax_unit == 'invoice'">
-                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 1">
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 1">
                                                     <t t-set="count_rows_total_page_detail" t-value="2"/>
                                                     <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                         <td style="padding-bottom: 0;">
@@ -399,7 +399,7 @@
                                                     </tr>
                                                     <t t-set="count_detail" t-value="count_detail + 3"/>
                                                 </t>
-                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 2">
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 2">
                                                     <t t-set="count_rows_total_page_detail" t-value="3"/>
                                                     <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                         <td style="padding-bottom: 0;">
@@ -461,7 +461,7 @@
                                                     </tr>
                                                     <t t-set="count_detail" t-value="count_detail + 3"/>
                                                 </t>
-                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 3">
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 3">
                                                     <t t-set="count_rows_total_page_detail" t-value="4"/>
                                                     <tr style="height: 15px;vertical-align: top; overflow: hidden;">
                                                         <td style="padding-bottom: 0;">
@@ -513,7 +513,7 @@
                                                 </t>
                                             </t>
                                             <t t-else="">
-                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 1">
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 1">
                                                     <t t-set="count_rows_total_page_detail" t-value="2"/>
                                                     <tr style="height: 15px;vertical-align: top; overflow: hidden;">
                                                         <td style="padding-bottom: 0;">
@@ -563,7 +563,7 @@
                                                     </tr>
                                                     <t t-set="count_detail" t-value="count_detail + 1"/>
                                                 </t>
-                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 2">
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 2">
                                                     <t t-set="count_rows_total_page_detail" t-value="3"/>
                                                     <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                         <td style="padding-bottom: 0;">
@@ -625,7 +625,7 @@
                                                     </tr>
                                                     <t t-set="count_detail" t-value="count_detail + 3"/>
                                                 </t>
-                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 3">
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 3">
                                                     <t t-set="count_rows_total_page_detail" t-value="4"/>
                                                     <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                         <td style="padding-bottom: 0;">
@@ -689,7 +689,7 @@
                                                 </t>
                                             </t>
 
-                                            <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail)">
+                                            <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail)">
                                                 <tr style="height: 45px; vertical-align: top;">
                                                     <td style="border-top: 1px dashed #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 70px; text-align: center;">
@@ -762,7 +762,7 @@
                                                 <t t-set="count_rows_total_page_detail" t-value="1"/>
                                             </t>
 
-                                            <t t-if="((pager == 1 and 52 >= count_detail) or (pager > 1 and 60 >= count_detail))">
+                                            <t t-if="((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail))">
                                                 <tr style="max-height: 45px; vertical-align: top; overflow: hidden;">
                                                     <td style="padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 70px; text-align: center;">
@@ -855,7 +855,7 @@
                                         </t>
                                     </t>
 
-                                    <t t-if="tax_transfer_previous_data and ((pager == 1 and 52 >= count_detail) or (pager > 1 and 60 >= count_detail)) and (count_invoice_detail >= count_page_detail - 1)">
+                                    <t t-if="tax_transfer_previous_data and ((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail)) and (count_invoice_detail >= count_page_detail - 1)">
                                         <tr style="height: 45px; vertical-align: top;">
                                             <td style="padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 70px; text-align: center;">
@@ -912,7 +912,7 @@
 
                                     <!--Display 【合計、税別御買上計、消費税】-->
                                     <t t-if="o.partner_id.customer_tax_unit == 'invoice'">
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 1">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 1">
                                             <t t-set="count_rows_total_page_detail" t-value="2"/>
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
@@ -976,7 +976,7 @@
                                             </tr>
                                             <t t-set="count_detail" t-value="count_detail + 3"/>
                                         </t>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 2">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 2">
                                             <t t-set="count_rows_total_page_detail" t-value="3"/>
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
@@ -1040,7 +1040,7 @@
                                             </tr>
                                             <t t-set="count_detail" t-value="count_detail + 3"/>
                                         </t>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 3">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 3">
                                             <t t-set="count_rows_total_page_detail" t-value="4"/>
                                             <tr style="height: 15px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
@@ -1090,7 +1090,7 @@
                                             </tr>
                                             <t t-set="count_detail" t-value="count_detail + 1"/>
                                         </t>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 1">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 1">
                                             <t t-set="count_rows_total_page" t-value="2"/>
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="border-top: 1px dashed #000000; padding-bottom: 0;">
@@ -1154,7 +1154,7 @@
                                             </tr>
                                             <t t-set="count_detail" t-value="count_detail + 3"/>
                                         </t>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 2">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 2">
                                             <t t-set="count_rows_total_page" t-value="3"/>
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
@@ -1218,7 +1218,7 @@
                                             </tr>
                                             <t t-set="count_detail" t-value="count_detail + 3"/>
                                         </t>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 3">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 3">
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
@@ -1269,7 +1269,7 @@
                                         </t>
                                     </t>
                                     <t t-else="">
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 1">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 1">
                                             <t t-set="count_rows_total_page_detail" t-value="2"/>
                                             <tr style="height: 15px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
@@ -1319,7 +1319,7 @@
                                             </tr>
                                             <t t-set="count_detail" t-value="count_detail + 1"/>
                                         </t>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 2">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 2">
                                             <t t-set="count_rows_total_page_detail" t-value="3"/>
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
@@ -1383,7 +1383,7 @@
                                             </tr>
                                             <t t-set="count_detail" t-value="count_detail + 3"/>
                                         </t>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 3">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 3">
                                             <t t-set="count_rows_total_page_detail" t-value="4"/>
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
@@ -1448,7 +1448,7 @@
                                             <t t-set="count_detail" t-value="count_detail + 3"/>
                                         </t>
 
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 1">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 1">
                                             <t t-set="count_rows_total_page" t-value="2"/>
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="border-top: 1px dashed #000000; padding-bottom: 0;">
@@ -1498,7 +1498,7 @@
                                             </tr>
                                             <t t-set="count_detail" t-value="count_detail + 3"/>
                                         </t>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 2">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 2">
                                             <t t-set="count_rows_total_page" t-value="3"/>
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
@@ -1562,7 +1562,7 @@
                                             </tr>
                                             <t t-set="count_detail" t-value="count_detail + 3"/>
                                         </t>
-                                        <t t-if="((pager == 1 and 52 &gt;= count_detail) or (pager &gt; 1 and 60 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 3">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 3">
                                             <tr style="height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
@@ -1628,7 +1628,7 @@
                                     </t>
 
                                     <!--Set count_page_detail when record detail is smaller than record detail of default page-->
-                                    <t t-if="(pager == 1 and 52 &gt; count_invoice_detail) or (pager &gt; 1 and 60 &gt; count_invoice_detail)">
+                                    <t t-if="(pager == 1 and 50 &gt; count_invoice_detail) or (pager &gt; 1 and 56 &gt; count_invoice_detail)">
                                         <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>
                                     </t>
                                     <t t-if="count_rows_total_page_detail == 4">
@@ -1637,9 +1637,9 @@
 
                                     <!--Display empty rows at the end page-->
                                     <t t-if="range_total_page_detail == (total_page_detail - 1)">
-                                        <t t-set="rows_detail_default" t-value="52"/>
+                                        <t t-set="rows_detail_default" t-value="50"/>
                                         <t t-if="pager &gt; 1">
-                                            <t t-set="rows_detail_default" t-value="60"/>
+                                            <t t-set="rows_detail_default" t-value="56"/>
                                         </t>
                                         <t t-if="rows_detail_default &gt; count_detail">
                                             <!--line_empty = rows_detail_default - (rows_detail + total_rows_of_【合計、税別御買上計、消費税】))-->
