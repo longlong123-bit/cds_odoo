@@ -366,13 +366,13 @@
                                                         <div t-if="line_detail.account_move_line_id"
                                                              style="display: inline-block; width: 359px;">
                                                             <span t-field="line_detail.product_name"
-                                                                  style="max-height: 26px; vertical-align: top; display: inline-block; max-width: 230px; overflow: hidden; margin: 0;">
+                                                                  style="max-height: 26px;text-overflow: clip; vertical-align: top; display: inline-block; max-width: 230px; overflow: hidden; margin: 0;">
                                                             </span>
                                                             <span t-field="line_detail.product_maker_name"
-                                                                  style="max-width: 62px; display: inline-block; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
+                                                                  style="max-width: 62px;text-overflow: clip; display: inline-block; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
                                                             </span>
                                                             <span t-field="line_detail.product_custom_standardnumber"
-                                                                  style="max-width: 62px; white-space: nowrap; display: inline-block; overflow: hidden; margin: 0; vertical-align: top;">
+                                                                  style="max-width: 62px; text-overflow: clip;white-space: nowrap; display: inline-block; overflow: hidden; margin: 0; vertical-align: top;">
                                                             </span>
                                                             <br/>
                                                             <span t-if="line_detail.account_move_line_id.product_id.product_tax_category == 'exempt'">
