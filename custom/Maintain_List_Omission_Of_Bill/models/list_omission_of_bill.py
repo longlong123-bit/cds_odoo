@@ -318,4 +318,4 @@ class ListOmissionOfBill(models.Model):
         if (len(args) == 1 and val_issue_format == '0') or len(args) == 0:
             return []
         res = super(ListOmissionOfBill, self).search(args, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+        return res
