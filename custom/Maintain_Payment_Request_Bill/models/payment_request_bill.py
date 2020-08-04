@@ -80,6 +80,7 @@ class CollationPayment(models.Model):
         odoo/models.py
         """
         ctx = self._context.copy()
+        print("BBBBBBB", args)
         if ctx.get('have_advance_search'):
             domain = []
             if ctx.get('view_code') == 'bill_report':
@@ -277,9 +278,9 @@ class CollationPayment(models.Model):
                 args = domain
         if 'Cancel Billing' == ctx.get('view_name') and len(args) == 0:
             return []
-        elif 'bill_report' == ctx.get('view_code') and len(args) == 0 and search_address_type == '':
+        elif 'bill_report' == ctx.get('view_code') and len(args) == 0:
             return []
-        elif 'Billing List' == ctx.get('view_name') and len(args) == 0 and search_list_display_order == '':
+        elif 'Billing List' == ctx.get('view_name') and len(args) == 0:
             return []
         elif 'Bill History' == ctx.get('view_name') and len(args) == 0:
             return []
