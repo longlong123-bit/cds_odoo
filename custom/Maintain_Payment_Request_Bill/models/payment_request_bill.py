@@ -80,7 +80,6 @@ class CollationPayment(models.Model):
         odoo/models.py
         """
         ctx = self._context.copy()
-        print("BBBBBBB", args)
         if ctx.get('have_advance_search'):
             domain = []
             if ctx.get('view_code') == 'bill_report':
