@@ -5,7 +5,7 @@
             <t t-set="len_customer" t-value="o.count_customer_in_bill()"/>
             <!-- total_record_detail = total_detail + total_line_tax_of_invoice + (total_line_of_customer_in_bill - 1(customer_of_billing_code))  + total_line_of_【合計、税別御買上計、消費税】-->
             <t t-set="total_record_detail"
-               t-value="o.count_detail_line() + 3*len(o.bill_invoice_ids) + (len_customer - 1) + 9"/>
+               t-value="o.count_detail_line() + 3*len(o.bill_invoice_ids) + 3*(len_customer - 1) + 9"/>
             <t t-set="total_page_detail" t-value="2"/>
             <t t-if="total_record_detail &gt; 52">
                 <t t-set="total_page2_detail" t-value="(total_record_detail - 52)/60"/>
