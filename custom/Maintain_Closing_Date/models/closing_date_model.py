@@ -17,8 +17,8 @@ class ClassClosingDate(models.Model):
 
     @api.constrains('start_day')
     def _check_maximum_day(self):
-        if self.start_day > 31 or self.start_day < 1:
-            raise ValidationError(_('The day must be 1 to 31!'))
+        if self.start_day > 99 or self.start_day < 1:
+            raise ValidationError(_('The day must be 1 to 99!'))
 
     @api.constrains('closing_date_code')
     def _check_unique_searchkey(self):
