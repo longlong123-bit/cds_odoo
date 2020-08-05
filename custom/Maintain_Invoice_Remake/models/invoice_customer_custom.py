@@ -485,7 +485,8 @@ class ClassInvoiceCustom(models.Model):
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
                     'invoice_custom_Description': line.description,
-                    'invoice_custom_line_no': len(self.invoice_line_ids) + 1
+                    'invoice_custom_line_no': len(self.invoice_line_ids) + 1,
+                    'copy_history_flag': True
                 })]
         elif self.copy_history_from == 'account.move.line' and self.copy_history_item:
             products = self.env["account.move.line"].search([('id', 'in', self.copy_history_item.split(','))])
@@ -509,7 +510,8 @@ class ClassInvoiceCustom(models.Model):
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
                     'invoice_custom_Description': line.invoice_custom_Description,
-                    'invoice_custom_line_no': len(self.invoice_line_ids) + 1
+                    'invoice_custom_line_no': len(self.invoice_line_ids) + 1,
+                    'copy_history_flag': True
                 })]
         elif self.copy_history_from == 'product.product':
             product_ids = [int(product_id) for product_id in
@@ -1330,6 +1332,8 @@ class AccountMoveLine(models.Model):
     price_include_tax = fields.Float('Price Include Tax')
     changed_fields = []
 
+    copy_history_flag = fields.Boolean(default=False, store=False)
+
     @api.onchange('product_code')
     def _onchange_product_code(self):
         if 'product_code' not in self.changed_fields:
@@ -1670,7 +1674,8 @@ class AccountMoveLine(models.Model):
                  'move_id.x_voucher_tax_transfer')
     def compute_price_unit(self):
         for line in self:
-            line.price_unit = line._get_computed_price_unit()
+            if not line.copy_history_flag:
+                line.price_unit = line._get_computed_price_unit()
 
     def button_update(self):
         view = {
