@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="invoice_history_tree_view" model="ir.ui.view">
+            <field name="name">invoice.history.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Request Bill" create="false" import="false">
+                    <field name="date" optional="show" readonly="1" string="売上日付"/>
+                    <field name="invoice_no" optional="show" readonly="1"/>
+                    <field name="x_invoicelinetype" optional="show" readonly="1" string="取引/内訳区分"/>
+                    <field name="partner_id" optional="show" readonly="1" string="得意先コード"/>
+                    <field name="x_customer_show_in_tree" optional="show" readonly="1" string="得意先名"/>
+                    <field name="product_barcode" optional="show" readonly="1" string="JANコード"/>
+                    <!--                  <field name="x_product_code_show_in_tree" optional="show" readonly="1"/>-->
+                    <field name="invoice_custom_standardnumber" optional="show" readonly="1" string="品番/型番"/>
+                    <field name="product_maker_name" optional="show" readonly="1" string="メーカー名"/>
+                    <field name="product_name" optional="show" readonly="1" string="商品名"/>
+                    <field name="quantity" optional="show" readonly="1" string="数量"/>
+                    <field name="product_uom_id" optional="show" string="単位"/>
+                    <field name="price_unit" optional="show" readonly="1" string="単価"/>
+                    <field name="invoice_custom_lineamount" optional="show" readonly="1" string="金額"/>
+                    <field name="tax_rate" optional="show" readonly="1" string="税率"/>
+                    <field name="tax_ids" widget="many2many_tags"
+                           domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
+                           context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+                           options="{'no_create': True}"
+                           optional="show" readonly="1"
+                           string="税率" invisible="1"/>
+                    <field name="x_tax_transfer_show_tree" optional="show" readonly="1" string="税転嫁"/>
+                </tree>
+            </field>
+        </record>
+        <record id="invoice_history_action" model="ir.actions.act_window">
+            <field name="name">Invoice History</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="invoice_history_tree_view"/>
+        </record>
+        <menuitem id="menu_ideas" name="Invoice History"
+                  parent="" sequence="2"
+                  action="invoice_history_action"/>
+    </data>
+</odoo>
