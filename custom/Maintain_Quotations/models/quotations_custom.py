@@ -535,7 +535,8 @@ class QuotationsCustom(models.Model):
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
                     'description': line.description,
-                    'quotation_custom_line_no': len(self.order_line) + 1
+                    'quotation_custom_line_no': len(self.order_line) + 1,
+                    'copy_history_flag': True,
                 })]
         elif self.copy_history_from == 'account.move.line' and self.copy_history_item:
             products = self.env["account.move.line"].search([('id', 'in', self.copy_history_item.split(','))])
@@ -558,7 +559,8 @@ class QuotationsCustom(models.Model):
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
                     'description': line.invoice_custom_Description,
-                    'quotation_custom_line_no': len(self.order_line) + 1
+                    'quotation_custom_line_no': len(self.order_line) + 1,
+                    'copy_history_flag': True,
                 })]
         elif self.copy_history_from == 'product.product':
             product_ids = [int(product_id) for product_id in
@@ -681,6 +683,8 @@ class QuotationsLinesCustom(models.Model):
     product_tax_category = fields.Selection(
         related="product_id.product_tax_category"
     )
+
+    copy_history_flag = fields.Boolean(default=False, store=False)
 
     def _get_default_line_no(self):
         context = dict(self._context or {})
@@ -958,6 +962,8 @@ class QuotationsLinesCustom(models.Model):
                         and line.product_id.product_class_code_lv4.product_class_rate > 0:
                     price_unit = price_unit * line.product_id.product_class_code_lv4.product_class_rate / 100
 
+            if line.copy_history_flag:
+                price_unit = line.price_unit
             if line.class_item == 'サンプル':
                 line.price_unit = 0
             else:
