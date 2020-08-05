@@ -120,3 +120,9 @@ msgstr "コードが既に登録されています。"
 #: model:ir.model,name:Maintain_Closing_Date.model_closing_date
 msgid "closing.date"
 msgstr ""
+
+#. module: Maintain_Closing_Date
+#: code:addons/Maintain_Closing_Date/models/closing_date_model.py:0
+#, python-format
+msgid "The day must be 1 to 99!"
+msgstr "日付は1から99でなければなりません"

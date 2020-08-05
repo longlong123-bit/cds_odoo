@@ -261,15 +261,15 @@ class ListOmissionOfBill(models.Model):
         module_context = self._context.copy()
         if module_context.get('have_advance_search') and module_context.get('list_omission_of_bill_module'):
             domain = []
-            arr = ["division", "sales_rep", "customer_supplier_group_code"]
-            check = 0
+            # arr = ["division", "sales_rep", "customer_supplier_group_code"]
+            # check = 0
             for record in args:
                 if record[0] == '&':
                     continue
-                if record[0] == 'search_category' and record[2] == 'equal':
-                    check = 1
-                if check == 1 and record[0] in arr:
-                    record[1] = '=like'
+                # if record[0] == 'search_category' and record[2] == 'equal':
+                #     check = 1
+                # if check == 1 and record[0] in arr:
+                #     record[1] = '=like'
                 if 'closing_date' == record[0]:
                     val_start_day = record[2]
                     if record[2].isnumeric():
@@ -309,8 +309,8 @@ class ListOmissionOfBill(models.Model):
                 if 'issue_format' == record[0]:
                     val_issue_format = record[2]
                     continue
-                if record[0] != 'search_category':
-                    domain += [record]
+                # if record[0] != 'search_category':
+                domain += [record]
             if val_issue_format == '0':
                 domain += [['id_voucher', '=', 1]]
             args = domain

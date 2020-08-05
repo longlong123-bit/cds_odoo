@@ -95,15 +95,15 @@ class CollationPayment(models.Model):
                 search_bill_job_title = ''
                 search_print_child = ''
                 search_payment_closing_date = datetime.today()
-                check = 0
-                arr = ["hr_department_id","hr_employee_id","business_partner_group_custom_id"]
+                # check = 0
+                # arr = ["hr_department_id","hr_employee_id","business_partner_group_custom_id"]
                 for se in args:
                     if se[0] =='&':
                         continue
-                    if se[0] == 'search_category' and se[2] == 'equal':
-                        check = 1
-                    if check == 1 and se[0] in arr:
-                        se[1] = '=like'
+                    # if se[0] == 'search_category' and se[2] == 'equal':
+                    #     check = 1
+                    # if check == 1 and se[0] in arr:
+                    #     se[1] = '=like'
                     if 'customer_closing_date_id' == se[0]:
                         if se[2].isnumeric():
                             se[0] = 'customer_closing_date_id.start_day'
@@ -138,16 +138,16 @@ class CollationPayment(models.Model):
                         search_print_child = se[2]
                 args = domain
             elif 'Cancel Billing' == ctx.get('view_name'):
-                check = 0
-                arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
-                       "business_partner_group_custom_id"]
+                # check = 0
+                # arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
+                #        "business_partner_group_custom_id"]
                 for se in args:
                     if se[0] == '&':
                         continue
-                    if se[0] == 'search_category' and se[2] == 'equal':
-                        check = 1
-                    if check == 1 and se[0] in arr:
-                        se[1] = '=like'
+                    # if se[0] == 'search_category' and se[2] == 'equal':
+                    #     check = 1
+                    # if check == 1 and se[0] in arr:
+                    #     se[1] = '=like'
                     if 'customer_closing_date_id' == se[0]:
                         if se[2].isnumeric():
                             se[0] = 'customer_closing_date_id.start_day'
@@ -186,15 +186,15 @@ class CollationPayment(models.Model):
                 search_name = ''
                 search_invoice_partner_display_name = ''
                 search_x_studio_name = ''
-                check = 0
-                arr = ["billing_code", "billing_name", "bill_detail_ids.customer_code", "bill_detail_ids.customer_name"]
+                # check = 0
+                # arr = ["billing_code", "billing_name", "bill_detail_ids.customer_code", "bill_detail_ids.customer_name"]
                 for se in args:
                     if se[0] == '&':
                         continue
-                    if se[0] == 'search_category' and se[2] == 'equal':
-                        check = 1
-                    if check == 1 and se[0] in arr:
-                        se[1] = '=like'
+                    # if se[0] == 'search_category' and se[2] == 'equal':
+                    #     check = 1
+                    # if check == 1 and se[0] in arr:
+                    #     se[1] = '=like'
                     if se[0] == "deadline":
                         search_x_studio_deadline = se[2]
                         domain += [se]
@@ -232,17 +232,17 @@ class CollationPayment(models.Model):
                 search_list_billing_code_to = ''
                 search_list_display_order = ''
                 domain = []
-                check = 0
-                arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
-                       "business_partner_group_custom_id"]
+                # check = 0
+                # arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
+                #        "business_partner_group_custom_id"]
                 for record in args:
                     if record[0] == '&':
                         continue
-                    if record[0] == 'search_category' and record[2] == 'equal':
-                        check = 1
-
-                    if check == 1 and record[0] in arr:
-                        record[1] = '=like'
+                    # if record[0] == 'search_category' and record[2] == 'equal':
+                    #     check = 1
+                    #
+                    # if check == 1 and record[0] in arr:
+                    #     record[1] = '=like'
                     if record[0] == 'customer_closing_date_id':
                         search_list_customer_closing_date_id = record[2]
                         if record[2].isnumeric():
@@ -272,8 +272,8 @@ class CollationPayment(models.Model):
                         if record[2] == 'True':
                             claim_zero = 1
                         continue
-                    if record[0] != 'search_category':
-                        domain += [record]
+                    # if record[0] != 'search_category':
+                    domain += [record]
                 args = domain
         if 'Cancel Billing' == ctx.get('view_name') and len(args) == 0:
             return []
