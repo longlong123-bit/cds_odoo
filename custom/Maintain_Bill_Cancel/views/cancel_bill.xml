@@ -30,12 +30,13 @@
                 <field name="active_flag" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="bill_invoice_ids" invisible="1"/>
-                <field name="report_status" invisible="1"/>
+<!--                <field name="report_status" invisible="1"/>-->
                 <field name="hr_employee_id" invisible="1"/>
                 <field name="hr_department_id" invisible="1"/>
                 <field name="business_partner_group_custom_id" invisible="1"/>
                 <field name="customer_closing_date_id" invisible="1"/>
                 <field name="customer_excerpt_request" invisible="1"/>
+                <field name="bill_report_state" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -47,7 +48,7 @@
         <field name="res_model">bill.info</field>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="bm_cancel_bill_tree"/>
-        <field name="domain">[]</field>
+        <field name="domain">[('bill_report_state', '=', False)]</field>
         <field name="context">{'bill_management_module': True, 'view_name': 'Cancel Billing'}</field>
     </record>
 

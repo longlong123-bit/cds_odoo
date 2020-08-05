@@ -212,6 +212,7 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
                     type: 'filter',
                     description: _description,
                     subtype: 'filter1',
+                    context: {'have_advance_search': true},
                     domain: JSON.stringify(filters),
                 }]});
             }

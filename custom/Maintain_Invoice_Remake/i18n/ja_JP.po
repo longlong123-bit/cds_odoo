@@ -176,11 +176,15 @@ msgid "Customer"
 msgstr "得意先コード"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_customer_code_for_search
 msgid "Customer Code"
-msgstr ""
+msgstr "得意先コード"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_group
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
@@ -189,6 +193,8 @@ msgid "Customer Group"
 msgstr "取引先グループコード"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_industry
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
@@ -210,6 +216,8 @@ msgid "Customer Office"
 msgstr "取引区分コード"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_state
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_tree
@@ -291,6 +299,8 @@ msgid "Document"
 msgstr ""
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_document_no
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
@@ -433,9 +443,13 @@ msgid "Invoice Confirm"
 msgstr "売上入力確認リスト"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__x_studio_date_invoiced
+#: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move_line__date
+#, python-format
 msgid "Invoice Date"
-msgstr ""
+msgstr "売上日付"
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
@@ -916,6 +930,8 @@ msgid "Total Lines*"
 msgstr "伝票合計額*"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Invoice_Remake.field_account_move__customer_trans_classification_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_confirm_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_custom_search
@@ -1402,5 +1418,53 @@ msgstr "見積履歴参照"
 
 #. module: Maintain_Invoice_Remake
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
+msgid "Add multi products"
+msgstr "複数の商品を追加"
+
+#. module: Maintain_Invoice_Remake
+#: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.view_move_custom_form
 msgid "Search from invoice"
 msgstr "売上履歴参照"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Search Category"
+msgstr "条件"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Like"
+msgstr "あいまい検索"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Equal"
+msgstr "完全一致"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Create Date"
+msgstr "入力（登録日付）"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Rep User"
+msgstr "入力担当者"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Sales Rep Name"
+msgstr "営業担当者"
+

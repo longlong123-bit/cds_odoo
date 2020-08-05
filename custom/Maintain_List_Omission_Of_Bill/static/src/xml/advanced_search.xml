@@ -2,57 +2,69 @@
 <!-- webpage record -->
 <template>
     <t t-name="list_omission_of_bill.advanced_search">
-      <table>
-          <tr>
-            <th>締日（締日グループ）</th>
-            <td>
-                <input class="filter-item" data-operator="ilike" data-name="closing_date" type="search"/>
-            </td>
-          </tr>
-          <tr>
-            <th>売上日</th>
-            <td>
-              <input class="filter-item" data-operator="lte" data-name="sales_date" type="date"/>
-            </td>
-          </tr>
-          <tr>
-            <th>事業部</th>
-            <td>
-              <input class="filter-item" data-operator="ilike" data-name="division" type="search"/>
-            </td>
-          </tr>
-          <tr>
-            <th>営業担当者</th>
-            <td>
-              <input class="filter-item" data-operator="ilike" data-name="sales_rep" type="search"/>
-            </td>
-          </tr>
-          <tr>
-            <th>取引先グループ</th>
-            <td>
-              <input class="filter-item" data-operator="ilike" data-name="customer_supplier_group_code" type="search"/>
-            </td>
-          </tr>
-          <tr>
-            <th>請求先</th>
-            <td>
-              <input class="filter-item" data-operator="gte" data-name="customer_code_bill_from" type="search"/>
-            </td>
-            <td><span>～</span></td>
-            <td>
-              <input class="filter-item" data-operator="lte" data-name="customer_code_bill_to" type="search"/>
-            </td>
-          </tr>
-          <tr>
-            <th>発行形式</th>
-            <td>
-                <select class="filter-item" data-operator="eq" data-name="issue_format"
-                        style="height:26px">
-                    <option value='0'>伝票単位</option>
-                    <option value='1'>明細単位</option>
-                </select>
-            </td>
-          </tr>
+        <table>
+<!--            <tr>-->
+<!--                <th>Search Category</th>-->
+<!--                <td>-->
+<!--                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">-->
+<!--                        <option value="like">Like</option>-->
+<!--                        <option value="equal">Equal</option>-->
+<!--                    </select>-->
+<!--                </td>-->
+<!--            </tr>-->
+            <tr>
+                <th>締日（締日グループ）</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="closing_date" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>売上日</th>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="sales_date" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>事業部</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="division" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>営業担当者</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="sales_rep" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>取引先グループ</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_supplier_group_code"
+                           type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>請求先</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="customer_code_bill_from" type="search"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="customer_code_bill_to" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>発行形式</th>
+                <td>
+                    <select class="filter-item" data-operator="eq" data-name="issue_format"
+                            style="height:26px">
+                        <option value='0'>伝票単位</option>
+                        <option value='1'>明細単位</option>
+                    </select>
+                </td>
+            </tr>
         </table>
     </t>
 </template>

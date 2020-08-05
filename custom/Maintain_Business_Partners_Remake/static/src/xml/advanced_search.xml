@@ -2,6 +2,15 @@
     <t t-name="Partner.advanced_search">
         <table>
             <tr>
+                <th>Search Category</th>
+                <td>
+                    <select class="filter-item" data-operator="=like" data-name="search_category" style="height:25px;">
+                        <option value="like">Like</option>
+                        <option value="equal">Equal</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
                 <th>Customer Code</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="customer_code"/>
@@ -14,7 +23,6 @@
                   <input class="filter-item" data-operator="ilike" data-name="customer_code_bill"/>
                 </td>
              </tr>
-
             <tr>
               <th>Customer Name</th>
                 <td>
@@ -29,32 +37,32 @@
                 </td>
             </tr>
             <tr>
-              <th>住所1</th>
+              <th>Address</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="street"/>
                 </td>
             </tr>
 
             <tr>
-              <th>電話番号</th>
+              <th>Phone</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="customer_phone"/>
                 </td>
             </tr>
             <tr>
-              <th>地区コード</th>
+              <th>State</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="customer_state"/>
                 </td>
             </tr>
             <tr>
-              <th>取引先グループコード</th>
+              <th>Supplier Group Code</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="customer_supplier_group_code"/>
                 </td>
             </tr>
             <tr>
-              <th>業種コード</th>
+              <th>Industry Code</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="customer_industry_code"/>
                 </td>

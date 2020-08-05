@@ -1,14 +1,9 @@
-from odoo import api, fields, models
+from odoo import models
+from custom.Maintain_Invoice_Remake.models.invoice_customer_custom import rounding
 
 
 class InvoiceReports(models.Model):
     _inherit = 'account.move'
 
-    # Custom preview invoice
-    def preview_invoice(self):
-        return {
-            'type': 'ir.actions.report',
-            'report_name': 'Maintain_Invoice_Reports.invoice_reports',
-            'model': 'account.move',
-            'report_type': "qweb-pdf",
-        }
+    def rounding_report(self, number, pre=0, type_rounding='round'):
+        return rounding(number, pre, type_rounding)

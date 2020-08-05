@@ -3,6 +3,15 @@
 <template>
     <t t-name="cancel_bill.advanced_search">
         <table>
+<!--            <tr>-->
+<!--                <th>Search Category</th>-->
+<!--                <td>-->
+<!--                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">-->
+<!--                        <option value="like">Like</option>-->
+<!--                        <option value="equal">Equal</option>-->
+<!--                    </select>-->
+<!--                </td>-->
+<!--            </tr>-->
             <tr>
                 <th>Customer Closing Date</th>
                 <td>
@@ -24,7 +33,7 @@
             <tr>
                 <th>The Deadline</th>
                 <td>
-                    <input class="filter-item" id='deadline' data-operator="eq" data-name="closing_date" type="date"/>
+                    <input class="filter-item" id='deadline' data-operator="like" data-name="closing_date" type="date"/>
                 </td>
                 <script>
                     document.getElementById('deadline').value = moment().format('YYYY-MM-DD');

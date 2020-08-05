@@ -203,6 +203,7 @@
                                 >
                                     <control>
                                         <create name="add_product_control" string="Add a product"/>
+                                        <create name="search_multi_product_control" string="Add multi products"/>
                                         <create name="search_from_quotation_control" string="Search from quotation"/>
                                         <create name="search_from_invoice_control" string="Search from invoice"/>
                                     </control>
@@ -235,12 +236,13 @@
                                     <field name="product_code" widget="refer_field"
                                            attrs="{'invisible': [('display_type', '!=', False)]}"
                                            string="Product Code"
+                                           context="{'limit': 200}"
                                            options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "alternative_column":"product_barcode", "alternative_value":"barcode", "search_input": true}'/>
                                     <!--                                    <field name="product_id" widget="product_many2one" context="{'show_product_code': 1}"-->
 <!--                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"-->
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->
                                     <field name="product_barcode" widget="refer_field"
-                                           required="True"
+                                           required="True" context="{'limit': 200}"
                                            options='{"model":"product.product","column": "barcode", "search_input": true}'/>
 <!--                                    <field name="product_maker_name" widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'/>-->
                                     <field name="product_maker_name" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
@@ -387,7 +389,7 @@
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="view_id" ref="view_quotations_custom_tree"/>
-        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'view_name': 'main_sale_order'}</field>
         <field name="search_view_id" ref="product_custom_template_search_view"/>
     </record>
 

@@ -11,6 +11,7 @@ class BillingClass(models.Model):
 
     def _compute_closing_date_for_bill(self, record):
         _last_closing_date = ''
+        _last_closing_date_display = ''
         _deadline = date.today()
         if advanced_search.val_bill_search_deadline:
             _deadline = datetime.strptime(advanced_search.val_bill_search_deadline, '%Y-%m-%d').date()
@@ -25,6 +26,7 @@ class BillingClass(models.Model):
 
         if last_data_bill_info_ids:
             _last_closing_date = last_data_bill_info_ids.deadline
+            _last_closing_date_display = last_data_bill_info_ids.deadline
 
         if _last_closing_date:
             invoice_line_ids = self.env['account.move.line'].search([
@@ -48,8 +50,8 @@ class BillingClass(models.Model):
         closing_date = {
             'last_closing_date': _last_closing_date,
             'deadline': _deadline,
+            'last_closing_date_display': _last_closing_date_display,
         }
-
         return closing_date
 
     # Get invoices list by partner id
@@ -79,13 +81,14 @@ class BillingClass(models.Model):
                 _closing_date = self._compute_closing_date_for_bill(record=record)
                 record.last_closing_date = _closing_date['last_closing_date']
                 record.deadline = _closing_date['deadline']
+                record.last_closing_date_display = _closing_date['last_closing_date_display']
 
             # Set data for department field
             record.department = record.customer_agent.department_id.id
 
             # Compute data for last_billed_amount field
             bill_info_ids = self.env['bill.info'].search([('billing_code', '=', record.customer_code),
-                                                          ('deadline', '<=', record.last_closing_date),
+                                                          ('deadline', '<=', record.last_closing_date_display),
                                                           ('active_flag', '=', True)],
                                                          order="deadline desc, bill_no desc", limit=1)
 
@@ -192,35 +195,38 @@ class BillingClass(models.Model):
                 record.billing_liabilities_flg = False
 
     # 前回締日
-    last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
+    last_closing_date = fields.Date(compute=_set_data_to_fields, readonly=True)
+
+    # 前回締日 for display
+    last_closing_date_display = fields.Date(compute=_set_data_to_fields, readonly=True)
 
     # 締切日
-    deadline = fields.Date(compute=_set_data_to_fields, readonly=True, store=False)
+    deadline = fields.Date(compute=_set_data_to_fields, readonly=True)
 
     # 前回請求金額
     last_billed_amount = fields.Float(compute=_set_data_to_fields, string='Last Billed Amount', readonly=True,
-                                      store=False)
+                                      )
 
     # 入金額
-    deposit_amount = fields.Float(compute=_set_data_to_fields, string='Deposit Amount', readonly=True, store=False)
+    deposit_amount = fields.Float(compute=_set_data_to_fields, string='Deposit Amount', readonly=True)
 
     # 繰越金額
-    balance_amount = fields.Float(compute=_set_data_to_fields, string='Balance Amount', readonly=True, store=False)
+    balance_amount = fields.Float(compute=_set_data_to_fields, string='Balance Amount', readonly=True)
 
     # 御買上金額
-    amount_untaxed = fields.Float(compute=_set_data_to_fields, string='Amount Untaxed', readonly=True, store=False)
+    amount_untaxed = fields.Float(compute=_set_data_to_fields, string='Amount Untaxed', readonly=True)
 
     # 消費税
-    tax_amount = fields.Float(compute=_set_data_to_fields, string='Tax Amount', readonly=True, store=False)
+    tax_amount = fields.Float(compute=_set_data_to_fields, string='Tax Amount', readonly=True)
 
     # 今回請求金額
-    billed_amount = fields.Float(compute=_set_data_to_fields, string='Billed Amount', readonly=True, store=False)
+    billed_amount = fields.Float(compute=_set_data_to_fields, string='Billed Amount', readonly=True)
 
     # 売伝枚数
-    voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True, store=False)
+    voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True)
 
     # 事業部
-    department = fields.Many2one('hr.department', compute=_set_data_to_fields, readonly=True, store=False)
+    department = fields.Many2one('hr.department', compute=_set_data_to_fields, readonly=True)
 
     # Button [抜粋/Excerpt]
     def bm_bill_excerpt_button(self):

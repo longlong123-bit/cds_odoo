@@ -5,6 +5,7 @@ odoo.define('bill_list.Advanced_Search', function(require){
     advancedSearch['bill.info']['bm.bill.list.tree'] = {
         template: 'bill_list.advanced_search'
     }
+
     FilterMenu.include({
         advancedSearch: advancedSearch
     });

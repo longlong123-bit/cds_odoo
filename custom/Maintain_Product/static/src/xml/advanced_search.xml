@@ -2,42 +2,51 @@
     <t t-name="Product.advanced_search">
         <table>
             <tr>
-                <th>商品コード</th>
+                <th>Search Category</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">
+                        <option value="like">Like</option>
+                        <option value="equal">Equal</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Product Code</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="product_total"/>
                 </td>
             </tr>
 
             <tr>
-                <th>JAN/UPC/EANコード</th>
+                <th>JAN/UPC/EAN Code</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="barcode"/>
                 </td>
              </tr>
 
             <tr>
-              <th>メーカー名</th>
+              <th>Maker Name</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="product_maker_name"/>
                 </td>
             </tr>
 
             <tr>
-              <th>品番/規格</th>
+              <th>Standard Number</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="product_custom_standardnumber"/>
                 </td>
             </tr>
 
             <tr>
-              <th>商品名</th>
+              <th>Product Name</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="name"/>
                 </td>
             </tr>
 
             <tr>
-              <th>商品名カナ</th>
+              <th>Good Name</th>
                 <td>
                   <input class="filter-item" data-operator="ilike" data-name="product_custom_goodsnamef"/>
                 </td>

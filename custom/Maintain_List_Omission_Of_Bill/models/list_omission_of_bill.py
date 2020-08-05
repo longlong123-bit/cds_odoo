@@ -258,13 +258,18 @@ class ListOmissionOfBill(models.Model):
         val_customer_code_bill_to = ''
         val_issue_format = '0'
 
-        domain = []
         module_context = self._context.copy()
-
-        if module_context and module_context.get('list_omission_of_bill_module'):
+        if module_context.get('have_advance_search') and module_context.get('list_omission_of_bill_module'):
+            domain = []
+            # arr = ["division", "sales_rep", "customer_supplier_group_code"]
+            # check = 0
             for record in args:
-                if '&' == record[0]:
+                if record[0] == '&':
                     continue
+                # if record[0] == 'search_category' and record[2] == 'equal':
+                #     check = 1
+                # if check == 1 and record[0] in arr:
+                #     record[1] = '=like'
                 if 'closing_date' == record[0]:
                     val_start_day = record[2]
                     if record[2].isnumeric():
@@ -295,7 +300,6 @@ class ListOmissionOfBill(models.Model):
                         record[1] = '='
                     else:
                         record[0] = 'customer_supplier_group_name'
-
                 if 'customer_code_bill_from' == record[0]:
                     val_customer_code_bill_from = record[2]
                     record[0] = 'customer_code_bill'
@@ -305,16 +309,13 @@ class ListOmissionOfBill(models.Model):
                 if 'issue_format' == record[0]:
                     val_issue_format = record[2]
                     continue
-
+                # if record[0] != 'search_category':
                 domain += [record]
-
             if val_issue_format == '0':
                 domain += [['id_voucher', '=', 1]]
+            args = domain
 
-        else:
-            domain = args
-
-        if (len(domain) == 1 and val_issue_format == '0') or len(domain) == 0:
+        if (len(args) == 1 and val_issue_format == '0') or len(args) == 0:
             return []
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+        res = super(ListOmissionOfBill, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        return res

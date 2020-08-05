@@ -18,7 +18,7 @@ msgstr ""
 #. module: Maintain_Bill_Cancel
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Cancel.bm_cancel_bill_tree
 msgid "Bill Amount Untaxed"
-msgstr "御買上金額"
+msgstr "売上金額"
 
 #. module: Maintain_Bill_Cancel
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Cancel.bm_cancel_bill_tree
@@ -122,3 +122,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Cancel.bm_cancel_bill_tree
 msgid "total"
 msgstr "合計"
+
+#. module: Maintain_Bill_Cancel
+#: code:addons/Maintain_Bill_Cancel/models/cancel_bill.py:0
+#, python-format
+msgid "You can only cancel a billing process that has the latest deadline."
+msgstr "最新締切がある請求処理のみを取消できます。"

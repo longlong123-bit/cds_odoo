@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
+
   <record model="ir.ui.view" id="view_move_line_tree_custom">
       <field name="name">invoice.line.custom.tree</field>
       <field name="model">account.move.line</field>
@@ -61,6 +62,7 @@
                     <field name="amount_untaxed" string="Total Lines" sum="Total" optional="show"/>
                     <field name="x_voucher_tax_amount" string="Voucher Tax Amount" sum="Total" optional="show"/>
                     <field name="amount_total" string="Grand Total" sum="Amount Due" optional="show"/>
+                    <field name="state" string="Document Status"/>
                 </tree>
             </xpath>
       </field>
@@ -229,8 +231,10 @@
               <td></td>
               <td colspan="3" class="col-field"><field name="x_studio_address_2" string="Address 2" class="o_address_city"
                                                        placeholder="Address 2..." force_save="1"  widget="input" z-index="102" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
-              <td class="col-label"><label for="x_voucher_deadline" string="締切"/></td>
-              <td class="col-field"><field name="x_voucher_deadline" string="締切" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+              <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>
+              <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1" force_save="1" options='{"no_open":True}'/></td>
+              <!-- <td class="col-label"><label for="x_voucher_deadline" string="締切"/></td>
+              <td class="col-field"><field name="x_voucher_deadline" string="締切" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td> -->
               <td class="col-label"><label for="x_studio_payment_rule_1" string="Payment Rule"/></td>
               <td class="col-field"><field name="x_studio_payment_rule_1" string="Payment Rule" attrs="{'readonly':[('state','in',['posted'])]}" z-index="97"/></td>
             </tr>
@@ -238,8 +242,8 @@
               <!-- Column 1 -->
               <td class="col-label"><label for="x_studio_summary" string="Summary"/></td>
               <td colspan="3" class="col-field"><field name="x_studio_summary" string="Summary" widget="input" z-index="107" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
-              <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>
-              <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1" force_save="1"/></td>
+              <!-- <td class="col-label"><label for="customer_closing_date" string="Closing Date" /></td>
+              <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1" force_save="1" options='{"no_open":True}'/></td> -->
               <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term"
                                            attrs=" {'invisible': [ ('x_studio_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]} "/></td>
               <td class="col-field">
@@ -313,6 +317,7 @@
             <tree editable="bottom" class="invoice_create" string="Journal Items" default_order="invoice_custom_line_no" widget="section_and_note_one2many" context="{'show_address': 1}">
                 <control>
                     <create name="add_product_control" string="Add a product"/>
+                    <create name="search_multi_product_control" string="Add multi products"/>
                     <create name="search_from_quotation_control" widget="button_field" string="Search from quotation"/>
                     <create name="search_from_invoice_control" string="Search from invoice"/>
                 </control>
@@ -328,8 +333,10 @@
 <!--                <field name="product_barcode" string="JAN/UPC/EAN"/>-->
                 <field name="product_id" invisible="1"/>
                 <field name="product_code" widget="refer_field" string="Product Code"
+                    context="{'limit': 200}"
                        options='{"model":"product.product", "read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "alternative_column":"product_barcode", "alternative_value":"barcode", "search_input": true}'/>
                 <field name="product_barcode" string="JAN/UPC/EAN"
+                    context="{'limit': 200}"
                        widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'
                        required="True"/>
 <!--                <field name="product_maker_name"-->
@@ -595,10 +602,6 @@
       <field name="view_id" ref="invoice_custom_tree"/>
       <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
   </record>
-
-  <!-- <record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
-      <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'force_default_name': 1}</field>
-  </record> -->
 
     <menuitem action="account.action_move_out_invoice_type" parent="account.menu_finance" sequence="1" id="menu_action_invoice" name="Invoicing"/>
 

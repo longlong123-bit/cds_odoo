@@ -27,6 +27,11 @@ msgstr "見積履歴参照"
 
 #. module: Maintain_Quotations
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
+msgid "Add multi products"
+msgstr "複数の商品を追加"
+
+#. module: Maintain_Quotations
+#: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
 msgid "Search from invoice"
 msgstr "売上履歴参照"
 
@@ -168,13 +173,22 @@ msgid "Display Name"
 msgstr ""
 
 #. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__document_no
+#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order_line__document_no
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
+#, python-format
 msgid "Document No"
 msgstr "見積書No"
 
 #. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__document_reference
+#, python-format
 msgid "Document No Reference"
 msgstr "見積管理No"
 
@@ -302,13 +316,20 @@ msgid "Paper Format*"
 msgstr "印刷伝票タイプ選択*"
 
 #. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__related_partner_code
 msgid "Partner Code"
 msgstr "得意先コード"
 
 #. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__partner_name
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
+#, python-format
 msgid "Partner Name"
 msgstr "得意先名"
 
@@ -402,7 +423,12 @@ msgid "Product UOM Qty"
 msgstr "数量"
 
 #. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
+#: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order_line__quotation_date
 #: model_terms:ir.ui.view,arch_db:Maintain_Quotations.view_order_custom_form
+#, python-format
 msgid "Quotation Date"
 msgstr "見積日付"
 
@@ -491,6 +517,14 @@ msgstr "入力担当者*"
 #: model:ir.model.fields,field_description:Maintain_Quotations.field_sale_order__related_sales_rep_name
 msgid "Sales rep name"
 msgstr "入力担当者*"
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
+#, python-format
+msgid "Sales Rep Name"
+msgstr "入力担当者"
 
 #. module: Maintain_Quotations
 #. openerp-web
@@ -792,3 +826,35 @@ msgstr "明細が無いので保存できません。"
 #: model:ir.model.constraint,message:account.constraint_account_move_line_check_accountable_required_fields
 msgid "Missing required account on accountable invoice line."
 msgstr "必須フィールドに入力がありません。"
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
+#, python-format
+msgid "Search Category"
+msgstr "条件"
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
+#, python-format
+msgid "Like"
+msgstr "あいまい検索"
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search_quotation_confirm.xml:0
+#, python-format
+msgid "Equal"
+msgstr "完全一致"
+
+#. module: Maintain_Quotations
+#. openerp-web
+#: code:addons/Maintain_Quotations/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Quotation Name"
+msgstr "件名"
+
