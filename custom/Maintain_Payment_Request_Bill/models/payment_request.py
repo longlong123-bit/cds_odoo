@@ -103,8 +103,16 @@ class BillInfoGet(models.Model):
                     subtotal += line.line_amount
                 else:
                     subtotal += 0
-
         return subtotal
+
+    def amount_for_customer(self, customer_code=None):
+        amount = 0
+        for line in self.bill_invoice_ids:
+            if line.customer_code == customer_code:
+                amount += line.amount_total
+            else:
+                amount += 0
+        return amount
 
     def amount_tax_child(self, tax_rate=0, customer_code=None):
         subtotal = 0
