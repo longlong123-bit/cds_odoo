@@ -91,7 +91,7 @@
                                             <null/>
                                         </p>
                                     </div>
-                                    <div style="display: inline-block; width: 384px; margin-left: 20px; margin-bottom: 10px; font-size: 16px;">
+                                    <div style="display: inline-block; height: 38px; width: 384px; margin-left: 20px; margin-bottom: 10px; font-size: 16px;">
                                         <t t-set="p_style"
                                            t-value="'height: 19px; white-space: nowrap; max-width: 384px; overflow: hidden; text-overflow: clip; margin: 0; float: left;'"/>
                                         <p t-field="o.partner_id.name"
@@ -110,7 +110,7 @@
                                         <span>　FAX:　</span>
                                         <span t-field="o.partner_id.customer_fax"/>
                                     </div>
-                                    <div style="margin-top: 54px; margin-left: 10px;">
+                                    <div style="margin-top: 48px; margin-left: 10px;">
                                         <span>毎度ありがとうございます。下記の通り御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -126,34 +126,26 @@
                                     <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span>
                                     <br/>
                                     <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
-                                    <div style="margin-top: 2%; font-size: 14px;">
-                                        <span t-field="user.company_id.company_bank_name_1">
-                                            <null/>
-                                        </span>
-                                        <span t-esc="user.company_id.company_bank_account_1">
-                                            <null/>
-                                        </span>
-                                        <br/>
-                                        <span t-field="user.company_id.company_bank_name_2">
-                                            <null/>
-                                        </span>
-                                        <span t-esc="user.company_id.company_bank_account_2">
-                                            <null/>
-                                        </span>
-                                        <br/>
-                                        <span t-field="user.company_id.company_bank_name_3">
-                                            <null/>
-                                        </span>
-                                        <span t-esc="user.company_id.company_bank_account_3">
-                                            <null/>
-                                        </span>
-                                        <br/>
-                                        <span t-field="user.company_id.company_bank_name_4">
-                                            <null/>
-                                        </span>
-                                        <span t-esc="user.company_id.company_bank_account_4">
-                                            <null/>
-                                        </span>
+                                    <div style="margin-top: 2%; font-size: 12px; width: 125%; right: 0px; margin-left: -85px;">
+                                        <div style="display: inline-block; width: 50%; float: left; text-align: left;">
+                                            <span>・銚子信用金庫本店 当座No375</span>
+                                            <br/>
+                                            <span>・銚子商工信用組合新生支店 普通No232055</span>
+                                            <br/>
+                                            <span>・千葉銀行銚子支店 普通No1073838</span>
+                                            <br/>
+                                            <span>・千葉興業銀行銚子支店 普通No0100064</span>
+                                        </div>
+                                        <div style="display: inline-block; width: 49%; text-align: left;">
+                                            <span>・京葉銀行銚子支店 普通No3009882</span>
+                                            <br/>
+                                            <span>・JAちばみどり銚子支店 普通No3668787</span>
+                                            <br/>
+                                            <span>・三菱UFJ銀行千葉支店 当座No2485461</span>
+                                            <br/>
+                                            <span>・常陽銀行銚子支店 普通No0003105</span>
+                                            <br/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
