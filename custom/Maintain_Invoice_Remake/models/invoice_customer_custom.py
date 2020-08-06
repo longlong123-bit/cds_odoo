@@ -776,6 +776,10 @@ class ClassInvoiceCustom(models.Model):
             'context': self.env.context,
         }
 
+    @api.onchange('x_studio_date_invoiced')
+    def _onchange_x_studio_date_invoiced(self):
+        self.x_studio_date_shipment = self.x_studio_date_printed = self.x_studio_date_invoiced
+
     @api.onchange('x_studio_business_partner')
     def _get_detail_business_partner(self):
         for rec in self:

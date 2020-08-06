@@ -169,10 +169,10 @@
               </tr>
             <tr>
               <td class="col-label"><label for="x_studio_date_invoiced" string="Invoice Date*"/></td>
-              <td class="col-field"><field name="x_studio_date_invoiced" string="Invoice Date*" required="1" z-index="94" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+              <td class="col-field"><field name="x_studio_date_invoiced" string="Invoice Date*" placeholder="年　月　日" required="1" z-index="94" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
 
               <td class="col-label"><label for="x_studio_date_shipment" string="shipmentdate*"/></td>
-              <td class="col-field"><field name="x_studio_date_shipment" string="shipmentdate*" required="1" z-index="95" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
+              <td class="col-field"><field name="x_studio_date_shipment" string="shipmentdate*" placeholder="年　月　日" required="1" z-index="95" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
 
               <td class="col-label"><label for="x_userinput_id" string="userinput_id"/></td>
               <td class="col-field"><field name="x_userinput_id" string="userinput_id"
@@ -215,9 +215,11 @@
                                              options="{'no_quick_create':True,'no_create_edit':True , 'no_open' : True}" class="o_input"/></td>
 
                 <td class="col-label"><label for="x_studio_date_printed" string="Date Printed"/></td>
-                <td class="col-field"><field autocomplete="off" name="x_studio_date_printed" string="Date Printed" z-index="100" attrs="{'readonly':[('state','in',['posted'])]}" class="o_input"/></td>
-
-            </tr>
+                <td class="col-field">
+                    <field autocomplete="off" name="x_studio_date_printed" string="Date Printed" placeholder="年　月　日" z-index="100" attrs="{'invisible':[('state', 'in', ['posted']), ('x_studio_date_printed', '=', False)], 'readonly':[('state', 'in', ['posted']), ('x_studio_date_printed', '!=', False)]}"/>
+                    <label for="x_studio_date_printed" string="年　月　日" attrs="{'invisible':['|', ('state','not in',['posted']), ('x_studio_date_printed','!=',False)]}" />
+                </td>
+             </tr>
             <tr>
               <td class="col-label"><label for="x_studio_address_1" string="Address"/></td>
               <td colspan="3" class="col-field"><field name="x_studio_address_1" string="Address 1" class="o_address_city"
