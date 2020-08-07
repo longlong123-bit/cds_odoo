@@ -86,16 +86,17 @@
                                             <null/>
                                         </p>
                                     </div>
-                                    <div style="display: inline-block; width: 384px; margin-left: 20px; margin-bottom: 10px; font-size: 16px;">
+                                    <div style="display: inline-block; height: 38px; width: 384px; margin-left: 20px; margin-bottom: 10px; font-size: 16px;">
                                         <t t-set="p_style"
                                            t-value="'height: 19px; white-space: nowrap; max-width: 384px; overflow: hidden; text-overflow: clip; margin: 0; float: left;'"/>
                                         <p t-field="o.partner_id.name"
                                            style="height: 19px; white-space: nowrap; max-width: 384px; overflow: hidden; text-overflow: clip; margin: 0; float: left;"/>
-                                        <br/>
-                                        <p t-field="o.partner_id.customer_name_2"
-                                           style="height: 19px; white-space: nowrap; max-width: 365px; overflow: hidden;                                                     text-overflow: clip; margin: 0; float: left;">
-
-                                        </p>
+                                        <t t-if="o.partner_id.customer_name_2">
+                                            <br/>
+                                            <p t-field="o.partner_id.customer_name_2"
+                                               style="height: 19px; white-space: nowrap; max-width: 365px; overflow: hidden; text-overflow: clip; margin: 0; float: left;">
+                                            </p>
+                                        </t>
                                         <p style="float: right; margin: 0;">様</p>
                                     </div>
                                     <div style="display: inline-block; width: 384px; margin-left: 20px; font-size: 16px;">
@@ -104,7 +105,7 @@
                                         <span>　FAX:　</span>
                                         <span t-field="o.partner_id.customer_fax"/>
                                     </div>
-                                    <div style="margin-top: 54px; margin-left: 10px;">
+                                    <div style="margin-top: 45px; margin-left: 10px;">
                                         <span>毎度ありがとうございます。下記の通り御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -120,34 +121,26 @@
                                     <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span>
                                     <br/>
                                     <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
-                                    <div style="margin-top: 2%; font-size: 14px;">
-                                        <span t-field="user.company_id.company_bank_name_1">
-                                            <null/>
-                                        </span>
-                                        <span t-esc="user.company_id.company_bank_account_1">
-                                            <null/>
-                                        </span>
-                                        <br/>
-                                        <span t-field="user.company_id.company_bank_name_2">
-                                            <null/>
-                                        </span>
-                                        <span t-esc="user.company_id.company_bank_account_2">
-                                            <null/>
-                                        </span>
-                                        <br/>
-                                        <span t-field="user.company_id.company_bank_name_3">
-                                            <null/>
-                                        </span>
-                                        <span t-esc="user.company_id.company_bank_account_3">
-                                            <null/>
-                                        </span>
-                                        <br/>
-                                        <span t-field="user.company_id.company_bank_name_4">
-                                            <null/>
-                                        </span>
-                                        <span t-esc="user.company_id.company_bank_account_4">
-                                            <null/>
-                                        </span>
+                                    <div style="margin-top: 2%; font-size: 12px; width: 125%; right: 0px; margin-left: -85px;">
+                                        <div style="display: inline-block; width: 50%; float: left; text-align: left;">
+                                            <span>・銚子信用金庫本店 当座No375</span>
+                                            <br/>
+                                            <span>・銚子商工信用組合新生支店 普通No232055</span>
+                                            <br/>
+                                            <span>・千葉銀行銚子支店 普通No1073838</span>
+                                            <br/>
+                                            <span>・千葉興業銀行銚子支店 普通No0100064</span>
+                                        </div>
+                                        <div style="display: inline-block; width: 49%; text-align: left;">
+                                            <span>・京葉銀行銚子支店 普通No3009882</span>
+                                            <br/>
+                                            <span>・JAちばみどり銚子支店 普通No3668787</span>
+                                            <br/>
+                                            <span>・三菱UFJ銀行千葉支店 当座No2485461</span>
+                                            <br/>
+                                            <span>・常陽銀行銚子支店 普通No0003105</span>
+                                            <br/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -272,7 +265,8 @@
                                     <t t-set="count_invoice_detail" t-value="0"/>
                                     <t t-foreach="o.bill_detail_ids.sorted(key=lambda r: (r.invoice_date, r.invoice_no))"
                                        t-as="line_detail">
-                                        <t t-set="count_invoice_detail" t-value="count_invoice_detail + line_detail.count_detail_line()"/>
+                                        <t t-set="count_invoice_detail"
+                                           t-value="count_invoice_detail + line_detail.count_detail_line()"/>
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and count_invoice_detail &gt;= count_page_detail">
                                             <t t-if="(pager == 1 and count_detail == 50) or (pager &gt; 1 and count_detail == 56)">
                                                 <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>
@@ -379,7 +373,8 @@
                                                         </div>
                                                         <div t-else="" style="display: inline-block; width: 359px;">
                                                             <span tyle="max-height: 26px; vertical-align: top; display: inline-block; max-width: 235px; overflow: hidden; margin: 0;">
-                                                                【入金　（</span>
+                                                                【入金　（
+                                                            </span>
                                                             <span t-field="line_detail.payment_category"
                                                                   style="max-width: 62px; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
                                                             </span>
@@ -390,25 +385,29 @@
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 75px; text-align: right;">
-                                                            <p t-esc="'{0:,.0f}'.format(line_detail.quantity)"
+                                                            <p t-if="line_detail.account_move_line_id"
+                                                               t-esc="'{0:,.0f}'.format(line_detail.quantity)"
                                                                style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 34px; text-align: center;">
-                                                            <p t-field="line_detail.product_uom"
+                                                            <p t-if="line_detail.account_move_line_id"
+                                                               t-field="line_detail.product_uom"
                                                                style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 100px; text-align: right;">
-                                                            <span t-esc="'{0:,.2f}'.format(line_detail.price_unit)"
+                                                            <span t-if="line_detail.account_move_line_id"
+                                                                  t-esc="'{0:,.2f}'.format(line_detail.price_unit)"
                                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             </span>
                                                             <span t-if="line_detail.x_voucher_tax_transfer == 'internal_tax'">
-                                                                ※</span>
+                                                                ※
+                                                            </span>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
@@ -419,7 +418,8 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <t t-set="count_detail" t-value="count_detail + line_detail.count_detail_line()"/>
+                                                <t t-set="count_detail"
+                                                   t-value="count_detail + line_detail.count_detail_line()"/>
                                             </t>
                                         </t>
                                     </t>
@@ -481,7 +481,7 @@
                                     <t t-if="o.partner_id.customer_tax_unit == 'invoice'">
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56&gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 1">
                                             <t t-set="count_rows_total_page" t-value="2"/>
-                                            <tr style="height: 45px;vertical-align: top; overflow: hidden;">
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
                                                         <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
@@ -532,17 +532,22 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
-                                                        <span t-if="o.subtotal_amount_tax()" t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/>
+                                                        <br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/>
+                                                        <br/>
+                                                        <span t-if="o.subtotal_amount_tax()"
+                                                              t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <t t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-if="o.subtotal_amount_tax()" t-set="count_detail"
+                                               t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
                                         </t>
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 2">
                                             <t t-set="count_rows_total_page" t-value="3"/>
-                                            <tr style="height: 45px;vertical-align: top; overflow: hidden;">
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
                                                         <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
@@ -594,16 +599,20 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(8))"/><br/>
-                                                        <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/>
+                                                        <br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(8))"/>
+                                                        <br/>
+                                                        <span t-if="o.amount_tax()"
+                                                              t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <t t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-if="o.amount_tax()" t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
                                         </t>
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56&gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 3">
-                                            <tr style="height: 45px;vertical-align: top; overflow: hidden;">
+                                            <tr style="height: 15px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
                                                         <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
@@ -649,13 +658,13 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <t t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-set="count_detail" t-value="count_detail + 1"/>
                                         </t>
                                     </t>
                                     <t t-else="">
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56&gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 1">
                                             <t t-set="count_rows_total_page" t-value="2"/>
-                                            <tr style="height: 45px;vertical-align: top; overflow: hidden;">
+                                            <tr style="height: 15px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
                                                         <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
@@ -701,11 +710,11 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <t t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-set="count_detail" t-value="count_detail + 1"/>
                                         </t>
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56&gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 2">
                                             <t t-set="count_rows_total_page" t-value="3"/>
-                                            <tr style="height: 45px;vertical-align: top; overflow: hidden;">
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
                                                         <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
@@ -757,16 +766,21 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
-                                                        <span t-if="o.subtotal_amount_tax()" t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/>
+                                                        <br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/>
+                                                        <br/>
+                                                        <span t-if="o.subtotal_amount_tax()"
+                                                              t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <t t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-if="o.subtotal_amount_tax()" t-set="count_detail"
+                                               t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
                                         </t>
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56&gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 3">
-                                            <tr style="height: 45px;vertical-align: top; overflow: hidden;">
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
                                                         <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
@@ -818,13 +832,17 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(8))"/><br/>
-                                                        <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/>
+                                                        <br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(8))"/>
+                                                        <br/>
+                                                        <span t-if="o.amount_tax()"
+                                                              t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <t t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-if="o.amount_tax()" t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
                                         </t>
                                     </t>
 

@@ -88,7 +88,7 @@ class BillInfoGet(models.Model):
                         subtotal += rounding(line.voucher_line_tax_amount, 2,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
                     elif line.x_voucher_tax_transfer == 'invoice':
-                        subtotal += rounding(line.line_amount * line.tax_rate, 2,
+                        subtotal += rounding(line.line_amount * line.tax_rate/100, 2,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
             if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
                 subtotal += re.amount_tax
@@ -103,8 +103,16 @@ class BillInfoGet(models.Model):
                     subtotal += line.line_amount
                 else:
                     subtotal += 0
-
         return subtotal
+
+    def amount_for_customer(self, customer_code=None):
+        amount = 0
+        for line in self.bill_invoice_ids:
+            if line.customer_code == customer_code:
+                amount += line.amount_total
+            else:
+                amount += 0
+        return amount
 
     def amount_tax_child(self, tax_rate=0, customer_code=None):
         subtotal = 0
@@ -119,7 +127,7 @@ class BillInfoGet(models.Model):
                             subtotal += rounding(line.voucher_line_tax_amount, 2,
                                                  line.account_move_line_id.move_id.customer_tax_rounding)
                         elif line.x_voucher_tax_transfer == 'invoice':
-                            subtotal += rounding(line.line_amount * line.tax_rate, 2,
+                            subtotal += rounding(line.line_amount * line.tax_rate/100, 2,
                                                  line.account_move_line_id.move_id.customer_tax_rounding)
                     if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
                         subtotal += re.amount_tax
