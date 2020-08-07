@@ -48,6 +48,16 @@ class BillInvoiceDetail(models.Model):
             count_detail += 1
         return count_detail
 
+    def gross_maker_and_standard(self):
+        self.ensure_one()
+        if self.product_maker_name and self.product_custom_standardnumber:
+            gross = str(self.product_maker_name) + '  ' + str(self.product_custom_standardnumber)
+        elif self.product_maker_name and not self.product_custom_standardnumber:
+            gross = str(self.product_maker_name)
+        else:
+            gross = self.product_custom_standardnumber
+        return gross
+
 
 class BillInfoGet(models.Model):
     _inherit = 'bill.info'
@@ -88,7 +98,7 @@ class BillInfoGet(models.Model):
                         subtotal += rounding(line.voucher_line_tax_amount, 2,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
                     elif line.x_voucher_tax_transfer == 'invoice':
-                        subtotal += rounding(line.line_amount * line.tax_rate/100, 2,
+                        subtotal += rounding(line.line_amount * line.tax_rate / 100, 2,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
             if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
                 subtotal += re.amount_tax
@@ -127,7 +137,7 @@ class BillInfoGet(models.Model):
                             subtotal += rounding(line.voucher_line_tax_amount, 2,
                                                  line.account_move_line_id.move_id.customer_tax_rounding)
                         elif line.x_voucher_tax_transfer == 'invoice':
-                            subtotal += rounding(line.line_amount * line.tax_rate/100, 2,
+                            subtotal += rounding(line.line_amount * line.tax_rate / 100, 2,
                                                  line.account_move_line_id.move_id.customer_tax_rounding)
                     if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
                         subtotal += re.amount_tax
