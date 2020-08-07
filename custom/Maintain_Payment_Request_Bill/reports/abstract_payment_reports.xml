@@ -416,13 +416,10 @@
                                                         <div t-if="line_detail.account_move_line_id"
                                                              style="display: inline-block; width: 359px;">
                                                             <span t-field="line_detail.product_name"
-                                                                  style="max-height: 26px;text-overflow: clip; vertical-align: top; display: inline-block; max-width: 230px; overflow: hidden; margin: 0;">
+                                                                  style="max-height: 26px;text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 230px; overflow: hidden; margin: 0;">
                                                             </span>
-                                                            <span t-field="line_detail.product_maker_name"
-                                                                  style="max-width: 62px;text-overflow: clip; display: inline-block; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
-                                                            </span>
-                                                            <span t-field="line_detail.product_custom_standardnumber"
-                                                                  style="max-width: 62px;text-overflow: clip; display: inline-block; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
+                                                            <span t-esc="line_detail.gross_maker_and_standard()"
+                                                                  style="max-width: 118px;text-overflow: ellipsis; white-space: nowrap; display: inline-block; overflow: hidden; margin: 0; vertical-align: top;">
                                                             </span>
                                                             <br/>
                                                             <span t-if="line_detail.account_move_line_id.product_id.product_tax_category == 'exempt'">
