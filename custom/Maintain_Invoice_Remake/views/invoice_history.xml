@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="invoice_history_tree_view" model="ir.ui.view">
+            <field name="name">invoice.history.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml" >
+                <tree string="Invoice History" create="false" import="false" default_order="date desc">
+                    <field name="date" optional="show" readonly="1"/>
+                    <field name="invoice_no" optional="show" readonly="1"/>
+                    <field name="x_invoicelinetype" optional="show" readonly="1"/>
+                    <field name="partner_id" optional="show" readonly="1"/>
+                    <field name="x_customer_show_in_tree" optional="show" readonly="1"/>
+                    <field name="product_barcode" optional="show" readonly="1"/>
+                    <field name="invoice_custom_standardnumber" optional="show" readonly="1"/>
+                    <field name="product_maker_name" optional="show" readonly="1"/>
+                    <field name="product_name" optional="show" readonly="1"/>
+                    <field name="quantity" optional="show" readonly="1"/>
+                    <field name="product_uom_id" optional="show" readonly="1"/>
+                    <field name="price_unit" optional="show" readonly="1"/>
+                    <field name="invoice_custom_lineamount" optional="show" readonly="1"/>
+                    <field name="tax_rate" optional="show" readonly="1"/>
+                    <field name="tax_ids" widget="many2many_tags"
+                           domain="[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]"
+                           context="{'append_type_to_tax_name': not parent.invoice_filter_type_domain}"
+                           options="{'no_create': True}"
+                           optional="show" readonly="1" invisible="1"/>
+                    <field name="x_tax_transfer_show_tree" optional="show" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="invoice_history_action" model="ir.actions.act_window">
+            <field name="name">Invoice History</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_mode">tree</field>
+            <field name="hasSelectors">false</field>
+            <field name="view_id" ref="invoice_history_tree_view"/>
+<!--            <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}-->
+<!--            </field>-->
+        </record>
+        <menuitem id="menu_ideas" name="Invoice History"
+                  parent="account.menu_finance" sequence="2"
+                  action="invoice_history_action"/>
+    </data>
+</odoo>
