@@ -197,7 +197,7 @@ class IrActionsActWindow(models.Model):
     search_view_id = fields.Many2one('ir.ui.view', string='Search View Ref.')
     filter = fields.Boolean()
     search_view = fields.Text(compute='_compute_search_view')
-    hasSelectors = fields.Boolean()
+    hasSelectors = fields.Boolean(default=True)
 
     def read(self, fields=None, load='_classic_read'):
         """ call the method get_empty_list_help of the model and set the window action help message
