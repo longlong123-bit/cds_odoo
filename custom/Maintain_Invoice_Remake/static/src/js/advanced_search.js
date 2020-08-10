@@ -8,7 +8,7 @@ odoo.define('Invoice.Search', function(require){
             },
             'account.move.line': {
                 'account.move.line.search': {template: 'invoice_line.advanced_search'},
-                'invoice.history.tree': {template: 'invoice_line.advanced_search'}
+                'invoice.history.tree': {template: 'invoice_history.advanced_search'}
             }
         })
     });

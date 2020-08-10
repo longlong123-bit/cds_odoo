@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 {
     'name': 'Invoice Customer Remake',
     'version': '13.0.1.0',
@@ -59,10 +60,10 @@ It contains the apps created with Studio and the customizations of existing apps
         'static/src/xml/invoice_lines.xml',
         'static/src/xml/advanced_search.xml',
         'static/src/xml/invoice_line_advanced_search.xml',
+        'static/src/xml/invoice_history_advanced_search.xml',
     ],
     'installable': True,
     'application': True,
     'auto_install': True,
     'license': 'OPL-1'
 }
-# -*- coding: utf-8 -*-
