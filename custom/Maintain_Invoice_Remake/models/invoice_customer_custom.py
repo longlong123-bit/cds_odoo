@@ -179,6 +179,7 @@ class ClassInvoiceCustom(models.Model):
         return {
             # 'partner_type': 'supplier',
             # 'payment_type': 'outbound',
+            'payment_date': self.x_studio_date_invoiced,
             'partner_id': self.partner_id.id,
             'partner_payment_address1': self.x_studio_address_1,
             'partner_payment_address2': self.x_studio_address_2,
