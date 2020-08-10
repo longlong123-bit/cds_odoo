@@ -15,13 +15,13 @@
             <tr>
                 <th>売上伝票No</th>
                 <td>
-                    <input class="filter-item" data-operator="gte" data-name="x_studio_document_no"/>
+                    <input class="filter-item" data-operator="gte" data-name="move_id.x_studio_document_no"/>
                 </td>
                 <td>
                     <span>～</span>
                 </td>
                 <td>
-                    <input class="filter-item" data-operator="lte" data-name="x_studio_document_no"/>
+                    <input class="filter-item" data-operator="lte" data-name="move_id.x_studio_document_no"/>
                 </td>
             </tr>
             <tr>
@@ -57,25 +57,25 @@
             <tr>
                 <th>地区コード</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="customer_state"/>
+                    <input class="filter-item" data-operator="ilike" data-name="partner_id.customer_state"/>
                 </td>
             </tr>
             <tr>
                 <th>取引先グループコード</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="customer_group"/>
+                    <input class="filter-item" data-operator="ilike" data-name="partner_id.customer_supplier_group_code"/>
                 </td>
             </tr>
             <tr>
                 <th>業種コード</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="customer_industry"/>
+                    <input class="filter-item" data-operator="ilike" data-name="partner_id.customer_industry_code"/>
                 </td>
             </tr>
             <tr>
                 <th>取引区分コード</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="customer_trans_classification_code"/>
+                    <input class="filter-item" data-operator="ilike" data-name="partner_id.customer_trans_classification_code"/>
                 </td>
             </tr>
             <tr>
