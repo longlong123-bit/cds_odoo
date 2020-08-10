@@ -350,6 +350,7 @@ var AbstractView = Factory.extend({
             withControlPanel: this.withControlPanel,
             withSearchBar: inline ? false : this.withSearchBar,
             withSearchPanel: this.withSearchPanel,
+            hasSelectors: action.hasSelectors,
         };
     },
     /**

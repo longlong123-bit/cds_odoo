@@ -47,7 +47,7 @@
         </record>
 
 
-        <menuitem id="invoice_confirm" parent="account.menu_finance" name="Invoice confirm" sequence="2"
+        <menuitem id="invoice_confirm" parent="account.menu_finance" name="Invoice confirm" sequence="3"
                   action="invoice_template_confirm_action"/>
         <menuitem id="account.menu_finance_receivables" name="Customers 123" parent="account.menu_finance" sequence="2" groups="hide"/>
         <menuitem id="account.menu_finance_payables" name="Vendors" parent="account.menu_finance" sequence="3" groups="hide"/>
