@@ -16,12 +16,11 @@ class BillingDetailsClass(models.TransientModel):
             ('state', '=', 'posted'),
             ('bill_status', '!=', 'billed'),
             '|', ('partner_id.customer_code_bill', '=', self.billing_code),
-                 ('partner_id.customer_code', '=', self.billing_code),
+            ('partner_id.customer_code', '=', self.billing_code),
         ]
         if ctx.get('last_closing_date'):
             domain += [('x_studio_date_invoiced', '>', self.last_closing_date)]
         bill_account_move_ids = self.env['account.move'].search(domain)
-
         invoice_line_domain = [
             ('move_id', 'in', bill_account_move_ids.ids),
             ('date', '<=', self.deadline),
@@ -36,7 +35,7 @@ class BillingDetailsClass(models.TransientModel):
             ('state', '=', 'draft'),
             ('bill_status', '!=', 'billed'),
             '|', ('partner_id.customer_code_bill', '=', self.billing_code),
-                 ('partner_id.customer_code', '=', self.billing_code),
+            ('partner_id.customer_code', '=', self.billing_code),
         ]
 
         if ctx.get('last_closing_date'):
@@ -157,7 +156,8 @@ class BillingDetailsClass(models.TransientModel):
                     line.account_move_line_id.write({
                         'selected': False
                     })
-        invoice_unselected = self.bill_details_line_ids.mapped('account_move_line_id.move_id').filtered(lambda l: l.id not in invoiced_ids)
+        invoice_unselected = self.bill_details_line_ids.mapped('account_move_line_id.move_id').filtered(
+            lambda l: l.id not in invoiced_ids)
         invoice_unselected.write({
             'selected': False
         })

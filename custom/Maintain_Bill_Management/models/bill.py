@@ -176,8 +176,13 @@ class BillingClass(models.Model):
                     _tax_amount = rounding(_tax_amount, 0, record.customer_tax_rounding)
                     _amount_total = rounding(_amount_total, 0, record.customer_tax_rounding)
                 elif invoice.x_voucher_tax_transfer == 'custom_tax':
-                    _tax_amount = invoice.amount_tax
-                    _amount_total = _amount_total + _tax_amount
+                    if record.customer_except_request:
+                        if invoice.invoice_line_ids == invoice.invoice_line_ids.filtered(lambda l: l.selected):
+                            _tax_amount = invoice.amount_tax
+                            _amount_total = _amount_total + _tax_amount
+                    else:
+                        _tax_amount = invoice.amount_tax
+                        _amount_total = _amount_total + _tax_amount
                 elif invoice.x_voucher_tax_transfer == 'invoice':
                     _line_compute_amount_tax = rounding(_line_compute_amount_tax, 0, record.customer_tax_rounding)
 
@@ -368,7 +373,7 @@ class BillingClass(models.Model):
 
                 invoice_line_ids_list = invoice.invoice_line_ids
                 if rec['customer_except_request']:
-                    invoice_line_ids_list = invoice.invoice_line_ids.filtered(lambda l: l.selected)
+                    invoice_line_ids_list = invoice.invoice_line_ids.filtered(lambda l: l.selected and l.bill_status != 'billed')
                 for line in invoice_line_ids_list:
                     self.env['bill.invoice.details'].create({
                         'bill_info_id': _bill_info_ids.id,
@@ -426,12 +431,30 @@ class BillingClass(models.Model):
                     'payment_category': payment.vj_c_payment_category,
                     'payment_id': payment.id,
                 })
-            invoice_ids.write({
-                'bill_status': 'billed'
-            })
-            self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids), ('selected', '=', True)]).write({
-                'bill_status': 'billed'
-            })
+
+            # Update bill_status for account_move table
+            if rec['customer_except_request']:
+                for invoice in invoice_ids:
+                    if invoice.invoice_line_ids \
+                            and invoice.invoice_line_ids == invoice.invoice_line_ids.filtered(lambda l: l.selected and l.bill_status != 'billed'):
+                        invoice_ids.write({
+                            'bill_status': 'billed'
+                        })
+                # Update bill_status for account_move_line table
+                self.env['account.move.line'].search(
+                    [('move_id', 'in', invoice_ids.ids), ('selected', '=', True)]).write({
+                        'bill_status': 'billed'
+                    })
+            else:
+                invoice_ids.write({
+                    'bill_status': 'billed'
+                })
+                # Update bill_status for account_move_line table
+                self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
+                    'bill_status': 'billed'
+                })
+
+            # Update bill_status for account_payment table
             payment_ids.write({
                 'bill_status': 'billed'
             })
