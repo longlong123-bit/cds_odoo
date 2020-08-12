@@ -37,34 +37,19 @@ class BillingClass(models.Model):
                 invoice_ids = self.env['account.move'].search(invoice_ids_domain)
                 payment_ids = self.env['account.payment'].search(payment_ids_domain)
 
-                for invoice in invoice_ids:
-                    _account_move_line_id_selected = bill_invoice_details_ids.account_move_line_id.filtered(
-                        lambda l: l.move_id.id == invoice.id)
-                    _account_move_line_id_of_invoice = self.env['account.move.line'].search(
-                        [('move_id', 'in', invoice.ids),
-                         ('account_internal_type', '=', 'other'),
-                         ])
+                invoice_ids.write({
+                    'bill_status': 'not yet',
+                })
 
-                    if _account_move_line_id_selected == _account_move_line_id_of_invoice:
-                        invoice_ids.write({
-                            'bill_status': 'not yet',
-                            'selected': False
-                        })
-                    else:
-                        invoice_ids.write({
-                            'bill_status': 'not yet',
-                        })
-                    _account_move_line_id_selected.write({
-                        'bill_status': 'not yet',
-                        'selected': False
-                    })
+                bill_invoice_details_ids.account_move_line_id.write({
+                    'bill_status': 'not yet',
+                })
 
                 payment_ids.write({
                     'bill_status': 'not yet',
-                    'selected': False
                 })
-                payment_ids.cancel()
-                payment_ids.action_draft()
+                payment_ids.filtered(lambda l: l.state == 'posted').cancel()
+                payment_ids.filtered(lambda l: l.state == 'cancelled').action_draft()
 
                 bill_info_ids.unlink()
                 bill_invoice_ids.unlink()
