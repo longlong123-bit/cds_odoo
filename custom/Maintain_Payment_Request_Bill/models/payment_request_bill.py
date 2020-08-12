@@ -152,28 +152,26 @@ class CollationPayment(models.Model):
                         if se[2].isnumeric():
                             se[0] = 'customer_closing_date_id.start_day'
                             se[1] = '='
-                        domain += [se]
+                        # domain += [se]
                     if 'customer_excerpt_request' == se[0]:
                         if se[2] == 'True':
                             se[2] = True
-                            domain += [se]
+                            # domain += [se]
                         elif se[2] == 'False':
                             se[2] = False
-                            domain += [se]
-                        else:
-                            continue
-                    if se[0] == 'closing_date':
-                        domain += [se]
-                    if se[0] == 'billing_code' and se[1] == '>=':
-                        domain += [se]
-                    if se[0] == 'billing_code' and se[1] == '<=':
-                        domain += [se]
-                    if se[0] == 'hr_department_id':
-                        domain += [se]
-                    if se[0] == 'hr_employee_id':
-                        domain += [se]
-                    if se[0] == 'business_partner_group_custom_id':
-                        domain += [se]
+                            # domain += [se]
+                    # if se[0] == 'closing_date':
+                    #     domain += [se]
+                    # if se[0] == 'billing_code' and se[1] == '>=':
+                    #     domain += [se]
+                    # if se[0] == 'billing_code' and se[1] == '<=':
+                    #     domain += [se]
+                    # if se[0] == 'hr_department_id':
+                    #     domain += [se]
+                    # if se[0] == 'hr_employee_id':
+                    #     domain += [se]
+                    # if se[0] == 'business_partner_group_custom_id':
+                    domain += [se]
                 args = domain
             elif ctx.get('view_name') == 'Bill History':
                 global search_x_studio_deadline
@@ -275,7 +273,7 @@ class CollationPayment(models.Model):
                     # if record[0] != 'search_category':
                     domain += [record]
                 args = domain
-        if 'Cancel Billing' == ctx.get('view_name') and len(args) == 0:
+        if 'Cancel Billing' == ctx.get('view_name') and len(args) == 1:
             return []
         elif 'bill_report' == ctx.get('view_code') and len(args) == 0:
             return []
