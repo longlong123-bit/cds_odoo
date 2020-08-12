@@ -16,6 +16,7 @@ class BillingClass(models.Model):
 
             bill_info_lasted_domain = [
                 ('billing_code', '=', rec['billing_code']),
+                ('bill_report_state', '=', False),
             ]
             bill_info_lasted = self.env['bill.info'].search(bill_info_lasted_domain,
                                                             order='deadline desc, create_date desc', limit=1)
@@ -25,41 +26,42 @@ class BillingClass(models.Model):
                 bill_invoice_ids = self.env['bill.invoice'].search(bill_invoice_domain)
                 bill_invoice_details_ids = self.env['bill.invoice.details'].search(bill_invoice_details_domain)
 
-                res_partner_id = self.env["res.partner"].search(
-                    ['|', ('customer_code', '=', rec['billing_code']),
-                     ('customer_code_bill', '=', rec['billing_code'])])
-
                 invoice_ids_domain = [
-                    ('partner_id', 'in', res_partner_id.ids),
-                    ('x_studio_date_invoiced', '<=', rec['deadline']),
-                    ('state', '=', 'posted'),
-                    ('type', '=', 'out_invoice'),
-                    ('bill_status', '=', 'billed'),
+                    ('id', 'in', bill_invoice_ids.account_move_id.ids)
                 ]
 
                 payment_ids_domain = [
-                    ('partner_id', 'in', res_partner_id.ids),
-                    ('payment_date', '<=', rec['deadline']),
-                    ('state', '=', 'posted'),
-                    ('bill_status', '=', 'billed'),
+                    ('id', 'in', bill_invoice_details_ids.payment_id.ids)
                 ]
-                if rec['last_closing_date']:
-                    invoice_ids_domain += [('x_studio_date_invoiced', '>', rec['last_closing_date'])]
-                    payment_ids_domain += [('payment_date', '>', rec['last_closing_date'])]
 
                 invoice_ids = self.env['account.move'].search(invoice_ids_domain)
                 payment_ids = self.env['account.payment'].search(payment_ids_domain)
-                invoice_ids.write({
-                    'bill_status': 'not yet'
-                })
-                self.env['account.move.line'].search([
-                    ('id', 'in', bill_invoice_details_ids.account_move_line_id.ids)
-                ]).write({
-                    'bill_status': 'not yet',
-                })
+
+                for invoice in invoice_ids:
+                    _account_move_line_id_selected = bill_invoice_details_ids.account_move_line_id.filtered(
+                        lambda l: l.move_id.id == invoice.id)
+                    _account_move_line_id_of_invoice = self.env['account.move.line'].search(
+                        [('move_id', 'in', invoice.ids),
+                         ('account_internal_type', '=', 'other'),
+                         ])
+
+                    if _account_move_line_id_selected == _account_move_line_id_of_invoice:
+                        invoice_ids.write({
+                            'bill_status': 'not yet',
+                            'selected': False
+                        })
+                    else:
+                        invoice_ids.write({
+                            'bill_status': 'not yet',
+                        })
+                    _account_move_line_id_selected.write({
+                        'bill_status': 'not yet',
+                        'selected': False
+                    })
 
                 payment_ids.write({
-                    'bill_status': 'not yet'
+                    'bill_status': 'not yet',
+                    'selected': False
                 })
                 payment_ids.cancel()
                 payment_ids.action_draft()

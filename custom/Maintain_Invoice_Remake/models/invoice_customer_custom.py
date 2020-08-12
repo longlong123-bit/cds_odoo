@@ -446,6 +446,7 @@ class ClassInvoiceCustom(models.Model):
     billing_place_id = fields.Many2one('res.partner')
 
     bill_status = fields.Char(default="not yet")
+    selected = fields.Boolean(default=False)
     cash_payment_id = fields.Many2one(
         comodel_name='account.payment'
     )

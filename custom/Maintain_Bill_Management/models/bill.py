@@ -110,10 +110,17 @@ class BillingClass(models.Model):
             ]
             if record.last_closing_date:
                 payment_ids_domain += [('payment_date', '>', record.last_closing_date)]
+
+            if record.customer_except_request:
+                payment_ids_domain += [('selected', '=', True)]
+
             payment_ids = self.env['account.payment'].search(payment_ids_domain)
 
             # Set data for voucher_number field
-            record.voucher_number = len(invoice_ids) + len(payment_ids)
+            if record.customer_except_request:
+                record.voucher_number = len(invoice_ids.filtered(lambda l: l.selected)) + len(payment_ids)
+            else:
+                record.voucher_number = len(invoice_ids) + len(payment_ids)
 
             # Compute data for deposit_amount field
             for payment_id in payment_ids:
@@ -125,7 +132,10 @@ class BillingClass(models.Model):
 
             _line_compute_amount_tax = 0
             for invoice in invoice_ids:
-                for line in invoice.invoice_line_ids:
+                invoices_line_ids_list = invoice.invoice_line_ids
+                if record.customer_except_request:
+                    invoices_line_ids_list = invoice.invoice_line_ids.filtered(lambda l: l.selected)
+                for line in invoices_line_ids_list:
                     if line.bill_status != 'billed':
                         if line.move_id.x_voucher_tax_transfer == 'foreign_tax' \
                                 or line.move_id.x_voucher_tax_transfer == 'voucher':
@@ -161,14 +171,19 @@ class BillingClass(models.Model):
                         _tax_amount = _tax_amount + _tax
                         _amount_total = _amount_total + _amount
 
-                if line.move_id.x_voucher_tax_transfer == 'voucher':
+                if invoice.x_voucher_tax_transfer == 'voucher':
                     _amount_untaxed = rounding(_amount_untaxed, 0, record.customer_tax_rounding)
                     _tax_amount = rounding(_tax_amount, 0, record.customer_tax_rounding)
                     _amount_total = rounding(_amount_total, 0, record.customer_tax_rounding)
-                elif line.move_id.x_voucher_tax_transfer == 'custom_tax':
-                    _tax_amount = invoice.amount_tax
-                    _amount_total = _amount_total + _tax_amount
-                elif line.move_id.x_voucher_tax_transfer == 'invoice':
+                elif invoice.x_voucher_tax_transfer == 'custom_tax':
+                    if record.customer_except_request:
+                        if invoice.invoice_line_ids == invoice.invoice_line_ids.filtered(lambda l: l.selected):
+                            _tax_amount = invoice.amount_tax
+                            _amount_total = _amount_total + _tax_amount
+                    else:
+                        _tax_amount = invoice.amount_tax
+                        _amount_total = _amount_total + _tax_amount
+                elif invoice.x_voucher_tax_transfer == 'invoice':
                     _line_compute_amount_tax = rounding(_line_compute_amount_tax, 0, record.customer_tax_rounding)
 
             _tax_amount = _tax_amount + _line_compute_amount_tax
@@ -270,6 +285,8 @@ class BillingClass(models.Model):
             invoice_ids = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
                                                            last_closing_date=rec['last_closing_date'],
                                                            deadline=rec['deadline'])
+            if rec['customer_except_request']:
+                invoice_ids = invoice_ids.filtered(lambda l: l.selected)
 
             _invoice_details_number = 0
             _sum_amount_tax_cashed = 0
@@ -291,6 +308,9 @@ class BillingClass(models.Model):
             ]
             if rec.get('last_closing_date'):
                 payment_domain += [('payment_date', '>', rec['last_closing_date'])]
+
+            if rec['customer_except_request']:
+                payment_domain += [('selected', '=', True)]
 
             payment_ids = self.env['account.payment'].search(payment_domain)
 
@@ -351,7 +371,10 @@ class BillingClass(models.Model):
                     'x_studio_summary': invoice.x_studio_summary,
                 })
 
-                for line in invoice.invoice_line_ids:
+                invoice_line_ids_list = invoice.invoice_line_ids
+                if rec['customer_except_request']:
+                    invoice_line_ids_list = invoice.invoice_line_ids.filtered(lambda l: l.selected and l.bill_status != 'billed')
+                for line in invoice_line_ids_list:
                     self.env['bill.invoice.details'].create({
                         'bill_info_id': _bill_info_ids.id,
                         'bill_invoice_id': _bill_invoice_ids.id,
@@ -406,13 +429,32 @@ class BillingClass(models.Model):
                     'invoice_no': payment.document_no,
                     'line_amount': payment.amount,
                     'payment_category': payment.vj_c_payment_category,
+                    'payment_id': payment.id,
                 })
-            invoice_ids.write({
-                'bill_status': 'billed'
-            })
-            self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
-                'bill_status': 'billed'
-            })
+
+            # Update bill_status for account_move table
+            if rec['customer_except_request']:
+                for invoice in invoice_ids:
+                    if invoice.invoice_line_ids \
+                            and invoice.invoice_line_ids == invoice.invoice_line_ids.filtered(lambda l: l.selected and l.bill_status != 'billed'):
+                        invoice_ids.write({
+                            'bill_status': 'billed'
+                        })
+                # Update bill_status for account_move_line table
+                self.env['account.move.line'].search(
+                    [('move_id', 'in', invoice_ids.ids), ('selected', '=', True)]).write({
+                        'bill_status': 'billed'
+                    })
+            else:
+                invoice_ids.write({
+                    'bill_status': 'billed'
+                })
+                # Update bill_status for account_move_line table
+                self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
+                    'bill_status': 'billed'
+                })
+
+            # Update bill_status for account_payment table
             payment_ids.write({
                 'bill_status': 'billed'
             })
