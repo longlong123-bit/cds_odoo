@@ -30,19 +30,9 @@ class BillingDetailsClass(models.TransientModel):
             ('account_internal_type', '=', 'other'),
         ]
 
-        payment_line_domain = [
-            ('payment_date', '<=', self.deadline),
-            ('state', '=', 'draft'),
-            ('bill_status', '!=', 'billed'),
-            '|', ('partner_id.customer_code_bill', '=', self.billing_code),
-            ('partner_id.customer_code', '=', self.billing_code),
-        ]
-
         if ctx.get('last_closing_date'):
             invoice_line_domain += [('date', '>', self.last_closing_date)]
-            payment_line_domain += [('payment_date', '>', self.last_closing_date)]
         invoice_line_ids = self.env['account.move.line'].search(invoice_line_domain)
-        payment_ids = self.env['account.payment'].search(payment_line_domain)
         vals = []
         for invoice_line in invoice_line_ids:
             # calculate untaxed amount
@@ -87,33 +77,6 @@ class BillingDetailsClass(models.TransientModel):
                 'account_move_line_id': invoice_line.id,
                 'billing_place_id': self.billing_place_id.id,
                 'partner_id': invoice_line.partner_id.id,
-                'payment_id': None,
-            }]
-        for payment in payment_ids:
-            vals += [{
-                'selected': payment.selected,
-                'invoice_date': payment.payment_date,
-                'invoice_no': payment.document_no,
-                'customer_code': payment.partner_id.customer_code,
-                'customer_name': payment.partner_id.name,
-                'invoice_line_type': '',
-                'product_code': '',
-                'product_name': '',
-                'product_maker_name': '',
-                'product_standard_number': '',
-                'quantity': None,
-                'price_unit': None,
-                'untaxed_amount': None,
-                'tax_amount': None,
-                'line_amount': payment.amount * -1,
-                'note': payment.description,
-
-                # Invisible Fields
-                'account_move_id': None,
-                'account_move_line_id': None,
-                'billing_place_id': self.billing_place_id.id,
-                'partner_id': payment.partner_id.id,
-                'payment_id': payment.id,
             }]
         lines = self.env['bill.details.line'].create(vals)
         self.bill_details_line_ids = [(6, 0, lines.ids)]
@@ -139,23 +102,13 @@ class BillingDetailsClass(models.TransientModel):
                         'selected': True
                     })
 
-                if line.payment_id:
-                    line.payment_id.write({
-                        'selected': True
-                    })
-                else:
-                    line.account_move_line_id.write({
-                        'selected': True
-                    })
+                line.account_move_line_id.write({
+                    'selected': True
+                })
             else:
-                if line.payment_id:
-                    line.payment_id.write({
-                        'selected': False
-                    })
-                else:
-                    line.account_move_line_id.write({
-                        'selected': False
-                    })
+                line.account_move_line_id.write({
+                    'selected': False
+                })
         invoice_unselected = self.bill_details_line_ids.mapped('account_move_line_id.move_id').filtered(
             lambda l: l.id not in invoiced_ids)
         invoice_unselected.write({
