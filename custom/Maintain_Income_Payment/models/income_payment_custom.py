@@ -109,7 +109,6 @@ class IncomePaymentCustom(models.Model):
     customer_from_date = fields.Date('From Date')
 
     invoice_history = fields.Many2one('account.move', string='Journal Entry', store=False)
-    selected = fields.Boolean(default=False)
 
     @api.model
     def get_default_journal(self):
