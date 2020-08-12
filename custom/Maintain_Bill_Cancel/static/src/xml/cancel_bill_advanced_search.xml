@@ -22,7 +22,7 @@
                     function changeClosingDate(){
                         closing_date = document.getElementById("customer_closing_date").value;
                         $.ajax({
-                            url: "/closing_date",
+                            url: "/cancel_bill_api",
                             type: "POST",
                             data: {"content": closing_date},
                             dataType: 'json',
