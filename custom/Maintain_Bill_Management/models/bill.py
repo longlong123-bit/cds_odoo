@@ -105,22 +105,19 @@ class BillingClass(models.Model):
             payment_ids_domain = [
                 ('partner_id', 'in', res_partner_id.ids),
                 ('payment_date', '<=', record.deadline),
-                ('state', '=', 'draft'),
+                ('state', 'in', ['draft', 'sent']),
                 ('bill_status', '!=', 'billed'),
             ]
             if record.last_closing_date:
                 payment_ids_domain += [('payment_date', '>', record.last_closing_date)]
 
-            if record.customer_except_request:
-                payment_ids_domain += [('selected', '=', True)]
-
             payment_ids = self.env['account.payment'].search(payment_ids_domain)
 
             # Set data for voucher_number field
             if record.customer_except_request:
-                record.voucher_number = len(invoice_ids.filtered(lambda l: l.selected)) + len(payment_ids)
+                record.voucher_number = len(invoice_ids.filtered(lambda l: l.selected))
             else:
-                record.voucher_number = len(invoice_ids) + len(payment_ids)
+                record.voucher_number = len(invoice_ids)
 
             # Compute data for deposit_amount field
             for payment_id in payment_ids:
@@ -303,14 +300,11 @@ class BillingClass(models.Model):
             payment_domain = [
                 ('partner_id', 'in', res_partner_id.ids),
                 ('payment_date', '<=', rec['deadline']),
-                ('state', '=', 'draft'),
                 ('bill_status', '!=', 'billed'),
+                ('state', 'in', ['draft', 'sent']),
             ]
             if rec.get('last_closing_date'):
                 payment_domain += [('payment_date', '>', rec['last_closing_date'])]
-
-            if rec['customer_except_request']:
-                payment_domain += [('selected', '=', True)]
 
             payment_ids = self.env['account.payment'].search(payment_domain)
 
@@ -324,7 +318,7 @@ class BillingClass(models.Model):
                 'last_closing_date': rec['last_closing_date'],
                 'closing_date': rec['deadline'],
                 'deadline': rec['deadline'],
-                'invoices_number': len(invoice_ids) + len(payment_ids),
+                'invoices_number': len(invoice_ids),
                 'invoices_details_number': _invoice_details_number,
                 'last_billed_amount': rec['last_billed_amount'],
                 'deposit_amount': rec['deposit_amount'],
@@ -436,7 +430,7 @@ class BillingClass(models.Model):
             if rec['customer_except_request']:
                 for invoice in invoice_ids:
                     if invoice.invoice_line_ids \
-                            and invoice.invoice_line_ids == invoice.invoice_line_ids.filtered(lambda l: l.selected and l.bill_status != 'billed'):
+                            and invoice.invoice_line_ids == invoice.invoice_line_ids.filtered(lambda l: l.selected):
                         invoice_ids.write({
                             'bill_status': 'billed'
                         })
@@ -458,7 +452,7 @@ class BillingClass(models.Model):
             payment_ids.write({
                 'bill_status': 'billed'
             })
-            payment_ids.post()
+            payment_ids.filtered(lambda l: l.state == 'draft').post()
 
         advanced_search.val_bill_search_deadline = ''
 

@@ -15,9 +15,27 @@
             <tr>
                 <th>Customer Closing Date</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="customer_closing_date_id"
-                           type="search"/>
+                    <input class="filter-item" id="customer_closing_date" data-operator="=like" data-name="partner_id.customer_closing_date.closing_date_code"
+                           onblur="changeClosingDate()" type="search"/>
                 </td>
+                <script>
+                    function changeClosingDate(){
+                        closing_date = document.getElementById("customer_closing_date").value;
+                        $.ajax({
+                            url: "/cancel_bill_api",
+                            type: "POST",
+                            data: {"content": closing_date},
+                            dataType: 'json',
+                            traditional: true,
+                            success: function(result){
+                                document.getElementById("deadline").value = result.content.deadline;
+                            },
+                            error: function(result){
+                                console.log(result);
+                            }
+                        });
+                    }
+                </script>
             </tr>
             <tr>
                 <th>Excerpt Request</th>

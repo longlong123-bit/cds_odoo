@@ -586,7 +586,7 @@
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(8))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.tax_amount - o.amount_tax(10) - o.amount_tax())"/><br/>
                                                          <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
                                                     </div>
                                                 </td>
@@ -812,7 +812,7 @@
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.amount_tax(8))"/><br/>
+                                                        <span t-esc="'{0:,.0f}'.format(o.tax_amount - o.amount_tax(10) - o.amount_tax())"/><br/>
                                                          <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
                                                     </div>
                                                 </td>

@@ -15,14 +15,32 @@
             <tr>
                 <th>締日（締日グループ)</th>
                 <td>
-                    <input class="filter-item" data-operator="" data-name="customer_closing_date_id"
-                           type="search"/>
+                    <input class="filter-item" id="customer_closing_date" data-operator="=like" data-name="partner_id.customer_closing_date.closing_date_code"
+                           onblur="changeClosingDate()" type="search"/>
                 </td>
+                <script>
+                    function changeClosingDate(){
+                        closing_date = document.getElementById("customer_closing_date").value;
+                        $.ajax({
+                            url: "/closing_date",
+                            type: "POST",
+                            data: {"content": closing_date},
+                            dataType: 'json',
+                            traditional: true,
+                            success: function(result){
+                                document.getElementById("closing_date_id").value = result.content.deadline;
+                            },
+                            error: function(result){
+                                console.log(result);
+                            }
+                        });
+                    }
+                </script>
             </tr>
             <tr>
                 <th>締切日</th>
                 <td>
-                    <input class="filter-item" data-operator="eq" data-name="closing_date" type="date"/>
+                    <input class="filter-item" id="closing_date_id" data-operator="eq" data-name="closing_date" type="date"/>
                 </td>
             </tr>
             <tr>
