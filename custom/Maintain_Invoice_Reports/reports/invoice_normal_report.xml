@@ -92,7 +92,7 @@
                                                 <span>お客様コードNo.</span>
                                                 <span t-field="o.partner_id.customer_code"/>
                                             </div>
-                                            <div t-if="o.partner_id.customer_print_invoice_date" style="margin-right: 150px; float: right;">
+                                            <div t-if="o.partner_id.customer_print_sales_slip_date" style="margin-right: 150px; float: right;">
                                                 <t t-if="o.x_studio_date_printed">
                                                     <span t-esc="o.x_studio_date_printed.strftime('%Y年　%m月 %d日')"/>
                                                 </t>
