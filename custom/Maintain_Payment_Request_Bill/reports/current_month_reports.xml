@@ -257,7 +257,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-set="inv_date" t-value=""/>
+<!--                                    <t t-set="inv_date" t-value=""/>-->
                                     <t t-set="inv_no" t-value=""/>
                                     <t t-set="count_invoice_detail" t-value="0"/>
                                     <t t-foreach="o.bill_detail_ids.sorted(key=lambda r: (r.invoice_date, r.invoice_no))"
@@ -331,13 +331,13 @@
                                                 <tr style="max-height: 45px; vertical-align: top; overflow: hidden;">
                                                     <td style="padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 70px; text-align: center;">
-                                                            <p t-if="inv_date !=line_detail.invoice_date"
+                                                            <p t-if="inv_no != line_detail.invoice_no"
                                                                t-field="line_detail.invoice_date"
                                                                t-options="{&quot;format&quot;: &quot;yy/MM/dd&quot;}"
                                                                style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                                 <null/>
                                                             </p>
-                                                            <t t-set="inv_date" t-value="line_detail.invoice_date"/>
+<!--                                                            <t t-set="inv_date" t-value="line_detail.invoice_date"/>-->
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
