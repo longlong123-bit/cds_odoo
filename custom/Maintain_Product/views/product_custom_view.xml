@@ -358,7 +358,6 @@
                 <field name="product_custom_standardnumber" string="品番/型番"/>
                 <field name="name" string="商品名"/>
                 <field name="product_code_1" string="商品コード1"/>
-                <field name="price_1" string="単価1" invisible="True"/>
                 <field name="price_no_tax_1" invisible="True"/>
                 <field name="price_include_tax_1" invisible="True"/>
                 <field name="product_code_2" string="商品コード2"/>
@@ -383,6 +382,7 @@
                 <field name="price_include_tax_6" invisible="True"/>
                 <field name="product_uom_custom" string="単位"/>
                 <field name="setting_price" string="標準定価" invisible="True"/>
+                <field name="price_1" string="単価"/>
                 <field name="price_no_tax" invisible="1"/>
                 <field name="price_include_tax" invisible="1"/>
                 <field name="original_price_no_tax" invisible="1"/>
