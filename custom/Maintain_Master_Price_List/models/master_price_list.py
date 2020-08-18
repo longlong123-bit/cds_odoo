@@ -21,28 +21,28 @@ class ClassMasterPriceList(models.Model):
     product_class_code_lv1 = fields.Char(string='Main Category Code', compute='compute_class_lv1')
 
     # 大分類名
-    product_class_name_lv1 = fields.Char(string="Main Category Name", store=True)
+    product_class_name_lv1 = fields.Char(string="Main Category Name", compute='compute_class_lv_all')
 
     # 商品中分類CD
     product_class_code_lv2_id = fields.Many2one('product.class', string="Middle Category Code")
     product_class_code_lv2 = fields.Char(string="Middle Category Code", compute='compute_class_lv2')
 
     # 中分類名
-    product_class_name_lv2 = fields.Char(string="Middle Category Name", store=True)
+    product_class_name_lv2 = fields.Char(string="Middle Category Name", compute='compute_class_lv_all')
 
     # 商品中小分類CD
     product_class_code_lv3_id = fields.Many2one('product.class', string="Middle Small Category Code")
     product_class_code_lv3 = fields.Char(string="Middle Small Category Code", compute='compute_class_lv3')
 
     # 中小分類名
-    product_class_name_lv3 = fields.Char(string="Middle Small Category Name", store=True)
+    product_class_name_lv3 = fields.Char(string="Middle Small Category Name", compute='compute_class_lv_all')
 
     # 商品小分類CD
     product_class_code_lv4_id = fields.Many2one('product.class', string="Small Category Code")
     product_class_code_lv4 = fields.Char(string="Small Category Code", compute='compute_class_lv4')
 
     # 小分類名
-    product_class_name_lv4 = fields.Char(string="Small Category Name", store=True)
+    product_class_name_lv4 = fields.Char(string="Small Category Name", compute='compute_class_lv_all')
 
     # JANコード
     jan_code_id = fields.Many2one('product.product', string="JAN Code")
@@ -60,7 +60,7 @@ class ClassMasterPriceList(models.Model):
     product_name = fields.Char(string="Product Name", store=True)
 
     # 地区コード
-    country_state_code_id = fields.Many2one('res.country.state', string="Country State Code")
+    country_state_code_id = fields.Many2one('res.country.state', string="Country State Code", domain=[('country_id.code', '=', 'JP')])
     country_state_code = fields.Char(string="Country State Code", compute='compute_country_state_code')
 
     # 地区名
@@ -107,6 +107,7 @@ class ClassMasterPriceList(models.Model):
     # 適用年月日
     date_applied = fields.Date(string="Date Applied")
 
+
     # Listen event onchange maker_code (メーカーCD)
     @api.onchange('maker_id')
     @api.constrains('maker_id')
@@ -119,7 +120,6 @@ class ClassMasterPriceList(models.Model):
 
     # Listen event onchange product_class_code_lv1
     @api.onchange('product_class_code_lv1_id')
-    @api.constrains('product_class_code_lv1_id')
     def _onchange_product_class_code_lv1(self):
         if self.product_class_code_lv1_id:
             # Set value for product_class_name_lv1 fields
@@ -143,7 +143,6 @@ class ClassMasterPriceList(models.Model):
 
     # Listen event onchange product_class_code_lv2
     @api.onchange('product_class_code_lv2_id')
-    @api.constrains('product_class_code_lv2_id')
     def _onchange_product_class_code_lv2(self):
         if self.product_class_code_lv2_id:
             # Set value for product_class_name_lv2 fields
@@ -166,7 +165,6 @@ class ClassMasterPriceList(models.Model):
 
     # Listen event onchange product_class_code_lv3
     @api.onchange('product_class_code_lv3_id')
-    @api.constrains('product_class_code_lv3_id')
     def _onchange_product_class_code_lv3(self):
         if self.product_class_code_lv3_id:
             # Set value for product_class_name_lv3 fields
@@ -188,7 +186,6 @@ class ClassMasterPriceList(models.Model):
 
     # Listen event onchange product_class_code_lv4
     @api.onchange('product_class_code_lv4_id')
-    @api.constrains('product_class_code_lv4_id')
     def _onchange_product_class_code_lv4(self):
         if self.product_class_code_lv4_id:
             # Set value for product_class_name_lv4 fields
@@ -321,3 +318,23 @@ class ClassMasterPriceList(models.Model):
     def compute_recruitment_price(self):
         for line in self:
             line.recruitment_price = line.recruitment_price_id.price_1
+
+    # compute code for 4 class lv name
+    def compute_class_lv_all(self):
+        for line in self:
+            if line.product_class_code_lv1_id:
+                line.product_class_name_lv1 = line.product_class_code_lv1_id.name
+            else:
+                line.product_class_name_lv1 = ''
+            if line.product_class_code_lv2_id:
+                line.product_class_name_lv2 = line.product_class_code_lv2_id.name
+            else:
+                line.product_class_name_lv2 = ''
+            if line.product_class_code_lv3_id:
+                line.product_class_name_lv3 = line.product_class_code_lv3_id.name
+            else:
+                line.product_class_name_lv3 = ''
+            if line.product_class_code_lv4_id:
+                line.product_class_name_lv4 = line.product_class_code_lv4_id.name
+            else:
+                line.product_class_name_lv4 = ''
