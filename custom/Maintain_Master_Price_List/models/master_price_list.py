@@ -50,53 +50,53 @@ class ClassMasterPriceList(models.Model):
 
     # 商品コード
     product_code_id = fields.Many2one('product.product', string="Product Code")
-    product_code = fields.Char(string="Product Code")
+    product_code = fields.Char(string="Product Code", compute='compute_product_code')
 
     # 品番 / 型番
     standard_number_id = fields.Many2one('product.product', string="Standard Number")
-    standard_number = fields.Char(string="Standard Number")
+    standard_number = fields.Char(string="Standard Number", compute='compute_standard_number')
 
     # 商品名
     product_name = fields.Char(string="Product Name")
 
     # 地区コード
     country_state_code_id = fields.Many2one('res.country.state', string="Country State Code")
-    country_state_code = fields.Char(string="Country State Code")
+    country_state_code = fields.Char(string="Country State Code", compute='compute_country_state_code')
 
     # 地区名
     country_state_name = fields.Char(string="Country State Name")
 
     # 業種コード
     industry_code_id = fields.Many2one('res.partner.industry', string="Industry Code")
-    industry_code = fields.Char(string="Industry Code")
+    industry_code = fields.Char(string="Industry Code", compute='compute_industry_code')
 
     # 業種名
     industry_name = fields.Char(string="Industry Name")
 
     # 取引先グループコード
     supplier_group_code_id = fields.Many2one('business.partner.group.custom', string="Supplier Group Code")
-    supplier_group_code = fields.Char(string="Supplier Group Code")
+    supplier_group_code = fields.Char(string="Supplier Group Code", compute='compute_supplier_group_code')
 
     # 取引先グループ名
     supplier_group_name = fields.Char(string="Supplier Group Name")
 
     # 請求先コード
     customer_code_bill_id = fields.Many2one('res.partner', string="Customer Code Bill")
-    customer_code_bill = fields.Char(string="Customer Code Bill")
+    customer_code_bill = fields.Char(string="Customer Code Bill", compute='compute_customer_code_bill')
 
     # 請求先名
     customer_name_bill = fields.Char(string="Customer Name Bill")
 
     # 得意先コード
     customer_code_id = fields.Many2one('res.partner', string="Customer Code")
-    customer_code = fields.Char(string="Customer Code")
+    customer_code = fields.Char(string="Customer Code", compute='compute_customer_code')
 
     # 得意先名
     customer_name = fields.Char(string="Customer Name")
 
     # 採用価格
     recruitment_price_id = fields.Many2one('product.product', sting="Recruitment Price")
-    recruitment_price = fields.Char(sting="Recruitment Price")
+    recruitment_price = fields.Char(sting="Recruitment Price", compute='compute_recruitment_price')
 
     # 掛率
     rate = fields.Float(string="Rate")
@@ -279,3 +279,31 @@ class ClassMasterPriceList(models.Model):
     def compute_product_code(self):
         for line in self:
             line.product_code = line.product_code_id.product_code_1
+
+    def compute_standard_number(self):
+        for line in self:
+            line.standard_number = line.standard_number_id.product_custom_standardnumber
+
+    def compute_country_state_code(self):
+        for line in self:
+            line.country_state_code = line.country_state_code_id.code
+
+    def compute_industry_code(self):
+        for line in self:
+            line.industry_code = line.industry_code_id.industry_code
+
+    def compute_supplier_group_code(self):
+        for line in self:
+            line.supplier_group_code = line.supplier_group_code_id.partner_group_code
+
+    def compute_customer_code_bill(self):
+        for line in self:
+            line.customer_code_bill = line.customer_code_bill_id.customer_code_bill
+
+    def compute_customer_code(self):
+        for line in self:
+            line.customer_code = line.customer_code_id.customer_code
+
+    def compute_recruitment_price(self):
+        for line in self:
+            line.recruitment_price = line.recruitment_price_id.price_1
