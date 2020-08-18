@@ -1786,9 +1786,19 @@ class ClassGetProductCode(models.Model):
     _inherit = 'product.product'
 
     def name_get(self):
+        super(ClassGetProductCode, self).name_get()
         result = []
         for record in self:
-            if self.env.context.get('show_product_code', True):
-                product_code_1 = str(record.product_code_1)
-                result.append((record.id, product_code_1))
+            if 'show_jan_code' in self.env.context:
+                code_show = str(record.barcode)
+            elif 'show_code' in self.env.context:
+                code_show = str(record.product_code_1)
+            elif 'show_standard_number' in self.env.context:
+                code_show = str(record.product_custom_standardnumber)
+            elif 'show_product_price' in self.env.context:
+                code_show = str(record.price_1)
+            elif self.env.context.get('show_product_code', True):
+                code_show = str(record.product_code_1)
+                # result.append((record.id, code_show))
+            result.append((record.id, code_show))
         return result
