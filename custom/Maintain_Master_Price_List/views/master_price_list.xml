@@ -7,8 +7,7 @@
             <field name="model">master.price.list</field>
             <field name="arch" type="xml">
                 <tree string="Price List Tree" class="forward_edit">
-                    <field name="maker_id"/>
-                    <field name="maker_code" invisible="1"/>
+                    <field name="maker_code"/>
                     <field name="maker_name"/>
                     <field name="product_class_code_lv1"/>
                     <field name="product_class_name_lv1"/>
@@ -18,21 +17,21 @@
                     <field name="product_class_name_lv3"/>
                     <field name="product_class_code_lv4"/>
                     <field name="product_class_name_lv4"/>
-                    <field name="jan_code"/>
-                    <field name="product_code"/>
-                    <field name="standard_number"/>
+                    <field name="jan_code" context="{'show_jan_code': 'ok'}" options="{'always_reload': True,}"/>
+                    <field name="product_code" context="{'show_code': 'ok'}"  options="{'always_reload': True,}"/>
+                    <field name="standard_number" context="{'show_standard_number': 'ok'}" options="{'always_reload': True,}"/>
                     <field name="product_name"/>
-                    <field name="country_state_code"/>
+                    <field name="country_state_code" context="{'show_code': 'ok'}"  options="{'always_reload': True,}"/>
                     <field name="country_state_name"/>
-                    <field name="industry_code"/>
+                    <field name="industry_code" context="{'showcode': 'ok'}"  options="{'always_reload': True,}"/>
                     <field name="industry_name"/>
-                    <field name="supplier_group_code"/>
+                    <field name="supplier_group_code" context="{'showcode': 'ok'}" options="{'always_reload': True,}"/>
                     <field name="supplier_group_name"/>
                     <field name="customer_code_bill"/>
                     <field name="customer_name_bill"/>
                     <field name="customer_code"/>
                     <field name="customer_name"/>
-                    <field name="recruitment_price"/>
+                    <field name="recruitment_price" context="{'show_product_price': 'ok'}" options="{'always_reload': True,}"/>
                     <field name="rate"/>
                     <field name="price_applied"/>
                     <field name="date_applied"/>
@@ -60,7 +59,7 @@
                             <!-- Right Column -->
                             <group>
                                 <!-- Country State （地区） -->
-                                <field name="country_state_code" context="{'show_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="country_state_code_id" context="{'show_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="country_state_name" readonly="True"/>
                             </group>
                         </group>
@@ -70,38 +69,38 @@
                             <!-- Left Column -->
                             <group>
                                 <!-- Main Category （大分類） -->
-                                <field name="product_class_code_lv1" domain="[('product_level', '=', 'lv1')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="product_class_code_lv1_id" domain="[('product_level', '=', 'lv1')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="product_class_name_lv1" readonly="True"/>
 
                                 <!-- Middle Category （中分類） -->
-                                <field name="product_class_code_lv2" domain="[('product_level', '=', 'lv2')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="product_class_code_lv2_id" domain="[('product_level', '=', 'lv2')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="product_class_name_lv2" readonly="True"/>
 
                                 <!-- Middle Small Category （中小分類） -->
-                                <field name="product_class_code_lv3" domain="[('product_level', '=', 'lv3')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="product_class_code_lv3_id" domain="[('product_level', '=', 'lv3')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="product_class_name_lv3" readonly="True"/>
 
                                 <!-- Small Category （小分類） -->
-                                <field name="product_class_code_lv4" domain="[('product_level', '=', 'lv4')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="product_class_code_lv4_id" domain="[('product_level', '=', 'lv4')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="product_class_name_lv4" readonly="True"/>
                             </group>
 
                             <!-- Right Column -->
                             <group>
                                 <!-- Industry （業種） -->
-                                <field name="industry_code" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="industry_code_id" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="industry_name" readonly="True"/>
 
                                 <!-- Supplier Group （取引先グループ） -->
-                                <field name="supplier_group_code" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="supplier_group_code_id" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="supplier_group_name" readonly="True"/>
 
                                 <!-- Customer Code Bill （請求先） -->
-                                <field name="customer_code_bill" context="{'showcode': 'ok'}" domain="[('billing_liabilities_flg', '=', True)]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="customer_code_bill_id" context="{'showcode': 'ok'}" domain="[('billing_liabilities_flg', '=', True)]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="customer_name_bill" readonly="True"/>
 
                                 <!-- Customer Code （得意先） -->
-                                <field name="customer_code" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="customer_code_id" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="customer_name" readonly="True"/>
                             </group>
                         </group>
@@ -111,13 +110,13 @@
                             <!-- Left Column -->
                             <group>
                                 <!-- Jan Code （JANコード） -->
-                                <field name="jan_code" context="{'show_jan_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="jan_code_id" context="{'show_jan_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
 
                                 <!-- Product Code （商品コード） -->
-                                <field name="product_code" context="{'show_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="product_code_id" context="{'show_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
 
                                 <!-- Standard Number （品番 / 型番） -->
-                                <field name="standard_number" context="{'show_standard_number': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="standard_number_id" context="{'show_standard_number': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
 
                                 <!-- Product Name （商品名） -->
                                 <field name="product_name" readonly="True"/>
@@ -126,7 +125,7 @@
                             <!-- Right Column -->
                             <group>
                                 <!-- Recruitment Price （採用価格） -->
-                                <field name="recruitment_price" context="{'show_product_price': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="recruitment_price_id" context="{'show_product_price': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
 
                                 <!-- Rate （掛率） -->
                                 <field name="rate"/>
