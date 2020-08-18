@@ -22,28 +22,28 @@ class ClassMasterPriceList(models.Model):
     product_class_code_lv1 = fields.Char(string='Main Category Code')
 
     # 大分類名
-    product_class_name_lv1 = fields.Char(string="Main Category Name", store=True)
+    product_class_name_lv1 = fields.Char(string="Main Category Name", compute='compute_class_lv_all')
 
     # 商品中分類CD
     product_class_code_lv2_id = fields.Many2one('product.class', string="Middle Category Code")
     product_class_code_lv2 = fields.Char(string="Middle Category Code")
 
     # 中分類名
-    product_class_name_lv2 = fields.Char(string="Middle Category Name", store=True)
+    product_class_name_lv2 = fields.Char(string="Middle Category Name", compute='compute_class_lv_all')
 
     # 商品中小分類CD
     product_class_code_lv3_id = fields.Many2one('product.class', string="Middle Small Category Code")
     product_class_code_lv3 = fields.Char(string="Middle Small Category Code")
 
     # 中小分類名
-    product_class_name_lv3 = fields.Char(string="Middle Small Category Name", store=True)
+    product_class_name_lv3 = fields.Char(string="Middle Small Category Name", compute='compute_class_lv_all')
 
     # 商品小分類CD
     product_class_code_lv4_id = fields.Many2one('product.class', string="Small Category Code")
     product_class_code_lv4 = fields.Char(string="Small Category Code")
 
     # 小分類名
-    product_class_name_lv4 = fields.Char(string="Small Category Name", store=True)
+    product_class_name_lv4 = fields.Char(string="Small Category Name", compute='compute_class_lv_all')
 
     # JANコード
     jan_code_id = fields.Many2one('product.product', string="JAN Code")
@@ -116,6 +116,7 @@ class ClassMasterPriceList(models.Model):
     # 適用年月日
     date_applied = fields.Date(string="Date Applied")
 
+
     # Listen event onchange maker_code (メーカーCD)
     @api.onchange('maker_id')
     @api.constrains('maker_id')
@@ -128,7 +129,6 @@ class ClassMasterPriceList(models.Model):
 
     # Listen event onchange product_class_code_lv1
     @api.onchange('product_class_code_lv1_id')
-    @api.constrains('product_class_code_lv1_id')
     def _onchange_product_class_code_lv1(self):
         if self.product_class_code_lv1_id:
             # Set value for product_class_name_lv1 fields
@@ -154,7 +154,6 @@ class ClassMasterPriceList(models.Model):
 
     # Listen event onchange product_class_code_lv2
     @api.onchange('product_class_code_lv2_id')
-    @api.constrains('product_class_code_lv2_id')
     def _onchange_product_class_code_lv2(self):
         if self.product_class_code_lv2_id:
             # Set value for product_class_name_lv2 fields
@@ -179,7 +178,6 @@ class ClassMasterPriceList(models.Model):
 
     # Listen event onchange product_class_code_lv3
     @api.onchange('product_class_code_lv3_id')
-    @api.constrains('product_class_code_lv3_id')
     def _onchange_product_class_code_lv3(self):
         if self.product_class_code_lv3_id:
             # Set value for product_class_name_lv3 fields
@@ -203,7 +201,6 @@ class ClassMasterPriceList(models.Model):
 
     # Listen event onchange product_class_code_lv4
     @api.onchange('product_class_code_lv4_id')
-    @api.constrains('product_class_code_lv4_id')
     def _onchange_product_class_code_lv4(self):
         if self.product_class_code_lv4_id:
             # Set value for product_class_name_lv4 fields
