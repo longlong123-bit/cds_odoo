@@ -74,28 +74,28 @@ class ClassMasterPriceList(models.Model):
 
     # 業種コード
     industry_code_id = fields.Many2one('res.partner.industry', string="Industry Code")
-    industry_code = fields.Char(string="Industry Code")
+    industry_code = fields.Char(string="Industry Code", compute='compute_industry_code')
 
     # 業種名
     industry_name = fields.Char(string="Industry Name", store=True)
 
     # 取引先グループコード
     supplier_group_code_id = fields.Many2one('business.partner.group.custom', string="Supplier Group Code")
-    supplier_group_code = fields.Char(string="Supplier Group Code")
+    supplier_group_code = fields.Char(string="Supplier Group Code", compute='compute_supplier_group_code')
 
     # 取引先グループ名
     supplier_group_name = fields.Char(string="Supplier Group Name", store=True)
 
     # 請求先コード
     customer_code_bill_id = fields.Many2one('res.partner', string="Customer Code Bill")
-    customer_code_bill = fields.Char(string="Customer Code Bill")
+    customer_code_bill = fields.Char(string="Customer Code Bill", compute='compute_customer_code_bill')
 
     # 請求先名
     customer_name_bill = fields.Char(string="Customer Name Bill", store=True)
 
     # 得意先コード
     customer_code_id = fields.Many2one('res.partner', string="Customer Code")
-    customer_code = fields.Char(string="Customer Code")
+    customer_code = fields.Char(string="Customer Code", compute='compute_customer_code')
 
     # 得意先名
     customer_name = fields.Char(string="Customer Name", store=True)
