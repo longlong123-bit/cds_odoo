@@ -12,7 +12,7 @@ class ClassMasterPriceList(models.Model):
     product_id = fields.Many2one('product.product', string="Product Id")
 
     # メーカーCD
-    maker_code = fields.Char(string="Maker Code")
+    maker_code = fields.Char(string="Maker Code", compute='compute_maker_code')
 
     # メーカー名
     maker_name = fields.Char('Maker Name')
@@ -21,14 +21,12 @@ class ClassMasterPriceList(models.Model):
     product_class_code_lv1_id = fields.Many2one('product.class', string="Main Category Code")
     product_class_code_lv1 = fields.Char(string='Main Category Code')
 
-
     # 大分類名
     product_class_name_lv1 = fields.Char(string="Main Category Name")
 
     # 商品中分類CD
     product_class_code_lv2_id = fields.Many2one('product.class', string="Middle Category Code")
     product_class_code_lv2 = fields.Char(string="Middle Category Code")
-
 
     # 中分類名
     product_class_name_lv2 = fields.Char(string="Middle Category Name")
