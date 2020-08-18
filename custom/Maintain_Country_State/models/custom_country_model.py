@@ -12,10 +12,14 @@ class ClassCountryState(models.Model):
     active = fields.Boolean('Active', default=True)
 
     def name_get(self):
+        super(ClassCountryState, self).name_get()
         result = []
         for record in self:
             name = record.name
-            code_show =  str(record.code) + " - " + name
+            if 'show_code' in self.env.context:
+                code_show = str(record.code)
+            else:
+                code_show = str(record.code) + " - " + name
             result.append((record.id, code_show))
         return result
 

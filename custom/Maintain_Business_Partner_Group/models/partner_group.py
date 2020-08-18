@@ -30,10 +30,14 @@ class ClassPartnerGroup(models.Model):
         return super(ClassPartnerGroup, self).copy(default)
 
     def name_get(self):
+        super(ClassPartnerGroup, self).name_get()
         result = []
         for record in self:
             name = record.name
-            code_show =  str(record.partner_group_code) + " - " + name
+            if 'showcode' in self.env.context:
+                code_show = str(record.partner_group_code)
+            else:
+                code_show = str(record.partner_group_code) + " - " + name
             result.append((record.id, code_show))
         return result
 
