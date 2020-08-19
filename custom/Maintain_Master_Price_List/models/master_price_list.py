@@ -116,7 +116,6 @@ class ClassMasterPriceList(models.Model):
     # 適用年月日
     date_applied = fields.Date(string="Date Applied")
 
-
     # Listen event onchange maker_code (メーカーCD)
     @api.onchange('maker_id')
     def _onchange_maker(self):
