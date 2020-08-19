@@ -97,7 +97,7 @@ class ClassMasterPriceList(models.Model):
 
     # 採用価格
     recruitment_price_id = fields.Many2one('product.product', sting="Recruitment Price")
-    recruitment_price = fields.Char(sting="Recruitment Price")
+    recruitment_price = fields.Float(sting="Recruitment Price")
 
     # 掛率
     rate = fields.Float(string="Rate")
@@ -199,13 +199,25 @@ class ClassMasterPriceList(models.Model):
     # Listen event onchange jan_code （JANコード）
     @api.onchange('jan_code_id')
     def _onchange_jan_code(self):
-        self.jan_code = self.jan_code_id.barcode
-        self.product_name = self.jan_code_id.name
+        if self.jan_code_id:
+            self.jan_code = self.jan_code_id.barcode
+            self.product_name = self.jan_code_id.name
+            self.product_code_id = False
+            product_code_child = self.env['product.product'].search([('barcode', '=', self.jan_code)])
+            product_code = product_code_child.ids
+            domain = {'product_code_id': [('id', '=', product_code)]}
+            return {'domain': domain}
+        else:
+            self.jan_code = self.product_name = ''
 
     # Listen event onchange product_code （商品コード）
     @api.onchange('product_code_id')
     def _onchange_product_code(self):
-        self.product_code = self.product_code_id.product_code_1
+        if self.product_code_id:
+            self.product_code = self.product_code_id.product_code_1
+            # product_code_child = self.env['product.product'].search([('', '=', self)])
+        else:
+            self.product_code = ''
 
     # Listen event onchange standard_number （品番 / 型番）
     # @api.onchange('standard_number_id')

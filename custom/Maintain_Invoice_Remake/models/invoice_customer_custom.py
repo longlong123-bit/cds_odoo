@@ -1788,17 +1788,20 @@ class ClassGetProductCode(models.Model):
     def name_get(self):
         super(ClassGetProductCode, self).name_get()
         result = []
+        code_show = ''
         for record in self:
             if 'show_jan_code' in self.env.context:
                 code_show = str(record.barcode)
             elif 'show_code' in self.env.context:
-                code_show = str(record.product_code_1)
+                arr = [str(record.product_code_1), str(record.product_code_2), str(record.product_code_3), str(record.product_code_4), str(record.product_code_5), str(record.product_code_6)]
+                for i in arr:
+                    result.append((record.id, i))
             elif 'show_standard_number' in self.env.context:
                 code_show = str(record.product_custom_standardnumber)
             elif 'show_product_price' in self.env.context:
                 code_show = str(record.price_1)
             elif self.env.context.get('show_product_code', True):
                 code_show = str(record.product_code_1)
-                # result.append((record.id, code_show))
-            result.append((record.id, code_show))
+            if code_show:
+                result.append((record.id, code_show))
         return result
