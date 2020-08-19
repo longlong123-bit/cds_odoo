@@ -60,7 +60,8 @@ class ClassMasterPriceList(models.Model):
     product_name = fields.Char(string="Product Name", store=True)
 
     # 地区コード
-    country_state_code_id = fields.Many2one('res.country.state', string="Country State Code", domain=[('country_id.code', '=', 'JP')])
+    country_state_code_id = fields.Many2one('res.country.state', string="Country State Code",
+                                            domain=[('country_id.code', '=', 'JP')])
     country_state_code = fields.Char(string="Country State Code")
 
     # 地区名
@@ -106,7 +107,6 @@ class ClassMasterPriceList(models.Model):
 
     # 適用年月日
     date_applied = fields.Date(string="Date Applied")
-
 
     # Listen event onchange maker_code (メーカーCD)
     @api.onchange('maker_id')
@@ -245,6 +245,11 @@ class ClassMasterPriceList(models.Model):
         if self.customer_code_bill_id:
             self.customer_name_bill = self.customer_code_bill_id.name
             self.customer_code_bill = self.customer_code_bill_id.customer_code_bill
+            #set domain for customer code
+            customer_code_child = self.env['res.partner'].search([('customer_code_bill', '=', self.customer_code_bill)])
+            customer_code = customer_code_child.ids
+            domain = {'customer_code_id': [('id', '=', customer_code)]}
+            return {'domain': domain}
         else:
             self.customer_code_bill = self.customer_name_bill = ''
 
@@ -261,4 +266,3 @@ class ClassMasterPriceList(models.Model):
     @api.onchange('recruitment_price_id')
     def _onchange_recruitment_price(self):
         self.recruitment_price = self.recruitment_price_id.price_1
-
