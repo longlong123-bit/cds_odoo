@@ -1793,13 +1793,23 @@ class ClassGetProductCode(models.Model):
             if 'show_jan_code' in self.env.context:
                 code_show = str(record.barcode)
             elif 'show_code' in self.env.context:
-                arr = [str(record.product_code_1), str(record.product_code_2), str(record.product_code_3), str(record.product_code_4), str(record.product_code_5), str(record.product_code_6)]
-                for i in arr:
-                    result.append((record.id, i))
-            elif 'show_standard_number' in self.env.context:
-                code_show = str(record.product_custom_standardnumber)
+                if self.env.context.get('show_code') == 'product_1':
+                    result.append((record.id, str(record.product_code_1)))
+                if self.env.context.get('show_code') == 'product_2':
+                    result.append((record.id, str(record.product_code_2)))
+                if self.env.context.get('show_code') == 'product_3':
+                    result.append((record.id, str(record.product_code_3)))
+                if self.env.context.get('show_code') == 'product_4':
+                    result.append((record.id, str(record.product_code_4)))
+                if self.env.context.get('show_code') == 'product_5':
+                    result.append((record.id, str(record.product_code_5)))
+                if self.env.context.get('show_code') == 'product_6':
+                    result.append((record.id, str(record.product_code_6)))
             elif 'show_product_price' in self.env.context:
-                code_show = str(record.price_1)
+                if self.env.context.get('show_product_price') == 'standard_price':
+                    result.append((record.id, str(record.standard_price)))
+                if self.env.context.get('show_product_price') == 'price_1':
+                    result.append((record.id, str(record.price_1)))
             elif self.env.context.get('show_product_code', True):
                 code_show = str(record.product_code_1)
             if code_show:

@@ -44,7 +44,7 @@
             <field name="name">master.price.list.form</field>
             <field name="model">master.price.list</field>
             <field name="arch" type="xml">
-                <form string="Price List Form" duplicate="false" class="custom_template">
+                <form string="Price List Form" duplicate="false" class="product_custom_template custom_template">
                     <sheet>
                         <!-- Row 1 -->
                         <group>
@@ -117,14 +117,28 @@
                         <!-- Row 3 -->
                         <group>
                             <!-- Left Column -->
-                            <group>
+                            <group class="custom_group">
                                 <!-- Jan Code （JANコード） -->
                                 <field name="jan_code_id" context="{'show_jan_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                 <field name="jan_code"  invisible="1"/>
                                 <field name="product_name"  invisible="1"/>
 
                                 <!-- Product Code （商品コード） -->
-                                <field name="product_code_id" context="{'show_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+<!--                                <field name="product_code_id" context="{'show_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>-->
+
+                                <label style="text-align: right;" for="product_code_select" string="Product Code"/>
+                                <table style="margin-right: 0px; margin-left: 0px; display: block;">
+                                   <div style="width: 50%; vertical-align: top; display: inline-block;">
+                                        <div style="height: -webkit-fill-available;">
+                                            <field name="product_code_select"/>
+                                        </div>
+                                   </div>
+                                    <div style="width: 50%; vertical-align: top; float: right;">
+                                        <field name="product_code_id" context="{'show_code':  product_code_select}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                        <field name="product_code"  invisible="1"/>
+                                    </div>
+                                </table>
+<!--                                <field name="product_code_select"/>-->
                                 <field name="product_code"  invisible="1"/>
 
                                 <!-- Standard Number （品番 / 型番） -->
@@ -138,8 +152,20 @@
                             <!-- Right Column -->
                             <group>
                                 <!-- Recruitment Price （採用価格） -->
-                                <field name="recruitment_price_id" context="{'show_product_price': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
-                                <field name="recruitment_price"  invisible="1"/>
+                                <label style="text-align: right;" for="recruitment_price_select" string="Recruitment Price"/>
+                                <table style="margin-right: 0px; margin-left: 0px; display: block;">
+                                    <div style="width: 50%; vertical-align: top; display: inline-block;">
+                                        <div style="height: -webkit-fill-available;">
+                                            <field name="recruitment_price_select"/>
+                                        </div>
+                                    </div>
+                                    <div style="width: 50%; vertical-align: top; float: right;">
+                                        <field name="recruitment_price_id" context="{'show_product_price': recruitment_price_select}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                        <field name="recruitment_price"  invisible="1"/>
+                                    </div>
+                                </table>
+<!--                                <field name="recruitment_price_id" context="{'show_product_price': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>-->
+<!--                                <field name="recruitment_price"  invisible="1"/>-->
 
                                 <!-- Rate （掛率） -->
                                 <field name="rate"/>

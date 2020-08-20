@@ -50,6 +50,10 @@ class ClassMasterPriceList(models.Model):
 
     # 商品コード
     product_code_id = fields.Many2one('product.product', string="Product Code")
+    product_code_select = fields.Selection(
+        [('product_1', 'product code 1'), ('product_2', 'product code 2'), ('product_3', 'product code 3'),
+         ('product_4', 'product code 4'), ('product_5', 'product code 5'), ('product_6', 'product code 6')],
+        string='Product Code Select')
     product_code = fields.Char(string="Product Code")
 
     # 品番 / 型番
@@ -97,6 +101,9 @@ class ClassMasterPriceList(models.Model):
 
     # 採用価格
     recruitment_price_id = fields.Many2one('product.product', sting="Recruitment Price")
+    recruitment_price_select = fields.Selection(
+        [('standard_price', 'Standard price	'), ('price_1', 'Price')],
+        string='Recruitment Price Select')
     recruitment_price = fields.Float(sting="Recruitment Price")
 
     # 掛率
@@ -199,30 +206,84 @@ class ClassMasterPriceList(models.Model):
     # Listen event onchange jan_code （JANコード）
     @api.onchange('jan_code_id')
     def _onchange_jan_code(self):
+        self.product_code_id = False
+        self.recruitment_price_id = False
         if self.jan_code_id:
             self.jan_code = self.jan_code_id.barcode
             self.product_name = self.jan_code_id.name
-            self.product_code_id = False
+            self.product_code = self.jan_code_id.product_code_1
+            self.product_code_select = 'product_1'
+            self.recruitment_price_select = 'standard_price'
+
             product_code_child = self.env['product.product'].search([('barcode', '=', self.jan_code)])
-            product_code = product_code_child.ids
-            domain = {'product_code_id': [('id', '=', product_code)]}
-            return {'domain': domain}
+            product_code_id = product_code_child.ids
+            domain = {'product_code_id': [('id', '=', product_code_id)],
+                      'recruitment_price_id': [('id', '=', product_code_id)]}
         else:
             self.jan_code = self.product_name = ''
+            self.product_code_select = False
+            self.recruitment_price_select = False
+            self.product_code = ''
+            domain = {'product_code_id': [], 'recruitment_price_id': []}
+        return {'domain': domain}
+
+    @api.onchange('product_code_select')
+    def _onchange_product_code_select(self):
+        self.product_code_id = False
+        if self.product_code_select == 'product_1':
+            self.product_code = self.jan_code_id.product_code_1
+        elif self.product_code_select == 'product_2':
+            self.product_code = self.jan_code_id.product_code_2
+        elif self.product_code_select == 'product_3':
+            self.product_code = self.jan_code_id.product_code_3
+        elif self.product_code_select == 'product_4':
+            self.product_code = self.jan_code_id.product_code_4
+        elif self.product_code_select == 'product_5':
+            self.product_code = self.jan_code_id.product_code_5
+        elif self.product_code_select == 'product_6':
+            self.product_code = self.jan_code_id.product_code_6
+        else:
+            self.product_code = ''
+        # self.product_code_id = self.jan_code_id.ids
 
     # Listen event onchange product_code （商品コード）
     @api.onchange('product_code_id')
     def _onchange_product_code(self):
         if self.product_code_id:
-            self.product_code = self.product_code_id.product_code_1
-            # product_code_child = self.env['product.product'].search([('', '=', self)])
+            if self.product_code_select == 'product_1':
+                self.product_code = self.product_code_id.product_code_1
+            elif self.product_code_select == 'product_2':
+                self.product_code = self.product_code_id.product_code_2
+            elif self.product_code_select == 'product_3':
+                self.product_code = self.product_code_id.product_code_3
+            elif self.product_code_select == 'product_4':
+                self.product_code = self.product_code_id.product_code_4
+            elif self.product_code_select == 'product_5':
+                self.product_code = self.product_code_id.product_code_5
+            elif self.product_code_select == 'product_6':
+                self.product_code = self.product_code_id.product_code_6
+            else:
+                self.product_code = ''
+            self.product_name = self.product_code_id.name
         else:
             self.product_code = ''
+            if not self.jan_code_id:
+                self.product_name = ''
 
-    # Listen event onchange standard_number （品番 / 型番）
-    # @api.onchange('standard_number_id')
-    # def _onchange_standard_number(self):
-    #     self.standard_number = self.standard_number_id.product_custom_standardnumber
+    @api.onchange('recruitment_price_select')
+    def _onchange_recruitment_price_select(self):
+        self.recruitment_price_id = False
+
+    # Listen event onchange recruitment_price（採用価格）
+    @api.onchange('recruitment_price_id')
+    def _onchange_recruitment_price(self):
+        if self.recruitment_price_id:
+            if self.recruitment_price_select == 'standard_price':
+                self.recruitment_price = self.recruitment_price_id.standard_price
+            elif self.recruitment_price_select == 'price_1':
+                self.recruitment_price = self.recruitment_price_id.price_1
+        else:
+            self.recruitment_price = ''
 
     # Listen event onchange country_state_code（地区コード）
     @api.onchange('country_state_code_id')
@@ -257,7 +318,8 @@ class ClassMasterPriceList(models.Model):
         if self.customer_code_bill_id:
             self.customer_name_bill = self.customer_code_bill_id.name
             self.customer_code_bill = self.customer_code_bill_id.customer_code_bill
-            #set domain for customer code
+
+            # set domain for customer code
             customer_code_child = self.env['res.partner'].search([('customer_code_bill', '=', self.customer_code_bill)])
             customer_code = customer_code_child.ids
             domain = {'customer_code_id': [('id', '=', customer_code)]}
@@ -273,8 +335,3 @@ class ClassMasterPriceList(models.Model):
             self.customer_code = self.customer_code_id.customer_code
         else:
             self.customer_code = self.customer_name = ''
-
-    # Listen event onchange recruitment_price（採用価格）
-    @api.onchange('recruitment_price_id')
-    def _onchange_recruitment_price(self):
-        self.recruitment_price = self.recruitment_price_id.price_1
