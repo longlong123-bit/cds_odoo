@@ -130,11 +130,11 @@
                                 <table style="margin-right: 0px; margin-left: 0px; display: block;">
                                    <div style="width: 50%; vertical-align: top; display: inline-block;">
                                         <div style="height: -webkit-fill-available;">
-                                            <field name="product_code_select"/>
+                                            <field name="product_code_select" style="height: 25px;"/>
                                         </div>
                                    </div>
                                     <div style="width: 50%; vertical-align: top; float: right;">
-                                        <field name="product_code_id" context="{'show_code':  product_code_select}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                        <field name="product_code_id" domain="[('barcode', '=', jan_code)]" context="{'show_code':  product_code_select}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                         <field name="product_code"  invisible="1"/>
                                     </div>
                                 </table>
@@ -156,12 +156,11 @@
                                 <table style="margin-right: 0px; margin-left: 0px; display: block;">
                                     <div style="width: 50%; vertical-align: top; display: inline-block;">
                                         <div style="height: -webkit-fill-available;">
-                                            <field name="recruitment_price_select"/>
                                             <field name="recruitment_price_select" style="height: 25px;"/>
                                         </div>
                                     </div>
                                     <div style="width: 50%; vertical-align: top; float: right;">
-                                        <field name="recruitment_price_id" context="{'show_product_price': recruitment_price_select}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                        <field name="recruitment_price_id" domain="[('barcode', '=', jan_code)]" context="{'show_product_price': recruitment_price_select}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
                                         <field name="recruitment_price"  invisible="1"/>
                                     </div>
                                 </table>
