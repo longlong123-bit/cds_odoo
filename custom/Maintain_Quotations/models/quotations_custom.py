@@ -709,6 +709,150 @@ class QuotationsLinesCustom(models.Model):
 
     copy_history_flag = fields.Boolean(default=False, store=False)
 
+    demo = fields.Float('Demo', compute='compute_demo_price')
+
+    def set_country_state_code(self, country_state_code=None):
+        country_state_code_ids = self.env['master.price.list'].search([
+             ('country_state_code', '=', country_state_code),
+             ('industry_code', '=', False),
+             ('supplier_group_code', '=', False),
+             ('customer_code_bill', '=', False),
+             ('customer_code', '=', False)])
+        if len(country_state_code_ids):
+            for i in country_state_code_ids:
+                price = i.price_applied
+        else:
+            price = 0
+        return price
+
+    def set_industry_code(self, industry_code=None, country_state_code=None):
+        industry_code_ids = self.env['master.price.list'].search([
+             ('industry_code', '=', industry_code),
+             ('supplier_group_code', '=', False),
+             ('customer_code_bill', '=', False),
+             ('customer_code', '=', False)])
+        if len(country_state_code_ids):
+            for i in country_state_code_ids:
+                price = i.price_applied
+        else:
+            price = set_country_state_code(country_state_code)
+        return price
+
+    def set_supplier_group_code(self, supplier_group_code=None, industry_code=None, country_state_code=None):
+        supplier_group_code_ids = self.env['master.price.list'].search([
+             ('supplier_group_code', '=', supplier_group_code),
+             ('customer_code_bill', '=', False),
+             ('customer_code', '=', False)])
+        if len(supplier_group_code_ids):
+            for i in supplier_group_code_ids:
+                price = i.price_applied
+        else:
+            price = set_industry_code(industry_code, country_state_code)
+        return price
+
+    def set_supplier_group_code(self, supplier_group_code=None, industry_code=None, country_state_code=None):
+        supplier_group_code_ids = self.env['master.price.list'].search([
+             ('supplier_group_code', '=', supplier_group_code),
+             ('customer_code_bill', '=', False),
+             ('customer_code', '=', False)])
+        if len(supplier_group_code_ids):
+            for i in supplier_group_code_ids:
+                price = i.price_applied
+        else:
+            price = set_industry_code(industry_code, country_state_code)
+        return price
+
+    def set_customer_code_bill(self, supplier_group_code=None, industry_code=None, country_state_code=None):
+        supplier_group_code_ids = self.env['master.price.list'].search([
+             ('customer_code_bill', '=', False),
+             ('customer_code', '=', False)])
+        if len(supplier_group_code_ids):
+            for i in supplier_group_code_ids:
+                price = i.price_applied
+        else:
+            price = set_industry_code(industry_code, country_state_code)
+        return price
+
+
+    def set_maker(self, maker=None, jan_code=None):
+        maker_ids = self.env['master.price.list'].search([('maker_code', '=', maker),
+                                                          ('product_class_code_lv1', '=', False),
+                                                          ('product_class_code_lv2', '=', False),
+                                                          ('product_class_code_lv3', '=', False),
+                                                          ('product_class_code_lv4', '=', False),
+                                                          ('jan_code', '=', False)])
+        if len(maker_ids):
+            check_maker_code = ''
+            for i in maker_ids:
+                price = i.price_applied
+        else:
+            product_price_ids = self.env['product.product'].search([('barcode', '=', jan_code)])
+            price = product_price_ids.price_1
+        return price
+
+    def set_product_class_code_lv1(self, product_class_code_lv1=None,  maker=None, jan_code=None):
+        product_class_code_lv1_ids = self.env['master.price.list'].search([
+            ('product_class_code_lv1', '=', product_class_code_lv1),
+            ('product_class_code_lv2', '=', False),
+            ('product_class_code_lv3', '=', False),
+            ('product_class_code_lv4', '=', False),
+            ('jan_code', '=', False)])
+        if len(product_class_code_lv1_ids):
+            for i in product_class_code_lv1_ids:
+                price = i.price_applied
+        else:
+            price = self.set_maker(maker, jan_code)
+        return price
+
+    def set_product_class_code_lv2(self, product_class_code_lv2=None, product_class_code_lv1=None,  maker=None, jan_code=None):
+        product_class_code_lv2_ids = self.env['master.price.list'].search([
+            ('product_class_code_lv2', '=', product_class_code_lv2),
+            ('product_class_code_lv3', '=', False),
+            ('product_class_code_lv4', '=', False),
+            ('jan_code', '=', False)])
+        if len(product_class_code_lv2_ids):
+            for i in product_class_code_lv2_ids:
+                price = i.price_applied
+        else:
+            price = self.set_product_class_code_lv1(product_class_code_lv1, maker, jan_code)
+        return price
+
+    def set_product_class_code_lv3(self, product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,  maker=None, jan_code=None):
+        product_class_code_lv3_ids = self.env['master.price.list'].search([
+            ('product_class_code_lv3', '=', product_class_code_lv3),
+            ('product_class_code_lv4', '=', False),
+            ('jan_code', '=', False)])
+        if len(product_class_code_lv3_ids):
+            for i in product_class_code_lv3_ids:
+                price = i.price_applied
+        else:
+            price = self.set_product_class_code_lv2(product_class_code_lv2, product_class_code_lv1, maker, jan_code)
+        return price
+
+    def set_product_class_code_lv4(self, product_class_code_lv4=None, product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,  maker=None, jan_code=None):
+        product_class_code_lv4_ids = self.env['master.price.list'].search([
+            ('product_class_code_lv4', '=', product_class_code_lv4),
+            ('jan_code', '=', False)])
+        if len(product_class_code_lv4_ids):
+            for i in product_class_code_lv4_ids:
+                price = i.price_applied
+        else:
+            price = self.set_product_class_code_lv3(product_class_code_lv3, product_class_code_lv2, product_class_code_lv1, maker, jan_code)
+        return price
+
+    def set_price_by_jan_code(self, jan_code=None, product_class_code_lv4=None, product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None, maker=None):
+        jan_ids = self.env['master.price.list'].search([('jan_code', '=', jan_code)])
+        if len(jan_ids):
+            for i in jan_ids:
+                price = i.price_applied
+        else:
+            price = self.set_product_class_code_lv4(product_class_code_lv4, product_class_code_lv3, product_class_code_lv2, product_class_code_lv1, maker, jan_code)
+        return price
+
+    def compute_demo_price(self):
+        print('===>', self.set_price_by_jan_code(456, 'Class 044', 'Class 014', 'CCC01', 'Class 01', 'M01'))
+        self.demo = 10.0
+
     def _get_default_line_no(self):
         context = dict(self._context or {})
         line_ids = context.get('default_line_ids')
@@ -781,8 +925,8 @@ class QuotationsLinesCustom(models.Model):
                     if product.product_tax_category == 'exempt':
                         self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
                     else:
-                        self.price_include_tax = product["price_include_tax_" + setting_price]
-                        self.price_no_tax = product["price_no_tax_" + setting_price]
+                        self.price_include_tax = 1000
+                        self.price_no_tax = 100
 
                     self.compute_price_unit()
                     self.compute_line_amount()
@@ -813,8 +957,8 @@ class QuotationsLinesCustom(models.Model):
                     if product.product_tax_category == 'exempt':
                         self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
                     else:
-                        self.price_include_tax = product["price_include_tax_" + setting_price]
-                        self.price_no_tax = product["price_no_tax_" + setting_price]
+                        self.price_include_tax = 2000
+                        self.price_no_tax = 200
 
                     self.compute_price_unit()
                     self.compute_line_amount()

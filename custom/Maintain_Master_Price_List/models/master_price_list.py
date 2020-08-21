@@ -211,7 +211,7 @@ class ClassMasterPriceList(models.Model):
         if self.jan_code_id:
             self.jan_code = self.jan_code_id.barcode
             self.product_name = self.jan_code_id.name
-            self.product_code = self.jan_code_id.product_code_1
+            # self.product_code = self.jan_code_id.product_code_1
             self.product_code_select = 'product_1'
             self.recruitment_price_select = 'standard_price'
 
@@ -273,6 +273,7 @@ class ClassMasterPriceList(models.Model):
     @api.onchange('recruitment_price_select')
     def _onchange_recruitment_price_select(self):
         self.recruitment_price_id = False
+        self.recruitment_price = 0
 
     # Listen event onchange recruitment_price（採用価格）
     @api.onchange('recruitment_price_id')
