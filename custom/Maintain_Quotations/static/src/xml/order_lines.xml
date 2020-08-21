@@ -11,6 +11,7 @@
                     <th><span>Product</span></th>
                     <th><span>Freight Category</span></th>
                     <th><span>Product Name</span></th>
+                    <th><span>Demo</span></th>
                     <th><span>Product Standard Number</span></th>
                     <th><span>Product UOM Qty</span></th>
                     <th><span>Price Unit</span></th>
@@ -31,6 +32,7 @@
                     <td><span t-if="record.product_maker_name" t-esc="record.product_maker_name"/></td>
                     <td><span t-if="record.product_name" t-esc="record.product_name"/></td>
 <!--                    <td><span t-if="record.product_name2" t-esc="record.product_name2"/></td>-->
+                    <td><span t-if="record.demo" t-esc="record.demo"/></td>
                     <td><span t-if="record.product_standard_number" t-esc="record.product_standard_number"/></td>
                     <td><span t-if="record.product_uom_qty" t-esc="record.product_uom_qty"/></td>
                     <td><span t-if="record.price_unit" t-esc="record.price_unit"/></td>
