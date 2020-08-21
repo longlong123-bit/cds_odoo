@@ -147,6 +147,7 @@ class ClassMasterPriceList(models.Model):
             return {'domain': domain}
         else:
             self.product_class_name_lv1 = ''
+            self.product_class_code_lv1 = ''
 
     # Listen event onchange product_class_code_lv2
     @api.onchange('product_class_code_lv2_id')
@@ -170,6 +171,7 @@ class ClassMasterPriceList(models.Model):
             return {'domain': domain}
         else:
             self.product_class_name_lv2 = ''
+            self.product_class_code_lv2 = ''
 
     # Listen event onchange product_class_code_lv3
     @api.onchange('product_class_code_lv3_id')
@@ -192,6 +194,7 @@ class ClassMasterPriceList(models.Model):
             return {'domain': domain}
         else:
             self.product_class_name_lv3 = ''
+            self.product_class_code_lv3 = ''
 
     # Listen event onchange product_class_code_lv4
     @api.onchange('product_class_code_lv4_id')
@@ -202,6 +205,7 @@ class ClassMasterPriceList(models.Model):
             self.product_class_code_lv4 = self.product_class_code_lv4_id.product_class_code
         else:
             self.product_class_name_lv4 = ''
+            self.product_class_code_lv4 = ''
 
     # Listen event onchange jan_code （JANコード）
     @api.onchange('jan_code_id')
