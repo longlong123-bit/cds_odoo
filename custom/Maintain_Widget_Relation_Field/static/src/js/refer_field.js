@@ -124,17 +124,11 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                 var state = this.viewController.renderer.state;
                 var mapColumn = {
                   '5':'product_code_1',
-                  '6':'product_code_1',
-                  '7':'product_code_2',
-                  '8':'product_code_2',
-                  '9':'product_code_3',
-                  '10':'product_code_3',
-                  '11':'product_code_4',
-                  '12':'product_code_4',
-                  '13':'product_code_5',
-                  '14':'product_code_5',
-                  '15':'product_code_6',
-                  '16':'product_code_6',
+                  '6':'product_code_2',
+                  '7':'product_code_3',
+                  '8':'product_code_4',
+                  '9':'product_code_5',
+                  '10':'product_code_6',
                 }
                 var readColumn = parent._getReadColumn(options) == 'code_by_setting' ? (mapColumn[$(event.data.target).index()] || parent._getReadColumn(options)) : parent._getReadColumn(options);
 
