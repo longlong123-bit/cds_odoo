@@ -102,7 +102,7 @@ class ClassMasterPriceList(models.Model):
     # 採用価格
     recruitment_price_id = fields.Many2one('product.product', sting="Recruitment Price")
     recruitment_price_select = fields.Selection(
-        [('standard_price', 'Standard price	'), ('price_1', 'Price')],
+        [('standard_price', 'Standard Price'), ('price_1', 'Price')],
         string='Recruitment Price Select')
     recruitment_price = fields.Float(sting="Recruitment Price")
 
