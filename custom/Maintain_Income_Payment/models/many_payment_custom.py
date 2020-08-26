@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta, time, datetime
+import pytz
 from addons.account.models.product import ProductTemplate
 from odoo.tools.float_utils import float_round
 
@@ -24,10 +25,14 @@ class ManyPaymentCustom(models.Model):
                 [('type', '=', 'sale')], limit=1)
         return journal_id and journal_id[0] or False
 
+    def get_default_payment_date(self):
+        _date_now = datetime.now()
+        return _date_now.astimezone(pytz.timezone(self.env.user.tz))
+
     name = fields.Char(string='新規', default='新規')
     many_payment_line_ids = fields.One2many('account.payment', 'many_payment_id', string='PaymentLine', copy=True,
                                             auto_join=True)
-    payment_date = fields.Date(string='Transaction Date', default=datetime.today())
+    payment_date = fields.Date(string='Transaction Date', default=get_default_payment_date)
     sales_rep = fields.Many2one('res.users', string='Sales Rep',
                                 domain="[('share', '=', False)]", default=lambda self: self.env.user)
     payment_type = fields.Selection(

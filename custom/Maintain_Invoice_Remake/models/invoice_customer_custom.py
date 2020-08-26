@@ -9,8 +9,9 @@ from odoo.tools.misc import formatLang, format_date, get_lang
 from datetime import timedelta
 from odoo.exceptions import ValidationError
 import time
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from dateutil.relativedelta import relativedelta
+import pytz
 from itertools import groupby
 from itertools import zip_longest
 from hashlib import sha256
@@ -174,6 +175,10 @@ class ClassInvoiceCustom(models.Model):
     #     ('mail_followers_res_partner_res_model_id_uniq', 'unique(id, res_model,res_id,partner_id)',
     #      'Error, a partner cannot follow twice the same object.')
     # ]
+
+    def get_default_current_date(self):
+        _date_now = datetime.now()
+        return _date_now.astimezone(pytz.timezone(self.env.user.tz))
 
     def _get_payment_vals(self):
         return {
@@ -372,10 +377,10 @@ class ClassInvoiceCustom(models.Model):
     invoice_document_no_custom = fields.Char(string="Document", readonly=True, copy=False,
                                              default=_get_default_document_no)
     # x_studio_cus_salesslipforms_table = fields.Selection([('cus_1', '指定なし'), ('cus_2', '通常'), ('cus_3', '専伝・仮伝')])
-    x_studio_date_invoiced = fields.Date(string='Invoice Date', default=date.today())
-    x_studio_date_printed = fields.Date(string='Date Printed', default=date.today())
-    x_studio_date_shipment = fields.Date(string='Shipment Date', default=date.today())
-    x_current_date = fields.Date(string='', default=date.today(), store=False)
+    x_studio_date_invoiced = fields.Date(string='Invoice Date', default=get_default_current_date)
+    x_studio_date_printed = fields.Date(string='Date Printed', default=get_default_current_date)
+    x_studio_date_shipment = fields.Date(string='Shipment Date', default=get_default_current_date)
+    x_current_date = fields.Date(string='', default=get_default_current_date, store=False)
     x_studio_payment_rule_1 = fields.Selection([('rule_cash', 'Cash'), ('rule_check', 'Check'),
                                                 ('rule_credit', 'Credit Card'), ('rule_direct_debit', 'Direct Debit'),
                                                 ('rule_deposit', 'Direct Deposit'), ('rule_on_credit', 'On Credit')],
@@ -952,7 +957,7 @@ class ClassInvoiceCustom(models.Model):
                 if tax_key_add_base not in done_taxes:
                     if line.currency_id != self.company_id.currency_id:
                         amount = self.company_id.currency_id._convert(line.tax_base_amount, line.currency_id,
-                                                                      self.company_id, line.date or fields.Date.today())
+                                                                      self.company_id, line.date or datetime.now().astimezone(pytz.timezone(self.env.user.tz)))
                     else:
                         amount = line.tax_base_amount
 
