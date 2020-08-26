@@ -2195,9 +2195,12 @@ class AccountMoveLine(models.Model):
         res = super(AccountMoveLine, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
 
+
 checkshow_jan_code = False
 checkshow_code = 0
 checkshow_product_price = 0
+
+
 class ClassGetProductCode(models.Model):
     _inherit = 'product.product'
 
