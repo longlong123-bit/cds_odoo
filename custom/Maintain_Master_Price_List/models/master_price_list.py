@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from ...Maintain_Invoice_Remake.models import invoice_customer_custom
 
 
 class ClassMasterPriceList(models.Model):
@@ -212,7 +213,10 @@ class ClassMasterPriceList(models.Model):
     def _onchange_jan_code(self):
         self.product_code_id = False
         self.recruitment_price_id = False
+        global checkshow_jan_code
+
         if self.jan_code_id:
+            checkshow_jan_code = invoice_customer_custom.checkshow_jan_code
             self.jan_code = self.jan_code_id.barcode
             self.product_name = self.jan_code_id.name
             # self.product_code = self.jan_code_id.product_code_1
@@ -224,6 +228,7 @@ class ClassMasterPriceList(models.Model):
             domain = {'product_code_id': [('id', '=', product_code_id)],
                       'recruitment_price_id': [('id', '=', product_code_id)]}
         else:
+            checkshow_jan_code = invoice_customer_custom.checkshow_jan_code = False
             self.jan_code = self.product_name = ''
             self.product_code_select = False
             self.recruitment_price_select = False
@@ -253,7 +258,9 @@ class ClassMasterPriceList(models.Model):
     # Listen event onchange product_code （商品コード）
     @api.onchange('product_code_id')
     def _onchange_product_code(self):
+        global checkshow_code
         if self.product_code_id:
+            checkshow_code = invoice_customer_custom.checkshow_code
             if self.product_code_select == 'product_1':
                 self.product_code = self.product_code_id.product_code_1
             elif self.product_code_select == 'product_2':
@@ -270,6 +277,7 @@ class ClassMasterPriceList(models.Model):
                 self.product_code = ''
             self.product_name = self.product_code_id.name
         else:
+            checkshow_code = invoice_customer_custom.checkshow_code = 0
             self.product_code = ''
             if not self.jan_code_id:
                 self.product_name = ''
@@ -282,12 +290,15 @@ class ClassMasterPriceList(models.Model):
     # Listen event onchange recruitment_price（採用価格）
     @api.onchange('recruitment_price_id')
     def _onchange_recruitment_price(self):
+        global checkshow_product_price
         if self.recruitment_price_id:
+            checkshow_product_price = invoice_customer_custom.checkshow_product_price
             if self.recruitment_price_select == 'standard_price':
                 self.recruitment_price = self.recruitment_price_id.standard_price
             elif self.recruitment_price_select == 'price_1':
                 self.recruitment_price = self.recruitment_price_id.price_1
         else:
+            checkshow_product_price = invoice_customer_custom.checkshow_product_price = 0
             self.recruitment_price = ''
 
     # Listen event onchange country_state_code（地区コード）
