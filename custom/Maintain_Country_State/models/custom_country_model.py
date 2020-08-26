@@ -24,5 +24,3 @@ class ClassCountryState(models.Model):
                 code_show = str(record.code) + " - " + name
             result.append((record.id, code_show))
         return result
-
-

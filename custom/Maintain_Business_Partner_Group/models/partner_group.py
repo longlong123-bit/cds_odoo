@@ -40,5 +40,3 @@ class ClassPartnerGroup(models.Model):
                 code_show = str(record.partner_group_code) + " - " + name
             result.append((record.id, code_show))
         return result
-
-
