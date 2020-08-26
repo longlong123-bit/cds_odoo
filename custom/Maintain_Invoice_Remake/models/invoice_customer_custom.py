@@ -2195,7 +2195,6 @@ class AccountMoveLine(models.Model):
         res = super(AccountMoveLine, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
 
-from ...Maintain_Master_Price_List.models import master_price_list
 
 checkshow_jan_code = False
 checkshow_code = 0
@@ -2211,7 +2210,7 @@ class ClassGetProductCode(models.Model):
         global checkshow_jan_code
         global checkshow_code
         global checkshow_product_price
-        print('afdafdasfdasfd', checkshow_jan_code, master_price_list.checkshow_jan_code)
+        print('afdafdasfdasfd', checkshow_jan_code)
         for record in self:
             if 'show_jan_code' in self.env.context:
                 checkshow_jan_code = True
@@ -2243,10 +2242,10 @@ class ClassGetProductCode(models.Model):
                     checkshow_product_price = 2
                     result.append((record.id, str(record.price_1)))
             elif self.env.context.get('show_product_code', True):
-                if master_price_list.checkshow_jan_code and checkshow_jan_code:
+                if checkshow_jan_code:
                     checkshow_jan_code = False
                     code_show = str(record.barcode)
-                elif master_price_list.checkshow_jan_code and checkshow_code:
+                elif checkshow_code:
                     if checkshow_code == 1:
                         code_show = str(record.product_code_1)
                     elif checkshow_code == 2:
@@ -2260,7 +2259,7 @@ class ClassGetProductCode(models.Model):
                     elif checkshow_code == 6:
                         code_show = str(record.product_code_6)
                     checkshow_code = 0
-                elif master_price_list.checkshow_jan_code and checkshow_product_price:
+                elif checkshow_product_price:
                     if checkshow_product_price == 1:
                         code_show = str(record.standard_price)
                     elif checkshow_product_price == 2:
