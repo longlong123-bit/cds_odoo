@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
 
+check_country_code_price = False
+
 
 class ClassCountryState(models.Model):
     _inherit = 'res.country.state'
@@ -14,12 +16,19 @@ class ClassCountryState(models.Model):
     def name_get(self):
         super(ClassCountryState, self).name_get()
         result = []
+        global check_country_code_price
         for record in self:
             name = record.name
             if 'show_code' in self.env.context:
+                check_country_code_price = True
                 code_show = str(record.code)
             else:
-                code_show = str(record.code) + " - " + name
+                if check_country_code_price:
+                    check_country_code_price = False
+                    code_show = str(record.code)
+                else:
+                    check_country_code_price = False
+                    code_show = str(record.code) + " - " + name
             result.append((record.id, code_show))
         return result
 
