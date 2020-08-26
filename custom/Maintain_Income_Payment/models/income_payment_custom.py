@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from datetime import timedelta, time, datetime, date
+import pytz
 from addons.account.models.product import ProductTemplate
 from odoo.tools.float_utils import float_round
 
@@ -26,6 +27,10 @@ class IncomePaymentCustom(models.Model):
     # _rec_name = 'document_no'
     _order = 'write_date desc'
 
+    def get_default_payment_date(self):
+        _date_now = datetime.now()
+        return _date_now.astimezone(pytz.timezone(self.env.user.tz))
+
     customer_closing_date = fields.Date('Closing Date')
     closing_date_compute = fields.Integer('Temp')
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')])
@@ -40,7 +45,7 @@ class IncomePaymentCustom(models.Model):
     # set_read_only = fields.Boolean(string='', default=False, compute='_check_read_only')
     bill_status = fields.Char(string='bill_status')
 
-    current_date = fields.Datetime(string='', default=datetime.now(), store=False)
+    current_date = fields.Datetime(string='', default=get_default_payment_date, store=False)
     _defaults = {
         'current_date': lambda *a: time.strftime('%Y/%m/%d %H:%M:%S'),
     }
