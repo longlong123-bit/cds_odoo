@@ -4,7 +4,7 @@ from odoo import models, fields, api
 from datetime import datetime, date
 from ...Maintain_Accounts_Receivable_Balance_List.models import accounts_receivable_balance_list as advanced_search
 from ...Maintain_Invoice_Remake.models.invoice_customer_custom import rounding
-
+import pytz
 
 class BillingClass(models.Model):
     _inherit = 'res.partner'
@@ -12,7 +12,7 @@ class BillingClass(models.Model):
     def _compute_closing_date_for_bill(self, record):
         _last_closing_date = ''
         _last_closing_date_display = ''
-        _deadline = date.today()
+        _deadline = datetime.now().astimezone(pytz.timezone(self.env.user.tz))
         if advanced_search.val_bill_search_deadline:
             _deadline = datetime.strptime(advanced_search.val_bill_search_deadline, '%Y-%m-%d').date()
 
@@ -314,7 +314,7 @@ class BillingClass(models.Model):
                 'billing_code': rec['customer_code'],
                 'billing_name': rec['name'],
                 'bill_no': _bill_no,
-                'bill_date': date.today(),
+                'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
                 'last_closing_date': rec['last_closing_date'],
                 'closing_date': rec['deadline'],
                 'deadline': rec['deadline'],
@@ -344,7 +344,7 @@ class BillingClass(models.Model):
                     'billing_code': rec['customer_code'],
                     'billing_name': rec['name'],
                     'bill_no': _bill_no,
-                    'bill_date': date.today(),
+                    'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
                     'last_closing_date': rec['last_closing_date'],
                     'closing_date': rec['deadline'],
                     'deadline': rec['deadline'],
@@ -375,7 +375,7 @@ class BillingClass(models.Model):
                         'billing_code': rec['customer_code'],
                         'billing_name': rec['name'],
                         'bill_no': _bill_no,
-                        'bill_date': date.today(),
+                        'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
                         'last_closing_date': rec['last_closing_date'],
                         'closing_date': rec['deadline'],
                         'deadline': rec['deadline'],
@@ -404,7 +404,7 @@ class BillingClass(models.Model):
                     'billing_code': rec['customer_code'],
                     'billing_name': rec['name'],
                     'bill_no': _bill_no,
-                    'bill_date': date.today(),
+                    'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
                     'last_closing_date': rec['last_closing_date'],
                     'closing_date': rec['deadline'],
                     'deadline': rec['deadline'],

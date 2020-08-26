@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
 from datetime import datetime, date, timedelta
-import calendar
+import calendar, pytz
 
 # initialize global variable
 # 対象月
@@ -224,7 +224,7 @@ class AccountsReceivableBalanceList(models.Model):
             selected_date = datetime.strptime(year_month_selected, '%Y-%m').date()
         else:
             # set current date
-            selected_date = date.today()
+            selected_date = datetime.now().astimezone(pytz.timezone(self.env.user.tz))
 
         # get closing date of year_month_selected
         if _start >= 28:
@@ -328,7 +328,7 @@ class AccountsReceivableBalanceList(models.Model):
         global val_customer_code_bill_to
         global val_display_order
         # reset global keyword
-        val_target_month = datetime.today().strftime('%Y-%m')
+        val_target_month = datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime('%Y-%m')
         val_division = ''
         val_sales_rep = ''
         val_customer_supplier_group_code = ''

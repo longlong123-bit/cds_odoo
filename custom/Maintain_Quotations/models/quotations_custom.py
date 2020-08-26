@@ -5,7 +5,7 @@ from datetime import timedelta, time, datetime
 from addons.account.models.product import ProductTemplate
 from custom.Maintain_Invoice_Remake.models.invoice_customer_custom import rounding, get_tax_method
 from odoo.tools.float_utils import float_round, float_compare
-
+import pytz
 import logging
 
 from odoo import api, fields, models, tools, _, SUPERUSER_ID
@@ -21,6 +21,10 @@ class QuotationsCustom(models.Model):
     _inherit = "sale.order"
     _order = "quotations_date desc, document_no desc"
     _rec_name = "display_name"
+
+    def get_default_quotations_date(self):
+        _date_now = datetime.now()
+        return _date_now.astimezone(pytz.timezone(self.env.user.tz))
 
     def get_order_lines(self):
         return len(self.order_line)
@@ -67,7 +71,7 @@ class QuotationsCustom(models.Model):
         [('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')],
         string='Tax Rounding', default='round')
 
-    quotations_date = fields.Date(string='Quotations Date', default=fields.Date.today())
+    quotations_date = fields.Date(string='Quotations Date', default=get_default_quotations_date)
     order_id = fields.Many2one('sale.order', string='Order', store=False)
     partner_id = fields.Many2one('res.partner', string='Business Partner')
     related_partner_code = fields.Char('Partner Code', related='partner_id.customer_code')
@@ -144,7 +148,7 @@ class QuotationsCustom(models.Model):
             self.note = data.x_studio_summary
             self.expiration_date = data.customer_closing_date
             self.comment = ''
-            self.quotations_date = fields.Date.today() or ''
+            self.quotations_date = datetime.now().astimezone(pytz.timezone(self.env.user.tz)) or ''
             self.is_print_date = False
 
             # self.cb_partner_sales_rep_id = data.cb_partner_sales_rep_id
