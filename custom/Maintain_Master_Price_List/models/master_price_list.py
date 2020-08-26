@@ -234,20 +234,20 @@ class ClassMasterPriceList(models.Model):
     @api.onchange('product_code_select')
     def _onchange_product_code_select(self):
         self.product_code_id = False
-        if self.product_code_select == 'product_1':
-            self.product_code = self.jan_code_id.product_code_1
-        elif self.product_code_select == 'product_2':
-            self.product_code = self.jan_code_id.product_code_2
-        elif self.product_code_select == 'product_3':
-            self.product_code = self.jan_code_id.product_code_3
-        elif self.product_code_select == 'product_4':
-            self.product_code = self.jan_code_id.product_code_4
-        elif self.product_code_select == 'product_5':
-            self.product_code = self.jan_code_id.product_code_5
-        elif self.product_code_select == 'product_6':
-            self.product_code = self.jan_code_id.product_code_6
-        else:
-            self.product_code = ''
+        # if self.product_code_select == 'product_1':
+        #     self.product_code = self.jan_code_id.product_code_1
+        # elif self.product_code_select == 'product_2':
+        #     self.product_code = self.jan_code_id.product_code_2
+        # elif self.product_code_select == 'product_3':
+        #     self.product_code = self.jan_code_id.product_code_3
+        # elif self.product_code_select == 'product_4':
+        #     self.product_code = self.jan_code_id.product_code_4
+        # elif self.product_code_select == 'product_5':
+        #     self.product_code = self.jan_code_id.product_code_5
+        # elif self.product_code_select == 'product_6':
+        #     self.product_code = self.jan_code_id.product_code_6
+        # else:
+        self.product_code = ''
         # self.product_code_id = self.jan_code_id.ids
 
     # Listen event onchange product_code （商品コード）
@@ -323,6 +323,7 @@ class ClassMasterPriceList(models.Model):
         if self.customer_code_bill_id:
             self.customer_name_bill = self.customer_code_bill_id.name
             self.customer_code_bill = self.customer_code_bill_id.customer_code_bill
+            self.customer_code_id = False
 
             # set domain for customer code
             customer_code_child = self.env['res.partner'].search([('customer_code_bill', '=', self.customer_code_bill)])
