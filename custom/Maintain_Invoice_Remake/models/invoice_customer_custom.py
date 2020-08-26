@@ -2205,7 +2205,7 @@ class ClassGetProductCode(models.Model):
     _inherit = 'product.product'
 
     def name_get(self):
-        super(ClassGetProductCode, self).name_get()
+        # super(ClassGetProductCode, self).name_get()
         result = []
         code_show = ''
         global checkshow_jan_code
