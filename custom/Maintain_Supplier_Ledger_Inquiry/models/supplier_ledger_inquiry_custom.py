@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, tools
 from datetime import datetime, date, timedelta
-import calendar
+import calendar, pytz
 
 # initialize global variable
 # 対象月
@@ -277,7 +277,7 @@ class SupplierLedgerInquiryCustom(models.Model):
             selected_date = datetime.strptime(year_month_selected, '%Y-%m').date()
         else:
             # set current date
-            selected_date = date.today()
+            selected_date = datetime.now().astimezone(pytz.timezone(self.env.user.tz))
             val_target_month = selected_date.strftime("%Y-%m")
 
         # get closing date of year_month_selected
