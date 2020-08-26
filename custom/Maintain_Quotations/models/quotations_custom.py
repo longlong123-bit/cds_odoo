@@ -838,7 +838,7 @@ class QuotationsLinesCustom(models.Model):
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code)]).sorted('id')
         if len(customer_code_ids):
-            if len(customer_code_ids):
+            if len(customer_code_ids) > 1:
                 price = self.set_customer_code_bill(product_code, jan_code, product_class_code_lv4,
                                                     product_class_code_lv3, product_class_code_lv2,
                                                     product_class_code_lv1, maker, customer_code, customer_code_bill,
@@ -863,7 +863,7 @@ class QuotationsLinesCustom(models.Model):
                                                           ('jan_code', '=', jan_code),
                                                           ('product_code', '=', product_code)]).sorted('id')
         if len(maker_ids):
-            if len(maker_ids):
+            if len(maker_ids) > 1:
                 price = self.set_customer_code(product_code, jan_code, product_class_code_lv4,
                                                product_class_code_lv3, product_class_code_lv2,
                                                product_class_code_lv1, maker, customer_code, customer_code_bill,
