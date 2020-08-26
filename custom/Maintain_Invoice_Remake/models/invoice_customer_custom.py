@@ -2210,7 +2210,6 @@ class ClassGetProductCode(models.Model):
         global checkshow_jan_code
         global checkshow_code
         global checkshow_product_price
-        print('afdafdasfdasfd', checkshow_jan_code)
         for record in self:
             if 'show_jan_code' in self.env.context:
                 checkshow_jan_code = True
