@@ -2,13 +2,15 @@
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
+check_partner_group_code = False
+
 
 class ClassPartnerGroup(models.Model):
     _name = 'business.partner.group.custom'
 
     partner_group_code = fields.Char('Partner Group Code', required=True)
     name = fields.Char('name', required=True)
-    description =fields.Char('description')
+    description = fields.Char('description')
     active = fields.Boolean('isactive', default=True)
 
     _sql_constraints = [
@@ -32,11 +34,18 @@ class ClassPartnerGroup(models.Model):
     def name_get(self):
         super(ClassPartnerGroup, self).name_get()
         result = []
+        global check_partner_group_code
         for record in self:
             name = record.name
             if 'showcode' in self.env.context:
+                check_partner_group_code = True
                 code_show = str(record.partner_group_code)
             else:
-                code_show = str(record.partner_group_code) + " - " + name
+                if check_partner_group_code:
+                    check_partner_group_code = False
+                    code_show = str(record.partner_group_code)
+                else:
+                    check_partner_group_code = False
+                    code_show = str(record.partner_group_code) + " - " + name
             result.append((record.id, code_show))
         return result
