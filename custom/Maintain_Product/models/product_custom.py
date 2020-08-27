@@ -907,7 +907,6 @@ class ClassFreightCategory(models.Model):
     _inherit = 'freight.category.custom'
 
     def name_get(self):
-        print('===========> ', self.env.context)
         super(ClassFreightCategory, self).name_get()
         data = []
         for row in self:

@@ -9,8 +9,7 @@
     'category': 'Test',
     'version': '0.1',
     'depends': [
-        'base',
-        'base_setup',
+        'base_setup', 'Maintain_Invoice_Remake',
     ],
 
     # always loaded
