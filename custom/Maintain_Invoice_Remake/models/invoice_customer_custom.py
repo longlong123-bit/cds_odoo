@@ -2208,12 +2208,10 @@ class ClassGetProductCode(models.Model):
         # super(ClassGetProductCode, self).name_get()
         result = []
         code_show = ''
-        global checkshow_jan_code
         global checkshow_code
-        global checkshow_product_price
         for record in self:
             if 'show_jan_code' in self.env.context:
-                checkshow_jan_code = True
+                checkshow_code = 7
                 code_show = str(record.barcode)
             elif 'show_code' in self.env.context:
                 if self.env.context.get('show_code') == 'product_1':
@@ -2236,35 +2234,40 @@ class ClassGetProductCode(models.Model):
                     result.append((record.id, str(record.product_code_6)))
             elif 'show_product_price' in self.env.context:
                 if self.env.context.get('show_product_price') == 'standard_price':
-                    checkshow_product_price = 1
+                    checkshow_code = 8
                     result.append((record.id, str(record.standard_price)))
                 if self.env.context.get('show_product_price') == 'price_1':
-                    checkshow_product_price = 2
+                    checkshow_code = 9
                     result.append((record.id, str(record.price_1)))
             elif self.env.context.get('show_product_code', True):
-                if checkshow_jan_code:
-                    checkshow_jan_code = False
-                    code_show = str(record.barcode)
-                elif checkshow_code:
+                if 'master_price_list' in self.env.context:
                     if checkshow_code == 1:
+                        checkshow_code = 0
                         code_show = str(record.product_code_1)
                     elif checkshow_code == 2:
+                        checkshow_code = 0
                         code_show = str(record.product_code_2)
                     elif checkshow_code == 3:
+                        checkshow_code = 0
                         code_show = str(record.product_code_3)
                     elif checkshow_code == 4:
+                        checkshow_code = 0
                         code_show = str(record.product_code_4)
                     elif checkshow_code == 5:
+                        checkshow_code = 0
                         code_show = str(record.product_code_5)
                     elif checkshow_code == 6:
+                        checkshow_code = 0
                         code_show = str(record.product_code_6)
-                    checkshow_code = 0
-                elif checkshow_product_price:
-                    if checkshow_product_price == 1:
+                    elif checkshow_code == 7:
+                        checkshow_code = 0
+                        code_show = str(record.jan_code)
+                    elif checkshow_code == 8:
+                        checkshow_code = 0
                         code_show = str(record.standard_price)
-                    elif checkshow_product_price == 2:
+                    elif checkshow_code == 9:
+                        checkshow_code = 0
                         code_show = str(record.price_1)
-                    checkshow_product_price = 0
                 else:
                     code_show = str(record.product_code_1)
             if code_show:
