@@ -31,7 +31,8 @@
                     <field name="customer_name_bill"/>
                     <field name="customer_code"/>
                     <field name="customer_name"/>
-                    <field name="recruitment_price" context="{'show_product_price': 'ok'}" options="{'always_reload': True,}"/>
+                    <field name="recruitment_price_select"/>
+<!--                    <field name="recruitment_price" context="{'show_product_price': 'ok'}" options="{'always_reload': True,}"/>-->
                     <field name="rate"/>
                     <field name="price_applied"/>
                     <field name="date_applied"/>
@@ -152,26 +153,14 @@
                             <!-- Right Column -->
                             <group>
                                 <!-- Recruitment Price （採用価格） -->
-                                <label style="text-align: right;" for="recruitment_price_select" string="Recruitment Price"/>
-                                <table style="margin-right: 0px; margin-left: 0px; display: block;">
-                                    <div style="width: 50%; vertical-align: top; display: inline-block;">
-                                        <div style="height: -webkit-fill-available;">
-                                            <field name="recruitment_price_select" style="height: 25px;"/>
-                                        </div>
-                                    </div>
-                                    <div style="width: 50%; vertical-align: top; float: right;">
-                                        <field name="recruitment_price_id" domain="[('barcode', '=', jan_code)]" context="{'show_product_price': recruitment_price_select}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
-                                        <field name="recruitment_price"  invisible="1"/>
-                                    </div>
-                                </table>
-<!--                                <field name="recruitment_price_id" context="{'show_product_price': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>-->
-<!--                                <field name="recruitment_price"  invisible="1"/>-->
+                                <field name="recruitment_price_select" style="height: 25px;"
+                                    attrs="{'readonly': [('price_applied', '!=', 0)]}"/>
 
                                 <!-- Rate （掛率） -->
-                                <field name="rate"/>
+                                <field name="rate" attrs="{'readonly': [('recruitment_price_select', '=', False)]}"/>
 
                                 <!-- Price Applied （適用売価） -->
-                                <field name="price_applied"/>
+                                <field name="price_applied" attrs="{'readonly': [('recruitment_price_select', '!=', False)]}"/>
 
                                 <!-- Date Applied （適用年月日） -->
                                 <field name="date_applied"/>

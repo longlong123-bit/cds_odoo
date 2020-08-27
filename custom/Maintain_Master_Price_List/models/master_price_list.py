@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 class ClassMasterPriceList(models.Model):
     _name = 'master.price.list'
@@ -99,11 +100,9 @@ class ClassMasterPriceList(models.Model):
     customer_name = fields.Char(string="Customer Name", store=True)
 
     # 採用価格
-    recruitment_price_id = fields.Many2one('product.product', sting="Recruitment Price")
     recruitment_price_select = fields.Selection(
         [('standard_price', 'Standard Price'), ('price_1', 'Price')],
-        string='Recruitment Price Select')
-    recruitment_price = fields.Float(sting="Recruitment Price")
+        string='Recruitment Price')
 
     # 掛率
     rate = fields.Float(string="Rate")
@@ -210,7 +209,6 @@ class ClassMasterPriceList(models.Model):
     @api.onchange('jan_code_id')
     def _onchange_jan_code(self):
         self.product_code_id = False
-        self.recruitment_price_id = False
 
         if self.jan_code_id:
             self.jan_code = self.jan_code_id.barcode
@@ -221,14 +219,13 @@ class ClassMasterPriceList(models.Model):
 
             product_code_child = self.env['product.product'].search([('barcode', '=', self.jan_code)])
             product_code_id = product_code_child.ids
-            domain = {'product_code_id': [('id', '=', product_code_id)],
-                      'recruitment_price_id': [('id', '=', product_code_id)]}
+            domain = {'product_code_id': [('id', '=', product_code_id)],}
         else:
             self.jan_code = self.product_name = ''
             self.product_code_select = False
             self.recruitment_price_select = False
             self.product_code = ''
-            domain = {'product_code_id': [], 'recruitment_price_id': []}
+            domain = {'product_code_id': []}
         return {'domain': domain}
 
     @api.onchange('product_code_select')
@@ -255,31 +252,10 @@ class ClassMasterPriceList(models.Model):
             else:
                 self.product_code = ''
             self.product_name = self.product_code_id.name
-            if not self.jan_code_id:
-                product_code_child = self.env['product.product'].search([('id', '=', self.product_code_id.id)])
-                product_code_id = product_code_child.ids
-                domain = {'recruitment_price_id': [('id', '=', product_code_id)]}
-                return {'domain': domain}
         else:
             self.product_code = ''
             if not self.jan_code_id:
                 self.product_name = ''
-
-    @api.onchange('recruitment_price_select')
-    def _onchange_recruitment_price_select(self):
-        self.recruitment_price_id = False
-        self.recruitment_price = 0
-
-    # Listen event onchange recruitment_price（採用価格）
-    @api.onchange('recruitment_price_id')
-    def _onchange_recruitment_price(self):
-        if self.recruitment_price_id:
-            if self.recruitment_price_select == 'standard_price':
-                self.recruitment_price = self.recruitment_price_id.standard_price
-            elif self.recruitment_price_select == 'price_1':
-                self.recruitment_price = self.recruitment_price_id.price_1
-        else:
-            self.recruitment_price = ''
 
     # Listen event onchange country_state_code（地区コード）
     @api.onchange('country_state_code_id')

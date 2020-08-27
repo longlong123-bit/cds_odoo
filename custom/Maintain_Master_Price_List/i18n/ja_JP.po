@@ -203,16 +203,9 @@ msgid "Rate"
 msgstr "掛率"
 
 #. module: Maintain_Master_Price_List
-#: model:ir.model.fields,field_description:Maintain_Master_Price_List.field_master_price_list__recruitment_price
-#: model:ir.model.fields,field_description:Maintain_Master_Price_List.field_master_price_list__recruitment_price_id
-#: model_terms:ir.ui.view,arch_db:Maintain_Master_Price_List.master_price_list_form
+#: model:ir.model.fields,field_description:Maintain_Master_Price_List.field_master_price_list__recruitment_price_select
 msgid "Recruitment Price"
 msgstr "採用価格"
-
-#. module: Maintain_Master_Price_List
-#: model:ir.model.fields,field_description:Maintain_Master_Price_List.field_master_price_list__recruitment_price_select
-msgid "Recruitment Price Select"
-msgstr ""
 
 #. module: Maintain_Master_Price_List
 #: model:ir.model.fields,field_description:Maintain_Master_Price_List.field_master_price_list__product_class_code_lv4
@@ -280,8 +273,3 @@ msgstr "商品コード 5"
 #: model:ir.model.fields.selection,name:Maintain_Master_Price_List.selection__master_price_list__product_code_select__product_6
 msgid "product code 6"
 msgstr "商品コード 6"
-
-#. module: Maintain_Country_State
-#: model:ir.ui.menu,name:Maintain_Country_State.menu_price_list
-msgid "Price List"
-msgstr "価格設定"
