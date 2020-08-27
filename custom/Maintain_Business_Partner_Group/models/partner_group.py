@@ -37,8 +37,7 @@ class ClassPartnerGroup(models.Model):
         global check_partner_group_code
         for record in self:
             name = record.name
-            if 'showcode' in self.env.context:
-                check_partner_group_code = True
+            if 'showcode' in self.env.context or 'master_price_list' in self.env.context:
                 code_show = str(record.partner_group_code)
             else:
                 if check_partner_group_code:

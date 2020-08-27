@@ -19,8 +19,7 @@ class ClassCountryState(models.Model):
         global check_country_code_price
         for record in self:
             name = record.name
-            if 'show_code' in self.env.context:
-                check_country_code_price = True
+            if 'show_code' in self.env.context or 'master_price_list' in self.env.context:
                 code_show = str(record.code)
             else:
                 if check_country_code_price:

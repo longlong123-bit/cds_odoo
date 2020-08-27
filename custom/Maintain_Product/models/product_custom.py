@@ -907,9 +907,10 @@ class ClassFreightCategory(models.Model):
     _inherit = 'freight.category.custom'
 
     def name_get(self):
+        print('===========> ', self.env.context)
         super(ClassFreightCategory, self).name_get()
         data = []
         for row in self:
-            display_value = row.search_key_freight if 'showcode' in self.env.context else row.name
+            display_value = row.search_key_freight if 'showcode' in self.env.context or 'master_price_list' in self.env.context else row.name
             data.append((row.id, display_value))
         return data

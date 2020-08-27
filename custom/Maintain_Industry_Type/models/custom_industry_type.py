@@ -34,8 +34,7 @@ class ClassIndustry(models.Model):
         global check_industry_code
         for record in self:
             name = record.name
-            if 'showcode' in self.env.context:
-                check_industry_code = True
+            if 'showcode' in self.env.context or 'master_price_list' in self.env.context:
                 code_show = str(record.industry_code)
             else:
                 if check_industry_code:
