@@ -1366,6 +1366,18 @@ class AccountMoveLine(models.Model):
 
     copy_history_flag = fields.Boolean(default=False, store=False)
 
+    def price_of_recruitment_select(self, rate=0, recruitment_price_select=None, price_applied=0):
+        if recruitment_price_select:
+            product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
+            if recruitment_price_select == 'price_1':
+                price = product_price_ids.price_1 * rate/100
+            elif recruitment_price_select == 'standard_price':
+                price = product_price_ids.standard_price * rate/100
+        else:
+            price = price_applied
+        return price
+
+
     def set_country_state_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
                                product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                                maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
@@ -1386,9 +1398,13 @@ class AccountMoveLine(models.Model):
         if len(country_state_code_ids):
             if len(country_state_code_ids) > 1:
                 for i in country_state_code_ids:
-                    price = i.price_applied
+                    price = self.price_of_recruitment_select(country_state_code_ids.rate,
+                                                             country_state_code_ids.recruitment_price_select,
+                                                             country_state_code_ids.price_applied)
             else:
-                price = country_state_code_ids.price_applied
+                price = self.price_of_recruitment_select(country_state_code_ids.rate,
+                                                         country_state_code_ids.recruitment_price_select,
+                                                         country_state_code_ids.price_applied)
         else:
             price = 0
         return price
@@ -1409,14 +1425,16 @@ class AccountMoveLine(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code)]).sorted('id')
-        if len(country_state_code_ids):
-            if len(country_state_code_ids) > 1:
+        if len(industry_code_ids):
+            if len(industry_code_ids) > 1:
                 price = self.set_country_state_code(product_code, jan_code, product_class_code_lv4,
                                                     product_class_code_lv3, product_class_code_lv2,
                                                     product_class_code_lv1, maker, customer_code, customer_code_bill,
                                                     supplier_group_code, industry_code, country_state_code)
             else:
-                price = country_state_code_ids.price_applied
+                price = self.price_of_recruitment_select(industry_code_ids.rate,
+                                                         industry_code_ids.recruitment_price_select,
+                                                         industry_code_ids.price_applied)
         else:
             price = self.set_country_state_code(product_code, jan_code, product_class_code_lv4, product_class_code_lv3,
                                                 product_class_code_lv2, product_class_code_lv1, maker, None, None, None,
@@ -1445,7 +1463,9 @@ class AccountMoveLine(models.Model):
                                                customer_code_bill, supplier_group_code, industry_code,
                                                country_state_code)
             else:
-                price = supplier_group_code_ids.price_applied
+                price = self.price_of_recruitment_select(supplier_group_code_ids.rate,
+                                                         supplier_group_code_ids.recruitment_price_select,
+                                                         supplier_group_code_ids.price_applied)
         else:
             price = self.set_industry_code(product_code, jan_code, product_class_code_lv4, product_class_code_lv3,
                                            product_class_code_lv2, product_class_code_lv1, maker, None, None, None,
@@ -1473,7 +1493,9 @@ class AccountMoveLine(models.Model):
                                                      product_class_code_lv1, maker, customer_code, customer_code_bill,
                                                      supplier_group_code, industry_code, country_state_code)
             else:
-                price = customer_code_bill_ids.price_applied
+                price = self.price_of_recruitment_select(customer_code_bill_ids.rate,
+                                                         customer_code_bill_ids.recruitment_price_select,
+                                                         customer_code_bill_ids.price_applied)
         else:
             price = self.set_supplier_group_code(product_code, jan_code, product_class_code_lv4,
                                                  product_class_code_lv3, product_class_code_lv2,
@@ -1501,7 +1523,9 @@ class AccountMoveLine(models.Model):
                                                     product_class_code_lv1, maker, customer_code, customer_code_bill,
                                                     supplier_group_code, industry_code, country_state_code)
             else:
-                price = customer_code_ids.price_applied
+                price = self.price_of_recruitment_select(customer_code_ids.rate,
+                                                         customer_code_ids.recruitment_price_select,
+                                                         customer_code_ids.price_applied)
         else:
             price = self.set_customer_code_bill(product_code, jan_code, product_class_code_lv4,
                                                 product_class_code_lv3, product_class_code_lv2,
@@ -1520,13 +1544,15 @@ class AccountMoveLine(models.Model):
                                                           ('jan_code', '=', jan_code),
                                                           ('product_code', '=', product_code)]).sorted('id')
         if len(maker_ids):
-            if len(maker_ids):
+            if len(maker_ids) > 1:
                 price = self.set_customer_code(product_code, jan_code, product_class_code_lv4,
                                                product_class_code_lv3, product_class_code_lv2,
                                                product_class_code_lv1, maker, customer_code, customer_code_bill,
                                                supplier_group_code, industry_code, country_state_code)
             else:
-                price = maker_ids.price_applied
+                price = self.price_of_recruitment_select(maker_ids.rate,
+                                                         maker_ids.recruitment_price_select,
+                                                         maker_ids.price_applied)
         else:
             product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
             price = product_price_ids.price_1
@@ -1551,7 +1577,9 @@ class AccountMoveLine(models.Model):
                                        customer_code_bill,
                                        supplier_group_code, industry_code, country_state_code)
             else:
-                price = product_class_code_lv1_ids.price_applied
+                price = self.price_of_recruitment_select(product_class_code_lv1_ids.rate,
+                                                         product_class_code_lv1_ids.recruitment_price_select,
+                                                         product_class_code_lv1_ids.price_applied)
         else:
             price = self.set_maker(None, None, None, None, None, None, maker, customer_code, customer_code_bill,
                                    supplier_group_code, industry_code, country_state_code)
@@ -1575,7 +1603,9 @@ class AccountMoveLine(models.Model):
                                                         customer_code_bill,
                                                         supplier_group_code, industry_code, country_state_code)
             else:
-                price = product_class_code_lv2_ids.price_applied
+                price = self.price_of_recruitment_select(product_class_code_lv2_ids.rate,
+                                                         product_class_code_lv2_ids.recruitment_price_select,
+                                                         product_class_code_lv2_ids.price_applied)
         else:
             price = self.set_product_class_code_lv1(None, None, None, None, None,
                                                     product_class_code_lv1, maker, customer_code, customer_code_bill,
@@ -1599,7 +1629,9 @@ class AccountMoveLine(models.Model):
                                                         customer_code_bill,
                                                         supplier_group_code, industry_code, country_state_code)
             else:
-                price = product_class_code_lv3_ids.price_applied
+                price = self.price_of_recruitment_select(product_class_code_lv3_ids.rate,
+                                                         product_class_code_lv3_ids.recruitment_price_select,
+                                                         product_class_code_lv3_ids.price_applied)
         else:
             price = self.set_product_class_code_lv2(None, None, None,
                                                     None, product_class_code_lv2,
@@ -1623,7 +1655,9 @@ class AccountMoveLine(models.Model):
                                                         customer_code_bill,
                                                         supplier_group_code, industry_code, country_state_code)
             else:
-                price = product_class_code_lv4_ids.price_applied
+                price = self.price_of_recruitment_select(product_class_code_lv4_ids.rate,
+                                                         product_class_code_lv4_ids.recruitment_price_select,
+                                                         product_class_code_lv4_ids.price_applied)
         else:
             price = self.set_product_class_code_lv3(None, None, None,
                                                     product_class_code_lv3, product_class_code_lv2,
@@ -1646,7 +1680,9 @@ class AccountMoveLine(models.Model):
                                                         customer_code_bill,
                                                         supplier_group_code, industry_code, country_state_code)
             else:
-                price = jan_ids.price_applied
+                price = self.price_of_recruitment_select(jan_ids.rate,
+                                                         jan_ids.recruitment_price_select,
+                                                         jan_ids.price_applied)
         else:
             price = self.set_product_class_code_lv4(None, None, product_class_code_lv4,
                                                     product_class_code_lv3, product_class_code_lv2,
@@ -1666,7 +1702,9 @@ class AccountMoveLine(models.Model):
                                                    product_class_code_lv1, maker, customer_code, customer_code_bill,
                                                    supplier_group_code, industry_code, country_state_code)
             else:
-                price = product_code_ids.price_applied
+                price = self.price_of_recruitment_select(product_code_ids.rate,
+                                                         product_code_ids.recruitment_price_select,
+                                                         product_code_ids.price_applied)
         else:
             price = self.set_price_by_jan_code(None, jan_code, product_class_code_lv4, product_class_code_lv3,
                                                product_class_code_lv2, product_class_code_lv1, maker, customer_code,
