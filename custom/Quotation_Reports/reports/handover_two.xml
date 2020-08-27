@@ -815,7 +815,11 @@
                                                         <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span>
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                      t-field="order.product_name">
+                                                                    <null/>
+                                                                </span>
+                                                                <span t-if="order.product_maker_name"
                                                                       style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
                                                                       t-field="order.product_maker_name">
                                                                     <null/>
