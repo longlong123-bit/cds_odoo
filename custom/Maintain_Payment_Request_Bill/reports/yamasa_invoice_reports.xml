@@ -359,7 +359,7 @@
                                                         <div t-if="line_detail.account_move_line_id"
                                                              style="display: inline-block; width: 359px;">
                                                             <span t-field="line_detail.product_name"
-                                                                  style="max-height: 26px;text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 230px; overflow: hidden; margin: 0;">
+                                                                  style="max-height: 26px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 230px; overflow: hidden; margin: 0;">
                                                             </span>
                                                             <span t-esc="line_detail.gross_maker_and_standard()"
                                                                   style="max-width: 118px;text-overflow: ellipsis; white-space: nowrap; display: inline-block; overflow: hidden; margin: 0; vertical-align: top;">
