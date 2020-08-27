@@ -2299,7 +2299,7 @@ class ClassGetProductCode(models.Model):
                         code_show = str(record.product_code_6)
                     elif checkshow_code == 7:
                         checkshow_code = 0
-                        code_show = str(record.jan_code)
+                        code_show = str(record.barcode)
                     elif checkshow_code == 8:
                         checkshow_code = 0
                         code_show = str(record.standard_price)
