@@ -183,10 +183,10 @@
                                                         <t t-set="subtotal_tax_amount1_o"
                                                            t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                     </t>
-                                                    <tr style="font-size: 10px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
-                                                            <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                            <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px; height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
@@ -411,10 +411,10 @@
                                                         <t t-set="subtotal_tax_amount1_o"
                                                            t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>
                                                     </t>
-                                                    <tr style="font-size: 10px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
-                                                            <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                            <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px; height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
@@ -635,10 +635,10 @@
                                                     <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                     <t t-set="subtotal_amount1"
                                                        t-value="subtotal_amount1 + order.line_amount"/>
-                                                    <tr style="font-size: 10px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000; border-top: 0; padding: 0; line-height: 1.2; height: 27px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
-                                                            <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                            <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px; height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
@@ -812,10 +812,10 @@
                                                         <t t-set="subtotal_tax_amount1_o"
                                                            t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                     </t>
-                                                    <tr style="font-size: 10px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
-                                                            <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                            <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px; height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
@@ -1161,10 +1161,10 @@
                                                         <t t-set="subtotal_tax_amount_o"
                                                            t-value="subtotal_tax_amount_o + order.line_tax_amount"/>
                                                     </t>
-                                                    <tr style="font-size: 10px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000; border-top: 0;  padding: 0; line-height: 1.2; height: 27px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
-                                                            <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                            <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px; height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
@@ -1444,10 +1444,10 @@
                                                         <t t-set="subtotal_tax_amount_o"
                                                            t-value="subtotal_tax_amount_o + order.voucher_line_tax_amount"/>
                                                     </t>
-                                                    <tr style="font-size: 10px; height: 30px">
+                                                    <tr style="font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000; border-top: 0;  padding: 0; line-height: 1.2; height: 27px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
-                                                            <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                            <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px; height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
@@ -1694,10 +1694,10 @@
                                                     <t t-set="subtotal_amount"
                                                        t-value="subtotal_amount + order.line_amount"/>
 
-                                                    <tr style="font-size: 10px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000; border-top: 0;  padding: 0;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
-                                                            <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                            <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px; height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
@@ -1876,10 +1876,10 @@
                                                         <t t-set="subtotal_amount_o"
                                                            t-value="subtotal_amount_o + order.line_amount"/>
                                                     </t>
-                                                    <tr style="font-size: 10px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000; border-top: 0;  padding: 0; line-height: 1.2; height: 27px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
-                                                            <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                            <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                   t-field="order.product_name">
                                                                 <null/>
                                                             </span>
