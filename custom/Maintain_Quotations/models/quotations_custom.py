@@ -37,13 +37,11 @@ class QuotationsCustom(models.Model):
             user_uid = cr.fetchall()
             user_ids.append(user_uid[0][0])
 
-        res_users_ids = self.env['res.users'].search([('active', '=', True), ('id', 'in', user_ids)])
-
         # Get users in group system
         res_users_group_system_ids = self.env['res.users'].search([('active', '=', True)]).filtered(
             lambda l: l.has_group('base.group_system'))
 
-        domain = [('id', 'not in', res_users_ids.ids),
+        domain = [('id', 'not in', user_ids),
                   ('id', 'not in', res_users_group_system_ids.ids)]
         return domain
 
