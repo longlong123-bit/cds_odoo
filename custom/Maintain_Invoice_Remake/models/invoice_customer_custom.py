@@ -365,6 +365,26 @@ class ClassInvoiceCustom(models.Model):
         next = sequence.get_next_char(sequence.number_next_actual)
         return next
 
+    def _get_domain_x_userinput_id(self):
+        cr = self.env.cr
+        user_ids = []
+        cr.execute(
+            "SELECT id FROM res_groups WHERE (name='User: Only Customer Master And Product Master in New Master Menu' OR name='ユーザー：マスタ管理に得意先マスタと商品マスタがあるだけ') AND category_id=55")
+        groups = cr.fetchall()
+        for group_id in groups:
+            cr.execute("SELECT uid FROM res_groups_users_rel WHERE gid = " + str(group_id[0]))
+            user_uid = cr.fetchall()
+            user_ids.append(user_uid[0][0])
+
+        # Get users in group system
+        res_users_group_system_ids = self.env['res.users'].search([('active', '=', True)]).filtered(
+            lambda l: l.has_group('base.group_system'))
+
+        domain = [('id', 'not in', user_ids),
+                  ('id', 'not in', res_users_group_system_ids.ids)]
+        return domain
+
+
     x_studio_client_2 = fields.Many2one('client.custom', string='Client', default=_get_default_client_id)
     x_studio_organization = fields.Many2one('res.company', default=_get_default_organization_id)
     x_studio_business_partner = fields.Many2one('res.partner', 'Customer')
@@ -430,7 +450,8 @@ class ClassInvoiceCustom(models.Model):
     x_voucher_deadline = fields.Selection([('今回', '今回'), ('次回', '次回')], default='今回')
     x_bussiness_partner_name_2 = fields.Char('名称2')
     x_studio_summary = fields.Text('摘要')
-    x_userinput_id = fields.Many2one('res.users', 'Current User', default=lambda self: self.env.uid)
+    x_userinput_id = fields.Many2one('res.users', 'Current User', default=lambda self: self.env.uid,
+                                     domain=_get_domain_x_userinput_id)
     related_userinput_name = fields.Char('Sales rep name', related='x_userinput_id.name')
     x_history_voucher = fields.Many2one('account.move', string='Journal Entry',
                                         index=True, auto_join=True,
