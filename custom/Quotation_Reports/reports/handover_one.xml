@@ -996,8 +996,15 @@
                                         </t>
                                     </tbody>
                                 </table>
-                                <div style="font-size: 14px; line-height: 1.2; height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;margin-top: 10px; width: 90%;">
-                                    <span>事務機・事務用品・オフィス家具・教育機器</span>
+                                <div style="font-size: 14px; line-height: 1.2; height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;margin-top: 10px; width: 100%;">
+<!--                                    <span>事務機・事務用品・オフィス家具・教育機器</span>-->
+                                    <div style="width: 54%; display: inline-block; float: left;">
+                                        <span>事務機・事務用品・オフィス家具・教育機器</span>
+                                        <br/>
+                                    </div>
+                                    <div style="width: 45%; float: right; overflow: hidden; max-height: 46px;">
+                                        <span t-esc="o.comment_apply"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
