@@ -26,6 +26,25 @@ class QuotationsCustom(models.Model):
         _date_now = datetime.now()
         return _date_now.astimezone(pytz.timezone(self.env.user.tz))
 
+    def _get_domain_sales_rep(self):
+        cr = self.env.cr
+        user_ids = []
+        cr.execute(
+            "SELECT id FROM res_groups WHERE (name='User: Only Customer Master And Product Master in New Master Menu' OR name='ユーザー：マスタ管理に得意先マスタと商品マスタがあるだけ') AND category_id=55")
+        groups = cr.fetchall()
+        for group_id in groups:
+            cr.execute("SELECT uid FROM res_groups_users_rel WHERE gid = " + str(group_id[0]))
+            user_uid = cr.fetchall()
+            user_ids.append(user_uid[0][0])
+
+        # Get users in group system
+        res_users_group_system_ids = self.env['res.users'].search([('active', '=', True)]).filtered(
+            lambda l: l.has_group('base.group_system'))
+
+        domain = [('id', 'not in', user_ids),
+                  ('id', 'not in', res_users_group_system_ids.ids)]
+        return domain
+
     def get_order_lines(self):
         return len(self.order_line)
 
@@ -80,6 +99,7 @@ class QuotationsCustom(models.Model):
     # minhnt add
     quotation_calendar = fields.Selection([('japan', '和暦'), ('origin', '西暦')], string='Calendar', default='origin')
     sales_rep = fields.Many2one('res.users', string='Sales Rep', readonly=True, default=lambda self: self.env.uid,
+                                domain=_get_domain_sales_rep,
                                 states={'draft': [('readonly', False)]}, )
     related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
     cb_partner_sales_rep_id = fields.Many2one('hr.employee', string='cbpartner_salesrep_id')
