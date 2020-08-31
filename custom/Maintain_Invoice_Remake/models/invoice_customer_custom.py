@@ -1229,7 +1229,7 @@ class AccountTaxLine(models.Model):
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-    _order = "invoice_custom_line_no asc"
+    _order = "product_barcode, product_maker_name asc"
 
     # @api.onchange('x_history_detail')
     # def _onchange_x_test(self):
