@@ -18,7 +18,7 @@
                     <t t-set="line" t-value="8"/>
                     <t t-if="ll.quotation_custom_line_no>line_id">
                         <div style="page-break-before: always;">
-                            <div style=" display: block; height: 600px; padding-bottom: 10px; border-bottom: 1px dashed">
+                            <div style=" display: block; height: 50%; padding-bottom: 15px; border-bottom: 1px dashed">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style="max-width: 33.3333333%; text-align: center; display: inline-block;">
@@ -118,7 +118,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px">
+                                <div style="margin-top: 0px">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -175,9 +175,9 @@
                                                             <t t-set="subtotal_tax_amount1_o"
                                                                t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -234,7 +234,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -402,10 +402,10 @@
                                                             <t t-set="subtotal_tax_amount1_o"
                                                                t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -462,7 +462,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -626,10 +626,10 @@
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000; border-top: 0; padding: 0; line-height: 1.2; height: 27px;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -686,7 +686,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -802,10 +802,10 @@
                                                             <t t-set="subtotal_tax_amount1_o"
                                                                t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -862,7 +862,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -974,7 +974,7 @@
                                 </div>
                             </div>
                             <t t-set="line" t-value="8"/>
-                            <div style="padding-top: 42px">
+                            <div style="padding-top: 15px; height: 49%;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
@@ -1074,7 +1074,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px">
+                                <div style="margin-top: 0px">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -1128,10 +1128,10 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -1188,7 +1188,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -1350,10 +1350,10 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -1410,7 +1410,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -1556,10 +1556,10 @@
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000; border-top: 0; padding: 0; line-height: 1.2; height: 27px;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -1616,7 +1616,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -1724,10 +1724,10 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -1784,7 +1784,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -1894,7 +1894,7 @@
                         </div>
                         <t t-set="line" t-value="8"/>
                         <div style="page-break-before: always;">
-                            <div style="display: block; height: 600px; padding-bottom: 10px; border-bottom: 1px dashed">
+                            <div style="display: block; height: 50%; padding-bottom: 15px; border-bottom: 1px dashed">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
@@ -1994,7 +1994,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px">
+                                <div style="margin-top: 0px">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -2048,10 +2048,10 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -2108,7 +2108,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -2270,10 +2270,10 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -2330,7 +2330,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -2476,10 +2476,10 @@
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000; border-top: 0; padding: 0; line-height: 1.2; height: 27px;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -2536,7 +2536,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -2643,10 +2643,10 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -2703,7 +2703,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -2814,7 +2814,7 @@
                                 </div>
                             </div>
                             <t t-set="line" t-value="8"/>
-                            <div style="padding-top: 42px">
+                            <div style="padding-top: 15px; height: 49%;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
@@ -2914,7 +2914,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px">
+                                <div style="margin-top: 0px">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -2968,10 +2968,10 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -3028,7 +3028,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -3188,10 +3188,10 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -3248,7 +3248,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -3392,10 +3392,10 @@
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000; border-top: 0; padding: 0; line-height: 1.2; height: 27px;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -3452,7 +3452,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -3558,10 +3558,10 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -3618,7 +3618,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -3823,7 +3823,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px">
+                                <div style="margin-top: 0px">
                                     <table border="0" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0;border-left: 0;">
                                         <thead>
@@ -3881,10 +3881,10 @@
                                                             <t t-set="subtotal_tax_amount_o"
                                                                t-value="subtotal_tax_amount_o + order.line_tax_amount"/>
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000; border-top: 0;  padding: 0; line-height: 1.2; height: 27px;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -3941,7 +3941,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -4106,10 +4106,10 @@
                                                             <t t-set="subtotal_tax_amount_o"
                                                                t-value="subtotal_tax_amount_o + order.voucher_line_tax_amount"/>
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000; border-top: 0;  padding: 0; line-height: 1.2; height: 27px;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -4166,7 +4166,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -4328,10 +4328,10 @@
                                                         <t t-set="subtotal_amount"
                                                            t-value="subtotal_amount + order.line_amount"/>
 
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000; border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -4388,7 +4388,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -4488,10 +4488,10 @@
                                                             <t t-set="subtotal_amount_o"
                                                                t-value="subtotal_amount_o + order.line_amount"/>
                                                         </t>
-                                                        <tr style="font-size: 10px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000; border-top: 0;  padding: 0; line-height: 1.2; height: 27px;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                <span style="display: -webkit-box; width: 280px;height: 25px;float: left;margin: 0 auto;font-size: 11px;line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
+                                                                <span style="display: -webkit-box; white-space: nowrap; width: 310px; padding-left: 10px; padding-right: 10px;height: 25px;float: left;margin: 0 auto; line-height: 1.2;overflow: hidden;text-overflow: ellipsis;"
                                                                       t-field="order.product_name">
                                                                     <null/>
                                                                 </span>
@@ -4548,7 +4548,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
