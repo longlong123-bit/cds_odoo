@@ -18,7 +18,7 @@
                     <t t-set="line" t-value="8"/>
                     <t t-if="ll.quotation_custom_line_no>line_id">
                         <div style="page-break-before: always;">
-                            <div style="padding-bottom: 10px; border-bottom: 1px dashed;">
+                            <div style="padding-bottom: 10px; height: 49%; border-bottom: 1px dashed;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
@@ -249,7 +249,7 @@
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -475,7 +475,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -697,7 +697,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -872,7 +872,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -1002,7 +1002,7 @@
                                 </div>
                             </div>
                             <t t-set="line" t-value="8"/>
-                            <div style="padding-top: 10px;">
+                            <div style="padding-top: 10px; height: 50%;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
@@ -1222,7 +1222,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -1448,7 +1448,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -1658,7 +1658,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -1828,7 +1828,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -1947,7 +1947,7 @@
                         </div>
                         <t t-set="line" t-value="8"/>
                         <div style="page-break-before: always;">
-                            <div style="padding-bottom: 10px; border-bottom: 1px dashed;">
+                            <div style="padding-bottom: 10px; border-bottom: 1px dashed;  height: 49%;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
@@ -2167,7 +2167,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -2393,7 +2393,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -2603,7 +2603,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -2772,7 +2772,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -2901,7 +2901,7 @@
                                 </div>
                             </div>
                             <t t-set="line" t-value="8"/>
-                            <div style="padding-top: 10px;">
+                            <div style="padding-top: 10px; height: 50%;">
                                 <div style="text-align: center;">
                                     <div style=" width: 33.3333333%; text-align: center; display: inline-block;">
                                         <h4 class="mt0"
@@ -3127,7 +3127,7 @@
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-if="order.description"
@@ -3408,7 +3408,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -3654,7 +3654,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
@@ -3832,7 +3832,7 @@
                                                                 </t>
                                                                 <t t-elif="order.tax_rate == 8">
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;">
-                                                                        軽減税率
+                                                                        ※軽減税率
                                                                     </span>
                                                                     <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
                                                                           t-field="order.description">
