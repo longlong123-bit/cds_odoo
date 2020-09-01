@@ -487,6 +487,7 @@ msgstr "パーセント"
 
 #. module: Maintain_Product
 #: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__price
+#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
 msgid "Price"
 msgstr "価格"
 
@@ -1209,9 +1210,3 @@ msgstr "商品名"
 #, python-format
 msgid "Good Name"
 msgstr "商品名カナ"
-
-#. module: Maintain_Product
-#: model:ir.model.fields,field_description:Maintain_Product.field_product_supplierinfo__price
-#: model_terms:ir.ui.view,arch_db:Maintain_Product.product_product_custom_form_view
-msgid "Price"
-msgstr "単価"
