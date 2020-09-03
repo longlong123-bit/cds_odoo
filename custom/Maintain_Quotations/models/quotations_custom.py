@@ -132,11 +132,10 @@ class QuotationsCustom(models.Model):
 
     @api.onchange('partner_id')
     def onchange_partner(self):
-        if not self.partner_name_2:
-            if self.order_id.partner_name_2:
-                self.partner_name_2 = self.order_id.partner_name_2
-            else:
-                self.partner_name_2 = self.partner_id.customer_name_2
+        if self.order_id.partner_name_2:
+            self.partner_name_2 = self.order_id.partner_name_2
+        else:
+            self.partner_name_2 = self.partner_id.customer_name_2
 
     @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
                   'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
