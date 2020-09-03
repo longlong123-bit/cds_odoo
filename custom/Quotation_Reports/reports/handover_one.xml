@@ -59,7 +59,7 @@
                                         </div>
                                         <div style="border-bottom: 2px solid; margin-top: 10px;">
                                             <t t-if="o.partner_name_2">
-                                                <span style="width: 320px; overflow: hidden; white-space: nowrap;"
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name">
                                                     <null/>
                                                 </span>
@@ -1049,7 +1049,7 @@
                                         </div>
                                         <div style="border-bottom: 2px solid; margin-top: 10px;">
                                             <t t-if="o.partner_name_2">
-                                                <span style="width: 320px; overflow: hidden; white-space: nowrap;"
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name">
                                                     <null/>
                                                 </span>
