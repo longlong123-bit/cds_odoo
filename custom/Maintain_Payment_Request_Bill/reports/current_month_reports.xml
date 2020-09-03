@@ -203,7 +203,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <div style="float: right; width: 110px; text-align: center; padding-top: 11px;">
+                                                    <div style="float: right; width: 110px; text-align: center; padding-top: 11px; white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                         <p t-esc="'{0:,.0f}'.format(o.amount_total)"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             <null/>
@@ -211,7 +211,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: left;">
-                                                    <div style="display: inline-block; width: 112px; text-align: center; padding-top: 11px;">
+                                                    <div style="display: inline-block; width: 112px; text-align: center; padding-top: 11px;white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                         <p t-esc="'{0:,.0f}'.format(o.billed_amount)"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             <null/>
@@ -310,7 +310,7 @@
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 100px; text-align: right;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                             <p t-if="(tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher')"
                                                                t-esc="'{0:,.0f}'.format(amount_tax_previous_data)"
                                                                style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
@@ -377,21 +377,21 @@
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div t-if="line_detail.account_move_line_id" style="display: inline-block; width: 75px; text-align: right;">
+                                                        <div t-if="line_detail.account_move_line_id" style="display: inline-block; width: 75px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                             <p t-esc="'{0:,.0f}'.format(line_detail.quantity)"
                                                                style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <div style="display: inline-block; width: 34px; text-align: center;white-space: nowrap; overflow: hidden; text-overflow: clip">
                                                             <p t-if="line_detail.account_move_line_id" t-field="line_detail.product_uom"
                                                                style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 100px; text-align: right;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip">
                                                             <span t-if="line_detail.account_move_line_id" t-esc="'{0:,.2f}'.format(line_detail.price_unit)"
                                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             </span>
@@ -400,7 +400,7 @@
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 100px; text-align: right;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: clip">
                                                             <p t-esc="'{0:,.0f}'.format(line_detail.line_amount)"
                                                                style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             </p>
@@ -455,7 +455,7 @@
                                                 </div>
                                             </td>
                                             <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                <div style="display: inline-block; width: 100px; text-align: right;">
+                                                <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                     <p t-if="(tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher')"
                                                        t-esc="'{0:,.0f}'.format(amount_tax_previous_data)"
                                                        style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
@@ -521,7 +521,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                         <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
                                                         <span t-if="o.subtotal_amount_tax()" t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
@@ -584,7 +584,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.tax_amount - o.amount_tax(10) - o.amount_tax())"/><br/>
                                                          <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
@@ -636,7 +636,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_total)"/>
                                                     </div>
                                                 </td>
@@ -688,7 +688,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_total)"/>
                                                     </div>
                                                 </td>
@@ -748,7 +748,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                         <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(10))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax(8))"/><br/>
                                                         <span t-if="o.subtotal_amount_tax()" t-esc="'{0:,.0f}'.format(o.subtotal_amount_tax())"/>
@@ -810,7 +810,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
                                                         <span t-esc="'{0:,.0f}'.format(o.amount_tax(10))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.tax_amount - o.amount_tax(10) - o.amount_tax())"/><br/>
                                                          <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.amount_tax())"/>
