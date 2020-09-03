@@ -905,6 +905,7 @@
                                     <div style="font-size: 14px; font-weight: 600; padding: 10px 0 10px 30px;" t-if="o.report_header.name =='請求書'">
                                         <span>振込口座: </span>
                                         <span t-field="o.company_id.company_bank_account_1"/>
+                                    </div>
                                     <div style="padding-top: 5px;" t-else="">
                                         <span style="font-size: 14px; font-weight: 600; padding: 10px 0 10px 292px; text-align: center;">
                                             主要取扱メーカー
