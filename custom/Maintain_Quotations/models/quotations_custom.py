@@ -663,7 +663,7 @@ class QuotationsCustom(models.Model):
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
-    _order = "product_barcode, product_maker_name asc"
+    _order = "quotation_custom_line_no asc"
 
     name = fields.Text(string='Description', default=None)
     tax_id = fields.Many2many(string='Taxes')
