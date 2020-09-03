@@ -1039,24 +1039,6 @@
                                          t-if="o.report_header.name =='請求書'">
                                         <span>振込口座:</span>
                                         <span t-field="o.company_id.company_bank_account_1"/>
-                                        <div style="font-size: 14px; font-weight: 400; padding: 10px 0 10px 0px;">
-                                            <span>
-                                              お振込先金融機関
-                                            </span><br/>
-                                            <span>
-                                                銚子信用金庫 本店　当座No0000375　銚子商工信用組合新生支店 普通No232055
-                                            </span><br/>
-                                            <span>
-                                                千葉銀行銚子支店 　普通No1073838　千葉興業銀行銚子支店　普通No0100064
-                                            </span><br/>
-                                            <span>
-                                                京葉銀行銚子支店　 普通No3009882　常陽銀行銚子支店　普通No5003109
-                                            </span><br/>
-                                            <span>
-                                                三菱UFJ銀行千葉支店　当座No2485461　常陽銀行銚子支店　普通No0003105
-                                            </span>
-                                        </div>
-                                    </div>
                                     <div style="padding-top: 5px;" t-else="">
                                         <span style="font-size: 14px; font-weight: 600; padding: 10px 0 10px 292px; text-align: center;">
                                             主要取扱メーカー
