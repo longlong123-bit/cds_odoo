@@ -17,8 +17,8 @@
                 <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="ll">
                     <t t-set="line" t-value="8"/>
                     <t t-if="ll.quotation_custom_line_no>line_id">
-                        <div style="page-break-before: always;">
-                            <div style=" display: block; height: 50%; padding-bottom: 15px; border-bottom: 1px dashed">
+                        <div>
+                            <div class="page" style="page-break-before: always; display: block;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style="max-width: 33.3333333%; text-align: center; display: inline-block;">
@@ -974,7 +974,7 @@
                                 </div>
                             </div>
                             <t t-set="line" t-value="8"/>
-                            <div style="padding-top: 15px; height: 48%;">
+                            <div class="page" style="page-break-before: always; display: block;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
@@ -1893,8 +1893,8 @@
                             </div>
                         </div>
                         <t t-set="line" t-value="8"/>
-                        <div style="page-break-before: always;">
-                            <div style="display: block; height: 50%; padding-bottom: 15px; border-bottom: 1px dashed">
+                        <div>
+                            <div class="page" style="page-break-before: always; display: block;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
@@ -2814,7 +2814,7 @@
                                 </div>
                             </div>
                             <t t-set="line" t-value="8"/>
-                            <div style="padding-top: 15px; height: 48%;">
+                            <div class="page" style="page-break-before: always; display: block;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
                                     <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
@@ -3724,9 +3724,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="page-break-before: always;">
-                            <t t-set="line" t-value="8"/>
-                            <div>
+                        <t t-set="line" t-value="8"/>
+                        <div style="page-break-before: always; display: block;">
+                            <div class="page">
                                 <div style="text-align: center;">
                                     <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
                                         <h4 class="mt0"
