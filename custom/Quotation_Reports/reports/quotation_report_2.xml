@@ -64,7 +64,7 @@
                                         <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
                                             <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.partner_name">
+                                                    <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.partner_name">
                                                         <null/>
                                                     </span>
                                                     <br/>
