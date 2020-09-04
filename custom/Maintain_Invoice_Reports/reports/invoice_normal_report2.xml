@@ -739,12 +739,12 @@
                                                                 <div t-att-style="div_sub_total_val">
                                                                     <div t-att-style="div_padding_top">
                                                                         <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;"
-                                                                              t-esc="'{0:,.0f}'.format(int(subtotal_voucher_tax_amount_10))"/>
+                                                                              t-esc="'{0:,.0f}'.format(o.amount_tax_total(10))"/>
                                                                         <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;"
-                                                                              t-esc="'{0:,.0f}'.format(int(subtotal_voucher_tax_amount_8))"/>
+                                                                              t-esc="'{0:,.0f}'.format(o.amount_tax_total(8))"/>
                                                                         <t t-if="subtotal_voucher_tax_amount &gt; 0">
                                                                             <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;"
-                                                                                  t-esc="'{0:,.0f}'.format(int(subtotal_voucher_tax_amount))"/>
+                                                                                  t-esc="'{0:,.0f}'.format(o.amount_tax_total())"/>
                                                                         </t>
                                                                     </div>
                                                                 </div>
