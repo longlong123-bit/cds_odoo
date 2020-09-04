@@ -103,12 +103,10 @@
                                             <div style="margin-bottom: 10px; margin-left: 20px; height: 14px;">
                                                 <span t-field="o.partner_id.zip_code"/>
                                             </div>
-                                            <div style="margin-bottom: 8px; margin-left: 20px; height: 42px;">
+                                            <div style="margin-bottom: 8px; margin-left: 20px; height: 42px; white-space: nowrap; width: 380px; overflow: hidden;">
                                                 <span t-field="o.x_studio_address_1"/>
                                                 <br/>
                                                 <span t-field="o.x_studio_address_2"/>
-                                                <br/>
-                                                <span t-field="o.partner_id.address3"/>
                                             </div>
                                             <div style="display: inline-block; border-bottom: 1px solid; width: 384px; font-size: 14px">
                                                 <t t-set="p_style" t-value="'height: 16px; white-space: nowrap; max-width: 323px; overflow: hidden;
@@ -741,12 +739,12 @@
                                                                 <div t-att-style="div_sub_total_val">
                                                                     <div t-att-style="div_padding_top">
                                                                         <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;"
-                                                                              t-esc="'{0:,.0f}'.format(int(subtotal_voucher_tax_amount_10))"/>
+                                                                              t-esc="'{0:,.0f}'.format(o.amount_tax_total(10))"/>
                                                                         <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;"
-                                                                              t-esc="'{0:,.0f}'.format(int(subtotal_voucher_tax_amount_8))"/>
+                                                                              t-esc="'{0:,.0f}'.format(o.amount_tax_total(8))"/>
                                                                         <t t-if="subtotal_voucher_tax_amount &gt; 0">
                                                                             <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;"
-                                                                                  t-esc="'{0:,.0f}'.format(int(subtotal_voucher_tax_amount))"/>
+                                                                                  t-esc="'{0:,.0f}'.format(o.amount_tax_total())"/>
                                                                         </t>
                                                                     </div>
                                                                 </div>
