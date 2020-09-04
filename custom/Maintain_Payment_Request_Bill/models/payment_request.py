@@ -95,10 +95,10 @@ class BillInfoGet(models.Model):
                         subtotal += rounding(line.tax_amount, 0,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
                     elif line.x_voucher_tax_transfer == 'voucher':
-                        subtotal += rounding(line.voucher_line_tax_amount, 2,
+                        subtotal += rounding(line.voucher_line_tax_amount, 0,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
                     elif line.x_voucher_tax_transfer == 'invoice':
-                        subtotal += rounding(line.line_amount * line.tax_rate / 100, 2,
+                        subtotal += rounding(line.line_amount * line.tax_rate / 100, 0,
                                              line.account_move_line_id.move_id.customer_tax_rounding)
             if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
                 subtotal += re.amount_tax
@@ -134,10 +134,10 @@ class BillInfoGet(models.Model):
                             subtotal += rounding(line.tax_amount, 0,
                                                  line.account_move_line_id.move_id.customer_tax_rounding)
                         elif line.x_voucher_tax_transfer == 'voucher':
-                            subtotal += rounding(line.voucher_line_tax_amount, 2,
+                            subtotal += rounding(line.voucher_line_tax_amount, 0,
                                                  line.account_move_line_id.move_id.customer_tax_rounding)
                         elif line.x_voucher_tax_transfer == 'invoice':
-                            subtotal += rounding(line.line_amount * line.tax_rate / 100, 2,
+                            subtotal += rounding(line.line_amount * line.tax_rate / 100, 0,
                                                  line.account_move_line_id.move_id.customer_tax_rounding)
                     if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
                         subtotal += re.amount_tax
