@@ -1752,7 +1752,6 @@ class AccountMoveLine(models.Model):
             if (line.move_id.x_voucher_tax_transfer == 'voucher'
                     and line.product_id.product_tax_category != 'exempt'):
                 line.voucher_line_tax_amount = line.quantity * line.price_unit * line.tax_rate / 100
-                print('line.invoice_custom_lineamount', line.invoice_custom_lineamount)
             else:
                 line.voucher_line_tax_amount = 0
 
