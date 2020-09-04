@@ -1480,6 +1480,25 @@ class AccountMoveLine(models.Model):
     #     [('foreign', 'Foreign Tax'), ('internal', 'Internal Tax'), ('exempt', 'Tax Exempt')],
     #     string='Tax Category', default='foreign')
 
+    @api.onchange('product_uom_id')
+    def _onchange_uom_id(self):
+        ''' Recompute the 'price_unit' depending of the unit of measure. '''
+        price_unit = self._get_computed_price_unit()
+
+        # See '_onchange_product_id' for details.
+        taxes = self._get_computed_taxes()
+        if taxes and self.move_id.fiscal_position_id:
+            price_subtotal = self._get_price_total_and_subtotal(price_unit=price_unit, taxes=taxes)['price_subtotal']
+            accounting_vals = self._get_fields_onchange_subtotal(price_subtotal=price_subtotal,
+                                                                 currency=self.move_id.company_currency_id)
+            balance = accounting_vals['debit'] - accounting_vals['credit']
+            price_unit = self._get_fields_onchange_balance(balance=balance).get('price_unit', price_unit)
+
+        # Convert the unit price to the invoice's currency.
+        company = self.move_id.company_id
+        # self.price_unit = company.currency_id._convert(price_unit, self.move_id.currency_id, company, self.move_id.date)
+        self.price_unit = price_unit
+
     def compute_x_customer_show_in_tree(self):
         for line in self:
             line.x_customer_show_in_tree = line.move_id.x_studio_business_partner.name
@@ -1518,7 +1537,7 @@ class AccountMoveLine(models.Model):
             quantity = 0
         result = price_unit * quantity - (discount * price_unit / 100) * quantity
         # TODO recounting rounding
-        return round(result, 2)
+        return rounding(result, 0, self.move_id.partner_id.customer_tax_rounding)
 
     def get_compute_sale_unit_price(self, price_unit, discount):
         if price_unit is None:
@@ -1527,7 +1546,7 @@ class AccountMoveLine(models.Model):
             discount = 0
         result = price_unit - discount * price_unit / 100
         # TODO recounting rounding
-        return round(result, 2)
+        return rounding(result, 0, self.move_id.partner_id.customer_tax_rounding)
 
     def get_compute_discount_unit_price(self, price_unit, discount):
         if price_unit is None:
@@ -1536,11 +1555,11 @@ class AccountMoveLine(models.Model):
             discount = 0
         result = - price_unit * discount / 100
         # TODO recounting rounding
-        return round(result, 2)
+        return rounding(result, 0, self.move_id.partner_id.customer_tax_rounding)
 
     def _get_compute_line_tax_amount(self, line_amount, line_taxes, line_rounding, line_type):
         if line_amount != 0:
-            return rounding(line_amount * line_taxes / 100, 2, line_rounding)
+            return rounding(line_amount * line_taxes / 100, 0, line_rounding)
         else:
             return 0
 
@@ -1732,7 +1751,7 @@ class AccountMoveLine(models.Model):
         for line in self:
             if (line.move_id.x_voucher_tax_transfer == 'voucher'
                     and line.product_id.product_tax_category != 'exempt'):
-                line.voucher_line_tax_amount = line.invoice_custom_lineamount * line.tax_rate / 100
+                line.voucher_line_tax_amount = line.quantity * line.price_unit * line.tax_rate / 100
             else:
                 line.voucher_line_tax_amount = 0
 
