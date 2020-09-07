@@ -209,8 +209,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -437,8 +442,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -661,8 +671,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -837,8 +852,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -1163,8 +1183,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -1385,8 +1410,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -1591,8 +1621,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -1759,8 +1794,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -2083,8 +2123,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -2305,8 +2350,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -2511,8 +2561,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -2678,8 +2733,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -3003,8 +3063,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -3223,8 +3288,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -3427,8 +3497,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -3593,8 +3668,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -3916,8 +3996,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -4141,8 +4226,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -4363,8 +4453,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
@@ -4523,8 +4618,13 @@
                                                             </td>
                                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                                 <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-if="order.price_unit"
+                                                                      t-if="order.price_unit and order.price_unit %1"
                                                                       t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                     <null/>
                                                                 </span>
                                                             </td>
