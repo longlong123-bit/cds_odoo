@@ -21,13 +21,13 @@
                             <div class="page" style="page-break-before: always; display: block;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
-                                    <div style="max-width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
                                         <h4 class="mt0"
-                                            style="font-size: 20px; color: #000000; width: max-content;  border-bottom: 2px solid #000000; margin: 0; padding: 0">
+                                            style="font-size: 20px; color: #000000; width: 50px;  border-bottom: 2px solid #000000; margin: 0 auto; padding: 0">
                                             (控)
                                         </h4>
                                     </div>
-                                    <div style="float: right; text-align: right; display: inline-block;">
+                                    <div style="float: right; text-align: right; display: inline-block; width: 20%;">
                                         <span t-field="o.document_no"
                                               style="width: 77px; overflow: hidden; white-space: nowrap; font-size: 11px; color: #000000;  margin: 0; padding: 0"/>
                                         -
@@ -978,13 +978,13 @@
                             <div class="page" style="page-break-before: always; display: block;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
-                                    <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
                                         <h4 class="mt0"
-                                            style="font-size: 20px; color: #000000; width: max-content;  border-bottom: 2px solid #000000; margin: 0; padding: 0">
+                                            style="font-size: 20px; color: #000000; width: 100px; border-bottom: 2px solid #000000; margin: 0 auto; padding: 0">
                                             送 り 状
                                         </h4>
                                     </div>
-                                    <div style="float: right; text-align: right; display: inline-block;">
+                                    <div style="float: right; text-align: right; display: inline-block; width: 20%;">
                                         <span t-field="o.document_no"
                                               style="width: 77px; overflow: hidden; white-space: nowrap; font-size: 11px; color: #000000;  margin: 0; padding: 0"/>
                                         -
@@ -1661,13 +1661,13 @@
                             <div class="page" style="page-break-before: always; display: block;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
-                                    <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
                                         <h4 class="mt0"
-                                            style="font-size: 20px; color: #000000; width: max-content; border-bottom: 2px solid #000000; margin: 0; padding: 0">
+                                            style="font-size: 20px; color: #000000; width: 100px; border-bottom: 2px solid #000000; margin: 0 auto; padding: 0">
                                             納 品 書
                                         </h4>
                                     </div>
-                                    <div style="float: right; text-align: right; display: inline-block;">
+                                    <div style="float: right; text-align: right; display: inline-block; width: 20%;">
                                         <span t-field="o.document_no"
                                               style="width: 77px; overflow: hidden; white-space: nowrap; font-size: 11px; color: #000000;  margin: 0; padding: 0"/>
                                         -
@@ -2585,13 +2585,13 @@
                             <t t-set="line" t-value="8"/>
                             <div class="page" style="page-break-before: always; display: block;">
                                 <div style="text-align: center;">
-                                    <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
                                         <h4 class="mt0"
-                                            style="font-size: 18px; color: #000000; width: max-content; border-bottom: 3px solid #000000; margin: 0; padding: 0">
+                                            style="font-size: 18px; color: #000000; width: 140px; border-bottom: 2px solid #000000; margin: 0 auto; padding: 0">
                                             物 品 受 領 書
                                         </h4>
                                     </div>
-                                    <div style="float: right; text-align: right; display: inline-block;">
+                                    <div style="float: right; text-align: right; display: inline-block; width: 20%;">
                                         <span t-field="o.document_no"
                                               style="width: 77px; overflow: hidden; white-space: nowrap; font-size: 11px; color: #000000;  margin: 0; padding: 0"/>
                                         -
