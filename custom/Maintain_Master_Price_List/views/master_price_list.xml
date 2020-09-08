@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- TREE VIEW -->
+        <record model="ir.ui.view" id="master_price_list_tree">
+            <field name="name">master.price.list.tree</field>
+            <field name="model">master.price.list</field>
+            <field name="arch" type="xml">
+                <tree string="Price List Tree" class="forward_edit">
+                    <field name="maker_code"/>
+                    <field name="maker_name"/>
+                    <field name="product_class_code_lv1"/>
+                    <field name="product_class_name_lv1"/>
+                    <field name="product_class_code_lv2"/>
+                    <field name="product_class_name_lv2"/>
+                    <field name="product_class_code_lv3"/>
+                    <field name="product_class_name_lv3"/>
+                    <field name="product_class_code_lv4"/>
+                    <field name="product_class_name_lv4"/>
+                    <field name="jan_code" context="{'show_jan_code': 'ok'}" options="{'always_reload': True,}"/>
+                    <field name="product_code" context="{'show_code': 'ok'}"  options="{'always_reload': True,}"/>
+                    <field name="standard_number" context="{'show_standard_number': 'ok'}" options="{'always_reload': True,}"/>
+                    <field name="product_name"/>
+                    <field name="country_state_code" context="{'show_code': 'ok'}"  options="{'always_reload': True,}"/>
+                    <field name="country_state_name"/>
+                    <field name="industry_code" context="{'showcode': 'ok'}"  options="{'always_reload': True,}"/>
+                    <field name="industry_name"/>
+                    <field name="supplier_group_code" context="{'showcode': 'ok'}" options="{'always_reload': True,}"/>
+                    <field name="supplier_group_name"/>
+                    <field name="customer_code_bill"/>
+                    <field name="customer_name_bill"/>
+                    <field name="customer_code"/>
+                    <field name="customer_name"/>
+                    <field name="recruitment_price_select"/>
+<!--                    <field name="recruitment_price" context="{'show_product_price': 'ok'}" options="{'always_reload': True,}"/>-->
+                    <field name="rate"/>
+                    <field name="price_applied"/>
+                    <field name="date_applied"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- FORM VIEW -->
+        <record model="ir.ui.view" id="master_price_list_form">
+            <field name="name">master.price.list.form</field>
+            <field name="model">master.price.list</field>
+            <field name="arch" type="xml">
+                <form string="Price List Form" duplicate="false" class="product_custom_template custom_template">
+                    <sheet>
+                        <!-- Row 1 -->
+                        <group>
+                            <!-- Left Column -->
+                            <group>
+                                <!-- Maker （メーカー） -->
+                                <field name="maker_id" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="maker_name" readonly="True" force_save="1"/>
+                                <field name="maker_code"  invisible="1"/>
+                            </group>
+
+                            <!-- Right Column -->
+                            <group>
+                                <!-- Country State （地区） -->
+                                <field name="country_state_code_id" context="{'show_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="country_state_name" readonly="True" force_save="1"/>
+                                <field name="country_state_code"  invisible="1"/>
+                            </group>
+                        </group>
+
+                        <!-- Row 2 -->
+                        <group>
+                            <!-- Left Column -->
+                            <group>
+                                <!-- Main Category （大分類） -->
+                                <field name="product_class_code_lv1_id" domain="[('product_level', '=', 'lv1')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="product_class_name_lv1" readonly="True" force_save="1"/>
+                                <field name="product_class_code_lv1"  invisible="1"/>
+
+                                <!-- Middle Category （中分類） -->
+                                <field name="product_class_code_lv2_id" domain="[('product_level', '=', 'lv2')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="product_class_name_lv2" readonly="True" force_save="1"/>
+                                <field name="product_class_code_lv2"  invisible="1"/>
+
+                                <!-- Middle Small Category （中小分類） -->
+                                <field name="product_class_code_lv3_id" domain="[('product_level', '=', 'lv3')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="product_class_name_lv3" readonly="True" force_save="1"/>
+                                <field name="product_class_code_lv3"  invisible="1"/>
+
+                                <!-- Small Category （小分類） -->
+                                <field name="product_class_code_lv4_id" domain="[('product_level', '=', 'lv4')]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="product_class_name_lv4" readonly="True" force_save="1"/>
+                                <field name="product_class_code_lv4"  invisible="1"/>
+                            </group>
+
+                            <!-- Right Column -->
+                            <group>
+                                <!-- Industry （業種） -->
+                                <field name="industry_code_id" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="industry_name" readonly="True" force_save="1"/>
+                                <field name="industry_code"  invisible="1"/>
+
+                                <!-- Supplier Group （取引先グループ） -->
+                                <field name="supplier_group_code_id" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="supplier_group_name" readonly="True" force_save="1"/>
+                                <field name="supplier_group_code"  invisible="1"/>
+
+                                <!-- Customer Code Bill （請求先） -->
+                                <field name="customer_code_bill_id" context="{'showcode': 'ok'}" domain="[('billing_liabilities_flg', '=', True)]" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="customer_name_bill" readonly="True"  force_save="1"/>
+                                <field name="customer_code_bill"  invisible="1"/>
+
+                                <!-- Customer Code （得意先） -->
+                                <field name="customer_code_id" context="{'showcode': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="customer_name" readonly="True" force_save="1"/>
+                                <field name="customer_code"  invisible="1"/>
+                            </group>
+                        </group>
+
+                        <!-- Row 3 -->
+                        <group>
+                            <!-- Left Column -->
+                            <group class="custom_group">
+                                <!-- Jan Code （JANコード） -->
+                                <field name="jan_code_id" context="{'show_jan_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                <field name="jan_code"  invisible="1"/>
+                                <field name="product_name"  invisible="1"/>
+
+                                <!-- Product Code （商品コード） -->
+<!--                                <field name="product_code_id" context="{'show_code': 'ok'}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>-->
+
+                                <label style="text-align: right;" for="product_code_select" string="Product Code"/>
+                                <table style="margin-right: 0px; margin-left: 0px; display: block;">
+                                   <div style="width: 50%; vertical-align: top; display: inline-block;">
+                                        <div style="height: -webkit-fill-available;">
+                                            <field name="product_code_select" style="height: 25px;"/>
+                                        </div>
+                                   </div>
+                                    <div style="width: 50%; vertical-align: top; float: right;">
+                                        <field name="product_code_id" domain="[('barcode', '=', jan_code)]" context="{'show_code':  product_code_select}" options="{'always_reload': True, 'no_create': True, 'no_edit': True, 'no_open': True,}"/>
+                                        <field name="product_code"  invisible="1"/>
+                                    </div>
+                                </table>
+<!--                                <field name="product_code_select"/>-->
+                                <field name="product_code"  invisible="1"/>
+
+                                <!-- Standard Number （品番 / 型番） -->
+                                <field name="standard_number" />
+<!--                                <field name="standard_number"  invisible="1"/>-->
+
+                                <!-- Product Name （商品名） -->
+                                <field name="product_name" readonly="True" force_save="1"/>
+                            </group>
+
+                            <!-- Right Column -->
+                            <group>
+                                <!-- Recruitment Price （採用価格） -->
+                                <field name="recruitment_price_select" style="height: 25px;"
+                                    attrs="{'readonly': [('price_applied', '!=', 0)]}"/>
+
+                                <!-- Rate （掛率） -->
+                                <field name="rate" attrs="{'readonly': [('recruitment_price_select', '=', False)]}"/>
+
+                                <!-- Price Applied （適用売価） -->
+                                <field name="price_applied" attrs="{'readonly': [('recruitment_price_select', '!=', False)]}"/>
+
+                                <!-- Date Applied （適用年月日） -->
+                                <field name="date_applied"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ACTIONS -->
+        <record id="actions_master_price_list" model="ir.actions.act_window">
+            <field name="name">Master Price List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">master.price.list</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'master_price_list': True}</field>
+            <field name="view_id" ref="master_price_list_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Master Price List
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

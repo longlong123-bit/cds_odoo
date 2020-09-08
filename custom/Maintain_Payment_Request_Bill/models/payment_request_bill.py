@@ -159,6 +159,8 @@ class CollationPayment(models.Model):
                             # domain += [se]
                         elif se[2] == 'False':
                             se[2] = False
+                        else:
+                            continue
                             # domain += [se]
                     # if se[0] == 'closing_date':
                     #     domain += [se]

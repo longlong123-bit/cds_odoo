@@ -64,7 +64,7 @@
                                         <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
                                             <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.partner_name">
+                                                    <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.partner_name">
                                                         <null/>
                                                     </span>
                                                     <br/>
@@ -79,9 +79,14 @@
                                                 </t>
                                                 <span t-else="" style="font-size: 16px">様</span>
                                             </div>
+                                            <t t-if="o.report_header.name == '注文書'" t-set="massage" t-value="'御注文'"/>
+                                            <t t-if="o.report_header.name == '見積書'" t-set="massage" t-value="'御見積'"/>
+                                            <t t-if="o.report_header.name == '完了届'" t-set="massage" t-value="'完了'"/>
+                                            <t t-if="o.report_header.name == '納品書'" t-set="massage" t-value="'納品'"/>
+                                            <t t-if="o.report_header.name == '請求書'" t-set="massage" t-value="'御請求'"/>
                                             <div style="margin-top: 30px;font-size: 16px;">
                                                 <span>下記のとおりご</span>
-                                                <span t-field="o.report_header"/>
+                                                <span t-esc="massage"/>
                                                 <span>し上げます。</span>
                                             </div>
                                         </div>
@@ -90,7 +95,7 @@
                                             <span>神栖営業所　所長　保立　浩</span><br/>
                                             <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span><br/>
                                             <span>TEL　0299-97-4416　FAX　0299-90-6530</span><br/>
-                                            <span>本　社 千葉県銚子市新生町2丁目12番地の5</span><br/>
+                                            <span>本　社 千葉県銚子市新生町二丁目12番地の５</span><br/>
                                             <span>TEL　0479-22-3515　FAX　0479-24-9376</span><br/>
                                         </div>
                                     </div>
