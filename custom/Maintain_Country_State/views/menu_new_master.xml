@@ -23,6 +23,7 @@
         <menuitem id="menu_product_class" parent="submenu_second" name="Product Class" sequence="70" action="Maintain_Product_Class.action_product_class"/>
         <menuitem id="menu_product" parent="submenu_second" name="Product" sequence="80" action="Maintain_Product.product_template_action"/>
         <menuitem id="menu_confirm_product" parent="submenu_second" name="商品マスタ一覧" sequence="90" action="Maintain_Product.product_confirm_action"/>
+        <menuitem id="menu_price_list" parent="submenu_second" name="Price List" sequence="99" action="Maintain_Master_Price_List.actions_master_price_list"/>
         <menuitem id="menu_taxes" parent="submenu_second" name="Taxes" sequence="100" action="Maintain_Product.action_tax_tax"/>
 
 <!--        <menuitem id="menu_state" parent="parent_menu_master" name="Country State" sequence="3" action="action_country_state"/>-->
