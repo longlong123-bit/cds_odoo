@@ -15,11 +15,11 @@
         <report
                 id="reports"
                 model="sale.order"
-                string="Sale Report"
+                string="Report"
                 report_type="qweb-pdf"
                 attachment_use="False"
-                name="Quotation_Reports.quotation_report"
-                file="Quotation_Reports.quotation_report"
+                name="Quotation_Reports.reports"
+                file="Quotation_Reports.reports"
                 paperformat="Quotation_Reports.paperformat_quotation_reports"
         />
     </data>
