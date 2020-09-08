@@ -1759,7 +1759,7 @@ class AccountMoveLine(models.Model):
                             self.move_id.partner_id.customer_industry_code,
                             self.move_id.partner_id.customer_state)
                     elif product.product_tax_category == 'foreign':
-                        self.price_include_tax = (product.product_tax_rate + 1) * self.set_price_product_code(
+                        self.price_include_tax = (product.product_tax_rate/100 + 1) * self.set_price_product_code(
                             self.product_code, self.product_barcode, product.product_class_code_lv4.id,
                             product.product_class_code_lv3.id, product.product_class_code_lv2.id,
                             product.product_class_code_lv1.id, product.product_maker_code,
@@ -1797,7 +1797,7 @@ class AccountMoveLine(models.Model):
                             self.move_id.partner_id.customer_code_bill,
                             self.move_id.partner_id.customer_supplier_group_code,
                             self.move_id.partner_id.customer_industry_code,
-                            self.move_id.partner_id.customer_state) / (product.product_tax_rate + 1)
+                            self.move_id.partner_id.customer_state) / (product.product_tax_rate/100 + 1)
 
                     self.price_unit = self._get_computed_price_unit()
                     return
