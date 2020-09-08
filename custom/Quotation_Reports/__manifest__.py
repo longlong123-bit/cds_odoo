@@ -15,7 +15,6 @@
         'security/ir.model.access.csv',
         'views/assets.xml',
         'views/menu.xml',
-        'views/handover_report_format.xml',
         'reports/quotation_report.xml',
         'reports/normal_reports_1_in_1.xml',
         'reports/quotation_report_2.xml',
@@ -23,8 +22,12 @@
         'reports/handover_report.xml',
         'reports/handover_one.xml',
         'reports/handover_two.xml',
+        # 'reports/handover_three.xml',
+        # 'reports/handover_four.xml',
         'reports/handover_five.xml',
+        # 'reports/handover_seven.xml',
         'reports/handover_eight.xml',
+        'reports/reports.xml',
 
 
     ],
