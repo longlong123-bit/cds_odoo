@@ -131,7 +131,7 @@
                                     <div style="font-size: 18px; float: left; display: inline-block; border-bottom: 1px solid;">
                                         <t t-if="pager==1">
                                             <span style="">合計金額　￥</span>
-                                            <t t-if="tax_method == 'invoice'">
+                                            <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; white-space: nowrap;"
                                                       t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"/>
                                             </t>
