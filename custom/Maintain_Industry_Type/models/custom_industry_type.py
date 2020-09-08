@@ -2,6 +2,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
+check_industry_code = False
 
 class ClassIndustry(models.Model):
     _inherit = 'res.partner.industry'
@@ -30,8 +31,17 @@ class ClassIndustry(models.Model):
 
     def name_get(self):
         result = []
+        global check_industry_code
         for record in self:
             name = record.name
-            code_show =  str(record.industry_code) + " - " + name
+            if 'showcode' in self.env.context or 'master_price_list' in self.env.context:
+                code_show = str(record.industry_code)
+            else:
+                if check_industry_code:
+                    check_industry_code = False
+                    code_show = str(record.industry_code)
+                else:
+                    check_industry_code = False
+                    code_show = str(record.industry_code) + " - " + name
             result.append((record.id, code_show))
         return result
