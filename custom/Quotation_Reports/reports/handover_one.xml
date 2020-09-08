@@ -17,8 +17,8 @@
             <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="ll">
                 <t t-set="line" t-value="8"/>
                 <t t-if="ll.quotation_custom_line_no>line_id">
-                    <div class="page" style="page-break-before: always;">
-                        <div style="display: block; height: 50%; border-bottom: 1px dashed;">
+                    <div class="page">
+                        <div style="page-break-before: always; display: block;">
                             <t t-set="line_id_1" t-value="line_id"/>
                             <div style="text-align: center;">
                                 <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
@@ -59,7 +59,7 @@
                                         </div>
                                         <div style="border-bottom: 2px solid; margin-top: 10px;">
                                             <t t-if="o.partner_name_2">
-                                                <span style="width: 320px; overflow: hidden; white-space: nowrap;"
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name">
                                                     <null/>
                                                 </span>
@@ -79,7 +79,7 @@
                                             <span t-else="" style="font-size: 18px">様</span>
                                         </div>
                                         <div t-if="pager == 1"
-                                             style="margin-top: 20px;font-size: 18px; font-weight: 600;">
+                                             style="margin-top: 20px;font-size: 18px; font-weight: 600;  height: 30px;">
                                             <span>合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
@@ -105,17 +105,17 @@
                                         <span>代表取締役　　遠 藤 孝 二</span>
                                         <br/>
                                         <span>本　社</span>
-                                        <span>千葉県銚子市新生町2丁目12番地の5</span>
+                                        <span>千葉県銚子市新生町二丁目12番地の５</span>
                                         <br/>
                                         <span>TEL　0479-22-3515　FAX　0479-24-9376</span>
                                         <br/>
                                         <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span>
                                         <br/>
                                         <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
-                                        <br/>
-                                        <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>
-                                        <br/>
-                                        <span>TEL　043-224-9050　FAX　043-222-6176</span>
+<!--                                        <br/>-->
+<!--                                        <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
+<!--                                        <br/>-->
+<!--                                        <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                                     <thead>
                                         <tr>
                                             <td style="border: 1px solid #000000; border-top: 0;  text-align: center; width: auto">
-                                                品　番　　・　　　　品　名
+                                                品名・品番
                                             </td>
                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 9%">
                                                 数　量
@@ -218,8 +218,13 @@
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit"
+                                                                  t-if="order.price_unit and order.price_unit %1"
                                                                   t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                <null/>
+                                                            </span>
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-elif="order.price_unit and not order.price_unit % 1"
+                                                                  t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -446,8 +451,13 @@
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit"
+                                                                  t-if="order.price_unit and order.price_unit %1"
                                                                   t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                <null/>
+                                                            </span>
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-elif="order.price_unit and not order.price_unit % 1"
+                                                                  t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -670,8 +680,13 @@
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit"
+                                                                  t-if="order.price_unit and order.price_unit %1"
                                                                   t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                <null/>
+                                                            </span>
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-elif="order.price_unit and not order.price_unit % 1"
+                                                                  t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -847,8 +862,13 @@
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit"
+                                                                  t-if="order.price_unit and order.price_unit %1"
                                                                   t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                <null/>
+                                                            </span>
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-elif="order.price_unit and not order.price_unit % 1"
+                                                                  t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -997,19 +1017,14 @@
                                     </tbody>
                                 </table>
                                 <div style="font-size: 14px; line-height: 1.2; height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;margin-top: 10px; width: 100%;">
-<!--                                    <span>事務機・事務用品・オフィス家具・教育機器</span>-->
-                                    <div style="width: 54%; display: inline-block; float: left;">
-                                        <span>事務機・事務用品・オフィス家具・教育機器</span>
-                                        <br/>
-                                    </div>
-                                    <div style="width: 45%; float: right; overflow: hidden; max-height: 46px;">
+                                    <div style="width: 95%; float: left; overflow: hidden; max-height: 46px; white-space: normal;">
                                         <span t-esc="o.comment_apply"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <t t-set="line" t-value="8"/>
-                        <div style="display: block; height: 48%; padding-top: 10px;">
+                        <div style="page-break-before: always; display: block;">
                             <div style="text-align: center;">
                                 <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
                                     <h4 class="mt0"
@@ -1049,7 +1064,7 @@
                                         </div>
                                         <div style="border-bottom: 2px solid; margin-top: 10px;">
                                             <t t-if="o.partner_name_2">
-                                                <span style="width: 320px; overflow: hidden; white-space: nowrap;"
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                       t-field="o.partner_name">
                                                     <null/>
                                                 </span>
@@ -1069,7 +1084,7 @@
                                             <span t-else="" style="font-size: 18px">様</span>
                                         </div>
                                         <div t-if="pager == 1"
-                                             style="margin-top: 20px;font-size: 18px; font-weight: 600;">
+                                             style="margin-top: 20px;font-size: 18px; font-weight: 600; height: 30px;">
                                             <span>合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
@@ -1095,17 +1110,17 @@
                                         <span>代表取締役　　遠 藤 孝 二</span>
                                         <br/>
                                         <span>本　社</span>
-                                        <span>千葉県銚子市新生町2丁目12番地の5</span>
+                                        <span>千葉県銚子市新生町二丁目12番地の５</span>
                                         <br/>
                                         <span>TEL　0479-22-3515　FAX　0479-24-9376</span>
                                         <br/>
                                         <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span>
                                         <br/>
                                         <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
-                                        <br/>
-                                        <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>
-                                        <br/>
-                                        <span>TEL　043-224-9050　FAX　043-222-6176</span>
+<!--                                        <br/>-->
+<!--                                        <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
+<!--                                        <br/>-->
+<!--                                        <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
                                     </div>
                                 </div>
                             </div>
@@ -1116,7 +1131,7 @@
                                     <thead>
                                         <tr style="font-size: 14px; height: 30px">
                                             <td style="border: 1px solid #000000;border-top: 0;  text-align: center; width: auto">
-                                                品　番　　・　　　　品　名
+                                                品名・品番
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: center; width: 9%">
                                                 数　量
@@ -1203,8 +1218,13 @@
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit"
+                                                                  t-if="order.price_unit and order.price_unit %1"
                                                                   t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                <null/>
+                                                            </span>
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-elif="order.price_unit and not order.price_unit % 1"
+                                                                  t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -1489,8 +1509,13 @@
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit"
+                                                                  t-if="order.price_unit and order.price_unit %1"
                                                                   t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                <null/>
+                                                            </span>
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-elif="order.price_unit and not order.price_unit % 1"
+                                                                  t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -1739,8 +1764,13 @@
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit"
+                                                                  t-if="order.price_unit and order.price_unit %1"
                                                                   t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                <null/>
+                                                            </span>
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-elif="order.price_unit and not order.price_unit % 1"
+                                                                  t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -1921,8 +1951,13 @@
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-if="order.price_unit"
+                                                                  t-if="order.price_unit and order.price_unit %1"
                                                                   t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                <null/>
+                                                            </span>
+                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-elif="order.price_unit and not order.price_unit % 1"
+                                                                  t-esc="'{0:,.0f}'.format(order.price_unit)">
                                                                 <null/>
                                                             </span>
                                                         </td>
@@ -2079,10 +2114,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden;margin-top: -54px;  width: 70%;">
-                                    <span>事務機・事務用品・オフィス家具・教育機器</span>
-                                    <br/>
-                                </div>
                             </div>
                             <t t-set="pager" t-value="pager + 1"/>
                         </div>

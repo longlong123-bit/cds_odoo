@@ -113,7 +113,7 @@ class QuotationsCustom(models.Model):
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
     paper_format = fields.Selection([
         ('delivery', '納品書'), ('quotation', '見積書')
-    ], string='Pager format', default='delivery')
+    ], string='Pager format', default='quotation')
 
     # related_product_name = fields.Char(related='order_line.product.product_code_1')
     line_number = fields.Integer(string='明細数', default=get_order_lines, store=False)
@@ -662,7 +662,7 @@ class QuotationsCustom(models.Model):
 
 class QuotationsLinesCustom(models.Model):
     _inherit = "sale.order.line"
-    _order = "product_barcode, product_maker_name asc"
+    _order = "quotation_custom_line_no asc"
 
     name = fields.Text(string='Description', default=None)
     tax_id = fields.Many2many(string='Taxes')
