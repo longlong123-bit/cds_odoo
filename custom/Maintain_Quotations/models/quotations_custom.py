@@ -113,7 +113,7 @@ class QuotationsCustom(models.Model):
     paperformat_id = fields.Many2one(related='company_id.paperformat_id', string='Paper Format')
     paper_format = fields.Selection([
         ('delivery', '納品書'), ('quotation', '見積書')
-    ], string='Pager format', default='quotation')
+    ], string='Pager format', default='delivery')
 
     # related_product_name = fields.Char(related='order_line.product.product_code_1')
     line_number = fields.Integer(string='明細数', default=get_order_lines, store=False)
