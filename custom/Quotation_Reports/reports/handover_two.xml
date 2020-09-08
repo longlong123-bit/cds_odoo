@@ -815,8 +815,7 @@
                                                         <tr style=" font-size: 12px; height: 30px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <!--                                                        <span t-esc="line_id"/>-->
-                                                                      t-field="order.product_name">
-                                                                </span>
+                                                                <span>
                                                                       style="display: inline-block; width: 55px; overflow: hidden; white-space: nowrap;"
                                                                       t-field="order.product_maker_name">
                                                                     <null/>
