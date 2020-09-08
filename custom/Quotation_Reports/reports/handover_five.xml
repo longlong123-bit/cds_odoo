@@ -1862,7 +1862,7 @@
                                                     <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
                                                         <div style="display: table; height: 40px; float: right; text-align: right;">
                                                             <span style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
-                                                                  t-esc="'{0:,.0f}'.format(amount_tax)"></span>
+                                                                  t-esc="'{0:,.0f}'.format(o.amount_tax)"></span>
                                                         </div>
                                                     </td>
                                                     <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
