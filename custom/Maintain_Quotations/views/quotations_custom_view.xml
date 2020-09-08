@@ -97,10 +97,10 @@
                                     <field name="copy_history_from" invisible="1"/>
                                 </td>
 
-<!--                                <td class="o_td_label"><label for="report_header" string="Report Title*" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>-->
-<!--                                <td><field name="report_header"-->
-<!--                                           attrs="{'invisible':[('paper_format','in','delivery')], 'required':[('paper_format','!=','delivery')]}"-->
-<!--                                           options="{'reload_on_button': True}"/></td>-->
+                                <td class="o_td_label"><label for="report_header" string="Report Title*" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>
+                                <td><field name="report_header"
+                                           attrs="{'invisible':[('paper_format','in','delivery')], 'required':[('paper_format','!=','delivery')]}"
+                                           options="{'reload_on_button': True}"/></td>
 <!--                                           options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True}"/></td>-->
                             </tr>
 
@@ -122,12 +122,8 @@
                                 <td class="o_td_label"><label for="document_reference" string="Document Reference"/></td>
                                 <td colspan="2"><field name="document_reference"/></td>
 
-<!--                                <td class="o_td_label"><label for="paper_format" string="Paper Format*"/></td>-->
-                                <td class="o_td_label"><label for="report_header" string="Report Title*" attrs="{'invisible':[('paper_format','in','delivery')]}"/></td>
-                                <td><field name="report_header"
-                                           attrs="{'invisible':[('paper_format','in','delivery')], 'required':[('paper_format','!=','delivery')]}"
-                                           options="{'reload_on_button': True}"/></td>
-                                <td><field name="paper_format" invisible="True"/></td>
+                                <td class="o_td_label"><label for="paper_format" string="Paper Format*"/></td>
+                                <td><field name="paper_format" required="True"/></td>
                             </tr>
 
                             <!-- Row 6 -->
