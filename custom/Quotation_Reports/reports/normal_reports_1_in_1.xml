@@ -87,10 +87,15 @@
                                                 </t>
                                                 <span t-else="" style="float: right; font-size: 18px">様</span>
                                             </div>
+                                            <t t-if="o.report_header.name == '注文書'" t-set="massage" t-value="'御注文'"/>
+                                            <t t-if="o.report_header.name == '見積書'" t-set="massage" t-value="'御見積'"/>
+                                            <t t-if="o.report_header.name == '完了届'" t-set="massage" t-value="'完了'"/>
+                                            <t t-if="o.report_header.name == '納品書'" t-set="massage" t-value="'納品'"/>
+                                            <t t-if="o.report_header.name == '請求書'" t-set="massage" t-value="'御請求'"/>
                                             <div style="margin-top: 30px;font-size: 18px;">
-                                                <span>下記のとおりご</span>
-                                                <span t-field="o.report_header"/>
-                                                <span>し上げます。</span>
+                                                <span>下記のとおり</span>
+                                                <span t-esc="massage"/>
+                                                <span>申し上げます。</span>
                                             </div>
                                         </div>
                                         <div style="width: 45%; float: right; text-align: center; font-size: 16px">
@@ -114,7 +119,7 @@
                                             <null/>
                                             <t t-if="pager==1">
                                                 <span style="">合計金額　￥</span>
-                                                <t t-if="tax_method == 'invoice'">
+                                                <t t-if="o.tax_method == 'invoice'">
                                                     <span style="display: inline-block;  max-width: 168px; overflow: hidden; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"/>
                                                 </t>
