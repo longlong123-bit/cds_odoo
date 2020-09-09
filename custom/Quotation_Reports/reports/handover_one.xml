@@ -81,7 +81,7 @@
                                         <div t-if="pager == 1"
                                              style="margin-top: 20px;font-size: 18px; font-weight: 600;  height: 30px;">
                                             <span>合計金額　￥</span>
-                                            <t t-if="tax_method == 'invoice'">
+                                            <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
                                                       t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"/>
                                             </t>
@@ -1086,7 +1086,7 @@
                                         <div t-if="pager == 1"
                                              style="margin-top: 20px;font-size: 18px; font-weight: 600; height: 30px;">
                                             <span>合計金額　￥</span>
-                                            <t t-if="tax_method == 'invoice'">
+                                            <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
                                                       t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"/>
                                             </t>
