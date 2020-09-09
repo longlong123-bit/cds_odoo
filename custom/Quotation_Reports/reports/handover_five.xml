@@ -302,80 +302,68 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
-                                                <!--                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <!--                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <!--                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            <t t-if="check_line != 0">-->
-                                            <tr>
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                    <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                        消　　費　　税
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
-                                                    <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_tax_amount1_8">
-                                                            <span>（8％消費税）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_10">
-                                                            <span>（10％消費税）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
-                                                <!--                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <!--                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <!--                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_tax_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
-                                                        </t>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_tax_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
-                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            </t>-->
                                         </tbody>
@@ -535,39 +523,33 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
-                                                <!--                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <!--                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <!--                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
@@ -587,42 +569,36 @@
                                                 </t>
                                                 <t t-set="subtotal_tax_amount1_8"
                                                    t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
-                                                <tr>
+                                                <tr style="font-size: 14px;height: 45px">
                                                     <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
+                                                        style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                        <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                            <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                            <t t-if="subtotal_tax_amount1_8">
-                                                                <span>（8％消費税）</span>
-                                                                <br/>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span>（10％消費税）</span>
-                                                            </t>
+                                                        <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                            <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
+                                                            <span t-else=""><null/></span>
+                                                            <br/>
+                                                            <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
+                                                            <br/>
                                                         </div>
                                                     </td>
-                                                    <!--                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                    <!--                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                    <!--                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <t t-if="subtotal_tax_amount1_8">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_o">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
-                                                            </t>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                        <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                            <span t-if="subtotal_tax_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
+                                                            <span t-else="">　</span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                                 </tr>
                                             </t>
                                         </tbody>
@@ -771,9 +747,6 @@
                                                         小　　　　計
                                                     </div>
                                                 </td>
-                                                <!--                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; "></td>-->
-                                                <!--                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>-->
-                                                <!--                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>-->
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <t t-if="subtotal_amount1">
                                                         <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
@@ -945,48 +918,36 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 40px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
-                                                    </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
                                                 </td>
-                                                <!--                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <!--                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <!--                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o)"></span>
-                                                        </t>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                    <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o" style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o)"></span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <t t-if="check_line != 0">
-                                                <tr>
+                                                <tr style="font-size: 14px;height: 40px">
                                                     <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
-                                                        </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
+                                                        style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                        <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                            <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
                                                     </td>
-                                                    <!--                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                    <!--                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                    <!--                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>-->
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.amount_tax)"></span>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                        <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                            <span style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
+                                                                   t-esc="'{0:,.0f}'.format(o.amount_tax)"></span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                                 </tr>
                                             </t>
                                         </tbody>
@@ -1276,74 +1237,68 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            <t t-if="check_line != 0">-->
-                                            <tr>
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                    <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                        消　　費　　税
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
-                                                    <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_tax_amount1_8">
-                                                            <span>（8％消費税）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_10">
-                                                            <span>（10％消費税）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
-                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_tax_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
-                                                        </t>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_tax_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
-                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            </t>-->
                                         </tbody>
@@ -1503,36 +1458,33 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
@@ -1540,39 +1492,36 @@
                                             <t t-if="check_line != 0">
                                                 <t t-set="subtotal_tax_amount1_8"
                                                    t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
-                                                <tr>
+                                                <tr style="font-size: 14px;height: 45px">
                                                     <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
+                                                        style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                        <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                            <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                            <t t-if="subtotal_tax_amount1_8">
-                                                                <span>（8％消費税）</span>
-                                                                <br/>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span>（10％消費税）</span>
-                                                            </t>
+                                                        <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                            <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
+                                                            <span t-else=""><null/></span>
+                                                            <br/>
+                                                            <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
+                                                            <br/>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <t t-if="subtotal_tax_amount1_8">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_o">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
-                                                            </t>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                        <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                            <span t-if="subtotal_tax_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
+                                                            <span t-else="">　</span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                                 </tr>
                                             </t>
                                         </tbody>
@@ -1887,44 +1836,36 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 40px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
-                                                    </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
                                                 </td>
-
-                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o)"></span>
-                                                        </t>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                    <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o" style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o)"></span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <t t-if="check_line != 0">
-                                                <tr>
+                                                <tr style="font-size: 14px;height: 40px">
                                                     <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
-                                                        </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
+                                                        style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                        <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                            <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                        <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                            <span style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
                                                                   t-esc="'{0:,.0f}'.format(o.amount_tax)"></span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                                 </tr>
                                             </t>
                                         </tbody>
@@ -2216,74 +2157,68 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            <t t-if="check_line != 0">-->
-                                            <tr>
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                    <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                        消　　費　　税
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
-                                                    <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_tax_amount1_8">
-                                                            <span>（8％消費税）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_10">
-                                                            <span>（10％消費税）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
-                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_tax_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
-                                                        </t>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_tax_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
-                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            </t>-->
                                         </tbody>
@@ -2443,36 +2378,33 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
@@ -2480,39 +2412,36 @@
                                             <t t-if="check_line != 0">
                                                 <t t-set="subtotal_tax_amount1_8"
                                                    t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
-                                                <tr>
+                                                <tr style="font-size: 14px;height: 45px">
                                                     <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
+                                                        style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                        <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                            <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                            <t t-if="subtotal_tax_amount1_8">
-                                                                <span>（8％消費税）</span>
-                                                                <br/>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span>（10％消費税）</span>
-                                                            </t>
+                                                        <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                            <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
+                                                            <span t-else=""><null/></span>
+                                                            <br/>
+                                                            <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
+                                                            <br/>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <t t-if="subtotal_tax_amount1_8">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_o">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
-                                                            </t>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                        <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                            <span t-if="subtotal_tax_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
+                                                            <span t-else="">　</span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                                 </tr>
                                             </t>
                                         </tbody>
@@ -2824,44 +2753,36 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 40px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
-                                                    </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
                                                 </td>
-
-                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o)"></span>
-                                                        </t>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                    <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o" style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o)"></span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <t t-if="check_line != 0">
-                                                <tr>
+                                                <tr style="font-size: 14px;height: 40px">
                                                     <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
-                                                        </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
+                                                        style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                        <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                            <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                        <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                            <span style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
                                                                   t-esc="'{0:,.0f}'.format(o.amount_tax)"></span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                                 </tr>
                                             </t>
                                         </tbody>
@@ -3154,74 +3075,68 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            <t t-if="check_line != 0">-->
-                                            <tr>
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                    <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                        消　　費　　税
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
-                                                    <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_tax_amount1_8">
-                                                            <span>（8％消費税）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_10">
-                                                            <span>（10％消費税）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
-                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_tax_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
-                                                        </t>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_tax_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
-                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            </t>-->
                                         </tbody>
@@ -3379,36 +3294,33 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
@@ -3416,39 +3328,36 @@
                                             <t t-if="check_line != 0">
                                                 <t t-set="subtotal_tax_amount1_8"
                                                    t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
-                                                <tr>
+                                                <tr style="font-size: 14px;height: 45px">
                                                     <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
+                                                        style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                        <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                            <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                            <t t-if="subtotal_tax_amount1_8">
-                                                                <span>（8％消費税）</span>
-                                                                <br/>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span>（10％消費税）</span>
-                                                            </t>
+                                                        <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                            <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
+                                                            <span t-else=""><null/></span>
+                                                            <br/>
+                                                            <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
+                                                            <br/>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <t t-if="subtotal_tax_amount1_8">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_o">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
-                                                            </t>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                        <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                            <span t-if="subtotal_tax_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_10)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_8)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount1_o)"></span>
+                                                            <span t-else="">　</span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                                 </tr>
                                             </t>
                                         </tbody>
@@ -3759,46 +3668,36 @@
                                                     </t>
                                                 </t>
                                             </t>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 40px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 40px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
-                                                    </div>
-                                                    <div style="display: block; height: 40px; width: 40%; float: right; text-align: center;">
-
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
                                                 </td>
-
-                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o)"></span>
-                                                        </t>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                    <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o" style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o)"></span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
-                                            <t t-if="check_line != 0">
-                                                <tr>
-                                                    <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
-                                                        </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                        </div>
-                                                    </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.amount_tax)"></span>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0;"></td>
-                                                </tr>
-                                            </t>
+                                            <tr style="font-size: 14px;height: 40px">
+                                                <td colspan="4"
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                    <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                        <span style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
+                                                              t-esc="'{0:,.0f}'.format(o.amount_tax)"></span>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -4090,75 +3989,68 @@
                                                 </t>
                                             </t>
                                             <t t-set="check_line" t-value="line"/>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 30px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 30px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount1_8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            <t t-if="check_line != 0">-->
-                                            <tr>
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                    <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                        消　　費　　税
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
-                                                    <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_tax_amount8">
-                                                            <span>（8％消費税）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount10">
-                                                            <span>（10％消費税）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
-                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_tax_amount8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount8)"></span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_tax_amount_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount_o)"></span>
-                                                        </t>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_tax_amount_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
-                                                <td style="border: 1px solid #000000; border-top: 0; border-left: 0;border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                             </tr>
                                             <!--                                            </t>-->
                                         </tbody>
@@ -4320,36 +4212,33 @@
                                                 </t>
                                             </t>
                                             <t t-set="check_line" t-value="line"/>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 45px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 30px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
-                                                    <div style="display: block; height: 30px; width: 40%; float: right; text-align: center;">
-                                                        <t t-if="subtotal_amount8">
-                                                            <span>（8％対象）</span>
-                                                            <br/>
-                                                        </t>
-                                                        <t t-if="subtotal_amount10">
-                                                            <span>（10％対象）</span>
-                                                        </t>
+                                                    <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                        <span t-if="subtotal_amount1_10">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <br/>
+                                                        <span t-if="subtotal_amount1_8">（8％対象）</span>
+                                                        <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_amount8">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount8)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_10">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount10)"></span>
-                                                        </t>
-                                                        <t t-if="subtotal_amount1_o">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(subtotal_amount_o)"></span>
-                                                        </t>
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_10)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8)"></span>
+                                                        <span t-else="">　</span>
+
+                                                        <span t-if="subtotal_amount1_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_o)"></span>
+                                                        <span t-else="">　</span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
@@ -4369,40 +4258,36 @@
                                                 </t>
                                                 <t t-set="subtotal_tax_amount8"
                                                    t-value="o.amount_tax - int(subtotal_tax_amount10) - int(subtotal_tax_amount_o)"/>
-                                                <tr>
+                                                <tr style="font-size: 14px;height: 45px">
                                                     <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
+                                                        style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                        <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                            <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
-                                                            <t t-if="subtotal_tax_amount8">
-                                                                <span>（8％消費税）</span>
-                                                                <br/>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount10">
-                                                                <span>（10％消費税）</span>
-                                                            </t>
+                                                        <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: center;">
+                                                            <span t-if="subtotal_tax_amount10">（10％消費税）</span>
+                                                            <span t-else=""><null/></span>
+                                                            <br/>
+                                                            <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                            <br/>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <t t-if="subtotal_tax_amount8">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount8)"></span>
-                                                                <br/>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount1_10">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount10)"></span>
-                                                            </t>
-                                                            <t t-if="subtotal_tax_amount_o">
-                                                                <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                                      t-esc="'{0:,.0f}'.format(subtotal_tax_amount_o)"></span>
-                                                            </t>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
+                                                        <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                            <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount10)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount8)"></span>
+                                                            <span t-else="">　</span>
+
+                                                            <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(subtotal_tax_amount_o)"></span>
+                                                            <span t-else="">　</span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;border-right: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                                 </tr>
                                             </t>
                                         </tbody>
@@ -4712,21 +4597,17 @@
                                                 </t>
                                             </t>
                                             <t t-set="check_line" t-value="line"/>
-                                            <tr style="font-size: 14px;height: 30px">
+                                            <tr style="font-size: 14px;height: 40px">
                                                 <td colspan="4"
-                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; padding: 0">
-                                                    <div style="display: block; height: 30px; width: 60%; float: left; text-align: right;">
-                                                        小　　　　計
-                                                    </div>
-                                                    <div style="display: block; height: 30px; width: 40%; float: right; text-align: center;">
-
+                                                    style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                    <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">小　　　　計</span>
                                                     </div>
                                                 </td>
-
-                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                    <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                        <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(subtotal_amount8 + subtotal_amount10 + subtotal_amount_o)"></span>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                    <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o" style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
+                                                              t-esc="'{0:,.0f}'.format(subtotal_amount1_8 + subtotal_amount1_10 + subtotal_amount1_o)"></span>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
@@ -4734,22 +4615,20 @@
                                             <t t-if="check_line != 0">
                                                 <t t-set="subtotal_tax_amount8"
                                                    t-value="o.amount_tax - int(subtotal_tax_amount10) - int(subtotal_tax_amount_o)"/>
-                                                <tr>
+                                                <tr style="font-size: 14px;height: 40px">
                                                     <td colspan="4"
-                                                        style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
-                                                        <div style="display: inline-block; width: 60%; float: left; text-align: right;">
-                                                            消　　費　　税
-                                                        </div>
-                                                        <div style="display: inline-block; width: 40%; float: right; text-align: center;">
+                                                        style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
+                                                        <div style="display: table; height: 40px; width: 60%; float: left; text-align: right;">
+                                                            <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px; vertical-align: middle;">
+                                                        <div style="display: table; height: 40px; float: right; text-align: right;">
+                                                            <span style="display: table-cell; width: 66px; overflow: hidden; white-space: nowrap; vertical-align: middle;"
                                                                   t-esc="'{0:,.0f}'.format(o.amount_tax)"></span>
                                                         </div>
                                                     </td>
-                                                    <td style="border: 1px solid #000000; border-top: 0; border-left: 0;border-right: 0;"></td>
+                                                    <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                                 </tr>
                                             </t>
                                         </tbody>
