@@ -25,20 +25,20 @@
                         <div style="display: block; page-break-before: always;">
                             <div>
                                 <div style="text-align: center;">
-                                    <div style=" max-width: 33.3333333%; text-align: center; display: inline-block;">
+                                    <div style="float: left; width: 59%; text-align: center; display: inline-block; padding-left: 20%;">
                                         <t t-if="o.report_header">
                                             <h4 class="mt0" t-field="o.report_header"
-                                                style="font-size: 26px;font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0; width: max-content">
+                                                style="font-size: 26px; font-weight: 400; color: #000000; text-decoration: underline; margin: 0; padding: 0;">
                                             </h4>
                                         </t>
                                         <t t-else="">
                                             <h4 class="mt0"
-                                                style="font-size: 26px;font-weight: 600; color: #000000; border-bottom: 1px solid #000000; margin: 0; padding: 0;  width: max-content">
+                                                style="font-size: 26px;font-weight: 400; color: #000000; text-decoration: underline; margin: 0; padding: 0;  width: max-content">
                                                 見 積 書
                                             </h4>
                                         </t>
                                     </div>
-                                    <div style="float: right; text-align: right; display: inline-block;">
+                                    <div style="float: right; text-align: right; display: inline-block; width: 20%;">
                                         <span t-field="o.document_no" class="mt0"
                                               style="font-size: 14px; color: #000000; line-height: 50px; margin: 0; padding: 0"/>
                                         -
@@ -99,7 +99,7 @@
                                             </div>
                                         </div>
                                         <div style="width: 45%; float: right; text-align: center; font-size: 16px">
-                                            <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
+                                            <span style="font-weight: 600; font-size: 26px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
                                             <br/>
