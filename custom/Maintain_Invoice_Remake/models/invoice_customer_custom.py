@@ -1406,7 +1406,30 @@ class AccountMoveLine(models.Model):
                                                          country_state_code_ids.recruitment_price_select,
                                                          country_state_code_ids.price_applied)
         else:
-            price = 0
+            country_state_code_id_none = self.env['master.price.list'].search([
+                ('country_state_code_id', '=', None),
+                ('industry_code_id', '=', industry_code),
+                ('supplier_group_code_id', '=', supplier_group_code),
+                ('customer_code_bill', '=', customer_code_bill),
+                ('customer_code', '=', customer_code),
+                ('maker_code', '=', maker),
+                ('product_class_code_lv1_id', '=', product_class_code_lv1),
+                ('product_class_code_lv2_id', '=', product_class_code_lv2),
+                ('product_class_code_lv3_id', '=', product_class_code_lv3),
+                ('product_class_code_lv4_id', '=', product_class_code_lv4),
+                ('jan_code', '=', jan_code),
+                ('product_code', '=', product_code)]).sorted('id')
+            if len(country_state_code_id_none):
+                if len(country_state_code_id_none) > 1:
+                    for i in country_state_code_id_none:
+                        price = self.price_of_recruitment_select(i.rate, i.recruitment_price_select, i.price_applied)
+                else:
+                    price = self.price_of_recruitment_select(country_state_code_id_none.rate,
+                                                             country_state_code_id_none.recruitment_price_select,
+                                                             country_state_code_id_none.price_applied)
+            else:
+                product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
+                price = product_price_ids.price_1
         return price
 
     def set_industry_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
