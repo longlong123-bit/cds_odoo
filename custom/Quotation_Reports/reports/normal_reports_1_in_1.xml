@@ -1066,11 +1066,11 @@
                                         <!--                                        <t t-else="o.tax_method =='custom_tax'"></t>-->
 
                                     </table>
-                                    <div style="font-size: 16px; font-weight: 600; padding: 10px 0 10px 30px; line-height: 1.5;"
+                                    <div style="font-size: 16px; font-weight: 600; padding: 5px 0 5px 30px; line-height: 1.5;"
                                          t-if="o.report_header.name =='請求書'">
                                         <span>振込口座:</span>
                                         <span t-field="o.company_id.company_bank_account_1"/>
-                                        <div style="font-size: 16px; font-weight: 400; padding: 10px 0 10px 0px;">
+                                        <div style="font-size: 16px; font-weight: 400; padding: 5px 0 5px 0px; display: block; max-height: 110px; width: 100%; overflow: hidden;">
                                             <span>
                                               お振込先金融機関
                                             </span><br/>
