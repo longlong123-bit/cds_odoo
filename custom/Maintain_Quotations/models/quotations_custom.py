@@ -740,9 +740,9 @@ class QuotationsLinesCustom(models.Model):
         if len(country_state_code_ids):
             if len(country_state_code_ids) > 1:
                 for i in country_state_code_ids:
-                    price = self.price_of_recruitment_select(country_state_code_ids.rate,
-                                                             country_state_code_ids.recruitment_price_select,
-                                                             country_state_code_ids.price_applied)
+                    price = self.price_of_recruitment_select(i.rate,
+                                                             i.recruitment_price_select,
+                                                             i.price_applied)
             else:
                 price = self.price_of_recruitment_select(country_state_code_ids.rate,
                                                          country_state_code_ids.recruitment_price_select,
