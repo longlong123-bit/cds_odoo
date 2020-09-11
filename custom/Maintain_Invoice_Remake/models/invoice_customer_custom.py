@@ -2003,7 +2003,7 @@ class AccountMoveLine(models.Model):
                 # self.discount = self._origin.discount
                 raise ValidationError(_("入力された値は最大値(100)の制限より大きくなっています。: 値引率%"))
 
-    def get_compute_lineamount(self, price_unit, discount, quantity):
+    def get_compute_lineamount(self, price_unit, discount, quantity, type_rounding):
         if price_unit is None:
             price_unit = 0
         if discount is None:
@@ -2012,25 +2012,25 @@ class AccountMoveLine(models.Model):
             quantity = 0
         result = price_unit * quantity - (discount * price_unit / 100) * quantity
         # TODO recounting rounding
-        return rounding(result, 0, self.move_id.partner_id.customer_tax_rounding)
+        return rounding(result, 0, type_rounding)
 
-    def get_compute_sale_unit_price(self, price_unit, discount):
+    def get_compute_sale_unit_price(self, price_unit, discount, type_rounding):
         if price_unit is None:
             price_unit = 0
         if discount is None:
             discount = 0
         result = price_unit - discount * price_unit / 100
         # TODO recounting rounding
-        return rounding(result, 0, self.move_id.partner_id.customer_tax_rounding)
+        return rounding(result, 0, type_rounding)
 
-    def get_compute_discount_unit_price(self, price_unit, discount):
+    def get_compute_discount_unit_price(self, price_unit, discount, type_rounding):
         if price_unit is None:
             price_unit = 0
         if discount is None:
             discount = 0
         result = - price_unit * discount / 100
         # TODO recounting rounding
-        return rounding(result, 0, self.move_id.partner_id.customer_tax_rounding)
+        return rounding(result, 0, type_rounding)
 
     def _get_compute_line_tax_amount(self, line_amount, line_taxes, line_rounding, line_type):
         if line_amount != 0:
@@ -2048,16 +2048,19 @@ class AccountMoveLine(models.Model):
 
     def compute_sale_unit_price(self):
         for line in self:
-            line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount)
+            line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount,
+                                                                                  line.move_id.partner_id.customer_tax_rounding)
 
     def compute_discount_unit_price(self):
         for line in self:
-            line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount)
+            line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount,
+                                                                                         line.move_id.partner_id.customer_tax_rounding)
 
     @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding')
     def compute_line_amount(self):
         for line in self:
-            line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity)
+            line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity,
+                                                                         line.move_id.partner_id.customer_tax_rounding)
 
     @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding',
                  'move_id.invoice_line_ids')
@@ -2103,9 +2106,12 @@ class AccountMoveLine(models.Model):
             line.update(line._get_price_total_and_subtotal())
             line.update(line._get_fields_onchange_subtotal())
 
-            line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount)
-            line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount)
-            line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity)
+            line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount,
+                                                                                  line.move_id.partner_id.customer_tax_rounding)
+            line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount,
+                                                                                         line.move_id.partner_id.customer_tax_rounding)
+            line.invoice_custom_lineamount = self.get_compute_lineamount(line, line.price_unit, line.discount,
+                                                                         line.quantity)
 
             if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
                 and line.product_id.product_tax_category != 'exempt') \
