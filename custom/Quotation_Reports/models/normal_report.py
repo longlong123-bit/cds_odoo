@@ -16,7 +16,7 @@ class PrintSale(models.Model):
         }
 
     def limit_chapter_reports(self, string_text=None):
-        string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True)
+        string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
         count = 0
         len_i = len(string_text)
         byte_count = 0
@@ -24,7 +24,7 @@ class PrintSale(models.Model):
             byte_count += len(string_text[count].encode('SHIFT-JIS'))
             count += 1
         len_string = string_text[:count]
-        return len_string
+        return len_string.replace('-', '－').replace(' ', '　').replace('~', '～')
 
     def limit_number_field(self, number=0.00, number_len=20):
         if len(str(number)) > number_len:
@@ -37,7 +37,7 @@ class SaleOrderLine(models.Model):
 
     def limit_charater_field(self, string_text=None, text_len=20, name=False, first1=True):
         len_string = ''
-        string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True)
+        string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
         if name:
             string_text1 = ''
             string_text2 = ''
@@ -71,7 +71,7 @@ class SaleOrderLine(models.Model):
                 byte_count += len(string_text[count].encode('SHIFT-JIS'))
                 count += 1
             len_string = string_text[:count]
-        return len_string
+        return len_string.replace('-', '－').replace(' ', '　').replace('~', '～')
 
     def limit_number_field(self, number=0.00, number_len=20, name=False):
         if name:
