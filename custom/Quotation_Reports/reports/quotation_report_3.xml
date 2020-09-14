@@ -78,11 +78,16 @@
                                                       t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                 </span>
                                             </t>
-                                            <span t-else=""
-                                                  style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
-                                                  t-esc="o.limit_chapter_reports(o.partner_name)">
-                                                <null/>
-                                            </span>
+                                            <t t-else="">
+                                                <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;">
+                                                    <null/>
+                                                </span>
+                                                <br/>
+                                                <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                    <null/>
+                                                </span>
+                                            </t>
                                             <t t-if="o.partner_id.title">
                                                 <span t-field="o.partner_id.title"
                                                       style="font-size: 18px; float: right; text-align: left; width: 70px; overflow: hidden;"/>
