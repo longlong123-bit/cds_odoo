@@ -26,16 +26,9 @@ class PrintSale(models.Model):
         len_string = string_text[:count]
         return len_string
 
-    def limit_number_field(self, number=0.00, number_len=20, name=False):
-        if name:
-            if number % 1 > 0:
-                number_len = number_len - 2
-                number = str(int(number))[:number_len] + str(number % 1)[1:]
-            else:
-                number = str(number)[:number_len]
-        else:
-            if len(str(number)) > number_len:
-                number = str(number)[:number_len]
+    def limit_number_field(self, number=0.00, number_len=20):
+        if len(str(number)) > number_len:
+            number = str(number)[:number_len]
         return float(number)
 
 
