@@ -63,26 +63,26 @@
                                     </div>
                                 </div>
                                 <div style="display: inline-block; width: 100%">
-                                    <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
+                                    <div style="margin-top: 10px; margin-bottom: 10px; width: 54%; display: inline-block;">
                                         <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
                                             <t t-if="o.partner_name_2">
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_name">
+                                                <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="o.limit_chapter_reports(o.partner_name)">
                                                     <null/>
                                                 </span>
                                                 <br/>
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
-                                                      t-field="o.partner_name_2">
+                                                <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                      t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                 </span>
                                             </t>
                                             <span t-else=""
-                                                  style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
-                                                  t-field="o.partner_name">
+                                                  style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                  t-esc="o.limit_chapter_reports(o.partner_name)">
                                                 <null/>
                                             </span>
                                             <t t-if="o.partner_id.title">
                                                 <span t-field="o.partner_id.title"
-                                                      style="font-size: 18px; float: right;"/>
+                                                      style="font-size: 18px; float: right; text-align: left; width: 70px; overflow: hidden;"/>
                                             </t>
                                             <span t-else="" style="float: right; font-size: 18px">様</span>
                                         </div>
@@ -1085,8 +1085,8 @@
                                 </table>
                                 <div style="font-size: 16px; font-weight: 600; padding: 5px 0 5px 30px; line-height: 1.5;"
                                      t-if="o.report_header.name =='請求書'">
-                                    <span>振込口座:</span>
-                                    <span t-field="o.company_id.company_bank_account_1"/>
+                                    <span t-if="o.company_id.company_bank_account_1">振込口座:</span>
+                                    <span t-if="o.company_id.company_bank_account_1" t-field="o.company_id.company_bank_account_1"/>
                                     <div style="font-size: 16px; font-weight: 400; padding: 5px 0 5px 0px; display: block; max-height: 110px; width: 100%; overflow: hidden;">
                                         <span>
                                           お振込先金融機関
