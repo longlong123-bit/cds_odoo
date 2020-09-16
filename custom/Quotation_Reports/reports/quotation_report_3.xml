@@ -66,7 +66,7 @@
 <!--                                    </div>-->
 <!--                                </div>-->
                                 <div style="display: inline-block; width: 100%">
-                                    <div style="margin-top: 0px; margin-bottom: 0px; width: 54%; display: inline-block;">
+                                    <div style="margin-top: -5px; margin-bottom: 0px; width: 54%; display: inline-block;">
                                         <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
                                             <t t-if="o.partner_name_2">
                                                 <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
@@ -99,22 +99,22 @@
                                         <t t-if="o.report_header.name == '完了届'" t-set="massage" t-value="'完了'"/>
                                         <t t-if="o.report_header.name == '納品書'" t-set="massage" t-value="'納品'"/>
                                         <t t-if="o.report_header.name == '請求書'" t-set="massage" t-value="'御請求'"/>
-                                        <div style="margin-top: 10px; font-size: 18px">
-                                            <span>下記のとおりご</span>
+                                        <div style="margin-top: 10px; font-size: 16px">
+                                            <span >下記のとおりご</span>
                                             <span t-esc="massage"/>
                                             <span>し上げます。</span>
                                             <br/>
                                             <span>納入期日</span>
-                                            <span t-field="o.expected_date"/>
+                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.expected_date"/>
                                             <br/>
                                             <span>納入場所</span>
-                                            <span t-field="o.shipping_address"/>
+                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.shipping_address"/>
                                             <br/>
-                                            <span>代金支払い条件</span>
-                                            <span t-field="o.note"/>
+                                            <span style="display: inline-block;">代金支払い条件</span>
+                                            <span style="display: inline-block; width: 280px; overflow: hidden; white-space: nowrap;" t-field="o.note"/>
                                             <br/>
                                             <span>有効期限</span>
-                                            <span t-field="o.expiration_date"/>
+                                            <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.expiration_date"/>
                                         </div>
                                     </div>
                                     <div style="width: 45%; float: right; text-align: center; font-size: 16px">
@@ -139,7 +139,7 @@
                                         <span>本　社</span>
                                         <span>千葉県銚子市新生町二丁目12番地の５</span>
                                         <br/>
-                                        <span>TEL　0479-22-3515　FAX　0479-24-9376</span>
+                                        <span>TEL　0479－24－3721　FAX　0479-24-9376</span>
                                         <br/>
                                         <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span>
                                         <br/>
@@ -147,7 +147,7 @@
                                         <br/>
                                     </div>
                                 </div>
-                                <div style=" display: inline-block; width: 100%; margin-top: 0px;">
+                                <div style=" display: inline-block; width: 100%; margin-top: 10px;">
                                     <div style="font-size: 18px; float: left; display: inline-block; border-bottom: 1px solid;">
                                         <t t-if="pager==1">
                                             <span style="">合計金額　￥</span>
@@ -167,7 +167,7 @@
                                             </t>
                                         </t>
                                     </div>
-                                    <div style="float: right; font-size: 16px; display: block; margin-top: -15px;">
+                                    <div style="float: right; font-size: 16px; display: block; margin-top: 3px;">
                                         <div>
                                             <span style="display: inline-block; width: 286px; overflow: hidden; white-space: nowrap;"
                                                   t-field="o.comment_apply">
