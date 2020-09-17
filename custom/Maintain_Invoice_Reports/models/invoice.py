@@ -65,6 +65,8 @@ class InvoiceReports(models.Model):
                     count += 1
                 len_string = string_text2[:count]
         else:
+            if not first1 and "\n" in string_text:
+                string_text = string_text.replace('\n', '')
             count = 0
             len_i = len(string_text)
             byte_count = 0
