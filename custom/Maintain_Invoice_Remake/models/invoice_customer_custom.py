@@ -2110,8 +2110,8 @@ class AccountMoveLine(models.Model):
                                                                                   line.move_id.partner_id.customer_tax_rounding)
             line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount,
                                                                                          line.move_id.partner_id.customer_tax_rounding)
-            line.invoice_custom_lineamount = self.get_compute_lineamount(line, line.price_unit, line.discount,
-                                                                         line.quantity)
+            line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount,
+                                                                         line.quantity, line.move_id.partner_id.customer_tax_rounding)
 
             if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
                 and line.product_id.product_tax_category != 'exempt') \
