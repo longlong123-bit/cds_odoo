@@ -38,28 +38,29 @@ class SaleOrderLine(models.Model):
     def limit_charater_field(self, string_text=None, text_len=20, name=False, first1=True):
         text_len = text_len/2
         len_string = ''
-        string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
-        if name:
-            string_text1 = ''
-            string_text2 = ''
-            if len(string_text.splitlines()) - 1:
-                string_text1 = string_text.splitlines()[0]
-                string_text2 = string_text.splitlines()[1]
-            else:
-                string_text1 = string_text
+        if string_text:
+            string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
+            if name:
+                string_text1 = ''
                 string_text2 = ''
-            if first1:
-                len_string = string_text1[:text_len]
+                if len(string_text.splitlines()) - 1:
+                    string_text1 = string_text.splitlines()[0]
+                    string_text2 = string_text.splitlines()[1]
+                else:
+                    string_text1 = string_text
+                    string_text2 = ''
+                if first1:
+                    len_string = string_text1[:text_len]
+                else:
+                    # count = 0
+                    # len_i = len(string_text2)
+                    # byte_count = 0
+                    # while count < len_i and byte_count < text_len:
+                    #     byte_count += len(string_text2[count])
+                    #     count += 1
+                    len_string = string_text2[:text_len]
             else:
-                # count = 0
-                # len_i = len(string_text2)
-                # byte_count = 0
-                # while count < len_i and byte_count < text_len:
-                #     byte_count += len(string_text2[count])
-                #     count += 1
-                len_string = string_text2[:text_len]
-        else:
-            len_string = string_text[:text_len]
+                len_string = string_text[:text_len]
         # return len_string
         return len_string.replace('-', '－').replace(' ', '　').replace('~', '～')
 
