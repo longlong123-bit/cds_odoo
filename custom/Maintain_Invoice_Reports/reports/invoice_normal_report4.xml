@@ -240,7 +240,7 @@
                                            style="width: 100%; line-height: 1; font-size: 10px;">
                                         <thead>
                                             <tr>
-                                                <td style="border: 1px solid #000000; border-right: 0; text-align: center; width: 50%;">
+                                                <td style="border: 1px solid #000000; border-right: 0; text-align: center; width: 54%;">
                                                     品　番　　・　　　　品　名
                                                 </td>
                                                 <td style="border: 1px solid #000000; border-right: 0; text-align: center; width: 6%">
@@ -255,7 +255,7 @@
                                                 <td style="border: 1px solid #000000; border-right: 0; text-align: center; width: 11%">
                                                     金　額
                                                 </td>
-                                                <td style="border: 1px solid #000000; text-align: center; width: 11%;">
+                                                <td style="border: 1px solid #000000; text-align: center; width: auto;">
                                                     備　考
                                                 </td>
                                             </tr>
@@ -341,14 +341,14 @@
                                                             <!-- Position 12: 品　0　・　品　名 -->
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
                                                                 <div style="display: inline-block; width: 100%; height: 13px;">
-                                                                    <div style="float: left; display: inline-block; width: 240px; white-space: nowrap; overflow: hidden; height: 13px;">
+                                                                    <div style="float: left; display: inline-block; width: 210px; white-space: nowrap; overflow: hidden; height: 13px;">
                                                                         <span t-esc="o.limit_charater_field(order.product_name, 20, False, False)"/>
                                                                     </div>
                                                                     <div style="float: right; height: 13px; display: inline-block;">
-                                                                        <div style="float: left; display: inline-block; width: 63px; white-space: nowrap; overflow: hidden; margin-right: 5px;">
+                                                                        <div style="float: left; display: inline-block; width: 100px; white-space: nowrap; overflow: hidden; margin-right: 5px;">
                                                                             <span t-if="order.product_maker_name" t-esc="o.limit_charater_field(order.product_maker_name, 5)"/>
                                                                         </div>
-                                                                        <div style="float: right; display: inline-block; width: 63px; white-space: nowrap; overflow: hidden; text-align: right">
+                                                                        <div style="float: right; display: inline-block; width: 100px; white-space: nowrap; overflow: hidden; text-align: right">
                                                                             <span t-if="order.invoice_custom_standardnumber" t-esc="o.limit_charater_field(order.invoice_custom_standardnumber, 5)"/>
                                                                         </div>
                                                                     </div>
