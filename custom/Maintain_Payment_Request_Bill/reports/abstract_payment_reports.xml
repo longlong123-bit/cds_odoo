@@ -339,7 +339,7 @@
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 359px; overflow: hidden;">
-                                                            <span t-esc="string_summary_previous_data"
+                                                            <span t-esc="o.limit_charater_field(string_summary_previous_data, 12)"
                                                                   style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                             </span>
                                                         </div>
@@ -556,7 +556,7 @@
                                             </td>
                                             <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 359px; overflow: hidden;">
-                                                    <span t-esc="string_summary_previous_data"
+                                                    <span t-esc="o.limit_charater_field(string_summary_previous_data, 12)"
                                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
                                                     </span>
                                                 </div>
