@@ -20,8 +20,8 @@ class PrintSale(models.Model):
         count = 0
         len_i = len(string_text)
         byte_count = 0
-        while count < len_i and byte_count < 40:
-            byte_count += len(string_text[count].encode('SHIFT-JIS'))
+        while count < len_i and byte_count < 20:
+            byte_count += len(string_text[count])
             count += 1
         len_string = string_text[:count]
         return len_string.replace('-', '－').replace(' ', '　').replace('~', '～')
