@@ -36,7 +36,6 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     def limit_charater_field(self, string_text=None, text_len=20, name=False, first1=True):
-        text_len = text_len/2
         len_string = ''
         if string_text:
             string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
