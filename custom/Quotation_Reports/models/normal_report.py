@@ -20,8 +20,8 @@ class PrintSale(models.Model):
         count = 0
         len_i = len(string_text)
         byte_count = 0
-        while count < len_i and byte_count < 40:
-            byte_count += len(string_text[count].encode('SHIFT-JIS'))
+        while count < len_i and byte_count < 20:
+            byte_count += len(string_text[count])
             count += 1
         len_string = string_text[:count]
         return len_string.replace('-', '－').replace(' ', '　').replace('~', '～')
@@ -36,7 +36,6 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     def limit_charater_field(self, string_text=None, text_len=20, name=False, first1=True):
-        text_len = text_len/2
         len_string = ''
         if string_text:
             string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
