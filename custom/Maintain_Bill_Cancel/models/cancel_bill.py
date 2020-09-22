@@ -15,8 +15,7 @@ class BillingClass(models.Model):
             ]
 
             bill_info_lasted_domain = [
-                ('billing_code', '=', rec['billing_code']),
-                ('bill_report_state', '=', False),
+                ('billing_code', '=', rec['billing_code'])
             ]
             bill_info_lasted = self.env['bill.info'].search(bill_info_lasted_domain,
                                                             order='deadline desc, create_date desc', limit=1)
