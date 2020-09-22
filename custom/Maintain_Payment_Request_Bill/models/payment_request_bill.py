@@ -275,7 +275,7 @@ class CollationPayment(models.Model):
                     # if record[0] != 'search_category':
                     domain += [record]
                 args = domain
-        if 'Cancel Billing' == ctx.get('view_name') and len(args) == 1:
+        if 'Cancel Billing' == ctx.get('view_name') and len(args) == 0:
             return []
         elif 'bill_report' == ctx.get('view_code') and len(args) == 0:
             return []
