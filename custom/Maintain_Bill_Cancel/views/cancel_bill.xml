@@ -48,7 +48,7 @@
         <field name="res_model">bill.info</field>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="bm_cancel_bill_tree"/>
-        <field name="domain">[('bill_report_state', '=', False)]</field>
+        <field name="domain"></field>
         <field name="context">{'bill_management_module': True, 'view_name': 'Cancel Billing'}</field>
     </record>
 

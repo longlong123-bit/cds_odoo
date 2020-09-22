@@ -18,7 +18,7 @@ class CancelBillAPI(odoo.http.Controller):
             registry = odoo.modules.registry.Registry(dbname)
             with odoo.api.Environment.manage(), registry.cursor() as cr:
                 env = odoo.api.Environment(cr, odoo.SUPERUSER_ID, {})
-                rec = env[model_name].search([('partner_id.customer_closing_date.closing_date_code', '=', str(closing_date)), ('bill_report_state', '=', False)], order='deadline desc', limit=1)
+                rec = env[model_name].search([('partner_id.customer_closing_date.closing_date_code', '=', str(closing_date))], order='deadline desc', limit=1)
                 response = {
                     "status": "ok",
                     "content": {
