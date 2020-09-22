@@ -2237,30 +2237,83 @@ class AccountMoveLine(models.Model):
                 line.voucher_line_tax_amount = 0
 
     @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-        odoo/models.py
-        """
-        ctx = self._context.copy()
-        if ctx.get('have_advance_search'):
-            domain = []
-            check = 0
-            arr = ["partner_id", "partner_id.name", "move_id.x_userinput_id", "customer_state", "customer_group",
-                   "customer_industry", "customer_trans_classification_code", "product_code", "product_barcode",
-                   "invoice_custom_standardnumber", "product_maker_name"]
-            for se in args:
-                if se[0] == '&':
-                    continue
-                if se[0] == 'search_category' and se[2] == 'equal':
-                    check = 1
+    def _get_fields_onchange_balance_model(self, quantity, discount, balance, move_type, currency, taxes,
+                                           price_subtotal):
+        ''' This method is used to recompute the values of 'quantity', 'discount', 'price_unit' due to a change made
+        in some accounting fields such as 'balance'.
 
-                if check == 1 and se[0] in arr:
-                    se[1] = '=like'
-                if se[0] != 'search_category':
-                    domain += [se]
-            args = domain
-        res = super(AccountMoveLine, self).search(args, offset=offset, limit=limit, order=order, count=count)
-        return res
+        This method is a bit complex as we need to handle some special cases.
+        For example, setting a positive balance with a 100% discount.
+
+        :param quantity:        The current quantity.
+        :param discount:        The current discount.
+        :param balance:         The new balance.
+        :param move_type:       The type of the move.
+        :param currency:        The currency.
+        :param taxes:           The applied taxes.
+        :param price_subtotal:  The price_subtotal.
+        :return:                A dictionary containing 'quantity', 'discount', 'price_unit'.
+        '''
+        if move_type in self.move_id.get_outbound_types():
+            sign = 1
+        elif move_type in self.move_id.get_inbound_types():
+            sign = -1
+        else:
+            sign = 1
+        balance *= sign
+
+        # Avoid rounding issue when dealing with price included taxes. For example, when the price_unit is 2300.0 and
+        # a 5.5% price included tax is applied on it, a balance of 2300.0 / 1.055 = 2180.094 ~ 2180.09 is computed.
+        # However, when triggering the inverse, 2180.09 + (2180.09 * 0.055) = 2180.09 + 119.90 = 2299.99 is computed.
+        # To avoid that, set the price_subtotal at the balance if the difference between them looks like a rounding
+        # issue.
+        if currency.is_zero(balance - price_subtotal):
+            return {}
+
+        taxes = taxes.flatten_taxes_hierarchy()
+        if taxes and any(tax.price_include for tax in taxes):
+            # Inverse taxes. E.g:
+            #
+            # Price Unit    | Taxes         | Originator Tax    |Price Subtotal     | Price Total
+            # -----------------------------------------------------------------------------------
+            # 110           | 10% incl, 5%  |                   | 100               | 115
+            # 10            |               | 10% incl          | 10                | 10
+            # 5             |               | 5%                | 5                 | 5
+            #
+            # When setting the balance to -200, the expected result is:
+            #
+            # Price Unit    | Taxes         | Originator Tax    |Price Subtotal     | Price Total
+            # -----------------------------------------------------------------------------------
+            # 220           | 10% incl, 5%  |                   | 200               | 230
+            # 20            |               | 10% incl          | 20                | 20
+            # 10            |               | 5%                | 10                | 10
+            taxes_res = taxes._origin.compute_all(balance, currency=currency, handle_price_include=False)
+            for tax_res in taxes_res['taxes']:
+                tax = self.env['account.tax'].browse(tax_res['id'])
+                if tax.price_include:
+                    balance += tax_res['amount']
+
+        discount_factor = 1 - (discount / 100.0)
+        if balance and discount_factor:
+            # discount != 100%
+            vals = {
+                'quantity': quantity or 1.0,
+                'price_unit': self._get_computed_price_unit(),
+            }
+        elif balance and not discount_factor:
+            # discount == 100%
+            vals = {
+                'quantity': quantity or 1.0,
+                'discount': 0.0,
+                'price_unit': self._get_computed_price_unit(),
+            }
+        elif not discount_factor:
+            # balance of line is 0, but discount  == 100% so we display the normal unit_price
+            vals = {}
+        else:
+            # balance is 0, so unit price is 0 as well
+            vals = {'price_unit': 0.0}
+        return vals
 
 
 checkshow_jan_code = False
