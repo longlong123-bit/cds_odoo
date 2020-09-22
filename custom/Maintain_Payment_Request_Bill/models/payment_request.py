@@ -4,6 +4,7 @@ from datetime import date, timedelta
 from odoo.tools.float_utils import float_round
 from . import payment_request_bill
 import calendar
+import jaconv
 
 
 def rounding(number, pre=0, type_rounding='round'):
@@ -41,7 +42,7 @@ class BillInvoiceDetail(models.Model):
     def count_detail_line(self):
         self.ensure_one()
         count_detail = 1
-        count = self.product_name.count("\n")
+        count = len(self.product_name.splitlines()) - 1
         if self.tax_rate == 8 or self.account_move_line_id.product_id.product_tax_category == 'exempt':
             count_detail += 1
         if count > 0:
@@ -50,12 +51,15 @@ class BillInvoiceDetail(models.Model):
 
     def gross_maker_and_standard(self):
         self.ensure_one()
+        gross = ''
         if self.product_maker_name and self.product_custom_standardnumber:
-            gross = str(self.product_maker_name) + '  ' + str(self.product_custom_standardnumber)
+            gross = str(self.product_maker_name) + ' ' + str(self.product_custom_standardnumber)
         elif self.product_maker_name and not self.product_custom_standardnumber:
             gross = str(self.product_maker_name)
         else:
             gross = self.product_custom_standardnumber
+        if gross:
+            gross = jaconv.h2z(gross, kana=True, digit=True, ascii=True)[:10]
         return gross
 
 
@@ -154,6 +158,43 @@ class BillInfoGet(models.Model):
             count_line += record.count_detail_line()
         print(count_line)
         return count_line
+
+    # Limit Character and Number:
+    def limit_charater_field(self, string_text=None, text_len=20, name=False, first1=True):
+        len_string = ''
+        if string_text:
+            string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
+            if name:
+                string_text1 = ''
+                string_text2 = ''
+                if len(string_text.splitlines()) - 1:
+                    string_text1 = string_text.splitlines()[0]
+                    string_text2 = string_text.splitlines()[1]
+                else:
+                    string_text1 = string_text
+                    string_text2 = ''
+                if first1:
+                    len_string = string_text1[:text_len]
+                else:
+                    len_string = string_text2[:text_len]
+            else:
+                if not first1 and len(string_text.splitlines()) - 1:
+                    for i in string_text.splitlines():
+                        string_text += string_text.splitlines()[i]
+                len_string = string_text[:text_len]
+        return len_string.replace('-', '－').replace(' ', '　').replace('~', '～')
+
+    def limit_number_field(self, number=0.00, number_len=20, name=False):
+        if name:
+            if number % 1 > 0:
+                number_len = number_len - 2
+                number = str(int(number))[:number_len] + str(number % 1)[1:]
+            else:
+                number = str(number)[:number_len]
+        else:
+            if len(str(number)) > number_len:
+                number = str(number)[:number_len]
+        return float(number)
 
 
 class PartnerClass(models.Model):
