@@ -2237,6 +2237,32 @@ class AccountMoveLine(models.Model):
                 line.voucher_line_tax_amount = 0
 
     @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        odoo/models.py
+        """
+        ctx = self._context.copy()
+        if ctx.get('have_advance_search'):
+            domain = []
+            check = 0
+            arr = ["partner_id", "partner_id.name", "move_id.x_userinput_id", "customer_state", "customer_group",
+                   "customer_industry", "customer_trans_classification_code", "product_code", "product_barcode",
+                   "invoice_custom_standardnumber", "product_maker_name"]
+            for se in args:
+                if se[0] == '&':
+                    continue
+                if se[0] == 'search_category' and se[2] == 'equal':
+                    check = 1
+
+                if check == 1 and se[0] in arr:
+                    se[1] = '=like'
+                if se[0] != 'search_category':
+                    domain += [se]
+            args = domain
+        res = super(AccountMoveLine, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        return res
+
+    @api.model
     def _get_fields_onchange_balance_model(self, quantity, discount, balance, move_type, currency, taxes,
                                            price_subtotal):
         ''' This method is used to recompute the values of 'quantity', 'discount', 'price_unit' due to a change made
