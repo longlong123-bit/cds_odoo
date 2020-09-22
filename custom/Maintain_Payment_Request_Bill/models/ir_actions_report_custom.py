@@ -8,6 +8,6 @@ class IrActionsReport(models.Model):
         result = super(IrActionsReport, self).render_qweb_pdf(res_ids, data)
         if self.model == 'bill.info':
             self.env['bill.info'].browse(res_ids).write({
-                'bill_report_state': True
+                'bill_report_state': False
             })
         return result
