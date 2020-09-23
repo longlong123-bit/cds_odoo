@@ -24,7 +24,7 @@
           <tr>
             <th>取引先グループ</th>
             <td>
-              <input class="filter-item" data-operator="=" data-name="customer_supplier_group_code"/>
+              <input class="filter-item" data-operator="ilike" data-name="customer_supplier_group_code.name" />
             </td>
           </tr>
           <tr>
