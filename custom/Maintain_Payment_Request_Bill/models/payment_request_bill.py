@@ -103,7 +103,7 @@ class CollationPayment(models.Model):
                     # if se[0] == 'search_category' and se[2] == 'equal':
                     #     check = 1
                     # if check == 1 and se[0] in arr:
-                    #     se[1] = '=like'
+                    #     se[1] = '=ilike'
                     if 'customer_closing_date_id' == se[0]:
                         if se[2].isnumeric():
                             se[0] = 'customer_closing_date_id.start_day'
@@ -147,7 +147,7 @@ class CollationPayment(models.Model):
                     # if se[0] == 'search_category' and se[2] == 'equal':
                     #     check = 1
                     # if check == 1 and se[0] in arr:
-                    #     se[1] = '=like'
+                    #     se[1] = '=ilike'
                     if 'customer_closing_date_id' == se[0]:
                         if se[2].isnumeric():
                             se[0] = 'customer_closing_date_id.start_day'
@@ -194,7 +194,7 @@ class CollationPayment(models.Model):
                     # if se[0] == 'search_category' and se[2] == 'equal':
                     #     check = 1
                     # if check == 1 and se[0] in arr:
-                    #     se[1] = '=like'
+                    #     se[1] = '=ilike'
                     if se[0] == "deadline":
                         search_x_studio_deadline = se[2]
                         domain += [se]
@@ -242,7 +242,7 @@ class CollationPayment(models.Model):
                     #     check = 1
                     #
                     # if check == 1 and record[0] in arr:
-                    #     record[1] = '=like'
+                    #     record[1] = '=ilike'
                     if record[0] == 'customer_closing_date_id':
                         search_list_customer_closing_date_id = record[2]
                         if record[2].isnumeric():

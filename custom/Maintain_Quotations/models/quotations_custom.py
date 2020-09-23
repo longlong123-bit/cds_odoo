@@ -642,7 +642,7 @@ class QuotationsCustom(models.Model):
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
                 if check == 1 and se[0] in arr:
-                    se[1] = '=like'
+                    se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
             args = domain
@@ -656,7 +656,7 @@ class QuotationsCustom(models.Model):
         #         #     check = 1
         #         # arr = ["related_partner_code", "partner_name", "related_sales_rep_name"]
         #         # if check == 1 and se[0] in arr:
-        #         #     se[1] = '=like'
+        #         #     se[1] = '=ilike'
         #         if se[0] != 'search_category':
         #             domain += [se]
         #     args = domain
@@ -1536,7 +1536,7 @@ class QuotationsLinesCustom(models.Model):
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
                 if check == 1 and se[0] in arr:
-                    se[1] = '=like'
+                    se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
             args = domain

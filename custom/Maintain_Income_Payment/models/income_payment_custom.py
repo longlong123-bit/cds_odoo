@@ -583,7 +583,7 @@ class IncomePaymentCustom(models.Model):
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
                 if check == 1 and se[0] in ["partner_payment_name1", "sales_rep"]:
-                    se[1] = '=like'
+                    se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
             args = domain
