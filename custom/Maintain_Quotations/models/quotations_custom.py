@@ -104,7 +104,14 @@ class QuotationsCustom(models.Model):
     related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
     cb_partner_sales_rep_id = fields.Many2one('hr.employee', string='cbpartner_salesrep_id')
     comment_apply = fields.Text(string='Comment Apply', readonly=True, states={'draft': [('readonly', False)]})
-    report_header = fields.Many2one('sale.order.reportheader', string='Report Header')
+
+    def _default_report_header(self):
+        default = self.env['sale.order.reportheader'].search([('name', '=', '見積書')], limit=1)
+        if not default:
+            return ''
+        else:
+            return default.id
+    report_header = fields.Many2one('sale.order.reportheader', string='Report Header', default=_default_report_header)
     # report_header = fields.Selection([
     #     ('quotation', 'Quotation'),
     #     ('invoice', 'Invoice'),
