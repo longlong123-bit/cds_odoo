@@ -269,7 +269,7 @@ class ListOmissionOfBill(models.Model):
                 # if record[0] == 'search_category' and record[2] == 'equal':
                 #     check = 1
                 # if check == 1 and record[0] in arr:
-                #     record[1] = '=like'
+                #     record[1] = '=ilike'
                 if 'closing_date' == record[0]:
                     val_start_day = record[2]
                     if record[2].isnumeric():
