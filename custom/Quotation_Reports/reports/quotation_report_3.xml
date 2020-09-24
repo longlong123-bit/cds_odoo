@@ -100,9 +100,7 @@
                                         <t t-if="o.report_header.name == '納品書'" t-set="massage" t-value="'納品'"/>
                                         <t t-if="o.report_header.name == '請求書'" t-set="massage" t-value="'御請求'"/>
                                         <div style="margin-top: 10px; font-size: 16px">
-                                            <span >下記のとおりご</span>
-                                            <span t-esc="massage"/>
-                                            <span>し上げます。</span>
+                                            <span>下記の通り<span t-esc="massage"/>申し上げます。</span>
                                             <br/>
                                             <span>納入期日</span>
                                             <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.expected_date"/>
@@ -119,7 +117,7 @@
                                     </div>
                                     <div style="width: 45%; float: right; text-align: center; font-size: 16px">
                                         <div style="margin-bottom: 10px; margin-top: -15px; text-align: left;">
-                                            <div style="font-size: 18px;">
+                                            <div style="font-size: 18px; padding-left: 70px;">
                                                 <t t-if="o.is_print_date">
                                                     <t t-if="o.quotation_calendar == 'japan'">
                                                         <span t-field="o.jp_calendar"/>
