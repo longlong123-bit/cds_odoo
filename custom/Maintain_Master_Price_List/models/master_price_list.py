@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 class ClassMasterPriceList(models.Model):
     _name = 'master.price.list'
@@ -111,7 +112,7 @@ class ClassMasterPriceList(models.Model):
     price_applied = fields.Float(string="Price Applied")
 
     # 適用年月日
-    date_applied = fields.Date(string="Date Applied")
+    date_applied = fields.Date(string="Date Applied", default=datetime.today())
 
     # Listen event onchange maker_code (メーカーCD)
     @api.onchange('maker_id')
