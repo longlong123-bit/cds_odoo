@@ -194,7 +194,7 @@
                                                     <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 30px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; height: 14px;"
@@ -239,7 +239,7 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
@@ -248,10 +248,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -259,10 +259,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -271,7 +271,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -429,7 +429,7 @@
                                                     <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 30px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; height: 14px;"
@@ -474,7 +474,7 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
@@ -483,10 +483,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -494,10 +494,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -506,7 +506,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -660,7 +660,7 @@
                                                     <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 30px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; height: 14px;"
@@ -705,7 +705,7 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
@@ -714,10 +714,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -725,10 +725,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -737,7 +737,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -844,7 +844,7 @@
                                                     <tr style=" font-size: 12px; height: 30px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 30px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; height: 14px;"
@@ -889,7 +889,7 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
@@ -898,10 +898,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -909,10 +909,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -921,7 +921,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1200,26 +1200,24 @@
                                                            t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                     </t>
                                                     <tr style=" font-size: 12px; height: 30px">
-                                                        <td style="border: 1px solid #000000;border-top: 0; margin: 5px 5px 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
-                                                                <div style="display: inline-block; width: 120px; height: 27px;">
-                                                                    <span t-if="order.product_maker_name"
-                                                                          style="display: inline-block; height: 13px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                    <span t-if="order.product_standard_number"
-                                                                          style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                </div>
+                                                                <span t-if="order.product_maker_name"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span t-if="order.product_standard_number"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                    <null/>
+                                                                </span>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -1249,19 +1247,19 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
                                                             </span>
                                                         </td>
-                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; margin: 0 5px 0 5px;">
+                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1269,10 +1267,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1281,7 +1279,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1418,26 +1416,24 @@
                                                     <t t-set="line" t-value="line - 1"/>
                                                     <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                     <tr style=" font-size: 12px; height: 30px">
-                                                        <td style="border: 1px solid #000000;border-top: 0; margin: 5px 5px 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
-                                                                <div style="display: inline-block; width: 120px; height: 27px;">
-                                                                    <span t-if="order.product_maker_name"
-                                                                          style="display: inline-block; height: 13px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                    <span t-if="order.product_standard_number"
-                                                                          style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                </div>
+                                                                <span t-if="order.product_maker_name"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span t-if="order.product_standard_number"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                    <null/>
+                                                                </span>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -1467,19 +1463,19 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
                                                             </span>
                                                         </td>
-                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; margin: 0 5px 0 5px;">
+                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1487,10 +1483,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1499,7 +1495,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1659,26 +1655,24 @@
                                                     <t t-set="subtotal_amount1"
                                                        t-value="subtotal_amount1 + order.line_amount"/>
                                                     <tr style=" font-size: 12px; height: 30px">
-                                                        <td style="border: 1px solid #000000;border-top: 0; margin: 5px 5px 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
-                                                                <div style="display: inline-block; width: 120px; height: 27px;">
-                                                                    <span t-if="order.product_maker_name"
-                                                                          style="display: inline-block; height: 13px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                    <span t-if="order.product_standard_number"
-                                                                          style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                </div>
+                                                                <span t-if="order.product_maker_name"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span t-if="order.product_standard_number"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                    <null/>
+                                                                </span>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -1708,19 +1702,19 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
                                                             </span>
                                                         </td>
-                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; margin: 0 5px 0 5px;">
+                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1728,10 +1722,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1740,7 +1734,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1848,26 +1842,24 @@
                                                            t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                     </t>
                                                     <tr style=" font-size: 12px; height: 30px">
-                                                        <td style="border: 1px solid #000000;border-top: 0; margin: 5px 5px 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
-                                                                <div style="display: inline-block; width: 120px; height: 27px;">
-                                                                    <span t-if="order.product_maker_name"
-                                                                          style="display: inline-block; height: 13px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                    <span t-if="order.product_standard_number"
-                                                                          style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                </div>
+                                                                <span t-if="order.product_maker_name"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span t-if="order.product_standard_number"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                    <null/>
+                                                                </span>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -1897,19 +1889,19 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
                                                             </span>
                                                         </td>
-                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; margin: 0 5px 0 5px;">
+                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1917,10 +1909,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1929,7 +1921,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -2198,26 +2190,24 @@
                                                            t-value="subtotal_tax_amount_o + order.line_tax_amount"/>
                                                     </t>
                                                     <tr style=" font-size: 12px; height: 30px">
-                                                        <td style="border: 1px solid #000000;border-top: 0; margin: 5px 5px 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
-                                                                <div style="display: inline-block; width: 120px; height: 27px;">
-                                                                    <span t-if="order.product_maker_name"
-                                                                          style="display: inline-block; height: 13px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                    <span t-if="order.product_standard_number"
-                                                                          style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                </div>
+                                                                <span t-if="order.product_maker_name"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span t-if="order.product_standard_number"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                    <null/>
+                                                                </span>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -2247,19 +2237,19 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
                                                             </span>
                                                         </td>
-                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; margin: 0 5px 0 5px;">
+                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2267,10 +2257,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2279,7 +2269,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -2462,26 +2452,24 @@
                                                            t-value="subtotal_tax_amount_o + order.voucher_line_tax_amount"/>
                                                     </t>
                                                     <tr style=" font-size: 12px; height: 30px">
-                                                        <td style="border: 1px solid #000000;border-top: 0; margin: 5px 5px 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
-                                                                <div style="display: inline-block; width: 120px; height: 27px;">
-                                                                    <span t-if="order.product_maker_name"
-                                                                          style="display: inline-block; height: 13px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                    <span t-if="order.product_standard_number"
-                                                                          style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                </div>
+                                                                <span t-if="order.product_maker_name"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span t-if="order.product_standard_number"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                    <null/>
+                                                                </span>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -2511,19 +2499,19 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
                                                             </span>
                                                         </td>
-                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; margin: 0 5px 0 5px;">
+                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2531,10 +2519,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2543,7 +2531,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -2725,26 +2713,24 @@
                                                        t-value="subtotal_amount + order.line_amount"/>
 
                                                     <tr style=" font-size: 12px; height: 30px">
-                                                        <td style="border: 1px solid #000000;border-top: 0; margin: 5px 5px 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
-                                                                <div style="display: inline-block; width: 120px; height: 27px;">
-                                                                    <span t-if="order.product_maker_name"
-                                                                          style="display: inline-block; height: 13px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                    <span t-if="order.product_standard_number"
-                                                                          style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                </div>
+                                                                <span t-if="order.product_maker_name"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span t-if="order.product_standard_number"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                    <null/>
+                                                                </span>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -2774,19 +2760,19 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
                                                             </span>
                                                         </td>
-                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; margin: 0 5px 0 5px;">
+                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2794,10 +2780,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2806,7 +2792,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -2916,26 +2902,24 @@
                                                            t-value="subtotal_amount_o + order.line_amount"/>
                                                     </t>
                                                     <tr style=" font-size: 12px; height: 30px">
-                                                        <td style="border: 1px solid #000000;border-top: 0; margin: 5px 5px 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; height: 13px;"
+                                                                    <span style="display: inline-block; overflow: hidden; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
-                                                                <div style="display: inline-block; width: 120px; height: 27px;">
-                                                                    <span t-if="order.product_maker_name"
-                                                                          style="display: inline-block; height: 13px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                    <span t-if="order.product_standard_number"
-                                                                          style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
-                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                        <null/>
-                                                                    </span>
-                                                                </div>
+                                                                <span t-if="order.product_maker_name"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                    <null/>
+                                                                </span>
+                                                                <span t-if="order.product_standard_number"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; white-space: nowrap;"
+                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                    <null/>
+                                                                </span>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -2965,19 +2949,19 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; white-space: nowrap;"
+                                                            <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                   t-if="order.line_amount"
                                                                   t-esc="'{0:,.0f}'.format(order.limit_number_field(int(order.line_amount), 8))">
                                                                 <null/>
                                                             </span>
                                                         </td>
-                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; margin: 0 5px 0 5px;">
+                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2985,10 +2969,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2997,7 +2981,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
