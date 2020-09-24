@@ -117,7 +117,7 @@
                                     </div>
                                     <div style="width: 45%; float: right; text-align: center; font-size: 16px">
                                         <div style="margin-bottom: 10px; margin-top: -15px; text-align: left;">
-                                            <div style="font-size: 18px; padding-left: 90px;">
+                                            <div style="font-size: 18px; padding-left: 70px;">
                                                 <t t-if="o.is_print_date">
                                                     <t t-if="o.quotation_calendar == 'japan'">
                                                         <span t-field="o.jp_calendar"/>
