@@ -1078,7 +1078,7 @@ class QuotationsLinesCustom(models.Model):
     def set_price_product_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
                                product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                                maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
-                               industry_code=None, country_state_code=None, date=datetime.now()):
+                               industry_code=None, country_state_code=None, date=datetime.today()):
         product_code_ids = self.env['master.price.list'].search([('product_code', '=', product_code), ('date_applied', '<=', date)]).sorted('date_applied')
         if len(product_code_ids):
             if len(product_code_ids) > 1:

@@ -4,6 +4,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from datetime import datetime
 
+
 class ClassMasterPriceList(models.Model):
     _name = 'master.price.list'
 
