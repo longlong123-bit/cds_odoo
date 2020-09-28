@@ -118,7 +118,7 @@ class IncomePaymentCustom(models.Model):
 
     @api.model
     def get_default_journal(self):
-        journal_id = self.env['account.journal'].search(
+        journal_id = self.env['account.journal']._search(
                 [('type', '=', 'sale')], limit=1)
         return journal_id and journal_id[0] or False
 
