@@ -45,7 +45,7 @@ class IncomePaymentCustom(models.Model):
     # set_read_only = fields.Boolean(string='', default=False, compute='_check_read_only')
     bill_status = fields.Char(string='bill_status')
 
-    current_date = fields.Datetime(string='', default=get_default_payment_date, store=False)
+    current_date = fields.Date(string='', default=get_default_payment_date, store=False)
     _defaults = {
         'current_date': lambda *a: time.strftime('%Y/%m/%d %H:%M:%S'),
     }
@@ -118,7 +118,7 @@ class IncomePaymentCustom(models.Model):
 
     @api.model
     def get_default_journal(self):
-        journal_id = self.env['account.journal']._search(
+        journal_id = self.env['account.journal'].search(
                 [('type', '=', 'sale')], limit=1)
         return journal_id and journal_id[0] or False
 
