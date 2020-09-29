@@ -172,7 +172,7 @@ class AccountsReceivableBalanceList(models.Model):
                     if record[0] == 'search_category' and record[2] == 'equal':
                         check = 1
                     if check == 1 and record[0] in arr:
-                        record[1] = '=like'
+                        record[1] = '=ilike'
                     if 'customer_closing_date' == record[0]:
                         if record[2].isnumeric():
                             record[0] = 'customer_closing_date.start_day'

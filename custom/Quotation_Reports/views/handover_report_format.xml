@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Report 確認伝票-->
+        <record id="paperformat_handover_reports" model="report.paperformat">
+            <field name="name">Handover Reports</field>
+            <field name="default" eval="False"/>
+            <field name="format">A5</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">6</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">16</field>
+            <field name="margin_right">6</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+        <report
+            id="handover_reports"
+            model="sale.order"
+            string="Handover Report"
+            report_type="qweb-pdf"
+            attachment_use="False"
+            name="Quotation_Reports.handover_report"
+            file="Quotation_Reports.handover_report"
+            paperformat="Quotation_Reports.paperformat_handover_reports"
+        />
+    </data>
+</odoo>

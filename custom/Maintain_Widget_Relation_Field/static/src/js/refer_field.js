@@ -135,6 +135,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                   '14':'product_code_5',
                   '15':'product_code_6',
                   '16':'product_code_6',
+
                 }
                 var readColumn = parent._getReadColumn(options) == 'code_by_setting' ? (mapColumn[$(event.data.target).index()] || parent._getReadColumn(options)) : parent._getReadColumn(options);
 
