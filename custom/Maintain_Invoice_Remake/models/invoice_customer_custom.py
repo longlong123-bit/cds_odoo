@@ -1180,7 +1180,7 @@ class ClassInvoiceCustom(models.Model):
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
                 if check == 1 and se[0] in arr:
-                    se[1] = '=like'
+                    se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
             args = domain
@@ -1227,7 +1227,7 @@ class AccountTaxLine(models.Model):
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
-    _order = "invoice_custom_line_no asc"
+    _order = "product_barcode, product_maker_name asc"
 
     # @api.onchange('x_history_detail')
     # def _onchange_x_test(self):
@@ -1365,6 +1365,7 @@ class AccountMoveLine(models.Model):
     changed_fields = []
 
     copy_history_flag = fields.Boolean(default=False, store=False)
+
 
     @api.onchange('product_code')
     def _onchange_product_code(self):
@@ -1573,11 +1574,14 @@ class AccountMoveLine(models.Model):
 
     def compute_sale_unit_price(self):
         for line in self:
-            line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount, line.move_id.partner_id.customer_tax_rounding)
+            line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount,
+                                                                                  line.move_id.partner_id.customer_tax_rounding)
 
     def compute_discount_unit_price(self):
         for line in self:
-            line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount, line.move_id.partner_id.customer_tax_rounding)
+            line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount,
+                                                                                         line.move_id.partner_id.customer_tax_rounding)
+
 
     @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding')
     def compute_line_amount(self):
@@ -1628,11 +1632,12 @@ class AccountMoveLine(models.Model):
                 continue
             line.update(line._get_price_total_and_subtotal())
             line.update(line._get_fields_onchange_subtotal())
-
-            line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount, line.move_id.partner_id.customer_tax_rounding)
-            line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount, line.move_id.partner_id.customer_tax_rounding)
-            line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity, line.move_id.partner_id.customer_tax_rounding)
-
+            line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount,
+                                                                                  line.move_id.partner_id.customer_tax_rounding)
+            line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount,
+                                                                                         line.move_id.partner_id.customer_tax_rounding)
+            line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount,
+                                                                         line.quantity, line.move_id.partner_id.customer_tax_rounding)
             if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
                 and line.product_id.product_tax_category != 'exempt') \
                     or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
@@ -1775,7 +1780,7 @@ class AccountMoveLine(models.Model):
                     check = 1
 
                 if check == 1 and se[0] in arr:
-                    se[1] = '=like'
+                    se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
             args = domain
@@ -1862,13 +1867,79 @@ class AccountMoveLine(models.Model):
         return vals
 
 
+checkshow_jan_code = False
+checkshow_code = 0
+checkshow_product_price = 0
+
 class ClassGetProductCode(models.Model):
     _inherit = 'product.product'
 
     def name_get(self):
+        # super(ClassGetProductCode, self).name_get()
         result = []
+        code_show = ''
+        global checkshow_code
         for record in self:
-            if self.env.context.get('show_product_code', True):
-                product_code_1 = str(record.product_code_1)
-                result.append((record.id, product_code_1))
+            if 'show_jan_code' in self.env.context:
+                checkshow_code = 7
+                code_show = str(record.barcode)
+            elif 'show_code' in self.env.context:
+                if self.env.context.get('show_code') == 'product_1':
+                    checkshow_code = 1
+                    result.append((record.id, str(record.product_code_1)))
+                if self.env.context.get('show_code') == 'product_2':
+                    checkshow_code = 2
+                    result.append((record.id, str(record.product_code_2)))
+                if self.env.context.get('show_code') == 'product_3':
+                    checkshow_code = 3
+                    result.append((record.id, str(record.product_code_3)))
+                if self.env.context.get('show_code') == 'product_4':
+                    checkshow_code = 4
+                    result.append((record.id, str(record.product_code_4)))
+                if self.env.context.get('show_code') == 'product_5':
+                    checkshow_code = 5
+                    result.append((record.id, str(record.product_code_5)))
+                if self.env.context.get('show_code') == 'product_6':
+                    checkshow_code = 6
+                    result.append((record.id, str(record.product_code_6)))
+            elif 'show_product_price' in self.env.context:
+                if self.env.context.get('show_product_price') == 'standard_price':
+                    checkshow_code = 8
+                    result.append((record.id, str(record.standard_price)))
+                if self.env.context.get('show_product_price') == 'price_1':
+                    checkshow_code = 9
+                    result.append((record.id, str(record.price_1)))
+            elif self.env.context.get('show_product_code', True):
+                if 'master_price_list' in self.env.context:
+                    if checkshow_code == 1:
+                        checkshow_code = 0
+                        code_show = str(record.product_code_1)
+                    elif checkshow_code == 2:
+                        checkshow_code = 0
+                        code_show = str(record.product_code_2)
+                    elif checkshow_code == 3:
+                        checkshow_code = 0
+                        code_show = str(record.product_code_3)
+                    elif checkshow_code == 4:
+                        checkshow_code = 0
+                        code_show = str(record.product_code_4)
+                    elif checkshow_code == 5:
+                        checkshow_code = 0
+                        code_show = str(record.product_code_5)
+                    elif checkshow_code == 6:
+                        checkshow_code = 0
+                        code_show = str(record.product_code_6)
+                    elif checkshow_code == 7:
+                        checkshow_code = 0
+                        code_show = str(record.barcode)
+                    elif checkshow_code == 8:
+                        checkshow_code = 0
+                        code_show = str(record.standard_price)
+                    elif checkshow_code == 9:
+                        checkshow_code = 0
+                        code_show = str(record.price_1)
+                else:
+                    code_show = str(record.product_code_1)
+            if code_show:
+                result.append((record.id, code_show))
         return result

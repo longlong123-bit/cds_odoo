@@ -45,7 +45,7 @@ class IncomePaymentCustom(models.Model):
     # set_read_only = fields.Boolean(string='', default=False, compute='_check_read_only')
     bill_status = fields.Char(string='bill_status')
 
-    current_date = fields.Datetime(string='', default=get_default_payment_date, store=False)
+    current_date = fields.Date(string='', default=get_default_payment_date, store=False)
     _defaults = {
         'current_date': lambda *a: time.strftime('%Y/%m/%d %H:%M:%S'),
     }
@@ -66,6 +66,7 @@ class IncomePaymentCustom(models.Model):
     vj_c_payment_category = fields.Selection([
         ('cash', '現金'),
         ('bank', '銀行')], default='cash')
+
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
     payment_type = fields.Selection(
@@ -214,7 +215,7 @@ class IncomePaymentCustom(models.Model):
             if self.payment_amount != 0:
                 results.append((0, 0, {
                     'payment_amount': self.payment_amount,
-                    'vj_c_payment_category': 'cash' or ''
+                    'vj_c_payment_category': self.account_payment_line_ids.receipt_divide_custom_id.name or ''
                 }))
 
             self.account_payment_line_ids = results
@@ -239,7 +240,7 @@ class IncomePaymentCustom(models.Model):
                 if self.amount != 0:
                     results.append((0, 0, {
                         'payment_amount': self.amount,
-                        'vj_c_payment_category': 'cash'
+                        'vj_c_payment_category': self.account_payment_line_ids.receipt_divide_custom_id.name
                     }))
                     self.account_payment_line_ids = results
 
@@ -370,8 +371,6 @@ class IncomePaymentCustom(models.Model):
                                                              cutoff_day) + relativedelta(
                                 months=1)
 
-            print('==================== customer_closing_date =================')
-            print(rec.customer_closing_date)
 
     # NGÀY KẾT SỔ
     def get_summary_date(self):
@@ -390,11 +389,6 @@ class IncomePaymentCustom(models.Model):
         query_res_date = self._cr.fetchall()
         customer_closing_date = [res[0] for res in query_res_date][0]
         customer_from_date = [res[1] for res in query_res_date][0]
-
-        print('================ customer_closing_date ===================')
-        print(customer_closing_date)
-        print('================ customer_from_date ===================')
-        print(customer_from_date)
         return customer_closing_date, customer_from_date
 
     # TỔNG TIỀN BÁN HÀNG THEO NGÀY KẾT SỔ
@@ -426,8 +420,6 @@ class IncomePaymentCustom(models.Model):
                     params = [rec.partner_id.id, customer_closing_date, rec.partner_id.id]
                 self._cr.execute(query, params)
                 query_res = self._cr.fetchall()
-                print('=============================== query_res ==========================')
-                print(query_res)
 
             if query_res:
                 total_invoiced = float([res[0] for res in query_res][0])
@@ -479,13 +471,8 @@ class IncomePaymentCustom(models.Model):
         remain_amount = 0.00
         total_amount_payment = self.get_payment_total()
         total_amount_invoiced = self.get_invoice_total()
-        print('============= total_amount_payment 1 =============')
-        print(total_amount_payment)
-        print('============= total_invoiced 1 =============')
-        print(total_amount_invoiced)
         remain_amount = total_amount_invoiced - total_amount_payment
-        print('============= remain_amount 1 =============')
-        print(remain_amount)
+
 
     # def write(self, values):
     #     self._update_amount()
@@ -583,7 +570,7 @@ class IncomePaymentCustom(models.Model):
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
                 if check == 1 and se[0] in ["partner_payment_name1", "sales_rep"]:
-                    se[1] = '=like'
+                    se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
             args = domain
@@ -617,6 +604,7 @@ class IncomePaymentLineCustom(models.Model):
         string='vj_collection_method',
         comodel_name='account.journal',
         default=lambda self: self.get_default_journal())
+    receipt_divide_custom_id = fields.Many2one('receipt.divide.custom', string='Receipt Divide')
     payment_method_id = fields.Many2one('account.payment.method', string='Payment Method', required=False)
     payment_type = fields.Selection(
         [('outbound', 'Send Money'), ('inbound', 'Receive Money'), ('transfer', 'Internal Transfer')],

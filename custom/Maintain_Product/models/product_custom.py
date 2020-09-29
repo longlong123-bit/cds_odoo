@@ -626,12 +626,12 @@ class ProductTemplate(models.Model):
                 if se[0] == 'search_category' and se[2] == 'equal':
                     check = 1
                 if check == 1 and se[0] == 'product_total':
-                    domain += ['|', '|', '|', '|', '|', ("product_code_1", "=like", se[2]),
-                               ("product_code_2", "=like", se[2]), ("product_code_3", "=like", se[2]),
-                               ("product_code_4", "=like", se[2]), ("product_code_5", "=like", se[2]),
-                               ("product_code_6", "=like", se[2])]
+                    domain += ['|', '|', '|', '|', '|', ("product_code_1", "=ilike", se[2]),
+                               ("product_code_2", "=ilike", se[2]), ("product_code_3", "=ilike", se[2]),
+                               ("product_code_4", "=ilike", se[2]), ("product_code_5", "=ilike", se[2]),
+                               ("product_code_6", "=ilike", se[2])]
                 if check == 1 and se[0] in arr:
-                    se[1] = '=like'
+                    se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
             args = domain
@@ -910,6 +910,6 @@ class ClassFreightCategory(models.Model):
         super(ClassFreightCategory, self).name_get()
         data = []
         for row in self:
-            display_value = row.search_key_freight if 'showcode' in self.env.context else row.name
+            display_value = row.search_key_freight if 'showcode' in self.env.context or 'master_price_list' in self.env.context else row.name
             data.append((row.id, display_value))
         return data

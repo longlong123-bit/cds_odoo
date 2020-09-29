@@ -75,20 +75,21 @@
                                             <span t-field="o.x_studio_address_2"/><br/>
                                             <span t-field="o.partner_id.address3"/>
                                         </div>
-                                        <div style="display: inline-block; border-bottom: 1px solid; width: 384px; font-size: 14px">
-                                            <t t-set="p_style" t-value="'height: 16px; white-space: nowrap; max-width: 323px; overflow: hidden;
-                                                        text-overflow: clip; margin: 0; float: left;'"/>
+                                        <div style="display: inline-block; border-bottom: 1px solid; width: 354px; font-size: 14px">
+                                            <t t-set="p_style" t-value="'height: 16px; white-space: nowrap; max-width: 280px; overflow: hidden; text-overflow: clip; margin: 0; float: left;'"/>
                                             <t t-if="o.x_bussiness_partner_name_2">
-                                                <t t-set="p_style" t-value="'height: 14px; white-space: nowrap; width: 380px; overflow: hidden;
-                                                        text-overflow: clip; margin: 0; float: left;'"/>
+                                                <t t-set="p_style" t-value="'height: 14px; white-space: nowrap; width: 280px; overflow: hidden; text-overflow: clip; margin: 0; float: left;'"/>
                                             </t>
                                             <p t-att-style="p_style"
-                                               t-field="o.x_studio_name">
+                                               t-esc="o.limit_charater_field(o.x_studio_name, 20)">
                                             </p>
-                                            <p style="height: 14px; white-space: nowrap; max-width: 323px; overflow: hidden;
-                                                        text-overflow: clip; margin: 0; float: left;"
-                                               t-field="o.x_bussiness_partner_name_2">
-                                            </p>
+                                            <t t-if="o.x_bussiness_partner_name_2">
+                                                <br/>
+                                                <p style="height: 14px; white-space: nowrap; max-width: 280px; overflow: hidden;
+                                                            text-overflow: clip; margin: 0; float: left;"
+                                                   t-esc="o.limit_charater_field(o.x_bussiness_partner_name_2, 20)">
+                                                </p>
+                                            </t>
                                             <t t-if="o.partner_id.title">
                                                 <p style="float: left; margin: 0;">　</p>
                                                 <p style="float: right; margin: 0;" t-field="o.partner_id.title"></p>
@@ -205,18 +206,19 @@
                                                     <tr>
                                                         <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
                                                             <div style="display: inline-block; width: 384px;">
-                                                                <div style="float: left; width: 229px; height: 24px; white-space: nowrap; overflow: hidden;">
-                                                                    <span t-field="order.product_name"/>
+                                                                <div style="float: left; display: inline-block; width: 240px; height: 24px; white-space: nowrap; overflow: hidden;">
+                                                                    <span t-esc="o.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                    <span t-esc="o.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
-                                                                <div style="float: right;">
-                                                                    <div style="float: left; width: 63px; height: 12px; white-space: nowrap; overflow: hidden;">
-                                                                        <span t-if="order.product_maker_name" t-field="order.product_maker_name"/>
+                                                                <div style="float: right; display: inline-block; width: 120px; height: 24px;">
+                                                                    <div style="float: left; width: 120px; height: 12px; white-space: nowrap; overflow: hidden;">
+                                                                        <span t-if="order.product_maker_name" t-esc="o.limit_charater_field(order.product_maker_name, 10)"/>
                                                                     </div>
-                                                                    <div style="float: left; width: 14px; height: 12px; white-space: nowrap; overflow: hidden;">
-                                                                        <span>　</span>
-                                                                    </div>
-                                                                    <div style="float: left; width: 63px; height: 12px; white-space: nowrap; overflow: hidden;">
-                                                                        <span t-if="order.invoice_custom_standardnumber" t-field="order.invoice_custom_standardnumber"/>
+<!--                                                                    <div style="float: left; width: 14px; height: 12px; white-space: nowrap; overflow: hidden;">-->
+<!--                                                                        <span>　</span>-->
+<!--                                                                    </div>-->
+                                                                    <div style="float: left; width: 120px; height: 12px; white-space: nowrap; overflow: hidden;">
+                                                                        <span t-if="order.invoice_custom_standardnumber" t-esc="o.limit_charater_field(order.invoice_custom_standardnumber, 10)"/>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -225,7 +227,7 @@
                                                             <div style="float: right; width: 61px;">
                                                                 <p style="white-space: nowrap; overflow: hidden;
                                                                             text-overflow: clip; margin: 0;"
-                                                                   t-if="order.quantity" t-esc="'{0:,.0f}'.format(int(order.quantity))">
+                                                                   t-if="order.quantity" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(order.quantity), 7))">
                                                                 </p>
                                                             </div>
                                                         </td>
@@ -233,7 +235,7 @@
                                                             <div style="width: 40px;">
                                                                 <p style="white-space: nowrap; overflow: hidden;
                                                                         text-overflow: clip; margin: 0;"
-                                                                   t-if="order.product_uom_id" t-field="order.product_uom_id">
+                                                                   t-if="order.product_uom_id" t-esc="o.limit_charater_field(order.product_uom_id, 2)">
                                                                 </p>
                                                             </div>
                                                         </td>
@@ -241,7 +243,11 @@
                                                             <div style="float: right; width: 91px;">
                                                                 <p style="white-space: nowrap; overflow: hidden;
                                                                         text-overflow: clip; margin: 0;"
-                                                                    t-if="order.price_unit" t-esc="'{0:,.2f}'.format(order.price_unit)">
+                                                                    t-if="order.price_unit and order.price_unit % 1 > 0" t-esc="'{0:,.2f}'.format(o.limit_number_field(order.price_unit, 8, True))">
+                                                                </p>
+                                                                <p style="white-space: nowrap; overflow: hidden;
+                                                                        text-overflow: clip; margin: 0;"
+                                                                    t-if="order.price_unit and order.price_unit % 1 == 0" t-esc="'{0:,.0f}'.format(o.limit_number_field(order.price_unit, 8, True))">
                                                                 </p>
                                                             </div>
                                                         </td>
@@ -253,7 +259,7 @@
 
                                                                 <p style="white-space: nowrap; overflow: hidden;
                                                                             text-overflow: clip; margin: 0;"
-                                                                   t-if="order.invoice_custom_lineamount" t-esc="'{0:,.0f}'.format(order_invoice_custom_lineamount)">
+                                                                   t-if="order.invoice_custom_lineamount" t-esc="'{0:,.0f}'.format(o.limit_number_field(order_invoice_custom_lineamount, 8))">
                                                                 </p>
                                                             </div>
                                                         </td>
@@ -275,7 +281,7 @@
                                                             <div  style="display: inline-block; height: 14px; width: 82px">
                                                                 <p style="white-space: nowrap; width: 82px; overflow: hidden;
                                                                             text-overflow: clip; margin: 0; float: left; height: 12px;"
-                                                                   t-if="order.invoice_custom_Description" t-field="order.invoice_custom_Description">
+                                                                   t-if="order.invoice_custom_Description" t-esc="o.limit_charater_field(order.invoice_custom_Description, 8)">
                                                                 </p>
                                                             </div>
                                                         </td>
@@ -376,10 +382,10 @@
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div t-att-style="div_sub_total_val">
                                                         <div t-att-style="div_padding_top">
-                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_amount_10))"/>
-                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_amount_8))"/>
+                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_10), 14))"/>
+                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_8), 14))"/>
                                                             <t t-if="subtotal_amount &gt; 0">
-                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_amount))"/>
+                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount), 14))"/>
                                                             </t>
                                                         </div>
                                                     </div>
@@ -410,10 +416,10 @@
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div t-att-style="div_sub_total_val">
                                                         <div t-att-style="div_padding_top">
-                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_tax_amount_10))"/>
-                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_tax_amount_8))"/>
+                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_10), 14))"/>
+                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_8), 14))"/>
                                                             <t t-if="subtotal_tax_amount &gt; 0">
-                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_tax_amount))"/>
+                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount), 14))"/>
                                                             </t>
                                                         </div>
                                                     </div>
@@ -429,7 +435,7 @@
                                                     <div style="width: 140px; height: 14px;">合　　　計</div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(total))"/>
+                                                    <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(total), 14))"/>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000;"/>
                                             </tr>
@@ -449,7 +455,7 @@
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="float: right; height: 42px;">
                                                         <div style="padding-top: 15%">
-                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_amount + subtotal_amount_10 + subtotal_amount_8))"/>
+                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount + subtotal_amount_10 + subtotal_amount_8), 14))"/>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -507,10 +513,10 @@
                                                     <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                         <div t-att-style="div_sub_total_val">
                                                             <div t-att-style="div_padding_top">
-                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_amount_10))"/>
-                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_amount_8))"/>
+                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_10), 14))"/>
+                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_8), 14))"/>
                                                                 <t t-if="subtotal_amount &gt; 0">
-                                                                    <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_amount))"/>
+                                                                    <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount), 14))"/>
                                                                 </t>
                                                             </div>
                                                         </div>
@@ -526,7 +532,7 @@
                                                     <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                         <div style="float: right; height: 42px;">
                                                             <div style="padding-top: 15%">
-                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(subtotal_amount + subtotal_amount_10 + subtotal_amount_8))"/>
+                                                                <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount + subtotal_amount_10 + subtotal_amount_8), 14))"/>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -561,10 +567,10 @@
                                                         <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                             <div t-att-style="div_sub_total_val">
                                                                 <div t-att-style="div_padding_top">
-                                                                    <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.amount_tax_total(10))"/>
-                                                                    <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.amount_tax_total(8))"/>
+                                                                    <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(o.amount_tax_total(10), 14))"/>
+                                                                    <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(o.amount_tax_total(8), 14))"/>
                                                                     <t t-if="subtotal_voucher_tax_amount &gt; 0">
-                                                                        <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.amount_tax_total())"/>
+                                                                        <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(o.amount_tax_total(), 14))"/>
                                                                     </t>
                                                                 </div>
                                                             </div>
@@ -595,10 +601,10 @@
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                         <t t-if="o.x_voucher_tax_transfer == 'custom_tax'">
-                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(total + o.x_voucher_tax_amount))"/>
+                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(total + o.x_voucher_tax_amount), 14))"/>
                                                         </t>
                                                         <t t-else="">
-                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(int(total))"/>
+                                                            <span style="display: block; width: 108px; overflow: hidden; white-space: nowrap;" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(total), 14))"/>
                                                         </t>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000;"/>
