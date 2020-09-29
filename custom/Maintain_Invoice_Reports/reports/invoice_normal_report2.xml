@@ -118,10 +118,13 @@
                                                 <p t-att-style="p_style"
                                                    t-esc="o.limit_charater_field(o.x_studio_name, 20)">
                                                 </p>
-                                                <p style="height: 14px; white-space: nowrap; max-width: 280px; overflow: hidden;
-                                                            text-overflow: clip; margin: 0; float: left;"
-                                                   t-esc="o.limit_charater_field(o.x_bussiness_partner_name_2, 20)">
-                                                </p>
+                                                <t t-if="o.x_bussiness_partner_name_">
+                                                    <br/>
+                                                    <p style="height: 14px; white-space: nowrap; max-width: 280px; overflow: hidden;
+                                                                text-overflow: clip; margin: 0; float: left;"
+                                                       t-esc="o.limit_charater_field(o.x_bussiness_partner_name_2, 20)">
+                                                    </p>
+                                                </t>
                                                 <t t-if="o.partner_id.title">
                                                     <p style="float: left; margin: 0;">　</p>
                                                     <p style="float: right; margin: 0;"
