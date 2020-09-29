@@ -357,21 +357,23 @@
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; height: 60px; border-left: 0; text-align: right;">
-                                                <t t-if="subtotal_amount10">
-                                                    <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount10), 7))"/>
-                                                </t>
-                                                <span t-else=""><null/></span>
-                                                <t t-if="subtotal_amount8">
-                                                    <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount8), 7))"/>
-                                                </t>
-                                                <span t-else=""><null/></span>
-                                                <t t-if="subtotal_amount_o">
-                                                    <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_o), 7))"/>
-                                                </t>
-                                                <span t-else=""><null/></span>
+                                                <div style="display: table; height: 60px; width: 100%;">
+                                                    <t t-if="subtotal_amount10">
+                                                        <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount10), 7))"/>
+                                                    </t>
+                                                    <span t-else="">　</span>
+                                                    <t t-if="subtotal_amount8">
+                                                        <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount8), 7))"/>
+                                                    </t>
+                                                    <span t-else=""><null/></span>
+                                                    <t t-if="subtotal_amount_o">
+                                                        <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_o), 7))"/>
+                                                    </t>
+                                                    <span t-else=""><null/></span>
+                                                </div>
                                             </td>
                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"/>
                                         </tr>
@@ -615,21 +617,23 @@
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
-                                                <t t-if="subtotal_amount10">
-                                                    <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount10), 7))"/>
-                                                </t>
-                                                <span t-else=""><null/></span>
-                                                <t t-if="subtotal_amount8">
-                                                    <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount8), 7))"/>
-                                                </t>
-                                                <span t-else=""><null/></span>
-                                                <t t-if="subtotal_amount_o">
-                                                    <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_o), 7))"/>
-                                                </t>
-                                                <span t-else=""><null/></span>
+                                                <div style="display: table; height: 60px; width: 100%;">
+                                                    <t t-if="subtotal_amount10">
+                                                        <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount10), 7))"/>
+                                                    </t>
+                                                    <span t-else=""><null/></span>
+                                                    <t t-if="subtotal_amount8">
+                                                        <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount8), 7))"/>
+                                                    </t>
+                                                    <span t-else=""><null/></span>
+                                                    <t t-if="subtotal_amount_o">
+                                                        <span style="display: inline-block; width: 70px; overflow: hidden; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_o), 7))"/>
+                                                    </t>
+                                                    <span t-else=""><null/></span>
+                                                </div>
                                             </td>
                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"/>
                                         </tr>
