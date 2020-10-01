@@ -247,13 +247,15 @@
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->
                                     <field name="product_barcode" widget="refer_field"
                                            required="True" context="{'limit': 200}"
-                                           options='{"model":"product.product","column": "barcode", "search_input": true}'/>
+                                           options='{"model":"product.product","column": "barcode", "alternative_value":"product_custom_standardnumber", "search_input": true}'/>
 <!--                                    <field name="product_maker_name" widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'/>-->
                                     <field name="product_maker_name" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="product_name"/>
                                     <field name="product_name2" invisible="True"/>
 <!--                                    <field name="product_standard_number" widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'/>-->
-                                    <field name="product_standard_number" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="product_standard_number"
+                                           attrs="{'invisible': [('class_item', '=', 'サンプル')]}"
+                                           options='{"model":"product.product", "column": "product_custom_standardnumber", "search_input": true}'/>
                                     <field name="product_uom_qty" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="product_uom_id" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="price_unit" readonly="False" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
