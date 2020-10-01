@@ -253,7 +253,10 @@
                                     <field name="product_name"/>
                                     <field name="product_name2" invisible="True"/>
 <!--                                    <field name="product_standard_number" widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'/>-->
-                                    <field name="product_standard_number" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
+                                    <field name="product_standard_number"
+                                           widget="refer_field" context="{'limit': 200}"
+                                           attrs="{'invisible': [('class_item', '=', 'サンプル')]}"
+                                           options='{"model":"product.product", "column": "product_standard_number", "search_columns": ["product_custom_standardnumber"], "alternative_column":"product_barcode", "alternative_value":"barcode", "search_input": true}'/>
                                     <field name="product_uom_qty" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="product_uom_id" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
                                     <field name="price_unit" readonly="False" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
@@ -307,7 +310,7 @@
             <tree string="Quotations Custom" class="forward_edit o_sale_order"
                   decoration-bf="message_needaction==True" decoration-muted="state=='cancel'"
                   banner_route="/sales/sale_quotation_onboarding_panel"
-                  multi_edit="1">
+                  multi_edit="1" default_order="quotations_date desc, document_no desc">
                 <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
                 <field name="quotations_date"/>
                 <field name="document_no"/>
