@@ -9,7 +9,7 @@
       <field name="arch" type="xml">
 <!--          <xpath expr="//field[@name='date']" position="after">-->
           <xpath expr="//tree" position="replace">
-              <tree>
+              <tree default_order="date desc, invoice_no desc">
 <!--                  <field name="move_id" optional="show" readonly="1"/>-->
                   <field name="date" optional="show" readonly="1" string="売上日付"/>
                   <field name="invoice_no" optional="show" readonly="1"/>
@@ -44,7 +44,7 @@
       <field name="inherit_id" ref="account.view_invoice_tree"/>
       <field name="arch" type="xml">
             <xpath expr="//tree" position="replace">
-                <tree class="forward_edit">
+                <tree class="forward_edit" default_order="x_studio_date_invoiced desc,x_studio_document_no  desc">
                     <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
                     <field name="x_studio_date_invoiced" string="Date Invoiced"/>
                     <field name="x_studio_document_no" string="Document No"/>
@@ -350,7 +350,10 @@
 <!--                <field name="invoice_custom_standardnumber"-->
 <!--                       widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'-->
 <!--                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>-->
-                <field name="invoice_custom_standardnumber" attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="invoice_custom_standardnumber"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"
+                       widget="refer_field" context="{'limit': 200}"
+                       options='{"model":"product.product", "column": "invoice_custom_standardnumber", "search_columns": ["product_custom_standardnumber"], "alternative_column":"product_barcode", "alternative_value":"barcode", "search_input": true}'/>
                 <field name="quantity" string="Quantity"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="product_uom_id" string="UoM" style="text-align:right; justify-content: flex-end;"
