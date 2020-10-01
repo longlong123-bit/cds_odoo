@@ -350,7 +350,10 @@
 <!--                <field name="invoice_custom_standardnumber"-->
 <!--                       widget="refer_field" options='{"model":"product.product","column": "product_custom_standardnumber"}'-->
 <!--                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>-->
-                <field name="invoice_custom_standardnumber" attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
+                <field name="invoice_custom_standardnumber"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"
+                       widget="refer_field" context="{'limit': 200}"
+                       options='{"model":"product.product", "column": "invoice_custom_standardnumber", "search_columns": ["product_custom_standardnumber"], "alternative_column":"product_barcode", "alternative_value":"barcode", "search_input": true}'/>
                 <field name="quantity" string="Quantity"
                        attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
                 <field name="product_uom_id" string="UoM" style="text-align:right; justify-content: flex-end;"
