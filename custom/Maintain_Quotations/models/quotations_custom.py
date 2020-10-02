@@ -724,9 +724,9 @@ class QuotationsLinesCustom(models.Model):
 
     copy_history_flag = fields.Boolean(default=False, store=False)
 
-    @api.depends('quotation_custom_line_no', 'class_item', 'product_code', 'product_barcode', 'product_maker_name',
-                 'product_name', 'product_standard_number', 'product_uom_qty', 'product_uom_id', 'price_unit',
-                 'tax_rate')
+    @api.onchange('quotation_custom_line_no', 'class_item', 'product_code', 'product_barcode', 'product_maker_name',
+                  'product_name', 'product_standard_number', 'product_uom_qty', 'product_uom_id', 'price_unit',
+                  'tax_rate')
     def change_tax_rounding(self):
         self.ensure_one()
         self.order_id.customer_tax_rounding = self.order_id.partner_id.customer_tax_rounding
