@@ -369,7 +369,7 @@
         <field name="name">sale.order.line.custom.tree</field>
         <field name="model">sale.order.line</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree default_order="quotation_date desc, document_no desc">
                 <field name="quotation_date" optional="show" readonly="1" string="見積日付"/>
                 <field name="document_no" optional="show" readonly="1" string="伝票Ｎｏ"/>
                 <field name="partner_id" optional="show" readonly="1" string="得意先コード"/>
