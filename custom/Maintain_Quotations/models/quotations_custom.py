@@ -147,6 +147,13 @@ class QuotationsCustom(models.Model):
 
     @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
                   'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
+                  'partner_name_2', 'quotations_date', 'quotation_type', 'report_header', 'tax_method', 'sales_rep')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.customer_tax_rounding = self.partner_id.customer_tax_rounding
+
+    @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
+                  'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
                   'partner_name_2')
     def _check_flag_history(self):
         for rec in self:
@@ -716,6 +723,13 @@ class QuotationsLinesCustom(models.Model):
     )
 
     copy_history_flag = fields.Boolean(default=False, store=False)
+
+    @api.onchange('quotation_custom_line_no', 'class_item', 'product_code', 'product_barcode', 'product_maker_name',
+                  'product_name', 'product_standard_number', 'product_uom_qty', 'product_uom_id', 'price_unit',
+                  'tax_rate')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.order_id.customer_tax_rounding = self.order_id.partner_id.customer_tax_rounding
 
     def price_of_recruitment_select(self, rate=0, recruitment_price_select=None, price_applied=0):
         if recruitment_price_select:
