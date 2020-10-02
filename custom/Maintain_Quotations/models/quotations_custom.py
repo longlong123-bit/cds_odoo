@@ -147,6 +147,13 @@ class QuotationsCustom(models.Model):
 
     @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
                   'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
+                  'partner_name_2', 'quotations_date', 'quotation_type', 'report_header', 'tax_method', 'sales_rep')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.customer_tax_rounding = self.partner_id.customer_tax_rounding
+
+    @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
+                  'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
                   'partner_name_2')
     def _check_flag_history(self):
         for rec in self:
@@ -252,7 +259,7 @@ class QuotationsCustom(models.Model):
                 # amount_tax += line.line_tax_amount
 
             if order.tax_method == 'voucher':
-                amount_tax = rounding(amount_tax, 0, order.partner_id.customer_tax_rounding)
+                amount_tax = rounding(amount_tax, 0, order.customer_tax_rounding)
 
             order.update({
                 'amount_untaxed': amount_untaxed,
@@ -716,6 +723,13 @@ class QuotationsLinesCustom(models.Model):
     )
 
     copy_history_flag = fields.Boolean(default=False, store=False)
+
+    @api.depends('quotation_custom_line_no', 'class_item', 'product_code', 'product_barcode', 'product_maker_name',
+                 'product_name', 'product_standard_number', 'product_uom_qty', 'product_uom_id', 'price_unit',
+                 'tax_rate')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.order_id.customer_tax_rounding = self.order_id.partner_id.customer_tax_rounding
 
     def price_of_recruitment_select(self, rate=0, recruitment_price_select=None, price_applied=0):
         if recruitment_price_select:
@@ -1483,7 +1497,7 @@ class QuotationsLinesCustom(models.Model):
     def compute_line_amount(self):
         for line in self:
             line.line_amount = self.get_compute_line_amount(line.price_unit, line.discount, line.product_uom_qty,
-                                                            line.order_id.partner_id.customer_tax_rounding)
+                                                            line.order_id.customer_tax_rounding)
 
     def get_compute_line_amount(self, price_unit=0, discount=0, quantity=0, line_rounding='round'):
         result = price_unit * quantity - (discount * price_unit / 100) * quantity
@@ -1498,7 +1512,7 @@ class QuotationsLinesCustom(models.Model):
                 # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self.get_compute_line_tax_amount(line.line_amount,
                                                                         line.tax_rate,
-                                                                        line.order_id.partner_id.customer_tax_rounding,
+                                                                        line.order_id.customer_tax_rounding,
                                                                         line.class_item)
             else:
                 line.line_tax_amount = 0
