@@ -486,9 +486,9 @@ class ClassInvoiceCustom(models.Model):
     copy_history_from = fields.Char(default="")
 
     @api.onchange('x_studio_date_invoiced', 'x_studio_business_partner', 'x_studio_name', 'x_bussiness_partner_name_2',
-                  'x_studio_address_1','x_studio_address_2', 'x_studio_summary', 'sales_rep', 'x_userinput_id', 'ref',
+                  'x_studio_address_1', 'x_studio_address_2', 'x_studio_summary', 'sales_rep', 'x_userinput_id', 'ref',
                   'sales_rep', 'customer_trans_classification_code', 'x_voucher_tax_transfer', 'x_studio_da_printed',
-                  'x_studio_payment_rule_1', )
+                  'x_studio_payment_rule_1', 'amount_untaxed')
     def change_tax_rounding(self):
         self.ensure_one()
         self.customer_tax_rounding = self.partner_id.customer_tax_rounding

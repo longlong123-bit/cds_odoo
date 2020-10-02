@@ -147,7 +147,8 @@ class QuotationsCustom(models.Model):
 
     @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
                   'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
-                  'partner_name_2', 'quotations_date', 'quotation_type', 'report_header', 'tax_method', 'sales_rep')
+                  'partner_name_2', 'quotations_date', 'quotation_type', 'report_header', 'tax_method', 'sales_rep',
+                  'amount_untaxed')
     def change_tax_rounding(self):
         self.ensure_one()
         self.customer_tax_rounding = self.partner_id.customer_tax_rounding
