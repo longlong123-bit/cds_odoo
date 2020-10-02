@@ -698,7 +698,7 @@ class ClassInvoiceCustom(models.Model):
 
             if move.x_voucher_tax_transfer != 'custom_tax':
                 if move.x_voucher_tax_transfer == 'voucher':
-                    move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 2, move.customer_tax_rounding)
+                    move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 0, move.partner_id.customer_tax_rounding)
                 else:
                     move.x_voucher_tax_amount = total_voucher_tax_amount
             # else:
@@ -2099,7 +2099,7 @@ class AccountMoveLine(models.Model):
                         and line.product_id.product_tax_category == 'foreign'):
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
                                                                          line.tax_rate,
-                                                                         line.move_id.customer_tax_rounding,
+                                                                         line.move_id.partner_id.customer_tax_rounding,
                                                                          line.x_invoicelinetype)
             else:
                 line.line_tax_amount = 0
@@ -2142,7 +2142,7 @@ class AccountMoveLine(models.Model):
                         and line.product_id.product_tax_category == 'foreign'):
                 line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
                                                                          line.tax_rate,
-                                                                         line.move_id.customer_tax_rounding,
+                                                                         line.move_id.partner_id.customer_tax_rounding,
                                                                          line.x_invoicelinetype)
             else:
                 line.line_tax_amount = 0

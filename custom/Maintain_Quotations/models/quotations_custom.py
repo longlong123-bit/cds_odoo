@@ -252,7 +252,7 @@ class QuotationsCustom(models.Model):
                 # amount_tax += line.line_tax_amount
 
             if order.tax_method == 'voucher':
-                amount_tax = rounding(amount_tax, 0, order.customer_tax_rounding)
+                amount_tax = rounding(amount_tax, 0, order.partner_id.customer_tax_rounding)
 
             order.update({
                 'amount_untaxed': amount_untaxed,
@@ -1483,7 +1483,7 @@ class QuotationsLinesCustom(models.Model):
     def compute_line_amount(self):
         for line in self:
             line.line_amount = self.get_compute_line_amount(line.price_unit, line.discount, line.product_uom_qty,
-                                                            line.order_id.customer_tax_rounding)
+                                                            line.order_id.partner_id.customer_tax_rounding)
 
     def get_compute_line_amount(self, price_unit=0, discount=0, quantity=0, line_rounding='round'):
         result = price_unit * quantity - (discount * price_unit / 100) * quantity
@@ -1498,7 +1498,7 @@ class QuotationsLinesCustom(models.Model):
                 # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
                 line.line_tax_amount = self.get_compute_line_tax_amount(line.line_amount,
                                                                         line.tax_rate,
-                                                                        line.order_id.customer_tax_rounding,
+                                                                        line.order_id.partner_id.customer_tax_rounding,
                                                                         line.class_item)
             else:
                 line.line_tax_amount = 0
