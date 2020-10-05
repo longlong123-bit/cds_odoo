@@ -1089,7 +1089,7 @@
                                         </div>
                                         <t t-set="sp_style" t-value="'margin-top: 0px'"/>
                                         <div t-if="pager == 1"
-                                             style="margin-top: 5px;font-size: 18px; font-weight: 600;  height: 30px;">
+                                             style="margin-top: 20px;font-size: 18px; font-weight: 600;  height: 30px;">
                                             <t t-set="sp_style" t-value="'margin-top: -10px;'"/>
                                             <span>合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
