@@ -173,6 +173,8 @@ class AccountsReceivableBalanceList(models.Model):
                         check = 1
                     if check == 1 and record[0] in arr:
                         record[1] = '=ilike'
+                    if record[0] == 'name':
+                        domain += ['|', ['customer_name_2', record[1], record[2]]]
                     if 'customer_closing_date' == record[0]:
                         if record[2].isnumeric():
                             record[0] = 'customer_closing_date.start_day'
