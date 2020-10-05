@@ -652,7 +652,7 @@
                                                     <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                     <t t-set="subtotal_amount1"
                                                        t-value="subtotal_amount1 + order.line_amount"/>
-                                                    <tr style=" font-size: 12px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 35px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -747,7 +747,7 @@
                                                 <t t-foreach="[1,2,3,4,5,6,7]" t-as="i">
                                                     <t t-if="line>0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <tr style="height: 30px">
+                                                        <tr style="height: 35px">
                                                             <td style="border: 1px solid #000000; border-top: 0; ">
                                                                 <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
@@ -784,7 +784,7 @@
                                                 </t>
                                             </t>
                                         </t>
-                                        <tr>
+                                        <tr style="height: 60px">
                                             <td style="border: 1px solid #000000; border-top: 0; font-size: 14px; text-align: center;">
                                                 <div style="display: inline-block; width: 60%; float: left; text-align: right;">
                                                     小　　　　計
@@ -1649,7 +1649,7 @@
                                                     <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                     <t t-set="subtotal_amount1"
                                                        t-value="subtotal_amount1 + order.line_amount"/>
-                                                    <tr style=" font-size: 12px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 35px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -1744,7 +1744,7 @@
                                                 <t t-foreach="[1,2,3,4,5,6,7]" t-as="i">
                                                     <t t-if="line>0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <tr style="height: 30px">
+                                                        <tr style="height: 35px">
                                                             <td style="border: 1px solid #000000; border-top: 0; ">
                                                                 <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
@@ -1781,7 +1781,7 @@
                                                 </t>
                                             </t>
                                         </t>
-                                        <tr>
+                                        <tr style="height: 60px">
                                             <td style="border: 1px solid #000000; border-top: 0; font-size: 14px; text-align: center;">
                                                 <div style="display: inline-block; width: 60%; float: left; text-align: right;">
                                                     小　　　　計
@@ -2707,7 +2707,7 @@
                                                     <t t-set="subtotal_amount"
                                                        t-value="subtotal_amount + order.line_amount"/>
 
-                                                    <tr style=" font-size: 12px; height: 30px">
+                                                    <tr style=" font-size: 12px; height: 35px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -2801,7 +2801,7 @@
                                                 <t t-foreach="[1,2,3,4,5,6,7]" t-as="i">
                                                     <t t-if="line>0">
                                                         <t t-set="line" t-value="line - 1"/>
-                                                        <tr style="height: 30px">
+                                                        <tr style="height: 35px">
                                                             <td style=" border: 1px solid #000000;  border-top: 0;">
                                                                 <span style="display: inline-block; width: 341px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
@@ -2839,7 +2839,7 @@
                                             </t>
                                         </t>
                                         <t t-set="check_line" t-value="line"/>
-                                        <tr>
+                                        <tr style="height: 50px">
                                             <td style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
                                                 <div style="display: inline-block; width: 60%; float: left; text-align: right;">
                                                     小　　　　計
