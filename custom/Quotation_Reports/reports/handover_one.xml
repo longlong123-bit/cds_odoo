@@ -17,7 +17,7 @@
             <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="ll">
                 <t t-set="line" t-value="8"/>
                 <t t-if="ll.quotation_custom_line_no>line_id">
-                    <div class="page">
+                    <div class="page" style="font-family: Monospace;">
                         <div class="page" style="page-break-before: always; display: block;">
                             <t t-set="line_id_1" t-value="line_id"/>
                             <div style="text-align: center;">
@@ -37,7 +37,7 @@
                             <!--      Middle      -->
                             <div>
                                 <div style="display: inline-block; width: 100%">
-                                    <div style="margin-top: 10px; margin-bottom: 10px; max-width: 60%; width: max-content;display: inline-block;font-size: 14px;">
+                                    <div style="margin-top: 10px; margin-bottom: 10px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
                                         <div>
                                             <span>お客様コードNo.</span>
                                             <span style="width: 77px; overflow: hidden; white-space: nowrap;"
@@ -103,7 +103,7 @@
                                             </t>
                                         </div>
                                     </div>
-                                    <div style="width: 38%; float: right; text-align: center; font-size: 13px">
+                                    <div style="width: 44%; float: right; text-align: center; font-size: 13px">
                                         <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                         <br/>
                                         <span>代表取締役　　遠 藤 孝 二</span>
@@ -1041,7 +1041,7 @@
                             <!--      Middle      -->
                             <div>
                                 <div style="display: inline-block; width: 100%;">
-                                    <div style="margin-top: 5px; margin-bottom: 5px; max-width: 60%; width: max-content; display: inline-block;font-size: 14px;">
+                                    <div style="margin-top: 5px; margin-bottom: 5px; max-width: 55%; width: max-content; display: inline-block;font-size: 14px;">
                                         <div>
                                             <span>お客様コードNo.</span>
                                             <span style="width: 77px; overflow: hidden; white-space: nowrap;"
@@ -1110,7 +1110,7 @@
                                             </t>
                                         </div>
                                     </div>
-                                    <div style="width: 38%; float: right; text-align: center; font-size: 13px">
+                                    <div style="width: 44%; float: right; text-align: center; font-size: 13px">
                                         <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                         <br/>
                                         <span>代表取締役　　遠 藤 孝 二</span>
@@ -2024,7 +2024,7 @@
                             <div style="text-align: center;">
                                 <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
                                     <h4 class="mt0"
-                                        style="font-size: 22px; color: #000000; border-bottom: 2px solid #000000; margin: 0 auto; width: 150px; padding: 0">
+                                        style="font-size: 22px; color: #000000; border-bottom: 2px solid #000000; margin: 0 auto; width: 170px; padding: 0">
                                         物 品 受 領 書
                                     </h4>
                                 </div>
@@ -2038,7 +2038,7 @@
                             <!--      Middle      -->
                             <div>
                                 <div style="display: inline-block; width: 100%">
-                                    <div style="margin-top: 0px; margin-bottom: 0px; max-width: 60%; width: max-content; display: inline-block; font-size: 14px;">
+                                    <div style="margin-top: 0px; margin-bottom: 0px; max-width: 55%; width: max-content; display: inline-block; font-size: 14px;">
                                         <div>
                                             <span>お客様コードNo.</span>
                                             <span style="width: 77px; overflow: hidden; white-space: nowrap;"
@@ -2105,7 +2105,7 @@
                                             </t>
                                         </div>
                                     </div>
-                                    <div style="width: 38%; float: right; text-align: center; font-size: 13px">
+                                    <div style="width: 44%; float: right; text-align: center; font-size: 13px">
                                         <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                         <br/>
                                         <span>代表取締役　　遠 藤 孝 二</span>

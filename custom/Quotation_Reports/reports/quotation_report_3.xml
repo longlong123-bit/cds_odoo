@@ -25,7 +25,7 @@
                 <t t-foreach="o.order_line.sorted(key='quotation_custom_line_no')" t-as="ll">
                     <t t-set="line_one_one" t-value="15"/>
                     <t t-if="ll.quotation_custom_line_no&gt;line_one_one_id">
-                        <div style="page-break-before: always; font-family: メイリオ; font-size: 14px">
+                        <div style="page-break-before: always; font-family: Monospace; font-size: 14px">
                             <div style="text-align: center;">
                                 <div style="float: left; width: 59%; text-align: center; display: inline-block; margin-left: 20%;">
                                     <t t-if="o.report_header">
@@ -66,24 +66,24 @@
 <!--                                    </div>-->
 <!--                                </div>-->
                                 <div style="display: inline-block; width: 100%">
-                                    <div style="margin-top: -5px; margin-bottom: 0px; width: 54%; display: inline-block;">
-                                        <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
+                                    <div style="margin-top: -5px; margin-bottom: 0px; width: 50%; display: inline-block;">
+                                        <div style="border-bottom: 2px solid; font-size:16px; border-bottom: 1px solid;">
                                             <t t-if="o.partner_name_2">
-                                                <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                       t-esc="o.limit_chapter_reports(o.partner_name)">
                                                     <null/>
                                                 </span>
                                                 <br/>
-                                                <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                       t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                 </span>
                                             </t>
                                             <t t-else="">
-                                                <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;">
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;">
                                                     <null/>
                                                 </span>
                                                 <br/>
-                                                <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                       t-esc="o.limit_chapter_reports(o.partner_name)">
                                                     <null/>
                                                 </span>
@@ -115,7 +115,7 @@
                                             <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;" t-field="o.expiration_date"/>
                                         </div>
                                     </div>
-                                    <div style="width: 45%; float: right; text-align: center; font-size: 16px">
+                                    <div style="width: 49%; float: right; text-align: center; font-size: 16px">
                                         <div style="margin-bottom: 10px; margin-top: -15px; text-align: left;">
                                             <div style="font-size: 18px; padding-left: 70px;">
                                                 <t t-if="o.is_print_date">

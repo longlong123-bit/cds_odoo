@@ -24,7 +24,7 @@
                 <t t-foreach="o.order_line.sorted(key='quotation_custom_line_no')" t-as="ll">
                     <t t-set="line_one_one" t-value="15"/>
                     <t t-if="ll.quotation_custom_line_no&gt;line_one_one_id">
-                        <div class="page" style="page-break-before: always; font-family: メイリオ; font-size: 14px">
+                        <div class="page" style="page-break-before: always; font-family: Monospace; font-size: 14px">
                             <div>
                                 <div style="text-align: center;">
                                     <div style="float: left; width: 59%; text-align: center; display: inline-block; margin-left: 20%;">
@@ -61,20 +61,20 @@
                                         </div>
                                     </div>
                                     <div style="display: inline-block; width: 100%">
-                                        <div style="margin-top: 10px; margin-bottom: 10px; width: 54%; display: inline-block;">
-                                            <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
+                                        <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
+                                            <div style="border-bottom: 2px solid; font-size:16px; border-bottom: 1px solid;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <span t-else=""
-                                                      style="display: inline-block; width: 360px; overflow: hidden; white-space: nowrap;"
+                                                      style="display: inline-block; width: 320px; overflow: hidden; white-space: nowrap;"
                                                       t-esc="o.limit_chapter_reports(o.partner_name)">
                                                     <null/>
                                                 </span>
@@ -93,7 +93,7 @@
                                                 <span>下記の通り<span t-esc="massage"/>申し上げます。</span>
                                             </div>
                                         </div>
-                                        <div style="width: 45%; float: right; text-align: center; font-size: 16px">
+                                        <div style="width: 49%; float: right; text-align: center; font-size: 16px">
                                             <span style="font-weight: 600; font-size: 26px">株式会社　ト　ラ　ヤ</span><br/>
                                             <span>神栖営業所　所長　保立　浩</span><br/>
                                             <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span><br/>
