@@ -1342,7 +1342,7 @@ class AccountMoveLine(models.Model):
     # product_maker_name = fields.Many2one('freight.category.custom', string='Maker Code')
     product_maker_name = fields.Char(string='Maker Name')
     price_unit = fields.Float(string='Unit Price', digits='Product Price', compute="compute_price_unit", store="True")
-    quantity = fields.Float(string='Quantity', digits='(12,0)',
+    quantity = fields.Float(string='Quantity', digits=(12,0),
                             default=1.0,
                             help="The optional quantity expressed by this line, eg: number of product sold. "
                                  "The quantity is not a legal requirement but is very useful for some reports.")

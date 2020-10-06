@@ -685,7 +685,7 @@ class QuotationsLinesCustom(models.Model):
     # tax_rate = fields.Float('Tax Rate', compute='compute_tax_rate')
     tax_rate = fields.Float('Tax Rate')
     product_id = fields.Many2one(string='Product')
-    product_uom_qty = fields.Float(string='Product UOM Qty', digits='(12,0)', default=1.0)
+    product_uom_qty = fields.Float(string='Product UOM Qty', digits=(12, 0), default=1.0)
     product_uom = fields.Many2one(string='Product UOM')
     price_unit = fields.Float(string='Price Unit', digits='Product Price', compute="compute_price_unit", store="True")
     description = fields.Text(string='Description')
