@@ -25,7 +25,7 @@
                 <t t-foreach="o.order_line.sorted(key='quotation_custom_line_no')" t-as="ll">
                     <t t-set="line_one_one" t-value="15"/>
                     <t t-if="ll.quotation_custom_line_no&gt;line_one_one_id">
-                        <div style="page-break-before: always; font-family: Monospace; font-size: 14px">
+                        <div style="page-break-before: always; font-family: MS Gothic; font-size: 14px">
                             <div style="text-align: center;">
                                 <div style="float: left; width: 59%; text-align: center; display: inline-block; margin-left: 20%;">
                                     <t t-if="o.report_header">
