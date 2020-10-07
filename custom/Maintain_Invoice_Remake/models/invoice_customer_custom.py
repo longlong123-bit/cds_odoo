@@ -1342,7 +1342,7 @@ class AccountMoveLine(models.Model):
     # product_maker_name = fields.Many2one('freight.category.custom', string='Maker Code')
     product_maker_name = fields.Char(string='Maker Name')
     price_unit = fields.Float(string='Unit Price', digits='Product Price', compute="compute_price_unit", store="True")
-    quantity = fields.Float(string='Quantity', digits='(12,0)',
+    quantity = fields.Float(string='Quantity', digits=(12,0),
                             default=1.0,
                             help="The optional quantity expressed by this line, eg: number of product sold. "
                                  "The quantity is not a legal requirement but is very useful for some reports.")
@@ -1601,7 +1601,10 @@ class AccountMoveLine(models.Model):
                                                          maker_ids.price_applied)
         else:
             product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
-            price = product_price_ids.price_1
+            if product_price_ids.price_1:
+                price = product_price_ids.price_1
+            else:
+                price = product_price_ids.standard_price
         return price
 
     def set_product_class_code_lv1(self, product_code=None, jan_code=None, product_class_code_lv4=None,
