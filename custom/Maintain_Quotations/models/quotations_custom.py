@@ -950,7 +950,10 @@ class QuotationsLinesCustom(models.Model):
                                                          maker_ids.price_applied)
         else:
             product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
-            price = product_price_ids.price_1
+            if product_price_ids.price_1:
+                price = product_price_ids.price_1
+            else:
+                price = product_price_ids.standard_price
         return price
 
     def set_product_class_code_lv1(self, product_code=None, jan_code=None, product_class_code_lv4=None,
