@@ -237,10 +237,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -248,10 +248,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -260,7 +260,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -462,10 +462,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -473,10 +473,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -485,7 +485,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -683,10 +683,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -694,10 +694,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -706,7 +706,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -865,10 +865,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -876,10 +876,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -888,7 +888,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1193,10 +1193,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1204,10 +1204,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1216,7 +1216,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1418,10 +1418,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1429,10 +1429,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1441,7 +1441,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1627,10 +1627,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1638,10 +1638,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1650,7 +1650,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1804,10 +1804,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1815,10 +1815,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -1827,7 +1827,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -2134,10 +2134,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2145,10 +2145,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2157,7 +2157,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -2359,10 +2359,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2370,10 +2370,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2382,7 +2382,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -2568,10 +2568,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2579,10 +2579,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2591,7 +2591,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -2745,10 +2745,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2756,10 +2756,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -2768,7 +2768,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -3078,10 +3078,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -3089,10 +3089,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -3101,7 +3101,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -3303,10 +3303,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -3314,10 +3314,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -3326,7 +3326,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -3512,10 +3512,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -3523,10 +3523,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -3535,7 +3535,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -3689,10 +3689,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -3700,10 +3700,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -3712,7 +3712,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -3800,7 +3800,7 @@
                             </div>
                         </div>
                         <t t-set="line" t-value="8"/>
-                        <div style="page-break-before: always; display: block; font-family: Monospace;">
+                        <div style="page-break-before: always; display: block; font-family: MS Gothic;">
                             <div class="page">
                                 <div style="text-align: center;">
                                     <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
@@ -4018,10 +4018,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -4029,10 +4029,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -4041,7 +4041,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -4247,10 +4247,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -4258,10 +4258,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -4270,7 +4270,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -4472,10 +4472,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -4483,10 +4483,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -4495,7 +4495,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -4643,10 +4643,10 @@
                                                         <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; height: 30px; display: block; padding: 0 5px 0 5px;">
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-if="order.product_id.product_tax_category == 'exempt'">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -4654,10 +4654,10 @@
                                                             </div>
                                                             <div style="display: block; overflow: hidden;"
                                                                  t-elif="order.tax_rate == 8">
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;"
                                                                       t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)">
                                                                     <null/>
@@ -4666,7 +4666,7 @@
                                                             <t t-else="">
                                                                 <span t-if="order.description"
                                                                       t-esc="order.limit_charater_field(order.description, 8)"
-                                                                      style="display: inline-block; width: 90px; overflow: hidden; white-space: nowrap;">
+                                                                      style="display: inline-block; width: 100px; overflow: hidden; white-space: nowrap;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
