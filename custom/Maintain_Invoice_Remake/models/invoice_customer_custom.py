@@ -99,6 +99,7 @@ def copy_data_from_partner(rec, partner, quotation):
         rec.customer_trans_classification_code = partner.customer_trans_classification_code
 
         if quotation:
+            rec.x_studio_summary = quotation.comment_apply
             rec.x_voucher_tax_transfer = quotation.tax_method
         else:
             rec.x_voucher_tax_transfer = get_tax_method(tax_unit=partner.customer_tax_unit)
