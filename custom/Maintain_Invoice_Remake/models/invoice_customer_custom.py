@@ -97,6 +97,7 @@ def copy_data_from_partner(rec, partner, quotation):
         rec.customer_state = partner.customer_state.name
         rec.customer_industry = partner.customer_industry_code.name
         rec.customer_trans_classification_code = partner.customer_trans_classification_code
+        rec.x_studio_summary = quotation.comment_apply
 
         if quotation:
             rec.x_voucher_tax_transfer = quotation.tax_method
