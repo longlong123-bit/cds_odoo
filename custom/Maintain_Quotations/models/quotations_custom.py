@@ -1185,10 +1185,61 @@ class QuotationsLinesCustom(models.Model):
                     elif self.product_code == product.product_code_6:
                         setting_price = "6"
                     if product.product_tax_category == 'exempt':
-                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                        self.price_include_tax = self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.order_id.partner_id.customer_code,
+                            self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                    elif product.product_tax_category == 'foreign':
+                        self.price_include_tax = (product.product_tax_rate / 100 + 1) * self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.order_id.partner_id.customer_code, self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.order_id.partner_id.customer_code,
+                            self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
                     else:
-                        self.price_include_tax = product["price_include_tax_" + setting_price]
-                        self.price_no_tax = product["price_no_tax_" + setting_price]
+                        self.price_include_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.order_id.partner_id.customer_code, self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.order_id.partner_id.customer_code,
+                            self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id,
+                            self.order_id.quotations_date) / (product.product_tax_rate / 100 + 1)
 
                     self.compute_price_unit()
                     self.compute_line_amount()
@@ -1217,11 +1268,61 @@ class QuotationsLinesCustom(models.Model):
                     if product.setting_price:
                         setting_price = product.setting_price[5:]
                     if product.product_tax_category == 'exempt':
-                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                        self.price_include_tax = self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.order_id.partner_id.customer_code,
+                            self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                    elif product.product_tax_category == 'foreign':
+                        self.price_include_tax = (product.product_tax_rate / 100 + 1) * self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.order_id.partner_id.customer_code, self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.order_id.partner_id.customer_code,
+                            self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
                     else:
-                        self.price_include_tax = product["price_include_tax_" + setting_price]
-                        self.price_no_tax = product["price_no_tax_" + setting_price]
-
+                        self.price_include_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.order_id.partner_id.customer_code, self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.order_id.partner_id.customer_code,
+                            self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date) / (
+                                                        product.product_tax_rate / 100 + 1)
                     self.compute_price_unit()
                     self.compute_line_amount()
                     self.compute_line_tax_amount()
