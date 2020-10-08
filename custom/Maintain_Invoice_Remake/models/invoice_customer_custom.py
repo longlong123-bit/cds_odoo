@@ -97,6 +97,7 @@ def copy_data_from_partner(rec, partner, quotation):
         rec.customer_state = partner.customer_state.name
         rec.customer_industry = partner.customer_industry_code.name
         rec.customer_trans_classification_code = partner.customer_trans_classification_code
+        rec.x_studio_summary = quotation.comment_apply
 
         if quotation:
             rec.x_voucher_tax_transfer = quotation.tax_method
@@ -485,6 +486,14 @@ class ClassInvoiceCustom(models.Model):
     copy_history_item = fields.Char(default="")
     copy_history_from = fields.Char(default="")
 
+    @api.onchange('x_studio_date_invoiced', 'x_studio_business_partner', 'x_studio_name', 'x_bussiness_partner_name_2',
+                  'x_studio_address_1', 'x_studio_address_2', 'x_studio_summary', 'sales_rep', 'x_userinput_id', 'ref',
+                  'sales_rep', 'customer_trans_classification_code', 'x_voucher_tax_transfer', 'x_studio_da_printed',
+                  'x_studio_payment_rule_1', 'amount_untaxed')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.customer_tax_rounding = self.partner_id.customer_tax_rounding
+
     @api.onchange('copy_history_item')
     def copy_from_history(self):
         if not self.copy_history_item:
@@ -698,7 +707,7 @@ class ClassInvoiceCustom(models.Model):
 
             if move.x_voucher_tax_transfer != 'custom_tax':
                 if move.x_voucher_tax_transfer == 'voucher':
-                    move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 2, move.customer_tax_rounding)
+                    move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 0, move.customer_tax_rounding)
                 else:
                     move.x_voucher_tax_amount = total_voucher_tax_amount
             # else:
@@ -1334,7 +1343,7 @@ class AccountMoveLine(models.Model):
     # product_maker_name = fields.Many2one('freight.category.custom', string='Maker Code')
     product_maker_name = fields.Char(string='Maker Name')
     price_unit = fields.Float(string='Unit Price', digits='Product Price', compute="compute_price_unit", store="True")
-    quantity = fields.Float(string='Quantity', digits='(12,0)',
+    quantity = fields.Float(string='Quantity', digits=(12,0),
                             default=1.0,
                             help="The optional quantity expressed by this line, eg: number of product sold. "
                                  "The quantity is not a legal requirement but is very useful for some reports.")
@@ -1366,6 +1375,402 @@ class AccountMoveLine(models.Model):
 
     copy_history_flag = fields.Boolean(default=False, store=False)
 
+    @api.onchange('invoice_custom_line_no', 'x_invoicelinetype', 'product_code', 'product_barcode',
+                  'product_maker_name', 'product_name', 'invoice_custom_standardnumber', 'quantity', 'product_uom_id',
+                  'price_unit', 'invoice_custom_Description', 'tax_rate')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.move_id.customer_tax_rounding = self.move_id.partner_id.customer_tax_rounding
+
+
+    def price_of_recruitment_select(self, rate=0, recruitment_price_select=None, price_applied=0):
+        if recruitment_price_select:
+            product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
+            if recruitment_price_select == 'price_1':
+                price = product_price_ids.price_1 * rate/100
+            elif recruitment_price_select == 'standard_price':
+                price = product_price_ids.standard_price * rate/100
+        else:
+            price = price_applied
+        return price
+
+    def set_country_state_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                               product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
+                               maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
+                               industry_code=None, country_state_code=None, date=datetime.today()):
+        country_state_code_ids = self.env['master.price.list'].search([
+            ('country_state_code_id', '=', country_state_code),
+            ('industry_code_id', '=', industry_code),
+            ('supplier_group_code_id', '=', supplier_group_code),
+            ('customer_code_bill', '=', customer_code_bill),
+            ('customer_code', '=', customer_code),
+            ('maker_code', '=', maker),
+            ('product_class_code_lv1_id', '=', product_class_code_lv1),
+            ('product_class_code_lv2_id', '=', product_class_code_lv2),
+            ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(country_state_code_ids):
+            if len(country_state_code_ids) > 1:
+                for i in country_state_code_ids:
+                    price = self.price_of_recruitment_select(i.rate,
+                                                             i.recruitment_price_select,
+                                                             i.price_applied)
+            else:
+                price = self.price_of_recruitment_select(country_state_code_ids.rate,
+                                                         country_state_code_ids.recruitment_price_select,
+                                                         country_state_code_ids.price_applied)
+        else:
+            country_state_code_id_none = self.env['master.price.list'].search([
+                ('country_state_code_id', '=', None),
+                ('industry_code_id', '=', industry_code),
+                ('supplier_group_code_id', '=', supplier_group_code),
+                ('customer_code_bill', '=', customer_code_bill),
+                ('customer_code', '=', customer_code),
+                ('maker_code', '=', maker),
+                ('product_class_code_lv1_id', '=', product_class_code_lv1),
+                ('product_class_code_lv2_id', '=', product_class_code_lv2),
+                ('product_class_code_lv3_id', '=', product_class_code_lv3),
+                ('product_class_code_lv4_id', '=', product_class_code_lv4),
+                ('jan_code', '=', jan_code),
+                ('product_code', '=', product_code),
+                ('date_applied', '<=', date)]).sorted('date_applied')
+            if len(country_state_code_id_none):
+                if len(country_state_code_id_none) > 1:
+                    for i in country_state_code_id_none:
+                        price = self.price_of_recruitment_select(i.rate, i.recruitment_price_select, i.price_applied)
+                else:
+                    price = self.price_of_recruitment_select(country_state_code_id_none.rate,
+                                                             country_state_code_id_none.recruitment_price_select,
+                                                             country_state_code_id_none.price_applied)
+            else:
+                product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
+                price = product_price_ids.price_1
+        return price
+
+    def set_industry_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                          product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
+                          maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
+                          industry_code=None, country_state_code=None, date=datetime.today()):
+        industry_code_ids = self.env['master.price.list'].search([
+            ('industry_code_id', '=', industry_code),
+            ('supplier_group_code_id', '=', supplier_group_code),
+            ('customer_code_bill', '=', customer_code_bill),
+            ('customer_code', '=', customer_code),
+            ('maker_code', '=', maker),
+            ('product_class_code_lv1_id', '=', product_class_code_lv1),
+            ('product_class_code_lv2_id', '=', product_class_code_lv2),
+            ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(industry_code_ids):
+            if len(industry_code_ids) > 1:
+                price = self.set_country_state_code(product_code, jan_code, product_class_code_lv4,
+                                                    product_class_code_lv3, product_class_code_lv2,
+                                                    product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                    supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(industry_code_ids.rate,
+                                                         industry_code_ids.recruitment_price_select,
+                                                         industry_code_ids.price_applied)
+        else:
+            price = self.set_country_state_code(product_code, jan_code, product_class_code_lv4, product_class_code_lv3,
+                                                product_class_code_lv2, product_class_code_lv1, maker, None, None, None,
+                                                None, country_state_code, date)
+        return price
+
+    def set_supplier_group_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                                product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
+                                maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
+                                industry_code=None, country_state_code=None, date=datetime.today()):
+        supplier_group_code_ids = self.env['master.price.list'].search([
+            ('supplier_group_code_id', '=', supplier_group_code),
+            ('customer_code_bill', '=', customer_code_bill),
+            ('customer_code', '=', customer_code),
+            ('maker_code', '=', maker),
+            ('product_class_code_lv1_id', '=', product_class_code_lv1),
+            ('product_class_code_lv2_id', '=', product_class_code_lv2),
+            ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(supplier_group_code_ids):
+            if len(supplier_group_code_ids) > 1:
+                price = self.set_industry_code(product_code, jan_code, product_class_code_lv4, product_class_code_lv3,
+                                               product_class_code_lv2, product_class_code_lv1, maker, customer_code,
+                                               customer_code_bill, supplier_group_code, industry_code,
+                                               country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(supplier_group_code_ids.rate,
+                                                         supplier_group_code_ids.recruitment_price_select,
+                                                         supplier_group_code_ids.price_applied)
+        else:
+            price = self.set_industry_code(product_code, jan_code, product_class_code_lv4, product_class_code_lv3,
+                                           product_class_code_lv2, product_class_code_lv1, maker, None, None, None,
+                                           industry_code, country_state_code, date)
+        return price
+
+    def set_customer_code_bill(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                               product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
+                               maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
+                               industry_code=None, country_state_code=None, date=datetime.today()):
+        customer_code_bill_ids = self.env['master.price.list'].search([
+            ('customer_code_bill', '=', customer_code_bill),
+            ('customer_code', '=', customer_code),
+            ('maker_code', '=', maker),
+            ('product_class_code_lv1_id', '=', product_class_code_lv1),
+            ('product_class_code_lv2_id', '=', product_class_code_lv2),
+            ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(customer_code_bill_ids):
+            if len(customer_code_bill_ids) > 1:
+                price = self.set_supplier_group_code(product_code, jan_code, product_class_code_lv4,
+                                                     product_class_code_lv3, product_class_code_lv2,
+                                                     product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                     supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(customer_code_bill_ids.rate,
+                                                         customer_code_bill_ids.recruitment_price_select,
+                                                         customer_code_bill_ids.price_applied)
+        else:
+            price = self.set_supplier_group_code(product_code, jan_code, product_class_code_lv4,
+                                                 product_class_code_lv3, product_class_code_lv2,
+                                                 product_class_code_lv1, maker, None, None,
+                                                 supplier_group_code, industry_code, country_state_code, date)
+        return price
+
+    def set_customer_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                          product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
+                          maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
+                          industry_code=None, country_state_code=None, date=datetime.today()):
+        customer_code_ids = self.env['master.price.list'].search([
+            ('customer_code', '=', customer_code),
+            ('maker_code', '=', maker),
+            ('product_class_code_lv1_id', '=', product_class_code_lv1),
+            ('product_class_code_lv2_id', '=', product_class_code_lv2),
+            ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(customer_code_ids):
+            if len(customer_code_ids) > 1:
+                price = self.set_customer_code_bill(product_code, jan_code, product_class_code_lv4,
+                                                    product_class_code_lv3, product_class_code_lv2,
+                                                    product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                    supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(customer_code_ids.rate,
+                                                         customer_code_ids.recruitment_price_select,
+                                                         customer_code_ids.price_applied)
+        else:
+            price = self.set_customer_code_bill(product_code, jan_code, product_class_code_lv4,
+                                                product_class_code_lv3, product_class_code_lv2,
+                                                product_class_code_lv1, maker, None, customer_code_bill,
+                                                supplier_group_code, industry_code, country_state_code, date)
+        return price
+
+    def set_maker(self, product_code=None, jan_code=None, product_class_code_lv4=None, product_class_code_lv3=None,
+                  product_class_code_lv2=None, product_class_code_lv1=None, maker=None, customer_code=None,
+                  customer_code_bill=None, supplier_group_code=None, industry_code=None, country_state_code=None,
+                  date=datetime.today()):
+        maker_ids = self.env['master.price.list'].search([('maker_code', '=', maker),
+                                                          ('product_class_code_lv1_id', '=', product_class_code_lv1),
+                                                          ('product_class_code_lv2_id', '=', product_class_code_lv2),
+                                                          ('product_class_code_lv3_id', '=', product_class_code_lv3),
+                                                          ('product_class_code_lv4_id', '=', product_class_code_lv4),
+                                                          ('jan_code', '=', jan_code),
+                                                          ('product_code', '=', product_code),
+                                                          ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(maker_ids):
+            if len(maker_ids) > 1:
+                price = self.set_customer_code(product_code, jan_code, product_class_code_lv4,
+                                               product_class_code_lv3, product_class_code_lv2,
+                                               product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                               supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(maker_ids.rate,
+                                                         maker_ids.recruitment_price_select,
+                                                         maker_ids.price_applied)
+        else:
+            product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
+            if product_price_ids.price_1:
+                price = product_price_ids.price_1
+            else:
+                price = product_price_ids.standard_price
+        return price
+
+    def set_product_class_code_lv1(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                                   product_class_code_lv3=None, product_class_code_lv2=None,
+                                   product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
+                                   supplier_group_code=None, industry_code=None, country_state_code=None,
+                                   date=datetime.today()):
+        product_class_code_lv1_ids = self.env['master.price.list'].search([
+            ('product_class_code_lv1_id', '=', product_class_code_lv1),
+            ('product_class_code_lv2_id', '=', product_class_code_lv2),
+            ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(product_class_code_lv1_ids):
+            if len(product_class_code_lv1_ids) > 1:
+                price = self.set_maker(product_code, jan_code, product_class_code_lv4,
+                                       product_class_code_lv3, product_class_code_lv2,
+                                       product_class_code_lv1, maker, customer_code,
+                                       customer_code_bill,
+                                       supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(product_class_code_lv1_ids.rate,
+                                                         product_class_code_lv1_ids.recruitment_price_select,
+                                                         product_class_code_lv1_ids.price_applied)
+        else:
+            price = self.set_maker(None, None, None, None, None, None, maker, customer_code, customer_code_bill,
+                                   supplier_group_code, industry_code, country_state_code, date)
+        return price
+
+    def set_product_class_code_lv2(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                                   product_class_code_lv3=None, product_class_code_lv2=None,
+                                   product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
+                                   supplier_group_code=None, industry_code=None, country_state_code=None,
+                                   date=datetime.today()):
+        product_class_code_lv2_ids = self.env['master.price.list'].search([
+            ('product_class_code_lv2_id', '=', product_class_code_lv2),
+            ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(product_class_code_lv2_ids):
+            if len(product_class_code_lv2_ids) > 1:
+                price = self.set_product_class_code_lv1(product_code, jan_code, product_class_code_lv4,
+                                                        product_class_code_lv3, product_class_code_lv2,
+                                                        product_class_code_lv1, maker, customer_code,
+                                                        customer_code_bill,
+                                                        supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(product_class_code_lv2_ids.rate,
+                                                         product_class_code_lv2_ids.recruitment_price_select,
+                                                         product_class_code_lv2_ids.price_applied)
+        else:
+            price = self.set_product_class_code_lv1(None, None, None, None, None,
+                                                    product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                    supplier_group_code, industry_code, country_state_code, date)
+        return price
+
+    def set_product_class_code_lv3(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                                   product_class_code_lv3=None, product_class_code_lv2=None,
+                                   product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
+                                   supplier_group_code=None, industry_code=None, country_state_code=None,
+                                   date=datetime.today()):
+        product_class_code_lv3_ids = self.env['master.price.list'].search([
+            ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(product_class_code_lv3_ids):
+            if len(product_class_code_lv3_ids) > 1:
+                price = self.set_product_class_code_lv2(product_code, jan_code, product_class_code_lv4,
+                                                        product_class_code_lv3, product_class_code_lv2,
+                                                        product_class_code_lv1, maker, customer_code,
+                                                        customer_code_bill,
+                                                        supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(product_class_code_lv3_ids.rate,
+                                                         product_class_code_lv3_ids.recruitment_price_select,
+                                                         product_class_code_lv3_ids.price_applied)
+        else:
+            price = self.set_product_class_code_lv2(None, None, None,
+                                                    None, product_class_code_lv2,
+                                                    product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                    supplier_group_code, industry_code, country_state_code, date)
+        return price
+
+    def set_product_class_code_lv4(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                                   product_class_code_lv3=None, product_class_code_lv2=None,
+                                   product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
+                                   supplier_group_code=None, industry_code=None, country_state_code=None,
+                                   date=datetime.today()):
+        product_class_code_lv4_ids = self.env['master.price.list'].search([
+            ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(product_class_code_lv4_ids):
+            if len(product_class_code_lv4_ids) > 1:
+                price = self.set_product_class_code_lv3(product_code, jan_code, product_class_code_lv4,
+                                                        product_class_code_lv3, product_class_code_lv2,
+                                                        product_class_code_lv1, maker, customer_code,
+                                                        customer_code_bill,
+                                                        supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(product_class_code_lv4_ids.rate,
+                                                         product_class_code_lv4_ids.recruitment_price_select,
+                                                         product_class_code_lv4_ids.price_applied)
+        else:
+            price = self.set_product_class_code_lv3(None, None, None,
+                                                    product_class_code_lv3, product_class_code_lv2,
+                                                    product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                    supplier_group_code, industry_code, country_state_code, date)
+        return price
+
+    def set_price_by_jan_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                              product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
+                              maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
+                              industry_code=None, country_state_code=None, date=datetime.today()):
+        jan_ids = self.env['master.price.list'].search([
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(jan_ids):
+            if len(jan_ids) > 1:
+                price = self.set_product_class_code_lv4(product_code, jan_code, product_class_code_lv4,
+                                                        product_class_code_lv3, product_class_code_lv2,
+                                                        product_class_code_lv1, maker, customer_code,
+                                                        customer_code_bill,
+                                                        supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(jan_ids.rate,
+                                                         jan_ids.recruitment_price_select,
+                                                         jan_ids.price_applied)
+        else:
+            price = self.set_product_class_code_lv4(None, None, product_class_code_lv4,
+                                                    product_class_code_lv3, product_class_code_lv2,
+                                                    product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                    supplier_group_code, industry_code, country_state_code, date)
+        return price
+
+    def set_price_product_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
+                               product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
+                               maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
+                               industry_code=None, country_state_code=None, date=datetime.today()):
+        product_code_ids = self.env['master.price.list'].search(
+            [('product_code', '=', product_code), ('date_applied', '<=', date)]).sorted('date_applied')
+        if len(product_code_ids):
+            if len(product_code_ids) > 1:
+                price = self.set_price_by_jan_code(product_code, jan_code, product_class_code_lv4,
+                                                   product_class_code_lv3, product_class_code_lv2,
+                                                   product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                   supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(product_code_ids.rate,
+                                                         product_code_ids.recruitment_price_select,
+                                                         product_code_ids.price_applied)
+        else:
+            price = self.set_price_by_jan_code(None, jan_code, product_class_code_lv4, product_class_code_lv3,
+                                               product_class_code_lv2, product_class_code_lv1, maker, customer_code,
+                                               customer_code_bill, supplier_group_code, industry_code,
+                                               country_state_code, date)
+        return price
 
     @api.onchange('product_code')
     def _onchange_product_code(self):
@@ -1395,11 +1800,67 @@ class AccountMoveLine(models.Model):
                         setting_price = "5"
                     elif self.product_code == product.product_code_6:
                         setting_price = "6"
+                    # if product.product_tax_category == 'exempt':
+                    #     self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                    # else:
+                    #     self.price_include_tax = product["price_include_tax_" + setting_price]
+                    #     self.price_no_tax = product["price_no_tax_" + setting_price]
                     if product.product_tax_category == 'exempt':
-                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                        self.price_include_tax = self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.move_id.partner_id.customer_code,
+                            self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
+                    elif product.product_tax_category == 'foreign':
+                        self.price_include_tax = (product.product_tax_rate / 100 + 1) * self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.move_id.partner_id.customer_code, self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.move_id.partner_id.customer_code,
+                            self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
                     else:
-                        self.price_include_tax = product["price_include_tax_" + setting_price]
-                        self.price_no_tax = product["price_no_tax_" + setting_price]
+                        self.price_include_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.move_id.partner_id.customer_code, self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.move_id.partner_id.customer_code,
+                            self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id,
+                            self.move_id.x_studio_date_invoiced) / (product.product_tax_rate / 100 + 1)
 
                     self.price_unit = self._get_computed_price_unit()
                     return
@@ -1424,11 +1885,68 @@ class AccountMoveLine(models.Model):
                     setting_price = '1'
                     if product.setting_price:
                         setting_price = product.setting_price[5:]
+                    # if product.product_tax_category == 'exempt':
+                    #     self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                    # else:
+                    #     self.price_include_tax = product["price_include_tax_" + setting_price]
+                    #     self.price_no_tax = product["price_no_tax_" + setting_price]
                     if product.product_tax_category == 'exempt':
-                        self.price_include_tax = self.price_no_tax = product["price_" + setting_price]
+                        self.price_include_tax = self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.move_id.partner_id.customer_code,
+                            self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id,
+                            self.move_id.x_studio_date_invoiced)
+                    elif product.product_tax_category == 'foreign':
+                        self.price_include_tax = (product.product_tax_rate / 100 + 1) * self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.move_id.partner_id.customer_code, self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.move_id.partner_id.customer_code,
+                            self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
                     else:
-                        self.price_include_tax = product["price_include_tax_" + setting_price]
-                        self.price_no_tax = product["price_no_tax_" + setting_price]
+                        self.price_include_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.move_id.partner_id.customer_code, self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.move_id.partner_id.customer_code,
+                            self.move_id.partner_id.customer_code_bill,
+                            self.move_id.partner_id.customer_supplier_group_code.id,
+                            self.move_id.partner_id.customer_industry_code.id,
+                            self.move_id.partner_id.customer_state.id,
+                            self.move_id.x_studio_date_invoiced) / (product.product_tax_rate / 100 + 1)
                     self.price_unit = self._get_computed_price_unit()
                     return
 
@@ -1575,19 +2093,19 @@ class AccountMoveLine(models.Model):
     def compute_sale_unit_price(self):
         for line in self:
             line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount,
-                                                                                  line.move_id.partner_id.customer_tax_rounding)
+                                                                                  line.move_id.customer_tax_rounding)
 
     def compute_discount_unit_price(self):
         for line in self:
             line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount,
-                                                                                         line.move_id.partner_id.customer_tax_rounding)
+                                                                                         line.move_id.customer_tax_rounding)
 
 
     @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding')
     def compute_line_amount(self):
         for line in self:
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity,
-                                                                         line.move_id.partner_id.customer_tax_rounding)
+                                                                         line.move_id.customer_tax_rounding)
 
     @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding',
                  'move_id.invoice_line_ids')
@@ -1633,11 +2151,11 @@ class AccountMoveLine(models.Model):
             line.update(line._get_price_total_and_subtotal())
             line.update(line._get_fields_onchange_subtotal())
             line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount,
-                                                                                  line.move_id.partner_id.customer_tax_rounding)
+                                                                                  line.move_id.customer_tax_rounding)
             line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount,
-                                                                                         line.move_id.partner_id.customer_tax_rounding)
+                                                                                         line.move_id.customer_tax_rounding)
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount,
-                                                                         line.quantity, line.move_id.partner_id.customer_tax_rounding)
+                                                                         line.quantity, line.move_id.customer_tax_rounding)
             if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
                 and line.product_id.product_tax_category != 'exempt') \
                     or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
