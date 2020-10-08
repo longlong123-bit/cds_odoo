@@ -9,7 +9,7 @@
       <field eval="1" name="priority"/>
         <field name="arch" type="xml">
             <xpath expr="//tree" position="replace">
-                <tree class="forward_edit" create="false">
+                <tree class="forward_edit" create="false" default_order="x_studio_date_invoiced desc, x_studio_document_no desc">
                     <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
                     <field name="x_studio_date_invoiced" string="Date Invoiced"/>
                     <field name="x_studio_document_no" string="Document No"/>

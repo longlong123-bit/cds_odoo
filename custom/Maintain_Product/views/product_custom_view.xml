@@ -348,7 +348,7 @@
         <field name="model">product.product</field>
         <field eval="7" name="priority"/>
         <field name="arch" type="xml">
-            <tree string="Product Variants" multi_edit="1" duplicate="false" class="forward_edit" create="true" >
+            <tree string="Product Variants" multi_edit="1" duplicate="false" class="forward_edit" create="true" default_order="barcode esc, product_maker_code esc">
                 <field name="barcode" required="True" string="JANコード"/>
                 <field name="product_maker_code" string="メーカーCD"/>
                 <field name="product_maker_name" string="メーカー名" readonly='True'/>
