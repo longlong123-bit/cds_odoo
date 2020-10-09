@@ -39,4 +39,26 @@
     <record id="account.menu_finance_configuration" model="ir.ui.menu">
         <field name="parent_id" eval="ref('base.menu_custom')"/>
     </record>
+
+    <record id="Maintain_Bill_Management.parent_menu_bill_management" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
+    <record id="Maintain_Bill_Management.menu_bill" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
+    <record id="Maintain_Bill_Cancel.menu_cancel_bill" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
+    <record id="Maintain_Bill_List.menu_list_bill" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
+    <record id="Maintain_Collation_History.menu_ideas" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
+    <record id="Maintain_List_Omission_Of_Bill.menu_list_omission_of_bill" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
+    <record id="Maintain_Payment_Request_Bill.menu_ideas" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
 </odoo>
