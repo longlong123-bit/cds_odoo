@@ -131,19 +131,27 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                   '10':'product_code_6',
                 }
                 var readColumn = parent._getReadColumn(options) == 'code_by_setting' ? (mapColumn[$(event.data.target).index()] || parent._getReadColumn(options)) : parent._getReadColumn(options);
-
+                var standardColumn = parent._getStandardColumn(options) == 'product_custom_standardnumber' ? (parent._getStandardColumn(options)) : parent._getStandardColumn(options);
                 for (var i = 0; i < state.count; i++) {
                     if (state.data[i] && state.data[i].ref === event.data.id) {
                         var alternative_column = options.alternative_column;
                         var alternative_value = options.alternative_value;
                         var current_row = this.getParent().$el.parent().parent().parent();
                         var alternative_element = current_row.find('div[name="' + alternative_column + '"]').find('input');
+                        var standard_column_element = current_row.find('div[name="' + standardColumn + '"]').find('input');
                         if (state.data[i].data[readColumn]){
                           if(state.data[i].data[readColumn] != parent.value) {
                             alternative_element.val('');
                           }
                           parent._setValue(state.data[i].data[readColumn] || '');
                           parent._render();
+                          break;
+                        } else if(state.data[i].data[standardColumn]) {
+                          if(state.data[i].data[standardColumn] != parent.value) {
+                            parent.$el.find('input').val(state.data[i].data['product_custom_standardnumber']);
+                          }
+                          alternative_element.val(state.data[i].data[alternative_value] || '');
+                          alternative_element.trigger("change");
                           break;
                         } else {
                           parent.$el.find('input').val('');
@@ -441,6 +449,14 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
         _getReadColumn: function(options){
             options = options || this._getWidgetOptions();
             return options.read_column || options.column;
+        },
+
+        /**
+         * Get standard column
+         */
+        _getStandardColumn: function(options){
+            options = options || this._getWidgetOptions();
+            return options.standard_column;
         },
 
         /**
