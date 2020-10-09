@@ -146,11 +146,15 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                           parent._setValue(state.data[i].data[readColumn] || '');
                           parent._render();
                           break;
-                        } else {
-                          parent.$el.find('input').val('');
-                          if(state.data[i].data[standardColumn] == parent.value) {
+                        } else if(state.data[i].data[standardColumn]) {
+                          if(state.data[i].data[standardColumn] != parent.value) {
                             parent.$el.find('input').val(state.data[i].data['product_custom_standardnumber']);
                           }
+                          alternative_element.val(state.data[i].data[alternative_value] || '');
+                          alternative_element.trigger("change");
+                          break;
+                        } else {
+                          parent.$el.find('input').val('');
                           alternative_element.val(state.data[i].data[alternative_value] || '');
                           alternative_element.trigger("change");
                           break;
