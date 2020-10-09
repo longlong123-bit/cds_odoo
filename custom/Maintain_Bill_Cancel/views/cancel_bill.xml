@@ -55,6 +55,5 @@
     <!-- MENU -->
     <menuitem id="menu_cancel_bill" parent="Maintain_Bill_Management.parent_menu_bill_management" name="Cancel Billing"
               sequence="2"
-              action="actions_bm_cancel_bill"
-              groups="base.group_user"/>
+              action="actions_bm_cancel_bill"/>
 </odoo>
