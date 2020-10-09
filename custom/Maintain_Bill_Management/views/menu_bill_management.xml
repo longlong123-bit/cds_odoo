@@ -1,9 +1,7 @@
 <odoo>
     <data>
-        <menuitem id="parent_menu_bill_management" name="Bill Management" sequence="41" action="actions_bm_bill"
-                  groups="base.group_user"/>
+        <menuitem id="parent_menu_bill_management" name="Bill Management" sequence="41" action="actions_bm_bill"/>
         <menuitem id="menu_bill" parent="parent_menu_bill_management" name="Billing" sequence="1"
-                  action="actions_bm_bill"
-                  groups="base.group_user"/>
+                  action="actions_bm_bill"/>
     </data>
 </odoo>
