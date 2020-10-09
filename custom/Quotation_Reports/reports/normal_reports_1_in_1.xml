@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                                 <div style=" display: inline-block; width: 100%; margin-top: 10px;">
-                                    <div style="font-size: 18px; float: left; display: inline-block;border-bottom: 1px solid;">
+                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block; border-bottom: 1px solid;">
                                         <null/>
                                         <t t-if="pager==1">
                                             <span style="">合計金額　￥</span>
@@ -132,8 +132,8 @@
                                             </t>
                                         </t>
                                     </div>
-                                    <div style="float: right; font-size: 18px">
-                                        <span style="display: inline-block; width: 286px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                    <div style="display: inline-block; float: right; font-size: 18px; width: 49%;">
+                                        <span style="display: inline-block; max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                               t-field="o.comment_apply">
                                             <null/>
                                         </span>
