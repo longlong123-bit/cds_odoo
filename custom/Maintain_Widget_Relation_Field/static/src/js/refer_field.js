@@ -131,7 +131,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                   '10':'product_code_6',
                 }
                 var readColumn = parent._getReadColumn(options) == 'code_by_setting' ? (mapColumn[$(event.data.target).index()] || parent._getReadColumn(options)) : parent._getReadColumn(options);
-                var standardColumn = parent._getStandardColumn(options) == 'product_custom_standardnumber' ? (mapColumn[$(event.data.target).index()] || parent._getStandardColumn(options)) : parent._getStandardColumn(options);
+                var standardColumn = parent._getStandardColumn(options) == 'product_custom_standardnumber' ? (parent._getStandardColumn(options)) : parent._getStandardColumn(options);
                 for (var i = 0; i < state.count; i++) {
                     if (state.data[i] && state.data[i].ref === event.data.id) {
                         var alternative_column = options.alternative_column;
@@ -146,11 +146,15 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                           parent._setValue(state.data[i].data[readColumn] || '');
                           parent._render();
                           break;
-                        } else {
-                          parent.$el.find('input').val('');
-                          if(state.data[i].data[standardColumn]!= parent.value) {
+                        } else if(state.data[i].data[standardColumn]) {
+                          if(state.data[i].data[standardColumn] != parent.value) {
                             parent.$el.find('input').val(state.data[i].data['product_custom_standardnumber']);
                           }
+                          alternative_element.val(state.data[i].data[alternative_value] || '');
+                          alternative_element.trigger("change");
+                          break;
+                        } else {
+                          parent.$el.find('input').val('');
                           alternative_element.val(state.data[i].data[alternative_value] || '');
                           alternative_element.trigger("change");
                           break;
