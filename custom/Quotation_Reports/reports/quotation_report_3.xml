@@ -146,8 +146,8 @@
                                     </div>
                                 </div>
                                 <div style=" display: inline-block; width: 100%; margin-top: 10px;">
-                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block; border-bottom: 1px solid;">
-                                        <t t-if="pager==1">
+                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block;">
+                                        <div style="width: 100%; border-bottom: 1px solid;" t-if="pager==1">
                                             <span style="">合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -163,7 +163,7 @@
                                             <t t-else="">
                                                 <span>(税込)</span>
                                             </t>
-                                        </t>
+                                        </div>
                                     </div>
                                     <div style="float: right; font-size: 16px; display: block; margin-top: 3px; width: 49%;">
                                         <div>
@@ -244,7 +244,7 @@
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 32px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
@@ -382,7 +382,7 @@
                                             <td style="border: 1px solid #000000; border-top: 0; font-size: 18px; text-align: center;">
                                                 <div style="display: table; height: 60px; width: 49%; float: left; text-align: left; padding-left: 15%;">
                                                     <span style="vertical-align: middle; display: table-cell;">
-                                                    合　　　　計
+                                                    小　　　　計
                                                     </span>
                                                 </div>
                                                 <div style="display: inline-block; height: 60px; width: 30%; float: right; text-align: right;">
@@ -496,7 +496,7 @@
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 32px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
@@ -628,7 +628,7 @@
                                             <td style="border: 1px solid #000000; border-top: 0; font-size: 18px; text-align: center;">
                                                 <div style="display: table; height: 60px; width: 49%; float: left; text-align: left; padding-left: 15%;">
                                                     <span style="vertical-align: middle; display: table-cell;">
-                                                    合　　　　計
+                                                    小　　　　計
                                                     </span>
                                                 </div>
                                                 <div style="display: inline-block; height: 60px; width: 30%; float: right; text-align: right;">
@@ -742,7 +742,7 @@
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 32px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
@@ -872,7 +872,7 @@
                                             <td style="border: 1px solid #000000; font-size: 18px; text-align: center;border-top: 0;">
                                                 <div style="display: table; height: 60px; width: 59%; float: left; text-align: center; margin-left: 15%;">
                                                     <span style="vertical-align: middle; display: table-cell;">
-                                                    合　　　　計
+                                                    小　　　　計
                                                     </span>
                                                 </div>
                                             </td>
@@ -904,7 +904,7 @@
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 32px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
@@ -1036,7 +1036,7 @@
                                             <td style="border: 1px solid #000000; font-size: 18px; text-align: center;border-top: 0;">
                                                 <div style="display: table; height: 60px; width: 70%; float: left; text-align: left; padding-left: 35%;">
                                                     <span style="vertical-align: middle; display: table-cell;">
-                                                        合　　　　計
+                                                        小　　　　計
                                                     </span>
                                                 </div>
                                             </td>
