@@ -146,8 +146,8 @@
                                     </div>
                                 </div>
                                 <div style=" display: inline-block; width: 100%; margin-top: 10px;">
-                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block; border-bottom: 1px solid;">
-                                        <t t-if="pager==1">
+                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block;">
+                                        <div style="width: 100%; border-bottom: 1px solid;" t-if="pager==1">
                                             <span style="">合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -163,7 +163,7 @@
                                             <t t-else="">
                                                 <span>(税込)</span>
                                             </t>
-                                        </t>
+                                        </div>
                                     </div>
                                     <div style="float: right; font-size: 16px; display: block; margin-top: 3px; width: 49%;">
                                         <div>
