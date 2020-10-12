@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="margin-top: 8px">
+                            <div style="margin-top: 8px; display: block;">
                                 <table border="1" cellspacing="0" cellpadding="5"
                                        style="width: 100%;border: 1px solid #000000; border-left: 0; border-bottom: 0;">
                                     <thead>
@@ -203,7 +203,7 @@
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 32px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;"
                                                                           t-if="order.limit_charater_field(order.product_name, 20, True)"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -471,7 +471,7 @@
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 32px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
@@ -732,7 +732,7 @@
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 32px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
@@ -895,7 +895,7 @@
                                                         <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 32px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
