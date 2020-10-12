@@ -180,7 +180,7 @@
                                                             <t t-set="subtotal_tax_amount1_o"
                                                                t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -405,7 +405,7 @@
                                                             <t t-set="subtotal_tax_amount1_o"
                                                                t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -808,7 +808,7 @@
                                                             <t t-set="subtotal_tax_amount1_o"
                                                                t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -903,7 +903,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>1">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -1136,7 +1136,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -1231,7 +1231,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>0">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -1361,7 +1361,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -1456,7 +1456,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>1">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -1747,7 +1747,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -1842,7 +1842,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>1">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -2077,7 +2077,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -2172,7 +2172,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>0">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -2302,7 +2302,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -2397,7 +2397,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>1">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -2688,7 +2688,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -2783,7 +2783,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>1">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -3021,7 +3021,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -3116,7 +3116,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>0">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -3246,7 +3246,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -3341,7 +3341,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>1">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -3632,7 +3632,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -3727,7 +3727,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>1">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -3961,7 +3961,7 @@
                                                             <t t-set="subtotal_tax_amount_o"
                                                                t-value="subtotal_tax_amount_o + order.line_tax_amount"/>
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -4055,7 +4055,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>0">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -4190,7 +4190,7 @@
                                                             <t t-set="subtotal_tax_amount_o"
                                                                t-value="subtotal_tax_amount_o + order.voucher_line_tax_amount"/>
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -4284,7 +4284,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>1">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
@@ -4586,7 +4586,7 @@
                                                             <t t-set="subtotal_amount_o"
                                                                t-value="subtotal_amount_o + order.line_amount"/>
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 30px">
+                                                        <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -4680,7 +4680,7 @@
                                                     <t t-foreach="[1,2,3,4,5,6]" t-as="i">
                                                         <t t-if="line>1">
                                                             <t t-set="line" t-value="line - 1"/>
-                                                            <tr style="height: 35px">
+                                                            <tr style="height: 34px;">
                                                                 <td style="border: 1px solid #000000; border-top: 0; ">
                                                                     <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                         <null/>
