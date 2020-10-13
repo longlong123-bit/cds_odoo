@@ -37,7 +37,7 @@
                             <!--      Middle      -->
                             <div>
                                 <div style="display: inline-block; width: 100%">
-                                    <div style="margin-top: 10px; margin-bottom: 10px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
+                                    <div style="margin-top: 5px; margin-bottom: 5px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
                                         <div>
                                             <span>お客様コードNo.</span>
                                             <span style="width: 77px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -45,7 +45,7 @@
                                                 <null/>
                                             </span>
                                         </div>
-                                        <div style="margin-top: 10px;">
+                                        <div style="margin-top: 5px;">
                                             <t t-if="o.is_print_date">
                                                 <t t-if="o.quotation_calendar == 'japan'">
                                                     <span t-field="o.jp_calendar"/>
@@ -57,7 +57,7 @@
                                             </t>
                                             <span t-else="">　　　年　　月　　日</span>
                                         </div>
-                                        <div style="border-bottom: 2px solid; margin-top: 10px; font-size: 16px;">
+                                        <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                             <t t-if="o.partner_name_2">
                                                 <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="o.limit_chapter_reports(o.partner_name)">
@@ -83,7 +83,7 @@
                                             <span t-else="" style="font-size: 18px">様</span>
                                         </div>
                                         <div t-if="pager == 1"
-                                             style="margin-top: 20px;font-size: 18px; font-weight: 600;">
+                                             style="margin-top: 20px;font-size: 18px; font-weight: 600; height: 30px;">
                                             <span>合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
@@ -325,7 +325,7 @@
                                                         小　　　　計
                                                     </span>
                                                 </div>
-                                                <div style="display: block; height: 45px; width: 40%; float: right; text-align: right;">
+                                                <div style="display: block; height: 45px; width: 39%; float: right; text-align: right;">
                                                     <span style="display: block;" t-if="subtotal_amount1_10">（10％対象）</span>
                                                     <span style="display: block;" t-else=""><null/></span>
                                                     <span t-if="subtotal_amount1_8">（8％対象）</span>
@@ -610,7 +610,7 @@
                                                             消　　費　　税
                                                         </span>
                                                     </div>
-                                                    <div style="display: inline-block; width: 40%; height: 45px; float: right; text-align: right;">
+                                                    <div style="display: inline-block; width: 39%; height: 45px; float: right; text-align: right;">
                                                         <t t-if="subtotal_tax_amount1_10">
                                                             <span style="display: block;">（10％消費税）</span>
                                                         </t>
@@ -1596,7 +1596,7 @@
                                                             消　　費　　税
                                                         </span>
                                                     </div>
-                                                    <div style="display: inline-block; width: 40%; float: right; text-align: right;">
+                                                    <div style="display: inline-block; width: 39%; float: right; text-align: right;">
                                                         <span style="display: block;" t-if="subtotal_tax_amount1_10">（10％消費税）</span>
                                                         <span style="display: block;" t-else=""><null/></span>
                                                         <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
@@ -2081,7 +2081,7 @@
                                             <span t-else="" style="font-size: 18px">様</span>
                                         </div>
                                         <div t-if="pager == 1"
-                                             style="padding-top: 15px; font-size: 18px; font-weight: 600; height: 45px; margin-bottom: -20px;">
+                                             style="padding-top: 15px; font-size: 18px; font-weight: 600; height: 30px;">
                                             <span>合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
