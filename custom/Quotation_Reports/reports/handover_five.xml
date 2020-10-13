@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <template id="handover_five_template">
-            <div style="font-size: 11px;">
+            <div style="font-size: 11px; font-family: MS Gothic;">
                 <t t-set="o" t-value="o.with_context(lang=user.partner_id.lang)"/>
                 <t t-set="line_parent" t-value="o.order_line"/>
                 <t t-set="line_id" t-value="0"/>
@@ -17,7 +17,7 @@
                 <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="ll">
                     <t t-set="line" t-value="8"/>
                     <t t-if="ll.quotation_custom_line_no>line_id">
-                        <div style="font-family: MS Gothic;">
+                        <div>
                             <div class="page" style="page-break-before: always; display: block;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
@@ -56,23 +56,23 @@
                                                 </t>
                                                 <span t-else="">　　　年　　月　　日</span>
                                             </div>
-                                            <div style="border-bottom: 2px solid; margin-top: 5px;">
+                                            <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
@@ -83,7 +83,7 @@
                                                 <span t-else="" style="font-size: 18px">様</span>
                                             </div>
                                             <div t-if="pager == 1"
-                                                 style="margin-top: 10px;font-size: 18px; font-weight: 600;">
+                                                 style="margin-top: 20px;font-size: 18px; font-weight: 600;">
                                                 <span>合計金額　￥</span>
                                                 <t t-if="o.tax_method == 'invoice'">
                                                     <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
@@ -103,7 +103,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 13px; margin-bottom: 20px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-bottom: 20px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -183,7 +183,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -408,7 +408,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -629,7 +629,7 @@
                                                         <tr style=" font-size: 12px; height: 40px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -811,7 +811,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -1015,23 +1015,23 @@
                                                 </t>
                                                 <span t-else="">　　　年　　月　　日</span>
                                             </div>
-                                            <div style="border-bottom: 2px solid; margin-top: 5px;">
+                                            <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
@@ -1062,7 +1062,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 13px; margin-bottom: 20px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-bottom: 20px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -1139,7 +1139,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -1364,7 +1364,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -1573,7 +1573,7 @@
                                                         <tr style=" font-size: 12px; height: 40px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -1750,7 +1750,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -1917,7 +1917,7 @@
                             </div>
                         </div>
                         <t t-set="line" t-value="8"/>
-                        <div style="font-family: MS Gothic;">
+                        <div>
                             <div class="page" style="page-break-before: always; display: block;">
                                 <t t-set="line_id_1" t-value="line_id"/>
                                 <div style="text-align: center;">
@@ -1956,23 +1956,23 @@
                                                 </t>
                                                 <span t-else="">　　　年　　月　　日</span>
                                             </div>
-                                            <div style="border-bottom: 2px solid; margin-top: 5px;">
+                                            <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
@@ -2003,7 +2003,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 13px; margin-bottom: 20px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-bottom: 20px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -2080,7 +2080,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -2305,7 +2305,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -2514,7 +2514,7 @@
                                                         <tr style=" font-size: 12px; height: 40px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -2691,7 +2691,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -2900,23 +2900,23 @@
                                                 </t>
                                                 <span t-else="">　　　年　　月　　日</span>
                                             </div>
-                                            <div style="border-bottom: 2px solid; margin-top: 5px;">
+                                            <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
@@ -2947,7 +2947,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 13px; margin-bottom: 20px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-bottom: 20px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -3024,7 +3024,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -3249,7 +3249,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -3458,7 +3458,7 @@
                                                         <tr style=" font-size: 12px; height: 40px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -3635,7 +3635,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -3800,7 +3800,7 @@
                             </div>
                         </div>
                         <t t-set="line" t-value="8"/>
-                        <div style="page-break-before: always; display: block; font-family: MS Gothic;">
+                        <div style="page-break-before: always; display: block;">
                             <div class="page">
                                 <div style="text-align: center;">
                                     <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
@@ -3839,23 +3839,23 @@
                                                 </t>
                                                 <span t-else="">　　　年　　月　　日</span>
                                             </div>
-                                            <div style="border-bottom: 2px solid; margin-top: 5px;">
+                                            <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 290px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
@@ -3883,7 +3883,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 13px; margin-bottom: 20px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-bottom: 20px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -3964,7 +3964,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -4193,7 +4193,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -4418,7 +4418,7 @@
                                                         <tr style=" font-size: 12px; height: 40px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
@@ -4589,7 +4589,7 @@
                                                         <tr style=" font-size: 12px; height: 34px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
