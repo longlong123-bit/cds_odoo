@@ -21,7 +21,7 @@ class PrintSale(models.Model):
         len_i = len(string_text)
         byte_count = 0
         while count < len_i and byte_count < 40:
-            if len(string_text[count].encode('utf-8')) > 1:
+            if len(string_text[count].encode('utf-8')) > 1 and byte_count < 39:
                 byte_count += 2
             else:
                 byte_count += 1
@@ -57,7 +57,7 @@ class SaleOrderLine(models.Model):
                     len_i = len(string_text1)
                     byte_count = 0
                     while count < len_i and byte_count < text_len:
-                        if len(string_text1[count].encode('utf-8')) > 1:
+                        if len(string_text1[count].encode('utf-8')) > 1 and byte_count < text_len - 1:
                             byte_count += 2
                         else:
                             byte_count += 1
@@ -69,18 +69,18 @@ class SaleOrderLine(models.Model):
                     len_i = len(string_text2)
                     byte_count = 0
                     while count < len_i and byte_count < text_len:
-                        if len(string_text2[count].encode('utf-8')) > 1:
+                        if len(string_text2[count].encode('utf-8')) > 1 and byte_count < text_len - 1:
                             byte_count += 2
                         else:
                             byte_count += 1
                         count += 1
-                    len_string = string_text2[:text_len]
+                    len_string = string_text2[:count]
             else:
                 count = 0
                 len_i = len(string_text)
                 byte_count = 0
                 while count < len_i and byte_count < text_len:
-                    if len(string_text[count].encode('utf-8')) > 1:
+                    if len(string_text[count].encode('utf-8')) > 1 and byte_count < text_len - 1:
                         byte_count += 2
                     else:
                         byte_count += 1
