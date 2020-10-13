@@ -36,7 +36,7 @@
                             </div>
                             <!--      Middle      -->
                             <div>
-                                <div style="display: inline-block; width: 100%">
+                                <div style="display: inline-block; width: 100%; height: 130px;">
                                     <div style="margin-top: 5px; margin-bottom: 5px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
                                         <div>
                                             <span>お客様コードNo.</span>
@@ -83,7 +83,7 @@
                                             <span t-else="" style="font-size: 18px">様</span>
                                         </div>
                                         <div t-if="pager == 1"
-                                             style="margin-top: 20px;font-size: 18px; font-weight: 600; height: 30px;">
+                                             style="margin-top: 20px; font-size: 18px; font-weight: 600; height: 30px; width: 300px;">
                                             <span>合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
@@ -103,7 +103,7 @@
                                             </t>
                                         </div>
                                     </div>
-                                    <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 20px; margin-bottom: 10px;">
+                                    <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                         <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                         <br/>
                                         <span>代表取締役　　遠 藤 孝 二</span>
@@ -123,7 +123,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="margin-top: 8px">
+                            <div style="margin-top: 8px;  display: block;">
                                 <table border="1" cellspacing="0" cellpadding="5"
                                        style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                     <thead>
@@ -186,7 +186,7 @@
                                                         <t t-set="subtotal_tax_amount1_o"
                                                            t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                     </t>
-                                                    <tr style=" font-size: 12px; height: 34px">
+                                                    <tr style=" font-size: 12px; height: 30px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 5px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 270px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -1038,7 +1038,7 @@
                             </div>
                             <!--      Middle      -->
                             <div>
-                                <div style="display: inline-block; width: 100%;">
+                                <div style="display: inline-block; width: 100%; height: 130px;">
                                     <div style="margin-top: 5px; margin-bottom: 5px; max-width: 55%; width: max-content; display: inline-block;font-size: 14px;">
                                         <div>
                                             <span>お客様コードNo.</span>
@@ -2033,8 +2033,8 @@
                             </div>
                             <!--      Middle      -->
                             <div>
-                                <div style="display: inline-block; width: 100%">
-                                    <div style="margin-top: 0px; margin-bottom: 0px; max-width: 55%; width: max-content; display: inline-block; font-size: 14px;">
+                                <div style="display: inline-block; width: 100%; height: 130px;">
+                                    <div style="margin-top: 5px; margin-bottom: 0px; max-width: 55%; width: max-content; display: inline-block; font-size: 14px;">
                                         <div>
                                             <span>お客様コードNo.</span>
                                             <span style="width: 77px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -2081,7 +2081,7 @@
                                             <span t-else="" style="font-size: 18px">様</span>
                                         </div>
                                         <div t-if="pager == 1"
-                                             style="padding-top: 15px; font-size: 18px; font-weight: 600; height: 30px;">
+                                             style="padding-top: 5px; font-size: 18px; font-weight: 600; height: 20px;">
                                             <span>合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
@@ -2101,7 +2101,7 @@
                                             </t>
                                         </div>
                                     </div>
-                                    <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px; margin-bottom: 10px;">
+                                    <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 0px; ">
                                         <span style="font-weight: 600; font-size: 20px">株式会社　ト　ラ　ヤ</span>
                                         <br/>
                                         <span>代表取締役　　遠 藤 孝 二</span>
@@ -2122,7 +2122,7 @@
                                 </div>
                             </div>
 
-                            <div style="margin-top: 0;">
+                            <div style="margin-top: 0; display: block;">
                                 <table border="0" cellspacing="0" cellpadding="5"
                                        style="width: 100%;border: 1px solid #000000; border-bottom: 0;border-left: 0;">
                                     <thead>
@@ -2352,7 +2352,7 @@
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                         </tr>
-                                        <tr style="height: 45px;">
+                                        <tr style="height: 45px; overflow: visible;">
                                             <td style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
                                                 <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
                                                     <span style="vertical-align: middle; display: table-cell;">
@@ -2370,7 +2370,7 @@
                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                <div style="display: block; float: right; height: 45px; text-align: right;">
+                                                <div style="display: inline-block; float: right; height: 45px; text-align: right;">
                                                     <span t-if="subtotal_tax_amount1_10"
                                                           style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
