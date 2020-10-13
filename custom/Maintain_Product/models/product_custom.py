@@ -360,29 +360,29 @@ class ProductTemplate(models.Model):
                            'product_code_5, product_code_6)', 'The code must be unique!')
     ]
 
-    @api.constrains('product_code_1', 'product_code_2', 'product_code_3',
-                    'product_code_4', 'product_code_5', 'product_code_6')
-    def _check_unique_product_code(self):
-        arr = [self.product_code_1, self.product_code_2, self.product_code_3,
-               self.product_code_4, self.product_code_5, self.product_code_6]
-        leng = len(arr)
-
-        for i in range(0, leng):
-            for j in range(0, leng):
-                if i != j and arr[i] and arr[i] == arr[j]:
-                    raise ValidationError(_('Product_code is the same'))
-
-        for i in arr:
-            if i:
-                product_code_i = self._check_code('product_code_' + str(arr.index(i) + 1))
-                print(i)
-                exists = self.env['product.product'].search(
-                    ['|', '|', '|', ('product_code_1', '=', i), ('product_code_2', '=', i),
-                     '|', ('product_code_3', '=', i), ('product_code_5', '=', i),
-                     '|', ('product_code_4', '=', i), ('product_code_6', '=', i),
-                     ('id', '!=', self.id)])
-                if exists:
-                    raise ValidationError(_('Product_code must be unique'))
+    # @api.constrains('product_code_1', 'product_code_2', 'product_code_3',
+    #                 'product_code_4', 'product_code_5', 'product_code_6')
+    # def _check_unique_product_code(self):
+    #     arr = [self.product_code_1, self.product_code_2, self.product_code_3,
+    #            self.product_code_4, self.product_code_5, self.product_code_6]
+    #     leng = len(arr)
+    #
+    #     for i in range(0, leng):
+    #         for j in range(0, leng):
+    #             if i != j and arr[i] and arr[i] == arr[j]:
+    #                 raise ValidationError(_('Product_code is the same'))
+    #
+    #     for i in arr:
+    #         if i:
+    #             product_code_i = self._check_code('product_code_' + str(arr.index(i) + 1))
+    #             print(i)
+    #             exists = self.env['product.product'].search(
+    #                 ['|', '|', '|', ('product_code_1', '=', i), ('product_code_2', '=', i),
+    #                  '|', ('product_code_3', '=', i), ('product_code_5', '=', i),
+    #                  '|', ('product_code_4', '=', i), ('product_code_6', '=', i),
+    #                  ('id', '!=', self.id)])
+    #             if exists:
+    #                 raise ValidationError(_('Product_code must be unique'))
 
     def copy(self, default=None):
         default = dict(default or {})
@@ -398,74 +398,74 @@ class ProductTemplate(models.Model):
             if rec.product_custom_freight_category:
                 rec.product_maker_name = rec.product_custom_freight_category.name
 
-    @api.model
-    def create(self, values):
-        # if create product without search key, generate new search key by sequence
-        if not ('product_code_1' in values):
-            # get all search key is number
-            self._cr.execute('''
-                        SELECT product_code_1
-                        FROM product_product
-                        WHERE product_code_1 ~ '^[0-9\.]+$';
-                    ''')
-            query_res = self._cr.fetchall()
-
-            # generate new search key by sequence
-            seq = self.env['ir.sequence'].next_by_code('product.product')
-            # if new search key already exits, do again
-            while seq in [res[0] for res in query_res]:
-                seq = self.env['ir.sequence'].next_by_code('product.product')
-
-            values['product_code_1'] = seq
-        for i in range(1, 7):
-            product_code = self._check_product_code(values, 'product_code_' + str(i))
-            # product_code = self._check_product_code('product_code_' + str(i))
-            if product_code in values:
-                self._cr.execute('''
-                            SELECT *
-                            FROM
-                            (
-                                SELECT product_code_1 as product_code FROM product_product
-                                UNION ALL
-                                SELECT product_code_2 as product_code FROM product_product
-                                UNION ALL
-                                SELECT product_code_3 as product_code FROM product_product
-                                UNION ALL
-                                SELECT product_code_4 as product_code FROM product_product
-                                UNION ALL
-                                SELECT product_code_5 as product_code FROM product_product
-                                UNION ALL
-                                SELECT product_code_6 as product_code FROM product_product
-                            )temp_table WHERE temp_table.product_code is not null;
-                            ''')
-
-            query_res = self._cr.fetchall()
-            if values.get(product_code) in [res[0] for res in query_res]:
-                print('trung')
-                raise ValidationError(_('Product_code has already been registered'))
-            else:
-                print('ko trung')
-
-        # generate new search key by sequence
-        seq = self.env['ir.sequence'].next_by_code('product.product')
-        # if new search key already exits, do again
-        while seq in [res[0] for res in query_res]:
-            seq = self.env['ir.sequence'].next_by_code('product.product')
-
-        self._check_data(values)
-
-        self._set_list_price(values)
-
-        # self.assign_product()
-
-        product = super(ProductTemplate, self).create(values)
-
-        self.env['product.custom.template.attribute.line'].create({
-            'product_id': product.id,
-            'product_cost_product_name': (product.product_code_1 or '') + '_' + (product.name or '')
-        })
-
-        return product
+    # @api.model
+    # def create(self, values):
+    #     # if create product without search key, generate new search key by sequence
+    #     if not ('product_code_1' in values):
+    #         # get all search key is number
+    #         self._cr.execute('''
+    #                     SELECT product_code_1
+    #                     FROM product_product
+    #                     WHERE product_code_1 ~ '^[0-9\.]+$';
+    #                 ''')
+    #         query_res = self._cr.fetchall()
+    #
+    #         # generate new search key by sequence
+    #         seq = self.env['ir.sequence'].next_by_code('product.product')
+    #         # if new search key already exits, do again
+    #         while seq in [res[0] for res in query_res]:
+    #             seq = self.env['ir.sequence'].next_by_code('product.product')
+    #
+    #         values['product_code_1'] = seq
+    #     for i in range(1, 7):
+    #         product_code = self._check_product_code(values, 'product_code_' + str(i))
+    #         # product_code = self._check_product_code('product_code_' + str(i))
+    #         if product_code in values:
+    #             self._cr.execute('''
+    #                         SELECT *
+    #                         FROM
+    #                         (
+    #                             SELECT product_code_1 as product_code FROM product_product
+    #                             UNION ALL
+    #                             SELECT product_code_2 as product_code FROM product_product
+    #                             UNION ALL
+    #                             SELECT product_code_3 as product_code FROM product_product
+    #                             UNION ALL
+    #                             SELECT product_code_4 as product_code FROM product_product
+    #                             UNION ALL
+    #                             SELECT product_code_5 as product_code FROM product_product
+    #                             UNION ALL
+    #                             SELECT product_code_6 as product_code FROM product_product
+    #                         )temp_table WHERE temp_table.product_code is not null;
+    #                         ''')
+    #
+    #         query_res = self._cr.fetchall()
+    #         if values.get(product_code) in [res[0] for res in query_res]:
+    #             print('trung')
+    #             raise ValidationError(_('Product_code has already been registered'))
+    #         else:
+    #             print('ko trung')
+    #
+    #     # generate new search key by sequence
+    #     seq = self.env['ir.sequence'].next_by_code('product.product')
+    #     # if new search key already exits, do again
+    #     while seq in [res[0] for res in query_res]:
+    #         seq = self.env['ir.sequence'].next_by_code('product.product')
+    #
+    #     self._check_data(values)
+    #
+    #     self._set_list_price(values)
+    #
+    #     # self.assign_product()
+    #
+    #     product = super(ProductTemplate, self).create(values)
+    #
+    #     self.env['product.custom.template.attribute.line'].create({
+    #         'product_id': product.id,
+    #         'product_cost_product_name': (product.product_code_1 or '') + '_' + (product.name or '')
+    #     })
+    #
+    #     return product
 
     def _check_product_code(self, values, product_code):
         # print(values[product_code])

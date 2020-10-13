@@ -131,6 +131,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                   '10':'product_code_6',
                 }
                 var readColumn = parent._getReadColumn(options) == 'code_by_setting' ? (mapColumn[$(event.data.target).index()] || parent._getReadColumn(options)) : parent._getReadColumn(options);
+                console.log('')
                 var standardColumn = parent._getStandardColumn(options) == 'product_custom_standardnumber' ? (parent._getStandardColumn(options)) : parent._getStandardColumn(options);
                 for (var i = 0; i < state.count; i++) {
                     if (state.data[i] && state.data[i].ref === event.data.id) {
@@ -387,7 +388,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
               method: 'search_read',
               domain: domain
           }).then(function(res){
-              if (res.length > 0) {
+              if (res.length == 1) {
                   s._setValue(e.target.value);
               } else {
                   s._openDialogSearch();
