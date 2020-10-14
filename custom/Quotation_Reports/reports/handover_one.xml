@@ -187,17 +187,17 @@
                                                         <t t-set="subtotal_tax_amount1_o"
                                                            t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>
                                                     </t>
-                                                    <tr style=" font-size: 13px; height: 36px;">
+                                                    <tr style=" font-size: 12px; height: 36px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 268px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
                                                                     <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
                                                                 <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                       t-esc="order.limit_charater_field(order.product_maker_name, 10)">
                                                                     <null/>
                                                                 </span>
