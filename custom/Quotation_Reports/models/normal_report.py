@@ -23,7 +23,7 @@ class PrintSale(models.Model):
         len_i = len(string_text)
         byte_count = 0
         while count < len_i and byte_count < 40:
-            if len(string_text_tmp[count].encode('SHIFT-JIS')) > 1 and byte_count < 39:
+            if len(string_text_tmp[count].encode('utf8')) > 1 and byte_count < 39:
                 byte_count += 2
             else:
                 byte_count += 1
@@ -62,7 +62,7 @@ class SaleOrderLine(models.Model):
                     len_i = len(string_text1)
                     byte_count = 0
                     while count < len_i and byte_count < text_len:
-                        if len(string_text1_tmp[count].encode('SHIFT-JIS')) > 1 and byte_count < text_len - 1:
+                        if len(string_text1_tmp[count].encode('utf8')) > 1 and byte_count < text_len - 1:
                             byte_count += 2
                         else:
                             byte_count += 1
@@ -74,7 +74,7 @@ class SaleOrderLine(models.Model):
                     len_i = len(string_text2)
                     byte_count = 0
                     while count < len_i and byte_count < text_len:
-                        if len(string_text2_tmp[count].encode('SHIFT-JIS')) > 1 and byte_count < text_len - 1:
+                        if len(string_text2_tmp[count].encode('utf8')) > 1 and byte_count < text_len - 1:
                             byte_count += 2
                         else:
                             byte_count += 1
@@ -86,7 +86,7 @@ class SaleOrderLine(models.Model):
                 len_i = len(string_text)
                 byte_count = 0
                 while count < len_i and byte_count < text_len:
-                    if len(string_text_tmp[count].encode('SHIFT-JIS')) > 1 and byte_count < text_len - 1:
+                    if len(string_text_tmp[count].encode('utf8')) > 1 and byte_count < text_len - 1:
                         byte_count += 2
                     else:
                         byte_count += 1
