@@ -23,7 +23,7 @@ class PrintSale(models.Model):
         len_i = len(string_text)
         byte_count = 0
         while count < len_i and byte_count < 40:
-            if len(string_text_tmp[count].encode('SHIFT-JIS')) > 1 and byte_count < 39:
+            if len(string_text_tmp[count].encode('utf-8')) > 1 and byte_count < 39:
                 byte_count += 2
             else:
                 byte_count += 1
@@ -62,7 +62,7 @@ class SaleOrderLine(models.Model):
                     len_i = len(string_text1)
                     byte_count = 0
                     while count < len_i and byte_count < text_len:
-                        if len(string_text1_tmp[count].encode('SHIFT-JIS')) > 1 and byte_count < text_len - 1:
+                        if len(string_text1_tmp[count].encode('utf-8')) > 1 and byte_count < text_len - 1:
                             byte_count += 2
                         else:
                             byte_count += 1
@@ -74,14 +74,14 @@ class SaleOrderLine(models.Model):
                     len_i = len(string_text2)
                     byte_count = 0
                     while count < len_i and byte_count < text_len:
-                        if len(string_text2_tmp[count].encode('SHIFT-JIS')) > 1 and byte_count < text_len - 1:
+                        if len(string_text2_tmp[count].encode('utf-8')) > 1 and byte_count < text_len - 1:
                             byte_count += 2
                         else:
                             byte_count += 1
                         count += 1
                     len_string = string_text2[:count]
             else:
-                string_text_tmp = string_text.replace('\uff0d', '香').replace('\xa0', '香').replace('\uff5e', '香')
+                string_text_tmp = string_text.replace('\uff0d', COUNT_REPLACE).replace('\xa0', COUNT_REPLACE).replace('\uff5e', COUNT_REPLACE)
                 count = 0
                 len_i = len(string_text)
                 byte_count = 0
