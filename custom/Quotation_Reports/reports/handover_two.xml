@@ -36,8 +36,8 @@
                                 </div>
                                 <!--      Middle      -->
                                 <div>
-                                    <div style="display: inline-block; width: 100%; height: 130px;">
-                                        <div style="margin-top: 0px; margin-bottom: 0px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
+                                    <div style="display: block; width: 100%; height: 130px;">
+                                        <div style="margin-top: 5px; margin-bottom: 5px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
                                             <div>
                                                 <span>お客様コードNo.</span>
                                                 <span style="width: 77px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -59,21 +59,21 @@
                                             </div>
                                             <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
@@ -1042,8 +1042,8 @@
                                 </div>
                                 <!--      Middle      -->
                                 <div>
-                                    <div style="display: inline-block; width: 100%; height: 130px;">
-                                        <div style="margin-top: 0px; margin-bottom: 0px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
+                                    <div style="display: block; width: 100%; height: 130px;">
+                                        <div style="margin-top: 5px; margin-bottom: 5px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
                                             <div>
                                                 <span>お客様コードNo.</span>
                                                 <span style="width: 77px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -1065,21 +1065,21 @@
                                             </div>
                                             <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
@@ -2008,8 +2008,8 @@
                                 </div>
                                 <!--      Middle      -->
                                 <div>
-                                    <div style="display: inline-block; width: 100%; height: 130px;">
-                                        <div style="margin-top: 0px; margin-bottom: 0px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
+                                    <div style="display: block; width: 100%; height: 130px;">
+                                        <div style="margin-top: 5px; margin-bottom: 5px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
                                             <div>
                                                 <span>お客様コードNo.</span>
                                                 <span style="width: 77px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -2031,21 +2031,21 @@
                                             </div>
                                             <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
@@ -2947,8 +2947,7 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px;    width: 80%;
-">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px; width: 80%;">
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -2972,7 +2971,7 @@
                                 <!--      Middle      -->
                                 <div>
                                     <div style="display: inline-block; width: 100%; height: 130px;">
-                                        <div style="margin-top: 0px; margin-bottom: 0px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
+                                        <div style="margin-top: 5px; margin-bottom: 5px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
                                             <div>
                                                 <span>お客様コードNo.</span>
                                                 <span style="width: 77px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -2994,21 +2993,21 @@
                                             </div>
                                             <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
                                                 <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                     </span>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                         <null/>
                                                     </span>
                                                     <br/>
-                                                    <span style="display: inline-block; width: 325px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
