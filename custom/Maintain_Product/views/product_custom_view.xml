@@ -16,7 +16,8 @@
                         <group class="custom_group">
                             <label for="barcode" string="UPC/EAN*"/>
                             <div>
-                                <field name="barcode" widget="char_tags" required="True" style="width: 100%%"/>
+                                <field name="barcode" widget="char_tags" required="True" style="width: 100%%"
+                                attrs="{'readonly': [('barcode', '=', '0000000000000')]}"/>
                             </div>
                             <label for="name" string="Name*"/>
                             <div>
