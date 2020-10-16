@@ -238,7 +238,7 @@
                                     <field name="class_item" required="True"/>
                                     <field name="product_id" invisible="1" attrs="{'required': [('display_type', '=', False)]}"/>
                                     <field name="product_code" widget="refer_field"
-                                           attrs="{'invisible': ['|', ('display_type', '!=', False), ('class_item', '=', 'サンプル')]}"
+                                           attrs="{'invisible': [('display_type', '!=', False)]}"
                                            string="Product Code"
                                            context="{'limit': 200}"
                                            options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "alternative_column":"product_barcode", "alternative_value":"barcode", "search_input": true}'/>
@@ -246,8 +246,7 @@
 <!--                                           attrs="{'required': [('display_type', '=', False)], 'invisible': [('display_type', '!=', False)]}"-->
 <!--                                           options='{"reload_on_button": True, "no_quick_create": True, "no_open": True}'/>-->
                                     <field name="product_barcode" widget="refer_field"
-                                           context="{'limit': 200}"
-                                           attrs="{'required': [('class_item', '!=', 'サンプル')], 'invisible': [('class_item', '=', 'サンプル')]}"
+                                           required="True" context="{'limit': 200}"
                                            options='{"model":"product.product","column": "barcode", "search_input": true}'/>
 <!--                                    <field name="product_maker_name" widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'/>-->
                                     <field name="product_maker_name" attrs="{'invisible': [('class_item', '=', 'サンプル')]}"/>
