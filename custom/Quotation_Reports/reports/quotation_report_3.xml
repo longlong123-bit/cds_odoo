@@ -698,7 +698,7 @@
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 7))"/>
                                                     <span t-else=""><null/></span>
                                                     <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(int(o.limit_number_field(subtotal_tax_amount_o), 7))"/>
+                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 7))"/>
                                                     <span t-else=""><null/></span>
                                                 </td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0;"/>
