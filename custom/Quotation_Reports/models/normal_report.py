@@ -6,15 +6,6 @@ import jaconv
 class PrintSale(models.Model):
     _inherit = 'sale.order'
 
-    # Preview report
-    def preview_report(self):
-        return {
-            'type': 'ir.actions.report',
-            'report_name': 'Quotation_Reports.handover_report',
-            'model': 'sale.order',
-            'report_type': "qweb-html",
-        }
-
     def limit_chapter_reports(self, string_text=None):
         # string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
         COUNT_REPLACE = '〇'
@@ -35,6 +26,13 @@ class PrintSale(models.Model):
         if len(str(number)) > number_len:
             number = str(number)[:number_len]
         return float(number)
+
+    def count_record_check(self, limit=0):
+        self.ensure_one()
+        page_number = 0
+        if len(self.order_line) % limit == 0:
+            page_number = int(len(self.order_line) / limit)
+        return page_number
 
 
 class SaleOrderLine(models.Model):
