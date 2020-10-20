@@ -34,6 +34,10 @@ class PrintSale(models.Model):
             page_number = int(len(self.order_line) / limit)
         return page_number
 
+    def get_final_page(self, product_row=0):
+        self.ensure_one()
+        final_page = int(len(self.order_line) / product_row) + 1
+        return final_page
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
