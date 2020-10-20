@@ -141,11 +141,16 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                         var alternative_element = current_row.find('div[name="' + alternative_column + '"]').find('input');
                         var standard_column_element = current_row.find('div[name="' + standardColumn + '"]').find('input');
                         if (state.data[i].data[readColumn]){
-                          if(state.data[i].data[readColumn] != parent.value) {
-                            alternative_element.val('');
-                          }
+//                          if(state.data[i].data[readColumn] != parent.value) {
+//                            alternative_element.val('');
+//                          }
+//                          parent._setValue(state.data[i].data[readColumn] || '');
+//                          parent._render();
+//                          break;
                           parent._setValue(state.data[i].data[readColumn] || '');
+                          alternative_element.val(state.data[i].data[alternative_value] || '');
                           parent._render();
+                          alternative_element.trigger("change");
                           break;
                         } else if(state.data[i].data[standardColumn]) {
                           if(state.data[i].data[standardColumn] != parent.value) {
