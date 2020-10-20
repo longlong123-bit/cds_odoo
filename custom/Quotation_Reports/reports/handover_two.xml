@@ -1022,7 +1022,10 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 10px; width: 80%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -1986,7 +1989,10 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px; width: 80%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px; width: 100%;">
+                                         <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -2949,7 +2955,10 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px; width: 80%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -4016,7 +4025,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -54px;  width: 70%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -54px;  width: 70%;">
+                                        <!--<div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">-->
+                                        <!--    <span t-esc="o.comment_apply"/>-->
+                                        <!--</div>-->
+                                        <span style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;" t-esc="o.comment_apply"/>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -4266,7 +4279,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px;  width: 70%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px;  width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -4512,7 +4528,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px;  width: 70%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px;  width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -4758,7 +4777,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px;  width: 70%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px;  width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -5024,7 +5046,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -54px;  width: 70%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -54px;  width: 70%;">
+                                        <!--<div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">-->
+                                        <!--    <span t-esc="o.comment_apply"/>-->
+                                        <!--</div>-->
+                                        <span style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;" t-esc="o.comment_apply"/>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
