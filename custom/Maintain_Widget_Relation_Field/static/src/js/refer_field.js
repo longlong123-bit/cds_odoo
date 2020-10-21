@@ -161,13 +161,11 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                           alternative_element.trigger("change");
                           break;
                         }else {
-
-                          parent.$el.find('input').val('');
+//                          parent.$el.find('input').val('');
                           alternative_element.val(state.data[i].data[alternative_value] || '');
                           alternative_element.trigger("change");
                           if (state.data[i].data[readColumn]){
-//                            parent.$el.find('input').val(state.data[i].data[readColumn] || '');
-                            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa', parent)
+                            parent.$el.find('input').val(state.data[i].data[readColumn] || '');
                             parent._setValue(state.data[i].data[readColumn] || '');
                             parent._render();
                           }

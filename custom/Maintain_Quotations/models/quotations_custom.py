@@ -1266,11 +1266,12 @@ class QuotationsLinesCustom(models.Model):
                     ['barcode', '=', self.product_barcode]
                 ])
 
+                print('===aaaaaa====>', product.code_by_setting, type(self.product_code))
                 if product:
                     self.changed_fields.append('product_code')
                     self.product_id = product.id
-                    # self.product_code = product.code_by_setting
-                    # print('=======>', self.product_code, type(self.product_code))
+                    # if not self.product_code:
+                    #     self.product_code = product.code_by_setting
 
                     setting_price = '1'
                     if product.setting_price:
