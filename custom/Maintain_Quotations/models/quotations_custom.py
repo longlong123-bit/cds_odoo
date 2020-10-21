@@ -1153,114 +1153,114 @@ class QuotationsLinesCustom(models.Model):
     product_uom_id = fields.Char(string='UoM')
     changed_fields = []
 
-    # @api.onchange('product_code')
-    # def _onchange_product_code(self):
-    #     if 'product_code' not in self.changed_fields:
-    #
-    #         if self.product_code:
-    #             product = self.env['product.product'].search([
-    #                 '|', '|', '|', '|', '|',
-    #                 ['product_code_1', '=', self.product_code],
-    #                 ['product_code_2', '=', self.product_code],
-    #                 ['product_code_3', '=', self.product_code],
-    #                 ['product_code_4', '=', self.product_code],
-    #                 ['product_code_5', '=', self.product_code],
-    #                 ['product_code_6', '=', self.product_code]
-    #             ])
-    #             # product = self.env['product.product'].search([
-    #             #     ['barcode', '=', self.product_barcode]
-    #             # ])
-    #             if product:
-    #                 self.changed_fields.append('product_barcode')
-    #
-    #             if len(product) == 1:
-    #                 # self.changed_fields.append('product_barcode')
-    #                 self.product_id = product.id
-    #                 self.product_barcode = product.barcode
-    #
-    #                 # setting_price = "1"
-    #                 # if self.product_code == product.product_code_2:
-    #                 #     setting_price = "2"
-    #                 # elif self.product_code == product.product_code_3:
-    #                 #     setting_price = "3"
-    #                 # elif self.product_code == product.product_code_4:
-    #                 #     setting_price = "4"
-    #                 # elif self.product_code == product.product_code_5:
-    #                 #     setting_price = "5"
-    #                 # elif self.product_code == product.product_code_6:
-    #                 #     setting_price = "6"
-    #                 if product.product_tax_category == 'exempt':
-    #                     self.price_include_tax = self.price_no_tax = self.set_price_product_code(
-    #                         self.product_code, self.product_barcode,
-    #                         product.product_class_code_lv4.id,
-    #                         product.product_class_code_lv3.id,
-    #                         product.product_class_code_lv2.id,
-    #                         product.product_class_code_lv1.id,
-    #                         product.product_maker_code,
-    #                         self.order_id.partner_id.customer_code,
-    #                         self.order_id.partner_id.customer_code_bill,
-    #                         self.order_id.partner_id.customer_supplier_group_code.id,
-    #                         self.order_id.partner_id.customer_industry_code.id,
-    #                         self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
-    #                 elif product.product_tax_category == 'foreign':
-    #                     self.price_include_tax = (product.product_tax_rate / 100 + 1) * self.set_price_product_code(
-    #                         self.product_code, self.product_barcode, product.product_class_code_lv4.id,
-    #                         product.product_class_code_lv3.id, product.product_class_code_lv2.id,
-    #                         product.product_class_code_lv1.id, product.product_maker_code,
-    #                         self.order_id.partner_id.customer_code, self.order_id.partner_id.customer_code_bill,
-    #                         self.order_id.partner_id.customer_supplier_group_code.id,
-    #                         self.order_id.partner_id.customer_industry_code.id,
-    #                         self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
-    #                     self.price_no_tax = self.set_price_product_code(
-    #                         self.product_code, self.product_barcode,
-    #                         product.product_class_code_lv4.id,
-    #                         product.product_class_code_lv3.id,
-    #                         product.product_class_code_lv2.id,
-    #                         product.product_class_code_lv1.id,
-    #                         product.product_maker_code,
-    #                         self.order_id.partner_id.customer_code,
-    #                         self.order_id.partner_id.customer_code_bill,
-    #                         self.order_id.partner_id.customer_supplier_group_code.id,
-    #                         self.order_id.partner_id.customer_industry_code.id,
-    #                         self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
-    #                 else:
-    #                     self.price_include_tax = self.set_price_product_code(
-    #                         self.product_code, self.product_barcode, product.product_class_code_lv4.id,
-    #                         product.product_class_code_lv3.id, product.product_class_code_lv2.id,
-    #                         product.product_class_code_lv1.id, product.product_maker_code,
-    #                         self.order_id.partner_id.customer_code, self.order_id.partner_id.customer_code_bill,
-    #                         self.order_id.partner_id.customer_supplier_group_code.id,
-    #                         self.order_id.partner_id.customer_industry_code.id,
-    #                         self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
-    #                     self.price_no_tax = self.set_price_product_code(
-    #                         self.product_code, self.product_barcode,
-    #                         product.product_class_code_lv4.id,
-    #                         product.product_class_code_lv3.id,
-    #                         product.product_class_code_lv2.id,
-    #                         product.product_class_code_lv1.id,
-    #                         product.product_maker_code,
-    #                         self.order_id.partner_id.customer_code,
-    #                         self.order_id.partner_id.customer_code_bill,
-    #                         self.order_id.partner_id.customer_supplier_group_code.id,
-    #                         self.order_id.partner_id.customer_industry_code.id,
-    #                         self.order_id.partner_id.customer_state.id,
-    #                         self.order_id.quotations_date) / (product.product_tax_rate / 100 + 1)
-    #
-    #                 self.compute_price_unit()
-    #                 self.compute_line_amount()
-    #                 self.compute_line_tax_amount()
-    #                 return
-    #             else:
-    #                 self.product_barcode = ''
-    #         # else
-    #         # self.product_barcode = ''
-    #     else:
-    #         self.changed_fields.remove('product_code')
+    @api.onchange('product_code')
+    def _onchange_product_code(self):
+        if 'product_code' not in self.changed_fields:
+
+            if self.product_code:
+                # product = self.env['product.product'].search([
+                #     '|', '|', '|', '|', '|',
+                #     ['product_code_1', '=', self.product_code],
+                #     ['product_code_2', '=', self.product_code],
+                #     ['product_code_3', '=', self.product_code],
+                #     ['product_code_4', '=', self.product_code],
+                #     ['product_code_5', '=', self.product_code],
+                #     ['product_code_6', '=', self.product_code]
+                # ])
+                product = self.env['product.product'].search([
+                    ['barcode', '=', self.product_barcode]
+                ])
+                print('=======> ', product)
+                if product:
+                    self.changed_fields.append('product_barcode')
+
+                if len(product) == 1:
+                    # self.changed_fields.append('product_barcode')
+                    self.product_id = product.id
+                    self.product_barcode = product.barcode
+
+                    setting_price = "1"
+                    if self.product_code == product.product_code_2:
+                        setting_price = "2"
+                    elif self.product_code == product.product_code_3:
+                        setting_price = "3"
+                    elif self.product_code == product.product_code_4:
+                        setting_price = "4"
+                    elif self.product_code == product.product_code_5:
+                        setting_price = "5"
+                    elif self.product_code == product.product_code_6:
+                        setting_price = "6"
+                    if product.product_tax_category == 'exempt':
+                        self.price_include_tax = self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.order_id.partner_id.customer_code,
+                            self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                    elif product.product_tax_category == 'foreign':
+                        self.price_include_tax = (product.product_tax_rate / 100 + 1) * self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.order_id.partner_id.customer_code, self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.order_id.partner_id.customer_code,
+                            self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                    else:
+                        self.price_include_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id, product.product_maker_code,
+                            self.order_id.partner_id.customer_code, self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date)
+                        self.price_no_tax = self.set_price_product_code(
+                            self.product_code, self.product_barcode,
+                            product.product_class_code_lv4.id,
+                            product.product_class_code_lv3.id,
+                            product.product_class_code_lv2.id,
+                            product.product_class_code_lv1.id,
+                            product.product_maker_code,
+                            self.order_id.partner_id.customer_code,
+                            self.order_id.partner_id.customer_code_bill,
+                            self.order_id.partner_id.customer_supplier_group_code.id,
+                            self.order_id.partner_id.customer_industry_code.id,
+                            self.order_id.partner_id.customer_state.id,
+                            self.order_id.quotations_date) / (product.product_tax_rate / 100 + 1)
+
+                    self.compute_price_unit()
+                    self.compute_line_amount()
+                    self.compute_line_tax_amount()
+                    return
+            # else
+            self.product_barcode = ''
+        else:
+            self.changed_fields.remove('product_code')
 
     @api.onchange('product_barcode')
     def _onchange_product_barcode(self):
         if 'product_barcode' not in self.changed_fields:
 
+            print('=======>', self.product_code, type(self.product_code))
             if self.product_barcode:
                 product = self.env['product.product'].search([
                     ['barcode', '=', self.product_barcode]
@@ -1269,8 +1269,8 @@ class QuotationsLinesCustom(models.Model):
                 if product:
                     self.changed_fields.append('product_code')
                     self.product_id = product.id
-                    print('=====> ', self.changed_fields)
                     # self.product_code = product.code_by_setting
+                    # print('=======>', self.product_code, type(self.product_code))
 
                     setting_price = '1'
                     if product.setting_price:
