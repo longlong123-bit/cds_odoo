@@ -1321,7 +1321,8 @@ class QuotationsLinesCustom(models.Model):
                             self.order_id.partner_id.customer_code_bill,
                             self.order_id.partner_id.customer_supplier_group_code.id,
                             self.order_id.partner_id.customer_industry_code.id,
-                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date) / (product.product_tax_rate / 100 + 1)
+                            self.order_id.partner_id.customer_state.id, self.order_id.quotations_date) / (
+                                                        product.product_tax_rate / 100 + 1)
                     self.compute_price_unit()
                     self.compute_line_amount()
                     self.compute_line_tax_amount()
