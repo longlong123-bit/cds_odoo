@@ -1158,24 +1158,21 @@ class QuotationsLinesCustom(models.Model):
         if 'product_code' not in self.changed_fields:
 
             if self.product_code:
-                # product = self.env['product.product'].search([
-                #     '|', '|', '|', '|', '|',
-                #     ['product_code_1', '=', self.product_code],
-                #     ['product_code_2', '=', self.product_code],
-                #     ['product_code_3', '=', self.product_code],
-                #     ['product_code_4', '=', self.product_code],
-                #     ['product_code_5', '=', self.product_code],
-                #     ['product_code_6', '=', self.product_code]
-                # ])
                 product = self.env['product.product'].search([
-                    ['barcode', '=', self.product_barcode]
+                    '|', '|', '|', '|', '|',
+                    ['product_code_1', '=', self.product_code],
+                    ['product_code_2', '=', self.product_code],
+                    ['product_code_3', '=', self.product_code],
+                    ['product_code_4', '=', self.product_code],
+                    ['product_code_5', '=', self.product_code],
+                    ['product_code_6', '=', self.product_code]
                 ])
-                print('=======> ', product)
-                if product:
-                    self.changed_fields.append('product_barcode')
-
+                # product = self.env['product.product'].search([
+                #     ['barcode', '=', self.product_barcode]
+                # ])
+                print('=========>', product)
                 if len(product) == 1:
-                    # self.changed_fields.append('product_barcode')
+                    self.changed_fields.append('product_barcode')
                     self.product_id = product.id
                     self.product_barcode = product.barcode
 
@@ -1252,7 +1249,7 @@ class QuotationsLinesCustom(models.Model):
                     self.compute_line_tax_amount()
                     return
             # else
-            self.product_barcode = ''
+            self.product_barcode = 'AAAAAAAAAAAAA'
         else:
             self.changed_fields.remove('product_code')
 
@@ -1260,18 +1257,15 @@ class QuotationsLinesCustom(models.Model):
     def _onchange_product_barcode(self):
         if 'product_barcode' not in self.changed_fields:
 
-            print('=======>', self.product_code, type(self.product_code))
             if self.product_barcode:
                 product = self.env['product.product'].search([
                     ['barcode', '=', self.product_barcode]
                 ])
-
-                print('===aaaaaa====>', product.code_by_setting, type(self.product_code))
                 if product:
                     self.changed_fields.append('product_code')
                     self.product_id = product.id
-                    # if not self.product_code:
-                    #     self.product_code = product.code_by_setting
+                    if not self.product_code:
+                        self.product_code = product.code_by_setting
 
                     setting_price = '1'
                     if product.setting_price:
