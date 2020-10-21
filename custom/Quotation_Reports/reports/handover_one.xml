@@ -611,6 +611,10 @@
                                         <t t-set="subtotal_tax_amount1_8"
                                                t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
                                         <t t-if="check_line != 0">
+                                            <t t-if="subtotal_tax_amount1_8 and o.amount_tax_category_check(8) == 0">
+                                                <t t-set="subtotal_tax_amount1_10" t-value="subtotal_tax_amount1_10 + subtotal_tax_amount1_8"/>
+                                                <t t-set="subtotal_tax_amount1_8" t-value="0"/>
+                                            </t>
                                             <tr style="height: 45px;">
                                                 <td style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
                                                     <div style="display: table; width: 60%; height: 45px; float: left; text-align: right;">
@@ -2670,19 +2674,19 @@
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <div style="display: block; height: 45px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_tax_amount10">
+                                                        <t t-if="subtotal_tax_amount1_10">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
+                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         </t>
                                                         <span t-else=""><null/></span>
-                                                        <t t-if="subtotal_tax_amount8">
+                                                        <t t-if="subtotal_tax_amount1_8">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 8))"></span>
+                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         </t>
                                                         <span t-else=""><null/></span>
-                                                        <t t-if="subtotal_tax_amount_o">
+                                                        <t t-if="subtotal_tax_amount1_o">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 8))"></span>
+                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         </t>
                                                         <span t-else=""><null/></span>
                                                     </div>

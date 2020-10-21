@@ -39,6 +39,14 @@ class PrintSale(models.Model):
         final_page = int(len(self.order_line) / product_row) + 1
         return final_page
 
+    def amount_tax_category_check(self, tax_rate=8):
+        self.ensure_one()
+        subtotal = 0
+        for re in self.order_line:
+            if re.tax_rate == tax_rate:
+                subtotal += re.line_amount
+        return subtotal
+
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
