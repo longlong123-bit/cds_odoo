@@ -2662,10 +2662,10 @@
                                                         </span>
                                                     </div>
                                                     <div style="display: inline-block; width: 35%; float: right; text-align: right;">
-                                                        <span style="display: block;" t-if="subtotal_tax_amount10">
+                                                        <span style="display: block;" t-if="subtotal_tax_amount1_10">
                                                             （10％消費税）</span>
                                                         <span style="display: block;" t-else=""><null/></span>
-                                                        <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
                                                         <span t-else=""><null/></span>
                                                     </div>
                                                 </td>
