@@ -1249,7 +1249,7 @@ class QuotationsLinesCustom(models.Model):
                     self.compute_line_tax_amount()
                     return
             # else
-            self.product_barcode = 'AAAAAAAAAAAAA'
+            self.product_barcode = ''
         else:
             self.changed_fields.remove('product_code')
 
