@@ -1881,7 +1881,18 @@ class AccountMoveLine(models.Model):
                 if product:
                     self.changed_fields.append('product_code')
                     self.product_id = product.id
-                    self.product_code = product.code_by_setting
+                    if product.product_code_1:
+                        self.product_code = product.product_code_1
+                    elif product.product_code_2:
+                        self.product_code = product.product_code_2
+                    elif product.product_code_3:
+                        self.product_code = product.product_code_3
+                    elif product.product_code_4:
+                        self.product_code = product.product_code_4
+                    elif product.product_code_5:
+                        self.product_code = product.product_code_5
+                    elif product.product_code_6:
+                        self.product_code = product.product_code_6
                     setting_price = '1'
                     if product.setting_price:
                         setting_price = product.setting_price[5:]
