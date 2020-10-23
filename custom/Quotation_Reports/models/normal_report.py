@@ -8,18 +8,17 @@ class PrintSale(models.Model):
 
     def limit_chapter_reports(self, string_text=None):
         # string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
+        COUNT_REPLACE = '〇'
+        string_text_tmp = string_text.replace('\uff0d', COUNT_REPLACE).replace('\xa0', COUNT_REPLACE).replace('\uff5e', COUNT_REPLACE)
         count = 0
-        if string_text:
-            COUNT_REPLACE = '〇'
-            string_text_tmp = string_text.replace('\uff0d', COUNT_REPLACE).replace('\xa0', COUNT_REPLACE).replace('\uff5e', COUNT_REPLACE)
-            len_i = len(string_text)
-            byte_count = 0
-            while count < len_i and byte_count < 40:
-                if len(string_text_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < 39:
-                    byte_count += 2
-                else:
-                    byte_count += 1
-                count += 1
+        len_i = len(string_text)
+        byte_count = 0
+        while count < len_i and byte_count < 40:
+            if len(string_text_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < 39:
+                byte_count += 2
+            else:
+                byte_count += 1
+            count += 1
         len_string = string_text[:count]
         return len_string
 
@@ -52,9 +51,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     def limit_charater_field(self, string_text=None, text_len=20, name=False, first1=True):
-
         text_len = text_len*2
-        count = 0
         len_string = ''
         COUNT_REPLACE = '〇'
         if string_text:
@@ -71,6 +68,7 @@ class SaleOrderLine(models.Model):
                     string_text2 = ''
                 string_text1_tmp = string_text1.replace('\uff0d', COUNT_REPLACE).replace('\xa0', COUNT_REPLACE).replace('\uff5e', COUNT_REPLACE)
                 if first1:
+                    count = 0
                     len_i = len(string_text1)
                     byte_count = 0
                     while count < len_i and byte_count < text_len:
