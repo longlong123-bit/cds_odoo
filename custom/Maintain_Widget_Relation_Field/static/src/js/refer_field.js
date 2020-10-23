@@ -118,7 +118,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
 
     var SelectCreateDialog = ViewDialog.extend({
         custom_events: _.extend({}, ViewDialog.prototype.custom_events, {
-            select_record:  function (event) {
+            select_record: function (event) {
                 var parent = this.getParent();
                 var options = parent._getWidgetOptions();
                 var state = this.viewController.renderer.state;
@@ -271,7 +271,7 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
             var view = new ViewClass(fieldsViews[vt], _.extend(viewOptions, {
                 action: {
                     controlPanelFieldsView: fieldsViews.search,
-                    help: _.str.sprintf("<p>%s</p>", _t("No records found!")) ,
+                    help: _.str.sprintf("<p>%s</p>", _t("No records found!")),
                 },
                 action_buttons: false,
                 dynamicFilters: this.options.dynamicFilters,

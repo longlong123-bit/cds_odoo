@@ -1167,7 +1167,6 @@ class QuotationsLinesCustom(models.Model):
                     ['product_code_5', '=', self.product_code],
                     ['product_code_6', '=', self.product_code]
                 ])
-                print('=========>', product)
                 if len(product) == 1:
                     self.changed_fields.append('product_barcode')
                     self.product_id = product.id
