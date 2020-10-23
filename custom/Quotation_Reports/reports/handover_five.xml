@@ -587,6 +587,10 @@
                                                 </t>
                                                 <t t-set="subtotal_tax_amount1_8"
                                                    t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
+                                                <t t-if="subtotal_tax_amount1_8 and o.amount_tax_category_check(8) == 0">
+                                                    <t t-set="subtotal_tax_amount1_10" t-value="subtotal_tax_amount1_10 + subtotal_tax_amount1_8"/>
+                                                    <t t-set="subtotal_tax_amount1_8" t-value="0"/>
+                                                </t>
                                                 <tr style="font-size: 14px; height: 50px;">
                                                     <td colspan="4"
                                                         style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center; vertical-align: middle; padding: 0">
@@ -978,6 +982,11 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <t t-set="line" t-value="8"/>
@@ -1917,6 +1926,11 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <t t-set="line" t-value="8"/>
@@ -2856,10 +2870,9 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style=" display: inline-block; text-align: right; padding-top: 5px; width: 100%; overflow: hidden; text-overflow: ellipsis; height: 30px; font-size: 16px;">
-                                        <span t-field="o.partner_id.customer_comment">
-                                            <null/>
-                                        </span>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 45px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <span style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;" t-esc="o.comment_apply"/>
+                                        <span style="width: 100%; display: inline-block; text-align: right; overflow: hidden; text-overflow: ellipsis; height: 15px; font-size: 14px;" t-field="o.partner_id.customer_comment"/>
                                     </div>
                                 </div>
                             </div>
@@ -3798,6 +3811,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <t t-set="line" t-value="8"/>
@@ -4138,22 +4156,22 @@
                                                         <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
                                                         <span t-else=""><null/></span>
                                                         <br/>
-                                                        <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
                                                         <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <div style="display: block; height: 45px; float: right; text-align: right;">
                                                         <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         <span t-else="">　</span>
                                                     </div>
                                                 </td>
@@ -4378,26 +4396,29 @@
                                                             <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                         </div>
                                                         <div style="display: table-cell; height: 45px; width: 40%; float: right; text-align: right;">
-                                                            <span t-if="subtotal_tax_amount10">（10％消費税）</span>
+                                                            <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
                                                             <span t-else=""><null/></span>
                                                             <br/>
-                                                            <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                            <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
                                                             <br/>
                                                         </div>
                                                     </td>
                                                     <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                         <div style="display: block; height: 45px; float: right; text-align: right;">
-                                                            <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
-                                                            <span t-else="">　</span>
-
-                                                            <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 8))"></span>
-                                                            <span t-else="">　</span>
-
-                                                            <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 8))"></span>
-                                                            <span t-else="">　</span>
+                                                            <t t-if="subtotal_tax_amount1_10">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
+                                                            </t>
+                                                            <span t-else=""><null/></span>
+                                                            <t t-if="subtotal_tax_amount1_8">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
+                                                            </t>
+                                                            <span t-else=""><null/></span>
+                                                            <t t-if="subtotal_tax_amount1_o">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
+                                                            </t>
                                                         </div>
                                                     </td>
                                                     <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
@@ -4757,6 +4778,11 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -4950,25 +4976,25 @@
                                                         <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
                                                     <div t-if="o.tax_method == 'voucher'" style="display: table-cell; height: 45px; width: 40%; float: right; text-align: right;">
-                                                        <span t-if="subtotal_tax_amount10">（10％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
                                                         <span t-else=""><null/></span>
                                                         <br/>
-                                                        <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
                                                         <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <div t-if="o.tax_method == 'voucher'" style="display: block; height: 45px; float: right; text-align: right;">
                                                         <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         <span t-else="">　</span>
                                                     </div>
                                                     <div t-else="" style="display: table; height: 40px; float: right; text-align: right;">
@@ -4980,6 +5006,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="page" style="page-break-before: always; display: block;">
@@ -5168,25 +5199,25 @@
                                                         <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
                                                     <div t-if="o.tax_method == 'voucher'" style="display: table-cell; height: 45px; width: 40%; float: right; text-align: right;">
-                                                        <span t-if="subtotal_tax_amount10">（10％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
                                                         <span t-else=""><null/></span>
                                                         <br/>
-                                                        <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
                                                         <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <div t-if="o.tax_method == 'voucher'" style="display: block; height: 45px; float: right; text-align: right;">
                                                         <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         <span t-else="">　</span>
                                                     </div>
                                                     <div t-else="" style="display: table; height: 40px; float: right; text-align: right;">
@@ -5198,6 +5229,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="page" style="page-break-before: always; display: block;">
@@ -5386,25 +5422,25 @@
                                                         <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
                                                     <div t-if="o.tax_method == 'voucher'" style="display: table-cell; height: 45px; width: 40%; float: right; text-align: right;">
-                                                        <span t-if="subtotal_tax_amount10">（10％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
                                                         <span t-else=""><null/></span>
                                                         <br/>
-                                                        <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
                                                         <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <div t-if="o.tax_method == 'voucher'" style="display: block; height: 45px; float: right; text-align: right;">
                                                         <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         <span t-else="">　</span>
                                                     </div>
                                                     <div t-else="" style="display: table; height: 40px; float: right; text-align: right;">
@@ -5416,10 +5452,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style=" display: inline-block; text-align: right; padding-top: 5px; width: 100%; overflow: hidden; text-overflow: ellipsis; height: 30px; font-size: 16px;">
-                                        <span t-field="o.partner_id.customer_comment">
-                                            <null/>
-                                        </span>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 45px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <span style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;" t-esc="o.comment_apply"/>
+                                        <span style="width: 100%; display: inline-block; text-align: right; overflow: hidden; text-overflow: ellipsis; height: 15px; font-size: 14px;" t-field="o.partner_id.customer_comment"/>
                                     </div>
                                 </div>
                             </div>
@@ -5609,25 +5644,25 @@
                                                         <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
                                                     <div t-if="o.tax_method == 'voucher'" style="display: table-cell; height: 45px; width: 40%; float: right; text-align: right;">
-                                                        <span t-if="subtotal_tax_amount10">（10％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
                                                         <span t-else=""><null/></span>
                                                         <br/>
-                                                        <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
                                                         <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <div t-if="o.tax_method == 'voucher'" style="display: block; height: 45px; float: right; text-align: right;">
                                                         <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         <span t-else="">　</span>
                                                     </div>
                                                     <div t-else="" style="display: table; height: 40px; float: right; text-align: right;">
@@ -5639,6 +5674,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="page" style="page-break-before: always; display: block;">
@@ -5825,25 +5865,25 @@
                                                         <span style="vertical-align: middle; display: table-cell;">消　　費　　税</span>
                                                     </div>
                                                     <div t-if="o.tax_method == 'voucher'" style="display: table-cell; height: 45px; width: 40%; float: right; text-align: right;">
-                                                        <span t-if="subtotal_tax_amount10">（10％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_10">（10％消費税）</span>
                                                         <span t-else=""><null/></span>
                                                         <br/>
-                                                        <span t-if="subtotal_tax_amount8">（8％消費税）</span>
+                                                        <span t-if="subtotal_tax_amount1_8">（8％消費税）</span>
                                                         <br/>
                                                     </div>
                                                 </td>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <div t-if="o.tax_method == 'voucher'" style="display: block; height: 45px; float: right; text-align: right;">
                                                         <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         <span t-else="">　</span>
 
                                                         <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         <span t-else="">　</span>
                                                     </div>
                                                     <div t-else="" style="display: table; height: 40px; float: right; text-align: right;">
@@ -5855,6 +5895,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </t>

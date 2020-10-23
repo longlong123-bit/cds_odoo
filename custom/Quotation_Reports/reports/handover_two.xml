@@ -18,6 +18,7 @@
                 <t t-if="o.tax_method == 'voucher' or o.tax_method == 'custom_tax'">
                     <t t-set="lasted_page" t-value="o.count_record_check(8)"/>
                 </t>
+                <t t-set="final_page" t-value="o.get_final_page(8)"/>
                 <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="ll">
                     <t t-set="line" t-value="8"/>
                     <t t-if="ll.quotation_custom_line_no>line_id">
@@ -606,6 +607,10 @@
                                             <t t-set="subtotal_tax_amount1_8"
                                                t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
                                             <t t-if="check_line != 0">
+                                                <t t-if="subtotal_tax_amount1_8 and o.amount_tax_category_check(8) == 0">
+                                                    <t t-set="subtotal_tax_amount1_10" t-value="subtotal_tax_amount1_10 + subtotal_tax_amount1_8"/>
+                                                    <t t-set="subtotal_tax_amount1_8" t-value="0"/>
+                                                </t>
                                                 <tr style="height: 45px;">
                                                     <td style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
                                                         <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
@@ -1022,7 +1027,10 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 10px; width: 80%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -1986,7 +1994,10 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px; width: 80%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px; width: 100%;">
+                                         <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -2949,7 +2960,10 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px; width: 80%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px; width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -3577,16 +3591,21 @@
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
-                                                        <div style="display: block; height: 40px; float: right; text-align: right;">
-                                                            <span t-if="subtotal_tax_amount1_10" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 8))"></span>
+                                                        <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                            <t t-if="subtotal_tax_amount1_10">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
+                                                            </t>
                                                             <span t-else=""><null/></span>
-                                                            <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 8))"></span>
+                                                            <t t-if="subtotal_tax_amount1_8">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
+                                                            </t>
                                                             <span t-else=""><null/></span>
-                                                            <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 8))"></span>
-                                                            <span t-else=""><null/></span>
+                                                            <t t-if="subtotal_tax_amount1_o">
+                                                                <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
+                                                            </t>
                                                         </div>
                                                     </td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-left: 0;border-right: 0;"></td>
@@ -4016,9 +4035,26 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -54px;  width: 70%;">
-                                        <span>※消費税は請求書にて一括して御請求申し上げます。</span>
-                                    </div>
+                                    <t t-if="o.tax_method != 'voucher' and o.tax_method != 'custom_tax'">
+                                         <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -89px;  width: 70%;">
+                                            <span style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;" t-esc="o.comment_apply"/>
+                                            <span>※消費税は請求書にて一括して御請求申し上げます。</span>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-if="final_page == pager">
+                                            <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -89px;  width: 70%;">
+                                                <span style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;" t-esc="o.comment_apply"/>
+                                                <span>※消費税は請求書にて一括して御請求申し上げます。</span>
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -54px;  width: 70%;">
+                                                <span style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;" t-esc="o.comment_apply"/>
+                                                <span>※消費税は請求書にて一括して御請求申し上げます。</span>
+                                            </div>
+                                        </t>
+                                    </t>
                                 </div>
                             </div>
                         </div>
@@ -4266,7 +4302,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px;  width: 70%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px;  width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -4512,7 +4551,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px;  width: 70%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px;  width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -4758,7 +4800,10 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 10px;  width: 70%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: 5px;  width: 100%;">
+                                        <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                            <span t-esc="o.comment_apply"/>
+                                        </div>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>
@@ -5024,7 +5069,8 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style="font-size: 14px; line-height: 1.2;max-height: 50px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -54px;  width: 70%;">
+                                    <div style="font-size: 14px; line-height: 1.2;max-height: 60px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -54px;  width: 70%;">
+                                        <span style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;" t-esc="o.comment_apply"/>
                                         <span>※消費税は請求書にて一括して御請求申し上げます。</span>
                                     </div>
                                 </div>

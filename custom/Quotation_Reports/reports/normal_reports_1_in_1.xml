@@ -654,6 +654,10 @@
                                             </t>
                                             <t t-set="subtotal_tax_amount8"
                                                t-value="o.amount_tax - int(subtotal_tax_amount10) - int(subtotal_tax_amount_o)"/>
+                                            <t t-if="subtotal_tax_amount8 and o.amount_tax_category_check(8) == 0">
+                                                <t t-set="subtotal_tax_amount10" t-value="subtotal_tax_amount10 + subtotal_tax_amount8"/>
+                                                <t t-set="subtotal_tax_amount8" t-value="0"/>
+                                            </t>
                                             <tr style="height: 60px;">
                                                 <td style="border: 1px solid #000000;border-top: 0; font-size: 18px; text-align: center;">
                                                     <div style="display: table; height: 60px; width: 49%; float: left; text-align: left; padding-left: 15%;">
