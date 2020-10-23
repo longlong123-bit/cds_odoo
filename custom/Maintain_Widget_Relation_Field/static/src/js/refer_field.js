@@ -141,29 +141,15 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                         var alternative_element = current_row.find('div[name="' + alternative_column + '"]').find('input');
                         var standard_column_element = current_row.find('div[name="' + standardColumn + '"]').find('input');
                         if (state.data[i].data[readColumn]){
-                          parent.$el.find('input').val('');
                           alternative_element.val(state.data[i].data[alternative_value] || '');
+                          parent._setValue(state.data[i].data[readColumn] || '');
                           alternative_element.trigger("change");
+                          break;
 //                          if(state.data[i].data[readColumn] != parent.value) {
 //                            alternative_element.val('');
 //                          }
-//                          console.log(parent.$el.find('input').val(state.data[i].data[readColumn]));
 //                          parent._setValue(state.data[i].data[readColumn] || '');
 //                          parent._render();
-//                          jan_code = state.data[i].data[alternative_value];
-
-//                          var promise1 = new Promise((resolve, reject) => {
-//                              parent.$el.find('input').val('');
-//                              parent._setValue(state.data[i].data[readColumn] || '');
-//                              parent._render();
-//                              resolve('Success!');
-//                            });
-//                            promise1.then((value) => {
-//                              console.log(value);
-//                              alternative_element.val(state.data[i].data[alternative_value] || '');
-//                              alternative_element.trigger("change");
-//                            });
-                          break;
                         } else if(state.data[i].data[standardColumn]) {
                           if(state.data[i].data[standardColumn] != parent.value) {
                             parent.$el.find('input').val(state.data[i].data['product_custom_standardnumber']);
