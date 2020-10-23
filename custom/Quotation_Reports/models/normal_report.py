@@ -9,6 +9,7 @@ class PrintSale(models.Model):
     def limit_chapter_reports(self, string_text=None):
         # string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
         count = 0
+        len_string = ''
         if string_text:
             COUNT_REPLACE = '〇'
             string_text_tmp = string_text.replace('\uff0d', COUNT_REPLACE).replace('\xa0', COUNT_REPLACE).replace('\uff5e', COUNT_REPLACE)
@@ -20,7 +21,7 @@ class PrintSale(models.Model):
                 else:
                     byte_count += 1
                 count += 1
-        len_string = string_text[:count]
+            len_string = string_text[:count]
         return len_string
 
     def limit_number_field(self, number=0.00, number_len=20):
