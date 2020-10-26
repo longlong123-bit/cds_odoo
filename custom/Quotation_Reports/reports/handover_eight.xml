@@ -107,7 +107,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px; margin-bottom: 10px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -124,10 +124,17 @@
 <!--                                            <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
 <!--                                            <br/>-->
 <!--                                            <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
+                                            <br/>
+                                            <div style="height: 15px; text-align: left; display: inline-block; width: 100%; border-bottom: 1px solid;">
+                                                <span style="white-space: nowrap; overflow: hidden; float: left;  height: 14px;">
+                                                    <span>担当：</span>
+                                                    <t t-esc="o.cb_partner_sales_rep_id.name"/>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 0;">
+                                <div style="margin-top: 4px; display: block;">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -628,7 +635,7 @@
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
-                                                        <tr style=" font-size: 12px; height: 40px">
+                                                        <tr style=" font-size: 12px; height: 38px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -980,8 +987,8 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                         <span t-esc="o.comment_apply"/>
                                     </div>
                                 </div>
@@ -1072,7 +1079,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px; margin-bottom: 10px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -1089,10 +1096,17 @@
 <!--                                            <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
 <!--                                            <br/>-->
 <!--                                            <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
+                                            <br/>
+                                            <div style="height: 15px; text-align: left; display: inline-block; width: 100%; border-bottom: 1px solid;">
+                                                <span style="white-space: nowrap; overflow: hidden; float: left;  height: 14px;">
+                                                    <span>担当：</span>
+                                                    <t t-esc="o.cb_partner_sales_rep_id.name"/>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 0px">
+                                <div style="margin-top: 4px; display: block;">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -1125,7 +1139,7 @@
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
-                                                        <tr style=" font-size: 12px; height: 37px;">
+                                                        <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -1268,7 +1282,7 @@
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
-                                                        <tr style="font-size: 12px; height: 37px;">
+                                                        <tr style="font-size: 12px; height: 35px;">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <div>
                                                                     <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
@@ -1413,7 +1427,7 @@
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
-                                                        <tr style="font-size: 12px; height: 40px">
+                                                        <tr style="font-size: 12px; height: 38px">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <div>
                                                                     <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
@@ -1537,7 +1551,7 @@
                                                     <t t-if="line > 0">
                                                         <t t-set="line" t-value="line - 1"/>
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
-                                                        <tr style="font-size: 12px; height: 37px;">
+                                                        <tr style="font-size: 12px; height: 35px;">
                                                             <td style="border: 1px solid #000000;border-top: 0;  padding: 0;">
                                                                 <div>
                                                                     <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 27px;float: left; margin-right: 0 auto; ">
@@ -1672,8 +1686,8 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                         <span t-esc="o.comment_apply"/>
                                     </div>
                                 </div>
@@ -1764,7 +1778,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px; margin-bottom: 10px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -1781,10 +1795,17 @@
 <!--                                            <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
 <!--                                            <br/>-->
 <!--                                            <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
+                                            <br/>
+                                            <div style="height: 15px; text-align: left; display: inline-block; width: 100%; border-bottom: 1px solid;">
+                                                <span style="white-space: nowrap; overflow: hidden; float: left;  height: 14px;">
+                                                    <span>担当：</span>
+                                                    <t t-esc="o.cb_partner_sales_rep_id.name"/>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 0">
+                                <div style="margin-top: 4px; display: block;">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -1838,7 +1859,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 37px;">
+                                                        <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -2061,7 +2082,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.voucher_line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 37px;">
+                                                        <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -2268,7 +2289,7 @@
                                                         <t t-set="line_id_1" t-value="order.quotation_custom_line_no"/>
                                                         <t t-set="subtotal_amount1"
                                                            t-value="subtotal_amount1 + order.line_amount"/>
-                                                        <tr style=" font-size: 12px; height: 40px">
+                                                        <tr style=" font-size: 12px; height: 38px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -2445,7 +2466,7 @@
                                                             <!--                                                            <t t-set="subtotal_tax_amount1_o"-->
                                                             <!--                                                               t-value="subtotal_tax_amount1_o + order.line_tax_amount"/>-->
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 37px;">
+                                                        <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -2618,8 +2639,8 @@
                                     <!--                                        </span>-->
                                     <!--                                    </div>-->
                                 </div>
-                                <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                <div style="font-size: 14px; line-height: 1.2; height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                         <span t-esc="o.comment_apply"/>
                                     </div>
                                 </div>
@@ -2707,7 +2728,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px; margin-bottom: 10px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -2724,10 +2745,17 @@
 <!--                                            <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
 <!--                                            <br/>-->
 <!--                                            <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
+                                            <br/>
+                                            <div style="height: 15px; text-align: left; display: inline-block; width: 100%; border-bottom: 1px solid;">
+                                                <span style="white-space: nowrap; overflow: hidden; float: left;  height: 14px;">
+                                                    <span>担当：</span>
+                                                    <t t-esc="o.cb_partner_sales_rep_id.name"/>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 0px">
+                                <div style="margin-top: 4px; display: block;">
                                     <table border="0" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0;border-left: 0;">
                                         <thead>
@@ -2785,7 +2813,7 @@
                                                             <t t-set="subtotal_tax_amount_o"
                                                                t-value="subtotal_tax_amount_o + order.line_tax_amount"/>
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 37px;">
+                                                        <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -3012,7 +3040,7 @@
                                                             <t t-set="subtotal_tax_amount_o"
                                                                t-value="subtotal_tax_amount_o + order.voucher_line_tax_amount"/>
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 37px;">
+                                                        <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -3239,7 +3267,7 @@
                                                         <t t-set="subtotal_amount"
                                                            t-value="subtotal_amount + order.line_amount"/>
 
-                                                        <tr style=" font-size: 12px; height: 40px">
+                                                        <tr style=" font-size: 12px; height: 38px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -3410,7 +3438,7 @@
                                                             <t t-set="subtotal_amount_o"
                                                                t-value="subtotal_amount_o + order.line_amount"/>
                                                         </t>
-                                                        <tr style=" font-size: 12px; height: 37px;">
+                                                        <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
@@ -3582,8 +3610,8 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                <div style="font-size: 14px; line-height: 1.2; height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                         <span t-esc="o.comment_apply"/>
                                     </div>
                                 </div>
@@ -3676,7 +3704,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px; margin-bottom: 10px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -3693,10 +3721,17 @@
 <!--                                            <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
 <!--                                            <br/>-->
 <!--                                            <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
+                                            <br/>
+                                            <div style="height: 15px; text-align: left; display: inline-block; width: 100%; border-bottom: 1px solid;">
+                                                <span style="white-space: nowrap; overflow: hidden; float: left;  height: 14px;">
+                                                    <span>担当：</span>
+                                                    <t t-esc="o.cb_partner_sales_rep_id.name"/>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px;  display: block;">
+                                <div style="margin-top: 4px;  display: block;">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -3808,8 +3843,8 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all;">
                                         <span t-esc="o.comment_apply"/>
                                     </div>
                                 </div>
@@ -3899,7 +3934,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px; margin-bottom: 10px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -3916,10 +3951,17 @@
 <!--                                            <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
 <!--                                            <br/>-->
 <!--                                            <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
+                                            <br/>
+                                            <div style="height: 15px; text-align: left; display: inline-block; width: 100%; border-bottom: 1px solid;">
+                                                <span style="white-space: nowrap; overflow: hidden; float: left;  height: 14px;">
+                                                    <span>担当：</span>
+                                                    <t t-esc="o.cb_partner_sales_rep_id.name"/>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px;  display: block;">
+                                <div style="margin-top: 4px;  display: block;">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -4009,8 +4051,8 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                         <span t-esc="o.comment_apply"/>
                                     </div>
                                 </div>
@@ -4100,7 +4142,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px; margin-bottom: 10px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -4117,10 +4159,17 @@
 <!--                                            <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
 <!--                                            <br/>-->
 <!--                                            <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
+                                            <br/>
+                                            <div style="height: 15px; text-align: left; display: inline-block; width: 100%; border-bottom: 1px solid;">
+                                                <span style="white-space: nowrap; overflow: hidden; float: left;  height: 14px;">
+                                                    <span>担当：</span>
+                                                    <t t-esc="o.cb_partner_sales_rep_id.name"/>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px;  display: block;">
+                                <div style="margin-top: 4px;  display: block;">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -4232,8 +4281,8 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                         <span t-esc="o.comment_apply"/>
                                     </div>
                                 </div>
@@ -4321,7 +4370,7 @@
                                                 </t>
                                             </div>
                                         </div>
-                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px; margin-bottom: 10px;">
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
                                             <span>代表取締役　　遠 藤 孝 二</span>
@@ -4338,10 +4387,17 @@
 <!--                                            <span>千葉営業所　千葉県千葉市中央区旭町１７－１</span>-->
 <!--                                            <br/>-->
 <!--                                            <span>TEL　043-224-9050　FAX　043-222-6176</span>-->
+                                            <br/>
+                                            <div style="height: 15px; text-align: left; display: inline-block; width: 100%; border-bottom: 1px solid;">
+                                                <span style="white-space: nowrap; overflow: hidden; float: left;  height: 14px;">
+                                                    <span>担当：</span>
+                                                    <t t-esc="o.cb_partner_sales_rep_id.name"/>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 8px;  display: block;">
+                                <div style="margin-top: 4px;  display: block;">
                                     <table border="1" cellspacing="0" cellpadding="5"
                                            style="width: 100%; border: 1px solid #000000; border-bottom: 0; border-left: 0;">
                                         <thead>
@@ -4453,8 +4509,8 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div style="font-size: 14px; line-height: 1.2; height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 30px; word-wrap: break-word; word-break: break-all;">
+                                <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                         <span t-esc="o.comment_apply"/>
                                     </div>
                                 </div>
