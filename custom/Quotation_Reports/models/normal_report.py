@@ -79,7 +79,7 @@ class SaleOrderLine(models.Model):
                     byte_count = 0
                     while count < len_i and byte_count < text_len:
                         try:
-                            if len(string_text1_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < 39:
+                            if len(string_text1_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < text_len - 1:
                                 byte_count += 2
                             else:
                                 byte_count += 1
@@ -94,7 +94,7 @@ class SaleOrderLine(models.Model):
                     byte_count = 0
                     while count < len_i and byte_count < text_len:
                         try:
-                            if len(string_text2_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < 39:
+                            if len(string_text2_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < text_len - 1:
                                 byte_count += 2
                             else:
                                 byte_count += 1
@@ -109,7 +109,7 @@ class SaleOrderLine(models.Model):
                 byte_count = 0
                 while count < len_i and byte_count < text_len:
                     try:
-                        if len(string_text_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < 39:
+                        if len(string_text_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < text_len - 1:
                             byte_count += 2
                         else:
                             byte_count += 1
