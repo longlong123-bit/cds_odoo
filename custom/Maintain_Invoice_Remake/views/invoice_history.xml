@@ -5,7 +5,7 @@
             <field name="name">invoice.history.tree</field>
             <field name="model">account.move.line</field>
             <field name="arch" type="xml" >
-                <tree string="Invoice History" create="false" import="false" default_order="date desc">
+                <tree string="Invoice History" create="false" import="false" default_order="date desc, invoice_no desc">
                     <field name="date" optional="show" readonly="1"/>
                     <field name="invoice_no" optional="show" readonly="1"/>
                     <field name="x_invoicelinetype" optional="show" readonly="1"/>

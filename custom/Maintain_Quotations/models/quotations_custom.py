@@ -147,6 +147,14 @@ class QuotationsCustom(models.Model):
 
     @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
                   'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
+                  'partner_name_2', 'quotations_date', 'quotation_type', 'report_header', 'tax_method', 'sales_rep',
+                  'amount_untaxed')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.customer_tax_rounding = self.partner_id.customer_tax_rounding
+
+    @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
+                  'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
                   'partner_name_2')
     def _check_flag_history(self):
         for rec in self:
@@ -677,7 +685,7 @@ class QuotationsLinesCustom(models.Model):
     # tax_rate = fields.Float('Tax Rate', compute='compute_tax_rate')
     tax_rate = fields.Float('Tax Rate')
     product_id = fields.Many2one(string='Product')
-    product_uom_qty = fields.Float(string='Product UOM Qty', digits='(12,0)', default=1.0)
+    product_uom_qty = fields.Float(string='Product UOM Qty', digits=(12, 0), default=1.0)
     product_uom = fields.Many2one(string='Product UOM')
     price_unit = fields.Float(string='Price Unit', digits='Product Price', compute="compute_price_unit", store="True")
     description = fields.Text(string='Description')
@@ -716,6 +724,13 @@ class QuotationsLinesCustom(models.Model):
     )
 
     copy_history_flag = fields.Boolean(default=False, store=False)
+
+    @api.onchange('quotation_custom_line_no', 'class_item', 'product_code', 'product_barcode', 'product_maker_name',
+                  'product_name', 'product_standard_number', 'product_uom_qty', 'product_uom_id', 'price_unit',
+                  'tax_rate')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.order_id.customer_tax_rounding = self.order_id.partner_id.customer_tax_rounding
 
     def price_of_recruitment_select(self, rate=0, recruitment_price_select=None, price_applied=0):
         if recruitment_price_select:
@@ -935,7 +950,10 @@ class QuotationsLinesCustom(models.Model):
                                                          maker_ids.price_applied)
         else:
             product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
-            price = product_price_ids.price_1
+            if product_price_ids.price_1:
+                price = product_price_ids.price_1
+            else:
+                price = product_price_ids.standard_price
         return price
 
     def set_product_class_code_lv1(self, product_code=None, jan_code=None, product_class_code_lv4=None,
@@ -1149,8 +1167,7 @@ class QuotationsLinesCustom(models.Model):
                     ['product_code_5', '=', self.product_code],
                     ['product_code_6', '=', self.product_code]
                 ])
-
-                if product:
+                if len(product) == 1:
                     self.changed_fields.append('product_barcode')
                     self.product_id = product.id
                     self.product_barcode = product.barcode
@@ -1240,12 +1257,21 @@ class QuotationsLinesCustom(models.Model):
                 product = self.env['product.product'].search([
                     ['barcode', '=', self.product_barcode]
                 ])
-
                 if product:
                     self.changed_fields.append('product_code')
                     self.product_id = product.id
-                    self.product_code = product.code_by_setting
-
+                    if product.product_code_1:
+                        self.product_code = product.product_code_1
+                    elif product.product_code_2:
+                        self.product_code = product.product_code_2
+                    elif product.product_code_3:
+                        self.product_code = product.product_code_3
+                    elif product.product_code_4:
+                        self.product_code = product.product_code_4
+                    elif product.product_code_5:
+                        self.product_code = product.product_code_5
+                    elif product.product_code_6:
+                        self.product_code = product.product_code_6
                     setting_price = '1'
                     if product.setting_price:
                         setting_price = product.setting_price[5:]

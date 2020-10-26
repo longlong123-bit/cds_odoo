@@ -99,6 +99,7 @@ def copy_data_from_partner(rec, partner, quotation):
         rec.customer_trans_classification_code = partner.customer_trans_classification_code
 
         if quotation:
+            rec.x_studio_summary = quotation.comment_apply
             rec.x_voucher_tax_transfer = quotation.tax_method
         else:
             rec.x_voucher_tax_transfer = get_tax_method(tax_unit=partner.customer_tax_unit)
@@ -485,6 +486,14 @@ class ClassInvoiceCustom(models.Model):
     copy_history_item = fields.Char(default="")
     copy_history_from = fields.Char(default="")
 
+    @api.onchange('x_studio_date_invoiced', 'x_studio_business_partner', 'x_studio_name', 'x_bussiness_partner_name_2',
+                  'x_studio_address_1', 'x_studio_address_2', 'x_studio_summary', 'sales_rep', 'x_userinput_id', 'ref',
+                  'sales_rep', 'customer_trans_classification_code', 'x_voucher_tax_transfer', 'x_studio_da_printed',
+                  'x_studio_payment_rule_1', 'amount_untaxed')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.customer_tax_rounding = self.partner_id.customer_tax_rounding
+
     @api.onchange('copy_history_item')
     def copy_from_history(self):
         if not self.copy_history_item:
@@ -698,7 +707,7 @@ class ClassInvoiceCustom(models.Model):
 
             if move.x_voucher_tax_transfer != 'custom_tax':
                 if move.x_voucher_tax_transfer == 'voucher':
-                    move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 2, move.customer_tax_rounding)
+                    move.x_voucher_tax_amount = rounding(total_voucher_tax_amount, 0, move.customer_tax_rounding)
                 else:
                     move.x_voucher_tax_amount = total_voucher_tax_amount
             # else:
@@ -1334,7 +1343,7 @@ class AccountMoveLine(models.Model):
     # product_maker_name = fields.Many2one('freight.category.custom', string='Maker Code')
     product_maker_name = fields.Char(string='Maker Name')
     price_unit = fields.Float(string='Unit Price', digits='Product Price', compute="compute_price_unit", store="True")
-    quantity = fields.Float(string='Quantity', digits='(12,0)',
+    quantity = fields.Float(string='Quantity', digits=(12,0),
                             default=1.0,
                             help="The optional quantity expressed by this line, eg: number of product sold. "
                                  "The quantity is not a legal requirement but is very useful for some reports.")
@@ -1365,6 +1374,14 @@ class AccountMoveLine(models.Model):
     changed_fields = []
 
     copy_history_flag = fields.Boolean(default=False, store=False)
+
+    @api.onchange('invoice_custom_line_no', 'x_invoicelinetype', 'product_code', 'product_barcode',
+                  'product_maker_name', 'product_name', 'invoice_custom_standardnumber', 'quantity', 'product_uom_id',
+                  'price_unit', 'invoice_custom_Description', 'tax_rate')
+    def change_tax_rounding(self):
+        self.ensure_one()
+        self.move_id.customer_tax_rounding = self.move_id.partner_id.customer_tax_rounding
+
 
     def price_of_recruitment_select(self, rate=0, recruitment_price_select=None, price_applied=0):
         if recruitment_price_select:
@@ -1585,7 +1602,10 @@ class AccountMoveLine(models.Model):
                                                          maker_ids.price_applied)
         else:
             product_price_ids = self.env['product.product'].search([('barcode', '=', self.product_barcode)])
-            price = product_price_ids.price_1
+            if product_price_ids.price_1:
+                price = product_price_ids.price_1
+            else:
+                price = product_price_ids.standard_price
         return price
 
     def set_product_class_code_lv1(self, product_code=None, jan_code=None, product_class_code_lv4=None,
@@ -1861,7 +1881,18 @@ class AccountMoveLine(models.Model):
                 if product:
                     self.changed_fields.append('product_code')
                     self.product_id = product.id
-                    self.product_code = product.code_by_setting
+                    if product.product_code_1:
+                        self.product_code = product.product_code_1
+                    elif product.product_code_2:
+                        self.product_code = product.product_code_2
+                    elif product.product_code_3:
+                        self.product_code = product.product_code_3
+                    elif product.product_code_4:
+                        self.product_code = product.product_code_4
+                    elif product.product_code_5:
+                        self.product_code = product.product_code_5
+                    elif product.product_code_6:
+                        self.product_code = product.product_code_6
                     setting_price = '1'
                     if product.setting_price:
                         setting_price = product.setting_price[5:]
@@ -2073,19 +2104,19 @@ class AccountMoveLine(models.Model):
     def compute_sale_unit_price(self):
         for line in self:
             line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount,
-                                                                                  line.move_id.partner_id.customer_tax_rounding)
+                                                                                  line.move_id.customer_tax_rounding)
 
     def compute_discount_unit_price(self):
         for line in self:
             line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount,
-                                                                                         line.move_id.partner_id.customer_tax_rounding)
+                                                                                         line.move_id.customer_tax_rounding)
 
 
     @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding')
     def compute_line_amount(self):
         for line in self:
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount, line.quantity,
-                                                                         line.move_id.partner_id.customer_tax_rounding)
+                                                                         line.move_id.customer_tax_rounding)
 
     @api.depends('move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding',
                  'move_id.invoice_line_ids')
@@ -2131,11 +2162,11 @@ class AccountMoveLine(models.Model):
             line.update(line._get_price_total_and_subtotal())
             line.update(line._get_fields_onchange_subtotal())
             line.invoice_custom_salesunitprice = self.get_compute_sale_unit_price(line.price_unit, line.discount,
-                                                                                  line.move_id.partner_id.customer_tax_rounding)
+                                                                                  line.move_id.customer_tax_rounding)
             line.invoice_custom_discountunitprice = self.get_compute_discount_unit_price(line.price_unit, line.discount,
-                                                                                         line.move_id.partner_id.customer_tax_rounding)
+                                                                                         line.move_id.customer_tax_rounding)
             line.invoice_custom_lineamount = self.get_compute_lineamount(line.price_unit, line.discount,
-                                                                         line.quantity, line.move_id.partner_id.customer_tax_rounding)
+                                                                         line.quantity, line.move_id.customer_tax_rounding)
             if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
                 and line.product_id.product_tax_category != 'exempt') \
                     or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
