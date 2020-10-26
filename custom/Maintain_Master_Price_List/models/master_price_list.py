@@ -312,3 +312,4 @@ class ClassMasterPriceList(models.Model):
             self.customer_code = self.customer_name = ''
 
     _sql_constraints = [('master.price.list', 'unique(maker_id, product_class_code_lv1_id, product_class_code_lv2_id, product_class_code_lv3_id, product_class_code_lv4_id, jan_code_id, product_code_id, country_state_code_id, supplier_group_code_id, country_state_code_id, industry_code_id, supplier_group_code_id, customer_code_bill_id, customer_code_id, recruitment_price_select, date_applied)', 'This data has been existed.')]
+
