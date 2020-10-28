@@ -24,7 +24,7 @@
                 <t t-set="count_detail" t-value="1"/>
                 <t t-set="pager" t-value="pager + 1"/>
                 <div class="page"
-                     style="page-break-before: always; font-size: 14px; line-height: 1.2; font-family: メイリオ;">
+                     style="page-break-before: always; font-size: 14px; line-height: 1.2;">
                     <div style="display: inline-block;">
                         <t t-set="style_title" t-value="'width: 38%; float: left;'"/>
                         <t t-set="style_bill_no" t-value="'width: 40%; float: left;'"/>
@@ -153,7 +153,7 @@
                             <div style="width: 100%;">
                                 <div style="width: 84%; margin-bottom: 10px; float: left;">
                                     <table border="0" cellspacing="0" cellpadding="5"
-                                           style="width: 100%; line-height: 1; font-size: 14px; font-family: Lato; height: 80px">
+                                           style="width: 100%; line-height: 1; font-size: 14px; height: 80px">
                                         <thead>
                                             <tr>
                                                 <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
@@ -235,7 +235,7 @@
                         </t>
                         <div style="width: 100%;">
                             <table border="0" cellspacing="0" cellpadding="5"
-                                   style="width: 100%; line-height: 1; font-size: 14px; font-family: Lato; border: 1px solid #000000">
+                                   style="width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000">
                                 <thead>
                                     <tr>
                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0; text-align: center;">
