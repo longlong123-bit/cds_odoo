@@ -78,23 +78,23 @@
                                     </div>
                                     <div style="margin-bottom: 10px; margin-left: 20px; height: 38px; font-size: 16px; width: 384px">
                                         <p t-field="o.partner_id.street"
-                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                             <null/>
                                         </p>
                                         <p t-field="o.partner_id.street2"
-                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                             <null/>
                                         </p>
                                     </div>
                                     <div style="display: inline-block; height: 38px; width: 384px; margin-left: 20px; margin-bottom: 10px; font-size: 16px;">
                                         <t t-set="p_style"
-                                           t-value="'height: 19px; white-space: nowrap; max-width: 384px; overflow: hidden; text-overflow: clip; margin: 0; float: left;'"/>
+                                           t-value="'height: 19px; white-space: nowrap; max-width: 384px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;'"/>
                                         <p t-esc="o.limit_charater_field(o.partner_id.name, 20)"
-                                           style="height: 19px; white-space: nowrap; max-width: 384px; overflow: hidden; text-overflow: clip; margin: 0; float: left;"/>
+                                           style="height: 19px; white-space: nowrap; max-width: 384px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;"/>
                                         <t t-if="o.partner_id.customer_name_2">
                                             <br/>
                                             <p t-esc="o.limit_charater_field(o.partner_id.customer_name_2, 20)"
-                                               style="height: 19px; white-space: nowrap; max-width: 365px; overflow: hidden; text-overflow: clip; margin: 0; float: left;">
+                                               style="height: 19px; white-space: nowrap; max-width: 365px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;">
                                             </p>
                                         </t>
                                         <p style="float: right; margin: 0;">様</p>
@@ -123,9 +123,9 @@
                                     <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
                                     <div style="margin-top: 2%; font-size: 12px; width: 125%; right: 0px; margin-left: -85px;">
                                         <div style="display: inline-block; width: 50%; float: left; text-align: left;">
-                                            <span>銚子信用金庫本店 当座No375</span>
+                                            <span>銚子信用金庫本店 当座No0000375</span>
                                             <br/>
-                                            <span>銚子商工信用組合新生支店 普通No232055</span>
+                                            <span>銚子商工信用組合新生支店 普通No0232055</span>
                                             <br/>
                                             <span>千葉銀行銚子支店 普通No1073838</span>
                                             <br/>
@@ -175,7 +175,7 @@
                                         <tbody>
                                             <tr>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; height: 38px;">
-                                                    <div style="display: inline-block; width: 110px; white-space: nowrap; overflow: hidden; text-overflow: clip; text-align: center; padding-top: 11px;">
+                                                    <div style="display: inline-block; width: 110px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; padding-top: 11px;">
                                                         <p t-esc="'{0:,.0f}'.format(o.last_billed_amount)"
                                                            style="margin: 0;">
                                                             <null/>
@@ -183,40 +183,40 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: clip; width: 110px; text-align: center; padding-top: 11px;">
+                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
                                                         <p t-esc="'{0:,.0f}'.format(o.deposit_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: center;">
-                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: clip; width: 110px; text-align: center; padding-top: 11px;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: clip; width: 110px; text-align: center; padding-top: 11px;">
+                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
                                                         <p t-esc="'{0:,.0f}'.format(o.balance_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: clip; width: 110px; text-align: center; padding-top: 11px;">
+                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
                                                         <p t-esc="'{0:,.0f}'.format(o.amount_total)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: left;">
-                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: clip; width: 110px; text-align: center; padding-top: 11px;">
+                                                    <div style="display: inline-block; float: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
                                                         <p t-esc="'{0:,.0f}'.format(o.billed_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
@@ -237,7 +237,7 @@
                                 <thead>
                                     <tr>
                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0; text-align: center;">
-                                            伝 票 日 付
+                                            伝票日付
                                         </td>
                                         <td style="border: 1px solid #000000;border-top: 0; border-right: 0; text-align: center;">
                                             伝票No
@@ -275,14 +275,14 @@
                                                 <tr style="height: 45px; vertical-align: top;">
                                                     <td style="padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 70px; text-align: center;">
-                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                                 <null/>
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 100px; text-align: center;">
-                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                                 <null/>
                                                             </p>
                                                         </div>
@@ -290,34 +290,34 @@
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div t-if="tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher'"
                                                              style="display: inline-block; width: 359px;">
-                                                            <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                                 消費税
                                                             </span>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 75px; text-align: right;">
-                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 34px; text-align: center;">
-                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 100px; text-align: right;">
-                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                             <p t-if="(tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher')"
                                                                t-esc="'{0:,.0f}'.format(o.limit_number_field(int(amount_tax_previous_data), 11))"
-                                                               style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
@@ -337,7 +337,7 @@
                                                             <p t-if="inv_no != line_detail.invoice_no"
                                                                t-field="line_detail.invoice_date"
                                                                t-options="{&quot;format&quot;: &quot;yy/MM/dd&quot;}"
-                                                               style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                                 <null/>
                                                             </p>
                                                             <!--                                                            <t t-set="inv_date" t-value="line_detail.invoice_date"/>-->
@@ -347,7 +347,7 @@
                                                         <div style="display: inline-block; width: 100px; text-align: center;">
                                                             <p t-if="inv_no != line_detail.invoice_no"
                                                                t-field="line_detail.invoice_no"
-                                                               style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                                 <null/>
                                                             </p>
                                                             <t t-set="inv_no" t-value="line_detail.invoice_no"/>
@@ -385,10 +385,10 @@
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 75px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: clip;">
+                                                        <div style="display: inline-block; width: 75px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                             <p t-if="line_detail.account_move_line_id"
                                                                t-esc="'{0:,.0f}'.format(o.limit_number_field(int(line_detail.quantity), 7))"
-                                                               style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
@@ -396,19 +396,19 @@
                                                         <div style="display: inline-block; width: 34px; text-align: center;">
                                                             <p t-if="line_detail.account_move_line_id"
                                                                t-esc="o.limit_charater_field(line_detail.product_uom, 2)"
-                                                               style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                             <span t-if="line_detail.account_move_line_id and line_detail.price_unit % 1 > 0"
                                                                   t-esc="'{0:,.2f}'.format(o.limit_number_field(line_detail.price_unit, 8), True)"
-                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </span>
                                                             <span t-if="line_detail.account_move_line_id and line_detail.price_unit % 1 == 0"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(line_detail.price_unit, 8), True)"
-                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </span>
                                                             <span t-if="line_detail.x_voucher_tax_transfer == 'internal_tax'">
                                                                 ※
@@ -416,9 +416,9 @@
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                             <p t-esc="'{0:,.0f}'.format(o.limit_number_field(int(line_detail.line_amount), 8))"
-                                                               style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
@@ -433,14 +433,14 @@
                                         <tr style="height: 45px; vertical-align: top;">
                                             <td style="padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 70px; text-align: center;">
-                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         <null/>
                                                     </p>
                                                 </div>
                                             </td>
                                             <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 100px; text-align: center;">
-                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         <null/>
                                                     </p>
                                                 </div>
@@ -448,34 +448,34 @@
                                             <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                 <div t-if="tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher'"
                                                      style="display: inline-block; width: 359px;">
-                                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         消費税
                                                     </span>
                                                 </div>
                                             </td>
                                             <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 75px; text-align: right;">
-                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                     </p>
                                                 </div>
                                             </td>
                                             <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 34px; text-align: center;">
-                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                     </p>
                                                 </div>
                                             </td>
                                             <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 100px; text-align: right;">
-                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                     </p>
                                                 </div>
                                             </td>
                                             <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                <div style="display: inline-block; width: 100px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: clip;">
+                                                <div style="display: inline-block; width: 100px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                     <p t-if="(tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher')"
                                                        t-esc="'{0:,.0f}'.format(o.limit_number_field(int(amount_tax_previous_data), 11))"
-                                                       style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                       style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                     </p>
                                                 </div>
                                             </td>
@@ -489,14 +489,14 @@
                                             <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
@@ -519,29 +519,27 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 75px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 34px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(10)), 11))"/>
-                                                        <br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(8)), 11))"/>
-                                                        <br/>
-                                                        <span t-if="o.subtotal_amount_tax()"
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(10)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(8)), 11))"/>
+                                                        <div t-if="o.subtotal_amount_tax()"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
@@ -555,14 +553,14 @@
                                             <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
@@ -579,36 +577,33 @@
                                                             </t>
                                                             <t>
                                                                 <span>（8％消費税）</span>
-
                                                             </t>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 75px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 34px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/>
-                                                        <br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/>
-                                                        <br/>
-                                                        <span t-if="o.amount_tax()"
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/>
+                                                        <div t-if="o.amount_tax()"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
@@ -620,45 +615,45 @@
                                             <tr style="height: 15px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 359px;">
-                                                        <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             【　合　　計　】
                                                         </span>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 75px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 34px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: clip;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                         <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_total), 8))"/>
                                                     </div>
                                                 </td>
@@ -672,45 +667,45 @@
                                             <tr style="height: 15px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 359px;">
-                                                        <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             【　合　　計　】
                                                         </span>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 75px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 34px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                         <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_total), 8))"/>
                                                     </div>
                                                 </td>
@@ -722,14 +717,14 @@
                                             <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
@@ -753,29 +748,27 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 75px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 34px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(10)), 11))"/>
-                                                        <br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(8),), 11))"/>
-                                                        <br/>
-                                                        <span t-if="o.subtotal_amount_tax()"
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(10)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(8),), 11))"/>
+                                                        <div t-if="o.subtotal_amount_tax()"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
@@ -788,14 +781,14 @@
                                             <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 70px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
@@ -812,36 +805,33 @@
                                                             </t>
                                                             <t>
                                                                 <span>（8％消費税）</span>
-
                                                             </t>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 75px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 34px; text-align: center;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: clip;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/>
-                                                        <br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount) - o.amount_tax(10) - o.amount_tax(), 11))"/>
-                                                        <br/>
-                                                        <span t-if="o.amount_tax()"
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount) - o.amount_tax(10) - o.amount_tax(), 11))"/>
+                                                        <div t-if="o.amount_tax()"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
