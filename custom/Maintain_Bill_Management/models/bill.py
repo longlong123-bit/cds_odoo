@@ -113,6 +113,8 @@ class BillingClass(models.Model):
 
             payment_ids = self.env['account.payment'].search(payment_ids_domain)
 
+            _payment_cost_and_discount = 0
+
             # Set data for voucher_number field
             if record.customer_except_request:
                 record.voucher_number = len(invoice_ids.filtered(lambda l: l.selected))
@@ -123,6 +125,9 @@ class BillingClass(models.Model):
             for payment_id in payment_ids:
                 if payment_id.payment_amount:
                     _deposit_amount = _deposit_amount + payment_id.payment_amount
+                for payment_line in payment_id.account_payment_line_ids:
+                    if payment_line.receipt_divide_custom_id.name in ['手数料', '値引']:
+                        _payment_cost_and_discount += payment_line.payment_amount
 
             # Compute data for balance_amount field
             _balance_amount = _last_billed_amount - _deposit_amount
@@ -191,6 +196,7 @@ class BillingClass(models.Model):
             # Set data to fields
             record.last_billed_amount = _last_billed_amount
             record.deposit_amount = _deposit_amount
+            record.payment_cost_and_discount = _payment_cost_and_discount
             record.balance_amount = _balance_amount
             record.amount_untaxed = _amount_untaxed
             record.tax_amount = _tax_amount
@@ -221,6 +227,8 @@ class BillingClass(models.Model):
 
     # 入金額
     deposit_amount = fields.Float(compute=_set_data_to_fields, string='Deposit Amount', readonly=True)
+
+    payment_cost_and_discount = fields.Float(compute=_set_data_to_fields, string='Payment Cost And Discount', readonly=True)
 
     # 繰越金額
     balance_amount = fields.Float(compute=_set_data_to_fields, string='Balance Amount', readonly=True)
@@ -322,6 +330,7 @@ class BillingClass(models.Model):
                 'invoices_details_number': _invoice_details_number,
                 'last_billed_amount': rec['last_billed_amount'],
                 'deposit_amount': rec['deposit_amount'],
+                'payment_cost_and_discount': rec['payment_cost_and_discount'],
                 'balance_amount': rec['balance_amount'],
                 'amount_untaxed': rec['amount_untaxed'],
                 'tax_amount': rec['tax_amount'],

@@ -192,7 +192,8 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: center;">
                                                     <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <p t-esc="'{0:,.0f}'.format(o.payment_cost_and_discount)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
