@@ -176,14 +176,16 @@
                                             <tr>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; height: 38px;">
                                                     <div style="display: inline-block; width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <p t-esc="'{0:,.0f}'.format(o.last_billed_amount)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="float: right; width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <p t-esc="'{0:,.0f}'.format(o.deposit_amount)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
@@ -197,7 +199,8 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="float: right; width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <p t-esc="'{0:,.0f}'.format(o.balance_amount)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
@@ -268,7 +271,7 @@
                                                 <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>
                                             </t>
                                             <t t-if="inv_no and tax_transfer_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail)) and (count_invoice_detail >= count_page_detail)">
-                                                <tr style="height: 45px; vertical-align: top;">
+                                                <tr style="height: 15px; vertical-align: top;">
                                                     <td style="padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 70px; text-align: center;">
                                                             <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
@@ -318,6 +321,59 @@
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                <t t-set="count_detail" t-value="count_detail + 1"/>
+                                            </t>
+                                            <t t-if="inv_no and summary_total_amount_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail)) and (count_invoice_detail >= count_page_detail)">
+                                                <tr style="height: 45px; vertical-align: top;">
+                                                    <td style="padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 70px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 100px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 359px; overflow: hidden;">
+                                                            <span t-esc="o.limit_charater_field(string_summary_previous_data, 12)"
+                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 75px; text-align: right;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 34px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            <span>(</span>
+                                                            <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(summary_total_amount_previous_data), 8))"
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </span>
+                                                            <span>)</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                                 <t t-set="count_detail" t-value="count_detail + 3"/>
                                             </t>
                                             <!--Set tax transfer of the previous data-->
@@ -326,6 +382,12 @@
                                             <!--Set amount tax of the previous data-->
                                             <t t-set="amount_tax_previous_data"
                                                t-value="line_detail.bill_invoice_id.amount_tax"/>
+                                            <!--Set string summary of the previous data-->
+                                            <t t-set="string_summary_previous_data"
+                                               t-value="line_detail.bill_invoice_id.x_studio_summary"/>
+                                            <!--Set summary total amount of the previous data-->
+                                            <t t-set="summary_total_amount_previous_data"
+                                               t-value="line_detail.bill_invoice_id.amount_total"/>
 
                                             <t t-if="((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail))">
                                                 <tr style="max-height: 45px; vertical-align: top; overflow: hidden;">
@@ -422,7 +484,7 @@
                                     </t>
 
                                     <t t-if="tax_transfer_previous_data and ((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail)) and (count_invoice_detail >= count_page_detail - 1)">
-                                        <tr style="height: 45px; vertical-align: top;">
+                                        <tr style="height: 15px; vertical-align: top;">
                                             <td style="padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 70px; text-align: center;">
                                                     <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
@@ -472,10 +534,63 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <t t-set="count_detail" t-value="count_detail + 3"/>
+                                        <t t-set="count_detail" t-value="count_detail + 1"/>
                                         <t t-set="tax_transfer_previous_data" t-value=""/>
                                     </t>
-
+                                    <t t-if="summary_total_amount_previous_data and ((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail)) and (count_invoice_detail >= count_page_detail - 1)">
+                                        <tr style="height: 45px; vertical-align: top;">
+                                            <td style="padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 70px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <null/>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 100px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <null/>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 359px; overflow: hidden;">
+                                                    <span t-esc="o.limit_charater_field(string_summary_previous_data, 12)"
+                                                          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 75px; text-align: right;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 34px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 100px; text-align: right;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                    <span>(</span>
+                                                    <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(summary_total_amount_previous_data), 8))"
+                                                       style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </span>
+                                                    <span>)</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <t t-set="count_detail" t-value="count_detail + 3"/>
+                                        <t t-set="summary_total_amount_previous_data" t-value=""/>
+                                    </t>
                                     <t t-if="o.partner_id.customer_tax_unit == 'invoice'">
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 1">
                                             <t t-set="count_rows_total_page" t-value="2"/>
