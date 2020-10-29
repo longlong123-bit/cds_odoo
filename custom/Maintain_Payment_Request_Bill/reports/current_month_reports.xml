@@ -173,8 +173,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; height: 38px;">
+                                            <tr style="height: 38px;">
+                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="display: inline-block; width: 110px; text-align: right; padding-top: 11px;">
                                                         <p t-esc="'{0:,.0f}'.format(o.last_billed_amount)"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
@@ -190,10 +190,10 @@
                                                         </p>
                                                     </div>
                                                 </td>
-                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: center;">
-                                                    <div style="width: 110px; text-align: right; padding-top: 11px;">
+                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
+                                                    <div style="display: inline-block; width: 110px; text-align: right; padding-top: 11px;">
                                                         <p t-esc="'{0:,.0f}'.format(o.payment_cost_and_discount)"
-                                                           tyle="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
                                                     </div>
@@ -214,7 +214,7 @@
                                                         </p>
                                                     </div>
                                                 </td>
-                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: left;">
+                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: right;">
                                                     <div style="display: inline-block; float: right; width: 110px; text-align: right; padding-top: 11px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                         <p t-esc="'{0:,.0f}'.format(o.billed_amount)"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
