@@ -109,3 +109,12 @@ class InvoiceReports(models.Model):
             if len(str(number)) > number_len:
                 number = str(number)[:number_len]
         return float(number)
+
+    def check_last_page(self, limit=0, voucher=False):
+        self.ensure_one()
+        if len(self.invoice_line_ids) % limit == 0 and voucher:
+            return int(len(self.invoice_line_ids) / limit)
+        elif voucher:
+            return 0
+        else:
+            return int(len(self.invoice_line_ids) / limit) + 1

@@ -7,10 +7,21 @@
             <t t-set="line_id" t-value="0"/>
             <t t-set="line_id_1" t-value="line_id"/>
             <t t-set="pager" t-value="1"/>
-            <t t-set="lasted_page" t-value="0"/>
+            <t t-set="lasted_page" t-value="o.check_last_page(8)"/>
+            <t t-set="final_page_voucer" t-value="o.check_last_page(8, True)"/>
             <t t-set="tax_amount_8" t-value="0"/>
             <t t-set="tax_amount_10" t-value="0"/>
             <t t-set="tax_amount_other" t-value="0"/>
+            <t t-set="tax_amount_voucher_8" t-value="0"/>
+            <t t-set="tax_amount_voucher_v10" t-value="0"/>
+            <t t-set="tax_amount_voucher_other" t-value="0"/>
+            <t t-set="style_tr_body" t-value="'font-size: 12px; height: 36px;'"/>
+            <t t-set="style_tr_sub" t-value="'font-size: 14px; height: 45px; vertical-align: middle;'"/>
+            <t t-if="o.x_voucher_tax_transfer == 'invoice'">
+                <t t-set="style_tr_body"
+                   t-value="'font-size: 12px; height: 37px;'"/>
+                <t t-set="style_tr_sub" t-value="'font-size: 14px; height: 60px; vertical-align: middle;'"/>
+            </t>
             <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.invoice_custom_line_no)" t-as="account_move_line">
                 <t t-set="o_title" t-value="'請　求　書'"/>
                 <t t-if="account_move_line.invoice_custom_line_no&gt;line_id_1">
@@ -76,7 +87,7 @@
                                             <span t-else="" style="font-size: 18px">様</span>
                                         </div>
                                         <div t-if="pager == 1"
-                                             style="margin-top: 20px; font-size: 18px; font-weight: 600; height: 30px; width: 300px;">
+                                             style="margin-top: 20px; font-size: 18px; font-weight: 600; height: 30px; width: 370px;">
                                             <span>合計金額　￥</span>
                                             <t t-if="'o.tax_method == custom_tax'">
                                                 <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
@@ -142,11 +153,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <t t-set="detail_line_default" t-value="7"/>
+                                        <t t-if="((o.x_voucher_tax_transfer == 'voucher' or o.x_voucher_tax_transfer == 'custom_tax') and lasted_page != pager) or o.x_voucher_tax_transfer == 'invoice'"
+                                           t-set="detail_line_default" t-value="8"/>
+                                        <t t-else="" t-set="detail_line_default" t-value="7"/>
                                         <t t-set="subtotal_8" t-value="0"/>
                                         <t t-set="subtotal_10" t-value="0"/>
                                         <t t-set="subtotal_other" t-value="0"/>
-<!--                                        <t t-if="o.x_voucher_tax_transfer == 'custom_tax'"></t>-->
+                                        <t t-set="subtotal_invoice" t-value="0"/>
+                                        <t t-if="o.x_voucher_tax_transfer == 'foreign_tax'">
+                                            <t t-set="tax_amount_10" t-value="0"/>
+                                            <t t-set="tax_amount_8" t-value="0"/>
+                                            <t t-set="tax_amount_other" t-value="0"/>
+                                        </t>
+                                        <!--                                        <t t-if="o.x_voucher_tax_transfer == 'custom_tax'"></t>-->
                                         <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.invoice_custom_line_no)"
                                            t-as="order">
                                             <t t-if="order.invoice_custom_line_no >= line_id_1">
@@ -154,13 +173,40 @@
                                                     <t t-set="detail_line_default"
                                                        t-value="detail_line_default - 1"/>
                                                     <t t-set="line_id_1" t-value="order.invoice_custom_line_no"/>
-                                                    <t t-if="order.tax_rate == 8" t-set="subtotal_8"
-                                                       t-value="subtotal_8 + order.invoice_custom_lineamount"/>
-                                                    <t t-elif="order.tax_rate == 10" t-set="subtotal_10"
-                                                       t-value="subtotal_10 + order.invoice_custom_lineamount"/>
-                                                    <t t-else="" t-set="subtotal_other"
-                                                       t-value="subtotal_other + order.invoice_custom_lineamount"/>
-                                                    <tr style="font-size: 12px; height: 36px;">
+                                                    <t t-set="order_line_tax_amount" t-value="order.line_tax_amount"/>
+                                                    <t t-if="o.x_voucher_tax_transfer != 'voucher'">
+                                                        <!--Rounding up tax rate-->
+                                                        <t t-set="order_line_tax_amount"
+                                                           t-value="int(o.rounding_report(order_line_tax_amount, 0, o.customer_tax_rounding))"/>
+                                                    </t>
+                                                        <t t-if="o.x_voucher_tax_transfer == 'invoice'"
+                                                           t-set="subtotal_invoice"
+                                                           t-value="subtotal_invoice + order.invoice_custom_lineamount"/>
+                                                    <t t-if="order.tax_rate == 10">
+                                                        <t t-set="subtotal_10"
+                                                           t-value="subtotal_10 + order.invoice_custom_lineamount"/>
+                                                        <t t-set="tax_amount_10"
+                                                           t-value="tax_amount_10 + order_line_tax_amount"/>
+                                                        <t t-set="tax_amount_voucher_v10"
+                                                           t-value="tax_amount_voucher_v10 + order.voucher_line_tax_amount"/>
+                                                    </t>
+                                                    <t t-elif="order.tax_rate == 8">
+                                                        <t t-set="subtotal_8"
+                                                           t-value="subtotal_8 + order.invoice_custom_lineamount"/>
+                                                        <t t-set="tax_amount_8"
+                                                           t-value="tax_amount_8 + order_line_tax_amount"/>
+                                                        <t t-set="tax_amount_voucher_8"
+                                                           t-value="tax_amount_voucher_8 + order.voucher_line_tax_amount"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <t t-set="subtotal_other"
+                                                           t-value="subtotal_other + order.invoice_custom_lineamount"/>
+                                                        <t t-set="tax_amount_other"
+                                                           t-value="tax_amount_other + order_line_tax_amount"/>
+                                                        <t t-set="tax_amount_voucher_other"
+                                                           t-value="tax_amount_voucher_other + order.voucher_line_tax_amount"/>
+                                                    </t>
+                                                    <tr t-att-style="style_tr_body">
                                                         <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
                                                             <div style="display: inline-block; width: 384px;">
                                                                 <div style="float: left; width: 245px; height: 26px; white-space: nowrap; overflow: hidden;">
@@ -262,7 +308,7 @@
                                                 <t t-if="detail_line_default_null > 0">
                                                     <t t-set="detail_line_default_null"
                                                        t-value="detail_line_default_null - 1"/>
-                                                    <tr style="height: 36px;">
+                                                    <tr t-att-style="style_tr_body">
                                                         <td style="border: 1px solid #000000; border-top: 0; border-right: 0;">
                                                             <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                 <null/>
@@ -301,14 +347,15 @@
                                                 </t>
                                             </t>
                                         </t>
-                                        <tr style="font-size: 14px; height: 45px; vertical-align: middle;">
+                                        <tr t-att-style="style_tr_sub">
                                             <td style="border: 1px solid #000000;border-top: 0; border-right:0; font-size: 14px; text-align: center;">
                                                 <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
                                                     <span style="vertical-align: middle; display: table-cell;">
                                                         小　　　　計
                                                     </span>
                                                 </div>
-                                                <div style="display: block; height: 45px; width: 39%; float: right; text-align: right;">
+                                                <div t-if="o.x_voucher_tax_transfer != 'invoice'"
+                                                     style="display: block; height: 45px; width: 39%; float: right; text-align: right;">
                                                     <span t-if="subtotal_10" style="display: block;">（10％対象）</span>
                                                     <span t-else=""><null/></span>
                                                     <span t-if="subtotal_8">（8％対象）</span>
@@ -319,7 +366,8 @@
                                             <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; border-right: 0; text-align: right; font-size: 14px;">
-                                                <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                <div t-if="o.x_voucher_tax_transfer != 'invoice'"
+                                                     style="display: block; height: 45px; float: right; text-align: right;">
                                                     <span t-if="subtotal_10"
                                                           style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_10), 8))"/>
@@ -333,11 +381,19 @@
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_other), 8))"></span>
                                                     <span t-else=""><null/></span>
                                                 </div>
+                                                <div t-else=""
+                                                     style="display: block; height: 45px; float: right; text-align: right;">
+                                                    <br/>
+                                                    <span t-if="subtotal_invoice"
+                                                          style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_invoice), 8))"/>
+                                                </div>
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-right:0;"></td>
                                         </tr>
                                         <!--                                        <t t-if="check_line != 0">-->
-                                        <tr style="height: 45px; vertical-align: top;">
+                                        <tr t-if="o.x_voucher_tax_transfer == 'foreign_tax' or o.x_voucher_tax_transfer == 'internal_tax'"
+                                            style="height: 45px; vertical-align: top;">
                                             <td style="border: 1px solid #000000; border-top: 0; border-right: 0; font-size: 14px; text-align: center;">
                                                 <div style="display: table; width: 60%; height: 45px; float: left; text-align: right;">
                                                     <span style="vertical-align: middle; display: table-cell;">
@@ -345,8 +401,8 @@
                                                     </span>
                                                 </div>
                                                 <div style="display: inline-block; width: 30%; height: 45px; float: right; text-align: right;">
-                                                    <span style="display: block;">（10％消費税）</span>
-                                                    <span>（8％消費税）</span>
+                                                    <span t-if="tax_amount_10" style="display: block;">（10％消費税）</span>
+                                                    <span t-if="tax_amount_8">（8％消費税）</span>
                                                 </div>
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
@@ -354,12 +410,55 @@
                                             <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
                                             <td style="border: 1px solid #000000; border-top: 0; border-right: 0;text-align: right; font-size: 14px;">
                                                 <div style="display: block; height: 45px; float: right; text-align: right;">
-                                                    <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))'"></span>
-                                                    <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))'"></span>
-                                                    <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))'"></span>
+                                                    <span t-if="tax_amount_10"
+                                                          style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_10), 8))"></span>
+                                                    <span t-if="tax_amount_8"
+                                                          style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_8), 8))"></span>
+                                                    <span t-if="tax_amount_other"
+                                                          style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_other), 8))"></span>
+                                                </div>
+                                            </td>
+                                            <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                        </tr>
+                                        <tr t-if="(o.x_voucher_tax_transfer == 'voucher' or o.x_voucher_tax_transfer == 'custom_tax') and lasted_page == pager"
+                                            style="height: 45px; vertical-align: top;">
+                                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; font-size: 14px; text-align: center;">
+                                                <div style="display: table; width: 60%; height: 45px; float: left; text-align: right;">
+                                                    <span style="vertical-align: middle; display: table-cell;">
+                                                        消　　費　　税
+                                                    </span>
+                                                </div>
+                                                <div t-if="o.x_voucher_tax_transfer == 'voucher'"
+                                                     style="display: inline-block; width: 30%; height: 45px; float: right; text-align: right;">
+                                                    <span t-if="tax_amount_10" style="display: block;">（10％消費税）</span>
+                                                    <span t-if="tax_amount_8">（8％消費税）</span>
+                                                </div>
+                                            </td>
+                                            <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                            <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                            <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0;text-align: right; font-size: 14px;">
+                                                <div t-if="o.x_voucher_tax_transfer == 'voucher'"
+                                                     style="display: block; height: 45px; float: right; text-align: right;">
+                                                    <span t-if="tax_amount_voucher_v10"
+                                                          style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_v10), 8))"></span>
+                                                    <span t-if="tax_amount_voucher_8"
+                                                          style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_8), 8))"></span>
+                                                    <span t-if="tax_amount_voucher_other"
+                                                          style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_other), 8))"></span>
+                                                </div>
+                                                <div t-if="o.x_voucher_tax_transfer == 'custom_tax'"
+                                                     style="display: block; height: 45px; float: right; text-align: right;">
+                                                    <br/>
+                                                    <span t-if="o.x_voucher_tax_amount"
+                                                          style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.x_voucher_tax_amount), 8))"></span>
                                                 </div>
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
@@ -374,10 +473,9 @@
                             </div>
                         </div>
                     </div>
+                    <t t-set="pager" t-value="pager + 1"/>
                 </t>
             </t>
-            <t t-set="pager" t-value="pager + 1"/>
-
         </template>
     </data>
 </odoo>
