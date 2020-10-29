@@ -58,9 +58,24 @@ class BillInvoiceDetail(models.Model):
             gross = str(self.product_maker_name)
         else:
             gross = self.product_custom_standardnumber
+        len_string = ''
+        count = 0
         if gross:
-            gross = jaconv.h2z(gross, kana=True, digit=True, ascii=True)[:10]
-        return gross
+            COUNT_REPLACE = '〇'
+            string_text = gross.replace('\uff0d', COUNT_REPLACE).replace('\xa0', COUNT_REPLACE).replace('\uff5e', COUNT_REPLACE).replace(' ', 'a')
+            len_i = len(gross)
+            byte_count = 0
+            while count < len_i and byte_count < 20:
+                try:
+                    if len(string_text[count].encode('shift_jisx0213')) > 1 and byte_count < 19:
+                        byte_count += 2
+                    else:
+                        byte_count += 1
+                except:
+                    byte_count += 2
+                count += 1
+            len_string = gross[:count]
+        return len_string
 
 
 class BillInfoGet(models.Model):
@@ -156,33 +171,76 @@ class BillInfoGet(models.Model):
         count_line = 0
         for record in self.bill_detail_ids:
             count_line += record.count_detail_line()
-        print(count_line)
         return count_line
 
     # Limit Character and Number:
     def limit_charater_field(self, string_text=None, text_len=20, name=False, first1=True):
+        text_len = text_len * 2
+        count = 0
         len_string = ''
+        COUNT_REPLACE = '〇'
+        a = ' '
         if string_text:
-            string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
+            # string_text = jaconv.h2z(string_text, kana=True, digit=True, ascii=True).replace('\uff0d', '-').replace('\xa0', ' ').replace('\uff5e', '~')
             if name:
                 string_text1 = ''
                 string_text2 = ''
                 if len(string_text.splitlines()) - 1:
                     string_text1 = string_text.splitlines()[0]
                     string_text2 = string_text.splitlines()[1]
+                    string_text2_tmp = string_text2.replace('\uff0d', COUNT_REPLACE).replace('\xa0', COUNT_REPLACE).replace('\uff5e', COUNT_REPLACE).replace(' ', 'a')
+
                 else:
                     string_text1 = string_text
                     string_text2 = ''
+                    string_text1_tmp = string_text1.replace('\uff0d', COUNT_REPLACE).replace('\xa0', COUNT_REPLACE).replace('\uff5e', COUNT_REPLACE).replace(' ', 'a')
                 if first1:
-                    len_string = string_text1[:text_len]
+                    len_i = len(string_text1)
+                    byte_count = 0
+                    while count < len_i and byte_count < text_len:
+                        try:
+                            if len(string_text1_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < text_len - 1:
+                                byte_count += 2
+                            else:
+                                byte_count += 1
+                        except:
+                            byte_count += 2
+                        count += 1
+                    len_string = string_text1[:count]
+                    # len_string = string_text1[:text_len]
                 else:
-                    len_string = string_text2[:text_len]
+                    count = 0
+                    len_i = len(string_text2)
+                    byte_count = 0
+                    while count < len_i and byte_count < text_len:
+                        try:
+                            if len(string_text2_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < text_len - 1:
+                                byte_count += 2
+                            else:
+                                byte_count += 1
+                        except:
+                            byte_count += 2
+                        count += 1
+                    len_string = string_text2[:count]
             else:
                 if not first1 and len(string_text.splitlines()) - 1:
                     for i in string_text.splitlines():
                         string_text += string_text.splitlines()[i]
-                len_string = string_text[:text_len]
-        return len_string.replace('-', '－').replace(' ', '　').replace('~', '～')
+                string_text_tmp = string_text.replace('\uff0d', COUNT_REPLACE).replace('\xa0', COUNT_REPLACE).replace('\uff5e', COUNT_REPLACE).replace(' ', 'a')
+                count = 0
+                len_i = len(string_text)
+                byte_count = 0
+                while count < len_i and byte_count < text_len:
+                    try:
+                        if len(string_text_tmp[count].encode('shift_jisx0213')) > 1 and byte_count < text_len - 1:
+                            byte_count += 2
+                        else:
+                            byte_count += 1
+                    except:
+                        byte_count += 2
+                    count += 1
+                len_string = string_text[:count]
+        return len_string
 
     def limit_number_field(self, number=0.00, number_len=20, name=False):
         if name:
