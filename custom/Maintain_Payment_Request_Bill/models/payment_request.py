@@ -53,7 +53,7 @@ class BillInvoiceDetail(models.Model):
         self.ensure_one()
         gross = ''
         if self.product_maker_name and self.product_custom_standardnumber:
-            gross = str(self.product_maker_name) + ' ' + str(self.product_custom_standardnumber)
+            gross = str(self.product_custom_standardnumber) + ' ' + str(self.product_maker_name)
         elif self.product_maker_name and not self.product_custom_standardnumber:
             gross = str(self.product_maker_name)
         else:
