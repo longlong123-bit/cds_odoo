@@ -1,0 +1,494 @@
+<!--Custom report.-->
+<odoo>
+    <data>
+        <template id="normal_invoice_confirm_template">
+            <t t-set="o" t-value="o.with_context(lang=user.partner_id.lang)"/>
+            <!--            <t t-set="line_parent" t-value="o.order_line"/>-->
+            <t t-set="line_id" t-value="0"/>
+            <t t-set="line_id_1" t-value="line_id"/>
+            <t t-set="line_id_id" t-value="line_id"/>
+            <t t-set="pager" t-value="1"/>
+            <t t-set="lasted_page" t-value="o.check_last_page(8)"/>
+            <t t-set="final_page_voucher" t-value="o.check_last_page(8, True)"/>
+            <t t-set="tax_amount_8" t-value="0"/>
+            <t t-set="tax_amount_10" t-value="0"/>
+            <t t-set="tax_amount_other" t-value="0"/>
+            <t t-set="tax_amount_voucher_8" t-value="0"/>
+            <t t-set="tax_amount_voucher_v10" t-value="0"/>
+            <t t-set="tax_amount_voucher_other" t-value="0"/>
+            <t t-set="style_tr_body" t-value="'font-size: 12px; height: 36px;'"/>
+            <t t-set="style_tr_sub" t-value="'font-size: 14px; height: 45px; vertical-align: middle;'"/>
+            <t t-set="line_null_number" t-value="7"/>
+            <t t-if="o.x_voucher_tax_transfer == 'invoice'">
+                <t t-set="line_null_number" t-value="8"/>
+                <t t-set="style_tr_body"
+                   t-value="'font-size: 12px; height: 37px;'"/>
+                <t t-set="style_tr_sub" t-value="'font-size: 14px; height: 60px; vertical-align: middle;'"/>
+            </t>
+            <t t-set="double" t-value="1"/>
+            <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.invoice_custom_line_no)" t-as="account_move_line">
+                <t t-set="o_title" t-value="'請　求　書'"/>
+                <t t-if="account_move_line.invoice_custom_line_no&gt;line_id_1">
+                    <t t-if="(o.x_voucher_tax_transfer == 'voucher' or o.x_voucher_tax_transfer == 'custom_tax') and final_page_voucher == pager"
+                       t-set="double" t-value="2"/>
+                    <t t-foreach="range(0, double)" t-as="for_voucher">
+                        <t t-if="for_voucher == 1" t-set="pager" t-value="pager + 1"/>
+                        <div class="page" style="font-family: MS Gothic;">
+                            <div class="page" style="page-break-before: always; display: block;">
+                                <div style="text-align: center; height: 26px;">
+                                    <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
+                                        <h4 class="mt0"
+                                            t-esc="o_title"
+                                            style="font-size: 22px; color: #000000; border-bottom: 1px solid #000000; margin: 0 auto; width: 120px; padding: 0">
+                                        </h4>
+                                    </div>
+                                    <div style="float: right; text-align: right; display: inline-block; width: 20%;">
+                                        <span t-esc="o.x_studio_document_no"
+                                              style="width: 77px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; color: #000000; margin: 0; padding: 0"/>
+                                        -
+                                        <span style="font-size: 14px;" t-esc="pager"/>
+                                    </div>
+                                </div>
+                                <!--      Middle      -->
+                                <div>
+                                    <div style="display: inline-block; width: 100%; height: 130px;">
+                                        <div style="margin-top: 5px; margin-bottom: 5px; max-width: 55%; width: max-content;display: inline-block;font-size: 14px;">
+                                            <div>
+                                                <span>お客様コードNo.</span>
+                                                <span style="width: 77px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                      t-esc="o.partner_id.customer_code">
+                                                    <null/>
+                                                </span>
+                                            </div>
+                                            <div style="margin-top: 5px;">
+                                                <div t-if="o.partner_id.customer_print_sales_slip_date"
+                                                     style="margin-right: 150px; float: left;">
+                                                    <t t-if="o.x_studio_date_printed">
+                                                        <span t-esc="o.x_studio_date_printed.strftime('%Y年　%m月 %d日')"/>
+                                                    </t>
+                                                    <span t-else="">　　　年　　月　　日</span>
+                                                </div>
+                                            </div>
+                                            <div style="border-bottom: 2px solid; margin-top: 5px; font-size: 16px;">
+                                                <t t-if="o.x_bussiness_partner_name_2">
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_charater_field(o.x_studio_name, 40)">
+                                                        <null/>
+                                                    </span>
+                                                    <br/>
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_charater_field(o.x_bussiness_partner_name_2, 40)">
+                                                    </span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                        <null/>
+                                                    </span>
+                                                    <br/>
+                                                    <span style="display: inline-block; width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_charater_field(o.x_studio_name, 40)">
+                                                        <null/>
+                                                    </span>
+                                                </t>
+                                                <span t-if="o.partner_id.title" t-esc="o.partner_id.title.name"
+                                                      style="font-size: 18px"></span>
+                                                <span t-else="" style="font-size: 18px">様</span>
+                                            </div>
+                                            <div t-if="pager == 1"
+                                                 style="margin-top: 20px; font-size: 18px; font-weight: 600; height: 30px; width: 370px;">
+                                                <span>合計金額　￥</span>
+                                                <t t-if="'o.tax_method == custom_tax'">
+                                                    <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
+                                                          t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.x_voucher_tax_amount))"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
+                                                          t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))"/>
+                                                </t>
+                                                <t t-if="'o.tax_method ==invoice'">
+                                                    <span>（税別）</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span>(税込)</span>
+                                                </t>
+                                            </div>
+                                        </div>
+                                        <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
+                                            <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
+                                            <br/>
+                                            <span>代表取締役　　遠 藤 孝 二</span>
+                                            <br/>
+                                            <span>本　社　千葉県銚子市新生町二丁目12番地の５</span>
+                                            <br/>
+                                            <span>TEL　0479-22-3515　FAX　0479-24-9376</span>
+                                            <br/>
+                                            <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span>
+                                            <br/>
+                                            <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
+                                            <div style="text-align: left; display: inline-block; width: 100%; border-bottom: 1px solid;">
+                                                <div style="display: inline-block; text-align: left; width: 15%; float: left; height: 17px;">
+                                                    担当：</div>
+                                                <div style="text-align: left; width: 79.5%; white-space: nowrap; overflow: hidden; height: 17px;">
+                                                    <t t-esc="o.sales_rep.name"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="padding-top: 5px;">
+                                    <table border="0" cellspacing="0" cellpadding="5"
+                                           style="width: 100%; border: 1px solid #000000; border-bottom: 0;border-left: 0;">
+                                        <thead>
+                                            <tr style="height: 30px">
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0;  text-align: center; width: auto">
+                                                    品名・品番
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center; width: 9%">
+                                                    数　量
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center; width: 5%">
+                                                    単 位
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center; width: 9%">
+                                                    単　価
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center; width: 12%">
+                                                    金　額
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center; width: 14%">
+                                                    備　考
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-if="((o.x_voucher_tax_transfer == 'voucher' or o.x_voucher_tax_transfer == 'custom_tax') and lasted_page != pager) or o.x_voucher_tax_transfer == 'invoice'"
+                                               t-set="detail_line_default" t-value="8"/>
+                                            <t t-else="" t-set="detail_line_default" t-value="7"/>
+                                            <t t-set="subtotal_8" t-value="0"/>
+                                            <t t-set="subtotal_10" t-value="0"/>
+                                            <t t-set="subtotal_other" t-value="0"/>
+                                            <t t-set="subtotal_invoice" t-value="0"/>
+                                            <t t-if="o.x_voucher_tax_transfer == 'foreign_tax'">
+                                                <t t-set="tax_amount_10" t-value="0"/>
+                                                <t t-set="tax_amount_8" t-value="0"/>
+                                                <t t-set="tax_amount_other" t-value="0"/>
+                                            </t>
+                                            <!--                                        <t t-if="o.x_voucher_tax_transfer == 'custom_tax'"></t>-->
+                                            <t t-foreach="o.invoice_line_ids.sorted(key=lambda r: r.invoice_custom_line_no)"
+                                               t-as="order">
+                                                <t t-if="order.invoice_custom_line_no >= line_id_1 and order.id != line_id_id">
+
+                                                    <t t-if="detail_line_default > 0">
+                                                        <t t-set="line_id_1" t-value="order.invoice_custom_line_no"/>
+                                                        <t t-set="line_id_id" t-value="order.id"/>
+                                                        <t t-set="detail_line_default"
+                                                           t-value="detail_line_default - 1"/>
+                                                        <t t-set="line_id_1" t-value="order.invoice_custom_line_no"/>
+                                                        <t t-set="order_line_tax_amount" t-value="order.line_tax_amount"/>
+                                                        <t t-if="o.x_voucher_tax_transfer != 'voucher'">
+                                                            <!--Rounding up tax rate-->
+                                                            <t t-set="order_line_tax_amount"
+                                                               t-value="int(o.rounding_report(order_line_tax_amount, 0, o.customer_tax_rounding))"/>
+                                                        </t>
+                                                            <t t-if="o.x_voucher_tax_transfer == 'invoice'"
+                                                               t-set="subtotal_invoice"
+                                                               t-value="subtotal_invoice + order.invoice_custom_lineamount"/>
+                                                        <t t-if="order.tax_rate == 10">
+                                                            <t t-set="subtotal_10"
+                                                               t-value="subtotal_10 + order.invoice_custom_lineamount"/>
+                                                            <t t-set="tax_amount_10"
+                                                               t-value="tax_amount_10 + order_line_tax_amount"/>
+                                                            <t t-set="tax_amount_voucher_v10"
+                                                               t-value="tax_amount_voucher_v10 + order.voucher_line_tax_amount"/>
+                                                        </t>
+                                                        <t t-elif="order.tax_rate == 8">
+                                                            <t t-set="subtotal_8"
+                                                               t-value="subtotal_8 + order.invoice_custom_lineamount"/>
+                                                            <t t-set="tax_amount_8"
+                                                               t-value="tax_amount_8 + order_line_tax_amount"/>
+                                                            <t t-set="tax_amount_voucher_8"
+                                                               t-value="tax_amount_voucher_8 + order.voucher_line_tax_amount"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-set="subtotal_other"
+                                                               t-value="subtotal_other + order.invoice_custom_lineamount"/>
+                                                            <t t-set="tax_amount_other"
+                                                               t-value="tax_amount_other + order_line_tax_amount"/>
+                                                            <t t-set="tax_amount_voucher_other"
+                                                               t-value="tax_amount_voucher_other + order.voucher_line_tax_amount"/>
+                                                        </t>
+                                                        <tr t-att-style="style_tr_body">
+                                                            <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
+                                                                <div style="display: inline-block; width: 384px;">
+                                                                    <div style="float: left; width: 245px; height: 26px; white-space: nowrap; overflow: hidden;">
+                                                                        <span style=" height: 12px;"
+                                                                              t-esc="o.limit_charater_field(order.product_name, 40, True)"/><br/>
+                                                                        <span style=" height: 12px;"
+                                                                              t-esc="o.limit_charater_field(order.product_name, 40, True, False)"/>
+                                                                    </div>
+                                                                    <div style="float: right; width: 125px;">
+                                                                        <div style="float: left; width: 125px; height: 13px; white-space: nowrap; overflow: hidden;">
+                                                                            <span t-if="order.product_maker_name"
+                                                                                  t-esc="o.limit_charater_field(order.product_maker_name, 20)"/>
+                                                                        </div>
+                                                                        <div style="float: left; width: 125px; height: 13px; white-space: nowrap; overflow: hidden;">
+                                                                            <span t-if="order.invoice_custom_standardnumber"
+                                                                                  t-esc="o.limit_charater_field(order.invoice_custom_standardnumber, 20)"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right">
+                                                                <div style="float: right; width: 61px;">
+                                                                    <p style="white-space: nowrap; overflow: hidden;                                                                                 text-overflow: clip; margin: 0;"
+                                                                       t-if="order.quantity"
+                                                                       t-esc="'{0:,.0f}'.format(o.limit_number_field(int(order.quantity), 7))">
+                                                                    </p>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: center">
+                                                                <div style="width: 40px;">
+                                                                    <p style="white-space: nowrap; overflow: hidden;                                                                             text-overflow: clip; margin: 0;"
+                                                                       t-if="order.product_uom_id"
+                                                                       t-esc="o.limit_charater_field(order.product_uom_id, 4)">
+                                                                    </p>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right">
+                                                                <div style="float: right; width: 91px;">
+                                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                       t-if="order.price_unit and order.price_unit % 1 > 0"
+                                                                       t-esc="'{0:,.2f}'.format(o.limit_number_field(order.price_unit, 8, True))">
+                                                                    </p>
+                                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                       t-elif="order.price_unit and order.price_unit % 1 == 0"
+                                                                       t-esc="'{0:,.0f}'.format(o.limit_number_field(order.price_unit, 8, True))">
+                                                                    </p>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right">
+                                                                <div style="float: right; width: 91px;">
+                                                                    <!--Rounding up amount-->
+                                                                    <t t-if="o.customer_tax_rounding == 'round'">
+                                                                        <t t-set="order_invoice_custom_lineamount"
+                                                                           t-value="int(round(order.invoice_custom_lineamount, 2) + 0.5)"/>
+                                                                    </t>
+                                                                    <t t-elif="o.customer_tax_rounding == 'roundup'">
+                                                                        <t t-set="order_invoice_custom_lineamount"
+                                                                           t-value="int(round(order.invoice_custom_lineamount, 2) + 0.9)"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <t t-set="order_invoice_custom_lineamount"
+                                                                           t-value="int(order.invoice_custom_lineamount)"/>
+                                                                    </t>
+                                                                    <p style="white-space: nowrap; overflow: hidden;                                                                                 text-overflow: clip; margin: 0;"
+                                                                       t-if="order.invoice_custom_lineamount"
+                                                                       t-esc="'{0:,.0f}'.format(o.limit_number_field(int(order_invoice_custom_lineamount), 8))">
+                                                                    </p>
+                                                                </div>
+                                                            </td>
+                                                            <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 0px solid #000000; text-align: left">
+                                                                <div style="display: inline-block; height: 12px; width: 100%;">
+                                                                    <t t-if="order.product_id.product_tax_category == 'exempt'">
+                                                                        <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left;">
+                                                                            ※非課税
+                                                                        </span>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <t t-if="order.tax_rate == 8">
+                                                                            <span style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; float: left;">
+                                                                                ※軽減税率
+                                                                            </span>
+                                                                        </t>
+                                                                    </t>
+                                                                </div>
+                                                                <div style="display: inline-block; height: 14px; width: 82px">
+                                                                    <p style="white-space: nowrap; width: 82px; overflow: hidden; text-overflow: clip; margin: 0; float: left; height: 12px;"
+                                                                       t-if="order.invoice_custom_Description"
+                                                                       t-esc="o.limit_charater_field(order.invoice_custom_Description, 16)">
+                                                                    </p>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <t t-if="line_null_number > detail_line_default or (final_page_voucher and for_voucher == 1)">
+                                                <t t-set="detail_line_default_null" t-value="detail_line_default"/>
+                                                <t t-if="for_voucher == 1" t-set="detail_line_default_null" t-value="7"/>
+                                                <t t-foreach="range(0, 7)" t-as="line_null">
+                                                    <t t-if="detail_line_default_null > 0">
+                                                        <t t-set="detail_line_default_null"
+                                                           t-value="detail_line_default_null - 1"/>
+                                                        <tr t-att-style="style_tr_body">
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0;">
+                                                                <span style="display: inline-block; width: 341px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                                <br/>
+                                                                <span style="display: inline-block; width: 363px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0;  text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0;  text-align: center">
+                                                                <span style="display: inline-block; width: 40px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: right">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                    <null/>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <tr t-att-style="style_tr_sub">
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right:0; font-size: 14px; text-align: center;">
+                                                    <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">
+                                                            小　　　　計
+                                                        </span>
+                                                    </div>
+                                                    <div t-if="o.x_voucher_tax_transfer != 'invoice'"
+                                                         style="display: block; height: 45px; width: 39%; float: right; text-align: right;">
+                                                        <span t-if="subtotal_10" style="display: block;">（10％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                        <span t-if="subtotal_8">（8％対象）</span>
+                                                        <span t-else=""><null/></span>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"/>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"/>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"/>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0; text-align: right; font-size: 14px;">
+                                                    <div t-if="o.x_voucher_tax_transfer != 'invoice'"
+                                                         style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="subtotal_10"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_10), 8))"/>
+                                                        <span t-else=""><null/></span>
+                                                        <span t-if="subtotal_8"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_8), 8))"/>
+                                                        <span t-else=""><null/></span>
+                                                        <span t-if="subtotal_other"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_other), 8))"></span>
+                                                        <span t-else=""><null/></span>
+                                                    </div>
+                                                    <div t-else=""
+                                                         style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <br/>
+                                                        <span t-if="subtotal_invoice"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_invoice), 8))"/>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right:0;"></td>
+                                            </tr>
+                                            <!--                                        <t t-if="check_line != 0">-->
+                                            <tr t-if="o.x_voucher_tax_transfer == 'foreign_tax' or o.x_voucher_tax_transfer == 'internal_tax'"
+                                                style="height: 45px; vertical-align: top;">
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0; font-size: 14px; text-align: center;">
+                                                    <div style="display: table; width: 60%; height: 45px; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">
+                                                            消　　費　　税
+                                                        </span>
+                                                    </div>
+                                                    <div style="display: inline-block; width: 30%; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="tax_amount_10" style="display: block;">（10％消費税）</span>
+                                                        <span t-if="tax_amount_8">（8％消費税）</span>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0;text-align: right; font-size: 14px;">
+                                                    <div style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="tax_amount_10"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_10), 8))"></span>
+                                                        <span t-if="tax_amount_8"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_8), 8))"></span>
+                                                        <span t-if="tax_amount_other"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_other), 8))"></span>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                            </tr>
+                                            <tr t-if="(o.x_voucher_tax_transfer == 'voucher' or o.x_voucher_tax_transfer == 'custom_tax') and (lasted_page == pager or for_voucher == 1)"
+                                                style="height: 45px; vertical-align: top;">
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0; font-size: 14px; text-align: center;">
+                                                    <div style="display: table; width: 60%; height: 45px; float: left; text-align: right;">
+                                                        <span style="vertical-align: middle; display: table-cell;">
+                                                            消　　費　　税
+                                                        </span>
+                                                    </div>
+                                                    <div t-if="o.x_voucher_tax_transfer == 'voucher'"
+                                                         style="display: inline-block; width: 30%; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="tax_amount_voucher_v10" style="display: block;">（10％消費税）</span>
+                                                        <span t-if="tax_amount_voucher_8">（8％消費税）</span>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                                <td style="border: 1px solid #000000; border-top: 0; border-right: 0;text-align: right; font-size: 14px;">
+                                                    <div t-if="o.x_voucher_tax_transfer == 'voucher'"
+                                                         style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <span t-if="tax_amount_voucher_v10"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_v10), 8))"></span>
+                                                        <span t-if="tax_amount_voucher_8"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_8), 8))"></span>
+                                                        <span t-if="tax_amount_voucher_other"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_other), 8))"></span>
+                                                    </div>
+                                                    <div t-if="o.x_voucher_tax_transfer == 'custom_tax'"
+                                                         style="display: block; height: 45px; float: right; text-align: right;">
+                                                        <br/>
+                                                        <span t-if="o.x_voucher_tax_amount"
+                                                              style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.x_voucher_tax_amount), 8))"></span>
+                                                    </div>
+                                                </td>
+                                                <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                    <div style="width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
+                                        <span t-esc="o.x_studio_summary"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-set="pager" t-value="pager + 1"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
