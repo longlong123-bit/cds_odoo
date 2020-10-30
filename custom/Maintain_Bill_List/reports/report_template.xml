@@ -30,7 +30,7 @@
 
                     <!-- RIGHT -->
                     <t t-foreach="docs" t-as="ass">
-                        <t t-if="ass.search_x_studio_date_invoiced_from != asset">
+<!--                        <t t-if="ass.search_x_studio_date_invoiced_from != asset">-->
                             <div style=" font-size: 18px; display: inline-block; width: 100%; padding-left: 30px;">
                                 <!--                            <div>-->
                                 <!--                                <span t-esc="ass.search_x_studio_document_no"/>-->
@@ -71,8 +71,8 @@
                                     <span t-field="ass.search_list_claim_zero"/>
                                 </div>
                             </div>
-                            <t t-set="asset" t-value="ass.search_x_studio_date_invoiced_from"/>
-                        </t>
+<!--                            <t t-set="asset" t-value="ass.search_x_studio_date_invoiced_from"/>-->
+<!--                        </t>-->
                     </t>
 
 
