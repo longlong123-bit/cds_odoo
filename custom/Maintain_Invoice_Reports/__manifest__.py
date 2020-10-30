@@ -23,8 +23,6 @@
         'reports/invoice_reports.xml',
         'reports/confirmation_reports.xml',
         'reports/normal_report_confirm.xml',
-        'reports/new_confirmation_report.xml',
-        'views/new_confirm_report.xml',
     ],
     'demo': [],
     'installable': True,
