@@ -25,15 +25,5 @@
             file="Maintain_Invoice_Reports.confirmation_reports"
             paperformat="Maintain_Invoice_Reports.paperformat_report_invoice_confirmation"
         />
-        <report
-            id="normal_invoice_reports"
-            model="account.move"
-            string="Normal Report 1"
-            report_type="qweb-pdf"
-            attachment_use="False"
-            name="Maintain_Invoice_Reports.normal_invoice_reports"
-            file="Maintain_Invoice_Reports.normal_invoice_reports"
-            paperformat="Maintain_Invoice_Reports.paperformat_report_invoice_confirmation"
-        />
     </data>
 </odoo>

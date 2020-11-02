@@ -25,7 +25,6 @@
         'reports/confirmation_reports.xml',
         'reports/normal_report_confirm.xml',
         'reports/new_invoice_normal_report.xml',
-        'reports/normal_invoice_reports.xml',
     ],
     'demo': [],
     'installable': True,
