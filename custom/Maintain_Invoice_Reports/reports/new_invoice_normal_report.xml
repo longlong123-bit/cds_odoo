@@ -35,6 +35,7 @@
                     <t t-if="(o.x_voucher_tax_transfer == 'voucher' or o.x_voucher_tax_transfer == 'custom_tax') and final_page_voucher == pager"
                        t-set="loop" t-value="2"/>
                     <t t-foreach="range(0, loop)" t-as="for_voucher">
+                        <t t-if="for_voucher == 1" t-set="pager" t-value="pager + 1"/>
                         <t t-foreach="range(0, 3)" t-as="for_template">
                             <t t-set="style_comment"
                                t-value="'width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;'"/>
