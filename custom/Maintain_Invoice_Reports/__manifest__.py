@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 {
     'name': 'Invoice Reports Template',
     'version': '13.0',
@@ -23,10 +24,10 @@
         'reports/invoice_reports.xml',
         'reports/confirmation_reports.xml',
         'reports/normal_report_confirm.xml',
+        'reports/new_invoice_normal_report.xml',
     ],
     'demo': [],
     'installable': True,
     'application': True,
     'auto_install': False
 }
-
