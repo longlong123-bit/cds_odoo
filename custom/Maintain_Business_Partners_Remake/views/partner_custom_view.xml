@@ -122,8 +122,10 @@
                             <td class="col-label"><label for="zip_code" string="Zip"/></td>
                             <td colspan="2"><field name="zip_code" widget="mask" data-inputmask-mask="〒999-9999"/></td>
                             <td></td>
-                            <td class="col-label"><label for="customer_quotation_selection" string="Quotation Select"/></td>
-                            <td class="col-field"><field name="customer_quotation_selection"/></td>
+                            <td class="col-label"><label for="customer_select_sales_slip" string="Sales Slip" invisible="1"/></td>
+                            <td class="col-field"><field name="customer_select_sales_slip" invisible="1"/></td>
+<!--                            <td class="col-label"><label for="customer_quotation_selection" string="Quotation Select"/></td>-->
+<!--                            <td class="col-field"><field name="customer_quotation_selection"/></td>-->
                             <td></td>
                             <td class="col-checkbox">
                                 <field name="customer_bill_discount"/>
@@ -136,8 +138,9 @@
                         <tr>
                             <td class="col-label"><label for="street" string="Address 1"/></td>
                             <td colspan="3"><field name="street"/></td>
-                            <td class="col-label"><label for="customer_select_sales_slip" string="Sales Slip"/></td>
-                            <td class="col-field"><field name="customer_select_sales_slip"/></td>
+
+                            <td class="col-label"><label for="customer_quotation_selection" string="Quotation Select"/></td>
+                            <td class="col-field"><field name="customer_quotation_selection"/></td>
                             <td></td>
                             <td class="col-checkbox"><field name="customer_except_request"/><label for="customer_except_request" string="Excerpt Request"/></td>
                         </tr>
