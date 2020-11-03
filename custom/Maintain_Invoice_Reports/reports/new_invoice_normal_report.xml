@@ -478,6 +478,11 @@
                                                         </div>
                                                         <div t-if="o.x_voucher_tax_transfer == 'voucher'"
                                                              style="display: inline-block; width: 30%; height: 45px; float: right; text-align: right;">
+                                                            <t t-if="tax_amount_voucher_8" t-set="tax_amount_voucher_v8" t-value="int(o.x_voucher_tax_amount) - int(tax_amount_voucher_v10) - int(tax_amount_voucher_other)"/>
+                                                            <t t-else="">
+                                                                <t t-set="tax_amount_voucher_v8" t-value="tax_amount_voucher_8"/>
+                                                                <t t-set="tax_amount_voucher_v10" t-value="int(o.x_voucher_tax_amount) - int(tax_amount_voucher_v8) - int(tax_amount_voucher_other)"/>
+                                                            </t>
                                                             <span t-if="tax_amount_voucher_v10" style="display: block;">
                                                                 （10％消費税）</span>
                                                             <span t-if="tax_amount_voucher_8">（8％消費税）</span>
@@ -494,7 +499,7 @@
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_v10), 8))"></span>
                                                             <span t-if="tax_amount_voucher_8"
                                                                   style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_8), 8))"></span>
+                                                                  t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_v8), 8))"></span>
                                                             <span t-if="tax_amount_voucher_other"
                                                                   style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_other), 8))"></span>
