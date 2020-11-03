@@ -8,7 +8,9 @@
     "depends": [
         "web",
         "Maintain_Country_State",
-        "Maintain_Tax_Rate"
+        "Maintain_Tax_Rate",
+        "Maintain_Bill_Management",
+        "Maintain_Payment_Request_Bill",
         ],
     "data": [
         # "security/ir.model.access.csv",
