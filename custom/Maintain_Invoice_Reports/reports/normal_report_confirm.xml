@@ -465,7 +465,7 @@
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_v10), 8))"></span>
                                                         <span t-if="tax_amount_voucher_8"
                                                               style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_8), 8))"></span>
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_v8), 8))"></span>
                                                         <span t-if="tax_amount_voucher_other"
                                                               style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(tax_amount_voucher_other), 8))"></span>
