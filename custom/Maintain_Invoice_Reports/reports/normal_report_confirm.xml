@@ -64,7 +64,7 @@
                                                 <div t-if="o.partner_id.customer_print_sales_slip_date"
                                                      style="margin-right: 150px; float: left;">
                                                     <t t-if="o.x_studio_date_printed">
-                                                        <span t-esc="o.x_studio_date_printed.strftime('%Y年　%m月 %d日')"/>
+                                                        <span t-esc="o.x_studio_date_printed.strftime('%Y年%m月%d日')"/>
                                                     </t>
                                                     <span t-else="">　　　年　　月　　日</span>
                                                 </div>
@@ -95,9 +95,9 @@
                                                 <span t-else="" style="font-size: 18px">様</span>
                                             </div>
                                             <div t-if="pager == 1"
-                                                 style="margin-top: 20px; font-size: 18px; font-weight: 600; height: 30px; width: 370px;">
+                                                 style="margin-top: 18px; font-size: 22px; font-weight: 600; height: 30px; width: 370px;">
                                                 <span>合計金額　￥</span>
-                                                <t t-if="'o.tax_method == custom_tax'">
+                                                <t t-if="o.x_voucher_tax_transfer == 'custom_tax'">
                                                     <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
                                                           t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.x_voucher_tax_amount))"/>
                                                 </t>
@@ -105,7 +105,7 @@
                                                     <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
                                                           t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))"/>
                                                 </t>
-                                                <t t-if="'o.tax_method ==invoice'">
+                                                <t t-if="o.x_voucher_tax_transfer == 'invoice'">
                                                     <span>（税別）</span>
                                                 </t>
                                                 <t t-else="">
