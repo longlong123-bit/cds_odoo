@@ -111,8 +111,8 @@
                                 </div>
                                 <div style="width: 42%; float: right; text-align: center; font-size: 16px; margin-top: 9px;">
                                     <div style="font-size: 14px; text-align: left; padding-left: 140px; width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;">
-                                        <span>買付先コード　</span>
-                                        <span t-esc="o.partner_id.customer_other_cd"/>
+                                        <span>買付先コード: 901373</span>
+<!--                                        <span t-esc="o.partner_id.customer_other_cd"/>-->
                                     </div>
                                     <span style="font-size: 24px; font-weight: 600">株式会社　ト　ラ　ヤ</span>
                                     <br/>
@@ -180,25 +180,25 @@
                                             <tr style="height: 38px;">
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="display: inline-block; width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(o.last_billed_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
-                                                            <null/>
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <t t-if="range_docs_index == 2" t-esc="'{0:,.0f}'.format(o.last_billed_amount)"/>
+                                                            <t t-else=""><null/></t>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="float: right; width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(o.deposit_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
-                                                            <null/>
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <t t-if="range_docs_index == 2" t-esc="'{0:,.0f}'.format(o.deposit_amount)"/>
+                                                            <t t-else=""><null/></t>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
                                                     <div style="width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(o.balance_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
-                                                            <null/>
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <t t-if="range_docs_index == 2" t-esc="'{0:,.0f}'.format(o.balance_amount)"/>
+                                                            <t t-else=""><null/></t>
                                                         </p>
                                                     </div>
                                                 </td>
