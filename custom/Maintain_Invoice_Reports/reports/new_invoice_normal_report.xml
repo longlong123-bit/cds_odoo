@@ -45,7 +45,7 @@
                                 <t t-set="o_title" t-value="'納　品　書'"/>
                             </t>
                             <t t-if="for_template == 2">
-                                <t t-set="o_title" t-value="'物品受領書'"/>
+                                <t t-set="o_title" t-value="'物 品 受 領 書'"/>
                                 <t t-set="style_tr_body"
                                    t-value="'font-size: 11px; height: 34px;'"/>
                                 <t t-set="style_comment"
@@ -84,7 +84,7 @@
                                                     <div t-if="o.partner_id.customer_print_sales_slip_date"
                                                          style="margin-right: 150px; float: left;">
                                                         <t t-if="o.x_studio_date_printed">
-                                                            <span t-esc="o.x_studio_date_printed.strftime('%Y年　%m月 %d日')"/>
+                                                            <span t-esc="o.x_studio_date_printed.strftime('%Y年%m月%d日')"/>
                                                         </t>
                                                         <span t-else="">　　　年　　月　　日</span>
                                                     </div>
@@ -115,7 +115,7 @@
                                                     <span t-else="" style="font-size: 18px">様</span>
                                                 </div>
                                                 <div t-if="pager == 1"
-                                                     style="margin-top: 20px; font-size: 18px; font-weight: 600; height: 30px; width: 370px;">
+                                                     style="margin-top: 18px; font-size: 22px; font-weight: 600; height: 30px; width: 370px;">
                                                     <span>合計金額　￥</span>
                                                     <t t-if="o.x_voucher_tax_transfer == 'custom_tax'">
                                                         <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;margin-bottom: -2px;max-height: 20px;border-bottom: 1px solid;"
