@@ -10,6 +10,7 @@
     'version': '0.1',
     'depends': [
         'base_setup',
+        'Maintain_Invoice_Remake'
     ],
 
     # always loaded
