@@ -10,8 +10,7 @@
     'depends': [
         'base_setup',  'Maintain_Client', 'Maintain_Industry_Type', 'Maintain_Custom_Department', 'Maintain_Custom_Department_Section', 'Maintain_Custom_Employee',
         'Maintain_Closing_Date', 'Maintain_Custom_Create_Company', 'Maintain_Business_Partner_Group', 'Maintain_Product_Class',
-        'Maintain_Business_Partners_Remake', 'Maintain_Product', 'Maintain_Freight_Category', 'Maintain_Receipt_Divide',
-        'Maintain_Master_Price_List'
+        'Maintain_Business_Partners_Remake', 'Maintain_Product', 'Maintain_Freight_Category', 'Maintain_Receipt_Divide'
     ],
     'website': '',
     'data': [

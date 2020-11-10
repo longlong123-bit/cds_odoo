@@ -401,7 +401,7 @@
     </record>
 
     <menuitem id="menu_ideas" name="Quotations Custom" sequence="1"/>
-    <menuitem id="quotation" parent="menu_ideas" name="Sale Order" sequence="1" action="quotation_custom_action"/>
+    <menuitem id="quotation" parent="Maintain_Quotations.menu_ideas" name="Sale Order" sequence="1" action="quotation_custom_action"/>
 
     <data>
         <!-- Sequences for sale.order -->
