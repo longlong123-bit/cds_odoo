@@ -20,7 +20,8 @@
         'views/add_js.xml',
         'views/quotations_custom_view.xml',
         'views/helloworld_template.xml',
-        'views/quotations_confirm.xml'
+        'views/quotations_confirm.xml',
+        'views/quotations_custom_test_view.xml'
     ],
     'qweb': [
         'static/src/xml/quotation_custom_template.xml',
