@@ -712,8 +712,16 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>
+<!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>-->
+<!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>-->
+                                                        <t t-if="o.amount_tax(8)">
+                                                            <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>
+                                                            <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax()), 11))"/><br/>
+                                                            <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(8)), 11))"/><br/>
+                                                        </t>
                                                         <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
@@ -938,8 +946,16 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>
-                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>
+<!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>-->
+<!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>-->
+                                                        <t t-if="o.amount_tax(8)">
+                                                            <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>
+                                                            <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax()), 11))"/><br/>
+                                                            <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(8)), 11))"/><br/>
+                                                        </t>
                                                         <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
