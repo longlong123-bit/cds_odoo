@@ -6,6 +6,7 @@ from odoo.exceptions import ValidationError
 
 class ClassEmployeeCustom(models.Model):
     _inherit = ["hr.employee"]
+    _order = 'employee_code asc, name asc'
 
     name = fields.Char('Employee Name')
     employee_code = fields.Char('Employee Code')
