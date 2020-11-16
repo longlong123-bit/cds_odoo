@@ -675,6 +675,9 @@ odoo.define('web.ListRender_Custom', function (require) {
                         if (node.attrs.widget) {
                             tdClassName += (' o_' + node.attrs.widget + '_cell');
                         }
+                        if (typeClass && node.attrs.name == 'price_unit' && record.data['price_unit'] == '0.00') {
+                            tdClassName += (' o_custom_color');
+                        }
                 }
                 if (node.attrs.editOnly) {
                     tdClassName += ' oe_edit_only';
@@ -1046,27 +1049,27 @@ odoo.define('web.ListRender_Custom', function (require) {
          * @param {Object} column
          * @returns {HTMLElement}
          */
-        _getColumnHeader: function (column) {
-            var self = this;
-            const { icon, name, string } = column.attrs;
-            if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view')){
-                if (name) {
-                    return this.el.querySelector(`thead th div[data-name="${name}"]`);
-                } else if (string) {
-                    return this.el.querySelector(`thead th div[data-string="${string}"]`);
-                } else if (icon) {
-                    return this.el.querySelector(`thead th div[data-icon="${icon}"]`);
-                }
-             }else{
-                if (name) {
-                    return this.el.querySelector(`thead th[data-name="${name}"]`);
-                } else if (string) {
-                    return this.el.querySelector(`thead th[data-string="${string}"]`);
-                } else if (icon) {
-                    return this.el.querySelector(`thead th[data-icon="${icon}"]`);
-                }
-             }
-        },
+        // _getColumnHeader: function (column) {
+        //     var self = this;
+        //     const { icon, name, string } = column.attrs;
+        //     if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view')){
+        //         if (name) {
+        //             return this.el.querySelector(`thead th div[data-name="${name}"]`);
+        //         } else if (string) {
+        //             return this.el.querySelector(`thead th div[data-string="${string}"]`);
+        //         } else if (icon) {
+        //             return this.el.querySelector(`thead th div[data-icon="${icon}"]`);
+        //         }
+        //      }else{
+        //         if (name) {
+        //             return this.el.querySelector(`thead th[data-name="${name}"]`);
+        //         } else if (string) {
+        //             return this.el.querySelector(`thead th[data-string="${string}"]`);
+        //         } else if (icon) {
+        //             return this.el.querySelector(`thead th[data-icon="${icon}"]`);
+        //         }
+        //      }
+        // },
 
         /**
          * Handles the assignation of default widths for each column header.

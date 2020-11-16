@@ -4,7 +4,7 @@
         {
             text-align: right;
             border: none;
-            background-color: unset !important;
+            background-color: unset;
             width: auto !important;
         }
     }
@@ -98,6 +98,12 @@
     {
         width:12%;
     }
+}
+
+.o_custom_color {
+    background-color: #FF8686 !important;
+    border: 1px solid #A83232 !important;
+    border-radius: 3px;
 }
 
 .modal-dialog{

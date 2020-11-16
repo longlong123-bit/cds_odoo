@@ -161,6 +161,8 @@ class NewClassPartnerCustom(models.Model):
     def name_search(self, name, args=None, operator='ilike', limit=100):
         args = args or []
         recs = self.browse()
+        if name:
+            recs = self.search([('customer_code', '=ilike', name)] + args, limit=limit)
         if not recs:
             recs = self.search([('customer_code', operator, name)] + args, limit=limit)
         return recs.name_get()
