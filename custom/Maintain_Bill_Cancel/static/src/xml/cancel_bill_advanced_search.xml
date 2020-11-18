@@ -72,9 +72,27 @@
             <tr>
                 <th>Supplier Group</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="business_partner_group_custom_id"
-                           type="search"/>
+                    <input class="filter-item" id="business_partner_group_custom_id" data-operator="=like" data-name="business_partner_group_custom_id"
+                           onblur="changePartnerGroupCustomId()" type="search"/>
                 </td>
+                <script>
+                    function changePartnerGroupCustomId(){
+                        partner_group = document.getElementById("business_partner_group_custom_id").value;
+                        $.ajax({
+                            url: "/cancel_bill_api_custom",
+                            type: "POST",
+                            data: {"content": partner_group},
+                            dataType: 'json',
+                            traditional: true,
+                            success: function(result){
+                                document.getElementById("deadline").value = result.content.deadline;
+                            },
+                            error: function(result){
+                                console.log(result);
+                            }
+                        });
+                    }
+                </script>
             </tr>
             <tr>
                 <th>Billing Address</th>
