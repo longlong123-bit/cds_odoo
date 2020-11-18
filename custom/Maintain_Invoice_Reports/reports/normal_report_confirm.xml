@@ -225,7 +225,7 @@
 <!--                                                                              t-esc="o.limit_charater_fiel d(order.product_name, 40, True)"/><br/>-->
 <!--                                                                        <span style=" height: 12px;"-->
 <!--                                                                              t-esc="o.limit_charater_field(order.product_name, 40, True, False)"/>-->
-                                                                        <t t-if="order.limit_charater_field(order.product_name, 40, True, False)">
+                                                                        <t t-if="o.limit_charater_field(order.product_name, 40, True, False)">
                                                                             <span style="overflow: hidden; text-overflow: ellipsis; height: 12px;"
                                                                               t-esc="o.limit_charater_field(order.product_name, 40, True)"/><br/>
                                                                             <span style="overflow: hidden; text-overflow: ellipsis; height: 12px;"
@@ -233,7 +233,7 @@
                                                                         </t>
                                                                         <t t-else="">
                                                                              <span style="display: table-cell; overflow: hidden; text-overflow: ellipsis; height: 26px; font-size: 14px; vertical-align: middle;"
-                                                                                t-esc="order.limit_charater_field(order.product_name, 36, True)"/>
+                                                                                t-esc="o.limit_charater_field(order.product_name, 36, True)"/>
                                                                         </t>
                                                                     </div>
                                                                     <div style="float: right; width: 125px;">
