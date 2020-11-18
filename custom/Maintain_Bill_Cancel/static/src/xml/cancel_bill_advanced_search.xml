@@ -72,7 +72,7 @@
             <tr>
                 <th>Supplier Group</th>
                 <td>
-                    <input class="filter-item" id="business_partner_group_custom_id" data-operator="=like" data-name="business_partner_group_custom_id"
+                    <input class="filter-item" id="business_partner_group_custom_id" data-operator="ilike" data-name="business_partner_group_custom_id"
                            onblur="changePartnerGroupCustomId()" type="search"/>
                 </td>
                 <script>
