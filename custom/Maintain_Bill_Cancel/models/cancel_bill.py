@@ -21,7 +21,7 @@ class BillingClass(models.Model):
                                                             order='deadline desc, create_date desc', limit=1)
 
             if rec['id'] == bill_info_lasted.id:
-                bill_info_ids = self.env['bill.info'].browse(argsSelectedIds)
+                bill_info_ids = self.env['bill.info'].browse(rec['id'])
                 bill_invoice_ids = self.env['bill.invoice'].search(bill_invoice_domain)
                 bill_invoice_details_ids = self.env['bill.invoice.details'].search(bill_invoice_details_domain)
 
