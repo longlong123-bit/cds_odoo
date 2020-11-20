@@ -362,7 +362,7 @@
                                                         <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount10), 7))"/>
                                                     </t>
-                                                    <span t-else="">　</span>
+                                                    <span t-else=""><null/></span>
                                                     <t t-if="subtotal_amount8">
                                                         <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount8), 7))"/>
