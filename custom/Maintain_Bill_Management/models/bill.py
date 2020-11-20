@@ -473,6 +473,18 @@ class BillingClass(models.Model):
                 'tag': 'reload',
             }
 
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        module_context = self._context.copy()
+        if module_context.get('have_advance_search') and module_context.get('bill_management_module'):
+            domain = []
+            for record in args:
+                if 'deadline' in record:
+                    id_bill_info = self.env['bill.info'].search([('closing_date', '=', record[2])])
+                    domain += [['id', 'not in', id_bill_info.partner_id.ids]]
+                domain += [record]
+            args = domain
+        res = super(BillingClass, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        return res
 
 class InvoiceLineClass(models.Model):
     _inherit = 'account.move.line'
