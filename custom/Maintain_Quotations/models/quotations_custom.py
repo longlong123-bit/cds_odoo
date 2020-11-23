@@ -1395,6 +1395,17 @@ class QuotationsLinesCustom(models.Model):
                 line.cost = line.product_id.cost or 0.00
                 line.tax_rate = line.product_id.product_tax_rate or 0.00
 
+    @api.onchange('class_item')
+    def _onchange_class_item(self):
+        for line in self:
+            if line.class_item == 'サンプル':
+                # Check product sample
+                sample_product_ids = self.env['product.product'].search([('barcode', '=', '0000000000000')])
+                if sample_product_ids:
+                    line.product_id = sample_product_ids
+                else:
+                    raise ValidationError(_('Must create a sample product in the product master\n- JANコード: 0000000000000'))
+
     def _compute_tax_id(self):
         for line in self:
             fpos = line.order_id.fiscal_position_id or line.order_id.partner_id.property_account_position_id
