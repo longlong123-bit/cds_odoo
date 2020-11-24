@@ -2029,6 +2029,17 @@ class AccountMoveLine(models.Model):
         # self.price_unit = company.currency_id._convert(price_unit, self.move_id.currency_id, company, self.move_id.date)
         self.price_unit = price_unit
 
+    @api.onchange('x_invoicelinetype')
+    def _onchange_x_invoicelinetype(self):
+        for line in self:
+            if line.x_invoicelinetype == 'サンプル':
+                # Check product sample
+                sample_product_ids = self.env['product.product'].search([('barcode', '=', '0000000000000')])
+                if sample_product_ids:
+                    line.product_id = sample_product_ids
+                else:
+                    raise ValidationError(_('Must create a sample product in the product master\n- JANコード: 0000000000000'))
+
     def compute_x_customer_show_in_tree(self):
         for line in self:
             line.x_customer_show_in_tree = line.move_id.x_studio_business_partner.name
