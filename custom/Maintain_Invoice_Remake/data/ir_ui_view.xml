@@ -336,11 +336,12 @@
                 <field name="product_id" invisible="1"/>
                 <field name="product_code" widget="refer_field" string="Product Code"
                     context="{'limit': 200}"
+                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"
                        options='{"model":"product.product", "read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "alternative_column":"product_barcode", "alternative_value":"barcode", "search_input": true}'/>
                 <field name="product_barcode" string="JAN/UPC/EAN"
                     context="{'limit': 200}"
                        widget="refer_field" options='{"model":"product.product","column": "barcode", "search_input": true}'
-                       required="True"/>
+                       attrs="{'required': [('x_invoicelinetype', '!=', 'サンプル')], 'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>
 <!--                <field name="product_maker_name"-->
 <!--                       widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'-->
 <!--                       attrs="{'invisible': [('x_invoicelinetype', '=', 'サンプル')]}"/>-->
