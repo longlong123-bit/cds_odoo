@@ -196,8 +196,8 @@ class ProductTemplate(models.Model):
     def assign_product(self):
         for rec in self:
             rec.product_total = (rec.product_code_1 or '_') + '_' + (rec.product_code_2 or '_') + '_' + (
-                        rec.product_code_3 or '_') + '_' + (rec.product_code_4 or '_') + '_' + (
-                                            rec.product_code_5 or '_') + '_' + (rec.product_code_6 or '_')
+                    rec.product_code_3 or '_') + '_' + (rec.product_code_4 or '_') + '_' + (
+                                        rec.product_code_5 or '_') + '_' + (rec.product_code_6 or '_')
 
     def name_get(self):
         # TDE: this could be cleaned a bit I think
@@ -342,6 +342,13 @@ class ProductTemplate(models.Model):
         if self.barcode:
             if not re.match("^[0-9]*$", self.barcode) or self.barcode == '000000000':
                 raise ValidationError("JAN/UPC/EANに数字のみを入力してください。")
+
+            if self.barcode == '0000000000000':
+                ctx = self._context.copy()
+                self.name = 'サンプル商品'
+                uid = self.env['res.users'].search([('id', '=', ctx.get('uid'))])
+                if not uid.has_group('base.group_erp_manager'):
+                    raise ValidationError("既に登録されています。")
 
             barcode_count = self.env['product.product'].search_count([('barcode', '=', self.barcode)])
             if barcode_count > 0:
@@ -532,11 +539,11 @@ class ProductTemplate(models.Model):
                 if rec['product_tax_category'] == 'foreign':
                     rec['price_no_tax_' + str(i)] = rec['price_' + str(i)]
                     rec['price_include_tax_' + str(i)] = rec['price_no_tax_' + str(i)] * (
-                                rec.product_tax_rate / 100 + 1)
+                            rec.product_tax_rate / 100 + 1)
                 elif rec['product_tax_category'] == 'internal':
                     rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
                     rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] / (
-                                rec.product_tax_rate / 100 + 1)
+                            rec.product_tax_rate / 100 + 1)
                 else:
                     rec['price_no_tax_' + str(i)] = rec['price_include_tax_' + str(i)] = rec['price_' + str(i)]
 
@@ -613,6 +620,15 @@ class ProductTemplate(models.Model):
         odoo/models.py
         """
         ctx = self._context.copy()
+        # han-lh comment - update domain for product - start
+        sample_product_jancode = '0000000000000'
+        uid = self.env['res.users'].search([('id', '=', ctx.get('uid'))])
+        if not uid.has_group('base.group_erp_manager'):
+            args += [['barcode', '!=', sample_product_jancode]]
+        else:
+            if ['barcode', '!=', sample_product_jancode] in args:
+                args.remove(['barcode', '!=', sample_product_jancode])
+        # han-lh comment - update domain for product - end
         if ctx.get('limit') and args:
             limit = ctx['limit']
         if ctx.get('have_advance_search'):
