@@ -735,6 +735,54 @@ odoo.define('web.ListRender_Custom', function (require) {
             }
         },
 
+         /**** Huy Modified List Render
+     * Renders the button element associated to the given node and record.
+     *
+     * @private
+     * @param {Object} record
+     * @param {Object} node
+     * @returns {jQuery} a <button> element
+     */
+    _renderButton: function (record, node) {
+             var self = this;
+             var nodeWithoutWidth = Object.assign({}, node);
+             delete nodeWithoutWidth.attrs.width;
+             var $button = viewUtils.renderButtonFromNode(nodeWithoutWidth, {
+                 extraClass: node.attrs.icon ? 'o_icon_button' : undefined,
+                 textAsTitle: !!node.attrs.icon,
+             });
+             this._handleAttributes($button, node);
+             this._registerModifiers(node, record, $button);
+
+             if (record.res_id) {
+                 // TODO this should be moved to a handler
+                 $button.on("click", function (e) {
+                     e.stopPropagation();
+                     self.trigger_up('button_clicked', {
+                         attrs: node.attrs,
+                         record: record,
+                     });
+                 });
+             } else {
+                 if (node.attrs.options.warn) {
+                     $button.on("click", function (e) {
+                         e.stopPropagation();
+                         self.do_warn(_t("Warning"), _t('Please click on the "save" button first.'));
+                     });
+                 } else if (node.attrs.name == "button_update") {
+                     $button.on("click", function (e) {
+                         e.stopPropagation();
+                         self.trigger_up('button_clicked', {
+                             attrs: node.attrs,
+                             record: record,
+                         });
+                     });
+                 } else {
+                     $button.prop('disabled', true);
+                 }
+             }
+             return $button;
+         },
         // Override
         /**
          *
@@ -865,6 +913,7 @@ odoo.define('web.ListRender_Custom', function (require) {
             return $('<thead>').append($tr);
 
         },
+
 
         // Override
         /**
