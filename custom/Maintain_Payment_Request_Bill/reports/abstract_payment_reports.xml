@@ -25,8 +25,7 @@
             <t t-foreach="range(1, total_page_detail)" t-as="range_total_page_detail">
                 <t t-set="count_detail" t-value="1"/>
                 <t t-set="pager" t-value="pager + 1"/>
-                <div class="page"
-                     style="page-break-before: always; font-size: 14px; line-height: 1.2;">
+                <div class="page" style="page-break-before: always; font-size: 14px; line-height: 1.2;">
                     <div style="display: inline-block;">
                         <t t-set="style_title" t-value="'width: 38%; float: left;'"/>
                         <t t-set="style_bill_no" t-value="'width: 40%; float: left;'"/>
@@ -229,9 +228,16 @@
                                 </div>
                             </div>
                         </t>
+                        <t t-if="pager == 1">
+                            <t t-set="style"
+                               t-value='"height: 930px; width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000"'/>
+                        </t>
+                        <t t-else="">
+                            <t t-set="style"
+                               t-value='"height: 1010px; width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000"'/>
+                        </t>
                         <div style="width: 100%;">
-                            <table border="0" cellspacing="0" cellpadding="5"
-                                   style="width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000">
+                            <table t-att-style="style" border="0" cellspacing="0" cellpadding="5">
                                 <thead>
                                     <tr>
                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0; text-align: center;">
@@ -258,17 +264,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-<!--                                    <t t-set="inv_date" t-value=""/>-->
+                                    <!--                                    <t t-set="inv_date" t-value=""/>-->
                                     <t t-set="inv_no" t-value=""/>
                                     <t t-set="count_invoice_detail" t-value="0"/>
                                     <t t-foreach="o.bill_detail_ids.sorted(key=lambda r: (r.invoice_date, r.invoice_no))"
                                        t-as="line_detail">
-                                        <t t-set="count_invoice_detail" t-value="count_invoice_detail + line_detail.count_detail_line()"/>
+                                        <t t-set="count_invoice_detail"
+                                           t-value="count_invoice_detail + line_detail.count_detail_line()"/>
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and count_invoice_detail &gt;= count_page_detail">
                                             <t t-if="(pager == 1 and count_detail == 50) or (pager &gt; 1 and count_detail == 56)">
                                                 <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>
                                             </t>
-                                            <t t-if="inv_no and tax_transfer_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail)) and (count_invoice_detail >= count_page_detail)">
+                                            <t t-if="inv_no and tax_transfer_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail)">
                                                 <tr style="height: 15px; vertical-align: top;">
                                                     <td style="padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 60px; text-align: center;">
@@ -322,7 +329,7 @@
                                                 <t t-set="count_detail" t-value="count_detail + 1"/>
                                             </t>
 
-                                            <t t-if="inv_no and summary_total_amount_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail)) and (count_invoice_detail >= count_page_detail)">
+                                            <t t-if="inv_no and summary_total_amount_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail)">
                                                 <tr style="height: 45px; vertical-align: top;">
                                                     <td style="padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 60px; text-align: center;">
@@ -367,7 +374,7 @@
                                                         <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                             <span>(</span>
                                                             <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(summary_total_amount_previous_data), 8))"
-                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </span>
                                                             <span>)</span>
                                                         </div>
@@ -390,7 +397,7 @@
                                                t-value="line_detail.bill_invoice_id.amount_total"/>
 
 
-                                            <t t-if="((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail))">
+                                            <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail))">
                                                 <tr style="max-height: 45px; vertical-align: top; overflow: hidden;">
                                                     <td style="padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 60px; text-align: center;">
@@ -400,7 +407,7 @@
                                                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                                 <null/>
                                                             </p>
-<!--                                                            <t t-set="inv_date" t-value="line_detail.invoice_date"/>-->
+                                                            <!--                                                            <t t-set="inv_date" t-value="line_detail.invoice_date"/>-->
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
@@ -416,7 +423,7 @@
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div t-if="line_detail.account_move_line_id"
                                                              style="display: inline-block; width: 440px;">
-                                                            <div style="max-height: 26px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 290px; overflow: hidden; margin: 0;">
+                                                            <div style="max-height: 28px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 290px; overflow: hidden; margin: 0; padding-bottom: 1px;">
                                                                 <span t-esc="o.limit_charater_field(line_detail.product_name, 20, True)"/>
                                                                 <t t-if="o.limit_charater_field(line_detail.product_name, 20, True, False)">
                                                                     <br/>
@@ -453,14 +460,15 @@
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 34px; text-align: center;">
-                                                            <p t-if="line_detail.account_move_line_id" t-esc="o.limit_charater_field(line_detail.product_uom, 2)"
+                                                            <p t-if="line_detail.account_move_line_id"
+                                                               t-esc="o.limit_charater_field(line_detail.product_uom, 2)"
                                                                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </p>
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                         <div style="display: inline-block; width: 90px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                            <span t-if="line_detail.account_move_line_id and line_detail.price_unit % 1 > 0"
+                                                            <span t-if="line_detail.account_move_line_id and line_detail.price_unit % 1 &gt; 0"
                                                                   t-esc="'{0:,.2f}'.format(o.limit_number_field(line_detail.price_unit, 8), True)"
                                                                   style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </span>
@@ -480,12 +488,13 @@
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                <t t-set="count_detail" t-value="count_detail + line_detail.count_detail_line()"/>
+                                                <t t-set="count_detail"
+                                                   t-value="count_detail + line_detail.count_detail_line()"/>
                                             </t>
                                         </t>
                                     </t>
 
-                                    <t t-if="tax_transfer_previous_data and ((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail)) and (count_invoice_detail >= count_page_detail - 1)">
+                                    <t t-if="tax_transfer_previous_data and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1)">
                                         <tr style="height: 15px; vertical-align: top;">
                                             <td style="padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 60px; text-align: center;">
@@ -539,7 +548,7 @@
                                         <t t-set="count_detail" t-value="count_detail + 1"/>
                                         <t t-set="tax_transfer_previous_data" t-value=""/>
                                     </t>
-                                    <t t-if="summary_total_amount_previous_data and ((pager == 1 and 50 >= count_detail) or (pager > 1 and 56 >= count_detail)) and (count_invoice_detail >= count_page_detail - 1)">
+                                    <t t-if="summary_total_amount_previous_data and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1)">
                                         <tr style="height: 45px; vertical-align: top;">
                                             <td style="padding-bottom: 0;">
                                                 <div style="display: inline-block; width: 60px; text-align: center;">
@@ -584,7 +593,7 @@
                                                 <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                     <span>(</span>
                                                     <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(summary_total_amount_previous_data), 8))"
-                                                       style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                     </span>
                                                     <span>)</span>
                                                 </div>
@@ -651,11 +660,13 @@
                                                     <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                         <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(10)), 11))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(8)), 11))"/><br/>
-                                                        <span t-if="o.subtotal_amount_tax()" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax()), 11))"/>
+                                                        <span t-if="o.subtotal_amount_tax()"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <t t-if="o.subtotal_amount_tax()" t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-if="o.subtotal_amount_tax()" t-set="count_detail"
+                                               t-value="count_detail + 3"/>
                                             <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
                                         </t>
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 2">
@@ -712,8 +723,8 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-<!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>-->
-<!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>-->
+                                                        <!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>-->
+                                                        <!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>-->
                                                         <t t-if="o.amount_tax(8)">
                                                             <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>
                                                             <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>
@@ -722,7 +733,8 @@
                                                             <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax()), 11))"/><br/>
                                                             <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(8)), 11))"/><br/>
                                                         </t>
-                                                        <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax()), 11))"/>
+                                                        <span t-if="o.amount_tax()"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -886,11 +898,13 @@
                                                     <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                         <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(10)), 11))"/><br/>
                                                         <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax(8)), 11))"/><br/>
-                                                        <span t-if="o.subtotal_amount_tax()" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax()), 11))"/>
+                                                        <span t-if="o.subtotal_amount_tax()"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.subtotal_amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
                                             </tr>
-                                            <t t-if="o.subtotal_amount_tax()" t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-if="o.subtotal_amount_tax()" t-set="count_detail"
+                                               t-value="count_detail + 3"/>
                                             <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
                                         </t>
                                         <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 3">
@@ -946,8 +960,8 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-<!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>-->
-<!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>-->
+                                                        <!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>-->
+                                                        <!--                                                        <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>-->
                                                         <t t-if="o.amount_tax(8)">
                                                             <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/><br/>
                                                             <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/><br/>
@@ -956,7 +970,8 @@
                                                             <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax()), 11))"/><br/>
                                                             <span t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(8)), 11))"/><br/>
                                                         </t>
-                                                        <span t-if="o.amount_tax()" t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax()), 11))"/>
+                                                        <span t-if="o.amount_tax()"
+                                                              t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax()), 11))"/>
                                                     </div>
                                                 </td>
                                             </tr>
