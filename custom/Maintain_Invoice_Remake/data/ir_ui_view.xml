@@ -191,7 +191,7 @@
                 <field name="x_studio_business_partner" required="1" domain="[('customer_rank','>', 0)]" default_focus="1"
                        context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
                        attrs="{'readonly':[('state','in',['posted'])]}" z-index="98"
-                       options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True}"/>
+                       options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True, 'no_create': True}"/>
               </td>
               <td colspan="2"><field name="x_studio_name" string="Name" class="o_address_street" style="width : 100%;"
                    placeholder="Name..." force_save="1"  widget="input" z-index="99" attrs="{'readonly':[('state','in',['posted'])]}"/></td>
