@@ -68,7 +68,7 @@
                                 <td colspan="2"><field name="partner_id" widget="res_partner_many2one" required="1"
                                                        domain="[('customer_rank','>', 0)]" default_focus="1"
                                                        context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
-                                                       options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True}"
+                                                       options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True, 'no_create': True}"
                                            z-index="98"/></td>
 
                                 <td></td>
