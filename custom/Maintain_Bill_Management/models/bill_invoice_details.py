@@ -7,7 +7,7 @@ class BillInvoiceDetailsClass(models.Model):
     bill_info_id = fields.Many2one('bill.info')
     bill_invoice_id = fields.Many2one('bill.invoice')
     account_move_line_id = fields.Many2one('account.move.line')
-    payment_id = fields.Many2one('account_payment')
+    payment_id = fields.Many2one('account.payment')
 
     billing_code = fields.Char(string='Billing Code')
     billing_name = fields.Char(string='Billing Name')
