@@ -440,7 +440,7 @@
                                                             <span t-elif="line_detail.tax_rate ==8">※軽減税率</span>
                                                         </div>
                                                         <div t-else="" style="display: inline-block; width: 440px;">
-                                                            <span tyle="max-height: 26px; vertical-align: top; display: inline-block; max-width: 235px; overflow: hidden; margin: 0;">
+                                                            <span tyle="max-height: 28px; vertical-align: top; display: inline-block; max-width: 235px; overflow: hidden; margin: 0; padding-bottom: 1px">
                                                                 【入金　（</span>
                                                             <span t-field="line_detail.payment_category"
                                                                   style="max-width: 62px; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
@@ -448,6 +448,13 @@
                                                             <span style="max-width: 62px; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
                                                                 ）】
                                                             </span>
+                                                            <!-- Add row payment apply comment - start -->
+                                                            <t t-if="line_detail.payment_id.comment_apply">
+                                                                <br/>
+                                                                <span t-esc="o.limit_charater_field(line_detail.payment_id.comment_apply, 30)"
+                                                                      style="max-width: 62px; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;"/>
+                                                            </t>
+                                                            <!-- Add row payment apply comment - end -->
                                                         </div>
                                                     </td>
                                                     <td style="border-left: 1px solid #000000; padding-bottom: 0;">
