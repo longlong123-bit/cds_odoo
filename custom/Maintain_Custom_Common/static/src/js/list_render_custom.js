@@ -754,7 +754,26 @@ odoo.define('web.ListRender_Custom', function (require) {
              this._handleAttributes($button, node);
              this._registerModifiers(node, record, $button);
 
-             if (record.res_id) {
+             //Hien-TT custom start
+             if(node && node.attrs && node.attrs.name == "button_update"){
+                 $button.on("click", function (e) {
+                     e.stopPropagation();
+                     self.getParent().getParent().getChildren().forEach(function (child){
+                          if (child.name == 'copy_history_from') {
+                            child._setValue("duplicated");
+                            child._render();
+                          }
+                     })
+                     var index = $(e.currentTarget).parent().parent().parent().index()
+                     self.getParent().getParent().getChildren().forEach(function (child){
+                          if (child.name == 'copy_history_item') {
+                            child._setValue(index.toString());
+                            child._render();
+                          }
+                     })
+                 });
+             //Hien-TT custom end
+             } else if (record.res_id) {
                  // TODO this should be moved to a handler
                  $button.on("click", function (e) {
                      e.stopPropagation();
@@ -768,14 +787,6 @@ odoo.define('web.ListRender_Custom', function (require) {
                      $button.on("click", function (e) {
                          e.stopPropagation();
                          self.do_warn(_t("Warning"), _t('Please click on the "save" button first.'));
-                     });
-                 } else if (node.attrs.name == "button_update") {
-                     $button.on("click", function (e) {
-                         e.stopPropagation();
-                         self.trigger_up('button_clicked', {
-                             attrs: node.attrs,
-                             record: record,
-                         });
                      });
                  } else {
                      $button.prop('disabled', true);

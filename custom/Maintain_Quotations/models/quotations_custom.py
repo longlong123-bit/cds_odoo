@@ -7,6 +7,7 @@ from custom.Maintain_Invoice_Remake.models.invoice_customer_custom import roundi
 from odoo.tools.float_utils import float_round, float_compare
 import pytz
 import logging
+import json
 
 from odoo import api, fields, models, tools, _, SUPERUSER_ID
 from odoo.exceptions import ValidationError, RedirectWarning, UserError
@@ -630,6 +631,28 @@ class QuotationsCustom(models.Model):
                 elif line.product_barcode:
                     line._onchange_product_barcode()
                 # line.compute_price_unit()
+        elif self.copy_history_from == 'duplicated':
+            self.order_line = [(0, False,{
+                'class_item': self.order_line[int(self.copy_history_item)].class_item,
+                'product_id': self.order_line[int(self.copy_history_item)].product_id.id,
+                'product_code': self.order_line[int(self.copy_history_item)].product_code,
+                'product_barcode': self.order_line[int(self.copy_history_item)].product_barcode,
+                'product_name': self.order_line[int(self.copy_history_item)].product_name,
+                'product_name2': self.order_line[int(self.copy_history_item)].product_name2,
+                'product_standard_number': self.order_line[int(self.copy_history_item)].product_standard_number,
+                'product_maker_name': self.order_line[int(self.copy_history_item)].product_maker_name,
+                'product_uom_qty': self.order_line[int(self.copy_history_item)].product_uom_qty,
+                'price_unit': self.order_line[int(self.copy_history_item)].price_unit,
+                'product_uom_id': self.order_line[int(self.copy_history_item)].product_uom_id,
+                'line_amount': self.order_line[int(self.copy_history_item)].line_amount,
+                'tax_rate': self.order_line[int(self.copy_history_item)].tax_rate,
+                'line_tax_amount': self.order_line[int(self.copy_history_item)].line_tax_amount,
+                'price_include_tax': self.order_line[int(self.copy_history_item)].price_include_tax,
+                'price_no_tax': self.order_line[int(self.copy_history_item)].price_no_tax,
+                'description': self.order_line[int(self.copy_history_item)].description,
+                'quotation_custom_line_no': len(self.order_line) + 1,
+                'copy_history_flag': self.order_line[int(self.copy_history_item)].copy_history_flag,
+            })]
         self.copy_history_item = ''
 
     @api.model
