@@ -1583,38 +1583,38 @@ class QuotationsLinesCustom(models.Model):
         else:
             return 0
 
-    # def button_update(self):
-    #     products = self.env["sale.order.line"].search([('id', 'in', self.ids)])
-    #     self.order_id.order_line = [(0, False, {
-    #         'class_item': products.class_item,
-    #         'customer_lead': products.customer_lead,
-    #         'description': products.description,
-    #         'discount': products.discount,
-    #         'display_type': products.display_type,
-    #         'invoice_status': products.invoice_status,
-    #         'name': products.name,
-    #         'order_id': products.order_id,
-    #         'price_include_tax': products.price_include_tax,
-    #         'price_no_tax': products.price_no_tax,
-    #         'price_unit': products.price_unit,
-    #         'product_barcode': products.product_barcode,
-    #         'product_code': products.product_code,
-    #         'product_id': products.product_id.id,
-    #         'product_maker_name': products.product_maker_name,
-    #         'product_name': products.product_name,
-    #         'product_name2': products.product_name2,
-    #         'product_standard_number': products.product_standard_number,
-    #         'product_uom': products.product_uom.id,
-    #         'product_uom_id': products.product_uom_id,
-    #         'product_uom_qty': products.product_uom_qty,
-    #         'qty_delivered': products.qty_delivered,
-    #         'qty_delivered_manual': products.qty_delivered_manual,
-    #         'quotation_custom_line_no': len(self.order_id.order_line) + 1,
-    #         'sequence': products.sequence,
-    #         'state': products.state,
-    #         'tax_rate': products.tax_rate,
-    #         'copy_history_flag': True,
-    #     })]
+    def button_update(self):
+        products = self.env["sale.order.line"].search([('id', 'in', self.ids)])
+        self.order_id.order_line = [(0, False, {
+            'class_item': products.class_item,
+            'customer_lead': products.customer_lead,
+            'description': products.description,
+            'discount': products.discount,
+            'display_type': products.display_type,
+            'invoice_status': products.invoice_status,
+            'name': products.name,
+            'order_id': products.order_id,
+            'price_include_tax': products.price_include_tax,
+            'price_no_tax': products.price_no_tax,
+            'price_unit': products.price_unit,
+            'product_barcode': products.product_barcode,
+            'product_code': products.product_code,
+            'product_id': products.product_id.id,
+            'product_maker_name': products.product_maker_name,
+            'product_name': products.product_name,
+            'product_name2': products.product_name2,
+            'product_standard_number': products.product_standard_number,
+            'product_uom': products.product_uom.id,
+            'product_uom_id': products.product_uom_id,
+            'product_uom_qty': products.product_uom_qty,
+            'qty_delivered': products.qty_delivered,
+            'qty_delivered_manual': products.qty_delivered_manual,
+            'quotation_custom_line_no': len(self.order_id.order_line) + 1,
+            'sequence': products.sequence,
+            'state': products.state,
+            'tax_rate': products.tax_rate,
+            'copy_history_flag': True,
+        })]
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
