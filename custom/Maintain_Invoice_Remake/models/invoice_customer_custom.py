@@ -578,6 +578,29 @@ class ClassInvoiceCustom(models.Model):
                     line._onchange_product_code()
                 elif line.product_barcode:
                     line._onchange_product_barcode()
+        elif self.copy_history_from == 'duplicated':
+            self.invoice_line_ids = [(0, False,{
+                'x_invoicelinetype': self.invoice_line_ids[int(self.copy_history_item)].x_invoicelinetype,
+                'product_id': self.invoice_line_ids[int(self.copy_history_item)].product_id.id,
+                'product_code': self.invoice_line_ids[int(self.copy_history_item)].product_code,
+                'product_barcode': self.invoice_line_ids[int(self.copy_history_item)].product_barcode,
+                'product_name': self.invoice_line_ids[int(self.copy_history_item)].product_name,
+                'product_name2': self.invoice_line_ids[int(self.copy_history_item)].product_name2,
+                'invoice_custom_standardnumber': self.invoice_line_ids[int(self.copy_history_item)].invoice_custom_standardnumber,
+                'product_maker_name': self.invoice_line_ids[int(self.copy_history_item)].product_maker_name,
+                'quantity': self.invoice_line_ids[int(self.copy_history_item)].quantity,
+                'price_unit': self.invoice_line_ids[int(self.copy_history_item)].price_unit,
+                'product_uom_id': self.invoice_line_ids[int(self.copy_history_item)].product_uom_id,
+                'invoice_custom_lineamount': self.invoice_line_ids[int(self.copy_history_item)].invoice_custom_lineamount,
+                'tax_rate': self.invoice_line_ids[int(self.copy_history_item)].tax_rate,
+                'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
+                'line_tax_amount': self.invoice_line_ids[int(self.copy_history_item)].line_tax_amount,
+                'price_include_tax': self.invoice_line_ids[int(self.copy_history_item)].price_include_tax,
+                'price_no_tax': self.invoice_line_ids[int(self.copy_history_item)].price_no_tax,
+                'invoice_custom_Description': self.invoice_line_ids[int(self.copy_history_item)].invoice_custom_Description,
+                'invoice_custom_line_no': len(self.invoice_line_ids) + 1,
+                'copy_history_flag': self.invoice_line_ids[int(self.copy_history_item)].copy_history_flag,
+            })]
         self.copy_history_item = ''
 
     @api.onchange('x_studio_business_partner', 'x_studio_name', 'ref', 'x_bussiness_partner_name_2',
@@ -1219,6 +1242,7 @@ class AccountTaxLine(models.Model):
     organization = fields.Many2one('res.company', default=_get_default_organization_id)
 
     def button_update(self):
+        print("Huydeptrai")
         view = {
             'name': _('Invoice Tax'),
             'view_type': 'form',
