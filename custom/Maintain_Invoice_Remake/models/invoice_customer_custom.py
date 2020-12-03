@@ -2298,30 +2298,30 @@ class AccountMoveLine(models.Model):
             if not line.copy_history_flag:
                 line.price_unit = line._get_computed_price_unit()
 
-    def button_update(self):
-        products = self.env["account.move.line"].search([('id', 'in', self.ids)])
-        self.move_id.invoice_line_ids = [(0, False, {
-            'x_invoicelinetype': products.x_invoicelinetype,
-            'product_id': products.product_id.id,
-            'product_code': products.product_code,
-            'product_barcode': products.product_barcode,
-            'product_name': products.product_name,
-            'product_name2': products.product_name2,
-            'invoice_custom_standardnumber': products.invoice_custom_standardnumber,
-            'product_maker_name': products.product_maker_name,
-            'quantity': products.quantity,
-            'price_unit': products.price_unit,
-            'product_uom_id': products.product_uom_id,
-            'invoice_custom_lineamount': products.invoice_custom_lineamount,
-            'tax_rate': products.tax_rate,
-            'line_tax_amount': products.line_tax_amount,
-            'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
-            'price_include_tax': products.price_include_tax,
-            'price_no_tax': products.price_no_tax,
-            'invoice_custom_Description': products.invoice_custom_Description,
-            'invoice_custom_line_no': len(self.move_id.invoice_line_ids) + 1,
-            'copy_history_flag': True
-        })]
+    # def button_update(self):
+    #     products = self.env["account.move.line"].search([('id', 'in', self.ids)])
+    #     self.move_id.invoice_line_ids = [(0, False, {
+    #         'x_invoicelinetype': products.x_invoicelinetype,
+    #         'product_id': products.product_id.id,
+    #         'product_code': products.product_code,
+    #         'product_barcode': products.product_barcode,
+    #         'product_name': products.product_name,
+    #         'product_name2': products.product_name2,
+    #         'invoice_custom_standardnumber': products.invoice_custom_standardnumber,
+    #         'product_maker_name': products.product_maker_name,
+    #         'quantity': products.quantity,
+    #         'price_unit': products.price_unit,
+    #         'product_uom_id': products.product_uom_id,
+    #         'invoice_custom_lineamount': products.invoice_custom_lineamount,
+    #         'tax_rate': products.tax_rate,
+    #         'line_tax_amount': products.line_tax_amount,
+    #         'account_id': self.env.company.get_chart_of_accounts_or_fail().id,
+    #         'price_include_tax': products.price_include_tax,
+    #         'price_no_tax': products.price_no_tax,
+    #         'invoice_custom_Description': products.invoice_custom_Description,
+    #         'invoice_custom_line_no': len(self.move_id.invoice_line_ids) + 1,
+    #         'copy_history_flag': True
+    #     })]
 
     voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='set_voucher_line_tax_amount', default=0)
 
