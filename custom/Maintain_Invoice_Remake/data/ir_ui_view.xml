@@ -325,8 +325,8 @@
                 </control>
                 <!-- Displayed fields -->
                 <field name="sequence" widget="handle"/>
-                <button name="button_update" type="object"
-                  style="background : url('/web/static/src/img/form-toolbar/EditRecord16.png') no-repeat center;background-size:contain;background-color: transparent; display: inline-block; margin-left: 1px; margin-right: 1px; width: 16px; height: 16px; padding: 1px;border: none;" >
+                <button name="button_update"
+                  style="background : url('/web/static/src/img/form-toolbar/copy.png') no-repeat center;background-size:contain;background-color: transparent; display: inline-block; margin-left: 1px; margin-right: 1px; width: 16px; height: 16px; padding: 1px;border: none;" >
                 </button>
                 <field name="x_history_detail" style="display:none" domain="[('exclude_from_invoice_tab', '=', False)]" position="attributes"  widget="button_field" options='{"model":"account.move.line", "sort_cut": true, "text":"売上履歴問合せ"}' context="{'tree_view_ref':'account.view_move_line_tree_grouped_general'}"/>
                 <field name="invoice_custom_line_no" required="True"/>
