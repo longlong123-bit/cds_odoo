@@ -7,6 +7,7 @@ from custom.Maintain_Invoice_Remake.models.invoice_customer_custom import roundi
 from odoo.tools.float_utils import float_round, float_compare
 import pytz
 import logging
+import json
 
 from odoo import api, fields, models, tools, _, SUPERUSER_ID
 from odoo.exceptions import ValidationError, RedirectWarning, UserError
@@ -630,6 +631,28 @@ class QuotationsCustom(models.Model):
                 elif line.product_barcode:
                     line._onchange_product_barcode()
                 # line.compute_price_unit()
+        elif self.copy_history_from == 'duplicated':
+            self.order_line = [(0, False,{
+                'class_item': self.order_line[int(self.copy_history_item)].class_item,
+                'product_id': self.order_line[int(self.copy_history_item)].product_id.id,
+                'product_code': self.order_line[int(self.copy_history_item)].product_code,
+                'product_barcode': self.order_line[int(self.copy_history_item)].product_barcode,
+                'product_name': self.order_line[int(self.copy_history_item)].product_name,
+                'product_name2': self.order_line[int(self.copy_history_item)].product_name2,
+                'product_standard_number': self.order_line[int(self.copy_history_item)].product_standard_number,
+                'product_maker_name': self.order_line[int(self.copy_history_item)].product_maker_name,
+                'product_uom_qty': self.order_line[int(self.copy_history_item)].product_uom_qty,
+                'price_unit': self.order_line[int(self.copy_history_item)].price_unit,
+                'product_uom_id': self.order_line[int(self.copy_history_item)].product_uom_id,
+                'line_amount': self.order_line[int(self.copy_history_item)].line_amount,
+                'tax_rate': self.order_line[int(self.copy_history_item)].tax_rate,
+                'line_tax_amount': self.order_line[int(self.copy_history_item)].line_tax_amount,
+                'price_include_tax': self.order_line[int(self.copy_history_item)].price_include_tax,
+                'price_no_tax': self.order_line[int(self.copy_history_item)].price_no_tax,
+                'description': self.order_line[int(self.copy_history_item)].description,
+                'quotation_custom_line_no': len(self.order_line) + 1,
+                'copy_history_flag': self.order_line[int(self.copy_history_item)].copy_history_flag,
+            })]
         self.copy_history_item = ''
 
     @api.model
@@ -1560,38 +1583,38 @@ class QuotationsLinesCustom(models.Model):
         else:
             return 0
 
-    def button_update(self):
-        products = self.env["sale.order.line"].search([('id', 'in', self.ids)])
-        self.order_id.order_line = [(0, False, {
-            'class_item': products.class_item,
-            'customer_lead': products.customer_lead,
-            'description': products.description,
-            'discount': products.discount,
-            'display_type': products.display_type,
-            'invoice_status': products.invoice_status,
-            'name': products.name,
-            'order_id': products.order_id,
-            'price_include_tax': products.price_include_tax,
-            'price_no_tax': products.price_no_tax,
-            'price_unit': products.price_unit,
-            'product_barcode': products.product_barcode,
-            'product_code': products.product_code,
-            'product_id': products.product_id.id,
-            'product_maker_name': products.product_maker_name,
-            'product_name': products.product_name,
-            'product_name2': products.product_name2,
-            'product_standard_number': products.product_standard_number,
-            'product_uom': products.product_uom.id,
-            'product_uom_id': products.product_uom_id,
-            'product_uom_qty': products.product_uom_qty,
-            'qty_delivered': products.qty_delivered,
-            'qty_delivered_manual': products.qty_delivered_manual,
-            'quotation_custom_line_no': len(self.order_id.order_line) + 1,
-            'sequence': products.sequence,
-            'state': products.state,
-            'tax_rate': products.tax_rate,
-            'copy_history_flag': True,
-        })]
+    # def button_update(self):
+    #     products = self.env["sale.order.line"].search([('id', 'in', self.ids)])
+    #     self.order_id.order_line = [(0, False, {
+    #         'class_item': products.class_item,
+    #         'customer_lead': products.customer_lead,
+    #         'description': products.description,
+    #         'discount': products.discount,
+    #         'display_type': products.display_type,
+    #         'invoice_status': products.invoice_status,
+    #         'name': products.name,
+    #         'order_id': products.order_id,
+    #         'price_include_tax': products.price_include_tax,
+    #         'price_no_tax': products.price_no_tax,
+    #         'price_unit': products.price_unit,
+    #         'product_barcode': products.product_barcode,
+    #         'product_code': products.product_code,
+    #         'product_id': products.product_id.id,
+    #         'product_maker_name': products.product_maker_name,
+    #         'product_name': products.product_name,
+    #         'product_name2': products.product_name2,
+    #         'product_standard_number': products.product_standard_number,
+    #         'product_uom': products.product_uom.id,
+    #         'product_uom_id': products.product_uom_id,
+    #         'product_uom_qty': products.product_uom_qty,
+    #         'qty_delivered': products.qty_delivered,
+    #         'qty_delivered_manual': products.qty_delivered_manual,
+    #         'quotation_custom_line_no': len(self.order_id.order_line) + 1,
+    #         'sequence': products.sequence,
+    #         'state': products.state,
+    #         'tax_rate': products.tax_rate,
+    #         'copy_history_flag': True,
+    #     })]
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
