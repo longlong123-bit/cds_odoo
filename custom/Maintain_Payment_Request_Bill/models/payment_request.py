@@ -47,6 +47,8 @@ class BillInvoiceDetail(models.Model):
             count_detail += 1
         if count > 0:
             count_detail += 1
+        if self.payment_id.comment_apply:
+            count_detail += 1
         return count_detail
 
     def gross_maker_and_standard(self):
