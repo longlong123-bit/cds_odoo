@@ -988,9 +988,9 @@
                                     </t>
 
                                     <!--Set count_page_detail when record detail is smaller than record detail of default page-->
-                                    <t t-if="(pager == 1 and 50 &gt; count_invoice_detail) or (pager &gt; 1 and 56 &gt; count_invoice_detail)">
-                                        <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>
-                                    </t>
+<!--                                    <t t-if="(pager == 1 and 50 &gt; count_invoice_detail) or (pager &gt; 1 and 56 &gt; count_invoice_detail)">-->
+<!--                                        <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>-->
+<!--                                    </t>-->
                                     <!--Display 【合計、税別御買上計、消費税】 at the end page invoice-->
                                     <t t-if="range_total_page_detail == (total_page_detail - 1)">
                                         <t t-set="rows_detail_default" t-value="50"/>
