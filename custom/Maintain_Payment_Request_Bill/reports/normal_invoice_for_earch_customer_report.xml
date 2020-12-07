@@ -1778,9 +1778,9 @@
                                     </t>
 
                                     <!--Set count_page_detail when record detail is smaller than record detail of default page-->
-                                    <t t-if="(pager == 1 and 50 &gt; count_invoice_detail) or (pager &gt; 1 and 56 &gt; count_invoice_detail)">
-                                        <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>
-                                    </t>
+<!--                                    <t t-if="(pager == 1 and 50 &gt; count_invoice_detail) or (pager &gt; 1 and 56 &gt; count_invoice_detail)">-->
+<!--                                        <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>-->
+<!--                                    </t>-->
                                     <t t-if="count_rows_total_page_detail == 4">
                                         <t t-set="count_rows_total_page_detail" t-value="1"/>
                                     </t>
