@@ -305,9 +305,7 @@ class IncomePaymentCustom(models.Model):
             rec.line_info = _('売掛残高：') + str("{:,.2f}".format(receivable)) + '　' \
                             + _('入金額合計：') + str("{:,.2f}".format(total_payment_amounts))
 
-            # print('document_no')
             if rec.account_payment_line_ids:
-                print('document_no')
                 query = "UPDATE account_payment " \
                         "SET payment_amount=%s,amount=%s" \
                         "WHERE document_no=%s "
