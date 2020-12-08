@@ -20,6 +20,7 @@
             <t t-set="o" t-value="o.with_context(lang=lang)"/>
             <t t-set="tax_transfer_previous_data" t-value=""/>
             <t t-set="amount_tax_previous_data" t-value="0"/>
+            <t t-set="summary_total_amount_previous_data" t-value="0"/>
             <t t-foreach="range(1, total_page_detail)" t-as="range_total_page_detail">
                 <t t-set="count_detail" t-value="1"/>
                 <t t-set="pager" t-value="pager + 1"/>
