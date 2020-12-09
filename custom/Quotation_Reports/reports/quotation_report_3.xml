@@ -94,11 +94,11 @@
                                             </t>
                                             <span t-else="" style="float: right; font-size: 18px">様</span>
                                         </div>
-                                        <t t-if="o.report_header.name.replace(' ','') == '注文書'" t-set="massage" t-value="'御注文'"/>
-                                        <t t-if="o.report_header.name.replace(' ','') == '見積書'" t-set="massage" t-value="'御見積'"/>
-                                        <t t-if="o.report_header.name.replace(' ','') == '完了届'" t-set="massage" t-value="'完了'"/>
-                                        <t t-if="o.report_header.name.replace(' ','') == '納品書'" t-set="massage" t-value="'納品'"/>
-                                        <t t-if="o.report_header.name.replace(' ','') == '請求書'" t-set="massage" t-value="'御請求'"/>
+                                        <t t-if="o.report_header.name.replace(' ','') == '注文書' or o.report_header.name.replace('　','') == '注文書'" t-set="massage" t-value="'御注文'"/>
+                                        <t t-if="o.report_header.name.replace(' ','') == '見積書' or o.report_header.name.replace('　','') == '見積書'" t-set="massage" t-value="'御見積'"/>
+                                        <t t-if="o.report_header.name.replace(' ','') == '完了届' or o.report_header.name.replace('　','') == '完了届'" t-set="massage" t-value="'完了'"/>
+                                        <t t-if="o.report_header.name.replace(' ','') == '納品書' or o.report_header.name.replace('　','') == '納品書'" t-set="massage" t-value="'納品'"/>
+                                        <t t-if="o.report_header.name.replace(' ','') == '請求書' or o.report_header.name.replace('　','') == '請求書'" t-set="massage" t-value="'御請求'"/>
                                         <div style="margin-top: 10px; font-size: 16px">
                                             <span>下記の通り<span t-esc="massage"/>申し上げます。</span>
                                             <br/>
@@ -1097,7 +1097,7 @@
                                     </tbody>
                                 </table>
                                 <div style="font-size: 16px; font-weight: 600; padding: 5px 0 5px 30px; line-height: 1.5;"
-                                     t-if="o.report_header.name.replace(' ','') =='請求書'">
+                                     t-if="o.report_header.name.replace(' ','') == '請求書' or o.report_header.name.replace('　','') == '請求書'">
                                     <span t-if="o.company_id.company_bank_account_1">振込口座:</span>
                                     <span t-if="o.company_id.company_bank_account_1" t-field="o.company_id.company_bank_account_1"/>
                                     <div style="font-size: 16px; font-weight: 400; padding: 5px 0 5px 0px; max-height: 110px; width: 100%; overflow: hidden; text-overflow: ellipsis;">
