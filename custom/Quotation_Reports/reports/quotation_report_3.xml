@@ -69,36 +69,36 @@
                                     <div style="margin-top: -5px; margin-bottom: 0px; width: 50%; display: inline-block;">
                                         <div style="border-bottom: 2px solid; font-size:16px; border-bottom: 1px solid;">
                                             <t t-if="o.partner_name_2">
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="o.limit_chapter_reports(o.partner_name)">
                                                     <null/>
                                                 </span>
                                                 <br/>
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="o.limit_chapter_reports(o.partner_name_2)">
                                                 </span>
                                             </t>
                                             <t t-else="">
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                <span style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                     <null/>
                                                 </span>
                                                 <br/>
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="o.limit_chapter_reports(o.partner_name)">
                                                     <null/>
                                                 </span>
                                             </t>
                                             <t t-if="o.partner_id.title">
                                                 <span t-field="o.partner_id.title"
-                                                      style="font-size: 18px; float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                      style="font-size: 24px; float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
                                             </t>
-                                            <span t-else="" style="float: right; font-size: 18px">様</span>
+                                            <span t-else="" style="padding-top: 6px; float: right; font-size: 18px">様</span>
                                         </div>
-                                        <t t-if="o.report_header.name == '注文書'" t-set="massage" t-value="'御注文'"/>
-                                        <t t-if="o.report_header.name == '見積書'" t-set="massage" t-value="'御見積'"/>
-                                        <t t-if="o.report_header.name == '完了届'" t-set="massage" t-value="'完了'"/>
-                                        <t t-if="o.report_header.name == '納品書'" t-set="massage" t-value="'納品'"/>
-                                        <t t-if="o.report_header.name == '請求書'" t-set="massage" t-value="'御請求'"/>
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '注文書'" t-set="massage" t-value="'御注文'"/>
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '見積書'" t-set="massage" t-value="'御見積'"/>
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '完了届'" t-set="massage" t-value="'完了'"/>
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '納品書'" t-set="massage" t-value="'納品'"/>
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '請求書'" t-set="massage" t-value="'御請求'"/>
                                         <div style="margin-top: 10px; font-size: 16px">
                                             <span>下記の通り<span t-esc="massage"/>申し上げます。</span>
                                             <br/>
@@ -150,18 +150,18 @@
                                         <div style="width: 100%; border-bottom: 1px solid;" t-if="pager==1">
                                             <span style="">合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
-                                                <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"/>
                                             </t>
                                             <t t-else="">
-                                                <span style="display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))"/>
                                             </t>
                                             <t t-if="o.tax_method =='invoice'">
-                                                <span>（税抜）</span>
+                                                <span style="font-size: 24px;">（税抜）</span>
                                             </t>
                                             <t t-else="">
-                                                <span>(税込)</span>
+                                                <span style="font-size: 24px;">(税込)</span>
                                             </t>
                                         </div>
                                     </div>
@@ -1097,7 +1097,7 @@
                                     </tbody>
                                 </table>
                                 <div style="font-size: 16px; font-weight: 600; padding: 5px 0 5px 30px; line-height: 1.5;"
-                                     t-if="o.report_header.name =='請求書'">
+                                     t-if="o.report_header.name.replace(' ','').replace('　','') == '請求書'">
                                     <span t-if="o.company_id.company_bank_account_1">振込口座:</span>
                                     <span t-if="o.company_id.company_bank_account_1" t-field="o.company_id.company_bank_account_1"/>
                                     <div style="font-size: 16px; font-weight: 400; padding: 5px 0 5px 0px; max-height: 110px; width: 100%; overflow: hidden; text-overflow: ellipsis;">
