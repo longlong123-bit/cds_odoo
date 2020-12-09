@@ -621,13 +621,14 @@ class ProductTemplate(models.Model):
         """
         ctx = self._context.copy()
         # han-lh comment - update domain for product - start
-        sample_product_jancode = '0000000000000'
-        uid = self.env['res.users'].search([('id', '=', ctx.get('uid'))])
-        if not uid.has_group('base.group_erp_manager'):
-            args += [['barcode', '!=', sample_product_jancode]]
-        else:
-            if ['barcode', '!=', sample_product_jancode] in args:
-                args.remove(['barcode', '!=', sample_product_jancode])
+        if ctx.get('product_master_module'):
+            sample_product_jancode = '0000000000000'
+            uid = self.env['res.users'].search([('id', '=', ctx.get('uid'))])
+            if not uid.has_group('base.group_erp_manager'):
+                args += [['barcode', '!=', sample_product_jancode]]
+            else:
+                if ['barcode', '!=', sample_product_jancode] in args:
+                    args.remove(['barcode', '!=', sample_product_jancode])
         # han-lh comment - update domain for product - end
         if ctx.get('limit') and args:
             limit = ctx['limit']

@@ -423,7 +423,7 @@
         <field name="res_model">product.product</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="view_id" ref="product_product_custom_tree_view"/>
-        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true'}</field>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'product_master_module': True}</field>
         <field name="search_view_id" ref="product_custom_template_search_view"/>
     </record>
 
