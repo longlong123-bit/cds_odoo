@@ -61,29 +61,76 @@
                                         </div>
                                     </div>
                                     <div style="display: inline-block; width: 100%">
-                                        <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
-                                            <div style="border-bottom: 2px solid; font-size:16px; border-bottom: 1px solid;">
-                                                <t t-if="o.partner_name_2">
-                                                    <span style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                        <div style="margin-bottom: 10px; width: 50%; display: inline-block;">
+                                            <t t-if="len(o.partner_name) &gt;= 18 or len(o.partner_name_2) &gt;= 18">
+                                                <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
+                                                    <t t-if="o.partner_name_2">
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                            <null/>
+                                                        </span>
+                                                        <br/>
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                        </span>
+                                                    </t>
+                                                    <span t-else="" style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
-                                                    <br/>
-                                                    <span style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                    <t t-if="o.partner_id.title">
+                                                        <span t-field="o.partner_id.title"
+                                                              style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                    </t>
+                                                    <span t-else="" style="padding-top: 2px; float: right; font-size: 18px">様</span>
+                                                </div>
+                                            </t>
+                                            <t t-elif="len(o.partner_name) &gt;= 16 or len(o.partner_name_2) &gt;= 16">
+                                                <div style="border-bottom: 2px solid; font-size:20px; border-bottom: 1px solid;">
+                                                    <t t-if="o.partner_name_2">
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                            <null/>
+                                                        </span>
+                                                        <br/>
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                        </span>
+                                                    </t>
+                                                    <span t-else="" style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                        <null/>
                                                     </span>
-                                                </t>
-                                                <span t-else=""
-                                                      style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                      t-esc="o.limit_chapter_reports(o.partner_name)">
-                                                    <null/>
-                                                </span>
-                                                <t t-if="o.partner_id.title">
-                                                    <span t-field="o.partner_id.title"
-                                                          style="font-size: 24px; float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
-                                                </t>
-                                                <span t-else="" style="padding-top: 6px; float: right; font-size: 18px">様</span>
-                                            </div>
+                                                    <t t-if="o.partner_id.title">
+                                                        <span t-field="o.partner_id.title"
+                                                              style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                    </t>
+                                                    <span t-else="" style="padding-top: 4px; float: right; font-size: 18px">様</span>
+                                                </div>
+                                            </t>
+                                            <t t-else="">
+                                                <div style="border-bottom: 2px solid; font-size:22px; border-bottom: 1px solid;">
+                                                    <t t-if="o.partner_name_2">
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                            <null/>
+                                                        </span>
+                                                        <br/>
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                        </span>
+                                                    </t>
+                                                    <span t-else="" style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                        <null/>
+                                                    </span>
+                                                    <t t-if="o.partner_id.title">
+                                                        <span t-field="o.partner_id.title"
+                                                              style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                    </t>
+                                                    <span t-else="" style="padding-top: 6px; float: right; font-size: 18px">様</span>
+                                                </div>
+                                            </t>
                                             <t t-if="o.report_header.name.replace(' ','').replace('　','') == '注文書'" t-set="massage" t-value="'御注文'"/>
                                             <t t-if="o.report_header.name.replace(' ','').replace('　','') == '見積書'" t-set="massage" t-value="'御見積'"/>
                                             <t t-if="o.report_header.name.replace(' ','').replace('　','') == '完了届'" t-set="massage" t-value="'完了'"/>
