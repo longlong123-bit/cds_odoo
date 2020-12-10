@@ -44,7 +44,7 @@
                                     </div>
                                 </div>
                                 <!--      Middle      -->
-                                <div>
+                                <div style="margin-bottom: 20px">
                                     <div style="float: right; text-align: right; width: 100%">
                                         <div style="margin-bottom: 10px">
                                             <div style="font-size: 18px;">
@@ -176,7 +176,7 @@
                                                             <t t-set="subtotal_tax_amount_o" t-value="subtotal_tax_amount_o + int(order.line_tax_amount)"/>
                                                         </t>
                                                         <tr style="font-size: 14px; height: 38px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
@@ -424,7 +424,7 @@
                                                             <t t-set="subtotal_tax_amount_o" t-value="subtotal_tax_amount_o + order.voucher_line_tax_amount"/>
                                                         </t>
                                                         <tr style="font-size: 14px; height: 38px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
@@ -674,7 +674,7 @@
                                                         <t t-set="line_id_id" t-value="order.id"/>
                                                         <t t-set="subtotal_amount" t-value="subtotal_amount + order.line_amount"/>
                                                         <tr style="font-size: 14px; height: 42px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
@@ -834,7 +834,7 @@
                                                         <t t-set="line_id_id" t-value="order.id"/>
                                                         <t t-set="subtotal_amount" t-value="subtotal_amount + order.line_amount"/>
                                                         <tr style="font-size: 14px; height: 38px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
@@ -1044,16 +1044,19 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div style="padding-top: 5px; line-height: 1.5" t-else="">
-                                        <span style="font-size: 18px; font-weight: 600; padding: 10px 0 10px 292px; text-align: center;">
+                                    <div style="padding-top: 10px;line-height: 1.5;" t-else="">
+                                        <span style="font-size: 20px; font-weight: 600; padding: 5px 0 5px 292px; text-align: center;">
                                             主要取扱メーカー
                                         </span>
                                         <br/>
-                                        <span style="display: block; max-height: 100px; width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: 16px;">
-                                            事務機器　 キャノン・理想理学・NEC・富士通・シャープ・東芝テック・アマノ<br/>
-                                            オフィス家具　イトーキ・ウチダ・コクヨ・ライオン・オカムラ・　プラス・アイリスチトセ・ホウトク<br/>
-                                            教育機器　島津理化・ウチダ・学研・ケニス・　日本医療器・美術出版・京都科学標本・　キハラ・ヤガミ<br/>
-                                            事務用品　 コクヨ事務用品外全版
+                                        <span style="display: block; max-height: 80px; width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: 18px; max-height: 110px;">
+                                            事務機器&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;キャノン・理想科学・ＮＥＣ・富士通・シャープ・東芝テック・アマノ
+                                            <br/>
+                                            オフィス家具&#160;&#160;&#160;&#160;イトーキ・ウチダ・コクヨ・ライオン・オカムラ・プラス・アイリスチトセ・ホウトク
+                                            <br/>
+                                            教育機器&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;島津理化・ウチダ・学研・ケニス・　日本医療器・美術出版・　キハラ・ヤガミ
+                                            <br/>
+                                            事務用品&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;コクヨ事務用品外全般
                                         </span>
                                     </div>
                                 </div>
