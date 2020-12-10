@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                             <!--      Middle      -->
-                            <div>
+                            <div style="margin-bottom: 20px">
                                 <div style="float: right; text-align: right; width: 100%">
                                     <div style="margin-bottom: 10px">
                                         <div style="font-size: 18px;">
@@ -63,29 +63,77 @@
                                     </div>
                                 </div>
                                 <div style="display: inline-block; width: 100%">
-                                    <div style="margin-top: 10px; margin-bottom: 10px; width: 50%; display: inline-block;">
-                                        <div style="border-bottom: 2px solid; font-size:16px; border-bottom: 1px solid;">
-                                            <t t-if="o.partner_name_2">
-                                                <span style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                    <div style="margin-bottom: 10px; width: 50%; display: inline-block;">
+                                        <t t-if="len(o.partner_name) &gt;= 18 or (o.partner_name_2 and len(o.partner_name_2) &gt;= 18)">
+                                            <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
+                                                <t t-if="o.partner_name_2">
+                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                        <null/>
+                                                    </span>
+                                                    <br/>
+                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                    </span>
+                                                </t>
+                                                <span t-else="" style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="o.limit_chapter_reports(o.partner_name)">
                                                     <null/>
                                                 </span>
-                                                <br/>
-                                                <span style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                      t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                <t t-if="o.partner_id.title">
+                                                    <span t-field="o.partner_id.title"
+                                                          style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                </t>
+                                                <span t-else="" style="padding-top: 2px; float: right; font-size: 18px">
+                                                    様</span>
+                                            </div>
+                                        </t>
+                                        <t t-elif="len(o.partner_name) &gt;= 16 or (o.partner_name_2 and len(o.partner_name_2) &gt;= 16)">
+                                            <div style="border-bottom: 2px solid; font-size:20px; border-bottom: 1px solid;">
+                                                <t t-if="o.partner_name_2">
+                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                        <null/>
+                                                    </span>
+                                                    <br/>
+                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                    </span>
+                                                </t>
+                                                <span t-else="" style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                      t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                    <null/>
                                                 </span>
-                                            </t>
-                                            <span t-else=""
-                                                  style="font-size: 24px; display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                  t-esc="o.limit_chapter_reports(o.partner_name)">
-                                                <null/>
-                                            </span>
-                                            <t t-if="o.partner_id.title">
-                                                <span t-field="o.partner_id.title"
-                                                      style="font-size: 24px; float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
-                                            </t>
-                                            <span t-else="" style="padding-top: 6px; float: right; font-size: 18px">様</span>
-                                        </div>
+                                                <t t-if="o.partner_id.title">
+                                                    <span t-field="o.partner_id.title" style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                </t>
+                                                <span t-else="" style="padding-top: 4px; float: right; font-size: 18px">
+                                                    様</span>
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div style="border-bottom: 2px solid; font-size:22px; border-bottom: 1px solid;">
+                                                <t t-if="o.partner_name_2">
+                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                        <null/>
+                                                    </span>
+                                                    <br/>
+                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                    </span>
+                                                </t>
+                                                <span t-else="" style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                      t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                    <null/>
+                                                </span>
+                                                <t t-if="o.partner_id.title">
+                                                    <span t-field="o.partner_id.title" style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                </t>
+                                                <span t-else="" style="padding-top: 6px; float: right; font-size: 18px">
+                                                    様</span>
+                                            </div>
+                                        </t>
                                         <t t-if="o.report_header.name.replace(' ','').replace('　','') == '注文書'" t-set="massage" t-value="'御注文'"/>
                                         <t t-if="o.report_header.name.replace(' ','').replace('　','') == '見積書'" t-set="massage" t-value="'御見積'"/>
                                         <t t-if="o.report_header.name.replace(' ','').replace('　','') == '完了届'" t-set="massage" t-value="'完了'"/>
@@ -200,7 +248,7 @@
                                                            t-value="subtotal_tax_amount_o + int(order.line_tax_amount)"/>
                                                     </t>
                                                     <tr style="font-size: 14px; height: 38px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
@@ -253,7 +301,7 @@
                                                                 <null/>
                                                             </span>
                                                         </td>
-                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: right; ">
+                                                        <td style="border-bottom: 1px solid #000000;border-top: 0; border-left: 0; border-right: 0; text-align: left; ">
                                                             <t t-if="order.product_id.product_tax_category == 'exempt'">
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                     ※非課税
@@ -468,7 +516,7 @@
                                                            t-value="subtotal_tax_amount_o + order.voucher_line_tax_amount"/>
                                                     </t>
                                                     <tr style="font-size: 14px; height: 38px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
@@ -733,7 +781,7 @@
                                                     <t t-set="subtotal_amount"
                                                        t-value="subtotal_amount + order.line_amount"/>
                                                     <tr style="font-size: 14px; height: 42px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
@@ -896,7 +944,7 @@
                                                     <t t-set="subtotal_amount"
                                                        t-value="subtotal_amount + order.line_amount"/>
                                                     <tr style="font-size: 14px; height: 38px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
@@ -1113,19 +1161,19 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div style="padding-top: 5px; line-height: 1.5;" t-else="">
-                                    <span style="font-size: 18px; font-weight: 600; padding: 10px 0 10px 292px; text-align: center;">
+                                <div style="padding-top: 10px;line-height: 1.5;" t-else="">
+                                    <span style="font-size: 19px; font-weight: 600; padding: 5px 0 5px 292px; text-align: center;">
                                         主要取扱メーカー
                                     </span>
                                     <br/>
-                                    <span style="display: block; font-size: 16px; max-height: 100px; width: 100%; overflow: hidden; text-overflow: ellipsis;">
-                                        事務機器　 キャノン・理想理学・NEC・富士通・シャープ・東芝テック・アマノ
+                                    <span style="display: block; max-height: 80px; width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: 17px; max-height: 110px;">
+                                        事務機器&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;キャノン・理想科学・ＮＥＣ・富士通・シャープ・東芝テック・アマノ
                                         <br/>
-                                        オフィス家具　イトーキ・ウチダ・コクヨ・ライオン・オカムラ・　プラス・アイリスチトセ・ホウトク
+                                        オフィス家具&#160;&#160;&#160;&#160;イトーキ・ウチダ・コクヨ・ライオン・オカムラ・プラス・アイリスチトセ・ホウトク
                                         <br/>
-                                        教育機器　島津理化・ウチダ・学研・ケニス・　日本医療器・美術出版・京都科学標本・　キハラ・ヤガミ
+                                        教育機器&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;島津理化・ウチダ・学研・ケニス・　日本医療器・美術出版・　キハラ・ヤガミ
                                         <br/>
-                                        事務用品　 コクヨ事務用品外全版
+                                        事務用品&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;コクヨ事務用品外全般
                                     </span>
                                 </div>
                             </div>
