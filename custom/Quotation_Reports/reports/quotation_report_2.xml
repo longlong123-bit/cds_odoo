@@ -62,7 +62,7 @@
                                     </div>
                                     <div style="display: inline-block; width: 100%">
                                         <div style="margin-bottom: 10px; width: 50%; display: inline-block;">
-                                            <t t-if="len(o.partner_name) &gt;= 18 or len(o.partner_name_2) &gt;= 18">
+                                            <t t-if="len(o.partner_name) &gt;= 18 or (o.partner_name_2 and len(o.partner_name_2) &gt;= 18)">
                                                 <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
                                                     <t t-if="o.partner_name_2">
                                                         <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -85,7 +85,7 @@
                                                     <span t-else="" style="padding-top: 2px; float: right; font-size: 18px">様</span>
                                                 </div>
                                             </t>
-                                            <t t-elif="len(o.partner_name) &gt;= 16 or len(o.partner_name_2) &gt;= 16">
+                                            <t t-elif="len(o.partner_name) &gt;= 16 or (o.partner_name_2 and len(o.partner_name_2) &gt;= 16)">
                                                 <div style="border-bottom: 2px solid; font-size:20px; border-bottom: 1px solid;">
                                                     <t t-if="o.partner_name_2">
                                                         <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -1092,11 +1092,11 @@
                                         </div>
                                     </div>
                                     <div style="padding-top: 10px;line-height: 1.5;" t-else="">
-                                        <span style="font-size: 20px; font-weight: 600; padding: 5px 0 5px 292px; text-align: center;">
+                                        <span style="font-size: 19px; font-weight: 600; padding: 5px 0 5px 292px; text-align: center;">
                                             主要取扱メーカー
                                         </span>
                                         <br/>
-                                        <span style="display: block; max-height: 80px; width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: 18px; max-height: 110px;">
+                                        <span style="display: block; max-height: 80px; width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: 17px; max-height: 110px;">
                                             事務機器&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;キャノン・理想科学・ＮＥＣ・富士通・シャープ・東芝テック・アマノ
                                             <br/>
                                             オフィス家具&#160;&#160;&#160;&#160;イトーキ・ウチダ・コクヨ・ライオン・オカムラ・プラス・アイリスチトセ・ホウトク
