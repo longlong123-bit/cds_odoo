@@ -102,6 +102,12 @@
                     <input class="filter-item" data-operator="ilike" data-name="product_maker_name"/>
                 </td>
             </tr>
+            <tr>
+                <th>商品名</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="product_name"/>
+                </td>
+            </tr>
         </table>
     </t>
 </template>
