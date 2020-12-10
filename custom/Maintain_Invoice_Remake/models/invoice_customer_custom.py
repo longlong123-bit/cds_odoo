@@ -160,7 +160,8 @@ def copy_data_from_quotation(rec, quotation, account):
                     'account_id': account.id,
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
-                    'invoice_custom_line_no': line.quotation_custom_line_no
+                    'invoice_custom_line_no': line.quotation_custom_line_no,
+                    'invoice_custom_Description': line.description
                 }))
 
         rec.invoice_line_ids = invoice_line_ids
