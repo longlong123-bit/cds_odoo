@@ -1216,6 +1216,9 @@ class ClassInvoiceCustom(models.Model):
                     se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
+                if se[0] == 'x_studio_document_no':
+                    if "ARI-" not in se[2]:
+                        se[2] = ''.join(["ARI-", se[2]])
             args = domain
         # res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return super(ClassInvoiceCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
@@ -2357,6 +2360,9 @@ class AccountMoveLine(models.Model):
                     se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
+                if se[0] == 'move_id.x_studio_document_no':
+                    if "ARI-" not in se[2]:
+                        se[2] = ''.join(["ARI-", se[2]])
             args = domain
         res = super(AccountMoveLine, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
