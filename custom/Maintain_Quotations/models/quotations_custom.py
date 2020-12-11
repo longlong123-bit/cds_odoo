@@ -1626,7 +1626,7 @@ class QuotationsLinesCustom(models.Model):
             domain = []
             check = 0
             arr = ["partner_id", "partner_id.name", "order_id.sales_rep", "product_code", "product_barcode",
-                   "product_standard_number", "product_maker_name", "product_name"]
+                   "product_standard_number", "product_maker_name"]
             for se in args:
                 if se[0] == '&':
                     continue

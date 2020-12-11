@@ -2346,7 +2346,7 @@ class AccountMoveLine(models.Model):
             check = 0
             arr = ["partner_id", "partner_id.name", "move_id.x_userinput_id", "customer_state", "customer_group",
                    "customer_industry", "customer_trans_classification_code", "product_code", "product_barcode",
-                   "invoice_custom_standardnumber", "product_maker_name", "product_name"]
+                   "invoice_custom_standardnumber", "product_maker_name"]
             for se in args:
                 if se[0] == '&':
                     continue
