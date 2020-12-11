@@ -87,7 +87,7 @@
                                         </p>
                                     </div>
                                     <div style="display: inline-block; width: 410px; margin-left: 20px; margin-bottom: 5px;">
-                                        <t t-if="len(o.partner_id.name) &gt;= 20 or len(o.partner_id.customer_name_2) &gt;= 20">
+                                        <t t-if="len(o.partner_id.name) &gt;= 20 or (o.partner_id.customer_name_2 and len(o.partner_id.customer_name_2) &gt;= 20)">
                                             <div style="font-size: 18px; height: 42px;">
                                                 <t t-set="p_style"
                                                    t-value="'height: 21px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left; '"/>
