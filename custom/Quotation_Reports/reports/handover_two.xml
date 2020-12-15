@@ -635,8 +635,16 @@
                                                 <t t-set="subtotal_tax_amount1_10"
                                                    t-value="int(subtotal_tax_amount1_10)"/>
                                             </t>
-                                            <t t-set="subtotal_tax_amount1_8"
-                                               t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
+                                            <t t-if="o.amount_tax_category_check(8)">
+                                                <t t-set="subtotal_tax_amount1_8"
+                                                   t-value="o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="subtotal_tax_amount1_10"
+                                                   t-value="subtotal_tax_amount1_10 + o.amount_tax - int(subtotal_tax_amount1_10) - int(subtotal_tax_amount1_o)"/>
+                                                <t t-set="subtotal_tax_amount1_8"
+                                                   t-value="0"/>
+                                            </t>
                                             <t t-if="check_line != 0">
                                                 <t t-if="subtotal_tax_amount1_8 and o.amount_tax_category_check(8) == 0">
                                                     <t t-set="subtotal_tax_amount1_10" t-value="subtotal_tax_amount1_10 + subtotal_tax_amount1_8"/>
