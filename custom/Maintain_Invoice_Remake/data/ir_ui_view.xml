@@ -476,6 +476,11 @@
                        options="{'currency_field': 'currency_id'}"/>
             </group>
         </xpath>
+      <xpath expr = "//field[@name='narration']" position="attributes" >
+          <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr = "//div[contains(@class, 'oe_chatter')]" position="replace"/>
+      <xpath expr = "//div[contains(@class, 'o_attachment_preview')]" position="replace"/>
     </field>
   </record>
 
