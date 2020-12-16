@@ -107,11 +107,22 @@ class QuotationsCustom(models.Model):
     comment_apply = fields.Text(string='Comment Apply', readonly=True, states={'draft': [('readonly', False)]})
 
     def _default_report_header(self):
-        default = self.env['sale.order.reportheader'].search([('name', '=', '見積書')], limit=1)
+        # TH - Change default
+        reportheader_temp = []
+        default = self.env['sale.order.reportheader'].search([('name', 'ilike', '見')])
         if not default:
             return ''
         else:
-            return default.id
+            for report in default:
+                report_replace = report.name.replace(' ', '').replace('　', '')
+                if report_replace == '見積書':
+                    if report.name == '見　積　書':
+                        return report.id
+                    reportheader_temp.append(report.id)
+            if reportheader_temp:
+                return max(reportheader_temp)
+            else:
+                return ''
 
     report_header = fields.Many2one('sale.order.reportheader', string='Report Header', default=_default_report_header)
     # report_header = fields.Selection([
