@@ -1474,6 +1474,34 @@ msgid "Sales Rep Name"
 msgstr "営業担当者"
 
 #. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Posted"
+msgstr "記帳済み"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Draft"
+msgstr "ドラフト"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Cancel"
+msgstr "記帳取消"
+
+#. module: Maintain_Invoice_Remake
+#. openerp-web
+#: code:addons/Maintain_Invoice_Remake/static/src/xml/advanced_search.xml:0
+#, python-format
+msgid "Document Status"
+msgstr "伝票ステータス"
+
+#. module: Maintain_Invoice_Remake
 #: model:ir.actions.act_window,name:Maintain_Invoice_Remake.invoice_history_action
 #: model:ir.ui.menu,name:Maintain_Invoice_Remake.menu_ideas
 #: model_terms:ir.ui.view,arch_db:Maintain_Invoice_Remake.invoice_history_tree_view
