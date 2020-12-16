@@ -98,6 +98,16 @@
                     <input class="filter-item" data-operator="ilike" data-name="customer_trans_classification_code"/>
                 </td>
             </tr>
+            <tr>
+                <th>Document Status</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="state" style="height:25px;">
+                        <option value="posted">Posted</option>
+                        <option value="draft">Draft</option>
+                        <option value="cancel">Cancel</option>
+                    </select>
+                </td>
+            </tr>
         </table>
     </t>
 </template>
