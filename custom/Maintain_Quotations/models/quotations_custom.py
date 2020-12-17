@@ -688,9 +688,14 @@ class QuotationsCustom(models.Model):
                     se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
+                #TH - custom domain
                 if se[0] == 'document_no':
-                    if "ARQ-" not in se[2]:
-                        se[2] = ''.join(["ARQ-", se[2]])
+                    string_middle = ''
+                    for i in range(6 - len(se[2])):
+                        string_middle += '0'
+                    if len(se[2]) < 11:
+                        se[2] = ''.join(["ARQ-1", string_middle, se[2]])
+                #TH - done
             args = domain
         res = super(QuotationsCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
         # if ctx.get('view_name') == 'confirm_sale_order':
@@ -1650,9 +1655,14 @@ class QuotationsLinesCustom(models.Model):
                     se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
+                # TH - custom domain
                 if se[0] == 'document_no':
-                    if "ARQ-" not in se[2]:
-                        se[2] = ''.join(["ARQ-", se[2]])
+                    string_middle = ''
+                    for i in range(6 - len(se[2])):
+                        string_middle += '0'
+                    if len(se[2]) < 11:
+                        se[2] = ''.join(["ARQ-1", string_middle, se[2]])
+                # TH - done
             args = domain
         res = super(QuotationsLinesCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
