@@ -145,19 +145,37 @@
                                         <t t-if="o.report_header.name.replace(' ','').replace('　','') == '納品書'" t-set="massage" t-value="'納品'"/>
                                         <t t-if="o.report_header.name.replace(' ','').replace('　','') == '請求書'" t-set="massage" t-value="'御請求'"/>
                                         <div style="margin-top: 10px; font-size: 16px">
-                                            <span>下記の通り<span t-esc="massage"/>申し上げます。</span>
-                                            <br/>
-                                            <span>納入期日</span>
-                                            <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" t-field="o.expected_date"/>
-                                            <br/>
-                                            <span>納入場所</span>
-                                            <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" t-field="o.shipping_address"/>
-                                            <br/>
-                                            <span style="display: inline-block;">代金支払い条件</span>
-                                            <span style="display: inline-block; width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" t-field="o.note"/>
-                                            <br/>
-                                            <span>有効期限</span>
-                                            <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" t-field="o.expiration_date"/>
+                                            <div style="margin-bottom: 3px; height: 16px;">
+                                                <t t-if="o.comment">
+                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="o.limit_charater_field(o.comment, 10)">
+                                                        <null/>
+                                                    </span>
+                                                </t>
+                                            </div>
+                                            <div style="margin-bottom: 10px;">
+                                                <span>下記の通り<span t-esc="massage"/>申し上げます。</span>
+                                            </div>
+                                            <div style="width: 435px; border-bottom: 1px solid; margin-bottom: 3px;">
+                                                <span>納入期日</span>
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                      t-field="o.expected_date"/>
+                                            </div>
+                                            <div style="width: 435px; border-bottom: 1px solid; margin-bottom: 3px;">
+                                                <span>納入場所</span>
+                                                <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                      t-field="o.shipping_address"/>
+                                            </div>
+                                            <div style="width: 435px; border-bottom: 1px solid; margin-bottom: 3px;">
+                                                <span>支払方法</span>
+                                                <span style="display: inline-block; width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                      t-field="o.note"/>
+                                            </div>
+                                            <div style="width: 435px; border-bottom: 1px solid;">
+                                                <span>有効期限</span>
+                                                <span style="width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                      t-field="o.expiration_date"/>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -166,19 +184,19 @@
                                         <br/>
                                         <span>代表取締役　　遠 藤 孝 二</span>
                                         <br/>
-                                        <span>本　社</span>
-                                        <span>千葉県銚子市新生町二丁目12番地の５</span>
+                                        <span>本社</span>
+                                        <span>千葉県銚子市新生町二丁目１２番地の5</span>
                                         <br/>
-                                        <span>TEL　0479－24－3721　FAX　0479-24-9376</span>
+                                        <span>TEL　0479-24-3721　FAX　0479-24-9376</span>
                                         <br/>
-                                        <span>神栖営業所　茨 城 県 神 栖 市 溝 口 6 3 2 - 2</span>
+                                        <span>神栖営業所　茨城県神栖市溝 口 ６３２－２</span>
                                         <br/>
                                         <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
                                         <br/>
                                     </div>
                                 </div>
-                                <div style=" display: inline-block; width: 100%; margin-top: 10px;">
-                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block;">
+                                <div style=" display: inline-block; width: 100%;">
+                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block; margin-top: 16px;">
                                         <div style="width: 100%; border-bottom: 1px solid;" t-if="pager==1">
                                             <span style="">合計金額　￥</span>
                                             <t t-if="o.tax_method == 'invoice'">
@@ -197,16 +215,17 @@
                                             </t>
                                         </div>
                                     </div>
-                                    <div style="float: right; font-size: 16px; display: block; margin-top: 3px; width: 49%;">
-                                        <div>
-                                            <span style="display: inline-block; width: 360px; height: 18px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                    <div style="float: right; font-size: 16px; display: block; width: 49%;">
+                                        <div style="border-bottom: 1px solid; width: 425px;">
+                                            <span>担当：</span>
+                                            <span style="display: inline-block; height: 18px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                   t-field="o.comment_apply">
                                                 <null/>
                                             </span>
                                         </div>
-                                        <div>
+                                        <div style="border-bottom: 1px solid; width: 425px; margin-top: 3px;">
                                             <span>要件：</span>
-                                            <span style="display: inline-block; width: 286px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                            <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                   t-field="o.quotation_name">
                                                 <null/>
                                             </span>
@@ -414,7 +433,7 @@
                                             <td style="border: 1px solid #000000; border-top: 0; font-size: 18px; text-align: center;">
                                                 <div style="display: table; height: 60px; width: 49%; float: left; text-align: left; padding-left: 15%;">
                                                     <span style="vertical-align: middle; display: table-cell;">
-                                                    小　　　　計
+                                                        小　　　　計
                                                     </span>
                                                 </div>
                                                 <div style="display: inline-block; height: 60px; width: 30%; float: right; text-align: right;">
@@ -660,7 +679,7 @@
                                             <td style="border: 1px solid #000000; border-top: 0; font-size: 18px; text-align: center;">
                                                 <div style="display: table; height: 60px; width: 49%; float: left; text-align: left; padding-left: 15%;">
                                                     <span style="vertical-align: middle; display: table-cell;">
-                                                    小　　　　計
+                                                        小　　　　計
                                                     </span>
                                                 </div>
                                                 <div style="display: inline-block; height: 60px; width: 30%; float: right; text-align: right;">
@@ -908,7 +927,7 @@
                                             <td style="border: 1px solid #000000; font-size: 18px; text-align: center;border-top: 0;">
                                                 <div style="display: table; height: 60px; width: 59%; float: left; text-align: center; margin-left: 15%;">
                                                     <span style="vertical-align: middle; display: table-cell;">
-                                                    小　　　　計
+                                                        小　　　　計
                                                     </span>
                                                 </div>
                                             </td>
