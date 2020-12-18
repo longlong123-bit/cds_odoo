@@ -691,10 +691,12 @@ class QuotationsCustom(models.Model):
                 #TH - custom domain
                 if se[0] == 'document_no':
                     string_middle = ''
-                    for i in range(6 - len(se[2])):
-                        string_middle += '0'
+                    if len(se[2]) < 7:
+                        for i in range(6 - len(se[2])):
+                            string_middle += '0'
+                        string_middle = '1' + string_middle
                     if len(se[2]) < 11:
-                        se[2] = ''.join(["ARQ-1", string_middle, se[2]])
+                        se[2] = ''.join(["ARQ-", string_middle, se[2]])
                 #TH - done
             args = domain
         res = super(QuotationsCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
@@ -1658,10 +1660,12 @@ class QuotationsLinesCustom(models.Model):
                 # TH - custom domain
                 if se[0] == 'document_no':
                     string_middle = ''
-                    for i in range(6 - len(se[2])):
-                        string_middle += '0'
+                    if len(se[2]) < 7:
+                        for i in range(6 - len(se[2])):
+                            string_middle += '0'
+                        string_middle = '1' + string_middle
                     if len(se[2]) < 11:
-                        se[2] = ''.join(["ARQ-1", string_middle, se[2]])
+                        se[2] = ''.join(["ARQ-", string_middle, se[2]])
                 # TH - done
             args = domain
         res = super(QuotationsLinesCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
