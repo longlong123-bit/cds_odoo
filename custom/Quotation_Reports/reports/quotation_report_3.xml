@@ -25,7 +25,7 @@
                 <t t-foreach="o.order_line.sorted(key='quotation_custom_line_no')" t-as="ll">
                     <t t-set="line_one_one" t-value="15"/>
                     <t t-if="ll.quotation_custom_line_no&gt;line_one_one_id">
-                        <div style="page-break-before: always; font-family: MS Gothic; font-size: 14px">
+                        <div style="page-break-before: always; font-family: MS Gothic; font-size: 14px;">
                             <div style="text-align: center;">
                                 <div style="float: left; width: 59%; text-align: center; display: inline-block; margin-left: 20%;">
                                     <t t-if="o.report_header">
@@ -40,112 +40,133 @@
                                         </h4>
                                     </t>
                                 </div>
-                                <div style="float: right; text-align: right; display: inline-block; width: 20%">
+                                <div style="float: right; text-align: right; display: inline-block; width: 20%;">
                                     <span t-field="o.document_no" class="mt0"
-                                          style="font-size: 14px; color: #000000; line-height: 50px; margin: 0; padding: 0"/>
+                                          style="font-size: 14px; color: #000000; line-height: 30px; margin: 0; padding: 0"/>
                                     -
                                     <span t-esc="pager"/>
                                 </div>
                             </div>
                             <!--      Middle      -->
-                            <div style="margin-bottom: 20px">
+                            <div style="margin-bottom: 5px">
                                 <div style="float: right; text-align: right; width: 100%">
-                                    <div style="margin-bottom: 10px">
-                                        <div style="font-size: 18px;">
-                                            <t t-if="o.is_print_date">
-                                                <t t-if="o.quotation_calendar == 'japan'">
-                                                    <span t-field="o.jp_calendar"/>
-                                                </t>
-                                                <t t-else="">
-                                                    <span t-field="o.quotations_date"
-                                                          t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
-                                                </t>
+                                    <div style="font-size: 18px; margin-bottom: 3px;">
+                                        <t t-if="o.is_print_date">
+                                            <t t-if="o.quotation_calendar == 'japan'">
+                                                <span t-field="o.jp_calendar"/>
                                             </t>
-                                            <span t-else="">　　　年　　月　　日</span>
-                                        </div>
+                                            <t t-else="">
+                                                <span t-field="o.quotations_date"
+                                                      t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                            </t>
+                                        </t>
+                                        <span t-else="">　　　年　　月　　日</span>
                                     </div>
                                 </div>
-                                <div style="display: inline-block; width: 100%">
+                                <div style="display: inline-block; width: 100%;">
                                     <div style="margin-top: -5px; margin-bottom: 0px; width: 50%; display: inline-block;">
                                         <t t-if="len(o.partner_name) &gt;= 18 or (o.partner_name_2 and len(o.partner_name_2) &gt;= 18)">
-                                            <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid;">
-                                                <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                            <div style="border-bottom: 2px solid; font-size:18px; border-bottom: 1px solid; height: 44px;">
+                                                <div style="width: 95%; float: left; margin-top: 8px;">
+                                                    <t t-if="o.partner_name_2">
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                            <null/>
+                                                        </span>
+                                                        <br/>
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                        </span>
+                                                    </t>
+                                                    <span t-else=""
+                                                          style="padding-top: 18px; display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
-                                                    <br/>
-                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="o.limit_chapter_reports(o.partner_name_2)">
-                                                    </span>
-                                                </t>
-                                                <span t-else="" style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                      t-esc="o.limit_chapter_reports(o.partner_name)">
-                                                    <null/>
-                                                </span>
-                                                <t t-if="o.partner_id.title">
-                                                    <span t-field="o.partner_id.title"
-                                                          style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
-                                                </t>
-                                                <span t-else="" style="padding-top: 2px; float: right; font-size: 18px">
-                                                    様</span>
+                                                </div>
+                                                <div style="width: 5%; float: right;">
+                                                    <t t-if="o.partner_id.title">
+                                                        <span t-field="o.partner_id.title"
+                                                              style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                    </t>
+                                                    <span t-else=""
+                                                          style="margin-top: 26px; float: right; font-size: 18px">
+                                                        様</span>
+                                                </div>
                                             </div>
                                         </t>
                                         <t t-elif="len(o.partner_name) &gt;= 16 or (o.partner_name_2 and len(o.partner_name_2) &gt;= 16)">
-                                            <div style="border-bottom: 2px solid; font-size:20px; border-bottom: 1px solid;">
-                                                <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                            <div style="border-bottom: 2px solid; font-size:20px; border-bottom: 1px solid; height: 44px;">
+                                                <div style="width: 95%; float: left; margin-top: 4px;">
+                                                    <t t-if="o.partner_name_2">
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                            <null/>
+                                                        </span>
+                                                        <br/>
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                        </span>
+                                                    </t>
+                                                    <span t-else=""
+                                                          style="padding-top: 18px; display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
-                                                    <br/>
-                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="o.limit_chapter_reports(o.partner_name_2)">
-                                                    </span>
-                                                </t>
-                                                <span t-else=""
-                                                      style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                      t-esc="o.limit_chapter_reports(o.partner_name)">
-                                                    <null/>
-                                                </span>
-                                                <t t-if="o.partner_id.title">
-                                                    <span t-field="o.partner_id.title" style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
-                                                </t>
-                                                <span t-else="" style="padding-top: 4px; float: right; font-size: 18px">
-                                                    様</span>
+                                                </div>
+                                                <div style="width: 5%; float: right;">
+                                                    <t t-if="o.partner_id.title">
+                                                        <span t-field="o.partner_id.title"
+                                                              style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                    </t>
+                                                    <span t-else=""
+                                                          style="margin-top: 26px; float: right; font-size: 18px">
+                                                        様</span>
+                                                </div>
                                             </div>
                                         </t>
                                         <t t-else="">
-                                            <div style="border-bottom: 2px solid; font-size:22px; border-bottom: 1px solid;">
-                                                <t t-if="o.partner_name_2">
-                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                            <div style="border-bottom: 2px solid; font-size:22px; border-bottom: 1px solid; height: 44px;">
+                                                <div style="width: 95%; float: left;">
+                                                    <t t-if="o.partner_name_2">
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name)">
+                                                            <null/>
+                                                        </span>
+                                                        <br/>
+                                                        <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_chapter_reports(o.partner_name_2)">
+                                                        </span>
+                                                    </t>
+                                                    <span t-else=""
+                                                          style="padding-top: 18px; display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_chapter_reports(o.partner_name)">
                                                         <null/>
                                                     </span>
-                                                    <br/>
-                                                    <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="o.limit_chapter_reports(o.partner_name_2)">
-                                                    </span>
-                                                </t>
-                                                <span t-else="" style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                      t-esc="o.limit_chapter_reports(o.partner_name)">
-                                                    <null/>
-                                                </span>
-                                                <t t-if="o.partner_id.title">
-                                                    <span t-field="o.partner_id.title"
-                                                          style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
-                                                </t>
-                                                <span t-else="" style="padding-top: 6px; float: right; font-size: 18px">
-                                                    様</span>
+                                                </div>
+                                                <div style="width: 5%; float: right;">
+                                                    <t t-if="o.partner_id.title">
+                                                        <span t-field="o.partner_id.title"
+                                                              style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                    </t>
+                                                    <span t-else=""
+                                                          style="margin-top: 26px; float: right; font-size: 18px">
+                                                        様</span>
+                                                </div>
                                             </div>
                                         </t>
-                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '注文書'" t-set="massage" t-value="'御注文'"/>
-                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '見積書'" t-set="massage" t-value="'御見積'"/>
-                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '完了届'" t-set="massage" t-value="'完了'"/>
-                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '納品書'" t-set="massage" t-value="'納品'"/>
-                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '請求書'" t-set="massage" t-value="'御請求'"/>
-                                        <div style="margin-top: 10px; font-size: 16px">
-                                            <div style="margin-bottom: 3px; height: 16px;">
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '注文書'"
+                                           t-set="massage" t-value="'御注文'"/>
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '見積書'"
+                                           t-set="massage" t-value="'御見積'"/>
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '完了届'"
+                                           t-set="massage" t-value="'完了'"/>
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '納品書'"
+                                           t-set="massage" t-value="'納品'"/>
+                                        <t t-if="o.report_header.name.replace(' ','').replace('　','') == '請求書'"
+                                           t-set="massage" t-value="'御請求'"/>
+                                        <div style="margin-top: 5px; font-size: 16px;">
+                                            <div style="margin-bottom: 2px; height: 16px;">
                                                 <t t-if="o.comment">
                                                     <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="o.limit_charater_field(o.comment, 10)">
@@ -153,28 +174,18 @@
                                                     </span>
                                                 </t>
                                             </div>
-                                            <div style="margin-bottom: 10px;">
+                                            <div style="margin-bottom: 5px;">
                                                 <span>下記の通り<span t-esc="massage"/>申し上げます。</span>
                                             </div>
-                                            <div style="width: 435px; border-bottom: 1px solid; margin-bottom: 3px;">
+                                            <div style="width: 100%; border-bottom: 1px solid; margin-bottom: 2px;">
                                                 <span>納入期日</span>
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-field="o.expected_date"/>
                                             </div>
-                                            <div style="width: 435px; border-bottom: 1px solid; margin-bottom: 3px;">
+                                            <div style="width: 100%; border-bottom: 1px solid; margin-bottom: 2px;">
                                                 <span>納入場所</span>
-                                                <span style="display: inline-block; width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-field="o.shipping_address"/>
-                                            </div>
-                                            <div style="width: 435px; border-bottom: 1px solid; margin-bottom: 3px;">
-                                                <span>支払方法</span>
-                                                <span style="display: inline-block; width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                      t-field="o.note"/>
-                                            </div>
-                                            <div style="width: 435px; border-bottom: 1px solid;">
-                                                <span>有効期限</span>
-                                                <span style="width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                      t-field="o.expiration_date"/>
                                             </div>
                                         </div>
                                     </div>
@@ -195,35 +206,28 @@
                                         <br/>
                                     </div>
                                 </div>
-                                <div style=" display: inline-block; width: 100%;">
-                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block; margin-top: 16px;">
-                                        <div style="width: 100%; border-bottom: 1px solid;" t-if="pager==1">
-                                            <span style="">合計金額　￥</span>
-                                            <t t-if="o.tax_method == 'invoice'">
-                                                <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                      t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"/>
-                                            </t>
-                                            <t t-else="">
-                                                <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                      t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))"/>
-                                            </t>
-                                            <t t-if="o.tax_method =='invoice'">
-                                                <span style="font-size: 24px;">（税抜）</span>
-                                            </t>
-                                            <t t-else="">
-                                                <span style="font-size: 24px;">(税込)</span>
-                                            </t>
+                                <div style="display: inline-block; width: 100%;">
+                                    <div style="font-size: 16px; width: 50%; float: left;">
+                                        <div style="width: 100%; border-bottom: 1px solid; margin-bottom: 2px;">
+                                            <span>支払方法</span>
+                                            <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                  t-field="o.note"/>
+                                        </div>
+                                        <div style="width: 100%; border-bottom: 1px solid;">
+                                            <span>有効期限</span>
+                                            <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                  t-field="o.expiration_date"/>
                                         </div>
                                     </div>
-                                    <div style="float: right; font-size: 16px; display: block; width: 49%;">
-                                        <div style="border-bottom: 1px solid; width: 425px;">
+                                    <div style="font-size: 16px; width: 46%; float: right;">
+                                        <div style="border-bottom: 1px solid; width: 100%; margin-bottom: 2px;">
                                             <span>担当：</span>
-                                            <span style="display: inline-block; height: 18px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                            <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                   t-field="o.comment_apply">
                                                 <null/>
                                             </span>
                                         </div>
-                                        <div style="border-bottom: 1px solid; width: 425px; margin-top: 3px;">
+                                        <div style="border-bottom: 1px solid; width: 100%;">
                                             <span>要件：</span>
                                             <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                   t-field="o.quotation_name">
@@ -232,13 +236,39 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div style=" display: inline-block; width: 100%;">
+                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block; margin-top: 10px;">
+                                        <t t-if="pager==1">
+                                            <div style="width: 100%; border-bottom: 1px solid;">
+                                                <span style="">合計金額　￥</span>
+                                                <t t-if="o.tax_method == 'invoice'">
+                                                    <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))"/>
+                                                </t>
+                                                <t t-if="o.tax_method =='invoice'">
+                                                    <span style="font-size: 24px;">（税抜）</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span style="font-size: 24px;">(税込)</span>
+                                                </t>
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div style="height: 20px;"></div>
+                                        </t>
+                                    </div>
+                                </div>
                             </div>
                             <div style="margin-top: 8px">
                                 <table border="1" cellspacing="0" cellpadding="5"
                                        style="width: 100%;border: 1px solid #000000; border-left: 0; border-bottom: 0;">
                                     <thead>
                                         <tr style="font-size: 16px;">
-                                            <td style="border: 1px solid #000000; border-top: 0;  text-align: center; width: auto">
+                                            <td style="border: 1px solid #000000; border-top: 0;  text-align: center; width: auto;">
                                                 品　名
                                             </td>
                                             <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: center; width: 10%">
@@ -292,12 +322,14 @@
                                                            t-value="subtotal_tax_amount_o + int(order.line_tax_amount)"/>
                                                     </t>
                                                     <tr style="font-size: 14px; height: 38px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
+                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
+                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
                                                                 <span t-if="order.product_maker_name"
                                                                       style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -448,13 +480,16 @@
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; height: 60px; text-align: right;">
                                                 <div style="display: table; height: 60px; width: 100%;">
-                                                    <span t-if="subtotal_amount10" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="subtotal_amount10"
+                                                          style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount10), 7))"/>
                                                     <span t-else=""><null/></span>
-                                                    <span t-if="subtotal_amount8" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="subtotal_amount8"
+                                                          style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount8), 7))"/>
                                                     <span t-else=""><null/></span>
-                                                    <span t-if="subtotal_amount_o" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="subtotal_amount_o"
+                                                          style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_o), 7))"/>
                                                     <span t-else=""><null/></span>
                                                 </div>
@@ -479,13 +514,16 @@
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;vertical-align: top;">
-                                                <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span t-if="subtotal_tax_amount10"
+                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 7))"/>
                                                 <span t-else=""><null/></span>
-                                                <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span t-if="subtotal_tax_amount8"
+                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 7))"/>
                                                 <span t-else=""><null/></span>
-                                                <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                <span t-if="subtotal_tax_amount_o"
+                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                       t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 7))"/>
                                                 <span t-else=""><null/></span>
                                             </td>
@@ -544,12 +582,14 @@
                                                            t-value="subtotal_tax_amount_o + order.voucher_line_tax_amount"/>
                                                     </t>
                                                     <tr style="font-size: 14px; height: 38px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px; ">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
+                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
+                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
                                                                 <span t-if="order.product_maker_name"
                                                                       style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -694,13 +734,16 @@
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
                                                 <div style="display: table; height: 60px; width: 100%;">
-                                                    <span t-if="subtotal_amount10" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="subtotal_amount10"
+                                                          style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount10), 7))"/>
                                                     <span t-else=""><null/></span>
-                                                    <span t-if="subtotal_amount8" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="subtotal_amount8"
+                                                          style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount8), 7))"/>
                                                     <span t-else=""><null/></span>
-                                                    <span t-if="subtotal_amount_o" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="subtotal_amount_o"
+                                                          style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_amount_o), 7))"/>
                                                     <span t-else=""><null/></span>
                                                 </div>
@@ -725,7 +768,8 @@
                                             <t t-set="subtotal_tax_amount8"
                                                t-value="o.amount_tax - int(subtotal_tax_amount10) - int(subtotal_tax_amount_o)"/>
                                             <t t-if="subtotal_tax_amount8 and o.amount_tax_category_check(8) == 0">
-                                                <t t-set="subtotal_tax_amount10" t-value="subtotal_tax_amount10 + subtotal_tax_amount8"/>
+                                                <t t-set="subtotal_tax_amount10"
+                                                   t-value="subtotal_tax_amount10 + subtotal_tax_amount8"/>
                                                 <t t-set="subtotal_tax_amount8" t-value="0"/>
                                             </t>
                                             <tr style="height: 60px;">
@@ -746,13 +790,16 @@
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;vertical-align: top;">
-                                                    <span t-if="subtotal_tax_amount10" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="subtotal_tax_amount10"
+                                                          style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount10), 7))"/>
                                                     <span t-else=""><null/></span>
-                                                    <span t-if="subtotal_tax_amount8" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="subtotal_tax_amount8"
+                                                          style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount8), 7))"/>
                                                     <span t-else=""><null/></span>
-                                                    <span t-if="subtotal_tax_amount_o" style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="subtotal_tax_amount_o"
+                                                          style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount_o), 7))"/>
                                                     <span t-else=""><null/></span>
                                                 </td>
@@ -794,12 +841,14 @@
                                                     <t t-set="subtotal_amount"
                                                        t-value="subtotal_amount + order.line_amount"/>
                                                     <tr style="font-size: 14px; height: 42px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
+                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
+                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
                                                                 <span t-if="order.product_maker_name"
                                                                       style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -956,12 +1005,14 @@
                                                     <t t-set="subtotal_amount"
                                                        t-value="subtotal_amount + order.line_amount"/>
                                                     <tr style="font-size: 14px; height: 38px;">
-                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 2px 0 0 5px;">
+                                                        <td style="border: 1px solid #000000;border-top: 0;  padding: 0 0 0 5px;">
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
+                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
+                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                 </div>
                                                                 <span t-if="order.product_maker_name"
                                                                       style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -1119,7 +1170,8 @@
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"/>
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right;">
-                                                    <span t-if="o.amount_tax" style="display: block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                    <span t-if="o.amount_tax"
+                                                          style="display: block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                           t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax), 7))">
                                                     </span>
                                                 </td>
@@ -1150,7 +1202,8 @@
                                 <div style="font-size: 16px; font-weight: 600; padding: 5px 0 5px 30px; line-height: 1.5;"
                                      t-if="o.report_header.name.replace(' ','').replace('　','') == '請求書'">
                                     <span t-if="o.company_id.company_bank_account_1">振込口座:</span>
-                                    <span t-if="o.company_id.company_bank_account_1" t-field="o.company_id.company_bank_account_1"/>
+                                    <span t-if="o.company_id.company_bank_account_1"
+                                          t-field="o.company_id.company_bank_account_1"/>
                                     <div style="font-size: 16px; font-weight: 400; padding: 5px 0 5px 0px; max-height: 110px; width: 100%; overflow: hidden; text-overflow: ellipsis;">
                                         <span>
                                             お振込先金融機関
@@ -1169,13 +1222,13 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div style="padding-top: 10px;line-height: 1.5;" t-else="">
-                                    <span style="font-size: 19px; font-weight: 600; padding: 5px 0 5px 292px; text-align: center;">
+                                <div style="padding-top: 5px;line-height: 1.5;" t-else="">
+                                    <span style="font-size: 18px; font-weight: 600; padding: 5px 0 5px 292px; text-align: center;">
                                         主要取扱メーカー
                                     </span>
                                     <br/>
-                                    <span style="display: block; max-height: 80px; width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: 17px; max-height: 110px;">
-                                        事 務 機 器&#160;&#160;&#160;&#160;&#160;&#160;キャノン・理想科学・ＮＥＣ・富士通・シャープ・東芝テック・アマノ
+                                    <span style="display: block; max-height: 80px; width: 100%; overflow: hidden; text-overflow: ellipsis; font-size: 16px; max-height: 110px;">
+                                        事務機器&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;キャノン・理想科学・ＮＥＣ・富士通・シャープ・東芝テック・アマノ
                                         <br/>
                                         オフィス家具&#160;&#160;&#160;&#160; イトーキ・ウチダ・コクヨ・ライオン・オカムラ・プラス・アイリスチトセ・ホウトク
                                         <br/>
