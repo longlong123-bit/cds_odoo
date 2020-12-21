@@ -451,13 +451,14 @@
                                                                 </t>
                                                             </div>
                                                             <div style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                                                <span t-if="line_detail.product_maker_name"
-                                                                      t-esc="o.limit_charater_field(line_detail.product_maker_name, 10)">
-                                                                </span>
-                                                                <br/>
-                                                                <span t-if="line_detail.product_custom_standardnumber"
-                                                                      t-esc="o.limit_charater_field(line_detail.product_custom_standardnumber, 10)">
-                                                                </span>
+                                                                <t t-if="line_detail.product_maker_name">
+                                                                    <span t-esc="o.limit_charater_field(line_detail.product_maker_name, 10)"/>
+                                                                    <br/>
+                                                                </t>
+                                                                <t t-if="line_detail.product_custom_standardnumber">
+                                                                    <span t-if="line_detail.product_custom_standardnumber"
+                                                                          t-esc="o.limit_charater_field(line_detail.product_custom_standardnumber, 10)"/>
+                                                                </t>
                                                             </div>
                                                             <br/>
                                                             <span t-if="line_detail.account_move_line_id.product_id.product_tax_category == 'exempt'">
