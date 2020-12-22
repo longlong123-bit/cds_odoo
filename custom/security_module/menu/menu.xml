@@ -9,6 +9,9 @@
     <record id="Maintain_Country_State.menu_closing_date" model="ir.ui.menu">
         <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
     </record>
+    <record id="Maintain_Country_State.menu_payment_date" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
     <record id="Maintain_Country_State.menu_action_payment_term_form" model="ir.ui.menu">
         <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
     </record>
