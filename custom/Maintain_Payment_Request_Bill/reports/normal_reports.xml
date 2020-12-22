@@ -134,11 +134,11 @@
                                     <br/>
                                     <span>代表取締役　　遠 藤 孝 二</span>
                                     <br/>
-                                    <span>本社　千葉県銚子市新生町二丁目１２番地の5</span>
+                                    <span>本社　千葉県銚子市新生町二丁目12番地の5</span>
                                     <br/>
                                     <span>TEL　0479-22-3515　FAX　0479-24-9376</span>
                                     <br/>
-                                    <span>神栖営業所 　茨城県神栖市溝 口 ６３２－２</span>
+                                    <span>神栖営業所 　茨城県神栖市溝口６３２－２</span>
                                     <br/>
                                     <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
                                     <br/>
@@ -452,13 +452,14 @@
                                                                 </t>
                                                             </div>
                                                             <div style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                                                <span t-if="line_detail.product_maker_name"
-                                                                      t-esc="o.limit_charater_field(line_detail.product_maker_name, 10)">
-                                                                </span>
-                                                                <br/>
-                                                                <span t-if="line_detail.product_custom_standardnumber"
-                                                                      t-esc="o.limit_charater_field(line_detail.product_custom_standardnumber, 10)">
-                                                                </span>
+                                                                <t t-if="line_detail.product_maker_name">
+                                                                    <span t-esc="o.limit_charater_field(line_detail.product_maker_name, 10)"/>
+                                                                    <br/>
+                                                                </t>
+                                                                <t t-if="line_detail.product_custom_standardnumber">
+                                                                    <span t-if="line_detail.product_custom_standardnumber"
+                                                                          t-esc="o.limit_charater_field(line_detail.product_custom_standardnumber, 10)"/>
+                                                                </t>
                                                             </div>
                                                             <br/>
                                                             <span t-if="line_detail.account_move_line_id.product_id.product_tax_category == 'exempt'">
