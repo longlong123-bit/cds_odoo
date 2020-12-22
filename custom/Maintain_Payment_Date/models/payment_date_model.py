@@ -6,7 +6,7 @@ class ClassPaymentDate(models.Model):
 
     name = fields.Char('Payment Date Name')
     payment_date = fields.Integer('Payment Date', size=2)
-    payment_month = fields.Selection([('this_month', 'This Month'), ('next_month', 'Next Month'), ('two_month_after', 'Two Month After')], string='Payment Month', default='this_month')
+    payment_month = fields.Selection([('this_month', 'This Month'), ('next_month', 'Next Month'), ('two_months_after', 'Two Months After')], string='Payment Month', default='this_month')
     active = fields.Boolean('Active', default=True)
 
     @api.constrains('payment_date')
