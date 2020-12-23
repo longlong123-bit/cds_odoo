@@ -259,7 +259,7 @@ class QuotationsCustom(models.Model):
             for line in order.order_line:
                 if line.class_item != 'サンプル':
                     if order.tax_method != 'custom_tax':
-                        if order.tax_method == 'voucher' and line.product_id.product_tax_category != 'exempt':
+                        if order.tax_method == 'voucher' and line.product_id.product_tax_category == 'foreign':
                             # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
                             line_tax_amount = (line.tax_rate * line.price_unit * line.product_uom_qty) / 100
                             amount_tax += line_tax_amount
@@ -1502,59 +1502,68 @@ class QuotationsLinesCustom(models.Model):
     def _onchange_price_unit(self):
         for line in self:
             exchange_rate = 1
-            if line.order_id.partner_id.customer_apply_rate == "customer":
-                if line.order_id.partner_id.customer_rate and line.order_id.partner_id.customer_rate > 0:
-                    exchange_rate = line.order_id.partner_id.customer_rate / 100
-            elif line.order_id.partner_id.customer_apply_rate == "category":
-                if line.product_id.product_class_code_lv4 \
-                        and line.product_id.product_class_code_lv4.product_class_rate \
-                        and line.product_id.product_class_code_lv4.product_class_rate > 0:
-                    exchange_rate = line.product_id.product_class_code_lv4.product_class_rate / 100
+            #TH - code
+            if line.product_id.product_tax_category == 'foreign':
+                if line.order_id.partner_id.customer_apply_rate == "customer":
+                    if line.order_id.partner_id.customer_rate and line.order_id.partner_id.customer_rate > 0:
+                        exchange_rate = line.order_id.partner_id.customer_rate / 100
+                elif line.order_id.partner_id.customer_apply_rate == "category":
+                    if line.product_id.product_class_code_lv4 \
+                            and line.product_id.product_class_code_lv4.product_class_rate \
+                            and line.product_id.product_class_code_lv4.product_class_rate > 0:
+                        exchange_rate = line.product_id.product_class_code_lv4.product_class_rate / 100
 
-            if line.product_id.product_tax_category == 'exempt':
-                line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
-            else:
-                if line.order_id.tax_method == 'internal_tax':
-                    line.price_include_tax = line.price_unit / exchange_rate
-                    line.price_no_tax = line.price_unit / (line.tax_rate / 100 + 1) / exchange_rate
-                elif line.order_id.tax_method == 'custom_tax':
-                    if line.product_id.product_tax_category == 'foreign':
-                        line.price_no_tax = line.price_unit / exchange_rate
-                        line.price_include_tax = line.price_unit * (line.tax_rate / 100 + 1) / exchange_rate
-                    elif line.product_id.product_tax_category == 'internal':
+                if line.product_id.product_tax_category == 'exempt':
+                    line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
+                else:
+                    if line.order_id.tax_method == 'internal_tax':
                         line.price_include_tax = line.price_unit / exchange_rate
                         line.price_no_tax = line.price_unit / (line.tax_rate / 100 + 1) / exchange_rate
+                    elif line.order_id.tax_method == 'custom_tax':
+                        if line.product_id.product_tax_category == 'foreign':
+                            line.price_no_tax = line.price_unit / exchange_rate
+                            line.price_include_tax = line.price_unit * (line.tax_rate / 100 + 1) / exchange_rate
+                        elif line.product_id.product_tax_category == 'internal':
+                            line.price_include_tax = line.price_unit / exchange_rate
+                            line.price_no_tax = line.price_unit / (line.tax_rate / 100 + 1) / exchange_rate
+                        else:
+                            line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
                     else:
-                        line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
-                else:
-                    line.price_no_tax = line.price_unit / exchange_rate
-                    line.price_include_tax = line.price_unit * (line.tax_rate / 100 + 1) / exchange_rate
+                        line.price_no_tax = line.price_unit / exchange_rate
+                        line.price_include_tax = line.price_unit * (line.tax_rate / 100 + 1) / exchange_rate
+            else:
+                line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
+            #TH - done
 
     @api.depends('order_id.tax_method')
     def compute_price_unit(self):
         for line in self:
             # todo set price follow product code
-            if line.order_id.tax_method == 'internal_tax':
-                price_unit = line.price_include_tax
-            elif line.order_id.tax_method == 'custom_tax':
-                if line.product_id.product_tax_category == 'foreign':
-                    price_unit = line.price_no_tax
-                elif line.product_id.product_tax_category == 'internal':
+            #TH - code
+            if line.product_id.product_tax_category == 'foreign':
+                if line.order_id.tax_method == 'internal_tax':
                     price_unit = line.price_include_tax
+                elif line.order_id.tax_method == 'custom_tax':
+                    if line.product_id.product_tax_category == 'foreign':
+                        price_unit = line.price_no_tax
+                    elif line.product_id.product_tax_category == 'internal':
+                        price_unit = line.price_include_tax
+                    else:
+                        price_unit = line.price_no_tax
                 else:
                     price_unit = line.price_no_tax
+
+                if line.order_id.partner_id.customer_apply_rate == "customer":
+                    if line.order_id.partner_id.customer_rate and line.order_id.partner_id.customer_rate > 0:
+                        price_unit = price_unit * line.order_id.partner_id.customer_rate / 100
+                elif line.order_id.partner_id.customer_apply_rate == "category":
+                    if line.product_id.product_class_code_lv4 \
+                            and line.product_id.product_class_code_lv4.product_class_rate \
+                            and line.product_id.product_class_code_lv4.product_class_rate > 0:
+                        price_unit = price_unit * line.product_id.product_class_code_lv4.product_class_rate / 100
             else:
-                price_unit = line.price_no_tax
-
-            if line.order_id.partner_id.customer_apply_rate == "customer":
-                if line.order_id.partner_id.customer_rate and line.order_id.partner_id.customer_rate > 0:
-                    price_unit = price_unit * line.order_id.partner_id.customer_rate / 100
-            elif line.order_id.partner_id.customer_apply_rate == "category":
-                if line.product_id.product_class_code_lv4 \
-                        and line.product_id.product_class_code_lv4.product_class_rate \
-                        and line.product_id.product_class_code_lv4.product_class_rate > 0:
-                    price_unit = price_unit * line.product_id.product_class_code_lv4.product_class_rate / 100
-
+                price_unit = line.price_include_tax
+            #TH - done
             if line.copy_history_flag:
                 price_unit = line.price_unit
             if line.class_item == 'サンプル':
@@ -1573,18 +1582,22 @@ class QuotationsLinesCustom(models.Model):
 
     def compute_line_tax_amount(self):
         for line in self:
-            if (line.order_id.tax_method == 'foreign_tax'
-                and line.product_id.product_tax_category != 'exempt') \
-                    or (line.order_id.tax_method == 'custom_tax'
-                        and line.product_id.product_tax_category == 'foreign'):
-                # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
-                line.line_tax_amount = self.get_compute_line_tax_amount(line.line_amount,
-                                                                        line.tax_rate,
-                                                                        line.order_id.customer_tax_rounding,
-                                                                        line.class_item)
+            #TH - code
+            if line.product_id.product_tax_category == 'foreign':
+                if (line.order_id.tax_method == 'foreign_tax'
+                    and line.product_id.product_tax_category != 'exempt') \
+                        or (line.order_id.tax_method == 'custom_tax'
+                            and line.product_id.product_tax_category == 'foreign'):
+                    # total_line_tax = sum(tax.amount for tax in line.tax_id._origin.flatten_taxes_hierarchy())
+                    line.line_tax_amount = self.get_compute_line_tax_amount(line.line_amount,
+                                                                            line.tax_rate,
+                                                                            line.order_id.customer_tax_rounding,
+                                                                            line.class_item)
+                else:
+                    line.line_tax_amount = 0
             else:
                 line.line_tax_amount = 0
-
+            #TH - done
             line._onchange_price_unit()
 
     # Set tax for tax_method = voucher

@@ -695,7 +695,7 @@ class ClassInvoiceCustom(models.Model):
                         # Untaxed amount.
                         if line.x_invoicelinetype != 'サンプル':
                             if move.x_voucher_tax_transfer == 'voucher' \
-                                    and line.product_id.product_tax_category != 'exempt':
+                                    and line.product_id.product_tax_category == 'foreign':
                                 # total_line_tax = sum(
                                 #     tax.amount for tax in line.tax_ids._origin.flatten_taxes_hierarchy())
                                 line_tax_amount = (line.tax_rate * line.price_unit * line.quantity) / 100
@@ -2167,16 +2167,21 @@ class AccountMoveLine(models.Model):
         for line in self:
             # line.price_unit = line._get_computed_price_unit()
             line.compute_line_amount()
-            if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
-                and line.product_id.product_tax_category != 'exempt') \
-                    or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
-                        and line.product_id.product_tax_category == 'foreign'):
-                line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
-                                                                         line.tax_rate,
-                                                                         line.move_id.customer_tax_rounding,
-                                                                         line.x_invoicelinetype)
+            #TH - code
+            if line.product_id.product_tax_category == 'foreign':
+                if (line.move_id.x_voucher_tax_transfer == 'foreign_tax'
+                    and line.product_id.product_tax_category != 'exempt') \
+                        or (line.move_id.x_voucher_tax_transfer == 'custom_tax'
+                            and line.product_id.product_tax_category == 'foreign'):
+                    line.line_tax_amount = self._get_compute_line_tax_amount(line.invoice_custom_lineamount,
+                                                                             line.tax_rate,
+                                                                             line.move_id.customer_tax_rounding,
+                                                                             line.x_invoicelinetype)
+                else:
+                    line.line_tax_amount = 0
             else:
                 line.line_tax_amount = 0
+            #TH - done
 
     @api.onchange('quantity', 'discount', 'price_unit', 'tax_ids', 'x_invoicelinetype',
                   'move_id.x_voucher_tax_transfer', 'move_id.customer_tax_rounding', 'tax_rate')
@@ -2245,58 +2250,67 @@ class AccountMoveLine(models.Model):
     @api.onchange('price_unit')
     def _onchange_price_unit(self):
         exchange_rate = 1
-        if self.move_id.partner_id.customer_apply_rate == "customer":
-            if self.move_id.partner_id.customer_rate and self.move_id.partner_id.customer_rate > 0:
-                exchange_rate = self.move_id.partner_id.customer_rate / 100
-        elif self.move_id.partner_id.customer_apply_rate == "category":
-            if self.product_id.product_class_code_lv4 \
-                    and self.product_id.product_class_code_lv4.product_class_rate \
-                    and self.product_id.product_class_code_lv4.product_class_rate > 0:
-                exchange_rate = self.product_id.product_class_code_lv4.product_class_rate / 100
+        #TH - code
+        if self.product_id.product_tax_category == 'foreign':
+            if self.move_id.partner_id.customer_apply_rate == "customer":
+                if self.move_id.partner_id.customer_rate and self.move_id.partner_id.customer_rate > 0:
+                    exchange_rate = self.move_id.partner_id.customer_rate / 100
+            elif self.move_id.partner_id.customer_apply_rate == "category":
+                if self.product_id.product_class_code_lv4 \
+                        and self.product_id.product_class_code_lv4.product_class_rate \
+                        and self.product_id.product_class_code_lv4.product_class_rate > 0:
+                    exchange_rate = self.product_id.product_class_code_lv4.product_class_rate / 100
 
-        if self.product_id.product_tax_category == 'exempt':
-            self.price_no_tax = self.price_include_tax = self.price_unit / exchange_rate
-        else:
-            if self.move_id.x_voucher_tax_transfer == 'internal_tax':
-                self.price_include_tax = self.price_unit / exchange_rate
-                self.price_no_tax = self.price_unit / (self.tax_rate / 100 + 1) / exchange_rate
-            elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
-                if self.product_id.product_tax_category == 'foreign':
-                    self.price_no_tax = self.price_unit / exchange_rate
-                    self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
-                elif self.product_id.product_tax_category == 'internal':
+            if self.product_id.product_tax_category == 'exempt':
+                self.price_no_tax = self.price_include_tax = self.price_unit / exchange_rate
+            else:
+                if self.move_id.x_voucher_tax_transfer == 'internal_tax':
                     self.price_include_tax = self.price_unit / exchange_rate
                     self.price_no_tax = self.price_unit / (self.tax_rate / 100 + 1) / exchange_rate
+                elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
+                    if self.product_id.product_tax_category == 'foreign':
+                        self.price_no_tax = self.price_unit / exchange_rate
+                        self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
+                    elif self.product_id.product_tax_category == 'internal':
+                        self.price_include_tax = self.price_unit / exchange_rate
+                        self.price_no_tax = self.price_unit / (self.tax_rate / 100 + 1) / exchange_rate
+                    else:
+                        self.price_no_tax = self.price_include_tax = self.price_unit / exchange_rate
                 else:
-                    self.price_no_tax = self.price_include_tax = self.price_unit / exchange_rate
-            else:
-                self.price_no_tax = self.price_unit / exchange_rate
-                self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
+                    self.price_no_tax = self.price_unit / exchange_rate
+                    self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
+        else:
+            self.price_no_tax = self.price_include_tax = self.price_unit / exchange_rate
+        #TH - done
 
     def _get_computed_price_unit(self):
         # Set price follow product code
         price_unit = 0
-        if self.move_id.x_voucher_tax_transfer == 'internal_tax':
-            price_unit = self.price_include_tax
-        elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
-            if self.product_id.product_tax_category == 'foreign':
-                price_unit = self.price_no_tax
-            elif self.product_id.product_tax_category == 'internal':
+        #TH - code
+        if self.product_id.product_tax_category == 'foreign':
+            if self.move_id.x_voucher_tax_transfer == 'internal_tax':
                 price_unit = self.price_include_tax
+            elif self.move_id.x_voucher_tax_transfer == 'custom_tax':
+                if self.product_id.product_tax_category == 'foreign':
+                    price_unit = self.price_no_tax
+                elif self.product_id.product_tax_category == 'internal':
+                    price_unit = self.price_include_tax
+                else:
+                    price_unit = self.price_no_tax
             else:
                 price_unit = self.price_no_tax
+
+            if self.move_id.partner_id.customer_apply_rate == "customer":
+                if self.move_id.partner_id.customer_rate and self.move_id.partner_id.customer_rate > 0:
+                    price_unit = price_unit * self.move_id.partner_id.customer_rate / 100
+            elif self.move_id.partner_id.customer_apply_rate == "category":
+                if self.product_id.product_class_code_lv4 \
+                        and self.product_id.product_class_code_lv4.product_class_rate \
+                        and self.product_id.product_class_code_lv4.product_class_rate > 0:
+                    price_unit = price_unit * self.product_id.product_class_code_lv4.product_class_rate / 100
         else:
-            price_unit = self.price_no_tax
-
-        if self.move_id.partner_id.customer_apply_rate == "customer":
-            if self.move_id.partner_id.customer_rate and self.move_id.partner_id.customer_rate > 0:
-                price_unit = price_unit * self.move_id.partner_id.customer_rate / 100
-        elif self.move_id.partner_id.customer_apply_rate == "category":
-            if self.product_id.product_class_code_lv4 \
-                    and self.product_id.product_class_code_lv4.product_class_rate \
-                    and self.product_id.product_class_code_lv4.product_class_rate > 0:
-                price_unit = price_unit * self.product_id.product_class_code_lv4.product_class_rate / 100
-
+            price_unit = self.price_include_tax
+        #TH - done
         return price_unit
 
     @api.depends('move_id.x_studio_business_partner',
