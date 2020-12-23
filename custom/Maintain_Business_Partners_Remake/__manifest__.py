@@ -14,6 +14,7 @@
         'account',
         'Maintain_Business_Partner_Group',
         'Maintain_Closing_Date',
+        'Maintain_Payment_Date',
         'Maintain_Custom_Company_Office',
         'Maintain_Custom_Employee',
     ],
