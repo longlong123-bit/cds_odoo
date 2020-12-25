@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- Main form -->
+		<record model="ir.ui.view" id="payment_date_tree">
+			<field name="name">payment.date.tree</field>
+			<field name="model">payment.date</field>
+            <field name="arch" type="xml">
+				<tree>
+					<field name="name" string="Payment Date Name"/>
+					<field name="payment_month" string="Payment Month"/>
+					<field name="payment_date" string="Payment Date"/>
+				</tree>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="payment_date_form">
+			<field name="name">Payment Date Form</field>
+			<field name="model">payment.date</field>
+			<field name="arch" type="xml">
+				<form string="Form" class="partner_class">
+					<sheet>
+						<group>
+							<field name="name" string="Payment Date Name" required="1"/>
+							<field name="payment_date" string="Payment Date" required="1"/>
+							<field name="payment_month" string="Payment Month" required="1"/>
+							<field name="active" string="Active"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="payment_date_filter" model="ir.ui.view">
+            <field name="name">payment.date.search</field>
+            <field name="model">payment.date</field>
+            <field name="arch" type="xml">
+                <search string="Payment Date">
+					<field name="name" string="Payment Date Name"/>
+					<field name="payment_month" string="Payment Month"/>
+					<field name="payment_date" string="Payment Date"/>
+                </search>
+             </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="action_payment_date">
+            <field name="name">Payment Date</field>
+            <field name="res_model">payment.date</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

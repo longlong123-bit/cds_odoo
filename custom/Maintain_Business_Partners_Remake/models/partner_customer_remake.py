@@ -20,6 +20,10 @@ class NewClassPartnerCustom(models.Model):
         return self.env['closing.date'].search([], limit=1)
 
     @api.model
+    def _default_payment_date(self):
+        return self.env['payment.date'].search([], limit=1)
+
+    @api.model
     def _default_partner_group(self):
         return self.env['business.partner.group.custom'].search([], limit=1)
 
@@ -76,6 +80,8 @@ class NewClassPartnerCustom(models.Model):
         [('round', 'Rounding'), ('roundup', 'Round Up'), ('rounddown', 'Round Down')], 'Tax Rounding', default='round')
     # 締日
     customer_closing_date = fields.Many2one('closing.date', 'Closing Date', default=_default_closing_date)
+    # 回収日
+    customer_payment_date = fields.Many2one('payment.date', 'Payment Date', default=_default_payment_date)
     # 入金方法
     customer_payment_method = fields.Selection([('normal', 'Normal'), ('deposit', 'Deposit')], 'Payment Method',
                                                default='normal')
