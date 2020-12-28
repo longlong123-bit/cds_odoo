@@ -2281,6 +2281,7 @@ class AccountMoveLine(models.Model):
                     self.price_include_tax = self.price_unit * (self.tax_rate / 100 + 1) / exchange_rate
         elif self.product_id.product_tax_category == 'internal':
             self.price_include_tax = self.price_unit / exchange_rate
+            self.price_no_tax = self.price_unit / (self.tax_rate / 100 + 1) / exchange_rate
         else:
             self.price_no_tax = self.price_include_tax = self.price_unit / exchange_rate
         #TH - done

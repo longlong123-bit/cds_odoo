@@ -1533,6 +1533,7 @@ class QuotationsLinesCustom(models.Model):
                         line.price_include_tax = line.price_unit * (line.tax_rate / 100 + 1) / exchange_rate
             elif line.product_id.product_tax_category == 'internal':
                 line.price_include_tax = line.price_unit / exchange_rate
+                line.price_no_tax = line.price_unit / (line.tax_rate / 100 + 1) / exchange_rate
             else:
                 line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
             #TH - done
