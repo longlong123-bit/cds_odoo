@@ -1531,6 +1531,8 @@ class QuotationsLinesCustom(models.Model):
                     else:
                         line.price_no_tax = line.price_unit / exchange_rate
                         line.price_include_tax = line.price_unit * (line.tax_rate / 100 + 1) / exchange_rate
+            elif line.product_id.product_tax_category == 'internal':
+                line.price_include_tax = line.price_unit / exchange_rate
             else:
                 line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
             #TH - done
@@ -1561,8 +1563,10 @@ class QuotationsLinesCustom(models.Model):
                             and line.product_id.product_class_code_lv4.product_class_rate \
                             and line.product_id.product_class_code_lv4.product_class_rate > 0:
                         price_unit = price_unit * line.product_id.product_class_code_lv4.product_class_rate / 100
-            else:
+            elif line.product_id.product_tax_category == 'internal':
                 price_unit = line.price_include_tax
+            else:
+                price_unit = line.price_no_tax
             #TH - done
             if line.copy_history_flag:
                 price_unit = line.price_unit
