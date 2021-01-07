@@ -28,6 +28,36 @@ odoo.define('web.FormController.custom', function (require) {
                 }).guardedCatch(this._enableButtons.bind(this));
         },
 
+        /*TH - custom when click save auto transfer to create form*/
+        saveRecord: function () {
+            var self = this;
+            return this._super.apply(this, arguments).then(function (changedFields) {
+                // the title could have been changed
+                self._setTitle(self.getTitle());
+                self._updateEnv();
+                if (_t.database.multi_lang && changedFields.length) {
+                    // need to make sure changed fields that should be translated
+                    // are displayed with an alert
+                    var fields = self.renderer.state.fields;
+                    var data = self.renderer.state.data;
+                    var alertFields = {};
+                    for (var k = 0; k < changedFields.length; k++) {
+                        var field = fields[changedFields[k]];
+                        var fieldData = data[changedFields[k]];
+                        if (field.translate && fieldData) {
+                            alertFields[changedFields[k]] = field;
+                        }
+                    }
+                    if (!_.isEmpty(alertFields)) {
+                        self.renderer.updateAlertFields(alertFields);
+                    }
+                    self.createRecord();
+                }
+                return changedFields;
+            });
+        },
+        /*TH - done*/
+
         _confirmSave: function (id) {
             if (id === this.handle) {
                 return this.reload();
