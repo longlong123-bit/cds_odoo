@@ -116,6 +116,21 @@ class IncomePaymentCustom(models.Model):
 
     invoice_history = fields.Many2one('account.move', string='Journal Entry', store=False)
 
+    #TH - add dialog
+    payment_input_history = fields.Many2one('account.payment')
+    payment_request_history = fields.Many2one('bill.info')
+    closing_date_new = fields.Char(string='Closing Date', readonly=True)
+    payment_date_new = fields.Char(string='Payment Date', readonly=True)
+
+    @api.onchange('partner_id')
+    def onchange_payment_input_history(self):
+        return {'domain': {'payment_input_history': [('partner_id', '=', self.partner_id.id)]}}
+
+    @api.onchange('partner_id')
+    def onchange_payment_request_history(self):
+        return {'domain': {'payment_request_history': [('partner_id', '=', self.partner_id.id)]}}
+    #TH - done
+
     @api.model
     def get_default_journal(self):
         journal_id = self.env['account.journal']._search(
@@ -129,6 +144,8 @@ class IncomePaymentCustom(models.Model):
             data = self.invoice_history
             self.partner_id = data.partner_id
             self.partner_payment_name1 = data.partner_id.name
+            self.closing_date_new = data.partner_id.customer_closing_date.name
+            self.payment_date_new = data.partner_id.customer_payment_date.name
             results.append((0, 0, {
                 'payment_amount': data.amount_total
                 # 'vj_c_payment_category': cash or ''
@@ -196,6 +213,8 @@ class IncomePaymentCustom(models.Model):
         for rec in self:
             rec.partner_id = values or ''
             rec.partner_payment_name1 = values.name or ''
+            rec.closing_date_new = values.customer_closing_date.name or ''
+            rec.payment_date_new = values.customer_payment_date.name or ''
             # TODO set name 4
             rec.partner_payment_name2 = values.customer_name_kana or ''
             rec.partner_payment_address1 = values.street or ''
@@ -227,6 +246,8 @@ class IncomePaymentCustom(models.Model):
             for rec in self:
                 values = rec.partner_id or ''
                 rec.partner_payment_name1 = values.name or ''
+                rec.closing_date_new = values.customer_closing_date.name or ''
+                rec.payment_date_new = values.customer_payment_date.name or ''
                 # TODO set name 4
                 rec.partner_payment_name2 = values.customer_name_kana or ''
                 rec.partner_payment_address1 = values.street or ''
