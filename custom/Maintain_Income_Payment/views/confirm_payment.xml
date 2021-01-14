@@ -17,7 +17,7 @@
             </search>
         </field>
     </record>
-    <record id="view_confirm_payment_custom_tree_coppy" model="ir.ui.view">
+    <record id="view_confirm_payment_custom_tree_in_confirm_payment" model="ir.ui.view">
         <field name="name">account.payment.custom.tree</field>
         <field name="model">account.payment</field>
         <field name="inherit_id" ref="account.view_account_payment_tree"/>
@@ -44,7 +44,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">account.payment</field>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_confirm_payment_custom_tree_coppy"/>
+        <field name="view_id" ref="view_confirm_payment_custom_tree_in_confirm_payment"/>
         <field name="search_view_id" ref="view_confirm_payment_custom_search"/>
         <field name="domain">[('state', '!=', 'draft')]</field>
 <!--        <field name="x_history_voucher" widget="Maintain_Income_Payment.Search" z-index="92"/>-->
@@ -57,15 +57,10 @@
         <field eval="1" name="priority"/>
         <field name="arch" type="xml">
             <xpath expr="//tree" position="replace">
-                <tree string="Confirm Payment" multi_edit="1" duplicate="false" class="forward_edit" create="false" limit="5" default_order="payment_date asc">
+                <tree string="Confirm Payment" multi_edit="1" duplicate="false" class="forward_edit" create="false" limit="5" default_order="payment_date desc">
                     <field name="payment_date" string="Transaction Date"/>
-                    <field name="document_no" string="Document No"/>
-                    <field name="partner_id" string="Business Partner"/>
-                    <field name="partner_payment_name1"/>
-                    <field name="customer_other_cd"/>
-                    <field name="vj_c_payment_category" string="vj_c_payment_category" required="True"/>
-                    <field name="payment_amount" string="Payment Amount" sum="Total" optional="show"/>
-                    <field name="description" string="Description"/>
+                    <field name="vj_c_payment_category" string="Payment Category" required="True"/>
+                    <field name="payment_amount" string="Payment Amount" optional="show"/>
                     <field name="state" readonly="True" invisible="1"/>
                 </tree>
             </xpath>

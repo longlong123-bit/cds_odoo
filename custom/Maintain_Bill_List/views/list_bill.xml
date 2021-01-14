@@ -2,7 +2,7 @@
 <odoo>
 
     <!-- TREE VIEW -->
-    <record model="ir.ui.view" id="bm_bill_list_tree_coppy">
+    <record model="ir.ui.view" id="bm_bill_list_tree_in_bill_management">
         <field name="name">bm.bill.list.tree</field>
         <field name="model">bill.info</field>
         <field name="arch" type="xml">
@@ -48,7 +48,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">bill.info</field>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="bm_bill_list_tree_coppy"/>
+        <field name="view_id" ref="bm_bill_list_tree_in_bill_management"/>
 <!--        <field name="domain">[]</field>-->
         <field name="context">{'bill_management_module': True, 'view_name': 'Billing List'}</field>
     </record>
@@ -57,7 +57,7 @@
         <field name="name">bm.bill.list.tree</field>
         <field name="model">bill.info</field>
         <field name="arch" type="xml">
-            <tree string="Bill List Tree" class="forward_edit">
+            <tree string="Bill List Tree" class="forward_edit" limit="5" default_order="deadline desc">
                 <field name="billing_code"/>
                 <field name="billing_name"/>
                 <field name="bill_no"/>

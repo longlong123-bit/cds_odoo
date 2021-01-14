@@ -738,3 +738,24 @@ msgstr "伝票No"
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
 msgid "payment category"
 msgstr "入金区分"
+
+#. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__payment_date_new
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+#, python-format
+msgid "Payment Date"
+msgstr "回収日"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__closing_date_new
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__customer_closing_date
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Closing Date"
+msgstr "締日グループ"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
+msgid "Payment Category"
+msgstr "入金内容"
