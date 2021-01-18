@@ -117,8 +117,8 @@ class IncomePaymentCustom(models.Model):
     invoice_history = fields.Many2one('account.move', string='Journal Entry', store=False)
 
     #TH - add dialog
-    payment_input_history = fields.Many2one('account.payment')
-    payment_request_history = fields.Many2one('bill.info')
+    payment_input_history = fields.Many2one('account.payment', store=False)
+    payment_request_history = fields.Many2one('bill.info', store=False)
     closing_date_new = fields.Char(string='Closing Date', readonly=True)
     payment_date_new = fields.Char(string='Payment Date', readonly=True)
 
