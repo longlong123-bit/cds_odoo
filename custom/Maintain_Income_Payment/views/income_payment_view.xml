@@ -150,7 +150,7 @@
     </record>
 
     <record id="view_account_payment_custom_tree_in_income_payment" model="ir.ui.view">
-        <field name="name">account.payment.custom.tree</field>
+        <field name="name">account.payment.custom.tree.in.payment</field>
         <field name="model">account.payment</field>
         <field name="inherit_id" ref="account.view_account_payment_tree"/>
         <field name="mode">primary</field>
