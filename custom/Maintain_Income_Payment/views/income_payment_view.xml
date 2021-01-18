@@ -178,7 +178,12 @@
         <field name="arch" type="xml">
             <xpath expr="//tree" position="replace">
                 <tree string="Account Payment" multi_edit="1" duplicate="false" class="forward_edit" limit="5" default_order="payment_date desc">
-                   <field name="payment_date" string="Transaction Date"/>
+                    <field name="document_no" string="Document No" invisible="1"/>
+                    <field name="partner_id" string="Customer" invisible="1"/>
+                    <field name="write_date" string="Write Date" invisible="1"/>
+                    <field name="account_invoice_id" string="Invoice" context="{'force_default_name': 1}" invisible="1"/>
+                    <field name="sale_rep" invisible="1"/>
+                    <field name="payment_date" string="Transaction Date"/>
                     <field name="vj_c_payment_category" string="Payment Category" required="True"/>
                     <field name="payment_amount" string="Payment Amount" optional="show"/>
                     <field name="state" readonly="True" invisible="1"/>
