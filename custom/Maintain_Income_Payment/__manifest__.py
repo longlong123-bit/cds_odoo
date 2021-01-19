@@ -25,11 +25,11 @@
     'qweb': [
         # "static/src/xml/history_payment.xml",
         'static/src/xml/advanced_search.xml',
-        'static/src/xml/many_advanced_search.xml'
+        'static/src/xml/many_advanced_search.xml',
+        'static/src/xml/dialog_advanced_search.xml'
     ],
     'demo': [],
     'installable': True,
     'application': True,
     'auto_install': False
 }
-
