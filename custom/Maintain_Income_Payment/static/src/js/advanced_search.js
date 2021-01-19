@@ -5,6 +5,7 @@ odoo.define('Income_Payment.Advanced_Search', function(require){
         advancedSearch: _.extend({}, FilterMenu.prototype.advancedSearch || {}, {
             'account.payment': {
                 'account.payment.custom.tree.in.payment': {template: 'Income_Payment.advanced_search'},
+                template: 'dialog.advanced_search',
             },
             'many.payment': {
                 template: 'many_payment.advanced_search'
