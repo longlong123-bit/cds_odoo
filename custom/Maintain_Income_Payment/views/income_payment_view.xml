@@ -14,8 +14,10 @@
                         <!-- <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '!=', 'cancel')]}" string="Reset To Draft" type="object"/> -->
                         <!-- <button name="cancel" states="draft" string="Cancel" type="object"/> -->
 <!--                        <field name="invoice_history" widget="Maintain_Sale_History.Voucher" z-index="92"/>-->
-                        <field name="payment_input_history" widget="button_field" options="{'model':'account.payment', 'text': '入金入力'}"/>
-                        <field name="payment_request_history" widget="button_field" options="{'model':'bill.info', 'text': '請求履歴'}"/>
+                        <field name="payment_input_history" widget="button_field" options="{'model':'account.payment', 'text': '入金入力'}"
+                         context="{'tree_view_ref':'Maintain_Income_Payment.view_account_payment_custom_tree'}"/>
+                        <field name="payment_request_history" widget="button_field" options="{'model':'bill.info', 'text': '請求履歴'}"
+                         context="{'tree_view_ref':'Maintain_Bill_List.bm_bill_list_tree'}"/>
                     </header>
                     <table class="custom-form-table cols-8">
                         <tbody>
