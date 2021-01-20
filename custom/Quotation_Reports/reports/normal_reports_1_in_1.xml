@@ -83,13 +83,13 @@
                                                         <null/>
                                                     </span>
                                                 </div>
-                                                <div style="width: 5%; float: right;">
+                                                <div style="width: 5%; float: right; height: 44px; position: relative;">
                                                     <t t-if="o.partner_id.title">
                                                         <span t-field="o.partner_id.title"
-                                                              style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                              style="float: right; overflow: hidden; text-overflow: ellipsis; position: absolute; bottom: 0;"/>
                                                     </t>
                                                     <span t-else=""
-                                                          style="margin-top: 26px; float: right; font-size: 18px">
+                                                          style="float: right; font-size: 18px; position: absolute; bottom: 0;">
                                                         様</span>
                                                 </div>
                                             </div>
@@ -113,13 +113,13 @@
                                                         <null/>
                                                     </span>
                                                 </div>
-                                                <div style="width: 5%; float: right;">
+                                                <div style="width: 5%; float: right; height: 44px; position: relative;">
                                                     <t t-if="o.partner_id.title">
                                                         <span t-field="o.partner_id.title"
-                                                              style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                              style="float: right; overflow: hidden; text-overflow: ellipsis; position: absolute; bottom: 0;"/>
                                                     </t>
                                                     <span t-else=""
-                                                          style="margin-top: 26px; float: right; font-size: 18px">
+                                                          style="float: right; font-size: 18px; position: absolute; bottom: 0;">
                                                         様</span>
                                                 </div>
                                             </div>
@@ -143,13 +143,13 @@
                                                         <null/>
                                                     </span>
                                                 </div>
-                                                <div style="width: 5%; float: right;">
+                                                <div style="width: 5%; float: right; height: 44px; position: relative;">
                                                     <t t-if="o.partner_id.title">
                                                         <span t-field="o.partner_id.title"
-                                                              style="float: right; text-align: left; width: 70px; overflow: hidden; text-overflow: ellipsis;"/>
+                                                              style="float: right; overflow: hidden; text-overflow: ellipsis; position: absolute; bottom: 0;"/>
                                                     </t>
                                                     <span t-else=""
-                                                          style="margin-top: 26px; float: right; font-size: 18px">
+                                                          style="float: right; font-size: 18px; position: absolute; bottom: 0;">
                                                         様</span>
                                                 </div>
                                             </div>
