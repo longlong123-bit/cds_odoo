@@ -14,6 +14,10 @@
                         <!-- <button name="action_draft" class="btn btn-secondary" attrs="{'invisible': [('state', '!=', 'cancel')]}" string="Reset To Draft" type="object"/> -->
                         <!-- <button name="cancel" states="draft" string="Cancel" type="object"/> -->
 <!--                        <field name="invoice_history" widget="Maintain_Sale_History.Voucher" z-index="92"/>-->
+                        <field name="payment_input_history" widget="button_field" options="{'model':'account.payment', 'text': '入金入力'}"
+                         context="{'tree_view_ref':'Maintain_Income_Payment.view_account_payment_custom_tree'}"/>
+                        <field name="payment_request_history" widget="button_field" options="{'model':'bill.info', 'text': '請求履歴'}"
+                         context="{'tree_view_ref':'Maintain_Bill_List.bm_bill_list_tree'}"/>
                     </header>
                     <table class="custom-form-table cols-8">
                         <tbody>
@@ -57,21 +61,21 @@
                                            "no_open": True,"no_create": True, "no_create_edit":True}'
                                            z-index="98"  />
                                 </td>
-                                <td class="o_td_label"><label for="partner_payment_address1" string="Address1"/></td>
-                                <td><field name="partner_payment_address1"/></td>
                                 <td class="o_td_label"><label for="sales_rep" string="Sales Rep"/></td>
                                 <td><field name="sales_rep" options="{'no_open': True,'no_create': True, 'no_create_edit':True}"/></td>
+                                <td invisible="True" class="o_td_label"><label for="partner_payment_address1" string="Address1"/></td>
+                                <td invisible="True"><field name="partner_payment_address1"/></td>
                             </tr>
 
                             <!-- Row 4 -->
                             <tr>
                                 <td class="o_td_label"><label for="partner_payment_name1" string="Name"/></td>
                                 <td colspan="2"><field name="partner_payment_name1"/></td>
-                                <td class="o_td_label"><label for="partner_payment_address2" string="Address2"/></td>
-                                <td><field name="partner_payment_address2"/></td>
                                 <td class="o_td_label"><label for="cb_partner_sales_rep_id" string="cbpartner_salesrep_id"/></td>
                                 <td><field name="cb_partner_sales_rep_id" options="{'no_open': True, 'no_create': True, 'no_create_edit':True}"
                                     attrs="{'readonly':[('state', '!=', 'draft')]}"/></td>
+                                <td invisible="True" class="o_td_label"><label for="partner_payment_address2" string="Address2"/></td>
+                                <td invisible="True"><field name="partner_payment_address2"/></td>
                             </tr>
 
                             <!-- Row 6 -->
@@ -83,15 +87,19 @@
 
                             <!-- Row 7 -->
                             <tr>
+                                <td class="o_td_label"><label for="payment_date_new" string="Payment Date"/></td>
+                                <td colspan="1"><field name="payment_date_new"/></td>
                                 <td colspan="3"></td>
-                                <td class="o_td_label"><label for="collection_method_month"/></td>
-                                <td><field name="collection_method_month" style="max-width: 15% !important" force_save="1"/></td>
+                                <td invisible="True" class="o_td_label"><label for="collection_method_month"/></td>
+                                <td invisible="True"><field name="collection_method_month" style="max-width: 15% !important" force_save="1"/></td>
                             </tr>
 
                             <tr>
+                                <td class="o_td_label"><label for="closing_date_new" string="Closing Date"/></td>
+                                <td colspan="1"><field name="closing_date_new"/></td>
                                 <td colspan="3"></td>
-                                <td class="o_td_label"><label for="collection_method_date"/></td>
-                                <td><field name="collection_method_date" style="max-width: 15% !important" force_save="1" string="回収日"/></td>
+                                <td invisible="True" class="o_td_label"><label for="collection_method_date"/></td>
+                                <td invisible="True"><field name="collection_method_date" style="max-width: 15% !important" force_save="1" string="回収日"/></td>
                             </tr>
 
                             <!-- Row 8 -->
@@ -143,8 +151,8 @@
         </field>
     </record>
 
-    <record id="view_account_payment_custom_tree" model="ir.ui.view">
-        <field name="name">account.payment.custom.tree</field>
+    <record id="view_account_payment_custom_tree_in_income_payment" model="ir.ui.view">
+        <field name="name">account.payment.custom.tree.in.payment</field>
         <field name="model">account.payment</field>
         <field name="inherit_id" ref="account.view_account_payment_tree"/>
         <field name="mode">primary</field>
@@ -158,6 +166,27 @@
 <!--                    <field name="partner_bank_account_id" string="Bank Account"/>-->
                     <field name="state" string="Document Status" invisible="1"/>
                     <field name="account_invoice_id" string="Invoice"/>
+                </tree>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="view_account_payment_custom_tree" model="ir.ui.view">
+        <field name="name">account.payment.custom.tree</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="mode">primary</field>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="replace">
+                <tree string="Account Payment" multi_edit="1" duplicate="false" class="forward_edit" limit="5" default_order="payment_date desc">
+                    <field name="document_no" string="Document No" invisible="1"/>
+                    <field name="partner_id" string="Customer" invisible="1"/>
+                    <field name="account_invoice_id" string="Invoice" invisible="1"/>
+                    <field name="payment_date" string="Transaction Date"/>
+                    <field name="vj_c_payment_category" string="Payment Category" required="True"/>
+                    <field name="payment_amount" string="Payment Amount" optional="show"/>
+                    <field name="state" readonly="True" invisible="1"/>
                 </tree>
             </xpath>
         </field>
@@ -184,7 +213,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">account.payment</field>
         <field name="view_mode">tree,kanban,form</field>
-        <field name="view_id" ref="view_account_payment_custom_tree"/>
+        <field name="view_id" ref="view_account_payment_custom_tree_in_income_payment"/>
         <field name="context">{
             'form_view_initial_mode': 'edit',
             'force_detailed_view': 'true',

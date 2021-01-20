@@ -17,8 +17,8 @@
             </search>
         </field>
     </record>
-    <record id="view_confirm_payment_custom_tree" model="ir.ui.view">
-        <field name="name">account.payment.custom.tree</field>
+    <record id="view_confirm_payment_custom_tree_in_confirm_payment" model="ir.ui.view">
+        <field name="name">account.payment.custom.tree.in.payment</field>
         <field name="model">account.payment</field>
         <field name="inherit_id" ref="account.view_account_payment_tree"/>
         <field name="mode">primary</field>
@@ -44,10 +44,32 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">account.payment</field>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_confirm_payment_custom_tree"/>
+        <field name="view_id" ref="view_confirm_payment_custom_tree_in_confirm_payment"/>
         <field name="search_view_id" ref="view_confirm_payment_custom_search"/>
         <field name="domain">[('state', '!=', 'draft')]</field>
 <!--        <field name="x_history_voucher" widget="Maintain_Income_Payment.Search" z-index="92"/>-->
+    </record>
+    <record id="view_confirm_payment_custom_tree" model="ir.ui.view">
+        <field name="name">account.payment.custom.tree</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="mode">primary</field>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="replace">
+                <tree string="Confirm Payment" multi_edit="1" duplicate="false" class="forward_edit" create="false" limit="5" default_order="payment_date desc">
+                    <field name="customer_other_cd" invisible="1"/>
+                    <field name="description" string="Description" invisible="1"/>
+                    <field name="document_no" string="Document No" invisible="1"/>
+                    <field name="partner_id" string="Business Partner" invisible="1"/>
+                    <field name="partner_payment_name1" string='paymentname1' invisible="1"/>
+                    <field name="payment_date" string="Transaction Date"/>
+                    <field name="vj_c_payment_category" string="Payment Category" required="True"/>
+                    <field name="payment_amount" string="Payment Amount" optional="show"/>
+                    <field name="state" readonly="True" invisible="1"/>
+                </tree>
+            </xpath>
+        </field>
     </record>
     <menuitem id="confirm_payment" parent="deposit_menu" name="Confirm Payment" action="confirm_payment_action"
               sequence="4"/>
