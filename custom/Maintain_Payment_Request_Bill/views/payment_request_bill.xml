@@ -5,7 +5,7 @@
             <field name="name">payment.request.tree.view</field>
             <field name="model">bill.info</field>
             <field name="arch" type="xml">
-                <tree string="Payment Request Bill" create="false" import="false">
+                <tree string="Payment Request Bill" create="false" import="false" delete="false">
                     <field name="billing_code"/>
                     <field name="billing_name"/>
                     <field name="bill_no"/>
