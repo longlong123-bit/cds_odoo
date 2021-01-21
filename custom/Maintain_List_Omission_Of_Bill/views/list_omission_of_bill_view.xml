@@ -6,7 +6,7 @@
 			<field name="name">list_omission_of_bill_tree</field>
 			<field name="model">omission.bill</field>
             <field name="arch" type="xml">
-				<tree create="0" import="0">
+				<tree create="0" import="0" delete="false">
 					<field name="input_issue_format" invisible="1"/>
 					<field name="sales_date"/>
 					<field name="invoice_no"/>

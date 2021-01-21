@@ -5,7 +5,7 @@
         <field name="name">bm.bill.tree</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
-            <tree string="Bill Tree" class="forward_edit">
+            <tree string="Bill Tree" class="forward_edit" delete="false">
                 <field name="customer_code" string="Billing Code"/>
                 <field name="name" string="Billing Name"/>
                 <field name="last_closing_date" string="Last Closing Date" invisible="1"/>
