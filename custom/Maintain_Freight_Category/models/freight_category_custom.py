@@ -50,3 +50,15 @@ class FreightCategory(models.Model):
         if not recs:
             recs = self.search([('search_key_freight', operator, name)] + args, limit=limit)
         return recs.name_get()
+
+    #TH - custom
+    @api.constrains('name')
+    def onchange_name(self):
+        cr = self.env.cr
+        cr.execute(
+            "UPDATE product_product SET product_maker_name = '" + self.name
+            + "' WHERE product_custom_freight_category = '" + str(self.id) + "'"
+        )
+        return True
+    #TH - done
+
