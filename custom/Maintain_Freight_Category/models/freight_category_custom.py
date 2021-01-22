@@ -61,4 +61,3 @@ class FreightCategory(models.Model):
         )
         return True
     #TH - done
-
