@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <!--      Middle      -->
-                            <div style="margin-bottom: 5px">
+                            <div style="margin-bottom: 8px;">
                                 <div style="float: right; text-align: right; width: 100%">
                                     <div style="font-size: 18px; margin-bottom: 3px;">
                                         <t t-if="o.is_print_date">
@@ -167,9 +167,9 @@
                                            t-set="massage" t-value="'御請求'"/>
                                         <div style="margin-top: 5px; font-size: 16px;">
                                             <div style="margin-bottom: 2px; height: 16px;">
-                                                <t t-if="o.comment">
+                                                <t t-if="o.comment_apply">
                                                     <span style="display: inline-block; width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="o.limit_charater_field(o.comment, 10)">
+                                                          t-esc="o.limit_charater_field(o.comment_apply, 20)">
                                                         <null/>
                                                     </span>
                                                 </t>
@@ -206,64 +206,76 @@
                                         <br/>
                                     </div>
                                 </div>
-                                <div style="display: inline-block; width: 100%;">
-                                    <div style="font-size: 16px; width: 50%; float: left;">
-                                        <div style="width: 100%; border-bottom: 1px solid; margin-bottom: 2px;">
-                                            <span>支払方法</span>
-                                            <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                  t-field="o.note"/>
+                                <div style="width: 100%; display: inline-block;">
+                                    <div style="display: inline-block; width: 85%; float: left">
+                                        <div style="display: inline-block; width: 100%">
+                                            <div style="display: inline-block; font-size: 16px; width: 59%; float: left;">
+                                                <div style="width: 100%; border-bottom: 1px solid; margin-bottom: 2px;">
+                                                    <span>支払方法</span>
+                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-field="o.note"/>
+                                                </div>
+                                                <div style="width: 100%; border-bottom: 1px solid;">
+                                                    <span>有効期限</span>
+                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                          t-field="o.expiration_date"/>
+                                                </div>
+                                            </div>
+                                            <div style="display: inline-block; font-size: 16px; width: 41%; float: right;">
+                                                <div style="display: inline-block; width: 100%; margin-bottom: 2px;">
+                                                    <div style="margin-left:50px; border-bottom: 1px solid;">
+                                                        <span>担当：</span>
+                                                        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_charater_field(o.comment, 10)">
+                                                            <null/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div style="display: inline-block; width: 100%;">
+                                                    <div style="margin-left:50px; border-bottom: 1px solid;">
+                                                        <span>要件：</span>
+                                                        <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                              t-esc="o.limit_charater_field(o.quotation_name, 10)">
+                                                            <null/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div style="width: 100%; border-bottom: 1px solid;">
-                                            <span>有効期限</span>
-                                            <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                  t-field="o.expiration_date"/>
-                                        </div>
-                                    </div>
-                                    <div style="font-size: 16px; width: 43.6%; float: right;">
-                                        <div style="border-bottom: 1px solid; width: 100%; margin-bottom: 2px;">
-                                            <span>担当：</span>
-                                            <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                  t-field="o.comment_apply">
-                                                <null/>
-                                            </span>
-                                        </div>
-                                        <div style="border-bottom: 1px solid; width: 100%;">
-                                            <span>要件：</span>
-                                            <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                  t-field="o.quotation_name">
-                                                <null/>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style=" display: inline-block; width: 100%;">
-                                    <div style="font-size: 18px; width: 50%; float: left; display: inline-block; margin-top: 10px;">
-                                        <t t-if="pager==1">
-                                            <div style="width: 100%; border-bottom: 1px solid;">
-                                                <span style="">合計金額　￥</span>
-                                                <t t-if="o.tax_method == 'invoice'">
-                                                    <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"/>
+                                        <div style="display: inline-block; width: 100%;">
+                                            <div style="font-size: 18px; width: 59%; float: left; display: inline-block; margin-top: 10px;">
+                                                <t t-if="pager==1">
+                                                    <div style="width: 100%; border-bottom: 1px solid;">
+                                                        <span style="">合計金額　￥</span>
+                                                        <t t-if="o.tax_method == 'invoice'">
+                                                            <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(int(o.amount_untaxed))"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                  t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))"/>
+                                                        </t>
+                                                        <t t-if="o.tax_method =='invoice'">
+                                                            <span style="font-size: 24px;">（税抜）</span>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span style="font-size: 24px;">(税込)</span>
+                                                        </t>
+                                                    </div>
                                                 </t>
                                                 <t t-else="">
-                                                    <span style="font-size: 24px; display: inline-block; max-width: 168px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                          t-esc="'{0:,.0f}'.format(int(o.amount_untaxed + o.amount_tax))"/>
-                                                </t>
-                                                <t t-if="o.tax_method =='invoice'">
-                                                    <span style="font-size: 24px;">（税抜）</span>
-                                                </t>
-                                                <t t-else="">
-                                                    <span style="font-size: 24px;">(税込)</span>
+                                                    <div style="height: 20px;"></div>
                                                 </t>
                                             </div>
-                                        </t>
-                                        <t t-else="">
-                                            <div style="height: 20px;"></div>
-                                        </t>
+                                        </div>
+                                    </div>
+                                    <div style="display: inline-block; width: 15%; float: right;">
+                                        <span style="display: inline-block; border: 1px solid #000000; border-right: none; float: left; height: 70px; width: 59px; margin-left: 1px;"/>
+                                        <span style="display: inline-block; border: 1px solid #000000; float: left; height: 70px; width: 59px;"/>
                                     </div>
                                 </div>
                             </div>
-                            <div style="margin-top: 8px">
+                            <div>
                                 <table border="1" cellspacing="0" cellpadding="5"
                                        style="width: 100%;border: 1px solid #000000; border-left: 0; border-bottom: 0;">
                                     <thead>
