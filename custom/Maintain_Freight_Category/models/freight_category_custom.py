@@ -51,7 +51,7 @@ class FreightCategory(models.Model):
             recs = self.search([('search_key_freight', operator, name)] + args, limit=limit)
         return recs.name_get()
 
-    #TH - custom
+    # TH - custom
     @api.constrains('name')
     def onchange_name(self):
         cr = self.env.cr
@@ -60,4 +60,4 @@ class FreightCategory(models.Model):
             + "' WHERE product_custom_freight_category = '" + str(self.id) + "'"
         )
         return True
-    #TH - done
+    # TH - done
