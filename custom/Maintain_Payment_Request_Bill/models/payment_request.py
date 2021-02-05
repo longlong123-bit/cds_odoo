@@ -406,7 +406,11 @@ class BillInfoGet(models.Model):
                                     a.append(['', '', '※非課税', '', '', '', '', ''])
 
                 else:
-                    a.append([invoice_date_convert, record.invoice_no, '【入金　（' + record.payment_category + '）】',
+                    if record.payment_category == 'cash':
+                        payment_category_translate = '現金'
+                    else:
+                        payment_category_translate = '銀行'
+                    a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
                               '', '', '', '', line_amount_convert])
                     if record.payment_id.comment_apply:
                         a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
@@ -563,7 +567,11 @@ class BillInfoGet(models.Model):
                                         a.append(['', '', '※非課税', '', '', '', '', ''])
 
                     else:
-                        a.append([invoice_date_convert, record.invoice_no, '【入金　（' + record.payment_category + '）】',
+                        if record.payment_category == 'cash':
+                            payment_category_translate = '現金'
+                        else:
+                            payment_category_translate = '銀行'
+                        a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
                                   '', '', '', '', line_amount_convert])
                         if record.payment_id.comment_apply:
                             a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
@@ -711,7 +719,11 @@ class BillInfoGet(models.Model):
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                         a.append(['', '', '※非課税', '', '', '', '', ''])
                     else:
-                        a.append([invoice_date_convert, record.invoice_no, '【入金　（' + record.payment_category + '）】',
+                        if record.payment_category == 'cash':
+                            payment_category_translate = '現金'
+                        else:
+                            payment_category_translate = '銀行'
+                        a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
                                   '', '', '', '', line_amount_convert])
                         if record.payment_id.comment_apply:
                             a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
@@ -856,7 +868,11 @@ class BillInfoGet(models.Model):
                                         a.append(['', '', '※非課税', '', '', '', '', ''])
 
                     else:
-                        a.append([invoice_date_convert, record.invoice_no, '【入金　（' + record.payment_category + '）】',
+                        if record.payment_category == 'cash':
+                            payment_category_translate = '現金'
+                        else:
+                            payment_category_translate = '銀行'
+                        a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
                                   '', '', '', '', line_amount_convert])
                         if record.payment_id.comment_apply:
                             a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
@@ -864,10 +880,11 @@ class BillInfoGet(models.Model):
                     invoice_no_before = record.invoice_no
                     payment_id_before = record.payment_id.id
                     record_final = record
+                #In thue binh thuong khong tinh ARR
                 else:
-                    if record.x_voucher_tax_transfer == 'foreign_tax' or record.x_voucher_tax_transfer == 'voucher':
-                        a.append(['', '', '消費税', '', '', '', '', amount_tax_convert])
-                    a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')'])
+                    if record_final.x_voucher_tax_transfer == 'foreign_tax' or record_final.x_voucher_tax_transfer == 'voucher':
+                        a.append(['', '', '消費税', '', '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11))])
+                    a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')'])
                     a.append(['', '', '', '', '', '', '', ''])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
@@ -1004,7 +1021,11 @@ class BillInfoGet(models.Model):
                                         a.append(['', '', '※非課税', '', '', '', '', ''])
 
                     else:
-                        a.append([invoice_date_convert, record.invoice_no, '【入金　（' + record.payment_category + '）】',
+                        if record.payment_category == 'cash':
+                            payment_category_translate = '現金'
+                        else:
+                            payment_category_translate = '銀行'
+                        a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
                                   '', '', '', '', line_amount_convert])
                         if record.payment_id.comment_apply:
                             a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
@@ -1147,7 +1168,11 @@ class BillInfoGet(models.Model):
                                     a.append(['', '', '※非課税', '', '', '', '', ''])
 
                 else:
-                    a.append([invoice_date_convert, record.invoice_no, '【入金　（' + record.payment_category + '）】',
+                    if record.payment_category == 'cash':
+                        payment_category_translate = '現金'
+                    else:
+                        payment_category_translate = '銀行'
+                    a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
                               '', '', '', '', line_amount_convert])
                     if record.payment_id.comment_apply:
                         a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
@@ -1170,44 +1195,44 @@ class BillInfoGet(models.Model):
                 a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')'])
             a.append(['', '', '', '', '', '', '', ''])
             if self.partner_id.customer_tax_unit == 'invoice':
-                a.append(['', '', '（税別御買上計）      （10％対象）', '',
+                a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
                           '', '', '', subtotal_amount_tax_10])
-                a.append(['', '', '（税別御買上計）      （8％対象）', '',
+                a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
                           '', '', '', subtotal_amount_tax_8])
                 if self.subtotal_amount_tax():
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0])
                 if self.amount_tax(8):
-                    a.append(['', '', '（消費税）     （10％対象）', '',
+                    a.append(['', '', '（消費税）　　　　　　　　（10％対象）', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11))])
-                    a.append(['', '', '（消費税）      （8％対象）', '',
+                    a.append(['', '','　　　　　　　　　　　　　（8％対象）', '',
                               '', '', '',
                               '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11))])
                 else:
-                    a.append(['', '', '（消費税）     （10％対象）', '',
+                    a.append(['', '', '（消費税）　　　　　　　　（10％対象）', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax()), 11))])
-                    a.append(['', '', '（消費税）      （8％対象）', '',
+                    a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(8)), 11))])
                 if self.amount_tax():
                     a.append(['', '', '', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax()), 11))])
             else:
                 a.append(['', '', '【　合　　計　】', '', '', '', '', amount_total_bill_convert])
-                a.append(['', '', '（税別御買上計）      （10％対象）', '',
+                a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
                           '', '', '', subtotal_amount_tax_10])
-                a.append(['', '', '（税別御買上計）      （8％対象）', '',
+                a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
                           '', '', '', subtotal_amount_tax_8])
                 if self.subtotal_amount_tax():
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0])
                 if self.amount_tax(8):
-                    a.append(['', '', '（消費税）     （10％対象）', '',
+                    a.append(['', '', '（消費税）　　　　　　　　（10％対象）', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11))])
-                    a.append(['', '', '（消費税）      （8％対象）', '',
+                    a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
                               '', '', '',
                               '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11))])
                 else:
-                    a.append(['', '', '（消費税）     （10％対象）', '',
+                    a.append(['', '', '（消費税）　　　　　　　　（10％対象）', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax()), 11))])
-                    a.append(['', '', '（消費税）      （8％対象）', '',
+                    a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(8)), 11))])
                 if self.amount_tax():
                     a.append(['', '', '', '',
