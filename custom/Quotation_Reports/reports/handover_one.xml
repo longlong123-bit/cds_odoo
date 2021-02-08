@@ -15,9 +15,9 @@
             <t t-set="subtotal_tax_amount10" t-value="0"/>
             <t t-set="subtotal_tax_amount_o" t-value="0"/>
             <t t-set="lasted_page" t-value="0"/>
-            <t t-if="o.tax_method == 'voucher' or o.tax_method == 'custom_tax'">
-                <t t-set="lasted_page" t-value="o.count_record_check(8)"/>
-            </t>
+<!--            <t t-if="o.tax_method == 'voucher' or o.tax_method == 'custom_tax'">-->
+<!--                <t t-set="lasted_page" t-value="o.count_record_check(8)"/>-->
+<!--            </t>-->
             <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)" t-as="ll">
                 <t t-set="line" t-value="8"/>
                 <t t-if="ll.quotation_custom_line_no>line_id">
@@ -426,6 +426,7 @@
                                         <t t-set="subtotal_amount1_8" t-value="0"/>
                                         <t t-set="subtotal_amount1_10" t-value="0"/>
                                         <t t-set="subtotal_amount1_o" t-value="0"/>
+                                        <t t-set="line" t-value="7"/>
                                         <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
                                            t-as="order">
                                             <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
@@ -550,10 +551,10 @@
                                             </t>
                                         </t>
                                         <t t-set="check_line" t-value="line"/>
-                                        <t t-if="8 > line">
-                                            <t t-if=" line>1">
+                                        <t t-if="7 > line">
+                                            <t t-if=" line>0">
                                                 <t t-foreach="[1,2,3,4,5,6]" t-as="i">
-                                                    <t t-if="line>1">
+                                                    <t t-if="line>0">
                                                         <t t-set="line" t-value="line - 1"/>
                                                         <tr style="height: 36px;">
                                                             <td style="border: 1px solid #000000; border-top: 0; ">
@@ -650,7 +651,7 @@
                                             <t t-set="subtotal_tax_amount1_8"
                                                t-value="0"/>
                                         </t>
-                                        <t t-if="check_line != 0">
+                                        <t t-if="check_line >= 0">
                                             <t t-if="subtotal_tax_amount1_8 and o.amount_tax_category_check(8) == 0">
                                                 <t t-set="subtotal_tax_amount1_10"
                                                    t-value="subtotal_tax_amount1_10 + subtotal_tax_amount1_8"/>
@@ -679,17 +680,17 @@
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
                                                     <div style="display: block; height: 45px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_tax_amount1_10">
+                                                        <t t-if="check_line != 0 and subtotal_tax_amount1_10">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         </t>
                                                         <span t-else=""><null/></span>
-                                                        <t t-if="subtotal_tax_amount1_8">
+                                                        <t t-if="check_line != 0 and subtotal_tax_amount1_8">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         </t>
                                                         <span t-else=""><null/></span>
-                                                        <t t-if="subtotal_tax_amount1_o">
+                                                        <t t-if="check_line != 0 and subtotal_tax_amount1_o">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         </t>
@@ -874,6 +875,7 @@
                                         <t t-set="subtotal_amount1_8" t-value="0"/>
                                         <t t-set="subtotal_amount1_10" t-value="0"/>
                                         <t t-set="subtotal_amount1_o" t-value="0"/>
+                                        <t t-set="line" t-value="7"/>
                                         <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
                                            t-as="order">
                                             <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
@@ -1004,10 +1006,10 @@
                                             </t>
                                         </t>
                                         <t t-set="check_line" t-value="line"/>
-                                        <t t-if="8 > line">
-                                            <t t-if=" line>1">
+                                        <t t-if="7 > line">
+                                            <t t-if=" line>0">
                                                 <t t-foreach="[1,2,3,4,5,6]" t-as="i">
-                                                    <t t-if="line>1">
+                                                    <t t-if="line>0">
                                                         <t t-set="line" t-value="line - 1"/>
                                                         <tr style="height: 36px;">
                                                             <td style="border: 1px solid #000000; border-top: 0; ">
@@ -1067,7 +1069,7 @@
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                         </tr>
-                                        <t t-if="check_line != 0">
+                                        <t t-if="check_line >= 0">
                                             <tr style="height: 45px;">
                                                 <td style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
                                                     <div style="display: table; width: 60%; height: 45px; float: left; text-align: right;">
@@ -1081,7 +1083,7 @@
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
                                                     <div style="display: table; width: 60%; height: 45px; float: right; text-align: right;">
-                                                        <span t-if="o.amount_tax"
+                                                        <span t-if="check_line != 0 and o.amount_tax"
                                                               style="vertical-align: middle; display: table-cell; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax), 8))"></span>
                                                     </div>
@@ -1504,6 +1506,7 @@
                                         <!--                                        </t>-->
                                     </tbody>
                                     <tbody t-if="o.tax_method == 'voucher'">
+                                        <t t-set="line" t-value="7"/>
                                         <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
                                            t-as="order">
                                             <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
@@ -1610,10 +1613,10 @@
                                             </t>
                                         </t>
                                         <t t-set="check_line" t-value="line"/>
-                                        <t t-if="8 > line">
-                                            <t t-if=" line>1">
+                                        <t t-if="7 > line">
+                                            <t t-if=" line>0">
                                                 <t t-foreach="[1,2,3,4,5,6]" t-as="i">
-                                                    <t t-if="line>1">
+                                                    <t t-if="line>0">
                                                         <t t-set="line" t-value="line - 1"/>
                                                         <tr style="height: 36px;">
                                                             <td style="border: 1px solid #000000; border-top: 0; ">
@@ -1688,7 +1691,7 @@
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                         </tr>
-                                        <t t-if="check_line != 0">
+                                        <t t-if="check_line >= 0">
                                             <t t-if="o.partner_id.customer_tax_rounding == 'round'">
                                                 <t t-set="subtotal_tax_amount1_10"
                                                    t-value="int(round(subtotal_tax_amount1_10, 2) + 0.5)"/>
@@ -1723,17 +1726,17 @@
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
                                                     <div style="display: block;  float: right; height: 45px; text-align: right;">
-                                                        <t t-if="subtotal_tax_amount1_10">
+                                                        <t t-if="check_line != 0 and subtotal_tax_amount1_10">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         </t>
                                                         <span t-else=""><null/></span>
-                                                        <t t-if="subtotal_tax_amount1_8">
+                                                        <t t-if="check_line != 0 and subtotal_tax_amount1_8">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         </t>
                                                         <span t-else=""><null/></span>
-                                                        <t t-if="subtotal_tax_amount1_o">
+                                                        <t t-if="check_line != 0 and subtotal_tax_amount1_o">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         </t>
@@ -1927,6 +1930,7 @@
                                         <t t-set="subtotal_amount1_8" t-value="0"/>
                                         <t t-set="subtotal_amount1_10" t-value="0"/>
                                         <t t-set="subtotal_amount1_o" t-value="0"/>
+                                        <t t-set="line" t-value="7"/>
                                         <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
                                            t-as="order">
                                             <t t-if="order.quotation_custom_line_no>=line_id_1 and order.id != line_id_id">
@@ -2057,10 +2061,10 @@
                                             </t>
                                         </t>
                                         <t t-set="check_line" t-value="line"/>
-                                        <t t-if="8 > line">
-                                            <t t-if=" line>1">
+                                        <t t-if="7 > line">
+                                            <t t-if=" line>0">
                                                 <t t-foreach="[1,2,3,4,5,6]" t-as="i">
-                                                    <t t-if="line>1">
+                                                    <t t-if="line>0">
                                                         <t t-set="line" t-value="line - 1"/>
                                                         <tr style="height: 36px;">
                                                             <td style="border: 1px solid #000000; border-top: 0; ">
@@ -2119,7 +2123,7 @@
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                         </tr>
-                                        <t t-if="check_line != 0">
+                                        <t t-if="check_line >= 0">
                                             <tr style="height: 45px;">
                                                 <td style="border: 1px solid #000000; border-top: 0;  font-size: 14px; text-align: center;">
                                                     <div style="display: table; width: 60%; height: 45px; float: left; text-align: right;">
@@ -2133,7 +2137,7 @@
                                                 <td style="border: 1px solid #000000;border-top: 0; border-left: 0;"></td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0;text-align: right; font-size: 14px;">
                                                     <div style="display: table; width: 60%; height: 45px; float: right; text-align: right;">
-                                                        <span t-if="o.amount_tax"
+                                                        <span t-if="check_line != 0 and o.amount_tax"
                                                               style="vertical-align: middle; display: table-cell; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax), 8))"></span>
                                                     </div>
@@ -2575,6 +2579,7 @@
                                         <t t-set="subtotal_amount8" t-value="0"/>
                                         <t t-set="subtotal_amount10" t-value="0"/>
                                         <t t-set="subtotal_amount_o" t-value="0"/>
+                                        <t t-set="line" t-value="7"/>
                                         <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
                                            t-as="order">
                                             <t t-if="order.quotation_custom_line_no>=line_id and order.id != line_id_id">
@@ -2699,10 +2704,10 @@
                                                 </t>
                                             </t>
                                         </t>
-                                        <t t-if="8 > line">
-                                            <t t-if=" line>1">
+                                        <t t-if="7 > line">
+                                            <t t-if=" line>0">
                                                 <t t-foreach="[1,2,3,4,5,6]" t-as="i">
-                                                    <t t-if="line>1">
+                                                    <t t-if="line>0">
                                                         <t t-set="line" t-value="line - 1"/>
                                                         <tr style="height: 36px;">
                                                             <td style="border: 1px solid #000000; border-top: 0; ">
@@ -2744,7 +2749,7 @@
                                                 </t>
                                             </t>
                                         </t>
-                                        <t t-set="check_line" t-value="line"/>
+<!--                                        <t t-set="check_line" t-value="line"/>-->
                                         <tr style="font-size: 14px; height: 45px; vertical-align: middle;">
                                             <td style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center;">
                                                 <div style="display: table; height: 45px; width: 60%; float: left; text-align: right;">
@@ -2784,7 +2789,7 @@
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                         </tr>
-                                        <t t-if="check_line != 0">
+                                        <t t-if="check_line >= 0">
                                             <t t-if="o.partner_id.customer_tax_rounding == 'round'">
                                                 <t t-set="subtotal_tax_amount10"
                                                    t-value="int(round(subtotal_tax_amount10, 2) + 0.5)"/>
@@ -2819,17 +2824,17 @@
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <div style="display: block; height: 45px; float: right; text-align: right;">
-                                                        <t t-if="subtotal_tax_amount1_10">
+                                                        <t t-if="check_line != 0 and subtotal_tax_amount1_10">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_10), 8))"></span>
                                                         </t>
                                                         <span t-else=""><null/></span>
-                                                        <t t-if="subtotal_tax_amount1_8">
+                                                        <t t-if="check_line != 0 and subtotal_tax_amount1_8">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_8), 8))"></span>
                                                         </t>
                                                         <span t-else=""><null/></span>
-                                                        <t t-if="subtotal_tax_amount1_o">
+                                                        <t t-if="check_line != 0 and subtotal_tax_amount1_o">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(int(subtotal_tax_amount1_o), 8))"></span>
                                                         </t>
@@ -3052,6 +3057,7 @@
                                         <t t-set="subtotal_amount8" t-value="0"/>
                                         <t t-set="subtotal_amount10" t-value="0"/>
                                         <t t-set="subtotal_amount_o" t-value="0"/>
+                                        <t t-set="line" t-value="7"/>
                                         <t t-foreach="o.order_line.sorted(key=lambda r: r.quotation_custom_line_no)"
                                            t-as="order">
                                             <t t-if="order.quotation_custom_line_no>=line_id and order.id != line_id_id">
@@ -3170,10 +3176,10 @@
                                                 </t>
                                             </t>
                                         </t>
-                                        <t t-if="8 > line">
-                                            <t t-if=" line>1">
+                                        <t t-if="7 > line">
+                                            <t t-if=" line>0">
                                                 <t t-foreach="[1,2,3,4,5,6]" t-as="i">
-                                                    <t t-if="line>1">
+                                                    <t t-if="line>0">
                                                         <t t-set="line" t-value="line - 1"/>
                                                         <tr style="height: 36px;">
                                                             <td style="border: 1px solid #000000; border-top: 0; ">
@@ -3215,7 +3221,7 @@
                                                 </t>
                                             </t>
                                         </t>
-                                        <t t-set="check_line" t-value="line"/>
+<!--                                        <t t-set="check_line" t-value="line"/>-->
                                         <tr style="font-size: 14px;height: 45px">
                                             <td style="border: 1px solid #000000;border-top: 0;  font-size: 14px; text-align: center;">
                                                 <div style="display: table; width: 60%; height: 45px; float: left; text-align: right;">
@@ -3236,7 +3242,7 @@
                                             </td>
                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; border-right:0;"></td>
                                         </tr>
-                                        <t t-if="check_line != 0">
+                                        <t t-if="check_line >= 0">
                                             <t t-set="subtotal_tax_amount8"
                                                t-value="o.amount_tax - int(subtotal_tax_amount10) - int(subtotal_tax_amount_o)"/>
                                             <tr style="height: 45px;">
@@ -3252,7 +3258,7 @@
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0;"></td>
                                                 <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right; font-size: 14px;">
                                                     <div style="display: table; width: 60%; height: 45px; float: right; text-align: right;">
-                                                        <span t-if="o.amount_tax"
+                                                        <span t-if="check_line != 0 and o.amount_tax"
                                                               style="vertical-align: middle; display: table-cell; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax), 8))"></span>
                                                     </div>
