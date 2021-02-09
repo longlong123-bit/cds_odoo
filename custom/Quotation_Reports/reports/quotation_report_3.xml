@@ -338,10 +338,14 @@
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
-                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
-                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <span style="display: table-cell; overflow: hidden; text-overflow: ellipsis; height: 36px; font-size: 16px; vertical-align: middle;"
+                                                                              t-esc="order.limit_charater_field(order.product_name, 17, True)"/>
+                                                                    </t>
                                                                 </div>
                                                                 <span t-if="order.product_maker_name"
                                                                       style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -598,10 +602,14 @@
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
-                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
-                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <span style="display: table-cell; overflow: hidden; text-overflow: ellipsis; height: 36px; font-size: 16px; vertical-align: middle;"
+                                                                              t-esc="order.limit_charater_field(order.product_name, 17, True)"/>
+                                                                    </t>
                                                                 </div>
                                                                 <span t-if="order.product_maker_name"
                                                                       style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -857,10 +865,14 @@
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
-                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
-                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <span style="display: table-cell; overflow: hidden; text-overflow: ellipsis; height: 36px; font-size: 16px; vertical-align: middle;"
+                                                                              t-esc="order.limit_charater_field(order.product_name, 17, True)"/>
+                                                                    </t>
                                                                 </div>
                                                                 <span t-if="order.product_maker_name"
                                                                       style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -1021,10 +1033,14 @@
                                                             <!--                                                        <span t-esc="line_id"/>-->
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
-                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;"
-                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 16px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <span style="display: table-cell; overflow: hidden; text-overflow: ellipsis; height: 36px; font-size: 16px; vertical-align: middle;"
+                                                                              t-esc="order.limit_charater_field(order.product_name, 17, True)"/>
+                                                                    </t>
                                                                 </div>
                                                                 <span t-if="order.product_maker_name"
                                                                       style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
