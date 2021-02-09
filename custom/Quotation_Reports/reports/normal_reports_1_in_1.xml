@@ -275,11 +275,8 @@
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
-                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;"
-                                                                              t-if="order.limit_charater_field(order.product_name, 20, True)"
-                                                                              t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;"
-                                                                              t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-if="order.limit_charater_field(order.product_name, 20, True)" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                     </t>
                                                                     <t t-else="">
                                                                         <span style="display: table-cell; overflow: hidden; text-overflow: ellipsis; height: 36px; font-size: 16px; vertical-align: middle;"
@@ -550,11 +547,8 @@
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
-                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;"
-                                                                              t-if="order.limit_charater_field(order.product_name, 20, True)"
-                                                                              t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;"
-                                                                              t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-if="order.limit_charater_field(order.product_name, 20, True)" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                     </t>
                                                                     <t t-else="">
                                                                         <span style="display: table-cell; overflow: hidden; text-overflow: ellipsis; height: 36px; font-size: 16px; vertical-align: middle;"
@@ -824,11 +818,8 @@
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
-                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;"
-                                                                              t-if="order.limit_charater_field(order.product_name, 20, True)"
-                                                                              t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;"
-                                                                              t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-if="order.limit_charater_field(order.product_name, 20, True)" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                     </t>
                                                                     <t t-else="">
                                                                         <span style="display: table-cell; overflow: hidden; text-overflow: ellipsis; height: 36px; font-size: 16px; vertical-align: middle;"
@@ -996,11 +987,8 @@
                                                             <div>
                                                                 <div style="word-break: break-all; display: -webkit-box; width: 286px; height: 36px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
-                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;"
-                                                                              t-if="order.limit_charater_field(order.product_name, 20, True)"
-                                                                              t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
-                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;"
-                                                                              t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-if="order.limit_charater_field(order.product_name, 20, True)" t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
+                                                                        <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 15px;" t-esc="order.limit_charater_field(order.product_name, 20, True, False)"/>
                                                                     </t>
                                                                     <t t-else="">
                                                                         <span style="display: table-cell; overflow: hidden; text-overflow: ellipsis; height: 36px; font-size: 16px; vertical-align: middle;"
