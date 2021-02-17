@@ -270,7 +270,7 @@ class BillInfoGet(models.Model):
     def record_data(self):
         a = []
         bill_detail_list = self.bill_detail_ids
-        record_data_list = sorted(self.bill_detail_ids, key=lambda bill_detail_list: (bill_detail_list.invoice_date, bill_detail_list.invoice_no))
+        record_data_list = sorted(self.bill_detail_ids, key=lambda bill_detail_list: (bill_detail_list.invoice_date, bill_detail_list.invoice_no, bill_detail_list.account_move_line_id.invoice_custom_line_no))
         invoice_no_before = 0
         record_final = 0
         payment_id_before = 0
