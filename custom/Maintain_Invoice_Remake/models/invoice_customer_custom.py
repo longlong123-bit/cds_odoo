@@ -755,7 +755,7 @@ class ClassInvoiceCustom(models.Model):
             # Compute 'invoice_payment_state'.
             if move.type == 'entry':
                 move.invoice_payment_state = False
-            elif move.state == 'posted' and is_paid:
+            elif move.state == 'posted' and is_paid and move.customer_trans_classification_code == 'cash':
                 if move.id in in_payment_set:
                     move.invoice_payment_state = 'in_payment'
                 else:
