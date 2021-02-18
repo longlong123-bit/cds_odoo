@@ -97,6 +97,35 @@
     <field name="inherit_id" ref="account.view_move_form"/>
     <field name="priority">1</field>
     <field name="arch" type="xml">
+        <!--TH - Custom input Negative Number-->
+        <xpath expr="/form/div[1]" position="replace">
+            <div groups="account.group_account_invoice"
+                class="alert alert-warning" role="alert" style="margin-bottom:0px;"
+                attrs="{'invisible': True}">
+                <field name="tax_lock_date_message" nolabel="1"/>
+            </div>
+        </xpath>
+        <xpath expr="/form/div[2]" position="replace">
+            <div groups="account.group_account_invoice"
+                class="alert alert-info" role="alert" style="margin-bottom:0px;"
+                attrs="{'invisible': True}">
+                You have <bold><a class="alert-link" href="#outstanding" role="button">outstanding payments</a></bold> for this customer. You can allocate them to mark this invoice as paid.
+            </div>
+        </xpath>
+        <xpath expr="/form/div[3]" position="replace">
+            <div groups="account.group_account_invoice"
+                class="alert alert-info" role="alert" style="margin-bottom:0px;"
+                attrs="{'invisible': True}">
+                You have <bold><a class="alert-link" href="#outstanding" role="button">outstanding debits</a></bold> for this supplier. You can allocate them to mark this bill as paid.
+            </div>
+        </xpath>
+        <xpath expr="/form/sheet/notebook/page[@id='invoice_tab']/field[@name='invoice_outstanding_credits_debits_widget']" position="replace">
+            <field name="invoice_outstanding_credits_debits_widget"
+                   class="oe_invoice_outstanding_credits_debits"
+                   colspan="2" nolabel="1" widget="payment"
+                   attrs="{'invisible': True}"/>
+        </xpath>
+        <!--TH - done-->
         <xpath expr="//field[@name='name']" position="attributes">
             <attribute name="invisible">1</attribute>
         </xpath>
