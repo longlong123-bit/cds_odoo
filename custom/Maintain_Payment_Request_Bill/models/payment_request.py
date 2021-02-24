@@ -275,6 +275,7 @@ class BillInfoGet(models.Model):
         record_final = 0
         payment_id_before = 0
         for record in record_data_list:
+            check_two_line = 0
             # Gan gia tri
             quantity_convert = '{0:,.0f}'.format(self.limit_number_field(int(record.quantity), 7))
             price_unit_convert = '{0:,.0f}'.format(self.limit_number_field(record.price_unit, 8))
@@ -291,119 +292,191 @@ class BillInfoGet(models.Model):
                     if record.x_voucher_tax_transfer == 'internal_tax':
                         if record.price_unit % 1 > 0:
                             if record.product_maker_name == False and record.product_custom_standardnumber:
-                                a.append([invoice_date_convert, record.invoice_no,
-                                          record.limit_charater_field(record.product_name, 20, True), record.product_custom_standardnumber,
-                                          quantity_convert, product_uom_convert,
-                                          str(price_unit_convert_2) + '※',
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert_2) + '※',
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 20, True), record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert_2) + '※',
+                                              line_amount_convert, check_two_line])
                             else:
-                                a.append([invoice_date_convert, record.invoice_no,
-                                          record.limit_charater_field(record.product_name, 20, True), record.product_maker_name,
-                                          quantity_convert, product_uom_convert,
-                                          str(price_unit_convert_2) + '※',
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert_2) + '※',
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 20, True), record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert_2) + '※',
+                                              line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
-                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), record.product_custom_standardnumber, '', '', '', ''])
+                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                 else:
-                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '', '', '', ''])
+                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '', '', '', '', check_two_line])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
-                                    a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                    a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                 elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                    a.append(['', '', '※非課税', '', '', '', '', ''])
+                                    a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                         if record.price_unit % 1 == 0:
                             # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                             if record.product_maker_name == False and record.product_custom_standardnumber:
-                                a.append([invoice_date_convert, record.invoice_no,
-                                          record.limit_charater_field(record.product_name, 20, True), record.product_custom_standardnumber,
-                                          quantity_convert, product_uom_convert,
-                                          str(price_unit_convert) + '※',
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert) + '※',
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 20, True), record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert) + '※',
+                                              line_amount_convert, check_two_line])
                             else:
-                                a.append([invoice_date_convert, record.invoice_no,
-                                          record.limit_charater_field(record.product_name, 20, True), record.product_maker_name,
-                                          quantity_convert, product_uom_convert,
-                                          str(price_unit_convert) + '※',
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert) + '※',
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 20, True), record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert) + '※',
+                                              line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
-                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), record.product_custom_standardnumber, '', '', '', ''])
+                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                 else:
-                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '', '', '', ''])
+                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '', '', '', '', check_two_line])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
-                                    a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                    a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                 elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                    a.append(['', '', '※非課税', '', '', '', '', ''])
+                                    a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                     else:
                         if record.price_unit % 1 > 0:
                             if record.product_maker_name == False and record.product_custom_standardnumber:
-                                a.append([invoice_date_convert, record.invoice_no,
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_custom_standardnumber,
-                                          quantity_convert, product_uom_convert,
-                                          price_unit_convert_2,
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert_2,
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert_2,
+                                              line_amount_convert, check_two_line])
                             else:
-                                a.append([invoice_date_convert, record.invoice_no,
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_maker_name,
-                                          quantity_convert, product_uom_convert,
-                                          price_unit_convert_2,
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert_2,
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert_2,
+                                              line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', ''])
+                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
-                                         '', '', '', ''])
+                                         '', '', '', '', check_two_line])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
-                                    a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                    a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                 elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                    a.append(['', '', '※非課税', '', '', '', '', ''])
+                                    a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                         if record.price_unit % 1 == 0:
                             # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                             if record.product_maker_name == False and record.product_custom_standardnumber:
-                                a.append([invoice_date_convert, record.invoice_no,
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_custom_standardnumber,
-                                          quantity_convert, product_uom_convert,
-                                          price_unit_convert,
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert,
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert,
+                                              line_amount_convert, check_two_line])
                             else:
-                                a.append([invoice_date_convert, record.invoice_no,
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_maker_name,
-                                          quantity_convert, product_uom_convert,
-                                          price_unit_convert,
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert,
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append([invoice_date_convert, record.invoice_no,
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert,
+                                              line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', ''])
+                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
-                                         '', '', '', ''])
+                                         '', '', '', '', check_two_line])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
-                                    a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                    a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                 elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                    a.append(['', '', '※非課税', '', '', '', '', ''])
+                                    a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
 
                 else:
                     if record.payment_category == 'cash':
@@ -411,10 +484,10 @@ class BillInfoGet(models.Model):
                     else:
                         payment_category_translate = '銀行'
                     a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
-                              '', '', '', '', line_amount_convert])
+                              '', '', '', '', line_amount_convert, check_two_line])
                     if record.payment_id.comment_apply:
                         a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
-                                  '', '', '', '', ''])
+                                  '', '', '', '', '', check_two_line])
                 invoice_no_before = record.invoice_no
                 payment_id_before = record.payment_id.id
                 record_final = record
@@ -424,147 +497,219 @@ class BillInfoGet(models.Model):
                 if payment_id_before == False and record.payment_id.id:
                     if record_final.x_voucher_tax_transfer == 'foreign_tax' or record_final.x_voucher_tax_transfer == 'voucher':
                         a.append(['', '', '消費税', '', '', '', '', '{0:,.0f}'.format(
-                        self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11))])
+                        self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11)), check_two_line])
                     a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(
-                        self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')'])
-                    a.append(['', '', '', '', '', '', '', ''])
+                        self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
+                    a.append(['', '', '', '', '', '', '', '', check_two_line])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
                             if record.price_unit % 1 > 0:
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert_2) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert_2) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert], check_two_line)
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert], check_two_line)
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', ''])
+                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                              '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                             if record.price_unit % 1 == 0:
                                 # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', ''])
+                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                              '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                         else:
                             if record.price_unit % 1 > 0:
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', ''])
+                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '',
                                              '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                             if record.price_unit % 1 == 0:
                                 # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', ''])
+                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '',
                                              '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
 
                     else:
                         if record.payment_category == 'cash':
@@ -572,10 +717,10 @@ class BillInfoGet(models.Model):
                         else:
                             payment_category_translate = '銀行'
                         a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
-                                  '', '', '', '', line_amount_convert])
+                                  '', '', '', '', line_amount_convert, check_two_line])
                         if record.payment_id.comment_apply:
                             a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
-                                      '', '', '', '', ''])
+                                      '', '', '', '', '', check_two_line])
                     invoice_no_before = record.invoice_no
                     payment_id_before = record.payment_id.id
                     record_final = record
@@ -585,149 +730,221 @@ class BillInfoGet(models.Model):
                         if record.x_voucher_tax_transfer == 'internal_tax':
                             if record.price_unit % 1 > 0:
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert_2) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert_2) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', ''])
+                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                              '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                             if record.price_unit % 1 == 0:
                                 # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', ''])
+                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                              '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                         else:
                             if record.price_unit % 1 > 0:
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', ''])
+                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '',
                                              '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                             if record.price_unit % 1 == 0:
                                 # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', ''])
+                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '',
                                              '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                     else:
                         if record.payment_category == 'cash':
                             payment_category_translate = '現金'
                         else:
                             payment_category_translate = '銀行'
                         a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
-                                  '', '', '', '', line_amount_convert])
+                                  '', '', '', '', line_amount_convert, check_two_line])
                         if record.payment_id.comment_apply:
                             a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
-                                      '', '', '', '', ''])
+                                      '', '', '', '', '', check_two_line])
                     invoice_no_before = record.invoice_no
                     payment_id_before = record.payment_id.id
                     record_final = record
@@ -737,135 +954,207 @@ class BillInfoGet(models.Model):
                         if record.x_voucher_tax_transfer == 'internal_tax':
                             if record.price_unit % 1 > 0:
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert_2) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert_2) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', ''])
+                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                             if record.price_unit % 1 == 0:
                                 # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', ''])
+                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                         else:
                             if record.price_unit % 1 > 0:
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', ''])
+                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '', '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                             if record.price_unit % 1 == 0:
                                 # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', ''])
+                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '', '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
 
                     else:
                         if record.payment_category == 'cash':
@@ -873,152 +1162,224 @@ class BillInfoGet(models.Model):
                         else:
                             payment_category_translate = '銀行'
                         a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
-                                  '', '', '', '', line_amount_convert])
+                                  '', '', '', '', line_amount_convert, check_two_line])
                         if record.payment_id.comment_apply:
                             a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
-                                      '', '', '', '', ''])
+                                      '', '', '', '', '', check_two_line])
                     invoice_no_before = record.invoice_no
                     payment_id_before = record.payment_id.id
                     record_final = record
                 #In thue binh thuong khong tinh ARR
                 else:
                     if record_final.x_voucher_tax_transfer == 'foreign_tax' or record_final.x_voucher_tax_transfer == 'voucher':
-                        a.append(['', '', '消費税', '', '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11))])
-                    a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')'])
-                    a.append(['', '', '', '', '', '', '', ''])
+                        a.append(['', '', '消費税', '', '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11)), check_two_line])
+                    a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
+                    a.append(['', '', '', '', '', '', '', '', check_two_line])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
                             if record.price_unit % 1 > 0:
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert_2) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert_2) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', ''])
+                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                             if record.price_unit % 1 == 0:
                                 # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              str(price_unit_convert) + '※',
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', ''])
+                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                         else:
                             if record.price_unit % 1 > 0:
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', ''])
+                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '', '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                             if record.price_unit % 1 == 0:
                                 # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert])
+                                    if not record.limit_charater_field(record.product_name, 20, True, False):
+                                        check_two_line = 1
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', ''])
+                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '', '',
-                                             '', '', ''])
+                                             '', '', '', check_two_line])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
-                                        a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                        a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                     elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                        a.append(['', '', '※非課税', '', '', '', '', ''])
+                                        a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
 
                     else:
                         if record.payment_category == 'cash':
@@ -1026,10 +1387,10 @@ class BillInfoGet(models.Model):
                         else:
                             payment_category_translate = '銀行'
                         a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
-                                  '', '', '', '', line_amount_convert])
+                                  '', '', '', '', line_amount_convert, check_two_line])
                         if record.payment_id.comment_apply:
                             a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
-                                      '', '', '', '', ''])
+                                      '', '', '', '', '', check_two_line])
                     invoice_no_before = record.invoice_no
                     payment_id_before = record.payment_id.id
                     record_final = record
@@ -1039,133 +1400,205 @@ class BillInfoGet(models.Model):
                     if record.x_voucher_tax_transfer == 'internal_tax':
                         if record.price_unit % 1 > 0:
                             if record.product_maker_name == False and record.product_custom_standardnumber:
-                                a.append(['', '',
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_custom_standardnumber,
-                                          quantity_convert, product_uom_convert,
-                                          str(price_unit_convert_2) + '※',
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert_2) + '※',
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert_2) + '※',
+                                              line_amount_convert, check_two_line])
                             else:
-                                a.append(['', '',
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_maker_name,
-                                          quantity_convert, product_uom_convert,
-                                          str(price_unit_convert_2) + '※',
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert_2) + '※',
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert_2) + '※',
+                                              line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', ''])
+                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                         '', '', ''])
+                                         '', '', '', check_two_line])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
-                                    a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                    a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                 elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                    a.append(['', '', '※非課税', '', '', '', '', ''])
+                                    a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                         if record.price_unit % 1 == 0:
                             # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                             if record.product_maker_name == False and record.product_custom_standardnumber:
-                                a.append(['', '',
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_custom_standardnumber,
-                                          quantity_convert, product_uom_convert,
-                                          str(price_unit_convert) + '※',
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert) + '※',
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert) + '※',
+                                              line_amount_convert, check_two_line])
                             else:
-                                a.append(['', '',
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_maker_name,
-                                          quantity_convert, product_uom_convert,
-                                          str(price_unit_convert) + '※',
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert) + '※',
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              str(price_unit_convert) + '※',
+                                              line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', ''])
+                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                         '', '', ''])
+                                         '', '', '', check_two_line])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
-                                    a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                    a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                 elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                    a.append(['', '', '※非課税', '', '', '', '', ''])
+                                    a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                     else:
                         if record.price_unit % 1 > 0:
                             if record.product_maker_name == False and record.product_custom_standardnumber:
-                                a.append(['', '',
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_custom_standardnumber,
-                                          quantity_convert, product_uom_convert,
-                                          price_unit_convert_2,
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert_2,
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert_2,
+                                              line_amount_convert, check_two_line])
                             else:
-                                a.append(['', '',
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_maker_name,
-                                          quantity_convert, product_uom_convert,
-                                          price_unit_convert_2,
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert_2,
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert_2,
+                                              line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', ''])
+                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                          '',
-                                         '', '', ''])
+                                         '', '', '', check_two_line])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
-                                    a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                    a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                 elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                    a.append(['', '', '※非課税', '', '', '', '', ''])
+                                    a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
                         if record.price_unit % 1 == 0:
                             # In dong dau truong hop co product_maker_name hay khong. Neu khong co product_maker_name, dong 1 hien thi product_custom_standardnumber
                             if record.product_maker_name == False and record.product_custom_standardnumber:
-                                a.append(['', '',
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_custom_standardnumber,
-                                          quantity_convert, product_uom_convert,
-                                          price_unit_convert,
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert,
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_custom_standardnumber,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert,
+                                              line_amount_convert, check_two_line])
                             else:
-                                a.append(['', '',
-                                          record.limit_charater_field(record.product_name, 20, True),
-                                          record.product_maker_name,
-                                          quantity_convert, product_uom_convert,
-                                          price_unit_convert,
-                                          line_amount_convert])
+                                if not record.limit_charater_field(record.product_name, 20, True, False):
+                                    check_two_line = 1
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 18, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert,
+                                              line_amount_convert, check_two_line])
+                                else:
+                                    a.append(['', '',
+                                              record.limit_charater_field(record.product_name, 20, True),
+                                              record.product_maker_name,
+                                              quantity_convert, product_uom_convert,
+                                              price_unit_convert,
+                                              line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', ''])
+                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                          '',
-                                         '', '', ''])
+                                         '', '', '', check_two_line])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
-                                    a.append(['', '', '※軽減税率', '', '', '', '', ''])
+                                    a.append(['', '', '※軽減税率', '', '', '', '', '', check_two_line])
                                 elif record.account_move_line_id.product_id.product_tax_category == 'exempt':
-                                    a.append(['', '', '※非課税', '', '', '', '', ''])
+                                    a.append(['', '', '※非課税', '', '', '', '', '', check_two_line])
 
                 else:
                     if record.payment_category == 'cash':
@@ -1173,10 +1606,10 @@ class BillInfoGet(models.Model):
                     else:
                         payment_category_translate = '銀行'
                     a.append([invoice_date_convert, record.invoice_no, '【入金　（ ' + payment_category_translate + ' ）】',
-                              '', '', '', '', line_amount_convert])
+                              '', '', '', '', line_amount_convert, check_two_line])
                     if record.payment_id.comment_apply:
                         a.append(['', '', self.limit_charater_field(record.payment_id.comment_apply, 30),
-                                  '', '', '', '', ''])
+                                  '', '', '', '', '', check_two_line])
                 invoice_no_before = record.invoice_no
                 payment_id_before = record.payment_id.id
                 record_final = record
@@ -1192,51 +1625,51 @@ class BillInfoGet(models.Model):
                 if record_final.x_voucher_tax_transfer == 'foreign_tax' or record_final.x_voucher_tax_transfer == 'voucher':
                     a.append(
                         ['', '', '消費税', '', '', '', '', amount_tax_convert])
-                a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')'])
-            a.append(['', '', '', '', '', '', '', ''])
+                a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+            a.append(['', '', '', '', '', '', '', '', check_two_line])
             if self.partner_id.customer_tax_unit == 'invoice':
                 a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
-                          '', '', '', subtotal_amount_tax_10])
+                          '', '', '', subtotal_amount_tax_10, check_two_line])
                 a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
-                          '', '', '', subtotal_amount_tax_8])
+                          '', '', '', subtotal_amount_tax_8, check_two_line])
                 if self.subtotal_amount_tax():
-                    a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0])
+                    a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％対象）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11))])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11)), check_two_line])
                     a.append(['', '','　　　　　　　　　　　　　（8％対象）', '',
                               '', '', '',
-                              '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11))])
+                              '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11)), check_two_line])
                 else:
                     a.append(['', '', '（消費税）　　　　　　　　（10％対象）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax()), 11))])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax()), 11)), check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(8)), 11))])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(8)), 11)), check_two_line])
                 if self.amount_tax():
                     a.append(['', '', '', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax()), 11))])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax()), 11)), check_two_line])
             else:
-                a.append(['', '', '【　合　　計　】', '', '', '', '', amount_total_bill_convert])
+                a.append(['', '', '【　合　　計　】', '', '', '', '', amount_total_bill_convert, check_two_line])
                 a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
-                          '', '', '', subtotal_amount_tax_10])
+                          '', '', '', subtotal_amount_tax_10, check_two_line])
                 a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
-                          '', '', '', subtotal_amount_tax_8])
+                          '', '', '', subtotal_amount_tax_8, check_two_line])
                 if self.subtotal_amount_tax():
-                    a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0])
+                    a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％対象）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11))])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11)), check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
                               '', '', '',
-                              '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11))])
+                              '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11)), check_two_line])
                 else:
                     a.append(['', '', '（消費税）　　　　　　　　（10％対象）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax()), 11))])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax()), 11)), check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％対象）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(8)), 11))])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(8)), 11)), check_two_line])
                 if self.amount_tax():
                     a.append(['', '', '', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax()), 11))])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax()), 11)), check_two_line])
         return a
     #TH - done
 
