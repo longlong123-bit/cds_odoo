@@ -3,7 +3,7 @@
     <data>
         <template id="normal_report">
             <t t-set="total_record_detail" t-value="len(o.record_data())"/>
-            <t t-set="total_page_detail_count" t-value="total_record_detail/48"/>
+            <t t-set="total_page_detail_count" t-value="total_record_detail/52"/>
             <t t-if="int(total_page_detail_count) == total_page_detail_count">
                 <t t-set="total_page_detail" t-value="int(total_page_detail_count)+1"/>
             </t>
@@ -244,7 +244,7 @@
                                 </div>
                             </div>
                         </t>
-                        <t t-if="pager == 1">
+                        <t t-if="pager == 1 ">
                             <t t-set="style"
                                t-value='"height: 955px; width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000"'/>
                         </t>
@@ -281,65 +281,72 @@
                                 </thead>
                                 <tbody>
                                     <t t-foreach="o.record_data()" t-as="line_detail">
-                                            <t t-if="((pager-1)*48 &lt;= count_detail) and (pager*48 &gt; count_detail)">
-                                                <tr style="max-height: 45px; min-height: 30px; vertical-align: top; overflow: hidden;">
-                                                    <td style="padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 60px; text-align: center;">
-                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
-                                                                <t t-esc="line_detail[0]"/>
-                                                            </p>
-                                                            <!--                                                            <t t-set="inv_date" t-value="line_detail.invoice_date"/>-->
+                                        <t t-if="line_detail[8] == 1 ">
+                                            <t t-set="style_for_product_name"
+                                               t-value='"font-size: 16px; max-height: 28px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 290px; overflow: hidden; margin: 0; line-height: 16px;"'/>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-set="style_for_product_name"
+                                               t-value='"max-height: 28px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 290px; overflow: hidden; margin: 0; line-height: 16px;"'/>
+                                        </t>
+                                        <t t-if="((pager-1)*52 &lt;= count_detail) and (pager*52 &gt; count_detail)">
+                                            <tr style="vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0; padding-top: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center; ">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; line-height: 16px;">
+                                                            <t t-esc="line_detail[0]"/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0; padding-top: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; line-height: 16px;">
+                                                            <t t-esc="line_detail[1]"/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0; padding-top: 0;">
+                                                    <div style="display: inline-block; width: 440px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; overflow: hidden;">
+                                                        <div t-att-style="style_for_product_name">
+                                                            <t t-esc="line_detail[2]"/>
                                                         </div>
-                                                    </td>
-                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 80px; text-align: center;">
-                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
-                                                                <t t-esc="line_detail[1]"/>
-                                                            </p>
+                                                        <div style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 16px;">
+                                                            <t t-esc="line_detail[3]"/>
                                                         </div>
-                                                    </td>
-                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 440px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; overflow: hidden;">
-                                                            <div style=" max-height: 28px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 290px; overflow: hidden; margin: 0; padding-bottom: 1px">
-                                                                <t t-esc="line_detail[2]"/>
-                                                            </div>
-                                                            <div style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                                                <t t-esc="line_detail[3]"/>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 65px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
-                                                                <t t-esc="line_detail[4]"/>
-                                                            </p>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 34px; text-align: center;">
-                                                            <t t-esc="line_detail[5]"/>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 90px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                            <t t-esc="line_detail[6]"/>
-                                                        </div>
-                                                    </td>
-                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
-                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                           <t t-esc="line_detail[7]"/>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </t>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0; padding-top: 0;">
+                                                    <div style="display: inline-block; width: 65px; text-align: right;white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; line-height: 16px;">
+                                                            <t t-esc="line_detail[4]"/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0; padding-top: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center; line-height: 16px;">
+                                                        <t t-esc="line_detail[5]"/>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0; padding-top: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 16px;">
+                                                        <t t-esc="line_detail[6]"/>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0; padding-top: 0">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 16px;">
+                                                        <t t-esc="line_detail[7]"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </t>
                                         <t t-set="count_detail" t-value="count_detail + 1"/>
                                     </t>
                                     <t t-if="range_total_page_detail == (total_page_detail - 1)">
-                                        <t t-set="rows_detail_default" t-value="48"/>
+                                        <t t-set="rows_detail_default" t-value="52"/>
                                         <t t-if="pager &gt; 1">
-                                            <t t-set="rows_detail_default" t-value="48"/>
+                                            <t t-set="rows_detail_default" t-value="52"/>
                                         </t>
-                                        <t t-set="line_empty" t-value="rows_detail_default - (count_detail - (pager - 1)*48)"/>
+                                        <t t-set="line_empty" t-value="rows_detail_default - (count_detail - (pager - 1)*52)"/>
                                         <t t-foreach="range(0,line_empty)" t-as="range_line_empty">
                                             <tr style="max-height: 45px; min-height: 30px; vertical-align: top;">
                                                 <td style="padding-bottom: 0;"/>
