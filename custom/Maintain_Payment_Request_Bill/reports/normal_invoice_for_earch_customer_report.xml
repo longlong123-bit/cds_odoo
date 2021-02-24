@@ -876,7 +876,12 @@
                                                         <div t-if="line_detail.account_move_line_id"
                                                              style="display: inline-block; width: 440px;">
                                                             <div style="max-height: 28px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 290px; overflow: hidden; margin: 0; padding-bottom: 1px">
-                                                                <span t-esc="o.limit_charater_field(line_detail.product_name, 20, True)"/>
+                                                                <t t-if="o.limit_charater_field(line_detail.product_name, 20, True, False)">
+                                                                    <span t-esc="o.limit_charater_field(line_detail.product_name, 20, True)"/>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span style="font-size: 16px" t-esc="o.limit_charater_field(line_detail.product_name, 18, True)"/>
+                                                                </t>
                                                                 <t t-if="o.limit_charater_field(line_detail.product_name, 20, True, False)">
                                                                     <br/>
                                                                     <span t-esc="o.limit_charater_field(line_detail.product_name, 20, True, False)"/>
