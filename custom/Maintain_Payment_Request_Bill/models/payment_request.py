@@ -1614,6 +1614,7 @@ class BillInfoGet(models.Model):
                 payment_id_before = record.payment_id.id
                 record_final = record
         if len(a) != 0:
+            check_two_line = 0
             amount_tax_convert = '{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11))
             amount_total_convert = '{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))
             amount_total_bill_convert = '{0:,.0f}'.format(self.limit_number_field(int(self.amount_total), 8))
@@ -1624,7 +1625,7 @@ class BillInfoGet(models.Model):
             if record_final.bill_invoice_id:
                 if record_final.x_voucher_tax_transfer == 'foreign_tax' or record_final.x_voucher_tax_transfer == 'voucher':
                     a.append(
-                        ['', '', '消費税', '', '', '', '', amount_tax_convert])
+                        ['', '', '消費税', '', '', '', '', amount_tax_convert, check_two_line])
                 a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
             a.append(['', '', '', '', '', '', '', '', check_two_line])
             if self.partner_id.customer_tax_unit == 'invoice':
