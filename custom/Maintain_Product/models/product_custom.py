@@ -302,11 +302,26 @@ class ProductTemplate(models.Model):
         return result
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def name_search(self, name, args=None, operator='ilike', context=None, limit=100):
         args = args or []
         recs = self.browse()
         if not recs:
-            recs = self.search([('product_code_1', operator, name)] + args, limit=limit)
+            if self.env.context.get('show_code') == 'product_1':
+                recs = self.search([('product_code_1', operator, name)] + args, limit=limit)
+            elif self.env.context.get('show_code') == 'product_2':
+                recs = self.search([('product_code_2', operator, name)] + args, limit=limit)
+            elif self.env.context.get('show_code') == 'product_3':
+                recs = self.search([('product_code_3', operator, name)] + args, limit=limit)
+            elif self.env.context.get('show_code') == 'product_4':
+                recs = self.search([('product_code_4', operator, name)] + args, limit=limit)
+            elif self.env.context.get('show_code') == 'product_5':
+                recs = self.search([('product_code_5', operator, name)] + args, limit=limit)
+            elif self.env.context.get('show_code') == 'product_6':
+                recs = self.search([('product_code_6', operator, name)] + args, limit=limit)
+            elif self.env.context.get('show_jan_code') == 'ok':
+                recs = self.search([('barcode', operator, name)] + args, limit=limit)
+            else:
+                recs = recs
         return recs.name_get()
 
     def open_pricelist(self):
