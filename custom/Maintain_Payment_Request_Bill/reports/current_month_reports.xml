@@ -3,7 +3,7 @@
     <data>
         <template id="current_month_report">
             <t t-set="total_record_detail" t-value="len(o.record_data())"/>
-            <t t-set="total_page_detail_count" t-value="total_record_detail/52"/>
+            <t t-set="total_page_detail_count" t-value="total_record_detail/50"/>
             <t t-if="int(total_page_detail_count) == total_page_detail_count">
                 <t t-set="total_page_detail" t-value="int(total_page_detail_count)+1"/>
             </t>
@@ -292,7 +292,7 @@
                                             <t t-set="style_for_product_name"
                                                t-value='"max-height: 28px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 290px; overflow: hidden; margin: 0; line-height: 16px;"'/>
                                         </t>
-                                        <t t-if="((pager-1)*52 &lt;= count_detail) and (pager*52 &gt; count_detail)">
+                                        <t t-if="((pager-1)*50 &lt;= count_detail) and (pager*50 &gt; count_detail)">
                                             <tr style="vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0; padding-top: 0;">
                                                     <div style="display: inline-block; width: 60px; text-align: center;">
@@ -345,11 +345,11 @@
                                         <t t-set="count_detail" t-value="count_detail + 1"/>
                                     </t>
                                     <t t-if="range_total_page_detail == (total_page_detail - 1)">
-                                        <t t-set="rows_detail_default" t-value="52"/>
+                                        <t t-set="rows_detail_default" t-value="50"/>
                                         <t t-if="pager &gt; 1">
-                                            <t t-set="rows_detail_default" t-value="52"/>
+                                            <t t-set="rows_detail_default" t-value="50"/>
                                         </t>
-                                        <t t-set="line_empty" t-value="rows_detail_default - (count_detail - (pager - 1)*52)"/>
+                                        <t t-set="line_empty" t-value="rows_detail_default - (count_detail - (pager - 1)*50)"/>
                                         <t t-foreach="range(0,line_empty)" t-as="range_line_empty">
                                             <tr style="max-height: 45px; min-height: 30px; vertical-align: top;">
                                                 <td style="padding-bottom: 0;"/>
