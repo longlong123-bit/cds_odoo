@@ -20,6 +20,7 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
     var QWeb = core.qweb;
     var model = null;
     var viewName = null;
+    var global_Filters = [];
 
     var My_FilterMenu = FilterMenu.include({
         /**
@@ -105,6 +106,20 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
                 });
 
                 this.$menu.prepend('<div class="advanced_search_'+mdl+' advanced_search">' + html + '</div>');
+                var operations = this._operations;
+                this.$menu.find('.filter-item').map(function(){
+                    var item = $(this);
+                    global_Filters.forEach(function (quotationsArray) {
+                        var data_name = item.attr('data-name');
+                        var data_operator = item.attr('data-operator');
+                        if (operations[data_operator] !== undefined) {
+                            data_operator = operations[data_operator].value;
+                        }
+                        if (quotationsArray[0] && data_name === quotationsArray[0] && data_operator === quotationsArray[1]) {
+                            item.val(quotationsArray[2]);
+                        }
+                    });
+                });
             }
         },
 
@@ -216,6 +231,7 @@ odoo.define('Maintain.AdvancedSearch', function (require) {
                     domain: JSON.stringify(filters),
                 }]});
             }
+            global_Filters = filters;
         },
 
         /**
