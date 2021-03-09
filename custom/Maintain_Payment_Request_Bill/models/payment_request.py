@@ -324,9 +324,9 @@ class BillInfoGet(models.Model):
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
-                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), record.product_custom_standardnumber, '', '', '', '', 2])
                                 else:
-                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '', '', '', '', check_two_line])
+                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '', '', '', '', 2])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
@@ -368,9 +368,9 @@ class BillInfoGet(models.Model):
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
-                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), record.product_custom_standardnumber, '', '', '', '', 2])
                                 else:
-                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '', '', '', '', check_two_line])
+                                    a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '', '', '', '', 2])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
@@ -416,11 +416,11 @@ class BillInfoGet(models.Model):
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                              record.product_custom_standardnumber, '', '', '', '', 2])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
-                                         '', '', '', '', check_two_line])
+                                         '', '', '', '', 2])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
@@ -466,11 +466,11 @@ class BillInfoGet(models.Model):
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                              record.product_custom_standardnumber, '', '', '', '', 2])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
-                                         '', '', '', '', check_two_line])
+                                         '', '', '', '', 2])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
@@ -541,12 +541,12 @@ class BillInfoGet(models.Model):
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                                  record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                              '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -592,12 +592,12 @@ class BillInfoGet(models.Model):
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                                  record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                              '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -644,13 +644,13 @@ class BillInfoGet(models.Model):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                             record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '',
                                              '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -697,13 +697,13 @@ class BillInfoGet(models.Model):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                             record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '',
                                              '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -766,12 +766,12 @@ class BillInfoGet(models.Model):
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                                  record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                              '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -817,12 +817,12 @@ class BillInfoGet(models.Model):
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                                  record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                              '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -869,13 +869,13 @@ class BillInfoGet(models.Model):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                             record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '',
                                              '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -922,13 +922,13 @@ class BillInfoGet(models.Model):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                             record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '',
                                              '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -990,11 +990,11 @@ class BillInfoGet(models.Model):
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                                  record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -1040,11 +1040,11 @@ class BillInfoGet(models.Model):
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                                  record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -1091,12 +1091,12 @@ class BillInfoGet(models.Model):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                             record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '', '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -1143,12 +1143,12 @@ class BillInfoGet(models.Model):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                             record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '', '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -1215,11 +1215,11 @@ class BillInfoGet(models.Model):
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                                  record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -1265,11 +1265,11 @@ class BillInfoGet(models.Model):
                                         record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                                  record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                                  record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -1316,12 +1316,12 @@ class BillInfoGet(models.Model):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                             record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '', '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -1368,12 +1368,12 @@ class BillInfoGet(models.Model):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                             record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                             record.product_custom_standardnumber, '', '', '', '', 2])
                                     else:
                                         a.append(
                                             ['', '', self.limit_charater_field(record.product_name, 20, True, False),
                                              '', '',
-                                             '', '', '', check_two_line])
+                                             '', '', '', 2])
                                 # In dong thu 3
                                 if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                     if record.tax_rate == 8:
@@ -1436,11 +1436,11 @@ class BillInfoGet(models.Model):
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                              record.product_custom_standardnumber, '', '', '', '', 2])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                         '', '', '', check_two_line])
+                                         '', '', '', 2])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
@@ -1486,11 +1486,11 @@ class BillInfoGet(models.Model):
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                              record.product_custom_standardnumber, '', '', '', '', 2])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '', '',
-                                         '', '', '', check_two_line])
+                                         '', '', '', 2])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
@@ -1536,12 +1536,12 @@ class BillInfoGet(models.Model):
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                              record.product_custom_standardnumber, '', '', '', '', 2])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                          '',
-                                         '', '', '', check_two_line])
+                                         '', '', '', 2])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
@@ -1587,12 +1587,12 @@ class BillInfoGet(models.Model):
                                     record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(['', '', self.limit_charater_field(record.product_name, 20, True, False),
-                                              record.product_custom_standardnumber, '', '', '', '', check_two_line])
+                                              record.product_custom_standardnumber, '', '', '', '', 2])
                                 else:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False), '',
                                          '',
-                                         '', '', '', check_two_line])
+                                         '', '', '', 2])
                             # In dong thu 3
                             if record.tax_rate == 8 or record.account_move_line_id.product_id.product_tax_category == 'exempt':
                                 if record.tax_rate == 8:
