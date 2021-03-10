@@ -54,6 +54,7 @@ var FilterMenu = DropdownMenu.extend({
     start: function () {
         var superProm = this._super.apply(this, arguments);
         this.$menu.addClass('o_filters_menu');
+        window.global_Filters = [];
         this._renderGeneratorMenu();
         return superProm;
     },
