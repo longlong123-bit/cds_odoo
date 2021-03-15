@@ -5,6 +5,7 @@ from odoo.tools.float_utils import float_round
 import calendar
 import jaconv
 import datetime
+dict_domain = {}
 
 class PaymentPlan(models.Model):
     _inherit = 'bill.info'
@@ -15,12 +16,16 @@ class PaymentPlan(models.Model):
         dumamay = []
         ditme = []
         record_draft = []
-        print(self._context)
+        # print(self.search(args))
+        current_uid = self._context.get('uid')
+        user = self.env['res.users'].browse(current_uid)
         for record in self:
             #Compute Employee Code
             record.employee_code = record.partner_id.customer_agent.employee_code
+
             #Compute Employee Name
             record.employee_name = record.partner_id.customer_agent.name
+
             #Compute Payment Date
             payment_date_day_cal = date.today().strftime('%d')
             payment_date_month_cal = date.today().strftime('%m')
@@ -176,10 +181,10 @@ class PaymentPlan(models.Model):
 
             #Create List To Report
             ditme.append([record.payment_plan_date, record.billing_code, record.billing_name, record.closing_date, record.employee_code, record.employee_name,
-                          record.last_billed_amount, record.amount_untaxed, record.tax_amount, record.billed_amount, record.payment_deposit_amount, record.payment_must_pay_amount])
+                          record.payment_amount_transfer, record.amount_untaxed, record.tax_amount, record.payment_billed_amount, record.payment_deposit_amount, record.payment_must_pay_amount])
             record_draft.append([record.billing_code, record.payment_must_pay_amount])
-            dumamay = [ditme]
-        print(self._context.copy())
+
+            dumamay = [dict_domain[user.id], ditme]
         return dumamay
 
 
@@ -199,12 +204,26 @@ class PaymentPlan(models.Model):
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
         ctx = self._context.copy()
-
+        current_uid = self._context.get('uid')
+        user = self.env['res.users'].browse(current_uid)
+        print(user.id)
         if ctx.get('have_advance_search'):
             domain = []
             if ctx.get('view_code') == 'payment_plan':
                 domain = []
-                dict_domain = {}
+                ditchamay = {
+                    'payment_date_name': '',
+                    'payment_plan_date_gte': '',
+                    'payment_plan_date_lte': '',
+                    'closing_date_code': '',
+                    'closing_date_gte': '',
+                    'closing_date_lte': '',
+                    'employee_code_gte': '',
+                    'employee_code_lte': '',
+                    'partner_group_code': '',
+                    'billing_code_gte': '',
+                    'billing_code_lte': '',
+                }
                 domain += [['partner_id.customer_payment_date.id', '!=', False]]
                 for record in args:
                     if record[0] == '&':
@@ -214,28 +233,30 @@ class PaymentPlan(models.Model):
                     if record[0] == 'closing_date' or record[0] == 'partner_id.customer_closing_date.closing_date_code':
                         order = 'closing_date asc'
                     domain += [record]
-                    # if record[0] == 'partner_id.customer_payment_date.name':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'payment_plan_date' and record[1] == '>=':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'payment_plan_date' and record[1] == '<=':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'partner_id.customer_closing_date.closing_date_code':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'closing_date' and record[1] == '>=':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'closing_date' and record[1] == '<=':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'partner_id.customer_agent.employee_code' and record[1] == '>=':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'partner_id.customer_agent.employee_code' and record[1] == '<=':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'business_partner_group_custom_id.partner_group_code':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'billing_code' and record[1] == '>=':
-                    #     ditchamay.append([record[0], record[2]])
-                    # if record[0] == 'billing_code' and record[1] == '<=':
-                    #     ditchamay.append([record[0], record[2]])
+                    if record[0] == 'partner_id.customer_payment_date.name':
+                        ditchamay['payment_date_name'] = record[2]
+                    if record[0] == 'payment_plan_date' and record[1] == '>=':
+                        ditchamay['payment_plan_date_gte'] = record[2]
+                    if record[0] == 'payment_plan_date' and record[1] == '<=':
+                        ditchamay['payment_plan_date_lte'] = record[2]
+                    if record[0] == 'partner_id.customer_closing_date.closing_date_code':
+                        ditchamay['closing_date_code'] = record[2]
+                    if record[0] == 'closing_date' and record[1] == '>=':
+                        ditchamay['closing_date_gte'] = record[2]
+                    if record[0] == 'closing_date' and record[1] == '<=':
+                        ditchamay['closing_date_lte'] = record[2]
+                    if record[0] == 'partner_id.customer_agent.employee_code' and record[1] == '>=':
+                        ditchamay['employee_code_gte'] = record[2]
+                    if record[0] == 'partner_id.customer_agent.employee_code' and record[1] == '<=':
+                        ditchamay['employee_code_lte'] = record[2]
+                    if record[0] == 'business_partner_group_custom_id.partner_group_code':
+                        ditchamay['partner_group_code'] = record[2]
+                    if record[0] == 'billing_code' and record[1] == '>=':
+                        ditchamay['billing_code_gte'] = record[2]
+                    if record[0] == 'billing_code' and record[1] == '<=':
+                        ditchamay['billing_code_lte'] = record[2]
+                dict_domain[user.id] = ditchamay
+                print(dict_domain)
                 args = domain
         if ctx.get('view_code') == 'payment_plan' and len(args) == 0:
             return []

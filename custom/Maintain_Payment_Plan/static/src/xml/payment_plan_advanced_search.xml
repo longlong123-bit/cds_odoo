@@ -4,7 +4,7 @@
     <t t-name="payment_plan.advanced_search">
         <table>
             <tr>
-                <th>締日（締日グループ)</th>
+                <th>回収日（回収日名)</th>
                 <td>
                     <input class="filter-item" id="customer_payment_date" data-operator="=like" data-name="partner_id.customer_payment_date.name" type="search"/>
                 </td>
