@@ -14,14 +14,14 @@
                     <field name="deadline" invisible="1"/>
                     <field name="employee_code" string="Employee Code"/>
                     <field name="employee_name" string="Employee Name"/>
-                    <field name="payment_amount_transfer" string="Payment Amount Transfer"/>
+                    <field name="payment_amount_transfer" string="Payment Amount Transfer" sum="Total" optional="show"/>
                     <field name="deposit_amount" invisible="1"/>
                     <field name="balance_amount" invisible="1"/>
-                    <field name="amount_untaxed" string="Amount Untaxed"/>
-                    <field name="tax_amount" string="Tax Amount"/>
-                    <field name="payment_billed_amount" string="Billed Amount"/>
-                    <field name="payment_deposit_amount" string="Deposit"/>
-                    <field name="payment_must_pay_amount" string="Must Payment Amount"/>
+                    <field name="amount_untaxed" string="Amount Untaxed" sum="Total" optional="show"/>
+                    <field name="tax_amount" string="Tax Amount" sum="Total" optional="show"/>
+                    <field name="payment_billed_amount" string="Billed Amount" sum="Total" optional="show"/>
+                    <field name="payment_deposit_amount" string="Deposit" sum="Total" optional="show"/>
+                    <field name="payment_must_pay_amount" string="Must Payment Amount" sum="Total" optional="show"/>
                     <field name="customer_other_cd" invisible="1"/>
                     <field name="invoices_number" invisible="1"/>
                     <field name="hr_department_id" invisible="1"/>
@@ -31,7 +31,6 @@
                 </tree>
             </field>
         </record>
-
 
         <record id="payment_plan_action" model="ir.actions.act_window">
             <field name="name">Payment Plan</field>

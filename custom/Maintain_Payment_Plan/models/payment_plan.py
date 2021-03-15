@@ -3,20 +3,16 @@ from odoo import api, fields, models
 from datetime import date, timedelta
 from odoo.tools.float_utils import float_round
 import calendar
-import jaconv
 import datetime
 dict_domain = {}
 
 class PaymentPlan(models.Model):
     _inherit = 'bill.info'
 
-    x = []
-
     def _compute_data(self):
-        dumamay = []
-        ditme = []
+        list_data_print = []
+        list_data = []
         record_draft = []
-        # print(self.search(args))
         current_uid = self._context.get('uid')
         user = self.env['res.users'].browse(current_uid)
         for record in self:
@@ -156,7 +152,7 @@ class PaymentPlan(models.Model):
             payment_date_str = str(payment_date_month_cal) + '/' + str(payment_date_day_cal) + '/' + str(payment_date_year_cal)
             payment_date_obj = datetime.datetime.strptime(payment_date_str, '%m/%d/%Y').date()
             record.payment_plan_date = payment_date_obj
-            record.payment_plan_date_display = payment_date_str
+            record.payment_plan_date_display = payment_date_obj.strftime('%Y年%m月%d日')
             record.deposit_amount_count = 0.0
             record_account_payment_amount = 0.0
 
@@ -180,16 +176,11 @@ class PaymentPlan(models.Model):
             record.payment_must_pay_amount = record.payment_billed_amount + record.payment_amount_transfer - record.payment_deposit_amount
 
             #Create List To Report
-            ditme.append([record.payment_plan_date, record.billing_code, record.billing_name, record.closing_date, record.employee_code, record.employee_name,
+            list_data.append([record.payment_plan_date, record.billing_code, record.billing_name, record.closing_date, record.employee_code, record.employee_name,
                           record.payment_amount_transfer, record.amount_untaxed, record.tax_amount, record.payment_billed_amount, record.payment_deposit_amount, record.payment_must_pay_amount])
             record_draft.append([record.billing_code, record.payment_must_pay_amount])
-
-            dumamay = [dict_domain[user.id], ditme]
-        return dumamay
-
-
-
-    context_closing_date_group = fields.Char(compute=_compute_data, store=False)
+            list_data_print = [dict_domain[user.id], list_data]
+        return list_data_print
 
     employee_code = fields.Char(compute=_compute_data, store=False)
     employee_name = fields.Char(compute=_compute_data, store=False)
@@ -206,12 +197,11 @@ class PaymentPlan(models.Model):
         ctx = self._context.copy()
         current_uid = self._context.get('uid')
         user = self.env['res.users'].browse(current_uid)
-        print(user.id)
         if ctx.get('have_advance_search'):
             domain = []
             if ctx.get('view_code') == 'payment_plan':
                 domain = []
-                ditchamay = {
+                dict_domain_in_search = {
                     'payment_date_name': '',
                     'payment_plan_date_gte': '',
                     'payment_plan_date_lte': '',
@@ -228,35 +218,40 @@ class PaymentPlan(models.Model):
                 for record in args:
                     if record[0] == '&':
                         continue
-                    if record[0] == 'payment_plan_date' or record[0] == 'partner_id.customer_payment_date.name':
-                        order = 'payment_plan_date asc'
-                    if record[0] == 'closing_date' or record[0] == 'partner_id.customer_closing_date.closing_date_code':
-                        order = 'closing_date asc'
-                    domain += [record]
+                    if record[0] == 'display_order':
+                        if record[2] == '1':
+                            order = 'payment_plan_date asc'
+                        elif record[2] == '2':
+                            order = 'hr_employee_id, payment_plan_date asc'
+                        elif record[2] == '3':
+                            order = 'closing_date asc'
+                        elif record[2] == '4':
+                            order = 'hr_employee_id, closing_date asc'
+                    if record[0] != 'display_order':
+                        domain += [record]
                     if record[0] == 'partner_id.customer_payment_date.name':
-                        ditchamay['payment_date_name'] = record[2]
+                        dict_domain_in_search['payment_date_name'] = record[2]
                     if record[0] == 'payment_plan_date' and record[1] == '>=':
-                        ditchamay['payment_plan_date_gte'] = record[2]
+                        dict_domain_in_search['payment_plan_date_gte'] = record[2]
                     if record[0] == 'payment_plan_date' and record[1] == '<=':
-                        ditchamay['payment_plan_date_lte'] = record[2]
+                        dict_domain_in_search['payment_plan_date_lte'] = record[2]
                     if record[0] == 'partner_id.customer_closing_date.closing_date_code':
-                        ditchamay['closing_date_code'] = record[2]
+                        dict_domain_in_search['closing_date_code'] = record[2]
                     if record[0] == 'closing_date' and record[1] == '>=':
-                        ditchamay['closing_date_gte'] = record[2]
+                        dict_domain_in_search['closing_date_gte'] = record[2]
                     if record[0] == 'closing_date' and record[1] == '<=':
-                        ditchamay['closing_date_lte'] = record[2]
+                        dict_domain_in_search['closing_date_lte'] = record[2]
                     if record[0] == 'partner_id.customer_agent.employee_code' and record[1] == '>=':
-                        ditchamay['employee_code_gte'] = record[2]
+                        dict_domain_in_search['employee_code_gte'] = record[2]
                     if record[0] == 'partner_id.customer_agent.employee_code' and record[1] == '<=':
-                        ditchamay['employee_code_lte'] = record[2]
+                        dict_domain_in_search['employee_code_lte'] = record[2]
                     if record[0] == 'business_partner_group_custom_id.partner_group_code':
-                        ditchamay['partner_group_code'] = record[2]
+                        dict_domain_in_search['partner_group_code'] = record[2]
                     if record[0] == 'billing_code' and record[1] == '>=':
-                        ditchamay['billing_code_gte'] = record[2]
+                        dict_domain_in_search['billing_code_gte'] = record[2]
                     if record[0] == 'billing_code' and record[1] == '<=':
-                        ditchamay['billing_code_lte'] = record[2]
-                dict_domain[user.id] = ditchamay
-                print(dict_domain)
+                        dict_domain_in_search['billing_code_lte'] = record[2]
+                dict_domain[user.id] = dict_domain_in_search
                 args = domain
         if ctx.get('view_code') == 'payment_plan' and len(args) == 0:
             return []

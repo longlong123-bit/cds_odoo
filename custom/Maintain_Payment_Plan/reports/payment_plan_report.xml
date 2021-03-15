@@ -6,158 +6,207 @@
         </t>
     </template>
     <template id="payment_plan_report_document">
+        <t t-set="pager" t-value="0"/>
+        <t t-set="total_record_detail" t-value="len(docs._compute_data()[1])"/>
+        <t t-set="total_page_detail_count" t-value="total_record_detail / 30"/>
+        <t t-if="int(total_page_detail_count) == total_page_detail_count">
+                <t t-set="total_page_detail" t-value="int(total_page_detail_count)+1"/>
+            </t>
+            <t t-else="">
+                <t t-set="total_page_detail" t-value="int(total_page_detail_count) + 2"/>
+            </t>
+        <t t-foreach="range(1, total_page_detail)" t-as="range_total_page_detail">
+            <t t-set="count_detail" t-value="1"/>
+            <t t-set="pager" t-value="pager + 1"/>
             <div class="page" style="page-break-before: always;">
+                <div style="float: right;" t-esc="pager"/>
                 <div style="text-align: center">
                     <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px">
-                        <h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">請 求 履 歴 照 会</h4></div>
+                        <h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">回 収 予 定 表</h4></div>
                 </div>
-
                 <!-- HEADER OF CONTENT -->
                 <div style="margin-top: 30px;">
                     <!-- LEFT -->
-                    <div style=" font-size: 20px">
-                        <div style="width: 100%;padding: 0 0 5px 0;">
-                            <span style="float: left; border-bottom: 1px solid #0100f7; width: 35%;">検索条件</span>
-                        </div>
-                    </div>
-
+                    <div style="float: right;"
+                      t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y年%m月%d日 %H時:%M分')"></div>
                     <t>
-                        <div style=" font-size: 18px; display: inline-block; width: 100%; padding-left: 30px;">
-                            <t t-if="docs._compute_data()[0]['payment_date_name']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t>
-                            <t t-if="docs._compute_data()[0]['payment_plan_date_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t>
-                            <t t-if="docs._compute_data()[0]['billing_code_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t><t t-if="docs._compute_data()[0]['billing_code_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t><t t-if="docs._compute_data()[0]['billing_code_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t><t t-if="docs._compute_data()[0]['billing_code_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t>
-                            <t t-if="docs._compute_data()[0]['billing_code_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t>
-                            <t t-if="docs._compute_data()[0]['billing_code_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t>
-                            <t t-if="docs._compute_data()[0]['billing_code_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t>
-                            <t t-if="docs._compute_data()[0]['billing_code_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t>
-                            <t t-if="docs._compute_data()[0]['billing_code_gte']">
-                                <div style="text-align: left;">
-                                    <span>請求先コード： </span>
-                                    <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
-                                </div>
-                            </t>
+                        <div style="font-size: 18px; display: inline-block; width: 100%;">
+                            <div>
+                                <span>回収予定日： </span>
+                                <t t-if="docs._compute_data()[0]['payment_plan_date_gte'] or docs._compute_data()[0]['payment_plan_date_lte']">
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs._compute_data()[0]['payment_plan_date_gte']"/>
+                                    </span>
+                                    <span>～</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs._compute_data()[0]['payment_plan_date_lte']"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <div>
+                                <span>締日（締日グループ)： </span>
+                                <t t-if="docs._compute_data()[0]['closing_date_code']">
+                                    <t t-esc="docs._compute_data()[0]['closing_date_code']"/>
+                                </t>
+                            </div>
+                            <div>
+                                <span>請求締日（締切日）： </span>
+                                <t t-if="docs._compute_data()[0]['closing_date_gte'] or docs._compute_data()[0]['closing_date_lte']">
+                                    <span style="text-align: left;">
+
+                                        <t t-esc="docs._compute_data()[0]['closing_date_gte']"/>
+                                    </span>
+                                    <span>～</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs._compute_data()[0]['closing_date_lte']"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <div>
+                                <span>担当者（営業担当者）： </span>
+                                <t t-if="docs._compute_data()[0]['employee_code_gte'] or docs._compute_data()[0]['employee_code_lte']">
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs._compute_data()[0]['employee_code_gte']"/>
+                                    </span>
+                                    <span>～</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs._compute_data()[0]['employee_code_lte']"/>
+                                    </span>
+                                </t>
+                            </div>
+                            <div>
+                                <span>取引先グループ： </span>
+                                <t t-if="docs._compute_data()[0]['partner_group_code']">
+
+                                    <t t-esc="docs._compute_data()[0]['partner_group_code']"/>
+                                </t>
+                            </div>
+                            <div>
+                                <span>請求先： </span>
+                                <t t-if="docs._compute_data()[0]['billing_code_gte'] or docs._compute_data()[0]['billing_code_lte']">
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs._compute_data()[0]['billing_code_gte']"/>
+                                    </span>
+                                    <span>～</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs._compute_data()[0]['billing_code_lte']"/>
+                                    </span>
+                                </t>
+                            </div>
                         </div>
                     </t>
-
                     <!-- TABLE -->
-                    <div class="content-table" style="border: 1px solid #000; margin-top: 15px">
+                    <div class="content-table" style="border: 1px solid #000; margin-top: 15px;">
                         <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">
                             <thead>
                                 <tr>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-left: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_id">回収日</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_id">請求先コード</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0; min-width: 100px"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF; min-width: 100px"
                                         name="th_subtotal">請求先名</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0; min-width: 100px"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF; min-width: 100px"
                                         name="th_subtotal">締日（締切日）</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: left; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_description">担当者コード</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_priceunit">担当者名</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_taxes">繰越金額</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_subtotal">当月売上額</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_subtotal">当月消費税</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_subtotal">当月請求額</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_subtotal">締後入金</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: right; background-color: #e0e0e0"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
                                         name="th_subtotal">回収予定額</td>
                                 </tr>
                             </thead>
                             <tbody class="invoice_tbody">
                                 <t t-foreach="docs._compute_data()[1]" t-as="line">
-                                    <tr>
-                                        <td style="border: 1px solid #000; border-top: 0; border-right: 0;  text-align: left;">
-                                            <span t-esc="line[0]"/>
+                                    <t t-if="((pager-1)*30 &lt;= count_detail) and (pager*30 &gt; count_detail)">
+                                        <tr>
+                                            <td style="border: 1px solid #000; border-top: 0; border-left: 0; border-right: 0; text-align: center;">
+                                                <span t-esc="line[0]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left">
+                                                <span t-esc="line[1]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left">
+                                                <span t-esc="line[2]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: center;">
+                                                <span t-esc="line[3]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left">
+                                                <span t-esc="line[4]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left">
+                                                <span t-esc="line[5]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-esc="line[6]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-esc="line[7]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-esc="line[8]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-esc="line[9]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-esc="line[10]"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-esc="line[11]"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-set="count_detail" t-value="count_detail + 1"/>
+                                </t>
+                                <t t-if="pager == total_page_detail - 1">
+                                    <tr class="o_subtotal">
+                                        <td style="border-top: 0; border-right: 0;  text-align: center;">
+                                            <span></span>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[1]"/>
+                                        <td style="border-right: 0; border-top: 0; text-align: left">
+                                            <span></span>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[2]"/>
+                                        <td style="border-right: 0; border-top: 0; text-align: left">
+                                            <span></span>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left;">
-                                            <span t-esc="line[3]"/>
+                                        <td style="border-right: 0; border-top: 0; text-align: center;">
+                                            <span></span>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[4]"/>
+                                        <td style="border-right: 0; border-top: 0; text-align: right">
+                                            <span></span>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[5]"/>
+                                        <td style="border-right: 0; border-top: 0; text-align: left">
+                                            <span></span>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[6]"/>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <t t-esc="'{0:,.0f}'.format(int(sum(l[6] for l in docs._compute_data()[1])))"/>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[7]"/>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <t t-esc="'{0:,.0f}'.format(int(sum(l[7] for l in docs._compute_data()[1])))"/>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[8]"/>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <t t-esc="'{0:,.0f}'.format(int(sum(l[8] for l in docs._compute_data()[1])))"/>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[9]"/>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <t t-esc="'{0:,.0f}'.format(int(sum(l[9] for l in docs._compute_data()[1])))"/>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[10]"/>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <t t-esc="'{0:,.0f}'.format(int(sum(l[10] for l in docs._compute_data()[1])))"/>
                                         </td>
-                                        <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                            <span t-esc="line[11]"/>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <t t-esc="'{0:,.0f}'.format(int(sum(l[11] for l in docs._compute_data()[1])))"/>
                                         </td>
                                     </tr>
                                 </t>
@@ -166,112 +215,6 @@
                     </div>
                 </div>
             </div>
+        </t>
     </template>
-<!--    <template id="payment_plan_report_document">-->
-<!--        <t t-set="docs" t-value="docs.with_context(lang=lang)"/>-->
-<!--        <div class="page">-->
-<!--            <h1 style="text-align: center;">-->
-<!--                回収予定表-->
-<!--            </h1>-->
-<!--&lt;!&ndash;            <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                <t t-esc="docs._compute_data()[0]"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--            <div>hi hi</div>-->
-<!--            <div>ha ha</div>-->
-<!--            <div>-->
-<!--                <table class="table table-sm o_main_table">-->
-<!--                    <thead>-->
-<!--                        <tr style="border">-->
-<!--                            <td style="border: 1px solid #000000; text-align: center;">-->
-<!--                            回収日-->
-<!--                            </td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">請求先コード</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">請求先名</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">締日（締切日）</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">担当者コード</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">担当者名</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">繰越金額</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">当月売上額</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">当月消費税</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">当月請求額</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">締後入金</td>-->
-<!--                            <td style="border: 1px solid #000000; border-top: 0; border-right: 0; text-align: center;">回収予定額</td>-->
-<!--                        </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody class="sale_tbody">-->
-<!--                        <t t-set="current_subtotal" t-value="0"/>-->
-<!--                        <t t-foreach="docs._compute_data()[1]" t-as="o">-->
-<!--                            <tr>-->
-<!--                                <t>-->
-<!--                                    <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[0]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[1]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[2]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[3]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[4]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[5]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[6]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[7]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[8]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[9]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[10]"/>-->
-<!--                                    </td>-->
-<!--                                    <td style="border-left: 1px solid #000000; border-right: 1px solid #000000;">-->
-<!--                                        <span t-esc="o[11]"/>-->
-<!--                                    </td>-->
-<!--                                </t>-->
-<!--                            </tr>-->
-<!--                        </t>-->
-<!--                        &lt;!&ndash;                            <tr class="border-black o_subtotal">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <td name="total_accounts_receivable_last_month" class="text-right" colspan="2">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <strong>合計</strong>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <td name="total_accounts_receivable_last_month" class="text-left">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.accounts_receivable_last_month for l in docs)))" />&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <td name="total_deposit_amount" class="text-left">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.deposit_amount for l in docs)))" />&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <td name="total_amount_carried_forward" class="text-left">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.amount_carried_forward for l in docs)))" />&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <td name="total_purchase_amount" class="text-left">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.purchase_amount for l in docs)))" />&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <td name="total_consumption_tax" class="text-left">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.consumption_tax for l in docs)))" />&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <td name="total_discount" class="text-left">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.discount for l in docs)))" />&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <td name="total_liabilities" class="text-left">&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                    <t t-esc="'{0:,.0f}'.format(int(sum(l.liabilities for l in docs)))" />&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                </td>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            </tr>&ndash;&gt;-->
-<!--                    </tbody>-->
-<!--                </table>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        &lt;!&ndash;        </t>&ndash;&gt;-->
-<!--    </template>-->
 </odoo>
