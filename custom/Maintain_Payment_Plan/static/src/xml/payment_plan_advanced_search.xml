@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="payment_plan.advanced_search">
+        <table>
+            <tr>
+                <th>出力順（ソート）</th>
+                <td>
+                    <select class="filter-item" data-operator="eq" data-name="display_order"
+                            style="height:26px">
+                        <option value='1'>回収日別</option>
+                        <option value='2'>担当者別回収日別</option>
+                        <option value='3'>締日別</option>
+                        <option value='4'>担当者別締日別</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>回収予定日</th>
+                <td>
+                    <input class="filter-item" id="payment_date_id" data-operator="gte" data-name="payment_plan_date" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" id="payment_date_id" data-operator="lte" data-name="payment_plan_date" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>締日（締日グループ)</th>
+                <td>
+                    <input class="filter-item" id="customer_closing_date" data-operator="=like" data-name="partner_id.customer_closing_date.closing_date_code" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>請求締日（締切日）</th>
+                <td>
+                    <input class="filter-item" id="closing_date_id_input" data-operator="gte" data-name="closing_date" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" id="closing_date_id_input" data-operator="lte" data-name="closing_date" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>担当者（営業担当者）</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="partner_id.customer_agent.employee_code"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="partner_id.customer_agent.employee_code" />
+                </td>
+            </tr>
+            <tr>
+                <th>取引先グループ</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="business_partner_group_custom_id.partner_group_code"/>
+                </td>
+            </tr>
+            <tr>
+                <th>請求先</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="billing_code"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="billing_code"/>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>
+

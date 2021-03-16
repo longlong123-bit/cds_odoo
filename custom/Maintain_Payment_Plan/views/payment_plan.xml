@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="payment_plan_tree_view" model="ir.ui.view">
+            <field name="name">payment.plan.tree.view</field>
+            <field name="model">bill.info</field>
+            <field name="arch" type="xml">
+                <tree string="Payment Plan" create="false" import="false" delete="false">
+                    <field name="payment_plan_date_display" string="Payment Plan Date"/>
+                    <field name="billing_code" string="Customer Code"/>
+                    <field name="billing_name" string="Customer Name"/>
+                    <field name="bill_no" invisible="1"/>
+                    <field name="closing_date" string="Closing Date"/>
+                    <field name="deadline" invisible="1"/>
+                    <field name="employee_code" string="Employee Code"/>
+                    <field name="employee_name" string="Employee Name"/>
+                    <field name="payment_amount_transfer" string="Payment Amount Transfer" sum="Total" optional="show"/>
+                    <field name="deposit_amount" invisible="1"/>
+                    <field name="balance_amount" invisible="1"/>
+                    <field name="amount_untaxed" string="Amount Untaxed" sum="Total" optional="show"/>
+                    <field name="tax_amount" string="Tax Amount" sum="Total" optional="show"/>
+                    <field name="payment_billed_amount" string="Billed Amount" sum="Total" optional="show"/>
+                    <field name="payment_deposit_amount" string="Deposit" sum="Total" optional="show"/>
+                    <field name="payment_must_pay_amount" string="Must Payment Amount" sum="Total" optional="show"/>
+                    <field name="customer_other_cd" invisible="1"/>
+                    <field name="invoices_number" invisible="1"/>
+                    <field name="hr_department_id" invisible="1"/>
+                    <field name="hr_employee_id" invisible="1"/>
+                    <field name="business_partner_group_custom_id" invisible="1"/>
+                    <field name="customer_closing_date_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="payment_plan_action" model="ir.actions.act_window">
+            <field name="name">Payment Plan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">bill.info</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="payment_plan_tree_view"/>
+            <field name="context">{'view_code': 'payment_plan'}</field>
+        </record>
+        <menuitem id="menu_ideas" name="Payment Plan"
+                  parent="Maintain_Income_Payment.parent_menu_master" sequence="2"
+                  action="payment_plan_action"/>
+    </data>
+</odoo>
