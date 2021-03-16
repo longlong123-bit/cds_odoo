@@ -22,6 +22,9 @@
                                     <t t-if="o.partner_id.customer_select_invoice == 'form5'">
                                         <t t-call="Maintain_Payment_Request_Bill.normal_invoice_for_each_customer_report"/>
                                     </t>
+                                    <t t-if="o.partner_id.customer_select_invoice == 'form6'">
+                                        <t t-call="Maintain_Payment_Request_Bill.deposit_report"/>
+                                    </t>
                                 </t>
                                 <t t-if="o.partner_id.customer_select_invoice == 'form3'">
                                     <t t-call="Maintain_Payment_Request_Bill.abstract_payment_report"/>
