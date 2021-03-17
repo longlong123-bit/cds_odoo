@@ -35,7 +35,7 @@
 			<field name="view_mode">tree</field>
 		</record>
 
-		<menuitem id="menu_parent_accounts_receivable" parent="Maintain_Income_Payment.parent_menu_master" name="Accounts Receivable" sequence="2"
+		<menuitem id="menu_parent_accounts_receivable" parent="Maintain_Income_Payment.parent_menu_master" name="Accounts Receivable" sequence="3"
                   action="action_supplier_ledger_inquiry" groups="base.group_user"/>
 		<menuitem id="menu_supplier_ledger_inquiry" parent="menu_parent_accounts_receivable" name="Supplier Ledger Inquiry" sequence="2"
                   action="action_supplier_ledger_inquiry" groups="base.group_user"/>
