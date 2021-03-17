@@ -271,9 +271,145 @@ class BillingClass(models.Model):
                         'view_name': 'Billing Details',
                         },
         }
-
+    #TH - Save Payment Plan Date To Bill Info
     def create_bill_for_invoice(self, argsSelectedData):
         for rec in argsSelectedData:
+            partner_ids = self.env['res.partner'].search([('id', '=', rec['id'])])
+            # Compute Payment Date
+            payment_date_day_cal = date.today().strftime('%d')
+            payment_date_month_cal = date.today().strftime('%m')
+            payment_date_year_cal = date.today().strftime('%Y')
+            closing_date_count = datetime.strptime(rec['deadline'], '%Y-%m-%d').date()
+            closing_date_year = closing_date_count.strftime('%Y')
+            closing_date_month = closing_date_count.strftime('%m')
+            closing_date_date = closing_date_count.strftime('%d')
+            payment_date_month = partner_ids.customer_payment_date.payment_month
+            payment_date_date = partner_ids.customer_payment_date.payment_date
+            if payment_date_month == 'this_month':
+                payment_date_day_cal = payment_date_date
+                if int(closing_date_month) in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                    payment_date_day_cal = 30
+                elif int(closing_date_month) == 2 and payment_date_day_cal >= 28:
+                    payment_date_day_cal = 28
+                if int(closing_date_date) < payment_date_day_cal:
+                    payment_date_month_cal = int(closing_date_month)
+                    payment_date_year_cal = int(closing_date_year)
+                else:
+                    if int(closing_date_month) == 12:
+                        payment_date_month_cal = int(closing_date_month) - 11
+                        payment_date_year_cal = int(closing_date_year) + 1
+                    else:
+                        payment_date_month_cal = int(closing_date_month) + 1
+                        payment_date_year_cal = int(closing_date_year)
+            elif payment_date_month == 'next_month':
+                if int(closing_date_month) == 12:
+                    payment_date_month_cal = int(closing_date_month) - 11
+                    payment_date_year_cal = int(closing_date_year) + 1
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+                else:
+                    payment_date_month_cal = int(closing_date_month) + 1
+                    payment_date_year_cal = int(closing_date_year)
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+            elif payment_date_month == 'two_months_after':
+                if int(closing_date_month) in (11, 12):
+                    payment_date_month_cal = int(closing_date_month) - 10
+                    payment_date_year_cal = int(closing_date_year) + 1
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+                else:
+                    payment_date_month_cal = int(closing_date_month) + 2
+                    payment_date_year_cal = int(closing_date_year)
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+            elif payment_date_month == 'three_months_after':
+                if int(closing_date_month) in (10, 11, 12):
+                    payment_date_month_cal = int(closing_date_month) - 9
+                    payment_date_year_cal = int(closing_date_year) + 1
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+                else:
+                    payment_date_month_cal = int(closing_date_month) + 3
+                    payment_date_year_cal = int(closing_date_year)
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+            elif payment_date_month == 'four_months_after':
+                if int(closing_date_month) in (9, 10, 11, 12):
+                    payment_date_month_cal = int(closing_date_month) - 8
+                    payment_date_year_cal = int(closing_date_year) + 1
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+                else:
+                    payment_date_month_cal = int(closing_date_month) + 4
+                    payment_date_year_cal = int(closing_date_year)
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+            elif payment_date_month == 'five_months_after':
+                if int(closing_date_month) in (8, 9, 10, 11, 12):
+                    payment_date_month_cal = int(closing_date_month) - 7
+                    payment_date_year_cal = int(closing_date_year) + 1
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+                else:
+                    payment_date_month_cal = int(closing_date_month) + 5
+                    payment_date_year_cal = int(closing_date_year)
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+            elif payment_date_month == 'six_months_after':
+                if int(closing_date_month) in (7, 8, 9, 10, 11, 12):
+                    payment_date_month_cal = int(closing_date_month) - 6
+                    payment_date_year_cal = int(closing_date_year) + 1
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+                else:
+                    payment_date_month_cal = int(closing_date_month) + 6
+                    payment_date_year_cal = int(closing_date_year)
+                    payment_date_day_cal = payment_date_date
+                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                        payment_date_day_cal = 30
+                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                        payment_date_day_cal = 28
+            payment_date_str = str(payment_date_month_cal) + '/' + str(payment_date_day_cal) + '/' + str(
+                payment_date_year_cal)
+            payment_date_obj = datetime.strptime(payment_date_str, '%m/%d/%Y').date()
+            rec['payment_plan_date'] = payment_date_obj
+
+    #TH - done
+
             if (rec['last_billed_amount'] + rec['deposit_amount'] + rec['balance_amount'] + rec['amount_untaxed'] \
                 + rec['tax_amount'] + rec['billed_amount'] == 0) or (
                     rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']):
@@ -345,6 +481,7 @@ class BillingClass(models.Model):
                 'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                 'customer_closing_date_id': partner_ids.customer_closing_date.id,
                 'customer_excerpt_request': partner_ids.customer_except_request,
+                'payment_plan_date': rec['payment_plan_date']
             })
 
             for invoice in invoice_ids:

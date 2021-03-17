@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_payment_plan_reports" model="report.paperformat">
+            <field name="name">Payment Request Report</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">6</field>
+            <field name="margin_bottom">6</field>
+            <field name="margin_left">6</field>
+            <field name="margin_right">6</field>
+            <field name="dpi">90</field>
+        </record>
+        <report
+                id="report_payment_plan"
+                string="Payment Plan"
+                model="bill.info"
+                report_type="qweb-pdf"
+                attachment_use="False"
+                file="Maintain_Payment_Plan.payment_plan_report"
+                name="Maintain_Payment_Plan.payment_plan_report"
+                paperformat="Maintain_Payment_Plan.paperformat_payment_plan_reports"
+        />
+    </data>
+</odoo>

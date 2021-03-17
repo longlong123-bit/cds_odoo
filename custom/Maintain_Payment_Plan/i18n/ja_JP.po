@@ -1,0 +1,286 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Maintain_Payment_Plan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-15 08:40+0000\n"
+"PO-Revision-Date: 2021-03-15 08:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "<span>取引先グループ： </span>"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "<span>回収予定日： </span>"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "<span>担当者（営業担当者）： </span>"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "<span>締日（締日グループ)： </span>"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "<span>請求先： </span>"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "<span>請求締日（締切日）： </span>"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Amount Untaxed"
+msgstr "当月売上額"
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Billed Amount"
+msgstr "当月請求額"
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Closing Date"
+msgstr "締日（締切日）"
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__context_closing_date_group
+msgid "Context Closing Date Group"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Customer Code"
+msgstr "請求先コード"
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Customer Name"
+msgstr "請求先名"
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Deposit"
+msgstr "締後入金"
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "Display order"
+msgstr "表示順"
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_request_bill_active.xml:0
+#, python-format
+msgid "Download"
+msgstr "ダウンロード"
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__employee_code
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Employee Code"
+msgstr "担当者コード"
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__employee_name
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Employee Name"
+msgstr "担当者名"
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Must Payment Amount"
+msgstr "回収予定額"
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__payment_amount_transfer
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Payment Amount Transfer"
+msgstr "繰越金額"
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__payment_billed_amount
+msgid "Payment Billed Amount"
+msgstr "当月請求額"
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__payment_date_search
+msgid "Payment Date Search"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__payment_deposit_amount
+msgid "Payment Deposit Amount"
+msgstr "締後入金"
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__payment_must_pay_amount
+msgid "Payment Must Pay Amount"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model:ir.actions.act_window,name:Maintain_Payment_Plan.payment_plan_action
+#: model:ir.actions.report,name:Maintain_Payment_Plan.report_payment_plan
+#: model:ir.ui.menu,name:Maintain_Payment_Plan.menu_ideas
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Payment Plan"
+msgstr "回収予定表"
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__payment_plan_date
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Payment Plan Date"
+msgstr "回収日"
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__payment_plan_date_display
+msgid "Payment Plan Date Display"
+msgstr "回収日"
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_request_bill_active.xml:0
+#, python-format
+msgid "Print"
+msgstr "印刷"
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Tax Amount"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
+msgid "Total"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model:ir.model,name:Maintain_Payment_Plan.model_bill_info
+msgid "bill.info"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "取引先グループ"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "回 収 予 定 表"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "回収予定日"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "回収予定額"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "回収日"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "当月売上額"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "当月消費税"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "当月請求額"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "担当者コード"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "担当者名"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "担当者（営業担当者）"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "締後入金"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "締日（締切日）"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "締日（締日グループ)"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "繰越金額"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "請求先"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "請求先コード"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
+msgid "請求先名"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "請求締日（締切日）"
+msgstr ""
