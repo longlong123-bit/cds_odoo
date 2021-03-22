@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<record model="ir.ui.view" id="sales_achievement_view_customer_employee">
+			<field name="name">sales_achievement_view_customer_employee</field>
+			<field name="model">sales.achievement.customer.employee</field>
+			<field name="arch" type="xml">
+				<tree create="0" import="0">
+					<field name="hr_employee_employee_code"/>
+					<field name="hr_employee_name"/>
+					<field name="res_partner_customer_code"/>
+					<field name="res_partner_name"/>
+					<field name="sum_pay_amount_final" sum="Total" optional="show"/>
+					<field name="sum_return_amount_final" sum="Total" optional="show"/>
+					<field name="sum_discount_amount_final" sum="Total" optional="show"/>
+					<field name="net_sale_amount_final" sum="Total" optional="show"/>
+					<field name="gross_amount_final" sum="Total" optional="show"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="actions_sales_achievement_customer_employee">
+			<field name="name">Sales Achievement Customer Employee</field>
+			<field name="res_model">sales.achievement.customer.employee</field>
+			<field name="view_id" ref="sales_achievement_view_customer_employee"/>
+			<field name="context">{'sales_achievement_customer_employee': True}</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<menuitem id="sales_achievement_customer_employee" parent="sales_achievement_menu" name="Sales Achievement Customer Employee" sequence="3" action="actions_sales_achievement_customer_employee" groups="base.group_user"/>
+	</data>
+</odoo>
