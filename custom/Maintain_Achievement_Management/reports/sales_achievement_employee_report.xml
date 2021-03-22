@@ -66,19 +66,19 @@
                         <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">
                             <thead>
                                 <tr>
-                                    <td style="border: 1px solid #000; border-top: 0; border-left: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
+                                    <td style="border: 1px solid #000; border-top: 0; border-left: 0; border-right: 0; text-align: center;"
                                         name="th_id">担当者コード</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_id">担当者名</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF; min-width: 100px"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; min-width: 100px"
                                         name="th_subtotal">期間売上計</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF; min-width: 100px"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; min-width: 100px"
                                         name="th_subtotal">期間返品額</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_description">期間値引額</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_priceunit">期間純売上額</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; background-color: #F0F8FF"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_taxes">粗利額</td>
                                 </tr>
                             </thead>
@@ -86,7 +86,7 @@
                                 <t t-foreach="docs" t-as="line">
                                     <t t-if="((pager-1)*30 &lt;= count_detail) and (pager*30 &gt; count_detail)">
                                         <tr>
-                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left">
+                                            <td style="border: 1px solid #000; border-right: 0; border-left: 0; border-top: 0; text-align: left">
                                                 <span t-field="line.hr_employee_employee_code"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left;">
