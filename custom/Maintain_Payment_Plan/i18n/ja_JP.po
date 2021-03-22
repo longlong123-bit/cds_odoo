@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-15 08:40+0000\n"
-"PO-Revision-Date: 2021-03-15 08:40+0000\n"
+"POT-Creation-Date: 2021-03-22 07:52+0000\n"
+"PO-Revision-Date: 2021-03-22 07:52+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -61,11 +61,6 @@ msgid "Closing Date"
 msgstr "締日（締切日）"
 
 #. module: Maintain_Payment_Plan
-#: model:ir.model.fields,field_description:Maintain_Payment_Plan.field_bill_info__context_closing_date_group
-msgid "Context Closing Date Group"
-msgstr ""
-
-#. module: Maintain_Payment_Plan
 #: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
 msgid "Customer Code"
 msgstr "請求先コード"
@@ -79,13 +74,6 @@ msgstr "請求先名"
 #: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
 msgid "Deposit"
 msgstr "締後入金"
-
-#. module: Maintain_Payment_Plan
-#. openerp-web
-#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
-#, python-format
-msgid "Display order"
-msgstr "表示順"
 
 #. module: Maintain_Payment_Plan
 #. openerp-web
@@ -166,7 +154,7 @@ msgstr "印刷"
 #. module: Maintain_Payment_Plan
 #: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
 msgid "Tax Amount"
-msgstr ""
+msgstr "当月消費税"
 
 #. module: Maintain_Payment_Plan
 #: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_tree_view
@@ -176,6 +164,13 @@ msgstr ""
 #. module: Maintain_Payment_Plan
 #: model:ir.model,name:Maintain_Payment_Plan.model_bill_info
 msgid "bill.info"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "出力順（ソート）"
 msgstr ""
 
 #. module: Maintain_Payment_Plan
@@ -208,6 +203,13 @@ msgid "回収日"
 msgstr ""
 
 #. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "回収日別"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
 #: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
 msgid "当月売上額"
 msgstr ""
@@ -228,6 +230,20 @@ msgid "担当者コード"
 msgstr ""
 
 #. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "担当者別回収日別"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "担当者別締日別"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
 #: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
 msgid "担当者名"
 msgstr ""
@@ -242,6 +258,13 @@ msgstr ""
 #. module: Maintain_Payment_Plan
 #: model_terms:ir.ui.view,arch_db:Maintain_Payment_Plan.payment_plan_report_document
 msgid "締後入金"
+msgstr ""
+
+#. module: Maintain_Payment_Plan
+#. openerp-web
+#: code:addons/Maintain_Payment_Plan/static/src/xml/payment_plan_advanced_search.xml:0
+#, python-format
+msgid "締日別"
 msgstr ""
 
 #. module: Maintain_Payment_Plan
