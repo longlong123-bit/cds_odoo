@@ -49,6 +49,12 @@
     <record id="Maintain_Bill_Management.menu_bill" model="ir.ui.menu">
         <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
     </record>
+    <record id="Maintain_Achievement_Management.parent_achievement_management" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
+    <record id="Maintain_Achievement_Management.menu_sales_achievement" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
     <record id="Maintain_Bill_Cancel.menu_cancel_bill" model="ir.ui.menu">
         <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
     </record>
