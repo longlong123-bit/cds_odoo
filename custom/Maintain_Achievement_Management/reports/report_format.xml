@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="paperformat_sale_achievement_reports" model="report.paperformat">
+            <field name="name">Maintain Achievement Management</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">6</field>
+            <field name="margin_bottom">6</field>
+            <field name="margin_left">6</field>
+            <field name="margin_right">6</field>
+            <field name="dpi">90</field>
+        </record>
+        <report
+                id="report_sales_achievement_employee"
+                string="Sales Achievement Employee"
+                model="sales.achievement.employee"
+                report_type="qweb-pdf"
+                attachment_use="False"
+                file="Maintain_Achievement_Management.sales_achievement_employee_report"
+                name="Maintain_Achievement_Management.sales_achievement_employee_report"
+                paperformat="Maintain_Achievement_Management.paperformat_sale_achievement_reports"
+        />
+        <report
+                id="report_sales_achievement_customer"
+                string="Sales Achievement Customer"
+                model="sales.achievement.customer"
+                report_type="qweb-pdf"
+                attachment_use="False"
+                file="Maintain_Achievement_Management.sales_achievement_customer_report"
+                name="Maintain_Achievement_Management.sales_achievement_customer_report"
+                paperformat="Maintain_Achievement_Management.paperformat_sale_achievement_reports"
+        />
+        <report
+                id="report_sales_achievement_customer_employee"
+                string="Sales Achievement Customer Employee"
+                model="sales.achievement.customer.employee"
+                report_type="qweb-pdf"
+                attachment_use="False"
+                file="Maintain_Achievement_Management.sales_achievement_customer_employee_report"
+                name="Maintain_Achievement_Management.sales_achievement_customer_employee_report"
+                paperformat="Maintain_Achievement_Management.paperformat_sale_achievement_reports"
+        />
+        <report
+                id="report_sales_achievement_business"
+                string="Sales Achievement Business"
+                model="sales.achievement.business"
+                report_type="qweb-pdf"
+                attachment_use="False"
+                file="Maintain_Achievement_Management.sales_achievement_business_report"
+                name="Maintain_Achievement_Management.sales_achievement_business_report"
+                paperformat="Maintain_Achievement_Management.paperformat_sale_achievement_reports"
+        />
+        <report
+                id="report_sales_achievement_customer_business"
+                string="Sales Achievement Customer Business"
+                model="sales.achievement.customer.business"
+                report_type="qweb-pdf"
+                attachment_use="False"
+                file="Maintain_Achievement_Management.sales_achievement_customer_business_report"
+                name="Maintain_Achievement_Management.sales_achievement_customer_business_report"
+                paperformat="Maintain_Achievement_Management.paperformat_sale_achievement_reports"
+        />
+    </data>
+</odoo>

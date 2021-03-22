@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <t t-name="sales_achievement_business.advanced_search">
+        <table>
+            <tr>
+                <th>売上期間</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="business_partner_name" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="business_partner_name" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>取引先グループ</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="business_partner_code"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="business_partner_code"/>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>
