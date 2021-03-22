@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="sales_achievement_employee.advanced_search">
+        <table>
+            <tr>
+                <th>売上期間</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="hr_employee_name" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="hr_employee_name" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>担当者（営業担当者）</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="hr_employee_employee_code"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="hr_employee_employee_code"/>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>
