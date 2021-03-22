@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<record model="ir.ui.view" id="sales_achievement_view_customer_business">
+			<field name="name">sales_achievement_view_customer_business</field>
+			<field name="model">sales.achievement.customer.business</field>
+			<field name="arch" type="xml">
+				<tree create="0" import="0">
+					<field name="business_partner_code"/>
+					<field name="business_partner_name"/>
+					<field name="res_partner_customer_code"/>
+					<field name="res_partner_name"/>
+					<field name="sum_pay_amount_final" sum="Total" optional="show"/>
+					<field name="sum_return_amount_final" sum="Total" optional="show"/>
+					<field name="sum_discount_amount_final" sum="Total" optional="show"/>
+					<field name="net_sale_amount_final" sum="Total" optional="show"/>
+					<field name="gross_amount_final" sum="Total" optional="show"/>
+				</tree>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="actions_sales_achievement_customer_business">
+			<field name="name">Sales Achievement Customer Business</field>
+			<field name="res_model">sales.achievement.customer.business</field>
+			<field name="view_id" ref="sales_achievement_view_customer_business"/>
+			<field name="context">{'sales_achievement_customer_business': True}</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<menuitem id="sales_achievement_customer_business" parent="sales_achievement_menu" name="Sales Achievement Customer Business" sequence="5" action="actions_sales_achievement_customer_business" groups="base.group_user"/>
+	</data>
+</odoo>
