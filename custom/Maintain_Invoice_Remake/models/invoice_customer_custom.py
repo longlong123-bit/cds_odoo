@@ -144,6 +144,7 @@ def copy_data_from_quotation(rec, quotation, account):
         for line in rec.trigger_quotation_history.order_line.sorted(lambda l: l.quotation_custom_line_no):
             if line.product_id:
                 invoice_line_ids.append((0, False, {
+                    'x_invoicelinetype': line.class_item,
                     'product_id': line.product_id,
                     'product_code': line.product_code,
                     'product_barcode': line.product_barcode,
