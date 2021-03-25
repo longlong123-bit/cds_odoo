@@ -26,7 +26,7 @@ class BillingDetailsClass(models.TransientModel):
             ('date', '<=', self.deadline),
             ('bill_status', '=', 'not yet'),
             ('parent_state', '=', 'posted'),
-            ('credit', '!=', 0),
+            ('price_total', '!=', 0),
             ('account_internal_type', '=', 'other'),
         ]
 
