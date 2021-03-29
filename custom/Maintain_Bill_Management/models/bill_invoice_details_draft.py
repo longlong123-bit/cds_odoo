@@ -124,3 +124,17 @@ class BillInvoiceDetailsClass(models.Model):
             if len(str(number)) > number_len:
                 number = str(number)[:number_len]
         return float(number)
+
+    def count_detail_line(self):
+        self.ensure_one()
+        count_detail = 1
+        count = len(self.product_name.splitlines()) - 1
+        if self.tax_rate == 8 or self.account_move_line_id.product_id.product_tax_category == 'exempt':
+            count_detail += 1
+        if count > 0:
+            count_detail += 1
+        if self.payment_id.comment_apply:
+            count_detail += 1
+        if self.product_maker_name and self.product_custom_standardnumber and self.limit_charater_field(self.product_name, 20, True, False) == '':
+            count_detail += 1
+        return count_detail

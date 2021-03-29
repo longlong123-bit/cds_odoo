@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 
 class CancelBillAPI(odoo.http.Controller):
-    @odoo.http.route('/cancel_bill_api', type='http', auth="public", sitemap=False, cors='*', csrf=False)
+    @odoo.http.route('/draft_bill_api', type='http', auth="public", sitemap=False, cors='*', csrf=False)
     def closing_date(self, **kwargs):
         closing_date = kwargs.get('content', False)
         model_name = "bill.info.draft"
@@ -32,7 +32,7 @@ class CancelBillAPI(odoo.http.Controller):
             }
         return json.dumps(response)
 
-    @odoo.http.route('/cancel_bill_api_custom', type='http', auth="public", sitemap=False, cors='*', csrf=False)
+    @odoo.http.route('/draft_bill_api_custom', type='http', auth="public", sitemap=False, cors='*', csrf=False)
     def partner_group(self, **kwargs):
         partner_group = kwargs.get('content', False)
         model_name = "bill.info.draft"

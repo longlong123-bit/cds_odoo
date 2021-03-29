@@ -923,34 +923,6 @@ class BillingClass(models.Model):
                     'payment_id': payment.id,
                 })
 
-            # Update bill_status for account_move table
-            if rec['customer_except_request']:
-                for invoice in invoice_ids:
-                    if invoice.invoice_line_ids \
-                            and invoice.invoice_line_ids == invoice.invoice_line_ids.filtered(lambda l: l.selected):
-                        invoice_ids.write({
-                            'bill_status': 'billed'
-                        })
-                # Update bill_status for account_move_line table
-                self.env['account.move.line'].search(
-                    [('move_id', 'in', invoice_ids.ids), ('selected', '=', True)]).write({
-                    'bill_status': 'billed'
-                })
-            else:
-                invoice_ids.write({
-                    'bill_status': 'billed'
-                })
-                # Update bill_status for account_move_line table
-                self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
-                    'bill_status': 'billed'
-                })
-
-            # Update bill_status for account_payment table
-            payment_ids.write({
-                'bill_status': 'billed'
-            })
-            payment_ids.filtered(lambda l: l.state == 'draft').post()
-
         advanced_search.val_bill_search_deadline = ''
 
         if not argsSelectedData:
@@ -970,7 +942,6 @@ class BillingClass(models.Model):
 
     def subtotal_amount_tax(self, tax_rate=0):
         bill_info_draft = self.bill_info_draft()
-
         subtotal = 0
         for line in bill_info_draft.bill_detail_ids:
             if line.x_voucher_tax_transfer and (
@@ -980,7 +951,6 @@ class BillingClass(models.Model):
 
     def amount_tax(self, tax_rate=0):
         bill_info_draft = self.bill_info_draft()
-
         subtotal = 0
         for re in bill_info_draft.bill_invoice_ids:
             for line in re.bill_invoice_details_ids:
@@ -995,6 +965,63 @@ class BillingClass(models.Model):
             if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
                 subtotal += re.amount_tax
         return rounding(subtotal, 0, bill_info_draft.partner_id.customer_tax_rounding)
+
+    def subtotal_amount_tax_child(self, tax_rate=0, customer_code=None):
+        bill_info_draft = self.bill_info_draft()
+        subtotal = 0
+        for line in bill_info_draft.bill_detail_ids:
+            if line.customer_code == customer_code:
+                if line.x_voucher_tax_transfer and (
+                        line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
+                    subtotal += line.line_amount
+                else:
+                    subtotal += 0
+        return subtotal
+
+    def amount_for_customer(self, customer_code=None):
+        bill_info_draft = self.bill_info_draft()
+        amount = 0
+        for line in bill_info_draft.bill_invoice_ids:
+            if line.customer_code == customer_code:
+                amount += line.amount_total
+            else:
+                amount += 0
+        return amount
+
+    def amount_tax_child(self, tax_rate=0, customer_code=None):
+        bill_info_draft = self.bill_info_draft()
+        subtotal = 0
+        for re in bill_info_draft.bill_invoice_ids:
+            if re.customer_code == customer_code:
+                for line in re.bill_invoice_details_ids:
+                    if line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8):
+                        if line.x_voucher_tax_transfer == 'foreign_tax':
+                            subtotal += rounding(line.tax_amount, 0,
+                                                 line.account_move_line_id.move_id.customer_tax_rounding)
+                        elif line.x_voucher_tax_transfer == 'voucher':
+                            subtotal += line.voucher_line_tax_amount
+                        elif line.x_voucher_tax_transfer == 'invoice':
+                            subtotal += line.line_amount * line.tax_rate / 100
+                    if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
+                        subtotal += re.amount_tax
+                    else:
+                        subtotal += 0
+        return rounding(subtotal, 0, bill_info_draft.partner_id.customer_tax_rounding)
+
+    def count_customer_in_bill(self):
+        bill_info_draft = self.bill_info_draft()
+        arr = []
+        for record in bill_info_draft.bill_invoice_ids:
+            if record.customer_code not in arr:
+                arr.append(record.customer_code)
+        return len(arr)
+
+    def count_detail_line(self):
+        bill_info_draft = self.bill_info_draft()
+        count_line = 0
+        for record in bill_info_draft.bill_detail_ids:
+            count_line += record.count_detail_line()
+        return count_line
 
     # TH - viet lai report payment_request_bill
     def record_data(self):

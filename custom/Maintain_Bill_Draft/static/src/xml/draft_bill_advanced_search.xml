@@ -3,15 +3,6 @@
 <template>
     <t t-name="draft_bill.advanced_search">
         <table>
-<!--            <tr>-->
-<!--                <th>Search Category</th>-->
-<!--                <td>-->
-<!--                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">-->
-<!--                        <option value="like">Like</option>-->
-<!--                        <option value="equal">Equal</option>-->
-<!--                    </select>-->
-<!--                </td>-->
-<!--            </tr>-->
             <tr>
                 <th>Customer Closing Date</th>
                 <td>
@@ -22,7 +13,7 @@
                     function changeClosingDate(){
                         closing_date = document.getElementById("customer_closing_date").value;
                         $.ajax({
-                            url: "/cancel_bill_api",
+                            url: "/draft_bill_api",
                             type: "POST",
                             data: {"content": closing_date},
                             dataType: 'json',
@@ -79,7 +70,7 @@
                     function changePartnerGroupCustomId(){
                         partner_group = document.getElementById("business_partner_group_custom_id").value;
                         $.ajax({
-                            url: "/cancel_bill_api_custom",
+                            url: "/draft_bill_api_custom",
                             type: "POST",
                             data: {"content": partner_group},
                             dataType: 'json',

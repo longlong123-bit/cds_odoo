@@ -6,7 +6,7 @@
         <field name="name">bm.draft.bill.tree</field>
         <field name="model">bill.info.draft</field>
         <field name="arch" type="xml">
-            <tree string="Cancel Bill Tree" class="forward_edit" delete="false">
+            <tree string="Draft Bill Tree" class="forward_edit">
                 <field name="billing_code"/>
                 <field name="billing_name"/>
                 <field name="bill_no"/>

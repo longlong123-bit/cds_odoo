@@ -28,13 +28,14 @@
         'views/bill_details.xml',
         'reports/report.xml',
         'reports/reports.xml',
-        'reports/normal_reports.xml',
-        'reports/abstract_payment_reports.xml',
-        'reports/current_month_reports.xml',
-        'reports/deposit_reports.xml',
-        'reports/normal_invoice_for_earch_customer_report.xml',
-        'reports/yamasa_invoice_reports.xml',
-        'reports/deposit_reports.xml'
+        'reports/normal_reports_draft.xml',
+        'reports/abstract_payment_reports_draft.xml',
+        'reports/current_month_reports_draft.xml',
+        'reports/deposit_reports_draft.xml',
+        'reports/deposit_reports_draft_1.xml',
+        'reports/normal_invoice_for_earch_customer_report_draft.xml',
+        'reports/yamasa_invoice_reports_draft.xml',
+        'reports/deposit_reports_draft.xml'
     ],
     'qweb': [
         'static/src/xml/bill_advanced_search.xml',

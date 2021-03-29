@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="normal_report">
+        <template id="current_month_report_draft">
             <t t-set="total_record_detail" t-value="len(o.record_data())"/>
             <t t-set="total_page_detail_count" t-value="total_record_detail/48"/>
             <t t-if="int(total_page_detail_count) == total_page_detail_count">
@@ -61,7 +61,7 @@
                                 <span t-field="o.customer_closing_date.closing_date_code"/>
                                 <span>)</span>
                             </div>
-                            <div style="display: inline-block; width: 100%; height: 224px;">
+                            <div style="display: inline-block; width: 100%; height: 224px">
                                 <div style="margin-top: 10px; width: 50%; display: inline-block;">
                                     <div style="margin-bottom: 10px; margin-left: 30px; height: 16px;">
                                         <span t-field="o.zip_code">
@@ -82,7 +82,7 @@
                                         <t t-if="len(o.name) &gt;= 20 or (o.customer_name_2 and len(o.customer_name_2) &gt;= 20)">
                                             <div style="font-size: 18px; height: 42px;">
                                                 <t t-set="p_style"
-                                                   t-value="'height: 21px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;'"/>
+                                                   t-value="'height: 21px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left; '"/>
                                                 <p t-esc="bill_draft.limit_charater_field(o.name, 20)"
                                                    style="height: 21px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;"/>
                                                 <t t-if="o.customer_name_2">
@@ -97,19 +97,18 @@
                                         <t t-else="">
                                             <div style="font-size: 20px; height: 46px;">
                                                 <t t-set="p_style"
-                                                   t-value="'height: 23px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;'"/>
-                                                <p t-esc="o.limit_charater_field(o.name, 20)"
+                                                   t-value="'height: 23px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left; '"/>
+                                                <p t-esc="bill_draft.limit_charater_field(o.name, 20)"
                                                    style="height: 23px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;"/>
                                                 <t t-if="o.customer_name_2">
                                                     <br/>
-                                                    <p t-esc="o.limit_charater_field(o.customer_name_2, 20)"
+                                                    <p t-esc="bill_draft.limit_charater_field(o.customer_name_2, 20)"
                                                        style="height: 23px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;">
                                                     </p>
                                                 </t>
                                                 <p style="float: right; margin: 0;">様</p>
                                             </div>
                                         </t>
-
                                     </div>
                                     <div style="display: inline-block; width: 384px; margin-left: 20px; font-size: 16px;">
                                         <span>TEL:　</span>
@@ -130,9 +129,9 @@
                                     <br/>
                                     <span>TEL　0479-22-3515　FAX　0479-24-9376</span>
                                     <br/>
-                                    <span>神栖営業所 　茨城県神栖市溝口６３２－２</span>
+                                    <span>神栖営業所　 茨城県神栖市溝口６３２－２</span>
                                     <br/>
-                                    <span>TEL　0299-97-4416　FAX　0299-90-6500</span>
+                                    <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
                                     <br/>
                                     <div style="margin-top: 2%; font-size: 12px; width: 125%; right: 0px; margin-left: -85px;">
                                         <div style="display: inline-block; width: 50%; float: left; text-align: left;">
@@ -188,39 +187,43 @@
                                         <tbody>
                                             <tr style="height: 38px;">
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <div style="display: inline-block; width: 110px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.last_billed_amount)"
-                                                           style="margin: 0;">
-                                                            <null/>
+                                                    <div style="display: inline-block; width: 110px; text-align: right; padding-top: 11px;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <t t-if="range_docs_index == 2"
+                                                               t-esc="'{0:,.0f}'.format(bill_draft.last_billed_amount)"/>
+                                                            <t t-else=""><null/></t>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.deposit_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
-                                                            <null/>
+                                                    <div style="float: right; width: 110px; text-align: right; padding-top: 11px;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <t t-if="range_docs_index == 2"
+                                                               t-esc="'{0:,.0f}'.format(bill_draft.deposit_amount)"/>
+                                                            <t t-else=""><null/></t>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.payment_cost_and_discount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
-                                                            <null/>
+                                                    <div style="display: inline-block; width: 110px; text-align: right; padding-top: 11px;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <t t-if="range_docs_index == 2"
+                                                               t-esc="'{0:,.0f}'.format(bill_draft.payment_cost_and_discount)"/>
+                                                            <t t-else=""><null/></t>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
-                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.balance_amount)"
-                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
-                                                            <null/>
+                                                    <div style="float: right; width: 110px; text-align: right; padding-top: 11px;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <t t-if="range_docs_index == 2"
+                                                               t-esc="'{0:,.0f}'.format(bill_draft.balance_amount)"/>
+                                                            <t t-else=""><null/></t>
                                                         </p>
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
-                                                    <div style="display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
+                                                    <div style="float: right; width: 110px; text-align: right; padding-top: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                         <p t-esc="'{0:,.0f}'.format(bill_draft.amount_total)"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
@@ -228,7 +231,7 @@
                                                     </div>
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: right;">
-                                                    <div style="display: inline-block; float: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 110px; text-align: right; padding-top: 11px;">
+                                                    <div style="display: inline-block; float: right; width: 110px; text-align: right; padding-top: 11px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                                         <p t-esc="'{0:,.0f}'.format(bill_draft.billed_amount)"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
@@ -245,13 +248,13 @@
                                 </div>
                             </div>
                         </t>
-                        <t t-if="pager == 1 ">
+                        <t t-if="pager == 1">
                             <t t-set="style"
-                               t-value='"height: 955px; width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000"'/>
+                               t-value='"height: 930px; width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000"'/>
                         </t>
                         <t t-else="">
                             <t t-set="style"
-                               t-value='"height: 1035px; width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000"'/>
+                               t-value='"height: 1010px; width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000"'/>
                         </t>
                         <div style="width: 100%;">
                             <table t-att-style="style" border="0" cellspacing="0" cellpadding="5">
@@ -303,7 +306,7 @@
                                         <t t-if="((pager-1)*48 &lt;= count_detail) and (pager*48 &gt; count_detail)">
                                             <tr style="vertical-align: top; overflow: hidden;">
                                                 <td style="padding-bottom: 0; padding-top: 0;">
-                                                    <div style="display: inline-block; width: 60px; text-align: center; ">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
                                                         <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; line-height: 16px; padding-top: 4px;">
                                                             <t t-esc="line_detail[0]"/>
                                                         </p>
@@ -343,7 +346,7 @@
                                                         <t t-esc="line_detail[6]"/>
                                                     </div>
                                                 </td>
-                                                <td style="border-left: 1px solid #000000; padding-bottom: 0; padding-top: 0">
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0; padding-top: 0;">
                                                     <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 16px; padding-top: 4px;">
                                                         <t t-esc="line_detail[7]"/>
                                                     </div>

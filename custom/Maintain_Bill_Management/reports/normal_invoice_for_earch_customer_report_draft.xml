@@ -1,0 +1,1855 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="normal_invoice_for_each_customer_report_draft">
+            <t t-set="bill_draft" t-value="o.bill_info_draft()"/>
+            <t t-set="len_customer" t-value="o.count_customer_in_bill()"/>
+            <!-- total_record_detail = total_detail + total_line_tax_of_invoice + (total_line_of_customer_in_bill - 1(customer_of_billing_code))  + total_line_of_【合計、税別御買上計、消費税】-->
+            <t t-set="total_record_detail"
+               t-value="o.count_detail_line() + 3*len(bill_draft.bill_invoice_ids) + 3*(len_customer - 1) + 9"/>
+            <t t-set="total_page_detail" t-value="2"/>
+            <t t-if="total_record_detail &gt; 50">
+                <t t-set="total_page2_detail" t-value="(total_record_detail - 50)/56"/>
+                <t t-if="1 &gt; total_page2_detail">
+                    <t t-set="total_page2_detail" t-value="1"/>
+                </t>
+                <t t-set="total_page_detail" t-value="int(total_page2_detail + 0.9 + 2)"/>
+            </t>
+            <t t-set="total_page_detail_tax" t-value="total_page_detail"/>
+            <t t-set="count_page_detail" t-value="0"/>
+            <t t-set="count_rows_total_page" t-value="1"/>
+            <t t-set="count_rows_total_page_detail" t-value="1"/>
+            <t t-set="count_detail" t-value="1"/>
+            <t t-set="pager" t-value="0"/>
+            <t t-set="o" t-value="o.with_context(lang=lang)"/>
+            <t t-set="tax_transfer_previous_data" t-value=""/>
+            <t t-set="amount_tax_previous_data" t-value="0"/>
+            <t t-set="summary_total_amount_previous_data" t-value="0"/>
+            <t t-set="amount_total_child_previous_data" t-value="0"/>
+            <t t-set="customer_code_previous_data" t-value=""/>
+            <t t-foreach="range(1, total_page_detail)" t-as="range_total_page_detail">
+                <t t-set="count_detail" t-value="1"/>
+                <t t-set="pager" t-value="pager + 1"/>
+                <div class="page" style="page-break-before: always; font-size: 14px; line-height: 1.2;">
+                    <div style="display: inline-block;">
+                        <t t-set="style_title" t-value="'width: 38%; float: left;'"/>
+                        <t t-set="style_bill_no" t-value="'width: 40%; float: left;'"/>
+                        <t t-set="o_title" t-value="'請　求　書'"/>
+                        <t t-if="range_docs_index == 2">
+                            <t t-set="o_title" t-value="'請　求　書【控】'"/>
+                            <t t-set="style_title" t-value="'width: 44%; float: left;'"/>
+                            <t t-set="style_bill_no" t-value="'width: 34%; float: left;'"/>
+                        </t>
+                        <div style="display: inline-block; width: 100%;">
+                            <div style="width: 22%; float: left;">
+                                <div>
+                                    <span>お客様コードNo.</span>
+                                    <span t-field="o.customer_code"/>
+                                </div>
+                            </div>
+                            <div t-att-style="style_title">
+                                <div style="float: right; margin-right: 9%;">
+                                    <h4 class="mt0"
+                                        style="font-size: 26px; font-weight: 800; color: #000000; margin: 0; padding: 0"
+                                        t-esc="o_title"/>
+                                </div>
+                            </div>
+                            <div t-att-style="style_bill_no">
+                                <div style="text-align: right; margin-top: 15px;">
+                                    <span class="mt0" t-field="bill_draft.bill_no"
+                                          style="color: #000000; margin: 0; padding: 0"/>
+                                    -
+                                    <span t-esc="pager"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div style="text-align: center;">
+                                <t t-if="bill_draft.deadline">
+                                    <span t-field="bill_draft.deadline"
+                                          t-options="{&quot;format&quot;: &quot;yyyy年MM月dd日&quot;}"/>
+                                </t>
+                                <span t-else="">　　　年　　月　　日</span>
+                                <span>締切分 (</span>
+                                <span t-field="o.customer_closing_date.closing_date_code"/>
+                                <span>)</span>
+                            </div>
+                            <div style="display: inline-block; width: 100%; height: 224px">
+                                <div style="margin-top: 10px; width: 50%; display: inline-block;">
+                                    <div style="margin-bottom: 10px; margin-left: 30px; height: 16px;">
+                                        <span t-field="o.zip_code">
+                                            <null/>
+                                        </span>
+                                    </div>
+                                    <div style="margin-bottom: 10px; margin-left: 20px; height: 38px; font-size: 16px; width: 384px">
+                                        <p t-field="o.street"
+                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                            <null/>
+                                        </p>
+                                        <p t-field="o.street2"
+                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                            <null/>
+                                        </p>
+                                    </div>
+                                    <div style="display: inline-block; width: 410px; margin-left: 20px; margin-bottom: 5px;">
+                                        <t t-if="len(o.name) &gt;= 20 or (o.customer_name_2 and len(o.customer_name_2) &gt;= 20)">
+                                            <div style="font-size: 18px; height: 42px;">
+                                                <t t-set="p_style"
+                                                   t-value="'height: 21px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left; '"/>
+                                                <p t-esc="bill_draft.limit_charater_field(o.name, 20)"
+                                                   style="height: 21px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;"/>
+                                                <t t-if="o.customer_name_2">
+                                                    <br/>
+                                                    <p t-esc="bill_draft.limit_charater_field(o.customer_name_2, 20)"
+                                                       style="height: 21px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;">
+                                                    </p>
+                                                </t>
+                                                <p style="float: right; margin: 0;">様</p>
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div style="font-size: 20px; height: 46px;">
+                                                <t t-set="p_style"
+                                                   t-value="'height: 23px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left; '"/>
+                                                <p t-esc="bill_draft.limit_charater_field(o.name, 20)"
+                                                   style="height: 23px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;"/>
+                                                <t t-if="o.customer_name_2">
+                                                    <br/>
+                                                    <p t-esc="bill_draft.limit_charater_field(o.customer_name_2, 20)"
+                                                       style="height: 23px; white-space: nowrap; max-width: 390px; overflow: hidden; text-overflow: ellipsis; margin: 0; float: left;">
+                                                    </p>
+                                                </t>
+                                                <p style="float: right; margin: 0;">様</p>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div style="display: inline-block; width: 384px; margin-left: 20px; font-size: 16px;">
+                                        <span>TEL:　</span>
+                                        <span t-field="o.customer_phone"/>
+                                        <span>　FAX:　</span>
+                                        <span t-field="o.customer_fax"/>
+                                    </div>
+                                    <div style="margin-top: 48px; margin-left: 10px;">
+                                        <span>毎度ありがとうございます。下記の通り御請求申し上げます。</span>
+                                    </div>
+                                </div>
+                                <div style="width: 42%; float: right; text-align: center; font-size: 16px; margin-top: 27px;">
+                                    <span style="font-size: 24px; font-weight: 600">株式会社　ト　ラ　ヤ</span>
+                                    <br/>
+                                    <span>代表取締役　　遠 藤 孝 二</span>
+                                    <br/>
+                                    <span>本社　千葉県銚子市新生町二丁目12番地の5</span>
+                                    <br/>
+                                    <span>TEL　0479-22-3515　FAX　0479-24-9376</span>
+                                    <br/>
+                                    <span>神栖営業所　 茨城県神栖市溝口６３２－２</span>
+                                    <br/>
+                                    <span>TEL　0299-97-4416　FAX　0299-90-6530</span>
+                                    <br/>
+                                    <div style="margin-top: 2%; font-size: 12px; width: 125%; right: 0px; margin-left: -85px;">
+                                        <div style="display: inline-block; width: 50%; float: left; text-align: left;">
+                                            <span>銚子信用金庫本店 当座No0000375</span>
+                                            <br/>
+                                            <span>銚子商工信用組合新生支店 普通No0232055</span>
+                                            <br/>
+                                            <span>千葉銀行銚子支店 普通No1073838</span>
+                                            <br/>
+                                            <span>千葉興業銀行銚子支店 普通No0100064</span>
+                                        </div>
+                                        <div style="display: inline-block; width: 49%; text-align: left;">
+                                            <span>京葉銀行銚子支店 普通No3009882</span>
+                                            <br/>
+                                            <span>JAちばみどり銚子支店 普通No3668787</span>
+                                            <br/>
+                                            <span>三菱UFJ銀行千葉支店 当座No2485461</span>
+                                            <br/>
+                                            <span>常陽銀行銚子支店 普通No0003105</span>
+                                            <br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <t t-if="pager == 1">
+                            <div style="width: 100%;">
+                                <div style="width: 84%; margin-bottom: 10px; float: left;">
+                                    <table border="0" cellspacing="0" cellpadding="5"
+                                           style="width: 100%; line-height: 1; font-size: 14px; height: 80px">
+                                        <thead>
+                                            <tr>
+                                                <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                                    前 回 御 請 求 額
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-right: 0; text-align: center;">
+                                                    御　入　金　額
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-right: 0; text-align: center">
+                                                    調　整　額
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-right: 0; text-align: center">
+                                                    繰 越 金 額
+                                                </td>
+                                                <td style="border: 1px solid #000000; border-right: 0; text-align: center">
+                                                    御 買 上 額
+                                                </td>
+                                                <td style="border: 1px solid #000000; text-align: center">
+                                                    今 回 御 請 求 額
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="height: 38px;">
+                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
+                                                    <div style="display: inline-block; width: 110px; text-align: right; padding-top: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.last_billed_amount)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
+                                                    <div style="float: right; width: 110px; text-align: right; padding-top: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.deposit_amount)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
+                                                    <div style="float: right; width: 110px; text-align: right; padding-top: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.payment_cost_and_discount)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
+                                                    <div style="float: right; width: 110px; text-align: right; padding-top: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.balance_amount)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right;">
+                                                    <div style="float: right; width: 110px; text-align: right; padding-top: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.amount_total)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: right;">
+                                                    <div style="display: inline-block; float: right; width: 110px; text-align: right; padding-top: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.billed_amount)"
+                                                           style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="width: 16%; float: left;">
+                                    <span style="border: 1px solid #000000; width: 66px; height: 78px; border-right: none; float: left; margin-left: 10px;"/>
+                                    <span style="border: 1px solid #000000; width: 66px; height: 78px; float: left;"/>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-if="pager == 1">
+                            <t t-set="style"
+                               t-value='"height: 930px; width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000"'/>
+                        </t>
+                        <t t-else="">
+                            <t t-set="style"
+                               t-value='"height: 1010px; width: 100%; line-height: 1; font-size: 14px; border: 1px solid #000000"'/>
+                        </t>
+                        <div style="width: 100%;">
+                            <table t-att-style="style" border="0" cellspacing="0" cellpadding="5">
+                                <thead>
+                                    <tr>
+                                        <td style="border: 1px solid #000000; border-top: 0; border-left: 0; border-right: 0; text-align: center;">
+                                            伝票日付
+                                        </td>
+                                        <td style="border: 1px solid #000000;border-top: 0; border-right: 0; text-align: center;">
+                                            伝票No
+                                        </td>
+                                        <td style="border: 1px solid #000000;border-top: 0; border-right: 0; text-align: center;">
+                                            品　　　　　　名
+                                        </td>
+                                        <td style="border: 1px solid #000000; border-top: 0;border-right: 0; text-align: center;">
+                                            数　量
+                                        </td>
+                                        <td style="border: 1px solid #000000;border-top: 0; border-right: 0; text-align: center;">
+                                            単 位
+                                        </td>
+                                        <td style="border: 1px solid #000000;border-top: 0; border-right: 0; text-align: center;">
+                                            単　　　価
+                                        </td>
+                                        <td style="border: 1px solid #000000;border-top: 0;border-right: 0; text-align: center;">
+                                            金　　　額
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!--                                    <t t-set="inv_date" t-value=""/>-->
+                                    <t t-set="inv_no" t-value=""/>
+                                    <t t-set="count_invoice_detail" t-value="0"/>
+                                    <t t-foreach="bill_draft.bill_detail_ids.sorted(key=lambda r: (r.flag_child_billing_code, r.invoice_date, r.invoice_no))"
+                                       t-as="line_detail">
+                                        <t t-set="count_invoice_detail"
+                                           t-value="count_invoice_detail + line_detail.count_detail_line()"/>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and count_invoice_detail &gt;= count_page_detail">
+                                            <t t-if="(pager == 1 and count_detail == 50) or (pager &gt; 1 and count_detail == 56)">
+                                                <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>
+                                            </t>
+                                            <t t-if="inv_no and tax_transfer_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail)">
+                                                <tr style="height: 15px; vertical-align: top;">
+                                                    <td style="padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 60px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 80px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div t-if="tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher'"
+                                                             style="display: inline-block; width: 440px;">
+                                                            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                消費税
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 75px; text-align: right;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 34px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 90px; text-align: right;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            <p t-if="(tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher')"
+                                                               t-esc="'{0:,.0f}'.format(o.limit_number_field(int(amount_tax_previous_data), 11))"
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <t t-set="count_detail" t-value="count_detail + 1"/>
+                                            </t>
+                                            <t t-if="inv_no and summary_total_amount_previous_data and inv_no != line_detail.invoice_no and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail)">
+                                                <tr style="height: 45px; vertical-align: top;">
+                                                    <td style="padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 60px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 80px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 440px; overflow: hidden;">
+                                                            <span t-esc="bill_draft.limit_charater_field(string_summary_previous_data, 12)"
+                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 75px; text-align: right;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 34px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 90px; text-align: right;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            <span>(</span>
+                                                            <span t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(summary_total_amount_previous_data), 8))"
+                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </span>
+                                                            <span>)</span>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <t t-set="count_detail" t-value="count_detail + 3"/>
+                                            </t>
+
+                                            <t t-if="o.customer_tax_unit == 'invoice'">
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 1">
+                                                    <t t-set="count_rows_total_page_detail" t-value="2"/>
+                                                    <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                        <td style="padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 60px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 80px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 440px;">
+                                                                <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                                    （税別御買上計）
+                                                                </div>
+                                                                <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                                    <t>
+                                                                        <span>（10％対象）</span>
+                                                                        <br/>
+                                                                    </t>
+                                                                    <t>
+                                                                        <span>（8％対象）</span>
+                                                                    </t>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 75px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 34px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 90px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; float: right; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(10, customer_code_previous_data)), 11))"/>
+                                                                <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(8, customer_code_previous_data)), 11))"/>
+                                                                <div t-if="o.subtotal_amount_tax_child(0, customer_code_previous_data)"
+                                                                     t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(0, customer_code_previous_data)), 11))"/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-if="o.subtotal_amount_tax_child(0, customer_code_previous_data)"
+                                                       t-set="count_detail" t-value="count_detail + 3"/>
+                                                    <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                                </t>
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 2">
+                                                    <t t-set="count_rows_total_page_detail" t-value="3"/>
+                                                    <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                        <td style="padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 60px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 80px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 440px;">
+                                                                <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                                    （消費税）
+                                                                </div>
+                                                                <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                                    <t>
+                                                                        <span>（10％消費税）</span>
+                                                                        <br/>
+                                                                    </t>
+                                                                    <t>
+                                                                        <span>（8％消費税）</span>
+                                                                    </t>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 75px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 34px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 90px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(10, customer_code_previous_data)), 11))"/>
+                                                                <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(8, customer_code_previous_data)), 11))"/>
+                                                                <div t-if="o.amount_tax_child(0, customer_code_previous_data)"
+                                                                     t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(0, customer_code_previous_data)), 11))"/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-if="o.amount_tax_child(0, customer_code_previous_data)"
+                                                       t-set="count_detail" t-value="count_detail + 3"/>
+                                                    <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                                </t>
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 3">
+                                                    <t t-set="count_rows_total_page_detail" t-value="4"/>
+                                                    <tr style="height: 15px;vertical-align: top; overflow: hidden;">
+                                                        <td style="padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 60px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 80px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 440px;">
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    【　合　　計　】
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 75px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 34px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 90px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                <span t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(line_detail.bill_invoice_id.amount_total), 11))"/><br/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-set="count_detail" t-value="count_detail + 1"/>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 1">
+                                                    <t t-set="count_rows_total_page_detail" t-value="2"/>
+                                                    <tr style="height: 15px;vertical-align: top; overflow: hidden;">
+                                                        <td style="padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 60px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 80px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 440px;">
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    【　合　　計　】
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 75px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 34px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 90px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                <span t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_for_customer(customer_code_previous_data)), 11))"/><br/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-set="count_detail" t-value="count_detail + 1"/>
+                                                </t>
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 2">
+                                                    <t t-set="count_rows_total_page_detail" t-value="3"/>
+                                                    <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                        <td style="padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 60px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 80px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 440px;">
+                                                                <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                                    （税別御買上計）
+                                                                </div>
+                                                                <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                                    <t>
+                                                                        <span>（10％対象）</span>
+                                                                        <br/>
+                                                                    </t>
+                                                                    <t>
+                                                                        <span>（8％対象）</span>
+                                                                    </t>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 75px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 34px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 90px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; float: right; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(10, customer_code_previous_data)), 11))"/>
+                                                                <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(8, customer_code_previous_data)), 11))"/>
+                                                                <div t-if="o.subtotal_amount_tax_child(0, customer_code_previous_data)"
+                                                                     t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(0, customer_code_previous_data)), 11))"/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-if="o.subtotal_amount_tax_child(0, customer_code_previous_data)"
+                                                       t-set="count_detail" t-value="count_detail + 3"/>
+                                                    <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                                </t>
+                                                <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail) and count_rows_total_page_detail == 3">
+                                                    <t t-set="count_rows_total_page_detail" t-value="4"/>
+                                                    <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                        <td style="padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 60px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 80px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                    <null/>
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 440px;">
+                                                                <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                                    （消費税）
+                                                                </div>
+                                                                <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                                    <t>
+                                                                        <span>（10％消費税）</span>
+                                                                        <br/>
+                                                                    </t>
+                                                                    <t>
+                                                                        <span>（8％消費税）</span>
+                                                                    </t>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 75px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 34px; text-align: center;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 90px; text-align: right;">
+                                                                <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                </p>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                            <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                                <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(10, customer_code_previous_data)),11))"/>
+                                                                <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(8, customer_code_previous_data)), 11))"/>
+                                                                <div t-if="o.amount_tax_child(0, customer_code_previous_data)"
+                                                                     t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(0, customer_code_previous_data)), 11))"/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-if="o.amount_tax_child(0, customer_code_previous_data)"
+                                                       t-set="count_detail" t-value="count_detail + 3"/>
+                                                    <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                                </t>
+                                            </t>
+                                            <t t-if="customer_code_previous_data and customer_code_previous_data != line_detail.customer_code and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail)">
+                                                <tr style="height: 45px; vertical-align: top;">
+                                                    <td style="border-top: 1px dashed #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 60px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 80px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 440px;">
+                                                            <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                                <span>得意先コード</span>
+                                                                <br/>
+                                                                <span>得意先名</span>
+                                                            </div>
+                                                            <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                                <span t-field="line_detail.customer_code"/>
+                                                                <br/>
+                                                                <span t-field="line_detail.customer_name"/>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 75px; text-align: right;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 34px; text-align: center;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 90px; text-align: right;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right;">
+                                                            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <t t-set="count_detail" t-value="count_detail + 3"/>
+                                            </t>
+                                            <!--Set tax transfer of the previous data-->
+                                            <t t-set="tax_transfer_previous_data"
+                                               t-value="line_detail.x_voucher_tax_transfer"/>
+                                            <!--Set amount tax of the previous data-->
+                                            <t t-set="amount_tax_previous_data"
+                                               t-value="line_detail.bill_invoice_id.amount_tax"/>
+                                            <!--Set string summary of the previous data-->
+                                            <t t-set="string_summary_previous_data"
+                                               t-value="line_detail.bill_invoice_id.x_studio_summary"/>
+                                            <!--Set summary total amount of the previous data-->
+                                            <t t-set="summary_total_amount_previous_data"
+                                               t-value="line_detail.bill_invoice_id.amount_total"/>
+                                            <!--Set amount tax of the previous data-->
+                                            <t t-set="amount_total_child_previous_data"
+                                               t-value="line_detail.bill_invoice_id.amount_total"/>
+                                            <!--Set customer code of the previous data-->
+                                            <t t-if="count_rows_total_page_detail == 1 or count_rows_total_page_detail == 4">
+                                                <t t-set="customer_code_previous_data"
+                                                   t-value="line_detail.customer_code"/>
+                                                <t t-set="count_rows_total_page_detail" t-value="1"/>
+                                            </t>
+                                            <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail))">
+                                                <tr style="max-height: 45px; vertical-align: top; overflow: hidden;">
+                                                    <td style="padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 60px; text-align: center;">
+                                                            <p t-if="inv_no != line_detail.invoice_no"
+                                                               t-field="line_detail.invoice_date"
+                                                               t-options="{&quot;format&quot;: &quot;yy/MM/dd&quot;}"
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                            <!--                                                            <t t-set="inv_date" t-value="line_detail.invoice_date"/>-->
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 80px; text-align: center;">
+                                                            <p t-if="inv_no != line_detail.invoice_no"
+                                                               t-field="line_detail.invoice_no"
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                                <null/>
+                                                            </p>
+                                                            <t t-set="inv_no" t-value="line_detail.invoice_no"/>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div t-if="line_detail.account_move_line_id"
+                                                             style="display: inline-block; width: 440px;">
+                                                            <div style="max-height: 28px; white-space: nowrap; text-overflow: ellipsis; vertical-align: top; display: inline-block; width: 290px; overflow: hidden; margin: 0; padding-bottom: 1px">
+                                                                <t t-if="bill_draft.limit_charater_field(line_detail.product_name, 20, True, False)">
+                                                                    <span t-esc="bill_draft.limit_charater_field(line_detail.product_name, 20, True)"/>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span style="font-size: 16px" t-esc="bill_draft.limit_charater_field(line_detail.product_name, 18, True)"/>
+                                                                </t>
+                                                                <t t-if="bill_draft.limit_charater_field(line_detail.product_name, 20, True, False)">
+                                                                    <br/>
+                                                                    <span t-esc="bill_draft.limit_charater_field(line_detail.product_name, 20, True, False)"/>
+                                                                </t>
+                                                            </div>
+                                                            <div style="display: inline-block; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                <t t-if="line_detail.product_maker_name">
+                                                                    <span t-esc="bill_draft.limit_charater_field(line_detail.product_maker_name, 10)"/>
+                                                                    <br/>
+                                                                </t>
+                                                                <t t-if="line_detail.product_custom_standardnumber">
+                                                                    <span t-if="line_detail.product_custom_standardnumber"
+                                                                          t-esc="bill_draft.limit_charater_field(line_detail.product_custom_standardnumber, 10)"/>
+                                                                </t>
+                                                            </div>
+                                                            <br/>
+                                                            <span t-if="line_detail.account_move_line_id.product_id.product_tax_category == 'exempt'">
+                                                                ※非課税
+                                                            </span>
+                                                            <span t-elif="line_detail.tax_rate ==8">※軽減税率</span>
+                                                        </div>
+                                                        <div t-else="" style="display: inline-block; width: 440px;">
+                                                            <span tyle="max-height: 28px; vertical-align: top; display: inline-block; max-width: 235px; overflow: hidden; margin: 0; padding-bottom: 1px;">
+                                                                【入金　（
+                                                            </span>
+                                                            <span t-field="line_detail.payment_category"
+                                                                  style="max-width: 62px; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
+                                                            </span>
+                                                            <span style="max-width: 62px; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;">
+                                                                ）】
+                                                            </span>
+                                                            <!-- Add row payment apply comment - start -->
+                                                            <t t-if="line_detail.payment_id.comment_apply">
+                                                                <br/>
+                                                                <span t-esc="bill_draft.limit_charater_field(line_detail.payment_id.comment_apply, 30)"
+                                                                      style="max-width: 62px; white-space: nowrap; overflow: hidden; margin: 0; vertical-align: top;"/>
+                                                            </t>
+                                                            <!-- Add row payment apply comment - end -->
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 75px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            <p t-if="line_detail.account_move_line_id"
+                                                               t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(line_detail.quantity), 7))"
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 34px; text-align: center;">
+                                                            <p t-if="line_detail.account_move_line_id"
+                                                               t-esc="bill_draft.limit_charater_field(line_detail.product_uom, 2)"
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 90px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            <span t-if="line_detail.account_move_line_id and line_detail.price_unit % 1 &gt; 0"
+                                                                  t-esc="'{0:,.2f}'.format(bill_draft.limit_number_field(line_detail.price_unit, 8), True)"
+                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </span>
+                                                            <span t-if="line_detail.account_move_line_id and line_detail.price_unit % 1 == 0"
+                                                                  t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(line_detail.price_unit, 8), True)"
+                                                                  style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </span>
+                                                            <span t-if="line_detail.x_voucher_tax_transfer == 'internal_tax'">
+                                                                ※
+                                                            </span>
+                                                        </div>
+                                                    </td>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                        <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            <p t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(line_detail.line_amount), 8))"
+                                                               style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            </p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <t t-set="count_detail"
+                                                   t-value="count_detail + line_detail.count_detail_line()"/>
+                                            </t>
+                                            <t t-if="(pager == 1 and count_detail == 21) or (pager &gt; 1 and count_detail == 23)">
+                                                <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>
+                                            </t>
+                                        </t>
+                                    </t>
+
+                                    <t t-if="tax_transfer_previous_data and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1)">
+                                        <tr style="height: 15px; vertical-align: top;">
+                                            <td style="padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 60px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <null/>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 80px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <null/>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div t-if="tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher'"
+                                                     style="display: inline-block; width: 440px;">
+                                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        消費税
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 75px; text-align: right;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 34px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 90px; text-align: right;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                    <p t-if="(tax_transfer_previous_data == 'foreign_tax' or tax_transfer_previous_data == 'voucher')"
+                                                       t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(amount_tax_previous_data), 11))"
+                                                       style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <t t-set="count_detail" t-value="count_detail + 1"/>
+                                        <t t-set="tax_transfer_previous_data" t-value=""/>
+                                    </t>
+                                    <t t-if="summary_total_amount_previous_data and ((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1)">
+                                        <tr style="height: 45px; vertical-align: top;">
+                                            <td style="padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 60px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <null/>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 80px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        <null/>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 440px; overflow: hidden;">
+                                                    <span t-esc="bill_draft.limit_charater_field(string_summary_previous_data, 12)"
+                                                          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 75px; text-align: right;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 34px; text-align: center;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 90px; text-align: right;">
+                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                    <span>(</span>
+                                                    <span t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(summary_total_amount_previous_data), 8))"
+                                                          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                    </span>
+                                                    <span>)</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <t t-set="count_detail" t-value="count_detail + 3"/>
+                                        <t t-set="summary_total_amount_previous_data" t-value=""/>
+                                    </t>
+
+                                    <!--Display 【合計、税別御買上計、消費税】-->
+                                    <t t-if="o.customer_tax_unit == 'invoice'">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 1">
+                                            <t t-set="count_rows_total_page_detail" t-value="2"/>
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                            （税別御買上計）
+                                                        </div>
+                                                        <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                            <t>
+                                                                <span>（10％対象）</span>
+                                                                <br/>
+                                                            </t>
+                                                            <t>
+                                                                <span>（8％対象）</span>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; float: right; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(10, customer_code_previous_data)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(8, customer_code_previous_data)), 11))"/>
+                                                        <div t-if="o.subtotal_amount_tax_child(0, customer_code_previous_data)"
+                                                             t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(0, customer_code_previous_data)), 11))"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-if="o.subtotal_amount_tax_child(0, customer_code_previous_data)"
+                                               t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                        </t>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 2">
+                                            <t t-set="count_rows_total_page_detail" t-value="3"/>
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                            （消費税）
+                                                        </div>
+                                                        <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                            <t>
+                                                                <span>（10％消費税）</span>
+                                                                <br/>
+                                                            </t>
+                                                            <t>
+                                                                <span>（8％消費税）</span>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(10, customer_code_previous_data)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(8, customer_code_previous_data)), 11))"/>
+                                                        <div t-if="o.amount_tax_child(0, customer_code_previous_data)"
+                                                             t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(0, customer_code_previous_data)), 11))"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-if="o.amount_tax_child(0, customer_code_previous_data)"
+                                               t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                        </t>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 3">
+                                            <t t-set="count_rows_total_page_detail" t-value="4"/>
+                                            <tr style="height: 15px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            【　合　　計　】
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <span t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_for_customer(customer_code_previous_data)), 11))"/><br/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-set="count_detail" t-value="count_detail + 1"/>
+                                        </t>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 1">
+                                            <t t-set="count_rows_total_page" t-value="2"/>
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                <td style="border-top: 1px dashed #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                            （税別御買上計）
+                                                        </div>
+                                                        <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                            <t>
+                                                                <span>（10％対象）</span>
+                                                                <br/>
+                                                            </t>
+                                                            <t>
+                                                                <span>（8％対象）</span>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; float: right; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax(10)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax(8)), 11))"/>
+                                                        <div t-if="o.subtotal_amount_tax()"
+                                                             t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax()), 11))"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-if="o.subtotal_amount_tax()" t-set="count_detail"
+                                               t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                        </t>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 2">
+                                            <t t-set="count_rows_total_page" t-value="3"/>
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                            （消費税）
+                                                        </div>
+                                                        <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                            <t>
+                                                                <span>（10％消費税）</span>
+                                                                <br/>
+                                                            </t>
+                                                            <t>
+                                                                <span>（8％消費税）</span>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <!--                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/>-->
+                                                        <!--                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/>-->
+                                                        <t t-if="o.amount_tax(8)">
+                                                            <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax(10)), 11))"/>
+                                                            <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(bill_draft.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(bill_draft.tax_amount - o.amount_tax()), 11))"/>
+                                                            <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax(8)), 11))"/>
+                                                        </t>
+                                                        <div t-if="o.amount_tax()"
+                                                             t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax()), 11))"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-if="o.amount_tax()" t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                        </t>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 3">
+                                            <tr style="height: 45px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            【　合　　計　】
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <span t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(bill_draft.amount_total), 11))"/><br/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-set="count_detail" t-value="count_detail + 3"/>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 1">
+                                            <t t-set="count_rows_total_page_detail" t-value="2"/>
+                                            <tr style="height: 15px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            【　合　　計　】
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <span t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_for_customer(customer_code_previous_data)), 11))"/><br/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-set="count_detail" t-value="count_detail + 1"/>
+                                        </t>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 2">
+                                            <t t-set="count_rows_total_page_detail" t-value="3"/>
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                            （税別御買上計）
+                                                        </div>
+                                                        <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                            <t>
+                                                                <span>（10％対象）</span>
+                                                                <br/>
+                                                            </t>
+                                                            <t>
+                                                                <span>（8％対象）</span>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; float: right; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(10, customer_code_previous_data)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(8, customer_code_previous_data)), 11))"/>
+                                                        <div t-if="o.subtotal_amount_tax_child(0, customer_code_previous_data)"
+                                                             t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax_child(0, customer_code_previous_data)), 11))"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-if="o.subtotal_amount_tax_child(0, customer_code_previous_data)"
+                                               t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                        </t>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page_detail == 3">
+                                            <t t-set="count_rows_total_page_detail" t-value="4"/>
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                            （消費税）
+                                                        </div>
+                                                        <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                            <t>
+                                                                <span>（10％消費税）</span>
+                                                                <br/>
+                                                            </t>
+                                                            <t>
+                                                                <span>（8％消費税）</span>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(10, customer_code_previous_data)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(8, customer_code_previous_data)), 11))"/>
+                                                        <div t-if="o.amount_tax_child(0, customer_code_previous_data)"
+                                                             t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax_child(0, customer_code_previous_data)), 11))"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-if="o.amount_tax_child(0, customer_code_previous_data)"
+                                               t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                        </t>
+
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 1">
+                                            <t t-set="count_rows_total_page" t-value="2"/>
+                                            <tr style="height: 15px;vertical-align: top; overflow: hidden;">
+                                                <td style="border-top: 1px dashed #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            【　合　　計　】
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-top: 1px dashed #000000; border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <span t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(bill_draft.amount_total), 11))"/><br/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-set="count_detail" t-value="count_detail + 1"/>
+                                        </t>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 2">
+                                            <t t-set="count_rows_total_page" t-value="3"/>
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                            （税別御買上計）
+                                                        </div>
+                                                        <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                            <t>
+                                                                <span>（10％対象）</span>
+                                                                <br/>
+                                                            </t>
+                                                            <t>
+                                                                <span>（8％対象）</span>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; float: right; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax(10)), 11))"/>
+                                                        <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax(8)), 11))"/>
+                                                        <div t-if="o.subtotal_amount_tax()"
+                                                             t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.subtotal_amount_tax()), 11))"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-if="o.subtotal_amount_tax()" t-set="count_detail"
+                                               t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                        </t>
+                                        <t t-if="((pager == 1 and 50 &gt;= count_detail) or (pager &gt; 1 and 56 &gt;= count_detail)) and (count_invoice_detail &gt;= count_page_detail - 1) and count_rows_total_page == 3">
+                                            <tr style="max-height: 45px;vertical-align: top; overflow: hidden;">
+                                                <td style="padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 60px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 80px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                            <null/>
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 440px;">
+                                                        <div style="display: inline-block; width: 40%; float: left; text-align: left;">
+                                                            （消費税）
+                                                        </div>
+                                                        <div style="display: inline-block; width: 60%; float: right; text-align: left;">
+                                                            <t>
+                                                                <span>（10％消費税）</span>
+                                                                <br/>
+                                                            </t>
+                                                            <t>
+                                                                <span>（8％消費税）</span>
+                                                            </t>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 75px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 34px; text-align: center;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 90px; text-align: right;">
+                                                        <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;">
+                                                    <div style="display: inline-block; width: 100px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                        <!--                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.amount_tax(10)), 11))"/>-->
+                                                        <!--                                                        <div t-esc="'{0:,.0f}'.format(o.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax())), 11)"/>-->
+                                                        <t t-if="o.amount_tax(8)">
+                                                            <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax(10)), 11))"/>
+                                                            <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.tax_amount - o.amount_tax(10) - o.amount_tax()), 11))"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(bill_draft.tax_amount - o.amount_tax()), 11))"/>
+                                                            <div t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax(8)), 11))"/>
+                                                        </t>
+                                                        <div t-if="o.amount_tax()"
+                                                             t-esc="'{0:,.0f}'.format(bill_draft.limit_number_field(int(o.amount_tax()), 11))"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <t t-if="o.amount_tax()" t-set="count_detail" t-value="count_detail + 3"/>
+                                            <t t-else="" t-set="count_detail" t-value="count_detail + 2"/>
+                                        </t>
+                                    </t>
+
+                                    <!--Set count_page_detail when record detail is smaller than record detail of default page-->
+<!--                                    <t t-if="(pager == 1 and 50 &gt; count_invoice_detail) or (pager &gt; 1 and 56 &gt; count_invoice_detail)">-->
+<!--                                        <t t-set="count_page_detail" t-value="count_invoice_detail + 1"/>-->
+<!--                                    </t>-->
+                                    <t t-if="count_rows_total_page_detail == 4">
+                                        <t t-set="count_rows_total_page_detail" t-value="1"/>
+                                    </t>
+
+                                    <!--Display empty rows at the end page-->
+                                    <t t-if="range_total_page_detail == (total_page_detail - 1)">
+                                        <t t-set="rows_detail_default" t-value="50"/>
+                                        <t t-if="pager &gt; 1">
+                                            <t t-set="rows_detail_default" t-value="56"/>
+                                        </t>
+                                        <t t-if="rows_detail_default &gt; count_detail">
+                                            <!--line_empty = rows_detail_default - (rows_detail + total_rows_of_【合計、税別御買上計、消費税】))-->
+                                            <t t-set="line_empty" t-value="rows_detail_default - (count_detail - 1)"/>
+                                            <t t-foreach="range(0,line_empty)" t-as="range_line_empty">
+                                                <tr style="height: 15px;vertical-align: top;">
+                                                    <td style="padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                <span>単価の※印は税込商品です。</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
