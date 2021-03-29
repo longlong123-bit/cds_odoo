@@ -26,7 +26,7 @@
         'views/menu_bill_management.xml',
         'views/many_payment_view.xml',
         'views/bill_details.xml',
-        'reports/report.xml',
+        'views/report.xml',
         'reports/reports.xml',
         'reports/normal_reports_draft.xml',
         'reports/abstract_payment_reports_draft.xml',
