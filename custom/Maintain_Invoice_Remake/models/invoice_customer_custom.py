@@ -582,6 +582,7 @@ class ClassInvoiceCustom(models.Model):
                     line._onchange_product_barcode()
         elif self.copy_history_from == 'duplicated':
             self.invoice_line_ids = [(0, False, {
+                'partner_id': self.invoice_line_ids[int(self.copy_history_item)].partner_id,
                 'x_invoicelinetype': self.invoice_line_ids[int(self.copy_history_item)].x_invoicelinetype,
                 'product_id': self.invoice_line_ids[int(self.copy_history_item)].product_id.id,
                 'product_code': self.invoice_line_ids[int(self.copy_history_item)].product_code,
