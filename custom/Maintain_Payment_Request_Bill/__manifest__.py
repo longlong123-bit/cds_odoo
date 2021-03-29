@@ -21,6 +21,7 @@
         'reports/abstract_payment_reports.xml',
         'reports/normal_invoice_for_earch_customer_report.xml',
         'reports/deposit_reports.xml',
+        'reports/deposit_reports_1.xml',
         'views/add_js.xml',
         'views/report_format.xml',
         'views/payment_request_bill.xml',
