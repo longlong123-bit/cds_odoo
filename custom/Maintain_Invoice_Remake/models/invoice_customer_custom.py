@@ -2373,9 +2373,14 @@ class AccountMoveLine(models.Model):
             if line.x_invoicelinetype == '通常':
                 if line.quantity < 0:
                     line.quantity = line.quantity * (-1)
-            elif line.x_invoicelinetype in ('返品', '値引'):
+            elif line.x_invoicelinetype == '返品':
                 if line.quantity > 0:
                     line.quantity = line.quantity * (-1)
+            elif line.x_invoicelinetype == '値引':
+                if line.product_barcode == False and line.quantity > 0:
+                    line.quantity = line.quantity * (-1)
+                else:
+                    line.quantity = line.quantity
             elif line.x_invoicelinetype == 'サンプル':
                 line.quantity = 0
                 line.price_unit = 0
