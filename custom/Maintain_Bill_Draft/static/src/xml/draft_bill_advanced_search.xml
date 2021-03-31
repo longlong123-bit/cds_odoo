@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="draft_bill.advanced_search">
+        <table>
+            <tr>
+                <th>Customer Closing Date</th>
+                <td>
+                    <input class="filter-item" id="customer_closing_date" data-operator="=like" data-name="partner_id.customer_closing_date.closing_date_code"
+                           onblur="changeClosingDate()" type="search"/>
+                </td>
+                <script>
+                    function changeClosingDate(){
+                        closing_date = document.getElementById("customer_closing_date").value;
+                        $.ajax({
+                            url: "/draft_bill_api",
+                            type: "POST",
+                            data: {"content": closing_date},
+                            dataType: 'json',
+                            traditional: true,
+                            success: function(result){
+                                document.getElementById("deadline").value = result.content.deadline;
+                            },
+                            error: function(result){
+                                console.log(result);
+                            }
+                        });
+                    }
+                </script>
+            </tr>
+            <tr>
+                <th>Excerpt Request</th>
+                <td>
+                    <select class="filter-item" data-operator="eq" data-name="customer_excerpt_request"
+                            style="height:21px">
+                        <option value='False'>No</option>
+                        <option value='True'>Yes</option>
+                        <option value='All'>All</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>The Deadline</th>
+                <td>
+                    <input class="filter-item" id='deadline' data-operator="like" data-name="closing_date" type="date"/>
+                </td>
+                <script>
+                    document.getElementById('deadline').value = moment().format('YYYY-MM-DD');
+                </script>
+            </tr>
+            <tr>
+                <th>Department</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="hr_department_id" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Representative/Agent</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="hr_employee_id" type="search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Supplier Group</th>
+                <td>
+                    <input class="filter-item" id="business_partner_group_custom_id" data-operator="ilike" data-name="business_partner_group_custom_id"
+                           onblur="changePartnerGroupCustomId()" type="search"/>
+                </td>
+                <script>
+                    function changePartnerGroupCustomId(){
+                        partner_group = document.getElementById("business_partner_group_custom_id").value;
+                        $.ajax({
+                            url: "/draft_bill_api_custom",
+                            type: "POST",
+                            data: {"content": partner_group},
+                            dataType: 'json',
+                            traditional: true,
+                            success: function(result){
+                                document.getElementById("deadline").value = result.content.deadline;
+                            },
+                            error: function(result){
+                                console.log(result);
+                            }
+                        });
+                    }
+                </script>
+            </tr>
+            <tr>
+                <th>Billing Address</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="billing_code" type="search"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="billing_code" type="search"/>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>
