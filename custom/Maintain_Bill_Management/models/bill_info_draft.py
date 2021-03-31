@@ -1732,6 +1732,5 @@ class BillInfoClass(models.Model):
         return a
     # TH - done
 
-    _sql_constraints = [('bill_info_draft', 'unique(billing_code, last_closing_date, deadline)', 'This data has been billed.')]
 
 
