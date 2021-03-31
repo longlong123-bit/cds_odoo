@@ -128,8 +128,7 @@ class BillingClass(models.Model):
                 for payment_line in payment_id.account_payment_line_ids:
                     if payment_line.receipt_divide_custom_id.name in ['手数料', '値引']:
                         _payment_cost_and_discount += payment_line.payment_amount
-            # Compute data for balance_amount field
-            _balance_amount = _last_billed_amount - _deposit_amount
+                        _deposit_amount -= payment_line.payment_amount
 
             _line_compute_amount_tax = 0
             for invoice in invoice_ids:
@@ -197,6 +196,9 @@ class BillingClass(models.Model):
                         _amount_total = _amount_total + _tax_amount
                 elif invoice.x_voucher_tax_transfer == 'invoice':
                     _line_compute_amount_tax = rounding(_line_compute_amount_tax, 0, record.customer_tax_rounding)
+
+            # Compute data for balance_amount field
+            _balance_amount = _last_billed_amount - _deposit_amount - _payment_cost_and_discount
 
             _tax_amount = _tax_amount + _line_compute_amount_tax
             _amount_total = _amount_total + _line_compute_amount_tax
