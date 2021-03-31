@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- TREE VIEW -->
+    <record model="ir.ui.view" id="bm_draft_bill_tree">
+        <field name="name">bm.draft.bill.tree</field>
+        <field name="model">bill.info.draft</field>
+        <field name="arch" type="xml">
+            <tree string="Draft Bill Tree" class="forward_edit">
+                <field name="billing_code"/>
+                <field name="billing_name"/>
+                <field name="bill_no"/>
+                <field name="bill_date" invisible="1"/>
+                <field name="last_closing_date"/>
+                <field name="deadline"/>
+                <field name="last_billed_amount"/>
+                <field name="deposit_amount"/>
+                <field name="balance_amount"/>
+                <field name="amount_untaxed" string="Bill Amount Untaxed Draft"/>
+                <field name="tax_amount" string="Bill Tax Amount"/>
+                <field name="amount_total" invisible="1"/>
+                <field name="billed_amount"/>
+                <field name="closing_date" invisible="1"/>
+                <field name="customer_other_cd" string="Customer CD"/>
+                <field name="invoices_number"/>
+                <field name="invoices_details_number" invisible="1"/>
+                <field name="amount_untaxed_cashed" invisible="1"/>
+                <field name="tax_amount_cashed" invisible="1"/>
+                <field name="amount_total_cashed" invisible="1"/>
+                <field name="partner_id" invisible="1"/>
+                <field name="active_flag" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="bill_invoice_ids" invisible="1"/>
+                <field name="hr_employee_id" invisible="1"/>
+                <field name="hr_department_id" invisible="1"/>
+                <field name="business_partner_group_custom_id" invisible="1"/>
+                <field name="customer_closing_date_id" invisible="1"/>
+                <field name="bill_report_state" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACTIONS -->
+    <record model="ir.actions.act_window" id="action_draft_bill">
+        <field name="name">Draft Billing</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bill.info.draft</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="bm_draft_bill_tree"/>
+        <field name="domain"></field>
+        <field name="context">{'bill_management_module': True, 'view_name': 'Draft Billing'}</field>
+    </record>
+
+    <!-- MENU -->
+    <menuitem id="menu_bill_draft" parent="Maintain_Bill_Management.parent_menu_bill_management" name="Draft Billing"
+              sequence="7"
+              action="action_draft_bill"/>
+</odoo>
