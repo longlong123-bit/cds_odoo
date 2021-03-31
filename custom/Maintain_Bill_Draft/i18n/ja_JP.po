@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* Maintain_Bill_Cancel
+# 	* Maintain_Bill_Draft
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-16 11:35+0000\n"
-"PO-Revision-Date: 2020-06-16 11:35+0000\n"
+"POT-Creation-Date: 2021-03-31 04:33+0000\n"
+"PO-Revision-Date: 2021-03-31 04:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,116 +15,549 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: Maintain_Bill_Cancel
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Cancel.bm_cancel_bill_tree
-msgid "Bill Amount Untaxed"
-msgstr "売上金額"
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+msgid ""
+"<span style=\"font-size: 24px; font-weight: 600\">株式会社　ト　ラ　ヤ</span>\n"
+"                                    <br/>\n"
+"                                    <span>代表取締役　　遠 藤 孝 二</span>\n"
+"                                    <br/>\n"
+"                                    <span>本社　千葉県銚子市新生町二丁目12番地の5</span>\n"
+"                                    <br/>\n"
+"                                    <span>TEL　0479-22-3515　FAX　0479-24-9376</span>\n"
+"                                    <br/>\n"
+"                                    <span>神栖営業所 　茨城県神栖市溝口６３２－２</span>\n"
+"                                    <br/>\n"
+"                                    <span>TEL　0299-97-4416　FAX　0299-90-6500</span>\n"
+"                                    <br/>"
+msgstr ""
 
-#. module: Maintain_Bill_Cancel
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Cancel.bm_cancel_bill_tree
-msgid "Bill Tax Amount"
-msgstr "消費税"
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid ""
+"<span style=\"font-size: 24px; font-weight: 600\">株式会社　ト　ラ　ヤ</span>\n"
+"                                    <br/>\n"
+"                                    <span>代表取締役　　遠 藤 孝 二</span>\n"
+"                                    <br/>\n"
+"                                    <span>本社　千葉県銚子市新生町二丁目12番地の5</span>\n"
+"                                    <br/>\n"
+"                                    <span>TEL　0479-22-3515　FAX　0479-24-9376</span>\n"
+"                                    <br/>\n"
+"                                    <span>神栖営業所　 茨城県神栖市溝口６３２－２</span>\n"
+"                                    <br/>\n"
+"                                    <span>TEL　0299-97-4416　FAX　0299-90-6530</span>\n"
+"                                    <br/>"
+msgstr ""
 
-#. module: Maintain_Bill_Cancel
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span style=\"white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;\">\n"
+"                                                                    【　合　　計　】\n"
+"                                                                </span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span style=\"white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;\">\n"
+"                                                                消費税\n"
+"                                                            </span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span style=\"white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;\">\n"
+"                                                            【　合　　計　】\n"
+"                                                        </span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span style=\"white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;\">\n"
+"                                                        消費税\n"
+"                                                    </span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span tyle=\"max-height: 28px; vertical-align: top; display: inline-block; max-width: 235px; overflow: hidden; margin: 0; padding-bottom: 1px;\">\n"
+"                                                                【入金　（\n"
+"                                                            </span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "<span>TEL:　</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "<span>　FAX:　</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "<span>お客様コードNo.</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid ""
+"<span>京葉銀行銚子支店 普通No3009882</span>\n"
+"                                            <br/>\n"
+"                                            <span>JAちばみどり銚子支店 普通No3668787</span>\n"
+"                                            <br/>\n"
+"                                            <span>三菱UFJ銀行千葉支店 当座No2485461</span>\n"
+"                                            <br/>\n"
+"                                            <span>常陽銀行銚子支店 普通No0003105</span>\n"
+"                                            <br/>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "<span>単価の※印は税込商品です。</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span>得意先コード</span>\n"
+"                                                                <br/>\n"
+"                                                                <span>得意先名</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "<span>毎度ありがとうございます。下記の通り御請求申し上げます。</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "<span>締切分 (</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "<span>買付先コード: 901373</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid ""
+"<span>銚子信用金庫本店 当座No0000375</span>\n"
+"                                            <br/>\n"
+"                                            <span>銚子商工信用組合新生支店 普通No0232055</span>\n"
+"                                            <br/>\n"
+"                                            <span>千葉銀行銚子支店 普通No1073838</span>\n"
+"                                            <br/>\n"
+"                                            <span>千葉興業銀行銚子支店 普通No0100064</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span>（10％対象）</span>\n"
+"                                                                        <br/>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span>（10％対象）</span>\n"
+"                                                                <br/>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span>（10％消費税）</span>\n"
+"                                                                        <br/>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid ""
+"<span>（10％消費税）</span>\n"
+"                                                                <br/>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid "<span>（8％対象）</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid "<span>（8％消費税）</span>"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
 #. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
-#, python-format
-msgid "Billing Address"
-msgstr "請求先"
-
-#. module: Maintain_Bill_Cancel
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Cancel.bm_cancel_bill_tree
-msgid "Cancel Bill Tree"
-msgstr "請求処理の取消"
-
-#. module: Maintain_Bill_Cancel
-#: model:ir.actions.act_window,name:Maintain_Bill_Cancel.actions_bm_cancel_bill
-#: model:ir.ui.menu,name:Maintain_Bill_Cancel.menu_cancel_bill
-msgid "Cancel Billing"
-msgstr "請求処理の取消"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_button.xml:0
-#, python-format
-msgid "Cancel bill"
-msgstr "実行"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
-#, python-format
-msgid "Customer Closing Date"
-msgstr "締日（締日グループ）"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
-#, python-format
-msgid "Department"
-msgstr "事業部"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
-#, python-format
-msgid "Excerpt Request"
-msgstr "抜粋請求区分"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
-#, python-format
-msgid "No"
-msgstr "なし"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
-#, python-format
-msgid "Representative/Agent"
-msgstr "営業担当者"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
-#, python-format
-msgid "Supplier Group"
-msgstr "取引先グループ"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
-#, python-format
-msgid "The Deadline"
-msgstr "締切日"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
-#, python-format
-msgid "Yes"
-msgstr "あり"
-
-#. module: Maintain_Bill_Cancel
-#. openerp-web
-#: code:addons/Maintain_Bill_Cancel/static/src/xml/cancel_bill_advanced_search.xml:0
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
 #, python-format
 msgid "All"
 msgstr "全て"
 
-#. module: Maintain_Bill_Cancel
-#: model:ir.model,name:Maintain_Bill_Cancel.model_bill_info
-msgid "bill.info"
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.bm_draft_bill_tree
+msgid "Bill Amount Untaxed Draft"
+msgstr "売上金額"
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.bm_draft_bill_tree
+msgid "Bill Tax Amount"
+msgstr "消費税"
+
+#. module: Maintain_Bill_Draft
+#. openerp-web
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
+#, python-format
+msgid "Billing Address"
+msgstr "請求先"
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.bm_draft_bill_tree
+msgid "Customer CD"
+msgstr "その他CD"
+
+#. module: Maintain_Bill_Draft
+#. openerp-web
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
+#, python-format
+msgid "Customer Closing Date"
+msgstr "締日（締日グループ）"
+
+#. module: Maintain_Bill_Draft
+#. openerp-web
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
+#, python-format
+msgid "Department"
+msgstr "事業部"
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.bm_draft_bill_tree
+msgid "Draft Bill Tree"
 msgstr ""
 
-#. module: Maintain_Bill_Cancel
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Cancel.bm_cancel_bill_tree
-msgid "total"
-msgstr "合計"
+#. module: Maintain_Bill_Draft
+#: model:ir.actions.act_window,name:Maintain_Bill_Draft.action_draft_bill
+#: model:ir.ui.menu,name:Maintain_Bill_Draft.menu_bill_draft
+msgid "Draft Billing"
+msgstr "請求仮印刷"
 
-#. module: Maintain_Bill_Cancel
-#: code:addons/Maintain_Bill_Cancel/models/cancel_bill.py:0
+#. module: Maintain_Bill_Draft
+#. openerp-web
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
+#, python-format
+msgid "Excerpt Request"
+msgstr "抜粋請求区分"
+
+#. module: Maintain_Bill_Draft
+#. openerp-web
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
+#, python-format
+msgid "No"
+msgstr "なし"
+
+#. module: Maintain_Bill_Draft
+#: model:ir.actions.report,name:Maintain_Bill_Draft.report
+msgid "Report"
+msgstr "発行"
+
+#. module: Maintain_Bill_Draft
+#. openerp-web
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
+#, python-format
+msgid "Representative/Agent"
+msgstr "営業担当者"
+
+#. module: Maintain_Bill_Draft
+#. openerp-web
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
+#, python-format
+msgid "Supplier Group"
+msgstr "取引先グループ"
+
+#. module: Maintain_Bill_Draft
+#. openerp-web
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
+#, python-format
+msgid "The Deadline"
+msgstr "締切日"
+
+#. module: Maintain_Bill_Draft
+#. openerp-web
+#: code:addons/Maintain_Bill_Draft/static/src/xml/draft_bill_advanced_search.xml:0
+#, python-format
+msgid "Yes"
+msgstr "はい"
+
+#. module: Maintain_Bill_Draft
+#: code:addons/Maintain_Bill_Draft/models/draft_bill.py:0
 #, python-format
 msgid "You can only cancel a billing process that has the latest deadline."
 msgstr "最新締切がある請求処理のみを取消できます。"
+
+#. module: Maintain_Bill_Draft
+#: model:ir.model,name:Maintain_Bill_Draft.model_bill_info_draft
+msgid "bill.info.draft"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid "※軽減税率"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid "※非課税"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+msgid "今 回 御 請 求 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "伝票No"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "伝票日付"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "前 回 御 請 求 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+msgid "前 回 御 預 り 金 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "単 位"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "単　　　価"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "品　　　　　　名"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "年　　月　　日"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "当 月 御 請 求 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "当 月 御 買 上 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "当 月 消 費 税 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+msgid "御 買 上 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+msgid "御 預 り 金 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+msgid "御 預 り 金 額 合 計"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+msgid "御 預 り 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "御　入　金　額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "数　量"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "繰 越 金 額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+msgid "調　整　額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.abstract_payment_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.current_month_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.deposit_report_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_report
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.yamasa_report
+msgid "金　　　額"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid "（消費税）"
+msgstr ""
+
+#. module: Maintain_Bill_Draft
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Draft.normal_invoice_for_each_customer_report
+msgid "（税別御買上計）"
+msgstr ""

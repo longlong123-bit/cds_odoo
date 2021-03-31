@@ -16,11 +16,12 @@
                 <field name="last_billed_amount"/>
                 <field name="deposit_amount"/>
                 <field name="balance_amount"/>
-                <field name="amount_untaxed" string="Bill Amount Untaxed"/>
+                <field name="amount_untaxed" string="Bill Amount Untaxed Draft"/>
                 <field name="tax_amount" string="Bill Tax Amount"/>
                 <field name="amount_total" invisible="1"/>
                 <field name="billed_amount"/>
                 <field name="closing_date" invisible="1"/>
+                <field name="customer_other_cd" string="Customer CD"/>
                 <field name="invoices_number"/>
                 <field name="invoices_details_number" invisible="1"/>
                 <field name="amount_untaxed_cashed" invisible="1"/>
@@ -30,19 +31,17 @@
                 <field name="active_flag" invisible="1"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="bill_invoice_ids" invisible="1"/>
-<!--                <field name="report_status" invisible="1"/>-->
                 <field name="hr_employee_id" invisible="1"/>
                 <field name="hr_department_id" invisible="1"/>
                 <field name="business_partner_group_custom_id" invisible="1"/>
                 <field name="customer_closing_date_id" invisible="1"/>
-                <field name="customer_excerpt_request" invisible="1"/>
                 <field name="bill_report_state" invisible="1"/>
             </tree>
         </field>
     </record>
 
     <!-- ACTIONS -->
-    <record model="ir.actions.act_window" id="actions_bm_cancel_bill">
+    <record model="ir.actions.act_window" id="action_draft_bill">
         <field name="name">Draft Billing</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">bill.info.draft</field>
@@ -53,7 +52,7 @@
     </record>
 
     <!-- MENU -->
-    <menuitem id="menu_cancel_bill" parent="Maintain_Bill_Management.parent_menu_bill_management" name="Draft Billing"
+    <menuitem id="menu_bill_draft" parent="Maintain_Bill_Management.parent_menu_bill_management" name="Draft Billing"
               sequence="7"
-              action="actions_bm_cancel_bill"/>
+              action="action_draft_bill"/>
 </odoo>
