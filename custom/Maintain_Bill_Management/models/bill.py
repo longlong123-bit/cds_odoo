@@ -810,12 +810,12 @@ class BillingClass(models.Model):
 
             payment_ids = self.env['account.payment'].search(payment_domain)
 
-            _bill_no = self.env['ir.sequence'].next_by_code('bill.draft.sequence')
+            _bill_no_draft = self.env['ir.sequence'].next_by_code('bill.draft.sequence')
 
             _bill_info_ids = self.env['bill.info.draft'].create({
                 'billing_code': rec['customer_code'],
                 'billing_name': rec['name'],
-                'bill_no': _bill_no,
+                'bill_no': _bill_no_draft,
                 'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
                 'last_closing_date': rec['last_closing_date'],
                 'closing_date': rec['deadline'],
@@ -847,7 +847,7 @@ class BillingClass(models.Model):
                     'bill_info_id': _bill_info_ids.id,
                     'billing_code': rec['customer_code'],
                     'billing_name': rec['name'],
-                    'bill_no': _bill_no,
+                    'bill_no': _bill_no_draft,
                     'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
                     'last_closing_date': rec['last_closing_date'],
                     'closing_date': rec['deadline'],
@@ -879,7 +879,7 @@ class BillingClass(models.Model):
                         'bill_invoice_id': _bill_invoice_ids.id,
                         'billing_code': rec['customer_code'],
                         'billing_name': rec['name'],
-                        'bill_no': _bill_no,
+                        'bill_no': _bill_no_draft,
                         'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
                         'last_closing_date': rec['last_closing_date'],
                         'closing_date': rec['deadline'],
@@ -908,7 +908,7 @@ class BillingClass(models.Model):
                     # 'bill_invoice_id': _bill_invoice_ids.id,
                     'billing_code': rec['customer_code'],
                     'billing_name': rec['name'],
-                    'bill_no': _bill_no,
+                    'bill_no': _bill_no_draft,
                     'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
                     'last_closing_date': rec['last_closing_date'],
                     'closing_date': rec['deadline'],
