@@ -277,6 +277,26 @@ class CollationPayment(models.Model):
                     # if record[0] != 'search_category':
                     domain += [record]
                 args = domain
+
+            elif 'Draft Billing' == ctx.get('view_name'):
+                for se in args:
+                    if se[0] == '&':
+                        continue
+                    if 'customer_closing_date_id' == se[0]:
+                        if se[2].isnumeric():
+                            se[0] = 'customer_closing_date_id.start_day'
+                            se[1] = '='
+                    if 'customer_excerpt_request' == se[0]:
+                        if se[2] == 'True':
+                            se[2] = True
+                            # domain += [se]
+                        elif se[2] == 'False':
+                            se[2] = False
+                        else:
+                            continue
+                    domain += [se]
+                args = domain
+                print(ctx.get('view_name'))
         if 'Cancel Billing' == ctx.get('view_name') and len(args) == 0:
             return []
         elif 'bill_report' == ctx.get('view_code') and len(args) == 0:
@@ -284,6 +304,8 @@ class CollationPayment(models.Model):
         elif 'Billing List' == ctx.get('view_name') and len(args) == 0:
             return []
         elif 'Bill History' == ctx.get('view_name') and len(args) == 0:
+            return []
+        elif 'Draft Billing' == ctx.get('view_name') and len(args) == 0:
             return []
 
         # res = super(CollationPayment, self).search(args=domain, offset=offset, limit=limit, order=order, count=count)

@@ -26,11 +26,22 @@
         'views/menu_bill_management.xml',
         'views/many_payment_view.xml',
         'views/bill_details.xml',
+        'views/report.xml',
+        'reports/reports.xml',
+        'reports/normal_reports_draft.xml',
+        'reports/abstract_payment_reports_draft.xml',
+        'reports/current_month_reports_draft.xml',
+        'reports/deposit_reports_draft.xml',
+        'reports/deposit_reports_draft_1.xml',
+        'reports/normal_invoice_for_earch_customer_report_draft.xml',
+        'reports/yamasa_invoice_reports_draft.xml',
+        'reports/deposit_reports_draft.xml'
     ],
     'qweb': [
         'static/src/xml/bill_advanced_search.xml',
         'static/src/xml/bill_product_lines.xml',
         'static/src/xml/create_bill_button.xml',
+        'static/src/xml/create_and_print_bill_button.xml',
     ],
 
     # only loaded in demonstration mode

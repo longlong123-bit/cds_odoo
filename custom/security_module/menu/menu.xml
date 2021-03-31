@@ -58,6 +58,9 @@
     <record id="Maintain_Bill_Cancel.menu_cancel_bill" model="ir.ui.menu">
         <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
     </record>
+    <record id="Maintain_Bill_Draft.menu_bill_draft" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
+    </record>
     <record id="Maintain_Bill_List.menu_list_bill" model="ir.ui.menu">
         <field name="groups_id" eval="[(4, ref('base.group_erp_manager'))]"/>
     </record>
