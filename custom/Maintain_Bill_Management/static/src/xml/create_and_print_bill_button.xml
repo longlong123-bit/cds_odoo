@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template id="create_bill_button_custom" xml:space="preserve">
           <t t-extend="ListView.buttons">
-            <t t-jquery="button.o_list_button_add" t-operation="after">
+            <t t-jquery="button.create_bill_button" t-operation="after">
                 <button t-if="widget.modelName == 'res.partner'" class="btn btn-primary create_bill_button_custom"
                         type="button">Review</button>
             </t>

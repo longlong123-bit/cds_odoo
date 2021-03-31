@@ -20,5 +20,16 @@
             <field eval="False" name="company_id"/>
             <field name="padding">7</field>
         </record>
+
+        <!-- Sequences for bill.info.draft -->
+        <record id="seq_bill_no_draft" model="ir.sequence">
+            <field name="name">Bill Draft Seq</field>
+            <field name="code">bill.draft.sequence</field>
+            <field name="prefix">SEI-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field eval="False" name="company_id"/>
+            <field name="padding">7</field>
+        </record>
     </data>
 </odoo>

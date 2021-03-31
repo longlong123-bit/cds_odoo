@@ -311,6 +311,10 @@ class BillingClass(models.Model):
                     else:
                         payment_date_month_cal = int(closing_date_month) + 1
                         payment_date_year_cal = int(closing_date_year)
+                        if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                            payment_date_day_cal = 30
+                        elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                            payment_date_day_cal = 28
             elif payment_date_month == 'next_month':
                 if int(closing_date_month) == 12:
                     payment_date_month_cal = int(closing_date_month) - 11
@@ -650,6 +654,10 @@ class BillingClass(models.Model):
                     else:
                         payment_date_month_cal = int(closing_date_month) + 1
                         payment_date_year_cal = int(closing_date_year)
+                        if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                            payment_date_day_cal = 30
+                        elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                            payment_date_day_cal = 28
             elif payment_date_month == 'next_month':
                 if int(closing_date_month) == 12:
                     payment_date_month_cal = int(closing_date_month) - 11
@@ -802,7 +810,7 @@ class BillingClass(models.Model):
 
             payment_ids = self.env['account.payment'].search(payment_domain)
 
-            _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
+            _bill_no = self.env['ir.sequence'].next_by_code('bill.draft.sequence')
 
             _bill_info_ids = self.env['bill.info.draft'].create({
                 'billing_code': rec['customer_code'],
