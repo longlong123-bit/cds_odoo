@@ -17,6 +17,7 @@ odoo.define('bill.create_bill_button', function (require) {
             }
             if (context['bill_management_module'] === undefined) {
                 this.$buttons && this.$buttons.find('button.create_bill_button') && this.$buttons.find('button.create_bill_button').hide();
+                this.$buttons && this.$buttons.find('button.create_bill_button_custom') && this.$buttons.find('button.create_bill_button_custom').hide();
             }
             else {
                 $('[data-section=print][data-index="1"]').css("display", "none");
@@ -49,8 +50,6 @@ odoo.define('bill.create_bill_button', function (require) {
                         timeout: 3000,
                         shadow: true
                     }).then(function (result) {
-                        console.log(result);
-                        console.log('1');
                         if (result) {
                             return self.do_action(result)
                         }
