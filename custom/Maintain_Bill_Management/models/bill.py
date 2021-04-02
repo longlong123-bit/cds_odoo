@@ -137,42 +137,47 @@ class BillingClass(models.Model):
                     invoices_line_ids_list = invoice.invoice_line_ids.filtered(lambda l: l.selected)
                 for line in invoices_line_ids_list:
                     if line.bill_status != 'billed':
-                        if line.move_id.x_voucher_tax_transfer == 'foreign_tax' \
-                                or line.move_id.x_voucher_tax_transfer == 'voucher':
+                        if line.product_id.product_tax_category == 'foreign':
+                            if line.move_id.x_voucher_tax_transfer == 'foreign_tax' \
+                                    or line.move_id.x_voucher_tax_transfer == 'voucher':
+                                _untax_amount = line.invoice_custom_lineamount
+                                _tax = line.tax_rate * line.invoice_custom_lineamount / 100
+                                _amount = _untax_amount + _tax
+
+                                if line.x_invoicelinetype == '値引':
+                                    _payment_cost_and_discount -= _amount
+                            elif line.move_id.x_voucher_tax_transfer == 'internal_tax':
+                                _untax_amount = line.invoice_custom_lineamount
+                                _tax = 0
+                                _amount = _untax_amount
+
+                                if line.x_invoicelinetype == '値引':
+                                    _payment_cost_and_discount -= _amount
+                            elif line.move_id.x_voucher_tax_transfer == 'invoice':
+                                _untax_amount = line.invoice_custom_lineamount
+                                _tax = 0
+                                _amount = _untax_amount + _tax
+
+                                if line.x_invoicelinetype == '値引':
+                                    _payment_cost_and_discount -= _amount
+                                if line.product_id.product_tax_category == 'foreign':
+                                    _line_compute_amount_tax = _line_compute_amount_tax + (
+                                            line.invoice_custom_lineamount * line.tax_rate / 100)
+                                elif line.product_id.product_tax_category == 'internal':
+                                    _line_compute_amount_tax = _line_compute_amount_tax + 0
+                                else:
+                                    _line_compute_amount_tax = _line_compute_amount_tax + 0
+                            elif line.move_id.x_voucher_tax_transfer == 'custom_tax':
+                                _untax_amount = line.invoice_custom_lineamount
+                                _tax = 0
+                                _amount = _untax_amount
+
+                                if line.x_invoicelinetype == '値引':
+                                    _payment_cost_and_discount -= _amount
+                        else:
                             _untax_amount = line.invoice_custom_lineamount
-                            _tax = line.tax_rate * line.invoice_custom_lineamount / 100
+                            _tax = 0
                             _amount = _untax_amount + _tax
-
-                            if line.x_invoicelinetype == '値引':
-                                _payment_cost_and_discount -= _amount
-                        elif line.move_id.x_voucher_tax_transfer == 'internal_tax':
-                            _untax_amount = line.invoice_custom_lineamount
-                            _tax = 0
-                            _amount = _untax_amount
-
-                            if line.x_invoicelinetype == '値引':
-                                _payment_cost_and_discount -= _amount
-                        elif line.move_id.x_voucher_tax_transfer == 'invoice':
-                            _untax_amount = line.invoice_custom_lineamount
-                            _tax = 0
-                            _amount = _untax_amount + _tax
-
-                            if line.x_invoicelinetype == '値引':
-                                _payment_cost_and_discount -= _amount
-                            if line.product_id.product_tax_category == 'foreign':
-                                _line_compute_amount_tax = _line_compute_amount_tax + (
-                                        line.invoice_custom_lineamount * line.tax_rate / 100)
-                            elif line.product_id.product_tax_category == 'internal':
-                                _line_compute_amount_tax = _line_compute_amount_tax + 0
-                            else:
-                                _line_compute_amount_tax = _line_compute_amount_tax + 0
-                        elif line.move_id.x_voucher_tax_transfer == 'custom_tax':
-                            _untax_amount = line.invoice_custom_lineamount
-                            _tax = 0
-                            _amount = _untax_amount
-
-                            if line.x_invoicelinetype == '値引':
-                                _payment_cost_and_discount -= _amount
                         if line.move_id.x_voucher_tax_transfer != 'voucher':
                             _untax_amount = rounding(_untax_amount, 0, record.customer_tax_rounding)
                             _tax = rounding(_tax, 0, record.customer_tax_rounding)
