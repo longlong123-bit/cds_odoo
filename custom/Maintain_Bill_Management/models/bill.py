@@ -147,9 +147,10 @@ class BillingClass(models.Model):
                                 if line.x_invoicelinetype == '値引':
                                     _payment_cost_and_discount -= _amount
                             elif line.move_id.x_voucher_tax_transfer == 'internal_tax':
-                                _untax_amount = line.invoice_custom_lineamount
-                                _tax = 0
-                                _amount = _untax_amount
+                                _untax_amount = line.invoice_custom_lineamount * 100 / (100 + line.product_id.product_tax_rate)
+                                _tax = line.invoice_custom_lineamount * line.product_id.product_tax_rate / (
+                                            100 + line.product_id.product_tax_rate)
+                                _amount = _untax_amount + _tax
 
                                 if line.x_invoicelinetype == '値引':
                                     _payment_cost_and_discount -= _amount
@@ -174,6 +175,10 @@ class BillingClass(models.Model):
 
                                 if line.x_invoicelinetype == '値引':
                                     _payment_cost_and_discount -= _amount
+                        elif line.product_id.product_tax_category == 'internal':
+                            _untax_amount = line.invoice_custom_lineamount * 100 / (100 + line.product_id.product_tax_rate)
+                            _tax = line.invoice_custom_lineamount * line.product_id.product_tax_rate / (100 + line.product_id.product_tax_rate)
+                            _amount = _untax_amount + _tax
                         else:
                             _untax_amount = line.invoice_custom_lineamount
                             _tax = 0

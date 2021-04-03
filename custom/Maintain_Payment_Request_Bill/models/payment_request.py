@@ -192,10 +192,15 @@ class BillInfoGet(models.Model):
 
     def subtotal_amount_tax(self, tax_rate=0):
         subtotal = 0
+        _tax = 0
         for line in self.bill_detail_ids:
             if line.x_voucher_tax_transfer and (
                     line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
                 subtotal += line.line_amount
+                if line.account_move_line_id.product_id.product_tax_category == 'internal' or line.account_move_line_id.move_id.x_voucher_tax_transfer == 'internal_tax':
+                    _tax = line.account_move_line_id.invoice_custom_lineamount * line.account_move_line_id.product_id.product_tax_rate / (
+                                100 + line.account_move_line_id.product_id.product_tax_rate)
+                    subtotal -= _tax
         return subtotal
 
     def amount_tax(self, tax_rate=0):
@@ -275,6 +280,7 @@ class BillInfoGet(models.Model):
         record_final = 0
         payment_id_before = 0
         for record in record_data_list:
+            type_product = record.account_move_line_id.product_id.product_tax_category
             check_two_line = 0
             # Gan gia tri
             quantity_convert = '{0:,.0f}'.format(self.limit_number_field(int(record.quantity), 7))
@@ -382,35 +388,67 @@ class BillInfoGet(models.Model):
                             if record.product_maker_name == False and record.product_custom_standardnumber:
                                 if not record.limit_charater_field(record.product_name, 20, True, False):
                                     check_two_line = 1
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 18, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                             else:
                                 if not record.limit_charater_field(record.product_name, 20, True, False):
                                     check_two_line = 1
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 18, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
@@ -432,35 +470,67 @@ class BillInfoGet(models.Model):
                             if record.product_maker_name == False and record.product_custom_standardnumber:
                                 if not record.limit_charater_field(record.product_name, 20, True, False):
                                     check_two_line = 1
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 18, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                             else:
                                 if not record.limit_charater_field(record.product_name, 20, True, False):
                                     check_two_line = 1
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 18, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append([invoice_date_convert, record.invoice_no,
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append([invoice_date_convert, record.invoice_no,
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
@@ -609,35 +679,67 @@ class BillInfoGet(models.Model):
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                 else:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
@@ -662,35 +764,67 @@ class BillInfoGet(models.Model):
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                 else:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
@@ -834,35 +968,67 @@ class BillInfoGet(models.Model):
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                 else:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
@@ -887,35 +1053,67 @@ class BillInfoGet(models.Model):
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                 else:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
@@ -1056,35 +1254,67 @@ class BillInfoGet(models.Model):
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                 else:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
@@ -1108,35 +1338,67 @@ class BillInfoGet(models.Model):
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                 else:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
@@ -1281,35 +1543,67 @@ class BillInfoGet(models.Model):
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                 else:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert_2,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert_2) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert_2,
+                                                      line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
@@ -1333,35 +1627,67 @@ class BillInfoGet(models.Model):
                                 if record.product_maker_name == False and record.product_custom_standardnumber:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([invoice_date_convert, record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_custom_standardnumber,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([invoice_date_convert, record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_custom_standardnumber,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                 else:
                                     if not record.limit_charater_field(record.product_name, 20, True, False):
                                         check_two_line = 1
-                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 18, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 18, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                     else:
-                                        a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
-                                                  record.limit_charater_field(record.product_name, 20, True),
-                                                  record.product_maker_name,
-                                                  quantity_convert, product_uom_convert,
-                                                  price_unit_convert,
-                                                  line_amount_convert, check_two_line])
+                                        if type_product == 'internal':
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      str(price_unit_convert) + '※',
+                                                      line_amount_convert, check_two_line])
+                                        else:
+                                            a.append([record.invoice_date.strftime("%y/%m/%d"), record.invoice_no,
+                                                      record.limit_charater_field(record.product_name, 20, True),
+                                                      record.product_maker_name,
+                                                      quantity_convert, product_uom_convert,
+                                                      price_unit_convert,
+                                                      line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
                                         record.product_maker_name and record.product_custom_standardnumber):
@@ -1502,35 +1828,67 @@ class BillInfoGet(models.Model):
                             if record.product_maker_name == False and record.product_custom_standardnumber:
                                 if not record.limit_charater_field(record.product_name, 20, True, False):
                                     check_two_line = 1
-                                    a.append(['', '',
-                                              record.limit_charater_field(record.product_name, 18, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append(['', '',
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                             else:
                                 if not record.limit_charater_field(record.product_name, 20, True, False):
                                     check_two_line = 1
-                                    a.append(['', '',
-                                              record.limit_charater_field(record.product_name, 18, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append(['', '',
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert_2,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert_2) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert_2,
+                                                  line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
@@ -1553,35 +1911,67 @@ class BillInfoGet(models.Model):
                             if record.product_maker_name == False and record.product_custom_standardnumber:
                                 if not record.limit_charater_field(record.product_name, 20, True, False):
                                     check_two_line = 1
-                                    a.append(['', '',
-                                              record.limit_charater_field(record.product_name, 18, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append(['', '',
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_custom_standardnumber,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_custom_standardnumber,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                             else:
                                 if not record.limit_charater_field(record.product_name, 20, True, False):
                                     check_two_line = 1
-                                    a.append(['', '',
-                                              record.limit_charater_field(record.product_name, 18, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 18, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                                 else:
-                                    a.append(['', '',
-                                              record.limit_charater_field(record.product_name, 20, True),
-                                              record.product_maker_name,
-                                              quantity_convert, product_uom_convert,
-                                              price_unit_convert,
-                                              line_amount_convert, check_two_line])
+                                    if type_product == 'internal':
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  str(price_unit_convert) + '※',
+                                                  line_amount_convert, check_two_line])
+                                    else:
+                                        a.append(['', '',
+                                                  record.limit_charater_field(record.product_name, 20, True),
+                                                  record.product_maker_name,
+                                                  quantity_convert, product_uom_convert,
+                                                  price_unit_convert,
+                                                  line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
                                     record.product_maker_name and record.product_custom_standardnumber):
