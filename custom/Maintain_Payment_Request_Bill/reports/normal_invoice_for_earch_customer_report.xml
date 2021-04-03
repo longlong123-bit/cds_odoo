@@ -948,7 +948,7 @@
                                                                   t-esc="'{0:,.0f}'.format(o.limit_number_field(line_detail.price_unit, 8), True)"
                                                                   style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             </span>
-                                                            <span t-if="line_detail.x_voucher_tax_transfer == 'internal_tax'">
+                                                            <span t-if="line_detail.x_voucher_tax_transfer == 'internal_tax' or line_detail.account_move_line_id.product_id.product_tax_category == 'internal'">
                                                                 ※
                                                             </span>
                                                         </div>
