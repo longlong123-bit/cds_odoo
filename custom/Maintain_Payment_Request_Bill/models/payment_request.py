@@ -226,6 +226,10 @@ class BillInfoGet(models.Model):
                 if line.x_voucher_tax_transfer and (
                         line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
                     subtotal += line.line_amount
+                    if line.account_move_line_id.product_id.product_tax_category == 'internal' or line.account_move_line_id.move_id.x_voucher_tax_transfer == 'internal_tax':
+                        _tax = line.account_move_line_id.invoice_custom_lineamount * line.account_move_line_id.product_id.product_tax_rate / (
+                                100 + line.account_move_line_id.product_id.product_tax_rate)
+                        subtotal -= _tax
                 else:
                     subtotal += 0
         return subtotal
