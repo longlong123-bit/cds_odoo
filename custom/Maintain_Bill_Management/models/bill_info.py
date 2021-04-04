@@ -25,6 +25,7 @@ class BillInfoClass(models.Model):
     tax_amount_cashed = fields.Monetary(string='Tax Amount Cashed', currency_field='currency_id')
     amount_total_cashed = fields.Monetary(string="Amount Total Cashed", currency_field='currency_id')
     billed_amount = fields.Monetary(string='Billed Amount', currency_field='currency_id')
+    payment_discount_in_invoicing = fields.Monetary(currency_field='currency_id')
     active_flag = fields.Boolean(default=True)
     currency_id = fields.Many2one('res.currency', string='Currency')
     bill_invoice_ids = fields.One2many('bill.invoice', 'bill_info_id', string='Bill Invoice Ids')

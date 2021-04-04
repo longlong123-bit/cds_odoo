@@ -114,6 +114,7 @@ class BillingClass(models.Model):
 
             payment_ids = self.env['account.payment'].search(payment_ids_domain)
             _payment_cost_and_discount = 0
+            _payment_discount_in_invoicing = 0
 
             # Set data for voucher_number field
             if record.customer_except_request:
@@ -146,6 +147,7 @@ class BillingClass(models.Model):
 
                                 if line.x_invoicelinetype == '値引':
                                     _payment_cost_and_discount -= _amount
+                                    _payment_discount_in_invoicing -= _amount
                             elif line.move_id.x_voucher_tax_transfer == 'internal_tax':
                                 _untax_amount = line.invoice_custom_lineamount * 100 / (100 + line.product_id.product_tax_rate)
                                 _tax = line.invoice_custom_lineamount * line.product_id.product_tax_rate / (
@@ -154,6 +156,7 @@ class BillingClass(models.Model):
 
                                 if line.x_invoicelinetype == '値引':
                                     _payment_cost_and_discount -= _amount
+                                    _payment_discount_in_invoicing -= _amount
                             elif line.move_id.x_voucher_tax_transfer == 'invoice':
                                 _untax_amount = line.invoice_custom_lineamount
                                 _tax = 0
@@ -161,6 +164,7 @@ class BillingClass(models.Model):
 
                                 if line.x_invoicelinetype == '値引':
                                     _payment_cost_and_discount -= _amount
+                                    _payment_discount_in_invoicing -= _amount
                                 if line.product_id.product_tax_category == 'foreign':
                                     _line_compute_amount_tax = _line_compute_amount_tax + (
                                             line.invoice_custom_lineamount * line.tax_rate / 100)
@@ -175,6 +179,7 @@ class BillingClass(models.Model):
 
                                 if line.x_invoicelinetype == '値引':
                                     _payment_cost_and_discount -= _amount
+                                    _payment_discount_in_invoicing -= _amount
                         elif line.product_id.product_tax_category == 'internal':
                             _untax_amount = line.invoice_custom_lineamount * 100 / (100 + line.product_id.product_tax_rate)
                             _tax = line.invoice_custom_lineamount * line.product_id.product_tax_rate / (100 + line.product_id.product_tax_rate)
@@ -213,8 +218,7 @@ class BillingClass(models.Model):
             _tax_amount = _tax_amount + _line_compute_amount_tax
             _amount_total = _amount_total + _line_compute_amount_tax
             # Compute data for billed_amount field
-            _billed_amount = _amount_total + _balance_amount
-
+            _billed_amount = _amount_total + _payment_discount_in_invoicing + _balance_amount
             # Set data to fields
             record.last_billed_amount = _last_billed_amount
             record.deposit_amount = _deposit_amount
@@ -223,6 +227,7 @@ class BillingClass(models.Model):
             record.amount_untaxed = _amount_untaxed
             record.tax_amount = _tax_amount
             record.billed_amount = _billed_amount
+            record.payment_discount_in_invoicing = _payment_discount_in_invoicing
         return True
 
     @api.constrains('customer_code', 'customer_code_bill')
@@ -263,6 +268,8 @@ class BillingClass(models.Model):
 
     # 今回請求金額
     billed_amount = fields.Float(compute=_set_data_to_fields, string='Billed Amount', readonly=True)
+
+    payment_discount_in_invoicing = fields.Float(compute=_set_data_to_fields, readonly=True)
 
     # 売伝枚数
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True)
@@ -496,11 +503,12 @@ class BillingClass(models.Model):
                 'balance_amount': rec['balance_amount'],
                 'amount_untaxed': rec['amount_untaxed'],
                 'tax_amount': rec['tax_amount'],
-                'amount_total': rec['billed_amount'] - rec['balance_amount'],
+                'amount_total': rec['billed_amount'] - rec['balance_amount'] - rec['payment_discount_in_invoicing'],
                 'amount_untaxed_cashed': _sum_amount_tax_cashed,
                 'tax_amount_cashed': _sum_amount_tax_cashed,
                 'amount_total_cashed': _sum_amount_total_cashed,
                 'billed_amount': rec['billed_amount'],
+                'payment_discount_in_invoicing': rec['payment_discount_in_invoicing'],
                 'partner_id': partner_ids.id,
                 'hr_employee_id': partner_ids.customer_agent.id,
                 'hr_department_id': partner_ids.customer_agent.department_id.id,

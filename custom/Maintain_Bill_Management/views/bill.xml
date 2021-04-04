@@ -16,6 +16,7 @@
                 <field name="amount_untaxed" string="Amount Untaxed"/>
                 <field name="tax_amount" string="Tax Amount"/>
                 <field name="billed_amount" string="Billed Amount"/>
+                <field name="payment_discount_in_invoicing" invisible="1"/>
                 <field name="voucher_number" string="Voucher Number"/>
                 <field name="customer_except_request" invisible="1"/>
                 <button name="bm_bill_excerpt_button" type="object" string="Excerpt" class="btn-sm btn btn-primary"
