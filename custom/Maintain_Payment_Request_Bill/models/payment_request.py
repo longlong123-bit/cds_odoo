@@ -254,28 +254,16 @@ class BillInfoGet(models.Model):
                 for line in re.bill_invoice_details_ids:
                     if line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8):
                         if line.x_voucher_tax_transfer == 'foreign_tax':
-                            if line.account_move_line_id.product_id.product_tax_category == 'internal':
-                                _tax = line.account_move_line_id.invoice_custom_lineamount * line.account_move_line_id.product_id.product_tax_rate / (
-                                        100 + line.account_move_line_id.product_id.product_tax_rate)
-                                line.tax_amount += _tax
                             subtotal += rounding(line.tax_amount, 0,
                                                  line.account_move_line_id.move_id.customer_tax_rounding)
-
                         elif line.x_voucher_tax_transfer == 'voucher':
-                            if line.account_move_line_id.product_id.product_tax_category == 'internal':
-                                _tax = line.account_move_line_id.invoice_custom_lineamount * line.account_move_line_id.product_id.product_tax_rate / (
-                                        100 + line.account_move_line_id.product_id.product_tax_rate)
-                            subtotal += _tax
                             subtotal += line.voucher_line_tax_amount
                         elif line.x_voucher_tax_transfer == 'invoice':
-                            if line.account_move_line_id.product_id.product_tax_category == 'internal':
-                                _tax = line.account_move_line_id.invoice_custom_lineamount * line.account_move_line_id.product_id.product_tax_rate / (
-                                        100 + line.account_move_line_id.product_id.product_tax_rate)
-                            subtotal += _tax
                             subtotal += line.line_amount * line.tax_rate / 100
-                        elif line.x_voucher_tax_transfer == 'internal_tax':
+                        if line.account_move_line_id.product_id.product_tax_category == 'internal' or line.account_move_line_id.move_id.x_voucher_tax_transfer == 'internal_tax':
                             _tax = line.account_move_line_id.invoice_custom_lineamount * line.account_move_line_id.product_id.product_tax_rate / (
                                     100 + line.account_move_line_id.product_id.product_tax_rate)
+                            _tax = rounding(_tax, 0, line.account_move_line_id.move_id.customer_tax_rounding)
                             subtotal += _tax
                     if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
                         subtotal += re.amount_tax
