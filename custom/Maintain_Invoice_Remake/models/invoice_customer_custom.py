@@ -1905,7 +1905,6 @@ class AccountMoveLine(models.Model):
                 ])
                 if product:
                     self.changed_fields.append('product_barcode')
-                    self.changed_fields.append('invoice_custom_standardnumber')
                     self.product_id = product.id
                     self.product_barcode = product.barcode
                     setting_price = "1"
@@ -1999,7 +1998,6 @@ class AccountMoveLine(models.Model):
 
                 if product:
                     self.changed_fields.append('product_code')
-                    self.changed_fields.append('invoice_custom_standardnumber')
                     self.product_id = product.id
                     if product.product_code_1:
                         self.product_code = product.product_code_1
@@ -2085,98 +2083,6 @@ class AccountMoveLine(models.Model):
             self.product_code = ''
         else:
             self.changed_fields.remove('product_barcode')
-
-    @api.onchange('invoice_custom_standardnumber')
-    def _onchange_invoice_custom_standardnumber(self):
-        if 'invoice_custom_standardnumber' not in self.changed_fields:
-            if self.invoice_custom_standardnumber:
-                product = self.env['product.product'].search([
-                    ['product_custom_standardnumber', '=', self.invoice_custom_standardnumber]
-                ])
-                if product:
-                    self.changed_fields.append('product_code')
-                    self.changed_fields.append('product_barcode')
-                    self.product_id = product.id
-                    self.product_barcode = product.barcode
-                    if product.product_code_1:
-                        self.product_code = product.product_code_1
-                    elif product.product_code_2:
-                        self.product_code = product.product_code_2
-                    elif product.product_code_3:
-                        self.product_code = product.product_code_3
-                    elif product.product_code_4:
-                        self.product_code = product.product_code_4
-                    elif product.product_code_5:
-                        self.product_code = product.product_code_5
-                    elif product.product_code_6:
-                        self.product_code = product.product_code_6
-                    setting_price = '1'
-                    if product.setting_price:
-                        setting_price = product.setting_price[5:]
-                    if product.product_tax_category == 'exempt':
-                        self.price_include_tax = self.price_no_tax = self.set_price_product_code(
-                            self.product_code, self.product_barcode,
-                            product.product_class_code_lv4.id,
-                            product.product_class_code_lv3.id,
-                            product.product_class_code_lv2.id,
-                            product.product_class_code_lv1.id,
-                            product.product_maker_code,
-                            self.move_id.partner_id.customer_code,
-                            self.move_id.partner_id.customer_code_bill,
-                            self.move_id.partner_id.customer_supplier_group_code.id,
-                            self.move_id.partner_id.customer_industry_code.id,
-                            self.move_id.partner_id.customer_state.id,
-                            self.move_id.x_studio_date_invoiced)
-                    elif product.product_tax_category == 'foreign':
-                        self.price_include_tax = (product.product_tax_rate / 100 + 1) * self.set_price_product_code(
-                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
-                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
-                            product.product_class_code_lv1.id, product.product_maker_code,
-                            self.move_id.partner_id.customer_code, self.move_id.partner_id.customer_code_bill,
-                            self.move_id.partner_id.customer_supplier_group_code.id,
-                            self.move_id.partner_id.customer_industry_code.id,
-                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
-                        self.price_no_tax = self.set_price_product_code(
-                            self.product_code, self.product_barcode,
-                            product.product_class_code_lv4.id,
-                            product.product_class_code_lv3.id,
-                            product.product_class_code_lv2.id,
-                            product.product_class_code_lv1.id,
-                            product.product_maker_code,
-                            self.move_id.partner_id.customer_code,
-                            self.move_id.partner_id.customer_code_bill,
-                            self.move_id.partner_id.customer_supplier_group_code.id,
-                            self.move_id.partner_id.customer_industry_code.id,
-                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
-                    else:
-                        self.price_include_tax = self.set_price_product_code(
-                            self.product_code, self.product_barcode, product.product_class_code_lv4.id,
-                            product.product_class_code_lv3.id, product.product_class_code_lv2.id,
-                            product.product_class_code_lv1.id, product.product_maker_code,
-                            self.move_id.partner_id.customer_code, self.move_id.partner_id.customer_code_bill,
-                            self.move_id.partner_id.customer_supplier_group_code.id,
-                            self.move_id.partner_id.customer_industry_code.id,
-                            self.move_id.partner_id.customer_state.id, self.move_id.x_studio_date_invoiced)
-                        self.price_no_tax = self.set_price_product_code(
-                            self.product_code, self.product_barcode,
-                            product.product_class_code_lv4.id,
-                            product.product_class_code_lv3.id,
-                            product.product_class_code_lv2.id,
-                            product.product_class_code_lv1.id,
-                            product.product_maker_code,
-                            self.move_id.partner_id.customer_code,
-                            self.move_id.partner_id.customer_code_bill,
-                            self.move_id.partner_id.customer_supplier_group_code.id,
-                            self.move_id.partner_id.customer_industry_code.id,
-                            self.move_id.partner_id.customer_state.id,
-                            self.move_id.x_studio_date_invoiced) / (product.product_tax_rate / 100 + 1)
-                    self.price_unit = self._get_computed_price_unit()
-                    return
-
-            # else
-            self.invoice_custom_standardnumber = ''
-        else:
-            self.changed_fields.remove('invoice_custom_standardnumber')
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
