@@ -439,7 +439,7 @@ odoo.define('web.ListRender_Custom', function (require) {
          */
         _renderRow_custom: function (record) {
             var self = this;
-            if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view')){
+            if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view') || self.$el.hasClass('order_management_details o_list_view')){
                 var $cells1 = this.columns.map(function (node, index) {
                     return self._renderBodyCell_custom(record, node, index, { mode: 'readonly' });
                 });
@@ -803,7 +803,7 @@ odoo.define('web.ListRender_Custom', function (require) {
             // The special_click property explicitely allow events to bubble all
             // the way up to bootstrap's level rather than being stopped earlier.
             var $td = $(event.currentTarget);
-            if(this.$el.hasClass('invoice_create o_list_view') || this.$el.hasClass('quotations_custom_details o_list_view')){
+            if(this.$el.hasClass('invoice_create o_list_view') || this.$el.hasClass('quotations_custom_details o_list_view') || this.$el.hasClass('order_management_details o_list_view')){
                 var $tr = $td.parent().parent();
             }else{
                 var $tr = $td.parent();
@@ -846,6 +846,28 @@ odoo.define('web.ListRender_Custom', function (require) {
                 HEADER1 = [
                     'button_update',
                     'quotation_custom_line_no',
+                    'product_code',
+                    'product_maker_name',
+                    'product_name',
+                    'product_standard_number',
+                    'product_uom_qty',
+                    'price_unit',
+                    'product_uom_id',
+                    'line_amount',
+                    'product_standard_price',
+                    'description',
+                   ];
+                HEADER2 = [
+                   'class_item',
+                   'product_barcode',
+                   'cost',
+                   'tax_rate',
+                ];
+            }
+            else if (this.$el.hasClass('order_management_details o_list_view')){
+                HEADER1 = [
+                    'button_update',
+                    'order_management_line_no',
                     'product_code',
                     'product_maker_name',
                     'product_name',
@@ -934,7 +956,7 @@ odoo.define('web.ListRender_Custom', function (require) {
         _renderRow: function (record, index) {
             var self = this;
 
-            if(this.$el.hasClass('invoice_create o_list_view') || this.$el.hasClass('quotations_custom_details o_list_view')){
+            if(this.$el.hasClass('invoice_create o_list_view') || this.$el.hasClass('quotations_custom_details o_list_view') || this.$el.hasClass('order_management_details o_list_view')){
                 if(this.editable){
                     this.addTrashIcon = true;
                 }else{
@@ -955,7 +977,7 @@ odoo.define('web.ListRender_Custom', function (require) {
 
         _renderFooter: function () {
             var aggregates = {};
-             if(!this.$el.hasClass('invoice_create o_list_view') && !this.$el.hasClass('quotations_custom_details o_list_view')){
+             if(!this.$el.hasClass('invoice_create o_list_view') && !this.$el.hasClass('quotations_custom_details o_list_view') && !this.$el.hasClass('order_management_details o_list_view')){
             _.each(this.columns, function (column) {
                 if ('aggregate' in column) {
                     aggregates[column.attrs.name] = column.aggregate;
@@ -986,7 +1008,7 @@ odoo.define('web.ListRender_Custom', function (require) {
         _getColumnHeader: function (column) {
             var self = this;
             const { icon, name, string } = column.attrs;
-            if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view')){
+            if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view') || self.$el.hasClass('order_management_details o_list_view')){
                 if (name) {
                     return this.el.querySelector(`thead th div[data-name="${name}"]`);
                 } else if (string) {
@@ -1026,7 +1048,7 @@ odoo.define('web.ListRender_Custom', function (require) {
             var $row = this._getRow(recordID);
             this.currentRow = editMode ? $row.prop('rowIndex') - 1 : null;
             //var $tds = $row.children.c('.o_data_cell');
-            if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view')){
+            if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view') || self.$el.hasClass('order_management_details o_list_view')){
                 var $tds = $row.children().children();
             }else{
                 var $tds = $row.children('.o_data_cell');
@@ -1047,7 +1069,7 @@ odoo.define('web.ListRender_Custom', function (require) {
             this.defs = defs;
             _.each(this.columns, function (node, colIndex) {
                 var $td = $tds.eq(colIndex);
-                if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view')){
+                if(self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view') || self.$el.hasClass('order_management_details o_list_view')){
                     var $newTd = self._renderBodyCell_custom(record, node, colIndex, options);
                 }else{
                     var $newTd = self._renderBodyCell(record, node, colIndex, options);
@@ -1066,7 +1088,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                 // dimensions of the cell are not forced anymore.
                 if (editMode) {
                     if($td.hasClass('custom-control custom-checkbox') &&
-                    (self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view'))){
+                    (self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view') || self.$el.hasClass('order_management_details o_list_view'))){
                         // do nothing
                     }else{
                         $td.empty().append($newTd.contents());
@@ -1075,7 +1097,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                 } else {
                     self._unregisterModifiersElement(node, recordID, $td);
                     if($td.hasClass('custom-control custom-checkbox') &&
-                    (self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view'))){
+                    (self.$el.hasClass('invoice_create o_list_view') || self.$el.hasClass('quotations_custom_details o_list_view') || self.$el.hasClass('order_management_details o_list_view'))){
                         //do nothing
                     } else{
                         $td.replaceWith($newTd);
@@ -1265,7 +1287,7 @@ odoo.define('web.ListRender_Custom', function (require) {
                 }
                 break;
             case 'next':
-                if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('invoice_create')){
+                if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('order_management_details') || this.$el.hasClass('invoice_create')){
                   var focus_index = [3,4,6,7,8,9,10,this.columns.length - 2];
                   var currentIndex = this.currentFieldIndex;
                   var index = focus_index.findIndex(function(number) {
@@ -1347,7 +1369,7 @@ odoo.define('web.ListRender_Custom', function (require) {
             const side = next ? 'first' : 'last';
             const borderRowIndex = this._getBorderRow(side).prop('rowIndex') - 1;
             var cellIndex = 0;
-            if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('invoice_create')){
+            if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('order_management_details') || this.$el.hasClass('invoice_create')){
               cellIndex = next ? 3 : this.allFieldWidgets[recordID].length - 1;
             } else {
               cellIndex = next ? 0 : this.allFieldWidgets[recordID].length - 1;
@@ -1436,7 +1458,7 @@ odoo.define('web.ListRender_Custom', function (require) {
     editRecord: function (recordID) {
         var $row = this._getRow(recordID);
         var rowIndex = $row.prop('rowIndex') - 1;
-        if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('invoice_create')){
+        if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('order_management_details') || this.$el.hasClass('invoice_create')){
           this._selectCell(rowIndex, 3);
         } else {
           this._selectCell(rowIndex, 0);

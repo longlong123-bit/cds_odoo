@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="invoice.advanced_search">
+        <table>
+            <tr>
+                <th>Search Category</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">
+                        <option value="like">Like</option>
+                        <option value="equal">Equal</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Invoice No</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="x_studio_document_no"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="x_studio_document_no"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Create Date</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="create_date" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="create_date" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Invoice Date</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="x_studio_date_invoiced" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="x_studio_date_invoiced" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Customer Code</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="x_customer_code_for_search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Customer Name</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="x_studio_name"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Rep User</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="related_userinput_name"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Sales Rep Name</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="related_sale_rep_name"/>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Customer State</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_state"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Customer Group</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_group"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Customer Industry</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_industry"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Transaction Class</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="customer_trans_classification_code"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Document Status</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="state" style="height:25px;">
+                        <option value="posted">Posted</option>
+                        <option value="draft">Draft</option>
+                        <option value="cancel">Cancel</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>

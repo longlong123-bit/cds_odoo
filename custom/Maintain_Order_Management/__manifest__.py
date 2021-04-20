@@ -1,0 +1,53 @@
+# -*- coding: utf-8 -*-
+{
+    'name': 'Maintain Order Management',
+    'version': '13.0.1.0',
+    'category': '',
+    'author': 'TrongHuy',
+    'depends': [
+        'account',
+        'Maintain_Client',
+        'Maintain_Organization',
+        'inputmask_widget',
+        'Maintain_Bill_Schema',
+        'Maintain_Business_Partner_Group',
+        'Maintain_Business_Partners_Remake',
+        'Maintain_Closing_Date',
+        'Maintain_Country_State',
+        'Maintain_Custom_Common',
+        'Maintain_Custom_Company_Office',
+        'Maintain_Custom_Create_Company',
+        'Maintain_Custom_Department',
+        'Maintain_Custom_Department_Section',
+        'Maintain_Custom_Employee',
+        'Maintain_Custom_Search_Form',
+        'Maintain_Discount_Schema',
+        'Maintain_Freight_Category',
+        'Maintain_Income_Payment',
+        'Maintain_Industry_Type',
+        'Maintain_Organization',
+        'Maintain_Printer_Output',
+        'Maintain_Product',
+        'Maintain_Product_Class',
+        'Maintain_Quotations',
+        'Maintain_Receipt_Divide',
+        'Maintain_Tax_Rate',
+        'tgl_format_number'
+    ],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/add_js.xml',
+        'views/order_management_view.xml',
+    ],
+    'qweb': [
+        'static/src/xml/report_template.xml',
+        'static/src/xml/invoice_lines.xml',
+        'static/src/xml/advanced_search.xml',
+        'static/src/xml/invoice_line_advanced_search.xml',
+        'static/src/xml/invoice_history_advanced_search.xml'
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': True,
+    'license': 'OPL-1'
+}

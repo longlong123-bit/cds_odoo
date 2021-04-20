@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- webpage record -->
+<template>
+    <t t-name="invoice_lines">
+      <table class="table">
+        <thead>
+          <tr>
+            <th><span>Line no</span></th>
+            <th><span>内訳区分</span></th>
+            <th><span>Product</span></th>
+            <th><span>JAN/UPC/EAN</span></th>
+            <th><span>Maker Code</span></th>
+            <th><span>商品名</span></th>
+            <th><span>standardnumber</span></th>
+            <th><span>Price</span></th>
+            <th><span>Quantity</span></th>
+            <th><span>Line Amount</span></th>
+            <th><span>UoM</span></th>
+            <th><span>Tax Rate</span></th>
+            <th><span>Tax Amount</span></th>
+            <th><span>Cost Value</span></th>
+            <th><span>Description</span></th>
+          </tr>
+        </thead>
+        <t t-foreach="records" t-as="record">
+          <tr>
+            <td><span t-esc="record.invoice_custom_line_no"/></td>
+            <td><span t-esc="record.x_invoicelinetype"/></td>
+            <td><span t-if="record.product_id and record.product_id[1]" t-esc="record.product_id[1]"/></td>
+            <td><span t-if="record.product_barcode" t-esc="record.product_barcode"/></td>
+            <td><span t-if="record.product_maker_name" t-esc="record.product_maker_name"/></td>
+            <td><span t-if="record.product_name" t-esc="record.product_name"/></td>
+            <td><span t-if="record.invoice_custom_standnumber" t-esc="record.invoice_custom_standnumber"/></td>
+            <td><span t-if="record.price_unit" t-esc="record.price_unit"/></td>
+            <td><span t-if="record.quantity" t-esc="record.quantity"/></td>
+            <td><span t-esc="record.invoice_custom_lineamount"/></td>
+            <td><span t-if="record.product_uom_id" t-esc="record.product_uom_id[1]"/></td>
+            <td><span t-if="record.tax_rate" t-esc="record.tax_rate"/></td>
+            <td><span t-if="record.line_tax_amount" t-esc="record.line_tax_amount"/></td>
+            <td><span t-esc="record.invoice_custom_uom_cost_value"/></td>
+            <td><span t-if="record.invoice_custom_Description" t-esc="record.invoice_custom_Description"/></td>
+          </tr>
+        </t>
+      </table>
+    </t>
+</template>
