@@ -1452,7 +1452,7 @@ odoo.define('web.ListRender_Custom', function (require) {
     editRecord: function (recordID) {
         var $row = this._getRow(recordID);
         var rowIndex = $row.prop('rowIndex') - 1;
-        if(this.$el.hasClass('quotations_custom_details')  || this.$el.hasClass('invoice_create')){
+        if(this.$el.hasClass('quotations_custom_details') || this.$el.hasClass('invoice_create')){
           this._selectCell(rowIndex, 3);
         } else {
           this._selectCell(rowIndex, 0);
