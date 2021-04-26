@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     'name': 'Maintain Order Management',
     'version': '13.0.1.0',
@@ -36,15 +35,7 @@
     ],
     'data': [
         'security/ir.model.access.csv',
-        'views/add_js.xml',
         'views/order_management_view.xml',
-    ],
-    'qweb': [
-        'static/src/xml/report_template.xml',
-        'static/src/xml/invoice_lines.xml',
-        'static/src/xml/advanced_search.xml',
-        'static/src/xml/invoice_line_advanced_search.xml',
-        'static/src/xml/invoice_history_advanced_search.xml'
     ],
     'installable': True,
     'application': True,

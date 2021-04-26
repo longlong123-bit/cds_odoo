@@ -1,12 +1,7 @@
-import operator
 from datetime import timedelta, time, datetime
-from addons.account.models.product import ProductTemplate
 from custom.Maintain_Invoice_Remake.models.invoice_customer_custom import rounding, get_tax_method
-from odoo.tools.float_utils import float_round, float_compare
 import pytz
 import logging
-import json
-
 from odoo import api, fields, models, tools, _, SUPERUSER_ID
 from odoo.exceptions import ValidationError, RedirectWarning, UserError
 
@@ -61,6 +56,8 @@ class OrderManagement(models.Model):
     order_address_1 = fields.Char('address 1')
     order_address_2 = fields.Char('address 2')
     order_address_3 = fields.Char('address 3')
+    hr_employee_code = fields.Char('Employee Code')
+    hr_employee_name = fields.Char('Employee Name')
     order_summary = fields.Text('摘要')
     order_userinput_id = fields.Many2one('res.users', 'Current User', default=lambda self: self.env.uid,
                                          domain=_get_domain_x_userinput_id)
@@ -151,6 +148,8 @@ class OrderManagement(models.Model):
             self.order_bussiness_partner_name_2 = order_management.order_bussiness_partner_name_2
             self.order_address_1 = order_management.order_address_1
             self.order_address_2 = order_management.order_address_2
+            self.hr_employee_code = order_management.hr_employee_code
+            self.hr_employee_name = order_management.hr_employee_name
             self.sales_rep = order_management.sales_rep
             self.order_payment_rule_1 = order_management.order_payment_rule_1
             self.order_payment_terms_custom = order_management.order_payment_terms_custom
@@ -167,9 +166,9 @@ class OrderManagement(models.Model):
             self.is_print_date = order_management.is_print_date
             self.order_calendar = order_management.order_calendar
             order_lines = []
-            for line in order_management[0].order_line.sorted(key='order_management_line_no'):
+            for line in order_management[0].order_line.sorted(key='quotation_custom_line_no'):
                 copied_data = line.copy_data()[0]
-                copied_data['order_management_line_no'] = line.order_management_line_no
+                copied_data['quotation_custom_line_no'] = line.quotation_custom_line_no
                 order_lines += [[0, 0, copied_data]]
             # default['order_line'] = [(0, 0, line) for line in lines if line]
             self.order_line = order_lines
@@ -184,6 +183,8 @@ class OrderManagement(models.Model):
                 record.order_partner_name = self.order_business_partner.name
                 record.order_address_1 = self.order_business_partner.street
                 record.order_address_2 = self.order_business_partner.street2
+                record.hr_employee_code = self.order_business_partner.customer_agent.employee_code
+                record.hr_employee_name = self.order_business_partner.customer_agent.name
                 record.sales_rep = self.order_business_partner.customer_agent
                 record.order_payment_rule_1 = self.order_business_partner.payment_rule
                 record.order_payment_terms_custom = self.order_business_partner.payment_terms
@@ -222,9 +223,86 @@ class OrderManagement(models.Model):
                     'price_include_tax': line.price_include_tax,
                     'price_no_tax': line.price_no_tax,
                     'description': line.description,
-                    'order_management_line_no': len(self.order_line) + 1,
+                    'quotation_custom_line_no': len(self.order_line) + 1,
                     'copy_history_flag': True,
                 })]
+        elif self.copy_history_from == 'sale.order.line' and self.copy_history_item:
+            products = self.env["sale.order.line"].search([('id', 'in', self.copy_history_item.split(','))])
+            for line in products:
+                self.order_line = [(0, False, {
+                    'class_item': line.class_item,
+                    'product_id': line.product_id,
+                    'product_code': line.product_code,
+                    'product_barcode': line.product_barcode,
+                    'product_name': line.product_name,
+                    'product_name2': line.product_name2,
+                    'product_standard_number': line.product_standard_number,
+                    'product_maker_name': line.product_maker_name,
+                    'product_uom_qty': line.product_uom_qty,
+                    'price_unit': line.price_unit,
+                    'product_uom_id': line.product_uom_id,
+                    'line_amount': line.line_amount,
+                    'tax_rate': line.tax_rate,
+                    'line_tax_amount': line.line_tax_amount,
+                    'price_include_tax': line.price_include_tax,
+                    'price_no_tax': line.price_no_tax,
+                    'description': line.description,
+                    'quotation_custom_line_no': len(self.order_line) + 1,
+                    'copy_history_flag': True,
+                })]
+        elif self.copy_history_from == 'account.move.line' and self.copy_history_item:
+            products = self.env["account.move.line"].search([('id', 'in', self.copy_history_item.split(','))])
+            for line in products:
+                self.order_line = [(0, False, {
+                    'class_item': line.x_invoicelinetype,
+                    'product_id': line.product_id,
+                    'product_code': line.product_code,
+                    'product_barcode': line.product_barcode,
+                    'product_name': line.product_name,
+                    'product_name2': line.product_name2,
+                    'product_standard_number': line.invoice_custom_standardnumber,
+                    'product_maker_name': line.product_maker_name,
+                    'product_uom_qty': line.quantity,
+                    'price_unit': line.price_unit,
+                    'product_uom_id': line.product_uom_id,
+                    'line_amount': line.invoice_custom_lineamount,
+                    'tax_rate': line.tax_rate,
+                    'line_tax_amount': line.line_tax_amount,
+                    'price_include_tax': line.price_include_tax,
+                    'price_no_tax': line.price_no_tax,
+                    'description': line.invoice_custom_Description,
+                    'quotation_custom_line_no': len(self.order_line) + 1,
+                    'copy_history_flag': True,
+                })]
+        elif self.copy_history_from == 'product.product':
+            product_ids = [int(product_id) for product_id in
+                           self.copy_history_item.split(',')]
+            products = self.env["product.product"].browse(product_ids)
+            line_vals = []
+            for i, product in enumerate(products, 1):
+                line_vals += \
+                    [(0, False,
+                      {'product_id': product.id,
+                       'product_code': product.product_code,
+                       'product_barcode': product.barcode,
+                       'product_name': product.name,
+                       'product_name2': product.product_custom_goodsnamef,
+                       'product_standard_number':
+                           product.product_custom_standardnumber,
+                       'product_maker_name': product.product_maker_name,
+                       'product_uom': product.uom_id.id,
+                       'product_uom_id': product.product_uom_custom,
+                       'cost': product.cost,
+                       'product_standard_price': product.standard_price or 0.00,
+                       'tax_rate': product.product_tax_rate,
+                       'quotation_custom_line_no': len(self.order_line) + i})]
+            self.order_line = line_vals
+            for line in self.order_line:
+                if line.product_code:
+                    line._onchange_product_code()
+                elif line.product_barcode:
+                    line._onchange_product_barcode()
+                # line.compute_price_unit()
         elif self.copy_history_from == 'duplicated':
             self.order_line = [(0, False, {
                 'class_item': self.order_line[int(self.copy_history_item)].class_item,
@@ -244,7 +322,7 @@ class OrderManagement(models.Model):
                 'price_include_tax': self.order_line[int(self.copy_history_item)].price_include_tax,
                 'price_no_tax': self.order_line[int(self.copy_history_item)].price_no_tax,
                 'description': self.order_line[int(self.copy_history_item)].description,
-                'order_management_line_no': len(self.order_line) + 1,
+                'quotation_custom_line_no': len(self.order_line) + 1,
                 'copy_history_flag': self.order_line[int(self.copy_history_item)].copy_history_flag,
             })]
         self.copy_history_item = ''
@@ -407,7 +485,7 @@ class OrderManagement(models.Model):
     def get_lines(self):
         records = self.env['order.management.line'].search([
             ('order_id', 'in', self._ids)
-        ], order='order_management_line_no').read()
+        ], order='quotation_custom_line_no').read()
 
         for record in records:
             if record['tax_id']:
@@ -427,6 +505,14 @@ class OrderManagement(models.Model):
             'template': 'order_lines',
             'records': records
         }
+
+    @api.constrains('order_date_ordered', 'order_line', 'order_partner_name', 'order_document_no')
+    def _change_date_invoiced(self):
+        for line in self.order_line:
+            line.order_date_ordered = self.order_date_ordered
+            line.partner_id = self.order_business_partner
+            line.document_no = self.order_document_no
+            line.customer_name = self.order_partner_name
 
 
 class OrderManagementLine(models.Model):
@@ -499,7 +585,7 @@ class OrderManagementLine(models.Model):
         ('line_section', "Section"),
         ('line_note', "Note")], default=False, help="Technical field for UX purpose.")
 
-    @api.onchange('order_management_line_no', 'class_item', 'product_code', 'product_barcode', 'product_maker_name',
+    @api.onchange('quotation_custom_line_no', 'class_item', 'product_code', 'product_barcode', 'product_maker_name',
                   'product_name', 'product_standard_number', 'product_uom_qty', 'product_uom_id', 'price_unit',
                   'tax_rate')
     def change_tax_rounding(self):
@@ -909,7 +995,7 @@ class OrderManagementLine(models.Model):
         list_final = {}
         if list_line is not None:
             for l_db in list_line:
-                list_final[l_db.id] = l_db.order_management_line_no
+                list_final[l_db.id] = l_db.quotation_custom_line_no
             if line_ids is not None:
                 for l_v in line_ids:
                     # check state (delete,update,new,no change)
@@ -918,9 +1004,9 @@ class OrderManagementLine(models.Model):
                     # 2: delete
                     # 4: no change
                     if l_v[0] == 0:
-                        list_final[l_v[1]] = l_v[2]['order_management_line_no']
-                    if l_v[0] == 1 and 'order_management_line_no' in l_v[2]:
-                        list_final[l_v[1]] = l_v[2]['order_management_line_no']
+                        list_final[l_v[1]] = l_v[2]['quotation_custom_line_no']
+                    if l_v[0] == 1 and 'quotation_custom_line_no' in l_v[2]:
+                        list_final[l_v[1]] = l_v[2]['quotation_custom_line_no']
                     if l_v[0] == 2:
                         list_final[l_v[1]] = 0
         max = 0
@@ -929,7 +1015,7 @@ class OrderManagementLine(models.Model):
                 max = list_final[id]
         return max + 1
 
-    order_management_line_no = fields.Integer('Line No', default=_get_default_line_no)
+    quotation_custom_line_no = fields.Integer('Line No', default=_get_default_line_no)
     product_uom_id = fields.Char(string='UoM')
     changed_fields = []
 
