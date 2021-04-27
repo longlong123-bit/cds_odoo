@@ -140,28 +140,23 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                         var current_row = this.getParent().$el.parent().parent().parent();
                         var alternative_element = current_row.find('div[name="' + alternative_column + '"]').find('input');
                         var standard_column_element = current_row.find('div[name="' + standardColumn + '"]').find('input');
-                        if (state.data[i].data[readColumn]){
-                          alternative_element.val(state.data[i].data[alternative_value] || '');
-                          parent._setValue(state.data[i].data[readColumn] || '');
-                          alternative_element.trigger("change");
-                          break;
-//                          if(state.data[i].data[readColumn] != parent.value) {
-//                            alternative_element.val('');
-//                          }
-//                          parent._setValue(state.data[i].data[readColumn] || '');
-//                          parent._render();
+                        if (state.data[i].data[readColumn] && readColumn === 'barcode'){
+                            alternative_element.val(state.data[i].data[alternative_value] || '');
+                            parent._setValue(state.data[i].data[readColumn] || '');
+                            alternative_element.trigger("change");
+                            break;
                         } else if(state.data[i].data[standardColumn]) {
-                          if(state.data[i].data[standardColumn] != parent.value) {
-                            parent.$el.find('input').val(state.data[i].data['product_custom_standardnumber']);
-                          }
-                          alternative_element.val(state.data[i].data[alternative_value] || '');
-                          alternative_element.trigger("change");
-                          break;
+                            if(state.data[i].data[standardColumn] != parent.value) {
+                                parent.$el.find('input').val(state.data[i].data['product_custom_standardnumber']);
+                            }
+                            alternative_element.val(state.data[i].data[alternative_value] || '');
+                            alternative_element.trigger("change");
+                            break;
                         } else {
-                          parent.$el.find('input').val('');
-                          alternative_element.val(state.data[i].data[alternative_value] || '');
-                          alternative_element.trigger("change");
-                          break;
+                            parent.$el.find('input').val('');
+                            alternative_element.val(state.data[i].data[alternative_value] || '');
+                            alternative_element.trigger("change");
+                            break;
                         }
                     }
                 }
@@ -393,6 +388,23 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
           }).then(function(res){
               if (res.length == 1) {
                   s._setValue(e.target.value);
+              } else if (res.length == 0) {
+                  for (var i = 0; i < domain.length; i++) {
+                      if (domain[i][0] === 'barcode') {
+                          domain[i][1] = 'ilike';
+                      }
+                  }
+                  rpc.query({
+                      model: options.model,
+                      method: 'search_read',
+                      domain: domain
+                  }).then(function (res) {
+                      if (res.length == 1) {
+                          s._setValue(e.target.value);
+                      } else {
+                          s._openDialogSearch_custom(domain);
+                      }
+                  });
               } else {
                   s._openDialogSearch();
               }
@@ -440,8 +452,11 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
                 if (i > 0) {
                     domain.unshift('|');
                 }
-
-                domain.push([columns[i], options.operator || 'ilike', searchVal]);
+                if (columns[i] == 'barcode') {
+                    domain.push([columns[i], options.operator || '=', searchVal]);
+                } else {
+                    domain.push([columns[i], options.operator || 'ilike', searchVal]);
+                }
             }
 
             return domain;
@@ -476,6 +491,36 @@ odoo.define('Maintain_Widget_Relation_Field.refer_field', function(require){
 
             if (searchVal !== '') {
                 var filterDomain = this._getDomain(searchVal, options);
+
+                filters = [{
+                    description: _.str.sprintf(_t('Quick search: %s'), searchVal),
+                    domain: filterDomain,
+                }];
+            }
+
+            // new dialog and show
+            new SelectCreateDialog(this, {
+                    no_create: true,
+                    readonly: true,
+                    res_model: options.model,
+                    domain: domain,
+                    dynamicFilters: filters,
+                    view_type:'list',
+                    context: context,
+                    disable_multiple_selection: true
+                }).open();
+        },
+
+        _openDialogSearch_custom: function(domain){
+            // get current context (language, param,...)
+            var context = this.record.getContext(this.recordParams);
+            // var domain = this.record.getDomain(this.recordParams);
+            var options = this._getWidgetOptions();
+            var searchVal = this.$el.find('input').val();
+            var filters = null;
+
+            if (searchVal !== '') {
+                var filterDomain = domain;
 
                 filters = [{
                     description: _.str.sprintf(_t('Quick search: %s'), searchVal),
