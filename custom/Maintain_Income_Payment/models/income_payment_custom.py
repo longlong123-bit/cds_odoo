@@ -590,7 +590,10 @@ class IncomePaymentLineCustom(models.Model):
             record.customer_other_cd = record.payment_id.customer_other_cd
             record.customer_code = record.payment_id.partner_id.customer_code
             record.customer_name = record.payment_id.partner_payment_name1
-            record.vj_c_payment_category = record.payment_id.vj_c_payment_category
+            if record.payment_id.vj_c_payment_category == 'cash':
+                record.vj_c_payment_category = '現金'
+            else:
+                record.vj_c_payment_category = '銀行'
             record.sales_rep = record.payment_id.sales_rep
 
     payment_date = fields.Date(string="Payment Date", readonly=True, compute=_compute_data_payment_line)
