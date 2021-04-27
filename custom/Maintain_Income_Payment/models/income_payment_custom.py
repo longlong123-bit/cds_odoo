@@ -492,14 +492,6 @@ class IncomePaymentCustom(models.Model):
         total_amount_invoiced = self.get_invoice_total()
         remain_amount = total_amount_invoiced - total_amount_payment
 
-
-    # def write(self, values):
-    #     self._update_amount()
-    #
-    #     payment = super(IncomePaymentCustom, self).write(values)
-    #
-    #     return payment
-
     # Check validate, duplicate data
     def _check_data(self, values):
         # check document no.
@@ -510,62 +502,6 @@ class IncomePaymentCustom(models.Model):
                 raise ValidationError(_('The Document No has already been registered'))
 
         return True
-
-    # check bill before delete
-    # def unlink(self):
-    #     print('------------------------------ DELETE -------------------------')
-    #     print(self.partner_id)
-    #     query_res = False
-    #     for rec in self:
-    #         if rec.partner_id:
-    #             query = "SELECT partner_id " \
-    #                     "FROM account_move " \
-    #                     "WHERE bill_status = 'billed' " \
-    #                     "AND id=%s" % rec.account_invoice_id.id
-    #             self._cr.execute(query)
-    #             query_res = self._cr.fetchall()
-    #             print(query_res)
-    #             if len(query_res) > 0:
-    #                 raise ValidationError(_('Voucher is billed'))
-    #             else:
-    #                 print('------------------------------ PRINT -------------------------')
-    #                 # total_invoiced = float([res[0] for res in query_res][0])
-    #                 # print(total_invoiced)
-    #                 return super(IncomePaymentCustom, self).unlink()
-
-    # check readonly field
-    # @api.constrains('document_no')
-    # @api.constrains('account_invoice_id', 'document_no')
-    # def _check_read_only(self):
-    #     print('------------------------------ CHECK BILLED -------------------------')
-    #     query_res = False
-    #     for rec in self:
-    #         query_res = False
-    #         if rec.document_no:
-    #             if rec.account_invoice_id:
-    #                 query = "SELECT partner_id " \
-    #                         "FROM account_move " \
-    #                         "WHERE bill_status = 'billed' " \
-    #                         "AND id=%s" % rec.account_invoice_id.id
-    #                 self._cr.execute(query)
-    #                 query_res = self._cr.fetchall()
-    #                 print(query_res)
-    #                 print(len(query_res))
-    #                 if len(query_res) > 0:
-    #                     rec.set_read_only = True
-    #                 else:
-    #                     rec.set_read_only = False
-    #         rec.set_read_only = False
-
-    # def button_history(self):
-    #     return {
-    #         'type': 'ir.actions.act_window',
-    #         'res_model': 'product.product',
-    #         'view_type': 'form',
-    #         'view_mode': 'form',
-    #         'res_id': self.id,
-    #         'target': 'new',
-    #     }
 
     # Check payment_amount
     @api.constrains('payment_amount')
@@ -592,10 +528,15 @@ class IncomePaymentCustom(models.Model):
                     se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
+                if se[0] == 'document_no':
+                    string_middle = ''
+                    for i in range(7 - len(se[2])):
+                        string_middle += '0'
+                    if len(se[2]) < 11:
+                        se[2] = ''.join(["ARR-", string_middle, se[2]])
             args = domain
         res = super(IncomePaymentCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
-
 
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
@@ -641,3 +582,46 @@ class IncomePaymentLineCustom(models.Model):
         for line in self:
             if line.payment_amount < 0:
                 raise ValidationError(_('payment_amount must be more than 0'))
+
+    def _compute_data_payment_line(self):
+        for record in self:
+            record.payment_date = record.payment_id.payment_date
+            record.document_no = record.payment_id.document_no
+            record.customer_other_cd = record.payment_id.customer_other_cd
+            record.customer_code = record.payment_id.partner_id.customer_code
+            record.customer_name = record.payment_id.partner_payment_name1
+            record.vj_c_payment_category = record.payment_id.vj_c_payment_category
+            record.sales_rep = record.payment_id.sales_rep
+
+    payment_date = fields.Date(string="Payment Date", readonly=True, compute=_compute_data_payment_line)
+    document_no = fields.Char(string="Document No", readonly=True, compute=_compute_data_payment_line)
+    customer_code = fields.Char(string="Customer Code", readonly=True, compute=_compute_data_payment_line)
+    customer_name = fields.Char(string="Customer Name", readonly=True, compute=_compute_data_payment_line)
+    customer_other_cd = fields.Char(string="Customer Other CD", readonly=True, compute=_compute_data_payment_line)
+    vj_c_payment_category = fields.Char(string="vj_c_payment_category", readonly=True, compute=_compute_data_payment_line)
+    sales_rep = fields.Char(string="Sales Rep", readonly=True, compute=_compute_data_payment_line)
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        ctx = self._context.copy()
+        if ctx.get('have_advance_search'):
+            domain = []
+            check = 0
+            for se in args:
+                if se[0] == '&':
+                    continue
+                if se[0] == 'search_category' and se[2] == 'equal':
+                    check = 1
+                if check == 1 and se[0] in ["partner_payment_name1", "sales_rep"]:
+                    se[1] = '=ilike'
+                if se[0] != 'search_category':
+                    domain += [se]
+                if se[0] == 'payment_id.document_no':
+                    string_middle = ''
+                    for i in range(7 - len(se[2])):
+                        string_middle += '0'
+                    if len(se[2]) < 11:
+                        se[2] = ''.join(["ARR-", string_middle, se[2]])
+            args = domain
+        res = super(IncomePaymentLineCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        return res

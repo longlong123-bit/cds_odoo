@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-18 03:50+0000\n"
-"PO-Revision-Date: 2020-06-18 03:50+0000\n"
+"POT-Creation-Date: 2021-04-27 08:27+0000\n"
+"PO-Revision-Date: 2021-04-27 08:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -47,21 +47,9 @@ msgid "Add a line"
 msgstr "支払いを追加"
 
 #. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.many_payment_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-msgid "Add a note"
-msgstr "メモ追加"
-
-#. module: Maintain_Income_Payment
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
 msgid "Add a payment"
 msgstr "支払いを追加"
-
-#. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.many_payment_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-msgid "Add a section"
-msgstr "セクション追加"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_payment_address1
@@ -89,23 +77,11 @@ msgid "Bank Account"
 msgstr "アカウント"
 
 #. module: Maintain_Income_Payment
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__bill_status
-msgid "Bill Status"
-msgstr ""
-
-#. module: Maintain_Income_Payment
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_id
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__partner_id
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_search
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree_in_confirm_payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_tree
 msgid "Business Partner"
 msgstr "得意先コード"
-
-#. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-msgid "Cancel"
-msgstr "取消"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment_line__state__cancelled
@@ -119,22 +95,16 @@ msgid "Client"
 msgstr "クライアント"
 
 #. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__closing_date_new
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__customer_closing_date
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "Closing Date"
+msgstr "締日グループ"
+
+#. module: Maintain_Income_Payment
 #: model:ir.model.fields,help:Maintain_Income_Payment.field_account_payment__company_id
 msgid "Company related to this journal"
 msgstr "この仕訳帳と関係する会社"
-
-#. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-msgid "Confirm"
-msgstr "確認"
-
-#. module: Maintain_Income_Payment
-#: model:ir.actions.act_window,name:Maintain_Income_Payment.confirm_payment_action
-#: model:ir.ui.menu,name:Maintain_Income_Payment.confirm_payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree_in_confirm_payment
-msgid "Confirm Payment"
-msgstr "入金確認リスト"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__create_uid
@@ -159,6 +129,7 @@ msgid "Current Date"
 msgstr ""
 
 #. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_id
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
@@ -172,6 +143,29 @@ msgid "Customer CD"
 msgstr "その他CD"
 
 #. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Income_Payment/static/src/xml/payment_line_advanced_search.xml:0
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__customer_code
+#, python-format
+msgid "Customer Code"
+msgstr "得意先コード"
+
+#. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Income_Payment/static/src/xml/payment_line_advanced_search.xml:0
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__customer_name
+#, python-format
+msgid "Customer Name"
+msgstr "得意先名"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__customer_other_cd
+msgid "Customer Other CD"
+msgstr "その他CD"
+
+#. module: Maintain_Income_Payment
 #: model:ir.ui.menu,name:Maintain_Income_Payment.deposit_menu
 msgid "Deposit"
 msgstr "入金"
@@ -181,8 +175,7 @@ msgstr "入金"
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__description
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.many_payment_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree_in_confirm_payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_tree
 msgid "Description"
 msgstr "備考"
 
@@ -200,20 +193,19 @@ msgstr ""
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__document_no
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__document_no
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_search
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree_in_income_payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree_in_confirm_payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_tree
 msgid "Document No"
 msgstr "伝票No"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__state
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree_in_income_payment
 msgid "Document Status"
 msgstr "伝票ステータス"
@@ -225,13 +217,16 @@ msgid "Draft"
 msgstr ""
 
 #. module: Maintain_Income_Payment
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__customer_from_date
-msgid "From Date"
-msgstr ""
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Income_Payment/static/src/xml/payment_line_advanced_search.xml:0
+#, python-format
+msgid "Equal"
+msgstr "完全一致"
 
 #. module: Maintain_Income_Payment
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_many_payment__history_payment
-msgid "History payment"
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__customer_from_date
+msgid "From Date"
 msgstr ""
 
 #. module: Maintain_Income_Payment
@@ -262,6 +257,11 @@ msgid "Invoice"
 msgstr "売上伝票No"
 
 #. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__invoice_history
+msgid "Journal Entry"
+msgstr ""
+
+#. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line____last_update
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_many_payment____last_update
 msgid "Last Modified on"
@@ -278,6 +278,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_many_payment__write_date
 msgid "Last Updated on"
 msgstr ""
+
+#. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Income_Payment/static/src/xml/payment_line_advanced_search.xml:0
+#, python-format
+msgid "Like"
+msgstr "あいまい検索"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__line_info
@@ -342,10 +350,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.many_payment_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree_in_confirm_payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_tree
 msgid "Payment Amount"
 msgstr "入金金額"
+
+#. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
+msgid "Payment Category"
+msgstr "入金内容"
 
 #. module: Maintain_Income_Payment
 #: model:ir.actions.act_window,name:Maintain_Income_Payment.account_payment_action
@@ -353,9 +365,31 @@ msgid "Payment Custom"
 msgstr "入金入力"
 
 #. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Income_Payment/static/src/xml/payment_line_advanced_search.xml:0
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__payment_date_new
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__payment_date
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+#, python-format
+msgid "Payment Date"
+msgstr "入金日付"
+
+#. module: Maintain_Income_Payment
 #: model:ir.ui.menu,name:Maintain_Income_Payment.parent_menu_master
 msgid "Payment Group Master"
 msgstr "売掛管理"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__payment_input_history
+msgid "Payment Input History"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.actions.act_window,name:Maintain_Income_Payment.confirm_payment_action
+#: model:ir.ui.menu,name:Maintain_Income_Payment.confirm_payment
+msgid "Payment Line"
+msgstr "入金履歴照会"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__payment_method_id
@@ -363,10 +397,10 @@ msgstr "売掛管理"
 msgid "Payment Method"
 msgstr ""
 
-#. module: account
-#: model:ir.actions.server,name:account.action_account_confirm_payments
-msgid "Post Payments"
-msgstr "確認"
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__payment_request_history
+msgid "Payment Request History"
+msgstr ""
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__payment_terms
@@ -399,6 +433,11 @@ msgid "Payments"
 msgstr "支払"
 
 #. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__receipt_divide_custom_id
+msgid "Receipt Divide"
+msgstr ""
+
+#. module: Maintain_Income_Payment
 #: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__payment_type__inbound
 #: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment_line__payment_type__inbound
 #: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__many_payment__payment_type__inbound
@@ -422,18 +461,26 @@ msgid "Report payment"
 msgstr "支払いを報告する"
 
 #. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-msgid "Reset To Draft"
-msgstr "ドラフトに再設定"
-
-#. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Income_Payment/static/src/xml/payment_line_advanced_search.xml:0
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__sales_rep
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__sales_rep
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_many_payment__sales_rep
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.many_payment_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_search
+#, python-format
 msgid "Sales Rep"
 msgstr "入力担当者"
+
+#. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Income_Payment/static/src/xml/payment_line_advanced_search.xml:0
+#, python-format
+msgid "Search Category"
+msgstr "条件"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__display_type__line_section
@@ -467,28 +514,31 @@ msgid "Technical field for UX purpose."
 msgstr ""
 
 #. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__closing_date_compute
+msgid "Temp"
+msgstr ""
+
+#. module: Maintain_Income_Payment
 #: code:addons/Maintain_Income_Payment/models/income_payment_custom.py:0
 #, python-format
 msgid "The Document No has already been registered"
 msgstr ""
 
 #. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_tree
 msgid "Total"
 msgstr ""
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__payment_date
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__payment_date
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_many_payment__payment_date
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.many_payment_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_search
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree_in_income_payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_search
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree_in_confirm_payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_tree
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_many_payment_tree
 msgid "Transaction Date"
 msgstr "入金日付"
@@ -500,10 +550,31 @@ msgid "Validated"
 msgstr ""
 
 #. module: Maintain_Income_Payment
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__write_date
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_search
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__vj_c_payment_category
+msgid "Vj C Payment Category"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Income_Payment/static/src/xml/payment_line_advanced_search.xml:0
+#, python-format
+msgid "Voucher No"
+msgstr "伝票No"
+
+#. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
+#: code:addons/Maintain_Income_Payment/static/src/xml/payment_line_advanced_search.xml:0
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_search
+#, python-format
 msgid "Write Date"
 msgstr "入力（登録日付）"
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__x_voucher_deadline
+msgid "X Voucher Deadline"
+msgstr ""
 
 #. module: Maintain_Income_Payment
 #: model:ir.model,name:Maintain_Income_Payment.model_account_payment_line
@@ -513,6 +584,11 @@ msgstr ""
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__ari_document_no
 msgid "ari_document_no"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__bill_status
+msgid "bill_status"
 msgstr ""
 
 #. module: Maintain_Income_Payment
@@ -534,13 +610,11 @@ msgstr "適用"
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__is_customer_supplier_group_code
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_search
 msgid "is_customer_supplier_group_code"
 msgstr ""
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__is_industry_code
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_search
 msgid "is_industry_code"
 msgstr ""
 
@@ -555,29 +629,21 @@ msgid "partner_group_code"
 msgstr "取引先グループコード"
 
 #. module: Maintain_Income_Payment
-#. openerp-web
-#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
-#, python-format
-msgid "Customer Code"
-msgstr "得意先コード"
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
+msgid "payment category"
+msgstr "入金区分"
 
 #. module: Maintain_Income_Payment
+#: code:addons/Maintain_Income_Payment/models/income_payment_custom.py:0
 #: code:addons/Maintain_Income_Payment/models/income_payment_custom.py:0
 #, python-format
 msgid "payment_amount must be more than 0"
 msgstr "入金金額は0より大きくなければなりません。"
 
 #. module: Maintain_Income_Payment
-#. openerp-web
-#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
-#, python-format
-msgid "Payment Date"
-msgstr "入金日付"
-
-#. module: Maintain_Income_Payment
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__partner_payment_name1
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__partner_payment_name1
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_search
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_search
 msgid "paymentname1"
 msgstr "得意先名"
 
@@ -597,11 +663,8 @@ msgid "remain"
 msgstr ""
 
 #. module: Maintain_Income_Payment
-#. openerp-web
-#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_many_payment_tree
-#, python-format
-msgid "Sales Rep"
+msgid "sales_rep"
 msgstr "入力担当者"
 
 #. module: Maintain_Income_Payment
@@ -615,12 +678,9 @@ msgid "total_payment"
 msgstr ""
 
 #. module: Maintain_Income_Payment
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__vj_c_payment_category
 #: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment_line__vj_c_payment_category
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.many_payment_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree_in_confirm_payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_line_tree
 msgid "vj_c_payment_category"
 msgstr "入金区分"
 
@@ -637,15 +697,13 @@ msgid "vj_summary"
 msgstr "摘要"
 
 #. module: Maintain_Income_Payment
-#. openerp-web
-#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
-#, python-format
-msgid "Write Date"
-msgstr "入力（登録日付）"
-
-#. module: Maintain_Income_Payment
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.report_payment_document1
 msgid "ページ:"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__x_voucher_deadline__今回
+msgid "今回"
 msgstr ""
 
 #. module: Maintain_Income_Payment
@@ -664,7 +722,10 @@ msgid "入力（登録日付）"
 msgstr ""
 
 #. module: Maintain_Income_Payment
+#. openerp-web
+#: code:addons/Maintain_Income_Payment/static/src/xml/many_advanced_search.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.report_payment_document1
+#, python-format
 msgid "入金日付"
 msgstr ""
 
@@ -691,13 +752,6 @@ msgid "回収月"
 msgstr ""
 
 #. module: Maintain_Income_Payment
-#. openerp-web
-#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
-#, python-format
-msgid "売上伝票No"
-msgstr ""
-
-#. module: Maintain_Income_Payment
 #: code:addons/Maintain_Income_Payment/models/income_payment_custom.py:0
 #, python-format
 msgid "売掛残高："
@@ -709,17 +763,15 @@ msgid "専伝・仮伝"
 msgstr ""
 
 #. module: Maintain_Income_Payment
+#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.many_payment_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.report_payment_document1
 msgid "得意先コード"
 msgstr ""
 
 #. module: Maintain_Income_Payment
-#. openerp-web
-#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.report_payment_document1
-#, python-format
-msgid "Customer Name"
-msgstr "得意先名"
+msgid "得意先名"
+msgstr ""
 
 #. module: Maintain_Income_Payment
 #: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__vj_summary__vj_sum_2
@@ -727,8 +779,23 @@ msgid "指定なし"
 msgstr ""
 
 #. module: Maintain_Income_Payment
+#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_many_payment__name
+msgid "新規"
+msgstr ""
+
+#. module: Maintain_Income_Payment
 #: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.report_payment_document1
 msgid "業種コード"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__x_voucher_deadline__次回
+msgid "次回"
+msgstr ""
+
+#. module: Maintain_Income_Payment
+#: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__vj_c_payment_category__cash
+msgid "現金"
 msgstr ""
 
 #. module: Maintain_Income_Payment
@@ -742,35 +809,6 @@ msgid "通常"
 msgstr ""
 
 #. module: Maintain_Income_Payment
-#. openerp-web
-#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
-#, python-format
-msgid "Voucher No"
-msgstr "伝票No"
-
-#. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-msgid "payment category"
-msgstr "入金区分"
-
-#. module: Maintain_Income_Payment
-#. openerp-web
-#: code:addons/Maintain_Income_Payment/static/src/xml/advanced_search.xml:0
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__payment_date_new
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-#, python-format
-msgid "Payment Date"
-msgstr "回収日"
-
-#. module: Maintain_Income_Payment
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__closing_date_new
-#: model:ir.model.fields,field_description:Maintain_Income_Payment.field_account_payment__customer_closing_date
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_form
-msgid "Closing Date"
-msgstr "締日グループ"
-
-#. module: Maintain_Income_Payment
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_account_payment_custom_tree
-#: model_terms:ir.ui.view,arch_db:Maintain_Income_Payment.view_confirm_payment_custom_tree
-msgid "Payment Category"
-msgstr "入金内容"
+#: model:ir.model.fields.selection,name:Maintain_Income_Payment.selection__account_payment__vj_c_payment_category__bank
+msgid "銀行"
+msgstr ""

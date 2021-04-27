@@ -1,5 +1,5 @@
 <template>
-    <t t-name="Income_Payment.advanced_search">
+    <t t-name="payment_line.advanced_search">
         <table>
             <tr>
                 <th>Search Category</th>
@@ -13,13 +13,13 @@
             <tr>
                 <th>Voucher No</th>
                 <td>
-                    <input class="filter-item" data-operator="gte" data-name="document_no"/>
+                    <input class="filter-item" data-operator="gte" data-name="payment_id.document_no"/>
                 </td>
                 <td>
                     <span>～</span>
                 </td>
                 <td>
-                    <input class="filter-item" data-operator="lte" data-name="document_no"/>
+                    <input class="filter-item" data-operator="lte" data-name="payment_id.document_no"/>
                 </td>
             </tr>
             <tr>
@@ -37,37 +37,37 @@
             <tr>
                 <th>Payment Date</th>
                 <td>
-                    <input class="filter-item" data-operator="gte" data-name="payment_date" type="date"/>
+                    <input class="filter-item" data-operator="gte" data-name="payment_id.payment_date" type="date"/>
                 </td>
                 <td>
                     <span>～</span>
                 </td>
                 <td>
-                    <input class="filter-item" data-operator="lte" data-name="payment_date" type="date"/>
+                    <input class="filter-item" data-operator="lte" data-name="payment_id.payment_date" type="date"/>
                 </td>
             </tr>
             <tr>
                 <th>Customer Code</th>
                 <td>
-                    <input class="filter-item" data-operator="gte" data-name="partner_id"/>
+                    <input class="filter-item" data-operator="gte" data-name="payment_id.partner_id.customer_code"/>
                 </td>
                 <td>
                     <span>～</span>
                 </td>
                 <td>
-                    <input class="filter-item" data-operator="lte" data-name="partner_id"/>
+                    <input class="filter-item" data-operator="lte" data-name="payment_id.partner_id.customer_code"/>
                 </td>
             </tr>
             <tr>
                 <th>Customer Name</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="partner_payment_name1"/>
+                    <input class="filter-item" data-operator="ilike" data-name="payment_id.partner_payment_name1"/>
                 </td>
             </tr>
             <tr>
                 <th>Sales Rep</th>
                 <td>
-                    <input class="filter-item" data-operator="ilike" data-name="sales_rep"/>
+                    <input class="filter-item" data-operator="ilike" data-name="payment_id.sales_rep"/>
                 </td>
             </tr>
         </table>
