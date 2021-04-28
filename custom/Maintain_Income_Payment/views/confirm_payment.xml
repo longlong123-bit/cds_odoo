@@ -9,10 +9,8 @@
                 <field name="document_no" string="Document No"/>
                 <field name="write_date" string="Write Date"/>
                 <field name="payment_date" string="Transaction Date"/>
-                <field name="customer_code" string="Business Partner"/>
-                <field name="customer_name"/>
-                <field name="customer_other_cd"/>
-                <field name="vj_c_payment_category" string="vj_c_payment_category" required="True"/>
+                <field name="partner_id" string="Business Partner"/>
+                <field name="partner_payment_name1" string='paymentname1'/>
                 <field name="sales_rep" string="Sales Rep"/>
             </search>
         </field>
@@ -25,15 +23,15 @@
         <field eval="1" name="priority"/>
         <field name="arch" type="xml">
             <tree multi_edit="1" duplicate="false" class="forward_edit" create="false" default_order="document_no asc">
-                <field name="payment_date_display" string="Transaction Date"/>
-                <field name="document_no_display" string="Document No"/>
-                <field name="customer_code_display" string="Business Partner"/>
-                <field name="customer_name_display"/>
-                <field name="customer_other_cd_display"/>
-                <field name="vj_c_payment_category_display" string="vj_c_payment_category" required="True"/>
+                <field name="payment_date" string="Transaction Date"/>
+                <field name="document_no" string="Document No"/>
+                <field name="customer_code" string="Business Partner"/>
+                <field name="customer_name"/>
+                <field name="customer_other_cd"/>
+                <field name="vj_c_payment_category" string="vj_c_payment_category" required="True"/>
                 <field name="payment_amount" string="Payment Amount" sum="Total" optional="show"/>
                 <field name="description" string="Description"/>
-                <field name="sales_rep_display" invisible="1"/>
+                <field name="sales_rep" invisible="1"/>
                 <field name="state" readonly="True" invisible="1"/>
             </tree>
         </field>

@@ -586,34 +586,20 @@ class IncomePaymentLineCustom(models.Model):
     def _compute_data_payment_line(self):
         for record in self:
             record.payment_date = record.payment_id.payment_date
-            record.payment_date_display = record.payment_id.payment_date
             record.document_no = record.payment_id.document_no
-            record.document_no_display = record.payment_id.document_no
             record.customer_other_cd = record.payment_id.customer_other_cd
-            record.customer_other_cd_display = record.payment_id.customer_other_cd
             record.customer_code = record.payment_id.partner_id.customer_code
-            record.customer_code_display = record.payment_id.partner_id.customer_code
             record.customer_name = record.payment_id.partner_payment_name1
-            record.customer_name_display = record.payment_id.partner_payment_name1
             record.vj_c_payment_category = record.receipt_divide_custom_id.name
-            record.vj_c_payment_category_display = record.receipt_divide_custom_id.name
             record.sales_rep = record.payment_id.sales_rep
-            record.sales_rep_display = record.payment_id.sales_rep
 
-    payment_date = fields.Date(store=True, compute=_compute_data_payment_line)
-    document_no = fields.Char(store=True, compute=_compute_data_payment_line)
-    customer_code = fields.Char(store=True, compute=_compute_data_payment_line)
-    customer_name = fields.Char(store=True, compute=_compute_data_payment_line)
-    customer_other_cd = fields.Char(store=True, compute=_compute_data_payment_line)
-    vj_c_payment_category = fields.Char(store=True, compute=_compute_data_payment_line)
-    sales_rep = fields.Char(store=True, compute=_compute_data_payment_line)
-    payment_date_display = fields.Date(string="Payment Date", store=False, compute=_compute_data_payment_line)
-    document_no_display = fields.Char(string="Document No", store=False, compute=_compute_data_payment_line)
-    customer_code_display = fields.Char(string="Customer Code", store=False, compute=_compute_data_payment_line)
-    customer_name_display = fields.Char(string="Customer Name", store=False, compute=_compute_data_payment_line)
-    customer_other_cd_display = fields.Char(string="Customer Other CD", store=False, compute=_compute_data_payment_line)
-    vj_c_payment_category_display = fields.Char(string="vj_c_payment_category", store=False, compute=_compute_data_payment_line)
-    sales_rep_display = fields.Char(string="Sales Rep", store=False, compute=_compute_data_payment_line)
+    payment_date = fields.Date(string="Payment Date", readonly=True, compute=_compute_data_payment_line)
+    document_no = fields.Char(string="Document No", readonly=True, compute=_compute_data_payment_line)
+    customer_code = fields.Char(string="Customer Code", readonly=True, compute=_compute_data_payment_line)
+    customer_name = fields.Char(string="Customer Name", readonly=True, compute=_compute_data_payment_line)
+    customer_other_cd = fields.Char(string="Customer Other CD", readonly=True, compute=_compute_data_payment_line)
+    vj_c_payment_category = fields.Char(string="vj_c_payment_category", readonly=True, compute=_compute_data_payment_line)
+    sales_rep = fields.Char(string="Sales Rep", readonly=True, compute=_compute_data_payment_line)
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
