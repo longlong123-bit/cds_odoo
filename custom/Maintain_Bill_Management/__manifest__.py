@@ -23,6 +23,7 @@
         'security/ir.model.access.csv',
         'views/assets.xml',
         'views/bill.xml',
+        'views/draft_bill.xml',
         'views/menu_bill_management.xml',
         'views/many_payment_view.xml',
         'views/bill_details.xml',
@@ -41,7 +42,7 @@
         'static/src/xml/bill_advanced_search.xml',
         'static/src/xml/bill_product_lines.xml',
         'static/src/xml/create_bill_button.xml',
-        'static/src/xml/create_and_print_bill_button.xml',
+        'static/src/xml/create_review_button.xml',
     ],
 
     # only loaded in demonstration mode
