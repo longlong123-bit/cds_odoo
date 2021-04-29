@@ -47,7 +47,7 @@ class OrderManagement(models.Model):
         ('draft', 'Draft'),
         ('paid', 'Paid'),
     ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
-
+    refer_quotation_history = fields.Many2one('sale.order', store=False)
     order_id = fields.Many2one('order.management', string='Order', store=False)
     order_document_no = fields.Char(string="Document No", readonly=True, copy=False, default=_get_next_order_no)
     order_date_ordered = fields.Date(string='Order Date', default=get_default_current_date)
@@ -116,6 +116,52 @@ class OrderManagement(models.Model):
     copy_history_item = fields.Char(default="")
     copy_history_from = fields.Char(default="")
 
+    arr_changed = []
+
+    @api.onchange('refer_quotation_history')
+    def _onchange_refer_quotation_history(self):
+        for rec in self:
+            if rec.refer_quotation_history:
+                rec.flag_history = 1
+        if self.refer_quotation_history:
+            data = self.refer_quotation_history
+            self.order_business_partner = data.partner_id
+            self.changed_fields_order_management.append('order_business_partner')
+            self.order_partner_name = data.partner_name
+            self.order_bussiness_partner_name_2 = data.partner_name_2
+            self.order_summary = data.note
+            self.customer_closing_date = data.partner_id.customer_closing_date
+            self.is_print_date = data.is_print_date
+            self.tax_method = data.tax_method
+            self.order_calendar = data.quotation_calendar
+            self.sales_rep = data.cb_partner_sales_rep_id
+
+            lines = []
+
+            for line in data.order_line.sorted(key=lambda i: i.quotation_custom_line_no):
+                lines.append((0, 0, {
+                    'class_item': line.class_item,
+                    'product_id': line.product_id,
+                    'product_code': line.product_code,
+                    'product_barcode': line.product_barcode,
+                    'product_name': line.product_name,
+                    'product_name2': line.product_name2,
+                    'product_uom_id': line.product_uom_id,
+                    'product_standard_number': line.product_standard_number,
+                    'product_maker_name': line.product_maker_name,
+                    'product_uom_qty': line.product_uom_qty,
+                    'price_unit': line.price_unit,
+                    'line_amount': line.line_amount,
+                    'tax_id': line.tax_id,
+                    'tax_rate': line.tax_rate,
+                    'line_tax_amount': line.line_tax_amount,
+                    'description': line.description,
+                    'price_include_tax': line.price_include_tax,
+                    'price_no_tax': line.price_no_tax,
+                    'quotation_custom_line_no': line.quotation_custom_line_no
+                }))
+
+            self.order_line = lines
 
     @api.onchange('order_business_partner', 'order_partner_name', 'ref', 'order_bussiness_partner_name_2',
                   'order_address_1', 'order_address_2', 'order_address_3', 'order_summary', 'sales_rep')
@@ -132,9 +178,8 @@ class OrderManagement(models.Model):
         for rec in self:
             if rec.order_id:
                 rec.flag_history = 1
-
         self.set_order(self.order_id.id)
-
+        
     changed_fields_order_management = []
 
     @api.model
@@ -172,8 +217,6 @@ class OrderManagement(models.Model):
                 order_lines += [[0, 0, copied_data]]
             # default['order_line'] = [(0, 0, line) for line in lines if line]
             self.order_line = order_lines
-
-
 
     @api.onchange('order_business_partner')
     def _onchange_business_partner(self):
