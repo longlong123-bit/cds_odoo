@@ -70,7 +70,7 @@ class DraftBillingClass(models.Model):
         ctx = self._context.copy()
         if ctx.get('have_advance_search'):
             domain = []
-            if 'Draft Billing' == ctx.get('view_name'):
+            if 'Draft Bill History' == ctx.get('view_name'):
                 for se in args:
                     if se[0] == '&':
                         continue
@@ -88,7 +88,7 @@ class DraftBillingClass(models.Model):
                             continue
                     domain += [se]
                 args = domain
-        if 'Draft Billing' == ctx.get('view_name') and len(args) == 0:
+        if 'Draft Bill History' == ctx.get('view_name') and len(args) == 0:
             return []
 
         return super(DraftBillingClass, self).search(args, offset=offset, limit=limit, order=order, count=count)
