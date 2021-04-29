@@ -1,0 +1,171 @@
+/*
+.invoice_create table th{
+    text-align: left!important;
+}
+
+.invoice_create table td, .invoice_create table th{
+    vertical-align: middle!important;
+}
+
+.invoice_create table th:nth-last-child(2),.invoice_create table th:nth-last-child(3),.invoice_create table th:nth-last-child(4),.invoice_create table th:nth-last-child(5),
+.invoice_create table th:nth-last-child(6),
+.invoice_create table th:nth-last-child(7)
+{
+  width:100%!important;
+}
+
+.invoice_create table td
+{
+
+}
+
+.invoice_create table td .o_list_number{
+    text-align:right;
+}
+
+.invoice_create table td div{
+
+    border: dotted 1px #dddddd;
+    padding: 2px;
+
+}
+*/
+
+.invoice_create div.o_field_x2many_list_row_delete_m{
+    background : url('/web/static/src/img/form-toolbar/Delete24.png') no-repeat center;
+    background-size:contain;
+    background-color: transparent;
+    display: inline-block;
+    margin: 0px 0px 5px 13px;
+    width: 20px;
+    height: 20px;
+    padding: 1px;
+    border: none;
+    display:none;
+    cursor: pointer;
+    color: #7C7BAD;
+    text-decoration: none;
+}
+
+
+.invoice_create table th{
+    text-align: left!important;
+}
+
+
+
+.invoice_create table td, .invoice_create table th{
+    vertical-align: middle!important;
+}
+
+/*.invoice_create table th:nth-last-child(9)*/
+/*{*/
+/*  width:2%!important;*/
+/*}*/
+
+/*.invoice_create table th:nth-last-child(8)*/
+/*{*/
+/*  width:2%!important;*/
+/*}*/
+
+/*.invoice_create table th:nth-last-child(1)*/
+/*{*/
+/*  width:10%!important;*/
+/*  min-width:10%!important;*/
+/*}*/
+
+
+.invoice_create table td div:not(.o_tag_color_0)
+{
+    height:25px!important;
+    width: 100%!important;
+}
+.invoice_create table td pre
+{
+    margin: unset;
+    padding-top: 5px;
+    font-size: 13px;
+    font-family: inherit;
+
+}
+.invoice_create table td pre textarea {
+    min-height: 25px;
+    padding-top: 2px;
+    padding-bottom: 0px;
+    border-bottom-width: 1px;
+    border-top-width: 1px;
+    line-height: 14px;
+    font-size: 13px;
+    font-family: inherit;
+}
+.invoice_create .o_tag_color_0{
+    min-width:50px!important;
+}
+
+
+.invoice_create table td .o_list_number{
+    text-align:right;
+}
+
+.invoice_create table th:nth-last-child(14)
+{
+  width:2%!important;
+}
+.invoice_create table th:nth-last-child(13)
+{
+  width:2%!important;
+}
+.invoice_create table th:nth-last-child(12)
+{
+  width:5%!important;
+}
+/*Product Code*/
+.invoice_create table th:nth-last-child(11)
+{
+  width:7%!important;
+}
+/*商品名*/
+.invoice_create table th:nth-last-child(10)
+{
+  width:7%!important;
+}
+/*商品名2*/
+.invoice_create table th:nth-last-child(9)
+{
+  width:23%!important;
+}
+/*standardnumber*/
+.invoice_create table th:nth-last-child(8)
+{
+  width:7%!important;
+}
+/*Quantity*/
+.invoice_create table th:nth-last-child(7)
+{
+  width:5%!important;
+}
+/*Price*/
+.invoice_create table th:nth-last-child(6)
+{
+  width:8%!important;
+}
+/*UoM*/
+.invoice_create table th:nth-last-child(5)
+{
+  width:5%!important;
+}
+/*Line Amount*/
+.invoice_create table th:nth-last-child(4)
+{
+  width:10%!important;
+}
+/*Standard Price*/
+.invoice_create table th:nth-last-child(3)
+{
+  width:7%!important;
+}
+/*Description*/
+.invoice_create table th:nth-last-child(2)
+{
+  width:12%!important;
+}
