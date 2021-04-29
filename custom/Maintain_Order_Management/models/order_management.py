@@ -11,6 +11,7 @@ _logger = logging.getLogger(__name__)
 class OrderManagement(models.Model):
     _name = "order.management"
     _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'utm.mixin']
+    _rec_name = 'rec_name'
 
     def _get_next_order_no(self):
         sequence = self.env['ir.sequence'].search(
@@ -41,6 +42,7 @@ class OrderManagement(models.Model):
                   ('id', 'not in', res_users_group_system_ids.ids)]
         return domain
 
+    rec_name = fields.Char(store=False, default='修正')
     state = fields.Selection([
         ('draft', 'Draft'),
         ('paid', 'Paid'),
