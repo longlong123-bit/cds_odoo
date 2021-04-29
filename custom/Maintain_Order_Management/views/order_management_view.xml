@@ -8,12 +8,6 @@
         <field name="arch" type="xml">
             <form class="custom_template quotations_custom" js_class="quotation-custom">
                 <header>
-                    <button name="action_paid" class="oe_highlight"
-                            string="Paid" type="object"
-                            attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
-                    <button name="action_draft"
-                            string="Reset to Draft" type="object"
-                            attrs="{'invisible': [('state', 'not in', ['paid', 'cancel'])]}"/>
                     <field name="order_id" widget="button_field" z-index="92" options='{"model":"order.management", "text":"受注履歴問合せ"}'
                            attrs="{'invisible':[('flag_history','=', 1)]}"/>
                     <field name="state" z-index="93" widget="statusbar" class="o_required_modifier" style="width:auto !important; border: 0; background-color: #ffffff !important;" statusbar_visible="draft,paid"/>
@@ -82,7 +76,7 @@
                             <td class="col-label"><label for="customer_closing_date" string="Closing Date"/></td>
                             <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1" force_save="1" widget="input" options='{"no_open":True}'/></td>
                             <td class="col-label"><label for="order_calendar" string="Calendar"/></td>
-                            <td colspan="3"><field name="order_calendar" widget="input" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td colspan="3"><field name="order_calendar" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
                         </tr>
                         <tr>
                             <td class="col-label"><label for="order_summary" string="Summary"/></td>
@@ -103,10 +97,6 @@
                                 <field name="flag_history" force_save="1" invisible="1"/>
                                 <field name="copy_history_item" invisible="1"/>
                                 <field name="copy_history_from" invisible="1"/>
-                            </td>
-                            <td>
-                                <field name="hr_employee_code" invisible="1"/>
-                                <field name="hr_employee_name" invisible="1"/>
                             </td>
                         </tr>
                     </tbody>
@@ -130,7 +120,7 @@
                                     margin-right: 1px; width: 16px; height: 16px;
                                     padding: 1px;border: none;" >
                                 </button>
-                                <field name="refer_detail_history" style="display:none" position="attributes" widget="button_field" z-index="92" context="{'tree_view_ref':'Maintain_Order_Management.view_order_line_tree_custom'}" domain="{[('state','in',['draft'])]}" options='{"model":"order.management.line", "sort_cut": true, "text":"受注履歴問合せ"}'/>
+                                <field name="refer_detail_history" style="display:none" position="attributes" widget="button_field" z-index="92" context="{'tree_view_ref':'Maintain_Order_Management.order_management_line_tree'}" domain="{[('state','in',['draft'])]}" options='{"model":"order.management.line", "sort_cut": true, "text":"受注履歴問合せ"}'/>
                                 <field name="display_type" invisible="True"/>
                                 <field name="product_uom_category_id" invisible="True"/>
                                 <field name="id" invisible="True"/>
@@ -207,7 +197,7 @@
         </field>
     </record>
 
-    <record id="view_quotations_custom_tree" model="ir.ui.view">
+    <record id="view_order_management_tree" model="ir.ui.view">
         <field name="name">order.management.tree</field>
         <field name="model">order.management</field>
         <field name="mode">primary</field>
@@ -217,13 +207,10 @@
                   banner_route="/sales/sale_quotation_onboarding_panel"
                   multi_edit="1">
                 <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
-                <field name="hr_employee_code"/>
-                <field name="hr_employee_name"/>
-                <field name="order_customer_code_for_search"/>
-                <field name="order_partner_name"/>
                 <field name="order_date_ordered"/>
                 <field name="order_document_no"/>
-                <field name="customer_trans_classification_code"/>
+                <field name="order_customer_code_for_search"/>
+                <field name="order_partner_name"/>
                 <field name="order_userinput_id"/>
                 <field name="sales_rep"/>
                 <field name="amount_untaxed"/>
@@ -234,27 +221,26 @@
         </field>
     </record>
 
-    <record id="product_custom_template_search_view" model="ir.ui.view">
-        <field name="name">sale.order.custom.search</field>
+    <record id="view_order_management_search" model="ir.ui.view">
+        <field name="name">order.management.search</field>
         <field name="model">order.management</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <search>
-                <field name="order_date_printed"/>
+                <field name="order_date_ordered"/>
                 <field name="order_document_no"/>
-                <field name="ref"/>
+                <field name="order_customer_code_for_search"/>
                 <field name="order_partner_name"/>
-                <field name="order_business_partner"/>
-                <field name="amount_untaxed"/>
-                <field name="amount_tax"/>
-                <field name="tax_method"/>
+                <field name="customer_trans_classification_code"/>
+                <field name="order_userinput_id"/>
+                <field name="sales_rep"/>
                 <filter name="sales_rep" domain="[('sales_rep','=',uid)]"/>
             </search>
         </field>
     </record>
 
-    <record model="ir.ui.view" id="view_order_line_tree_custom">
-        <field name="name">sale.order.line.custom.tree</field>
+    <record model="ir.ui.view" id="order_management_line_tree">
+        <field name="name">order.management.line.tree</field>
         <field name="model">order.management.line</field>
         <field name="arch" type="xml">
             <tree default_order="document_no desc" >
@@ -276,18 +262,41 @@
         </field>
     </record>
 
-    <record id="quotation_custom_action" model="ir.actions.act_window">
-        <field name="name">見積入力</field>
+    <record model="ir.ui.view" id="view_order_line_search">
+        <field name="name">order.management.line.search</field>
+        <field name="model">order.management.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="document_no" optional="show" readonly="1" string="伝票Ｎｏ"/>
+                <field name="partner_id" optional="show" readonly="1" string="得意先コード"/>
+                <field name="customer_name" optional="show" readonly="1" string="得意先名"/>
+                <field name="class_item" optional="show" readonly="1" string="内訳区分"/>
+                <field name="product_code" optional="show" readonly="1" string="商品コード"/>
+                <field name="product_barcode" optional="show" readonly="1" string="ＪＡＮコード"/>
+                <field name="product_standard_number" optional="show" readonly="1" string="品番/型番"/>
+                <field name="product_maker_name" optional="show" readonly="1" string="メーカー名"/>
+                <field name="product_name" optional="show" readonly="1" string="商品名"/>
+                <field name="product_uom_qty" optional="show" readonly="1" string="数量"/>
+                <field name="product_uom_id" optional="show" string="単位"/>
+                <field name="price_unit" optional="show" readonly="1" string="単価"/>
+                <field name="line_amount" optional="show" readonly="1" string="金額"/>
+                <field name="tax_rate" string="税率"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="order_management_action" model="ir.actions.act_window">
+        <field name="name">受注管理</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">order.management</field>
         <field name="view_mode">tree,kanban,form</field>
-        <field name="view_id" ref="view_quotations_custom_tree"/>
+        <field name="view_id" ref="view_order_management_tree"/>
         <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'view_name': 'main_sale_order'}</field>
-        <field name="search_view_id" ref="product_custom_template_search_view"/>
+        <field name="search_view_id" ref="view_order_management_search"/>
     </record>
 
     <menuitem id="parent_menu" name="Order Management" sequence="1"/>
-    <menuitem id="quotation" parent="Maintain_Order_Management.parent_menu" name="Order Management" sequence="1" action="quotation_custom_action"/>
+    <menuitem id="quotation" parent="Maintain_Order_Management.parent_menu" name="Order Management" sequence="1" action="order_management_action"/>
 
     <data>
         <record id="order_management_seq" model="ir.sequence">

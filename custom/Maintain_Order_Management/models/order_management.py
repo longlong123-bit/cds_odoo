@@ -56,12 +56,11 @@ class OrderManagement(models.Model):
     order_address_1 = fields.Char('address 1')
     order_address_2 = fields.Char('address 2')
     order_address_3 = fields.Char('address 3')
-    hr_employee_code = fields.Char('Employee Code')
-    hr_employee_name = fields.Char('Employee Name')
     order_summary = fields.Text('摘要')
     order_userinput_id = fields.Many2one('res.users', 'Current User', default=lambda self: self.env.uid,
                                          domain=_get_domain_x_userinput_id)
     sales_rep = fields.Many2one('hr.employee', string='Sales Rep')
+    related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
     order_payment_terms_custom = fields.Many2one('account.payment.term')
     customer_trans_classification_code = fields.Selection([('sale', '掛売'), ('cash', '現金'), ('account', '諸口')],
                                                           string='Transaction Class', default='sale')
@@ -115,6 +114,7 @@ class OrderManagement(models.Model):
     copy_history_item = fields.Char(default="")
     copy_history_from = fields.Char(default="")
 
+
     @api.onchange('order_business_partner', 'order_partner_name', 'ref', 'order_bussiness_partner_name_2',
                   'order_address_1', 'order_address_2', 'order_address_3', 'order_summary', 'sales_rep')
     def _check_flag_history(self):
@@ -148,8 +148,6 @@ class OrderManagement(models.Model):
             self.order_bussiness_partner_name_2 = order_management.order_bussiness_partner_name_2
             self.order_address_1 = order_management.order_address_1
             self.order_address_2 = order_management.order_address_2
-            self.hr_employee_code = order_management.hr_employee_code
-            self.hr_employee_name = order_management.hr_employee_name
             self.sales_rep = order_management.sales_rep
             self.order_payment_rule_1 = order_management.order_payment_rule_1
             self.order_payment_terms_custom = order_management.order_payment_terms_custom
@@ -183,8 +181,6 @@ class OrderManagement(models.Model):
                 record.order_partner_name = self.order_business_partner.name
                 record.order_address_1 = self.order_business_partner.street
                 record.order_address_2 = self.order_business_partner.street2
-                record.hr_employee_code = self.order_business_partner.customer_agent.employee_code
-                record.hr_employee_name = self.order_business_partner.customer_agent.name
                 record.sales_rep = self.order_business_partner.customer_agent
                 record.order_payment_rule_1 = self.order_business_partner.payment_rule
                 record.order_payment_terms_custom = self.order_business_partner.payment_terms
@@ -513,6 +509,34 @@ class OrderManagement(models.Model):
             line.partner_id = self.order_business_partner
             line.document_no = self.order_document_no
             line.customer_name = self.order_partner_name
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        ctx = self._context.copy()
+        domain = []
+        if ctx.get('have_advance_search'):
+            check = 0
+            arr = ["order_customer_code_for_search", "order_partner_name", "related_sales_rep_name"]
+            for se in args:
+                if se[0] == '&':
+                    continue
+                if se[0] == 'search_category' and se[2] == 'equal':
+                    check = 1
+                if check == 1 and se[0] in arr:
+                    se[1] = '=ilike'
+                if se[0] != 'search_category':
+                    domain += [se]
+                if se[0] == 'order_document_no':
+                    string_middle = ''
+                    if len(se[2]) < 7:
+                        for i in range(6 - len(se[2])):
+                            string_middle += '0'
+                        string_middle = '1' + string_middle
+                    if len(se[2]) < 11:
+                        se[2] = ''.join(["ARO-", string_middle, se[2]])
+            args = domain
+        res = super(OrderManagement, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        return res
 
 
 class OrderManagementLine(models.Model):
@@ -1433,9 +1457,6 @@ class OrderManagementLine(models.Model):
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-        odoo/models.py
-        """
         ctx = self._context.copy()
         if ctx.get('have_advance_search'):
             domain = []
@@ -1459,7 +1480,7 @@ class OrderManagementLine(models.Model):
                             string_middle += '0'
                         string_middle = '1' + string_middle
                     if len(se[2]) < 11:
-                        se[2] = ''.join(["ARQ-", string_middle, se[2]])
+                        se[2] = ''.join(["ARO-", string_middle, se[2]])
                 # TH - done
             args = domain
         res = super(OrderManagementLine, self).search(args, offset=offset, limit=limit, order=order, count=count)

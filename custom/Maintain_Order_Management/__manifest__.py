@@ -36,6 +36,11 @@
     'data': [
         'security/ir.model.access.csv',
         'views/order_management_view.xml',
+        'views/add_js.xml',
+    ],
+    'qweb': [
+        'static/src/xml/advanced_search.xml',
+        'static/src/xml/order_line_advanced_search.xml',
     ],
     'installable': True,
     'application': True,
