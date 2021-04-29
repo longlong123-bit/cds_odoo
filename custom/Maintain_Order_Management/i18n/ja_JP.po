@@ -538,13 +538,17 @@ msgstr "受注日付"
 #: model:ir.model.fields,field_description:Maintain_Order_Management.field_order_management__order_line
 #: model_terms:ir.ui.view,arch_db:Maintain_Order_Management.view_order_custom_form
 msgid "Order Lines"
-msgstr ""
+msgstr "明細"
 
 #. module: Maintain_Order_Management
 #: model:ir.ui.menu,name:Maintain_Order_Management.parent_menu
-#: model:ir.ui.menu,name:Maintain_Order_Management.quotation
 msgid "Order Management"
 msgstr "受注管理"
+
+#. module: Maintain_Order_Management
+#: model:ir.ui.menu,name:Maintain_Order_Management.quotation
+msgid "Order Management"
+msgstr "受注入力"
 
 #. module: Maintain_Order_Management
 #: model:ir.model.fields,field_description:Maintain_Order_Management.field_order_management__order_payment_terms_custom
