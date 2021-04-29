@@ -8,6 +8,8 @@
         <field name="arch" type="xml">
             <form class="custom_template quotations_custom" js_class="quotation-custom">
                 <header>
+                    <field name="refer_quotation_history" widget="button_field" z-index="92" options='{"model":"sale.order", "text":"見積履歴問合せ"}'
+                           attrs="{'invisible':['|', ('state','in',['posted']), ('flag_history','=', 1)]}"/>
                     <field name="order_id" widget="button_field" z-index="92" options='{"model":"order.management", "text":"受注履歴問合せ"}'
                            attrs="{'invisible':[('flag_history','=', 1)]}"/>
                     <field name="state" z-index="93" widget="statusbar" class="o_required_modifier" style="width:auto !important; border: 0; background-color: #ffffff !important;" statusbar_visible="draft,paid"/>
