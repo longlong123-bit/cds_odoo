@@ -17,9 +17,8 @@ odoo.define('bill.create_bill_button', function (require) {
             }
             if (context['bill_management_module'] === undefined) {
                 this.$buttons && this.$buttons.find('button.create_bill_button') && this.$buttons.find('button.create_bill_button').hide();
-                this.$buttons && this.$buttons.find('button.create_bill_button_custom') && this.$buttons.find('button.create_bill_button_custom').hide();
-            }
-            else {
+                this.$buttons && this.$buttons.find('button.create_button_review') && this.$buttons.find('button.create_button_review').hide();
+            } else if (context['bill_draft_module'] === undefined) {
                 $('[data-section=print][data-index="1"]').css("display", "none");
                 this.$buttons.find('button.o_list_button_add').hide();
                 this.$buttons.find('button.o_button_import').hide();
@@ -27,6 +26,7 @@ odoo.define('bill.create_bill_button', function (require) {
                 this.$buttons.find('button.o_list_button_discard').hide();
                 this.$buttons.find('button.o_form_button_save').hide();
                 this.$buttons.find('button.o_form_button_cancel').hide();
+                this.$buttons.find('button.create_button_review').hide();
 
                 this.$buttons.on('click', '.create_bill_button', function (e) {
                     const def = new $.Deferred();
@@ -56,8 +56,18 @@ odoo.define('bill.create_bill_button', function (require) {
                     })
                     return def;
                 });
+            } else {
+                $('[data-section=print][data-index="1"]').css("display", "none");
+                this.$buttons.find('button.o_list_button_add').hide();
+                this.$buttons.find('button.o_button_import').hide();
+                this.$buttons.find('button.o_list_button_save').hide();
+                this.$buttons.find('button.o_list_button_discard').hide();
+                this.$buttons.find('button.o_form_button_save').hide();
+                this.$buttons.find('button.o_form_button_cancel').hide();
+                this.$buttons.find('button.create_bill_button').hide();
+                this.$buttons.find('button.o_list_export_xlsx').hide();
 
-                this.$buttons.on('click', '.create_bill_button_custom', function (e) {
+                this.$buttons.on('click', '.create_button_review', function (e) {
                     const def = new $.Deferred();
                     var selected_data = [];
                     data = window.current_data || data;

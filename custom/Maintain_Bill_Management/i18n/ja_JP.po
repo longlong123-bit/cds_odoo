@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-31 03:51+0000\n"
-"PO-Revision-Date: 2021-03-31 03:51+0000\n"
+"POT-Creation-Date: 2021-04-29 07:27+0000\n"
+"PO-Revision-Date: 2021-04-29 07:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,7 @@ msgstr ""
 #. module: Maintain_Bill_Management
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.deposit_report_draft
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.deposit_report_draft_1
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_report_draft
 msgid ""
 "<span style=\"font-size: 24px; font-weight: 600\">株式会社　ト　ラ　ヤ</span>\n"
@@ -30,14 +31,13 @@ msgid ""
 "                                    <br/>\n"
 "                                    <span>神栖営業所 　茨城県神栖市溝口６３２－２</span>\n"
 "                                    <br/>\n"
-"                                    <span>TEL　0299-97-4416　FAX　0299-90-6500</span>\n"
+"                                    <span>TEL　0299-97-4416　FAX　0299-90-6530</span>\n"
 "                                    <br/>"
 msgstr ""
 
 #. module: Maintain_Bill_Management
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.abstract_payment_report_draft
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.current_month_report_draft
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.yamasa_report_draft
 msgid ""
 "<span style=\"font-size: 24px; font-weight: 600\">株式会社　ト　ラ　ヤ</span>\n"
@@ -52,46 +52,6 @@ msgid ""
 "                                    <br/>\n"
 "                                    <span>TEL　0299-97-4416　FAX　0299-90-6530</span>\n"
 "                                    <br/>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span style=\"white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;\">\n"
-"                                                                    【　合　　計　】\n"
-"                                                                </span>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span style=\"white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;\">\n"
-"                                                                消費税\n"
-"                                                            </span>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span style=\"white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;\">\n"
-"                                                            【　合　　計　】\n"
-"                                                        </span>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span style=\"white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;\">\n"
-"                                                        消費税\n"
-"                                                    </span>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span tyle=\"max-height: 28px; vertical-align: top; display: inline-block; max-width: 235px; overflow: hidden; margin: 0; padding-bottom: 1px;\">\n"
-"                                                                【入金　（\n"
-"                                                            </span>"
 msgstr ""
 
 #. module: Maintain_Bill_Management
@@ -158,14 +118,6 @@ msgid "<span>単価の※印は税込商品です。</span>"
 msgstr ""
 
 #. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span>得意先コード</span>\n"
-"                                                                <br/>\n"
-"                                                                <span>得意先名</span>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.abstract_payment_report_draft
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.current_month_report_draft
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.deposit_report_draft
@@ -208,44 +160,6 @@ msgid ""
 "                                            <span>千葉銀行銚子支店 普通No1073838</span>\n"
 "                                            <br/>\n"
 "                                            <span>千葉興業銀行銚子支店 普通No0100064</span>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span>（10％対象）</span>\n"
-"                                                                        <br/>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span>（10％対象）</span>\n"
-"                                                                <br/>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span>（10％消費税）</span>\n"
-"                                                                        <br/>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid ""
-"<span>（10％消費税）</span>\n"
-"                                                                <br/>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid "<span>（8％対象）</span>"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid "<span>（8％消費税）</span>"
 msgstr ""
 
 #. module: Maintain_Bill_Management
@@ -319,6 +233,7 @@ msgstr "税込み金額"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__amount_untaxed
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__amount_untaxed
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Amount Untaxed"
 msgstr "売上金額"
 
@@ -334,6 +249,7 @@ msgstr "伝票合計額"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__balance_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__balance_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Balance Amount"
 msgstr "繰越金額"
 
@@ -418,6 +334,7 @@ msgstr "請求状況"
 
 #. module: Maintain_Bill_Management
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Bill Tree"
 msgstr ""
 
@@ -427,6 +344,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__billed_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__billed_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Billed Amount"
 msgstr "今回請求金額"
 
@@ -454,6 +372,7 @@ msgstr "請求先"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_draft__billing_code
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Billing Code"
 msgstr "請求先コード"
 
@@ -473,6 +392,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_draft__billing_name
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Billing Name"
 msgstr "請求先名（得意先名）"
 
@@ -633,6 +553,7 @@ msgstr "得意先名"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__deadline
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__deadline
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Deadline"
 msgstr "締切日"
 
@@ -657,6 +578,7 @@ msgstr "事業部"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__deposit_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__deposit_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Deposit Amount"
 msgstr "入金額"
 
@@ -687,7 +609,15 @@ msgid "Display Name"
 msgstr ""
 
 #. module: Maintain_Bill_Management
+#: model:ir.actions.act_window,name:Maintain_Bill_Management.action_draft_bill
+#: model:ir.ui.menu,name:Maintain_Bill_Management.bill_draft
+#: model:ir.ui.menu,name:Maintain_Bill_Management.menu_bill_draft
+msgid "Draft Bill"
+msgstr "請求仮印刷"
+
+#. module: Maintain_Bill_Management
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Excerpt"
 msgstr "抜粋"
 
@@ -768,6 +698,7 @@ msgstr "仕訳項目"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__last_billed_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__last_billed_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Last Billed Amount"
 msgstr "前回請求金額"
 
@@ -783,6 +714,7 @@ msgstr "前回請求金額"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__last_closing_date
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__last_closing_date
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Last Closing Date"
 msgstr "前回締日"
 
@@ -918,6 +850,14 @@ msgid "Payment Cost And Discount"
 msgstr ""
 
 #. module: Maintain_Bill_Management
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__payment_discount_in_invoicing
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__payment_discount_in_invoicing
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__payment_discount_in_invoicing
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__payment_discount_in_invoicing
+msgid "Payment Discount In Invoicing"
+msgstr ""
+
+#. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line__payment_id
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_details_line_draft__payment_id
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
@@ -928,7 +868,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__payment_plan_date
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__payment_plan_date
 msgid "Payment Plan Date"
-msgstr ""
+msgstr "回収日"
 
 #. module: Maintain_Bill_Management
 #. openerp-web
@@ -943,6 +883,13 @@ msgstr "単価"
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 msgid "Price Unit"
 msgstr "単価"
+
+#. module: Maintain_Bill_Management
+#. openerp-web
+#: code:addons/Maintain_Bill_Management/static/src/xml/create_review_button.xml:0
+#, python-format
+msgid "Print Draft"
+msgstr "仮印刷"
 
 #. module: Maintain_Bill_Management
 #. openerp-web
@@ -1003,13 +950,6 @@ msgid "Representative/Agent"
 msgstr "営業担当者"
 
 #. module: Maintain_Bill_Management
-#. openerp-web
-#: code:addons/Maintain_Bill_Management/static/src/xml/create_and_print_bill_button.xml:0
-#, python-format
-msgid "Review"
-msgstr "仮印刷"
-
-#. module: Maintain_Bill_Management
 #: model:ir.model.fields.selection,name:Maintain_Bill_Management.selection__bill_invoice__customer_trans_classification_code__sale
 #: model:ir.model.fields.selection,name:Maintain_Bill_Management.selection__bill_invoice_details__customer_trans_classification_code__sale
 #: model:ir.model.fields.selection,name:Maintain_Bill_Management.selection__bill_invoice_details_draft__customer_trans_classification_code__sale
@@ -1059,6 +999,7 @@ msgstr "取引先グループ"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__tax_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 #, python-format
 msgid "Tax Amount"
 msgstr "税額"
@@ -1131,6 +1072,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__voucher_number
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__voucher_number
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
+#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.draft_bill_tree
 msgid "Voucher Number"
 msgstr "売伝枚数"
 
@@ -1227,16 +1169,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_details_draft__x_voucher_tax_transfer
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_draft__x_voucher_tax_transfer
 msgid "x_voucher_tax_transfer"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid "※軽減税率"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid "※非課税"
 msgstr ""
 
 #. module: Maintain_Bill_Management
@@ -1452,14 +1384,4 @@ msgstr ""
 #: model:ir.model.fields.selection,name:Maintain_Bill_Management.selection__bill_invoice_details__payment_category__bank
 #: model:ir.model.fields.selection,name:Maintain_Bill_Management.selection__bill_invoice_details_draft__payment_category__bank
 msgid "銀行"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid "（消費税）"
-msgstr ""
-
-#. module: Maintain_Bill_Management
-#: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.normal_invoice_for_each_customer_report_draft
-msgid "（税別御買上計）"
 msgstr ""
