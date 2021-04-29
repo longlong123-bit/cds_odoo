@@ -202,10 +202,10 @@
         <field name="model">order.management</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree string="Quotations Custom" class="forward_edit o_sale_order"
+            <tree class="forward_edit o_sale_order"
                   decoration-muted="state=='cancel'"
                   banner_route="/sales/sale_quotation_onboarding_panel"
-                  multi_edit="1">
+                  multi_edit="1" default_order="order_date_ordered desc, order_document_no desc">
                 <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
                 <field name="order_date_ordered"/>
                 <field name="order_document_no"/>
@@ -243,7 +243,7 @@
         <field name="name">order.management.line.tree</field>
         <field name="model">order.management.line</field>
         <field name="arch" type="xml">
-            <tree default_order="document_no desc" >
+            <tree default_order="document_no desc">
                 <field name="document_no" optional="show" readonly="1" string="伝票Ｎｏ"/>
                 <field name="partner_id" optional="show" readonly="1" string="得意先コード"/>
                 <field name="customer_name" optional="show" readonly="1" string="得意先名"/>
@@ -286,7 +286,7 @@
     </record>
 
     <record id="order_management_action" model="ir.actions.act_window">
-        <field name="name">受注管理</field>
+        <field name="name">受注入力</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">order.management</field>
         <field name="view_mode">tree,kanban,form</field>
