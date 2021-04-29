@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <t t-name="order.advanced_search">
+        <table>
+            <tr>
+                <th>Search Category</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">
+                        <option value="like">Like</option>
+                        <option value="equal">Equal</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Document No</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="order_document_no"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="order_document_no"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Quotation Date</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="order_date_ordered" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="order_date_ordered" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Partner Code</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="order_customer_code_for_search"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Partner Name</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="order_partner_name"/>
+                </td>
+            </tr>
+            <tr>
+                <th>Sales Rep Name</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="related_sales_rep_name"/>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>
