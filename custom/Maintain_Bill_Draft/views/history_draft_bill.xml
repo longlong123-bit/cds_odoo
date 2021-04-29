@@ -2,8 +2,8 @@
 <odoo>
 
     <!-- TREE VIEW -->
-    <record model="ir.ui.view" id="bm_draft_bill_tree">
-        <field name="name">bm.draft.bill.tree</field>
+    <record model="ir.ui.view" id="draft_bill_history_tree">
+        <field name="name">draft.bill.history.tree</field>
         <field name="model">bill.info.draft</field>
         <field name="arch" type="xml">
             <tree string="Draft Bill Tree" class="forward_edit">
@@ -42,18 +42,17 @@
     </record>
 
     <!-- ACTIONS -->
-    <record model="ir.actions.act_window" id="action_draft_bill">
-        <field name="name">Draft Billing</field>
+    <record model="ir.actions.act_window" id="action_draft_bill_history">
+        <field name="name">Draft Bill History</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">bill.info.draft</field>
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="bm_draft_bill_tree"/>
+        <field name="view_id" ref="draft_bill_history_tree"/>
         <field name="domain"></field>
-        <field name="context">{'bill_management_module': True, 'view_name': 'Draft Billing'}</field>
+        <field name="context">{'bill_management_module': True, 'view_name': 'Draft Bill History'}</field>
     </record>
 
     <!-- MENU -->
-    <menuitem id="menu_bill_draft" parent="Maintain_Bill_Management.parent_menu_bill_management" name="Draft Billing"
-              sequence="7"
-              action="action_draft_bill"/>
+    <menuitem id="bill_draft_history" parent="Maintain_Bill_Management.menu_bill_draft" name="Draft Bill History"
+              sequence="2" action="action_draft_bill_history"/>
 </odoo>
