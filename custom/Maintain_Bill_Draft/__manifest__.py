@@ -24,16 +24,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/assets.xml',
-        'views/draft_bill.xml',
-        'views/report_format.xml',
-        'reports/reports.xml',
-        'reports/normal_reports.xml',
-        'reports/current_month_reports.xml',
-        'reports/yamasa_invoice_reports.xml',
-        'reports/abstract_payment_reports.xml',
-        'reports/normal_invoice_for_earch_customer_report.xml',
-        'reports/deposit_reports.xml',
-        'reports/deposit_reports_1.xml',
+        'views/history_draft_bill.xml',
     ],
     'qweb': [
         'static/src/xml/draft_bill_advanced_search.xml',

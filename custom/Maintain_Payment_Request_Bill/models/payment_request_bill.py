@@ -278,7 +278,7 @@ class CollationPayment(models.Model):
                     domain += [record]
                 args = domain
 
-            elif 'Draft Billing' == ctx.get('view_name'):
+            elif 'Draft Bill History' == ctx.get('view_name'):
                 for se in args:
                     if se[0] == '&':
                         continue
@@ -305,7 +305,7 @@ class CollationPayment(models.Model):
             return []
         elif 'Bill History' == ctx.get('view_name') and len(args) == 0:
             return []
-        elif 'Draft Billing' == ctx.get('view_name') and len(args) == 0:
+        elif 'Draft Bill History' == ctx.get('view_name') and len(args) == 0:
             return []
 
         # res = super(CollationPayment, self).search(args=domain, offset=offset, limit=limit, order=order, count=count)
