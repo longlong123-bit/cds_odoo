@@ -47,6 +47,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">bill.info.draft</field>
         <field name="view_mode">tree</field>
+        <field name="hasSelectors">false</field>
         <field name="view_id" ref="draft_bill_history_tree"/>
         <field name="domain"></field>
         <field name="context">{'bill_management_module': True, 'view_name': 'Draft Bill History'}</field>
