@@ -350,6 +350,7 @@ odoo.define('web.ListRender_Custom', function (require) {
             'click .o_field_x2many_list_row_add a:eq(1)': '_onSearchProduct',
             'click .o_field_x2many_list_row_add a:eq(2)': '_onSearchQuotation',
             'click .o_field_x2many_list_row_add a:eq(3)': '_onSearchInvoice',
+            'click .o_field_x2many_list_row_add a:eq(4)': '_onSearchOrder',
         }),
         init: function () {
             this._super.apply(this, arguments);
@@ -430,6 +431,21 @@ odoo.define('web.ListRender_Custom', function (require) {
                     view_type:'list',
                     context: context
                     // disable_multiple_selection: true
+                }).open();
+        },
+        _onSearchOrder: function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            var context = []
+            var domain = [];
+
+            new SearchDialog(this, {
+                    no_create: true,
+                    readonly: true,
+                    res_model: "order.management.line",
+                    domain: domain,
+                    view_type:'list',
+                    context: context
                 }).open();
         },
         // Add custom
