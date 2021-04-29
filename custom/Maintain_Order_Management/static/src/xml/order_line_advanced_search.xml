@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <t t-name="order_line.advanced_search">
+        <table>
+            <tr>
+                <th>条件</th>
+                <td>
+                    <select class="filter-item" data-operator="like" data-name="search_category" style="height:25px;">
+                        <option value="like">あいまい検索</option>
+                        <option value="equal"> 完全一致</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>見積No</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="document_no"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="document_no"/>
+                </td>
+            </tr>
+            <tr>
+                <th>見積日付</th>
+                <td>
+                    <input class="filter-item" data-operator="gte" data-name="quotation_date" type="date"/>
+                </td>
+                <td>
+                    <span>～</span>
+                </td>
+                <td>
+                    <input class="filter-item" data-operator="lte" data-name="quotation_date" type="date"/>
+                </td>
+            </tr>
+            <tr>
+                <th>得意先コード</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="partner_id"/>
+                </td>
+            </tr>
+            <tr>
+                <th>得意先名</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="partner_id.name"/>
+                </td>
+            </tr>
+            <tr>
+                <th>入力担当者</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="order_id.sales_rep"/>
+                </td>
+            </tr>
+            <tr>
+                <th>商品コード</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="product_code"/>
+                </td>
+            </tr>
+            <tr>
+                <th>ＪＡＮコード</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="product_barcode"/>
+                </td>
+            </tr>
+            <tr>
+                <th>品番/型番</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="product_standard_number"/>
+                </td>
+            </tr>
+            <tr>
+                <th>メーカー</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="product_maker_name"/>
+                </td>
+            </tr>
+            <tr>
+                <th>商品名</th>
+                <td>
+                    <input class="filter-item" data-operator="ilike" data-name="product_name"/>
+                </td>
+            </tr>
+        </table>
+    </t>
+</template>

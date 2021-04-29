@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_custom_form" model="ir.ui.view">
+        <field name="name">order.management.form</field>
+        <field name="model">order.management</field>
+        <field name="mode">primary</field>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <form class="custom_template quotations_custom" js_class="quotation-custom">
+                <header>
+                    <field name="order_id" widget="button_field" z-index="92" options='{"model":"order.management", "text":"受注履歴問合せ"}'
+                           attrs="{'invisible':[('flag_history','=', 1)]}"/>
+                    <field name="state" z-index="93" widget="statusbar" class="o_required_modifier" style="width:auto !important; border: 0; background-color: #ffffff !important;" statusbar_visible="draft,paid"/>
+                </header>
+                <table class="custom-form-table cols-8">
+                    <tbody>
+                        <tr>
+                            <td class="col-label"><label for="order_document_no" string="Document No"/></td>
+                            <td class="col-field">
+                                <field style="width:150px!important;float:left!important;" name="order_document_no" string="Document No" readonly="1" clss="o_input"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-label"><label for="order_date_ordered" string="Order Date*"/></td>
+                            <td class="col-field"><field name="order_date_ordered" string="Order Date*" required="1" z-index="94" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td class="col-label"><label for="order_date_shipment" string="shipmentdate*"/></td>
+                            <td class="col-field"><field name="order_date_shipment" string="shipmentdate*" required="1" z-index="95" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td class="col-label"><label for="order_userinput_id" string="userinput_id"/></td>
+                            <td class="col-field"><field name="order_userinput_id" string="userinput_id" z-index="91" attrs="{'readonly':[('state','in',['paid'])]}"
+                                                         class="o_input" options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True}"/></td>
+                            <td class="col-label"><label for="customer_trans_classification_code" string="Transaction Class*"/></td>
+                            <td class="col-field">
+                                <field name="customer_trans_classification_code" string="Transaction Class*" required="1" attrs="{'readonly':[('state','in',['paid'])]}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-label"><label for="order_business_partner" string="Customer*"/></td>
+                            <td class="col-field">
+                                <field name="order_business_partner" required="1" domain="[('customer_rank','>', 0)]" default_focus="1" context="{'showemail': 'ok','res_partner_search_mode': 'customer'}" attrs="{'readonly':[('state','in',['paid'])]}" z-index="98" options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True, 'no_create': True}"/>
+                            </td>
+                            <td colspan="2"><field name="order_partner_name" string="Name" class="o_address_street" style="width : 100%;" placeholder="Name..." force_save="1" widget="input" z-index="99"
+                            attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td class="col-label"><label for="ref" string="Order Reference"/></td>
+                            <td class="col-field"><field name="ref" string="Order Reference" z-index="92" class="o_input" widget="input" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td class="col-label"><label for="tax_method" string="Tax Transfer*"/></td>
+                            <td class="col-field"><field name="tax_method" string="Tax Transfer*" z-index="107" attrs="{'readonly':[('state','in',['paid'])]}" required="True"/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td colspan="2" class="col-field"><field name="order_bussiness_partner_name_2" string="名称2" placeholder="Name 2..." force_save="1" z-index="93" widget="input" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td class="col-label"><label for="sales_rep" string="Sales Rep"/></td>
+                            <td class="col-field"><field name="sales_rep" string="Sales Rep" z-index="96" options="{'no_quick_create':True,'no_create_edit':True , 'no_open' : True}" class="o_input" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td class="col-label"><label for="order_date_printed" string="Date Printed"/></td>
+                            <td class="col-field">
+                                <field autocomplete="off" name="order_date_printed" string="Date Printed" z-index="100" attrs="{'invisible':[('order_date_printed', '=', False)], 'readonly':[('state','in',['paid'])]}"/>
+                                <label for="order_date_printed" string="年　月　日" attrs="{'invisible':['|', ('order_date_printed','!=',False)]}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-label"><label for="order_address_1" string="Address"/></td>
+                            <td colspan="3" class="col-field"><field name="order_address_1" string="Address 1" class="o_address_city" placeholder="Address 1..." force_save="1" widget="input" z-index="101" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <field name="flag_history" force_save="1" invisible="1"/>
+                            </td>
+                            <td colspan="2">
+                                <field name="is_print_date" class="field-checkbox" attrs="{'readonly':[('state','in',['paid'])]}"/>
+                                <label for="is_print_date" string="Print Date"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td colspan="3" class="col-field"><field name="order_address_2" string="Address 2" class="o_address_city" placeholder="Address 2..." force_save="1" widget="input" z-index="102" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td class="col-label"><label for="customer_closing_date" string="Closing Date"/></td>
+                            <td class="col-field"><field name="customer_closing_date" string="Closing Date" readonly="1" force_save="1" widget="input" options='{"no_open":True}'/></td>
+                            <td class="col-label"><label for="order_calendar" string="Calendar"/></td>
+                            <td colspan="3"><field name="order_calendar" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                        </tr>
+                        <tr>
+                            <td class="col-label"><label for="order_summary" string="Summary"/></td>
+                            <td colspan="3" class="col-field"><field name="order_summary" string="Summary" widget="input" z-index="107" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                            <td class="col-label"><label for="invoice_payment_terms_custom" string="Payment Term" attrs=" {'invisible': [ ('order_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]} "/></td>
+                            <td class="col-field">
+                                <field name="order_payment_terms_custom" class="o_input" force_save="1" attrs=" {'invisible': [ ('order_payment_rule_1','in',['rule_cash','rule_check','rule_credit', False])]}" options="{'no_quick_create':True,'no_create_edit':True, 'no_open' : True}"/>
+                            </td>
+                            <td class="col-label"><label for="x_studio_payment_rule_1" string="Payment Rule"/></td>
+                            <td class="col-field"><field name="order_payment_rule_1" string="Payment Rule"
+                                                         z-index="108" attrs="{'readonly':[('state','in',['paid'])]}"/></td>
+                        </tr>
+                        <tr>
+                            <td class="col-label"><label for="state" string="Document Status*" invisible="1"/></td>
+                            <td class="col-field"><field name="state" string="Document Status*" required="1"
+                                                         class="o_input" invisible="1"/></td>
+                            <td>
+                                <field name="flag_history" force_save="1" invisible="1"/>
+                                <field name="copy_history_item" invisible="1"/>
+                                <field name="copy_history_from" invisible="1"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <notebook>
+                    <page string="Order Lines" name="order_lines">
+                        <field name="order_line" widget="section_and_note_one2many" context="{'default_line_ids': order_line, 'default_order_id': id}" attrs="{'readonly': False}">
+                            <tree editable="bottom" edit="true" class="quotations_custom_details" decoration-info="(not display_type)" default_order="quotation_custom_line_no">
+                                <control>
+                                    <create name="add_product_control" string="Add a product"/>
+                                    <create name="search_multi_product_control" string="Add multi products" attrs="{'create':[('state','in',['paid'])]}"/>
+                                    <create name="search_from_quotation_control" string="Search from quotation" attrs="{'invisible':[('state','in',['paid'])]}"/>
+                                    <create name="search_from_invoice_control" string="Search from invoice" attrs="{'invisible':[('state','in',['paid'])]}"/>
+                                    <create name="search_from_order_control" string="Search from order" attrs="{'invisible':[('state','in',['paid'])]}"/>
+                                </control>
+                                <field name="sequence" widget="handle"/>
+                                <button name="button_update"
+                                    style="background : url('/web/static/src/img/form-toolbar/copy.png') no-repeat center;
+                                    background-size:contain;background-color: transparent;
+                                    display: inline-block; margin-left: 1px;
+                                    margin-right: 1px; width: 16px; height: 16px;
+                                    padding: 1px;border: none;" >
+                                </button>
+                                <field name="refer_detail_history" style="display:none" position="attributes" widget="button_field" z-index="92" context="{'tree_view_ref':'Maintain_Order_Management.order_management_line_tree'}" domain="{[('state','in',['draft'])]}" options='{"model":"order.management.line", "sort_cut": true, "text":"受注履歴問合せ"}'/>
+                                <field name="display_type" invisible="True"/>
+                                <field name="product_uom_category_id" invisible="True"/>
+                                <field name="id" invisible="True"/>
+                                <field name="state" invisible="True"/>
+                                <field name="currency_id" invisible="True"/>
+                                <field name="price_tax" invisible="True"/>
+                                <field name="company_id" invisible="True"/>
+                                <field name="price_subtotal" invisible="True"/>
+                                <field name="discount" string="Disc.%" groups="product.group_discount_per_so_line"
+                                       optional="show" invisible="True"/>
+                                <field name="price_subtotal" widget="monetary"
+                                       groups="account.group_show_line_subtotals_tax_excluded" string="Total"
+                                       invisible="True"/>
+                                <field name="price_total" widget="monetary"
+                                       groups="account.group_show_line_subtotals_tax_included" invisible="True"/>
+
+                                <field name="quotation_custom_line_no" widget="input" required="True" attrs="{'readonly':[('state','in',['paid'])]}"/>
+                                <field name="class_item" required="True" attrs="{'readonly':[('state','in',['paid'])]}"/>
+                                <field name="product_id" invisible="1"
+                                       attrs="{'required': [('display_type', '=', False)]}"/>
+                                <field name="product_code" readonly="False" widget="refer_field"
+                                       attrs="{'invisible': ['|', ('display_type', '!=', False), ('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"
+                                       string="Product Code"
+                                       context="{'limit': 200}"
+                                       options='{"model":"product.product","read_column": "code_by_setting", "search_columns": ["product_code_1", "product_code_2", "product_code_3", "product_code_4", "product_code_5", "product_code_6"], "alternative_column":"product_barcode", "alternative_value":"barcode", "search_input": true}'/>
+                                <field name="product_barcode" readonly="False" widget="refer_field"
+                                       context="{'limit': 200}"
+                                       attrs="{'required': [('class_item', '!=', 'サンプル')], 'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"
+                                       options='{"model":"product.product","column": "barcode", "search_input": true}'/>
+                                <!--                                    <field name="product_maker_name" widget="refer_field" options='{"model":"product.product","column": "product_maker_name"}'/>-->
+                                <field name="product_maker_name" widget="input" attrs="{'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"/>
+                                <field name="product_name" attrs="{'readonly':[('state','in',['paid'])]}"/>
+                                <field name="product_name2" invisible="True"/>
+                                <field name="product_standard_number"
+                                       widget="refer_field" context="{'limit': 200}"
+                                       attrs="{'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"
+                                       options='{"model":"product.product", "column": "product_standard_number", "standard_column": "product_custom_standardnumber", "search_columns": ["product_custom_standardnumber"], "alternative_column":"product_barcode", "alternative_value":"barcode"}'/>
+                                <field name="product_uom_qty" attrs="{'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"/>
+                                <field name="product_uom_id" widget="input" attrs="{'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"/>
+                                <field name="price_unit" attrs="{'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"/>
+                                <field name="line_amount" widget="monetary" attrs="{'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"/>
+                                <field name="product_standard_price" readonly="True" attrs="{'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"/>
+                                <field name="cost" attrs="{'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"/>
+                                <field name="description" widget="input" attrs="{'invisible': [('class_item', '=', 'サンプル')], 'readonly':[('state','in',['paid'])]}"/>
+                                <field name="tax_id" widget="many2many_tags" invisible="True" attrs="{'readonly':[('state','in',['paid'])]}"/>
+                                <field name="tax_rate" widget="input" attrs="{'invisible': [('class_item', '=', 'サンプル')],
+                                                                   'readonly': ['|', ('product_tax_category', '=', 'exempt'), ('state','in',['paid'])]}"/>
+                                <field name="price_no_tax" invisible="1"/>
+                                <field name="price_include_tax" invisible="1"/>
+                                <field name="line_tax_amount" widget="monetary" invisible="True"/>
+                                <field name="voucher_line_tax_amount" widget="monetary" invisible="True"/>
+                                <field name="product_tax_category" invisible="1"/>
+                            </tree>
+                        </field>
+                        <group name="note_group" col="6">
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                <field name="amount_untaxed" widget='monetary'
+                                       options="{'currency_field': 'currency_id'}" string="Amount Untaxed"/>
+                                <field name="amount_tax"
+                                       attrs="{'readonly': [('tax_method', '!=', 'custom_tax')]}"
+                                       options="{'currency_field': 'currency_id'}" string="Amount Tax"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="amount_total" string="Amount Total"/>
+                                </div>
+                                <field name="amount_total" nolabel="1"
+                                       class="oe_subtotal_footer_separator" widget='monetary'
+                                       options="{'currency_field': 'currency_id'}"
+                                />
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_order_management_tree" model="ir.ui.view">
+        <field name="name">order.management.tree</field>
+        <field name="model">order.management</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree string="Quotations Custom" class="forward_edit o_sale_order"
+                  decoration-muted="state=='cancel'"
+                  banner_route="/sales/sale_quotation_onboarding_panel"
+                  multi_edit="1">
+                <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
+                <field name="order_date_ordered"/>
+                <field name="order_document_no"/>
+                <field name="order_customer_code_for_search"/>
+                <field name="order_partner_name"/>
+                <field name="order_userinput_id"/>
+                <field name="sales_rep"/>
+                <field name="amount_untaxed"/>
+                <field name="amount_tax"/>
+                <field name="amount_total"/>
+                <field name="state" string="Document Status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_order_management_search" model="ir.ui.view">
+        <field name="name">order.management.search</field>
+        <field name="model">order.management</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="order_date_ordered"/>
+                <field name="order_document_no"/>
+                <field name="order_customer_code_for_search"/>
+                <field name="order_partner_name"/>
+                <field name="customer_trans_classification_code"/>
+                <field name="order_userinput_id"/>
+                <field name="sales_rep"/>
+                <filter name="sales_rep" domain="[('sales_rep','=',uid)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="order_management_line_tree">
+        <field name="name">order.management.line.tree</field>
+        <field name="model">order.management.line</field>
+        <field name="arch" type="xml">
+            <tree default_order="document_no desc" >
+                <field name="document_no" optional="show" readonly="1" string="伝票Ｎｏ"/>
+                <field name="partner_id" optional="show" readonly="1" string="得意先コード"/>
+                <field name="customer_name" optional="show" readonly="1" string="得意先名"/>
+                <field name="class_item" optional="show" readonly="1" string="内訳区分"/>
+                <field name="product_code" optional="show" readonly="1" string="商品コード"/>
+                <field name="product_barcode" optional="show" readonly="1" string="ＪＡＮコード"/>
+                <field name="product_standard_number" optional="show" readonly="1" string="品番/型番"/>
+                <field name="product_maker_name" optional="show" readonly="1" string="メーカー名"/>
+                <field name="product_name" optional="show" readonly="1" string="商品名"/>
+                <field name="product_uom_qty" optional="show" readonly="1" string="数量"/>
+                <field name="product_uom_id" optional="show" string="単位"/>
+                <field name="price_unit" optional="show" readonly="1" string="単価"/>
+                <field name="line_amount" optional="show" readonly="1" string="金額"/>
+                <field name="tax_rate" string="税率"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_order_line_search">
+        <field name="name">order.management.line.search</field>
+        <field name="model">order.management.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="document_no" optional="show" readonly="1" string="伝票Ｎｏ"/>
+                <field name="partner_id" optional="show" readonly="1" string="得意先コード"/>
+                <field name="customer_name" optional="show" readonly="1" string="得意先名"/>
+                <field name="class_item" optional="show" readonly="1" string="内訳区分"/>
+                <field name="product_code" optional="show" readonly="1" string="商品コード"/>
+                <field name="product_barcode" optional="show" readonly="1" string="ＪＡＮコード"/>
+                <field name="product_standard_number" optional="show" readonly="1" string="品番/型番"/>
+                <field name="product_maker_name" optional="show" readonly="1" string="メーカー名"/>
+                <field name="product_name" optional="show" readonly="1" string="商品名"/>
+                <field name="product_uom_qty" optional="show" readonly="1" string="数量"/>
+                <field name="product_uom_id" optional="show" string="単位"/>
+                <field name="price_unit" optional="show" readonly="1" string="単価"/>
+                <field name="line_amount" optional="show" readonly="1" string="金額"/>
+                <field name="tax_rate" string="税率"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="order_management_action" model="ir.actions.act_window">
+        <field name="name">受注管理</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">order.management</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" ref="view_order_management_tree"/>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'view_name': 'main_sale_order'}</field>
+        <field name="search_view_id" ref="view_order_management_search"/>
+    </record>
+
+    <menuitem id="parent_menu" name="Order Management" sequence="1"/>
+    <menuitem id="quotation" parent="Maintain_Order_Management.parent_menu" name="Order Management" sequence="1" action="order_management_action"/>
+
+    <data>
+        <record id="order_management_seq" model="ir.sequence">
+            <field name="name">Order Management</field>
+            <field name="code">order.management</field>
+            <field name="padding">7</field>
+            <field name="number_next">1000000</field>
+            <field name="prefix">ARO-</field>
+        </record>
+    </data>
+</odoo>
