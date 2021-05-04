@@ -4,8 +4,8 @@
         <template id="deposit_report_1">
             <t t-set="total_record_detail" t-value="len(o.record_data())"/>
             <t t-set="total_page_detail_count" t-value="total_record_detail/48"/>
-            <t t-if="int(total_page_detail_count) == total_page_detail_count">
-                <t t-set="total_page_detail" t-value="int(total_page_detail_count)+1"/>
+            <t t-if="int(total_page_detail_count) == total_page_detail_count and total_record_detail != 0">
+                <t t-set="total_page_detail" t-value="int(total_page_detail_count) + 1"/>
             </t>
             <t t-else="">
                 <t t-set="total_page_detail" t-value="int(total_page_detail_count) + 2"/>
@@ -358,15 +358,28 @@
                                         </t>
                                         <t t-set="line_empty" t-value="rows_detail_default - (count_detail - (pager - 1)*48)"/>
                                         <t t-foreach="range(0,line_empty)" t-as="range_line_empty">
-                                            <tr style="height: 21px;">
-                                                <td style="padding-bottom: 0;"/>
-                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
-                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
-                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
-                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
-                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
-                                                <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
-                                            </tr>
+                                            <t t-if="total_record_detail == 0">
+                                                <tr style="height: 18px;">
+                                                    <td style="padding-bottom: 0; width: 60px;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0; width: 80px;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0; width: 450px;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0; width: 65px;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0; width: 37px;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0; width: 90px;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0; width: 100px;"/>
+                                                </tr>
+                                            </t>
+                                            <t t-else="">
+                                                <tr style="height: 20px;">
+                                                    <td style="padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                    <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
+                                                </tr>
+                                            </t>
                                         </t>
                                     </t>
                                 </tbody>
