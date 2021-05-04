@@ -6515,8 +6515,27 @@ class BillingClass(models.Model):
             domain = []
             for record in args:
                 if 'deadline' in record:
-                    id_bill_info = self.env['bill.info'].search([('closing_date', '=', record[2])])
+                    invoice_line_ids = self.env['account.move.line'].search([
+                        ('date', '<=', record[2]),
+                        ('bill_status', '=', 'not yet'),
+                        ('account_internal_type', '=', 'other'),
+                        ('parent_state', '=', 'posted'),
+                    ])
+
+                    payment_ids = self.env['account.payment'].search([
+                        ('payment_date', '<=', record[2]),
+                        ('state', '=', 'draft'),
+                        ('bill_status', '!=', 'billed'),
+                    ])
+                    list_domain_invoice_and_payment = invoice_line_ids.partner_id.ids + payment_ids.partner_id.ids
+                    id_bill_info = self.env['bill.info'].search([('closing_date', '>=', record[2])])
+                    id_bill_custom = self.env['bill.info'].search([('closing_date', '<', record[2])])
+                    for bill in id_bill_custom:
+                        if bill.billed_amount != 0:
+                            list_domain_invoice_and_payment += bill.partner_id.ids
+                    list_domain = list(set(list_domain_invoice_and_payment))
                     domain += [['id', 'not in', id_bill_info.partner_id.ids]]
+                    domain += [['id', 'in', list_domain]]
                 domain += [record]
             args = domain
         res = super(BillingClass, self).search(args, offset=offset, limit=limit, order=order, count=count)
