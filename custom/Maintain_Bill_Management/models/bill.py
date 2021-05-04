@@ -3040,6 +3040,8 @@ class BillingClass(models.Model):
                     a.append(['', '', '', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax()), 11)),
                               check_two_line])
+        if a == []:
+            a.append(['', '', '', '', '', '', '', '', 0])
         return a
 
     # TH - done
@@ -6417,6 +6419,8 @@ class BillingClass(models.Model):
                     a.append(['', '', '', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax()), 11)),
                               check_two_line])
+        if a == []:
+            a.append(['', '', '', '', '', '', '', '', 0])
         return a
     # TH - done
 
