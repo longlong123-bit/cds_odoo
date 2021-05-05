@@ -89,7 +89,7 @@ odoo.define('bill.create_bill_button', function (require) {
                         timeout: 0,
                         shadow: true
                     })
-                    $('[data-section=print][data-index="1"]').trigger("click");
+                    $('[data-section=print][data-index="0"]').trigger("click");
                     return def;
                 });
             }
