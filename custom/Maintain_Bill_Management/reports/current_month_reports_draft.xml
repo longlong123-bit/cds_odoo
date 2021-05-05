@@ -362,7 +362,7 @@
                                         </t>
                                         <t t-set="line_empty" t-value="rows_detail_default - (count_detail - (pager - 1)*48)"/>
                                         <t t-foreach="range(0,line_empty)" t-as="range_line_empty">
-                                            <tr style="height: 21px;">
+                                            <tr style="height: 20px;">
                                                 <td style="padding-bottom: 0;"/>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
                                                 <td style="border-left: 1px solid #000000; padding-bottom: 0;"/>
