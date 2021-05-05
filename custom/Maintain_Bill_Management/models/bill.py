@@ -6524,6 +6524,7 @@ class BillingClass(models.Model):
                         ('bill_status', '=', 'not yet'),
                         ('account_internal_type', '=', 'other'),
                         ('parent_state', '=', 'posted'),
+                        ('price_total', '!=', '0'),
                     ])
 
                     payment_ids = self.env['account.payment'].search([
