@@ -253,11 +253,7 @@
                                                             <tr t-att-style="style_tr_body">
                                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000;">
                                                                     <div style="display: inline-block; width: 384px;">
-                                                                        <div style="float: left; width: 245px; height: 26px; white-space: nowrap; overflow: hidden;">
-<!--                                                                            <span style=" height: 12px;"-->
-<!--                                                                                  t-esc="o.limit_charater_field(order.product_name, 40, True)"/><br/>-->
-<!--                                                                            <span style=" height: 12px;"-->
-<!--                                                                                  t-esc="o.limit_charater_field(order.product_name, 40, True, False)"/>-->
+                                                                        <div style="float: left; width: 260px; height: 26px; white-space: nowrap; overflow: hidden;">
                                                                             <t t-if="o.limit_charater_field(order.product_name, 40, True, False)">
                                                                                 <span style="overflow: hidden; text-overflow: ellipsis; height: 12px;"
                                                                                   t-esc="o.limit_charater_field(order.product_name, 40, True)"/><br/>
@@ -269,12 +265,12 @@
                                                                                     t-esc="o.limit_charater_field(order.product_name, 36, True)"/>
                                                                             </t>
                                                                         </div>
-                                                                        <div style="float: right; width: 125px;">
-                                                                            <div style="float: left; width: 125px; height: 13px; white-space: nowrap; overflow: hidden;">
+                                                                        <div style="float: right; width: 120px;">
+                                                                            <div style="float: left; width: 120px; height: 13px; white-space: nowrap; overflow: hidden;">
                                                                                 <span t-if="order.product_maker_name"
                                                                                       t-esc="o.limit_charater_field(order.product_maker_name, 20)"/>
                                                                             </div>
-                                                                            <div style="float: left; width: 125px; height: 13px; white-space: nowrap; overflow: hidden;">
+                                                                            <div style="float: left; width: 120px; height: 13px; white-space: nowrap; overflow: hidden;">
                                                                                 <span t-if="order.invoice_custom_standardnumber"
                                                                                       t-esc="o.limit_charater_field(order.invoice_custom_standardnumber, 20)"/>
                                                                             </div>
