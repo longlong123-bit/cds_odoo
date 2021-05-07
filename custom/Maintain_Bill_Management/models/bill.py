@@ -150,7 +150,7 @@ class BillingClass(models.Model):
                                     _payment_discount_in_invoicing -= _amount
                             elif line.move_id.x_voucher_tax_transfer == 'internal_tax':
                                 _tax = line.invoice_custom_lineamount * line.product_id.product_tax_rate / (
-                                            100 + line.product_id.product_tax_rate)
+                                        100 + line.product_id.product_tax_rate)
                                 _tax = rounding(_tax, 0, record.customer_tax_rounding)
                                 _untax_amount = line.invoice_custom_lineamount - _tax
                                 _amount = _untax_amount + _tax
@@ -182,7 +182,8 @@ class BillingClass(models.Model):
                                     _payment_cost_and_discount -= _amount
                                     _payment_discount_in_invoicing -= _amount
                         elif line.product_id.product_tax_category == 'internal':
-                            _tax = line.invoice_custom_lineamount * line.product_id.product_tax_rate / (100 + line.product_id.product_tax_rate)
+                            _tax = line.invoice_custom_lineamount * line.product_id.product_tax_rate / (
+                                    100 + line.product_id.product_tax_rate)
                             _tax = rounding(_tax, 0, record.customer_tax_rounding)
                             _untax_amount = line.invoice_custom_lineamount - _tax
                             _amount = _untax_amount + _tax
@@ -6523,6 +6524,8 @@ class BillingClass(models.Model):
         module_context = self._context.copy()
         if module_context.get('have_advance_search') and module_context.get('bill_management_module'):
             domain = []
+            bill_info_domain_id = []
+            bill_info_list = []
             for record in args:
                 if 'deadline' in record:
                     invoice_line_ids = self.env['account.move.line'].search([
@@ -6540,10 +6543,14 @@ class BillingClass(models.Model):
                     ])
                     list_domain_invoice_and_payment = invoice_line_ids.partner_id.ids + payment_ids.partner_id.ids
                     id_bill_info = self.env['bill.info'].search([('closing_date', '>=', record[2])])
-                    id_bill_custom = self.env['bill.info'].search([('closing_date', '<', record[2])])
-                    for bill in id_bill_custom:
-                        if bill.billed_amount != 0:
-                            list_domain_invoice_and_payment += bill.partner_id.ids
+                    id_bill_custom = self.env['bill.info'].search([('closing_date', '<', record[2])], order="deadline desc, bill_no desc")
+                    for bill_record in id_bill_custom:
+                        if bill_record.billing_code not in bill_info_domain_id:
+                            bill_info_domain_id.append(bill_record.billing_code)
+                            bill_info_list.append(bill_record)
+                    for bill_record in bill_info_list:
+                        if bill_record.billed_amount != 0:
+                            list_domain_invoice_and_payment += bill_record.partner_id.ids
                     list_domain = list(set(list_domain_invoice_and_payment))
                     domain += [['id', 'not in', id_bill_info.partner_id.ids]]
                     domain += [['id', 'in', list_domain]]
