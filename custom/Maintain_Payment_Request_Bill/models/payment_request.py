@@ -2105,10 +2105,10 @@ class BillInfoGet(models.Model):
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11)), check_two_line])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)), check_two_line])
                     a.append(['', '','　　　　　　　　　　　　　（8％消費税）', '',
                               '', '', '',
-                              '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11)), check_two_line])
+                              '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(8)), 11)), check_two_line])
                 else:
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax()), 11)), check_two_line])
@@ -2127,10 +2127,10 @@ class BillInfoGet(models.Model):
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11)), check_two_line])
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)), check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％消費税）', '',
                               '', '', '',
-                              '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11)), check_two_line])
+                              '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(8)), 11)), check_two_line])
                 else:
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
                               '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax()), 11)), check_two_line])
@@ -5286,12 +5286,12 @@ class BillInfoGet(models.Model):
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11)),
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
                               check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％消費税）', '',
                               '', '', '',
                               '{0:,.0f}'.format(self.limit_number_field(
-                                  int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11)), check_two_line])
+                                  int(self.amount_tax(8)), 11)), check_two_line])
                 else:
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
                               '', '', '',
@@ -5314,12 +5314,12 @@ class BillInfoGet(models.Model):
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.amount_tax(10)), 11)),
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
                               check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％消費税）', '',
                               '', '', '',
                               '{0:,.0f}'.format(self.limit_number_field(
-                                  int(self.tax_amount - self.amount_tax(10) - self.amount_tax()), 11)), check_two_line])
+                                  int(self.amount_tax(8)), 11)), check_two_line])
                 else:
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
                               '', '', '',
