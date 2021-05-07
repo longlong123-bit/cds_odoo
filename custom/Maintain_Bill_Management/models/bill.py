@@ -186,10 +186,16 @@ class BillingClass(models.Model):
                             _tax = rounding(_tax, 0, record.customer_tax_rounding)
                             _untax_amount = line.invoice_custom_lineamount - _tax
                             _amount = _untax_amount + _tax
+                            if line.x_invoicelinetype == '値引':
+                                _payment_cost_and_discount -= _amount
+                                _payment_discount_in_invoicing -= _amount
                         else:
                             _untax_amount = line.invoice_custom_lineamount
                             _tax = 0
                             _amount = _untax_amount + _tax
+                            if line.x_invoicelinetype == '値引':
+                                _payment_cost_and_discount -= _amount
+                                _payment_discount_in_invoicing -= _amount
                         if line.move_id.x_voucher_tax_transfer != 'voucher':
                             _untax_amount = rounding(_untax_amount, 0, record.customer_tax_rounding)
                             _tax = rounding(_tax, 0, record.customer_tax_rounding)
