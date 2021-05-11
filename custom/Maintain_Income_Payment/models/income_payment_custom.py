@@ -161,18 +161,24 @@ class IncomePaymentCustom(models.Model):
                 rec.collection_method_date = date.payment_term_custom_fix_month_day
                 rec.collection_method_month = date.payment_term_custom_fix_month_offset
 
+    check_onchange = 0
+
     @api.onchange('partner_id')
     def _get_detail_business_partner(self):
         # for rec in self:
         if self.partner_id:
             self._set_partner_info(self.partner_id)
             # self._set_partner_info()
-
             self.cb_partner_sales_rep_id = self.partner_id.customer_agent
+            if self.check_onchange == 0:
+                self.account_invoice_id = False
+            else:
+                self.check_onchange = 0
 
     @api.onchange('account_invoice_id')
     def _get_detail_business_partner_by_invoice(self):
         # for rec in self:
+        self.check_onchange = 1
         if self.account_invoice_id:
             # self._set_partner_info()
             self._set_partner_info(self.account_invoice_id.partner_id)
