@@ -227,17 +227,17 @@ class IncomePaymentCustom(models.Model):
 
             self._set_line_info()
 
-    @api.constrains('partner_id')
-    def _pass_data_to_payment(self):
-        if self.partner_id:
-            results = []
-            if self.payment_amount != 0:
-                results.append((0, 0, {
-                    'payment_amount': self.payment_amount,
-                    'vj_c_payment_category': self.account_payment_line_ids.receipt_divide_custom_id.name or ''
-                }))
-
-            self.account_payment_line_ids = results
+    # @api.constrains('partner_id')
+    # def _pass_data_to_payment(self):
+    #     if self.partner_id:
+    #         results = []
+    #         if self.payment_amount != 0:
+    #             results.append((0, 0, {
+    #                 'payment_amount': self.payment_amount,
+    #                 'vj_c_payment_category': self.account_payment_line_ids.receipt_divide_custom_id.name or ''
+    #             }))
+    #
+    #         self.account_payment_line_ids = results
 
     @api.constrains('partner_id')
     def _get_data_register(self):
@@ -258,12 +258,12 @@ class IncomePaymentCustom(models.Model):
                 if values.customer_industry_code:
                     rec.is_industry_code = True
 
-                if self.amount != 0:
-                    results.append((0, 0, {
-                        'payment_amount': self.amount,
-                        'vj_c_payment_category': self.account_payment_line_ids.receipt_divide_custom_id.name
-                    }))
-                    self.account_payment_line_ids = results
+                # if self.amount != 0:
+                #     results.append((0, 0, {
+                #         'payment_amount': self.amount,
+                #         'vj_c_payment_category': self.account_payment_line_ids.receipt_divide_custom_id.name
+                #     }))
+                #     self.account_payment_line_ids = results
 
                 self._set_line_info()
 
