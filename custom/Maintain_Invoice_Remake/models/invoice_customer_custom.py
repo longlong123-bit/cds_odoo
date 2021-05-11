@@ -172,12 +172,26 @@ def copy_data_from_quotation(rec, quotation, account):
 class ClassInvoiceCustom(models.Model):
     _inherit = 'account.move'
 
-    # start register payment for payment_custom
+    @api.returns('self', lambda value: value.id)
+    def copy(self, default=None):
+        """ copy(default=None)
 
-    # _sql_constraints = [
-    #     ('mail_followers_res_partner_res_model_id_uniq', 'unique(id, res_model,res_id,partner_id)',
-    #      'Error, a partner cannot follow twice the same object.')
-    # ]
+        Duplicate record ``self`` updating it with default values
+
+        :param dict default: dictionary of field values to override in the
+               original values of the copied record, e.g: ``{'field_name': overridden_value, ...}``
+        :returns: new record
+
+        """
+        self.ensure_one()
+        vals = self.with_context(active_test=False).copy_data(default)[0]
+        # To avoid to create a translation in the lang of the user, copy_translation will do it
+        new = self.with_context(lang=None).create(vals)
+        new.bill_status = 'not yet'
+        for record in new.line_ids:
+            record.bill_status = 'not yet'
+        self.with_context(from_copy_translation=True).copy_translations(new, excluded=default or ())
+        return new
 
     def get_default_current_date(self):
         _date_now = datetime.now()
