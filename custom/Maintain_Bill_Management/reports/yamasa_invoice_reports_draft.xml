@@ -235,7 +235,7 @@
                                                 </td>
                                                 <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; border-right: 1px solid #000000; text-align: right;">
                                                     <div style="display: inline-block; float: right; width: 110px; text-align: right; padding-top: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.amount_total + bill_draft.payment_discount_in_invoicing)"
+                                                        <p t-esc="'{0:,.0f}'.format(bill_draft.amount_total)"
                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0;">
                                                             <null/>
                                                         </p>
