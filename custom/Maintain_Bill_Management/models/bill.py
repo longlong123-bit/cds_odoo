@@ -229,14 +229,36 @@ class BillingClass(models.Model):
             # Compute data for billed_amount field
             _billed_amount = _amount_total + _payment_discount_in_invoicing + _balance_amount
             # Set data to fields
-            record.last_billed_amount = _last_billed_amount
-            record.deposit_amount = _deposit_amount
-            record.payment_cost_and_discount = _payment_cost_and_discount
-            record.balance_amount = _balance_amount
-            record.amount_untaxed = _amount_untaxed
-            record.tax_amount = _tax_amount
-            record.billed_amount = _billed_amount
-            record.payment_discount_in_invoicing = _payment_discount_in_invoicing
+            if record.customer_select_invoice == 'form7':
+                record.last_billed_amount = _last_billed_amount
+                record.deposit_amount = _deposit_amount + _payment_cost_and_discount - _payment_discount_in_invoicing
+                record.payment_cost_and_discount = _payment_discount_in_invoicing
+                record.balance_amount = _balance_amount
+                record.amount_untaxed = _amount_untaxed
+                record.tax_amount = _tax_amount
+                record.billed_amount = _billed_amount
+                record.payment_discount_in_invoicing = _payment_discount_in_invoicing
+                record.amount_total = _billed_amount - _balance_amount - _payment_discount_in_invoicing
+            elif record.customer_select_invoice == 'form6':
+                record.last_billed_amount = _last_billed_amount
+                record.deposit_amount = _deposit_amount + _payment_cost_and_discount - _payment_discount_in_invoicing
+                record.payment_cost_and_discount = 0
+                record.balance_amount = _balance_amount + _payment_discount_in_invoicing
+                record.amount_untaxed = _amount_untaxed
+                record.tax_amount = _tax_amount
+                record.billed_amount = _billed_amount
+                record.payment_discount_in_invoicing = _payment_discount_in_invoicing
+                record.amount_total = _billed_amount - _balance_amount - _payment_discount_in_invoicing
+            else:
+                record.last_billed_amount = _last_billed_amount
+                record.deposit_amount = _deposit_amount
+                record.payment_cost_and_discount = _payment_cost_and_discount - _payment_discount_in_invoicing
+                record.balance_amount = _balance_amount + _payment_discount_in_invoicing
+                record.amount_untaxed = _amount_untaxed
+                record.tax_amount = _tax_amount
+                record.billed_amount = _billed_amount
+                record.payment_discount_in_invoicing = _payment_discount_in_invoicing
+                record.amount_total = _billed_amount - _balance_amount - _payment_discount_in_invoicing
         return True
 
     @api.constrains('customer_code', 'customer_code_bill')
@@ -279,6 +301,8 @@ class BillingClass(models.Model):
     billed_amount = fields.Float(compute=_set_data_to_fields, string='Billed Amount', readonly=True)
 
     payment_discount_in_invoicing = fields.Float(compute=_set_data_to_fields, readonly=True)
+
+    amount_total = fields.Float(compute=_set_data_to_fields, readonly=True)
 
     # 売伝枚数
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True)
@@ -512,7 +536,7 @@ class BillingClass(models.Model):
                 'balance_amount': rec['balance_amount'],
                 'amount_untaxed': rec['amount_untaxed'],
                 'tax_amount': rec['tax_amount'],
-                'amount_total': rec['billed_amount'] - rec['balance_amount'] - rec['payment_discount_in_invoicing'],
+                'amount_total': rec['amount_total'],
                 'amount_untaxed_cashed': _sum_amount_tax_cashed,
                 'tax_amount_cashed': _sum_amount_tax_cashed,
                 'amount_total_cashed': _sum_amount_total_cashed,
@@ -857,7 +881,7 @@ class BillingClass(models.Model):
                 'balance_amount': rec['balance_amount'],
                 'amount_untaxed': rec['amount_untaxed'],
                 'tax_amount': rec['tax_amount'],
-                'amount_total': rec['billed_amount'] - rec['balance_amount'] - rec['payment_discount_in_invoicing'],
+                'amount_total': rec['amount_total'],
                 'amount_untaxed_cashed': _sum_amount_tax_cashed,
                 'tax_amount_cashed': _sum_amount_tax_cashed,
                 'amount_total_cashed': _sum_amount_total_cashed,
