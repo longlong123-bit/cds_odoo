@@ -547,9 +547,7 @@
                                     <div t-att-style="margin_comment"
                                          style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <div t-att-style="style_comment">
-                                            <span style="margin-left: 60px;">＜</span>
-                                            <span t-esc="o.x_studio_summary"/>
-                                            <span>＞</span>
+                                            <span style="margin-left: 60px;" t-esc="o.x_studio_summary"/>
                                         </div>
                                     </div>
                                 </div>
