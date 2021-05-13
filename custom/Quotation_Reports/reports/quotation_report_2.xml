@@ -25,7 +25,9 @@
                     <t t-set="line_one_one" t-value="15"/>
                     <t t-if="ll.quotation_custom_line_no&gt;line_one_one_id">
                         <div class="page" style="page-break-before: always; font-family: MS Gothic; font-size: 14px">
-                            <div>
+                            <t t-set="style_dot" t-value='"position: absolute; left: 1px; font-size: 14px; top: "+str(564 + 1380*(pager - 1))+"px;"'></t>
+                            <div t-att-style="style_dot">◆</div>
+                            <div style="margin-left: 52px; padding-top: 60px;">
                                 <div style="text-align: center;">
                                     <div style="float: left; width: 59%; text-align: center; display: inline-block; margin-left: 20%;">
                                         <t t-if="o.report_header">
