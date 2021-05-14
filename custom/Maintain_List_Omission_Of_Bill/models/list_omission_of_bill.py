@@ -31,9 +31,9 @@ class ListOmissionOfBill(models.Model):
     # 得意先名
     customer_name = fields.Char('Customer Name')
     # 伝票合計額
-    amount_untaxed = fields.Float('Amount Untaxed')
+    amount_untaxed = fields.Integer('Amount Untaxed')
     # 消費税額
-    amount_tax = fields.Float('Amount Tax')
+    amount_tax = fields.Integer('Amount Tax')
     # 明細数
     detail_number = fields.Integer('Number Of Items')
     # 取引/内訳区分
@@ -53,11 +53,11 @@ class ListOmissionOfBill(models.Model):
     # 単位
     unit = fields.Char('Unit')
     # 単価
-    price_unit = fields.Float('Price Unit')
+    price_unit = fields.Integer('Price Unit')
     # 金額
-    price_total = fields.Float('Price Total')
+    price_total = fields.Integer('Price Total')
     # 税率
-    tax_rate = fields.Float('Tax Rate')
+    tax_rate = fields.Integer('Tax Rate')
     # 税転嫁
     tax_transfer = fields.Char('Tax Transfer')
 
