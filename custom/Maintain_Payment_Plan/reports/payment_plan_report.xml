@@ -149,22 +149,22 @@
                                                 <span t-esc="line[5]"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                <span t-esc="line[6]"/>
+                                                <span t-esc="'{0:,.0f}'.format(line[6])"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                <span t-esc="line[7]"/>
+                                                <span t-esc="'{0:,.0f}'.format(line[7])"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                <span t-esc="line[8]"/>
+                                                <span t-esc="'{0:,.0f}'.format(line[8])"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                <span t-esc="line[9]"/>
+                                                <span t-esc="'{0:,.0f}'.format(line[9])"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                <span t-esc="line[10]"/>
+                                                <span t-esc="'{0:,.0f}'.format(line[10])"/>
                                             </td>
                                             <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                <span t-esc="line[11]"/>
+                                                <span t-esc="'{0:,.0f}'.format(line[11])"/>
                                             </td>
                                         </tr>
                                     </t>
