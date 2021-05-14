@@ -100,10 +100,6 @@ class CollationPayment(models.Model):
                 for se in args:
                     if se[0] =='&':
                         continue
-                    # if se[0] == 'search_category' and se[2] == 'equal':
-                    #     check = 1
-                    # if check == 1 and se[0] in arr:
-                    #     se[1] = '=ilike'
                     if 'customer_closing_date_id' == se[0]:
                         if se[2].isnumeric():
                             se[0] = 'customer_closing_date_id.start_day'
@@ -135,7 +131,8 @@ class CollationPayment(models.Model):
                     if se[0] == 'cash_type':
                         search_cash_type = se[2]
                     if se[0] == 'claim_type':
-                        search_claim_type = se[2]
+                        if se[2] == '0':
+                            domain += [['billed_amount', '!=', '0']]
                     if se[0] == 'print_child':
                         search_print_child = se[2]
                 args = domain
