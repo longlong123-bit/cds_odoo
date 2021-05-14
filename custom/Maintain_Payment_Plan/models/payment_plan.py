@@ -157,31 +157,32 @@ class PaymentPlan(models.Model):
             payment_date_obj = datetime.datetime.strptime(payment_date_str, '%m/%d/%Y').date()
             record.payment_plan_date = payment_date_obj
             record.payment_plan_date_display = payment_date_obj.strftime('%Y年%m月%d日')
-            record.deposit_amount_count = 0.0
-            record_account_payment_amount = 0.0
+            record.deposit_amount_count = 0
+            record_account_payment_amount = 0
 
             #Compute Deposit Amount
             for record_account_payment in self.env['account.payment'].search([('partner_id', 'in', record.partner_id.ids)]):
                 if (record.closing_date < record_account_payment.payment_date) and (record_account_payment.payment_date < payment_date_obj):
                     record_account_payment_amount += record_account_payment.amount
                     record.payment_deposit_amount = record_account_payment_amount
-            record.payment_amount_transfer = record.last_billed_amount
+            record.payment_amount_transfer = int(record.last_billed_amount)
 
             # Compute Payment Amount Transfer
             for i in record_draft:
                 if record.billing_code == i[0]:
                     record.payment_amount_transfer = i[1]
                     record_draft.remove(i)
-
+            record.amount_untaxed_amount = record.amount_untaxed
+            record.tax_amount_amount = record.tax_amount
             #Compute Billed Amount
-            record.payment_billed_amount = record.amount_untaxed + record.tax_amount
+            record.payment_billed_amount = record.amount_untaxed_amount + record.tax_amount_amount
 
             # Compute Must Payment Amount
             record.payment_must_pay_amount = record.payment_billed_amount + record.payment_amount_transfer - record.payment_deposit_amount
 
             #Create List To Report
             list_data.append([record.payment_plan_date, record.billing_code, record.billing_name, record.closing_date, record.employee_code, record.employee_name,
-                          record.payment_amount_transfer, record.amount_untaxed, record.tax_amount, record.payment_billed_amount, record.payment_deposit_amount, record.payment_must_pay_amount])
+                          record.payment_amount_transfer, record.amount_untaxed_amount, record.tax_amount_amount, record.payment_billed_amount, record.payment_deposit_amount, record.payment_must_pay_amount])
             record_draft.append([record.billing_code, record.payment_must_pay_amount])
             list_data_print = [dict_domain[user.id], list_data]
         return list_data_print
@@ -191,10 +192,12 @@ class PaymentPlan(models.Model):
     payment_plan_date = fields.Char(compute=_compute_data, store=True)
     payment_plan_date_display = fields.Char(compute=_compute_data, store=False)
     payment_date_search = fields.Char(compute=_compute_data, store=False)
-    payment_deposit_amount = fields.Monetary(compute=_compute_data, store=False)
-    payment_billed_amount = fields.Monetary(compute=_compute_data, store=False)
-    payment_must_pay_amount = fields.Monetary(compute=_compute_data, store=False)
-    payment_amount_transfer = fields.Monetary(compute=_compute_data, store=False)
+    payment_deposit_amount = fields.Integer(compute=_compute_data, store=False)
+    payment_billed_amount = fields.Integer(compute=_compute_data, store=False)
+    payment_must_pay_amount = fields.Integer(compute=_compute_data, store=False)
+    payment_amount_transfer = fields.Integer(compute=_compute_data, store=False)
+    amount_untaxed_amount = fields.Integer(compute=_compute_data, store=False)
+    tax_amount_amount = fields.Integer(compute=_compute_data, store=False)
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
