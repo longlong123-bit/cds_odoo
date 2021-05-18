@@ -25,12 +25,12 @@
                         <h4 style="border-bottom: 2px solid #000; padding: 0 0 5px 0; display: inline">回 収 予 定 表</h4></div>
                 </div>
                 <!-- HEADER OF CONTENT -->
-                <div style="margin-top: 30px;">
+                <div style="margin-top: 0px;">
                     <!-- LEFT -->
                     <div style="float: right;"
                       t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y年%m月%d日 %H時:%M分')"></div>
                     <t>
-                        <div style="font-size: 18px; display: inline-block; width: 100%;">
+                        <div style="font-size: 15px; display: inline-block; width: 100%;">
                             <div>
                                 <span>回収予定日： </span>
                                 <t t-if="docs._compute_data()[0]['payment_plan_date_gte'] or docs._compute_data()[0]['payment_plan_date_lte']">
@@ -102,17 +102,17 @@
                                 <tr>
                                     <td style="border: 1px solid #000; border-top: 0; border-left: 0; border-right: 0; text-align: center;"
                                         name="th_id">回収日</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; max-width: 75px"
                                         name="th_id">請求先コード</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; min-width: 100px"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; max-width: 90px"
                                         name="th_subtotal">請求先名</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; min-width: 100px"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; max-width: 85px"
                                         name="th_subtotal">締日（締切日）</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; max-width: 75px"
                                         name="th_description">担当者コード</td>
                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_priceunit">担当者名</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; min-width: 83px"
                                         name="th_taxes">繰越金額</td>
                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_subtotal">当月売上額</td>
