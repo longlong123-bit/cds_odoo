@@ -8,7 +8,7 @@
     <template id="payment_plan_report_document">
         <t t-set="pager" t-value="0"/>
         <t t-set="total_record_detail" t-value="len(docs._compute_data()[1])"/>
-        <t t-set="total_page_detail_count" t-value="total_record_detail / 30"/>
+        <t t-set="total_page_detail_count" t-value="total_record_detail / 40"/>
         <t t-if="int(total_page_detail_count) == total_page_detail_count">
                 <t t-set="total_page_detail" t-value="int(total_page_detail_count)+1"/>
             </t>
@@ -30,7 +30,7 @@
                     <div style="float: right;"
                       t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y年%m月%d日 %H時:%M分')"></div>
                     <t>
-                        <div style="font-size: 15px; display: inline-block; width: 100%;">
+                        <div style="font-size: 12px; display: inline-block; width: 100%;">
                             <div>
                                 <span>回収予定日： </span>
                                 <t t-if="docs._compute_data()[0]['payment_plan_date_gte'] or docs._compute_data()[0]['payment_plan_date_lte']">
@@ -96,8 +96,8 @@
                         </div>
                     </t>
                     <!-- TABLE -->
-                    <div class="content-table" style="border: 1px solid #000; margin-top: 15px;">
-                        <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">
+                    <div class="content-table" style="border: 1px solid #000; margin-top: 10px;">
+                        <table border="0" cellspacing="0" style="width: 100%; font-size: 12px;">
                             <thead>
                                 <tr>
                                     <td style="border: 1px solid #000; border-top: 0; border-left: 0; border-right: 0; text-align: center;"
