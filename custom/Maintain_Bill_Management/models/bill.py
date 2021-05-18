@@ -280,28 +280,28 @@ class BillingClass(models.Model):
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True)
 
     # 前回請求金額
-    last_billed_amount = fields.Integer(compute=_set_data_to_fields, string='Last Billed Amount', readonly=True)
+    last_billed_amount = fields.Float(compute=_set_data_to_fields, string='Last Billed Amount', readonly=True)
 
     # 入金額
-    deposit_amount = fields.Integer(compute=_set_data_to_fields, string='Deposit Amount', readonly=True)
+    deposit_amount = fields.Float(compute=_set_data_to_fields, string='Deposit Amount', readonly=True)
 
-    payment_cost_and_discount = fields.Integer(compute=_set_data_to_fields, string='Payment Cost And Discount', readonly=True)
+    payment_cost_and_discount = fields.Float(compute=_set_data_to_fields, string='Payment Cost And Discount', readonly=True)
 
     # 繰越金額
-    balance_amount = fields.Integer(compute=_set_data_to_fields, string='Balance Amount', readonly=True)
+    balance_amount = fields.Float(compute=_set_data_to_fields, string='Balance Amount', readonly=True)
 
     # 御買上金額
-    amount_untaxed = fields.Integer(compute=_set_data_to_fields, string='Amount Untaxed', readonly=True)
+    amount_untaxed = fields.Float(compute=_set_data_to_fields, string='Amount Untaxed', readonly=True)
 
     # 消費税
-    tax_amount = fields.Integer(compute=_set_data_to_fields, string='Tax Amount', readonly=True)
+    tax_amount = fields.Float(compute=_set_data_to_fields, string='Tax Amount', readonly=True)
 
     # 今回請求金額
-    billed_amount = fields.Integer(compute=_set_data_to_fields, string='Billed Amount', readonly=True)
+    billed_amount = fields.Float(compute=_set_data_to_fields, string='Billed Amount', readonly=True)
 
-    payment_discount_in_invoicing = fields.Integer(compute=_set_data_to_fields, readonly=True)
+    payment_discount_in_invoicing = fields.Float(compute=_set_data_to_fields, readonly=True)
 
-    amount_total = fields.Integer(compute=_set_data_to_fields, readonly=True)
+    amount_total = fields.Float(compute=_set_data_to_fields, readonly=True)
 
     # 売伝枚数
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True)
