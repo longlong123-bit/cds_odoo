@@ -191,7 +191,7 @@ class PaymentPlan(models.Model):
             # record.payment_must_pay_amount = record.payment_billed_amount + record.payment_amount_transfer - record_account_payment_amount_before_seikyu
             # record.payment_must_pay_amount = record.payment_billed_amount
 
-            record.payment_amount_transfer = record.last_billed_amount
+            record.payment_amount_transfer = record.balance_amount
             record.amount_untaxed_amount = record.amount_untaxed
             record.tax_amount_amount = record.tax_amount
             record.payment_billed_amount = record.billed_amount
