@@ -12,12 +12,12 @@ class PaymentPlan(models.Model):
     def _compute_data(self):
         list_data_print = []
         list_data = []
-        record_draft = []
+        # record_draft = []
         current_uid = self._context.get('uid')
         user = self.env['res.users'].browse(current_uid)
-        last_seikyu_closing_date = date.min
 
-        self.sorted(key=lambda r: (r.billing_code, r.closing_date))
+        # last_seikyu_closing_date = date.min
+        # self.sorted(key=lambda r: r.billing_code)
 
         for record in self:
             #Compute Employee Code
@@ -162,41 +162,49 @@ class PaymentPlan(models.Model):
             record.payment_plan_date = payment_date_obj
             record.payment_plan_date_display = payment_date_obj.strftime('%Y年%m月%d日')
             record.deposit_amount_count = 0
-            record_account_payment_amount_before_seikyu = 0
-            record_account_payment_amount_after_seikyu = 0
+            record.payment_deposit_amount = 0
+            # record_account_payment_amount_before_seikyu = 0
 
             #Compute Deposit Amount
             for record_account_payment in self.env['account.payment'].search([('partner_id', 'in', record.partner_id.ids)]):
                 if (record.closing_date <= record_account_payment.payment_date) and (record_account_payment.payment_date < payment_date_obj):
-                    record_account_payment_amount_after_seikyu += record_account_payment.payment_amount
-                    record.payment_deposit_amount = record_account_payment_amount_after_seikyu
+                    record.payment_deposit_amount += record_account_payment.payment_amount
 
-                if (record_account_payment.payment_date >= last_seikyu_closing_date) and (record_account_payment.payment_date < record.closing_date) and (record_account_payment.payment_date < payment_date_obj):
-                    record_account_payment_amount_before_seikyu += record_account_payment.payment_amount
+                # if (record_account_payment.payment_date >= last_seikyu_closing_date) and (record_account_payment.payment_date < record.closing_date) and (record_account_payment.payment_date < payment_date_obj):
+                #     record_account_payment_amount_before_seikyu += record_account_payment.payment_amount
 
             # Compute Payment Amount Transfer
-            for i in record_draft:
-                if record.billing_code == i[0]:
-                    record.payment_amount_transfer = i[1]
-                    record_draft.remove(i)
-            record.amount_untaxed_amount = record.amount_untaxed
-            record.tax_amount_amount = record.tax_amount
+            # record.payment_amount_transfer = record.last_billed_amount
+
+            # for i in record_draft:
+            #     if record.billing_code == i[0]:
+            #         record.payment_amount_transfer = i[1]
+            #         record_draft.remove(i)
+            # record.amount_untaxed_amount = record.amount_untaxed
+            # record.tax_amount_amount = record.tax_amount
+            #
+
             #Compute Billed Amount
-            record.payment_billed_amount = record.amount_untaxed_amount + record.tax_amount_amount + record.payment_amount_transfer - record_account_payment_amount_before_seikyu
+            # record.payment_billed_amount = record.amount_untaxed_amount + record.tax_amount_amount + record.payment_amount_transfer - record_account_payment_amount_before_seikyu
 
             # Compute Must Payment Amount
             # record.payment_must_pay_amount = record.payment_billed_amount + record.payment_amount_transfer - record_account_payment_amount_before_seikyu
-            record.payment_must_pay_amount = record.payment_billed_amount - record.payment_deposit_amount
             # record.payment_must_pay_amount = record.payment_billed_amount
+
+            record.payment_amount_transfer = record.last_billed_amount
+            record.amount_untaxed_amount = record.amount_untaxed
+            record.tax_amount_amount = record.tax_amount
+            record.payment_billed_amount = record.billed_amount
+            record.payment_must_pay_amount = record.billed_amount - record.payment_deposit_amount
 
             #Create List To Report
             list_data.append([record.payment_plan_date, record.billing_code, record.billing_name, record.closing_date, record.employee_code, record.employee_name,
                           record.payment_amount_transfer, record.amount_untaxed_amount, record.tax_amount_amount, record.payment_billed_amount, record.payment_deposit_amount, record.payment_must_pay_amount])
             # record_draft.append([record.billing_code, record.payment_must_pay_amount])
-            record_draft.append([record.billing_code, record.payment_billed_amount])
+            # record_draft.append([record.billing_code, record.payment_billed_amount])
             list_data_print = [dict_domain[user.id], list_data]
 
-            last_seikyu_closing_date = record.closing_date
+            # last_seikyu_closing_date = record.closing_date
 
         return list_data_print
 
@@ -276,6 +284,3 @@ class PaymentPlan(models.Model):
         if ctx.get('view_code') == 'payment_plan' and len(args) == 0:
             return []
         return super(PaymentPlan, self).search(args, offset=offset, limit=limit, order=order, count=count)
-
-
-
