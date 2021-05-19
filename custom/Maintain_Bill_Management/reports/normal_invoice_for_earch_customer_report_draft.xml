@@ -24,9 +24,9 @@
                     <div style="margin-left: 30px; padding-top: 30px; display: inline-block;">
                         <t t-set="style_title" t-value="'width: 38%; float: left;'"/>
                         <t t-set="style_bill_no" t-value="'width: 40%; float: left;'"/>
-                        <t t-set="o_title" t-value="'請　求　書'"/>
+                        <t t-set="o_title" t-value="'【仮】請　求　書'"/>
                         <t t-if="range_docs_index == 2">
-                            <t t-set="o_title" t-value="'請　求　書【控】'"/>
+                            <t t-set="o_title" t-value="'【仮】請　求　書【控】'"/>
                             <t t-set="style_title" t-value="'width: 44%; float: left;'"/>
                             <t t-set="style_bill_no" t-value="'width: 34%; float: left;'"/>
                             <t t-set="style_dot" t-value='"position: absolute; left: 1px; font-size: 5px; top: 591px;"'></t>
