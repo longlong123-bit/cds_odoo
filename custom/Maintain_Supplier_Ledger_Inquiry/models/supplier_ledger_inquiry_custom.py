@@ -70,11 +70,29 @@ class SupplierLedgerInquiryCustom(models.Model):
     input_customer_supplier_group_code = fields.Char('Input Customer Supplier Group Code',
                                                      compute='_get_value_condition_input', default='', store=False)
 
+    def _compute_residual_amount(self):
+        date_before = ''
+        date_today = ''
+        residual_amount_before = 0
+        for record in self:
+            date_today = record.date
+            if date_before is False or date_today == date_before:
+                record.residual_amount_transfer = 0
+            else:
+                record.residual_amount_transfer = residual_amount_before
+                residual_amount_before = 0
+            record.residual_amount = record.price_total - record.payment_amount + record.residual_amount_transfer
+            residual_amount_before += record.residual_amount
+            date_before = record.date
+    #残高
+    residual_amount_transfer = fields.Integer(compute=_compute_residual_amount)
+    residual_amount = fields.Integer(compute=_compute_residual_amount)
+
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
         CREATE OR REPLACE VIEW supplier_ledger AS
-        SELECT row_number() OVER(ORDER BY date) AS id , * FROM(
+        SELECT row_number() OVER(ORDER BY date, invoice_no) AS id , * FROM(
             (SELECT
                 account_move_line.date, -- 日付
                 account_move_line.invoice_no, -- 伝票Ｎｏ
@@ -188,12 +206,14 @@ class SupplierLedgerInquiryCustom(models.Model):
             val_division = ''
             val_sales_rep = ''
             val_customer_supplier_group_code = ''
+            check_input_date = 0
 
             for record in args:
                 if record[0] == '&':
                     continue
-                if record[0] == 'target_month':
-                    val_target_month = record[2]
+                if record[0] == 'date':
+                    domain += [record]
+                    check_input_date = 1
                     continue
                 if record[0] == 'customer_code_bill_from':
                     record[0] = 'customer_code_bill'
@@ -205,32 +225,35 @@ class SupplierLedgerInquiryCustom(models.Model):
                     domain_res_partner += [record]
                     val_customer_code_bill_to = record[2]
                     continue
-                if record[0] == 'division':
-                    record[0] = 'department_id'
-                    record[2] = int(record[2])
-                    domain_hr_employee += [record]
-                    val_division = record[2]
-                    continue
-                if record[0] == 'sales_rep':
-                    record[0] = 'id'
-                    record[2] = int(record[2])
-                    domain_hr_employee += [record]
-                    val_sales_rep = record[2]
-                    continue
-                if record[0] == 'customer_supplier_group_code':
-                    record[2] = int(record[2])
-                    domain_res_partner += [record]
-                    val_customer_supplier_group_code = record[2]
-                    continue
+                # if record[0] == 'division':
+                #     record[0] = 'department_id'
+                #     record[2] = int(record[2])
+                #     domain_hr_employee += [record]
+                #     val_division = record[2]
+                #     continue
+                # if record[0] == 'sales_rep':
+                #     record[0] = 'id'
+                #     record[2] = int(record[2])
+                #     domain_hr_employee += [record]
+                #     val_sales_rep = record[2]
+                #     continue
+                # if record[0] == 'customer_supplier_group_code':
+                #     record[2] = int(record[2])
+                #     domain_res_partner += [record]
+                #     val_customer_supplier_group_code = record[2]
+                #     continue
 
                 domain += [record]
+            if check_input_date == 0:
+                domain += [('date', '>=', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
+                domain += [('date', '<=', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
 
             # get closing current date
-            closing_date = self._get_closing_date(year_month_selected=val_target_month)
-            closing_date_start = closing_date['closing_date_start']
-            closing_date_end = closing_date['closing_date_end']
-            domain += [('date', '>=', str(closing_date_start))]
-            domain += [('date', '<=', str(closing_date_end))]
+            # closing_date = self._get_closing_date(year_month_selected=val_target_month)
+            # closing_date_start = closing_date['closing_date_start']
+            # closing_date_end = closing_date['closing_date_end']
+            # domain += [('date', '>=', str(closing_date_start))]
+            # domain += [('date', '<=', str(closing_date_end))]
 
             # filter customer_code_bill and customer_supplier_group_code from table res_partner
             if len(domain_res_partner) > 0:
@@ -260,56 +283,56 @@ class SupplierLedgerInquiryCustom(models.Model):
 
         return domain
 
-    def _get_closing_date(self, year_month_selected):
-        """
-            Get closing date of company
-        """
-        # using global keyword
-        global val_target_month
-        # get information closing date
-        customer_closing_date = self._get_company_closing_date()
-        _start = 1
-        if customer_closing_date:
-            _start = customer_closing_date
-
-        if year_month_selected:
-            # set date when input condition
-            selected_date = datetime.strptime(year_month_selected, '%Y-%m').date()
-        else:
-            # set current date
-            selected_date = datetime.now().astimezone(pytz.timezone(self.env.user.tz))
-            val_target_month = selected_date.strftime("%Y-%m")
-
-        # get closing date of year_month_selected
-        if _start >= 28:
-            # get days in month
-            days_in_month = calendar.monthrange(selected_date.year, selected_date.month)[1]
-            # set closing date start
-            _closing_date_start = selected_date.replace(day=1)
-            # set closing date end
-            _closing_date_end = selected_date.replace(day=days_in_month)
-        else:
-            # set closing date end
-            _closing_date_end = selected_date.replace(day=_start)
-            # get day of closing_date_start from day of closing_date_end
-            day_closing_date_start = _closing_date_end.day + 1
-            # get year/month of closing_date_start from year/month of closing_date_end
-            if _closing_date_end.month == 1:
-                month_closing_date_start = 12
-                year_closing_date_start = _closing_date_end.year - 1
-            else:
-                month_closing_date_start = _closing_date_end.month - 1
-                year_closing_date_start = _closing_date_end.year
-            # set closing date start
-            _closing_date_start = _closing_date_end.replace(year=year_closing_date_start,
-                                                            month=month_closing_date_start, day=day_closing_date_start)
-
-        closing_date = {
-            'closing_date_start': _closing_date_start,
-            'closing_date_end': _closing_date_end
-        }
-
-        return closing_date
+    # def _get_closing_date(self, year_month_selected):
+    #     """
+    #         Get closing date of company
+    #     """
+    #     # using global keyword
+    #     global val_target_month
+    #     # get information closing date
+    #     customer_closing_date = self._get_company_closing_date()
+    #     _start = 1
+    #     if customer_closing_date:
+    #         _start = customer_closing_date
+    #
+    #     if year_month_selected:
+    #         # set date when input condition
+    #         selected_date = datetime.strptime(year_month_selected, '%Y-%m').date()
+    #     else:
+    #         # set current date
+    #         selected_date = datetime.now().astimezone(pytz.timezone(self.env.user.tz))
+    #         val_target_month = selected_date.strftime("%Y-%m")
+    #
+    #     # get closing date of year_month_selected
+    #     if _start >= 28:
+    #         # get days in month
+    #         days_in_month = calendar.monthrange(selected_date.year, selected_date.month)[1]
+    #         # set closing date start
+    #         _closing_date_start = selected_date.replace(day=1)
+    #         # set closing date end
+    #         _closing_date_end = selected_date.replace(day=days_in_month)
+    #     else:
+    #         # set closing date end
+    #         _closing_date_end = selected_date.replace(day=_start)
+    #         # get day of closing_date_start from day of closing_date_end
+    #         day_closing_date_start = _closing_date_end.day + 1
+    #         # get year/month of closing_date_start from year/month of closing_date_end
+    #         if _closing_date_end.month == 1:
+    #             month_closing_date_start = 12
+    #             year_closing_date_start = _closing_date_end.year - 1
+    #         else:
+    #             month_closing_date_start = _closing_date_end.month - 1
+    #             year_closing_date_start = _closing_date_end.year
+    #         # set closing date start
+    #         _closing_date_start = _closing_date_end.replace(year=year_closing_date_start,
+    #                                                         month=month_closing_date_start, day=day_closing_date_start)
+    #
+    #     closing_date = {
+    #         'closing_date_start': _closing_date_start,
+    #         'closing_date_end': _closing_date_end
+    #     }
+    #
+    #     return closing_date
 
     @api.constrains('id')
     def _get_value_condition_input(self):
