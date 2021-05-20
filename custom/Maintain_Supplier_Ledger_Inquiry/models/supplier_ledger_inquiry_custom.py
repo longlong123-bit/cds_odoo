@@ -70,11 +70,29 @@ class SupplierLedgerInquiryCustom(models.Model):
     input_customer_supplier_group_code = fields.Char('Input Customer Supplier Group Code',
                                                      compute='_get_value_condition_input', default='', store=False)
 
+    def _compute_residual_amount(self):
+        date_before = ''
+        date_today = ''
+        residual_amount_before = 0
+        for record in self:
+            date_today = record.date
+            if date_before is False or date_today == date_before:
+                record.residual_amount_transfer = 0
+            else:
+                record.residual_amount_transfer = residual_amount_before
+                residual_amount_before = 0
+            record.residual_amount = record.price_total - record.payment_amount + record.residual_amount_transfer
+            residual_amount_before += record.residual_amount
+            date_before = record.date
+    #残高
+    residual_amount_transfer = fields.Integer(compute=_compute_residual_amount)
+    residual_amount = fields.Integer(compute=_compute_residual_amount)
+
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
         CREATE OR REPLACE VIEW supplier_ledger AS
-        SELECT row_number() OVER(ORDER BY date) AS id , * FROM(
+        SELECT row_number() OVER(ORDER BY date, invoice_no) AS id , * FROM(
             (SELECT
                 account_move_line.date, -- 日付
                 account_move_line.invoice_no, -- 伝票Ｎｏ
