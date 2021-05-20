@@ -17,12 +17,12 @@
 					<field name="part_model_number"/>
 					<field name="maker_name"/>
 					<field name="product_name"/>
-					<field name="residual_amount_transfer" string="繰越残高"/>
+					<field name="residual_amount_transfer" string="繰越残高" invisible="1"/>
 					<field name="quantity" sum="Total Quantity"/>
 					<field name="price_unit"/>
 					<field name="price_total" sum="Total Price"/>
 					<field name="payment_amount" sum="Total Payment Amount"/>
-					<field name="residual_amount" string="残高"/>
+					<field name="residual_amount" string="残高" invisible="1"/>
 					<field name="tax_rate"/>
 					<field name="tax_transfer"/>
 				</tree>
