@@ -475,9 +475,7 @@ class BillingClass(models.Model):
 
     #TH - done
 
-            if (rec['last_billed_amount'] + rec['deposit_amount'] + rec['balance_amount'] + rec['amount_untaxed'] \
-                + rec['tax_amount'] + rec['billed_amount'] == 0) or (
-                    rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']):
+            if rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']:
                 continue
 
             if advanced_search.val_bill_search_deadline:
@@ -819,9 +817,7 @@ class BillingClass(models.Model):
 
             # TH - done
 
-            if (rec['last_billed_amount'] + rec['deposit_amount'] + rec['balance_amount'] + rec['amount_untaxed'] \
-                + rec['tax_amount'] + rec['billed_amount'] == 0) or (
-                    rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']):
+            if rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']:
                 continue
 
             if advanced_search.val_bill_search_deadline:
@@ -1125,8 +1121,6 @@ class BillingClass(models.Model):
             line_amount_convert = '{0:,.0f}'.format(record.limit_number_field(int(record.line_amount), 8))
             amount_tax_convert = '{0:,.0f}'.format(
                 self.limit_number_field(int(record.bill_invoice_id.amount_tax), 11))
-            amount_total_convert = '{0:,.0f}'.format(
-                self.limit_number_field(int(record.bill_invoice_id.amount_total), 8))
             # In gia tri dau tien cho report
             if len(a) == 0:
                 if record.account_move_line_id:
@@ -3006,8 +3000,6 @@ class BillingClass(models.Model):
             check_two_line = 0
             amount_tax_convert = '{0:,.0f}'.format(
                 self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11))
-            amount_total_convert = '{0:,.0f}'.format(
-                self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))
             amount_total_bill_convert = '{0:,.0f}'.format(self.limit_number_field(int(bill_info_draft.amount_total), 8))
             subtotal_amount_tax_10 = '{0:,.0f}'.format(
                 self.limit_number_field(int(self.subtotal_amount_tax(10)), 11))
@@ -3019,11 +3011,11 @@ class BillingClass(models.Model):
                     a.append(
                         ['', '', '消費税', '', '', '', '', amount_tax_convert, check_two_line])
                 if record_final.bill_invoice_id.x_studio_summary:
-                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                 else:
                     a.append(
                         ['', '', '', '', '',
-                         '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                         '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
             a.append(['', '', '', '', '', '', '', '', check_two_line])
             if bill_info_draft.partner_id.customer_tax_unit == 'invoice':
                 a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
@@ -3113,8 +3105,6 @@ class BillingClass(models.Model):
             line_amount_convert = '{0:,.0f}'.format(record.limit_number_field(int(record.line_amount), 8))
             amount_tax_convert = '{0:,.0f}'.format(
                 self.limit_number_field(int(record.bill_invoice_id.amount_tax), 11))
-            amount_total_convert = '{0:,.0f}'.format(
-                self.limit_number_field(int(record.bill_invoice_id.amount_total), 8))
             # In gia tri dau tien cho report
             customer_code_child = record.customer_code
             if len(a) == 0:
@@ -6419,8 +6409,6 @@ class BillingClass(models.Model):
             a.append(['', '', '', '', '', '', '', '', 4])
             amount_tax_convert = '{0:,.0f}'.format(
                 self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11))
-            amount_total_convert = '{0:,.0f}'.format(
-                self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))
             amount_total_bill_convert = '{0:,.0f}'.format(self.limit_number_field(int(bill_info_draft.amount_total), 8))
             subtotal_amount_tax_10 = '{0:,.0f}'.format(
                 self.limit_number_field(int(self.subtotal_amount_tax(10)), 11))
@@ -6432,11 +6420,11 @@ class BillingClass(models.Model):
                     a.append(
                         ['', '', '消費税', '', '', '', '', amount_tax_convert, check_two_line])
                 if record_final.bill_invoice_id.x_studio_summary:
-                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                 else:
                     a.append(
                         ['', '', '', '', '',
-                         '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                         '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
             if bill_info_draft.partner_id.customer_tax_unit == 'invoice':
                 a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
                           '', '', '', subtotal_amount_tax_10, check_two_line])
