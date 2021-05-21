@@ -303,7 +303,6 @@ class BillInfoGet(models.Model):
             invoice_date_convert = record.invoice_date.strftime("%y/%m/%d")
             line_amount_convert = '{0:,.0f}'.format(record.limit_number_field(int(record.line_amount), 8))
             amount_tax_convert = '{0:,.0f}'.format(self.limit_number_field(int(record.bill_invoice_id.amount_tax), 11))
-            amount_total_convert = '{0:,.0f}'.format(self.limit_number_field(int(record.bill_invoice_id.amount_total), 8))
             # In gia tri dau tien cho report
             if len(a) == 0:
                 if record.account_move_line_id:
@@ -596,7 +595,7 @@ class BillInfoGet(models.Model):
                         a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(
                         self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     else:
-                        a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                        a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     a.append(['', '', '', '', '', '', '', '', check_two_line])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
@@ -1497,7 +1496,7 @@ class BillInfoGet(models.Model):
                     if record_final.bill_invoice_id.x_studio_summary:
                         a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     else:
-                        a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                        a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     a.append(['', '', '', '', '', '', '', '', check_two_line])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
@@ -2090,7 +2089,6 @@ class BillInfoGet(models.Model):
         if len(a) != 0:
             check_two_line = 0
             amount_tax_convert = '{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11))
-            amount_total_convert = '{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))
             amount_total_bill_convert = '{0:,.0f}'.format(self.limit_number_field(int(self.amount_total), 8))
             subtotal_amount_tax_10 = '{0:,.0f}'.format(self.limit_number_field(int(self.subtotal_amount_tax(10)), 11))
             subtotal_amount_tax_8 = '{0:,.0f}'.format(self.limit_number_field(int(self.subtotal_amount_tax(8)), 11))
@@ -2101,9 +2099,9 @@ class BillInfoGet(models.Model):
                     a.append(
                         ['', '', '消費税', '', '', '', '', amount_tax_convert, check_two_line])
                 if record_final.bill_invoice_id.x_studio_summary:
-                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                 else:
-                    a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                    a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
             a.append(['', '', '', '', '', '', '', '', check_two_line])
             if self.partner_id.customer_tax_unit == 'invoice':
                 a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
@@ -2173,7 +2171,6 @@ class BillInfoGet(models.Model):
             invoice_date_convert = record.invoice_date.strftime("%y/%m/%d")
             line_amount_convert = '{0:,.0f}'.format(record.limit_number_field(int(record.line_amount), 8))
             amount_tax_convert = '{0:,.0f}'.format(self.limit_number_field(int(record.bill_invoice_id.amount_tax), 11))
-            amount_total_convert = '{0:,.0f}'.format(self.limit_number_field(int(record.bill_invoice_id.amount_total), 8))
             # In gia tri dau tien cho report
             customer_code_child = record.customer_code
             if len(a) == 0:
@@ -2469,7 +2466,7 @@ class BillInfoGet(models.Model):
                                  , '', '', '', '', '(' + str('{0:,.0f}'.format(
                         self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     else:
-                        a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                        a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     a.append(['', '', '', '', '', '', '', '', check_two_line])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
@@ -3376,7 +3373,7 @@ class BillInfoGet(models.Model):
                     if record_final.bill_invoice_id.x_studio_summary:
                         a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     else:
-                        a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                        a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     a.append(['', '', '', '', '', '', '', '', check_two_line])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
@@ -3726,7 +3723,7 @@ class BillInfoGet(models.Model):
                         a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(
                         self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     else:
-                        a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                        a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     a.append(['', '', '', '', '', '', '', '', check_two_line])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
@@ -4633,7 +4630,7 @@ class BillInfoGet(models.Model):
                     if record_final.bill_invoice_id.x_studio_summary:
                         a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     else:
-                        a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                        a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                     a.append(['', '', '', '', '', '', '', '', check_two_line])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
@@ -5286,8 +5283,6 @@ class BillInfoGet(models.Model):
             a.append(['', '', '', '', '', '', '', '', 4])
             amount_tax_convert = '{0:,.0f}'.format(
                 self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11))
-            amount_total_convert = '{0:,.0f}'.format(
-                self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))
             amount_total_bill_convert = '{0:,.0f}'.format(self.limit_number_field(int(self.amount_total), 8))
             subtotal_amount_tax_10 = '{0:,.0f}'.format(self.limit_number_field(int(self.subtotal_amount_tax(10)), 11))
             subtotal_amount_tax_8 = '{0:,.0f}'.format(self.limit_number_field(int(self.subtotal_amount_tax(8)), 11))
@@ -5298,9 +5293,9 @@ class BillInfoGet(models.Model):
                     a.append(
                         ['', '', '消費税', '', '', '', '', amount_tax_convert, check_two_line])
                 if record_final.bill_invoice_id.x_studio_summary:
-                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
                 else:
-                    a.append(['', '', '', '', '', '', '', '(' + str(amount_total_convert) + ')', check_two_line])
+                    a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
             if self.partner_id.customer_tax_unit == 'invoice':
                 a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
                           '', '', '', subtotal_amount_tax_10, check_two_line])
