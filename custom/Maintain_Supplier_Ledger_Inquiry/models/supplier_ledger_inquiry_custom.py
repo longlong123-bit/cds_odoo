@@ -215,16 +215,19 @@ class SupplierLedgerInquiryCustom(models.Model):
                     domain += [record]
                     check_input_date = 1
                     continue
-                if record[0] == 'customer_code_bill_from':
-                    record[0] = 'customer_code_bill'
-                    domain_res_partner += [record]
-                    val_customer_code_bill_from = record[2]
+                if record[0] == 'customer_code':
+                    domain += [record]
                     continue
-                if record[0] == 'customer_code_bill_to':
-                    record[0] = 'customer_code_bill'
-                    domain_res_partner += [record]
-                    val_customer_code_bill_to = record[2]
-                    continue
+                # if record[0] == 'customer_code_bill_from':
+                #     record[0] = 'customer_code_bill'
+                #     domain_res_partner += [record]
+                #     val_customer_code_bill_from = record[2]
+                #     continue
+                # if record[0] == 'customer_code_bill_to':
+                #     record[0] = 'customer_code_bill'
+                #     domain_res_partner += [record]
+                #     val_customer_code_bill_to = record[2]
+                #     continue
                 # if record[0] == 'division':
                 #     record[0] = 'department_id'
                 #     record[2] = int(record[2])
@@ -245,8 +248,8 @@ class SupplierLedgerInquiryCustom(models.Model):
 
                 domain += [record]
             if check_input_date == 0:
-                domain += [('date', '>=', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
-                domain += [('date', '<=', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
+                domain += [('date', '>', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
+                domain += [('date', '<', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
 
             # get closing current date
             # closing_date = self._get_closing_date(year_month_selected=val_target_month)
