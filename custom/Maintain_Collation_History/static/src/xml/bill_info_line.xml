@@ -88,9 +88,16 @@
                         </span>
                     </td>
                     <td>
-                        <span>
-                            <t t-esc="record.product_name"/>
-                        </span>
+                        <t t-if="record.payment_id == ''">
+                            <span>
+                                <t t-esc="record.product_name"/>
+                            </span>
+                        </t>
+                        <t t-else="">
+                            <span style="color:red">
+                                <t t-esc="record.product_name"/>
+                            </span>
+                        </t>
                     </td>
                     <td>
                         <span>
@@ -107,16 +114,30 @@
                             <t t-esc="record.quantity"/>
                         </span>
                     </td>
-                    <td>
-                        <span>
-                            <t t-esc="record.price_unit"/>
-                        </span>
-                    </td>
-                    <td>
-                        <span>
-                            <t t-esc="record.line_amount"/>
-                        </span>
-                    </td>
+                    <t t-if="record.payment_id == ''">
+                        <td>
+                            <span>
+                                <t t-esc="record.price_unit"/>
+                            </span>
+                        </td>
+                        <td>
+                            <span>
+                                <t t-esc="record.line_amount"/>
+                            </span>
+                        </td>
+                    </t>
+                    <t t-if="record.payment_id != ''">
+                        <td>
+                            <span>
+                                <t t-esc="record.payment_amount"/>
+                            </span>
+                        </td>
+                        <td>
+                            <span style="text-align='right'">
+                                <t t-esc="record.payment_amount"/>
+                            </span>
+                        </td>
+                    </t>
                     <td>
                         <span>
                             <t t-esc="record.tax_rate"/>
