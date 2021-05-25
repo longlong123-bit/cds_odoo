@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from odoo import fields, models
-
+from odoo import api, fields, models, tools
 
 class CollationPayment(models.Model):
     _inherit = 'bill.info'
@@ -13,7 +12,9 @@ class CollationPayment(models.Model):
             cd.customer_other_cd = cd.partner_id.customer_other_cd
 
     def get_detail(self):
-        records = self.env['bill.invoice.details'].search([('bill_info_id', 'in', self._ids)]).read()
+        # records = self.env['bill.invoice.details'].search([('bill_info_id', 'in', self._ids)]).read()
+
+        records = self.env['bill.invoice.details.view'].search([('bill_info_id', 'in', self._ids)]).read()
 
         return {
             'template': 'bill_info_line',
@@ -29,15 +30,62 @@ class CollationPayment(models.Model):
     # その他CD
     customer_other_cd = fields.Char('Customer CD', readonly=True, compute=_get_customer_other_cd)
 
-    bill_detail_ids = fields.One2many('bill.invoice.details', 'bill_info_id')
-
+    # bill_detail_ids = fields.One2many('bill.invoice.details', 'bill_info_id')
 
 class ClassBillInvoice(models.Model):
     _inherit = 'bill.invoice'
 
 
 class ClassDetail(models.Model):
-    _inherit = 'bill.invoice.details'
+    _name = 'bill.invoice.details.view'
+    _auto = False
+
+    def init(self):
+        tools.drop_view_if_exists(self._cr, self._table)
+        self._cr.execute("""
+            CREATE OR REPLACE VIEW bill_invoice_details_view AS
+            SELECT row_number() OVER(ORDER BY invoice_date) AS id , * FROM
+            (
+                SELECT 
+                receipt_divide_custom.name AS payment_type_name,
+                account_payment_line.payment_amount, 
+                bill_invoice_details.bill_invoice_id,
+                bill_invoice_details.bill_info_id AS bill_info_id,
+                bill_invoice_details.account_move_line_id,
+                bill_invoice_details.billing_code,
+                bill_invoice_details.billing_name,
+                bill_invoice_details.bill_no,
+                bill_invoice_details.bill_date,
+                bill_invoice_details.last_closing_date,
+                bill_invoice_details.closing_date,
+                bill_invoice_details.deadline,
+                bill_invoice_details.customer_code,
+                bill_invoice_details.customer_name,
+                bill_invoice_details.customer_trans_classification_code,
+                bill_invoice_details.active_flag,
+                bill_invoice_details.hr_employee_id,
+                bill_invoice_details.hr_department_id,
+                bill_invoice_details.business_partner_group_custom_id,
+                bill_invoice_details.customer_closing_date_id,
+                bill_invoice_details.x_voucher_tax_transfer,
+                bill_invoice_details.invoice_date,
+                bill_invoice_details.invoice_no,
+                bill_invoice_details.quantity,
+                bill_invoice_details.price_unit,
+                bill_invoice_details.tax_amount,
+                bill_invoice_details.line_amount,
+                bill_invoice_details.tax_rate,
+                bill_invoice_details.voucher_line_tax_amount,
+                bill_invoice_details.payment_category,
+                bill_invoice_details.payment_id
+                FROM bill_invoice_details
+                LEFT JOIN account_payment_line
+                    ON bill_invoice_details.payment_id = account_payment_line.payment_id
+                LEFT JOIN receipt_divide_custom
+                    ON account_payment_line.receipt_divide_custom_id = receipt_divide_custom.id
+                ORDER by bill_invoice_details.invoice_date
+                ) AS foo
+        """)
 
     jan_code = fields.Char('Product Code', compute='_get_account_move_line_db', readonly=True)
     product_name = fields.Char('Product Code', compute='_get_account_move_line_db', readonly=True)
@@ -55,15 +103,51 @@ class ClassDetail(models.Model):
     x_invoicelinetype = fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
     # voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='_get_account_move_line_db')
     # tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
-    flag_child_billing_code = fields.Integer('Flag Child Billing Code')
+    # flag_child_billing_code = fields.Integer('Flag Child Billing Code')
+
+    bill_info_id = fields.Many2one('bill.info')
+    bill_invoice_id = fields.Many2one('bill.invoice')
+    account_move_line_id = fields.Many2one('account.move.line')
+    payment_id = fields.Many2one('account.payment')
+
+    billing_code = fields.Char(string='Billing Code')
+    billing_name = fields.Char(string='Billing Name')
+    bill_no = fields.Char(string='Bill No')
+    bill_date = fields.Date(string="Bill Date")
+    last_closing_date = fields.Date(string='Last Closing Date')
+    closing_date = fields.Date(string='Closing Date')
+    deadline = fields.Date(string='Deadline')
+    customer_code = fields.Char(string='Customer Code')
+    customer_name = fields.Char(string='Customer Name')
+    customer_trans_classification_code = fields.Selection([('sale', 'Sale'), ('cash', 'Cash')],
+                                                          string='Transaction classification', default='sale')
+    active_flag = fields.Boolean(default=True)
+    hr_employee_id = fields.Many2one('hr.employee', string='Customer Agent')
+    hr_department_id = fields.Many2one('hr.department', string='Department')
+    business_partner_group_custom_id = fields.Many2one('business.partner.group.custom', string='Supplier Group')
+    customer_closing_date_id = fields.Many2one('closing.date', string='Customer Closing Date')
+    x_voucher_tax_transfer = fields.Char('x_voucher_tax_transfer')
+    invoice_date = fields.Date(string="Invoice Date")
+    invoice_no = fields.Char(string='Invoice No')
+    quantity = fields.Float('Quantity', readonly=True)
+    price_unit = fields.Float(string='Unit Price', digits='Product Price')
+    tax_amount = fields.Float('tax_amount', readonly=True)
+    line_amount = fields.Float('line amount', readonly=True)
+    tax_rate = fields.Float('tax_rate', readonly=True)
+    voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', readonly=True)
+    payment_category = fields.Selection([('cash', '現金'), ('bank', '銀行')], readonly=True)
+
+    payment_type_name = fields.Char(readonly=True)
+    payment_amount = fields.Float(readonly=True)
 
     def _get_account_move_line_db(self):
         for acc in self:
-            if acc.billing_code == acc.customer_code:
-                acc.flag_child_billing_code = 0
-            else:
-                acc.flag_child_billing_code = 1
-            if acc.account_move_line_id:
+            # if acc.billing_code == acc.customer_code:
+            #     acc.flag_child_billing_code = 0
+            # else:
+            #     acc.flag_child_billing_code = 1
+
+            if not acc.payment_id:
                 acc.jan_code = acc.account_move_line_id.product_barcode
                 acc.product_name = acc.account_move_line_id.product_name
                 acc.product_custom_standardnumber = acc.account_move_line_id.invoice_custom_standardnumber
@@ -76,11 +160,15 @@ class ClassDetail(models.Model):
                 acc.product_maker_name = acc.account_move_line_id.product_maker_name
                 # acc.line_amount = acc.account_move_line_id.invoice_custom_lineamount
                 acc.x_invoicelinetype = acc.account_move_line_id.x_invoicelinetype
-                acc.voucher_line_tax_amount = acc.account_move_line_id.voucher_line_tax_amount
+                # acc.voucher_line_tax_amount = acc.account_move_line_id.voucher_line_tax_amount
                 # acc.tax_rate = acc.account_move_line_id.tax_rate
             else:
+                # Payment
                 acc.jan_code = ''
-                acc.product_name = ''
+                if acc.payment_type_name:
+                    acc.product_name = '入金（' + acc.payment_type_name + '）'
+                else:
+                    acc.product_name = '入金'
                 acc.product_custom_standardnumber = ''
                 acc.product_default_code = ''
                 acc.product_uom = ''
