@@ -126,7 +126,7 @@
                             </span>
                         </td>
                     </t>
-                    <t t-if="record.payment_id != ''">
+                    <t t-else="">
                         <td>
                             <span>
                                 <t t-esc="record.payment_amount"/>
