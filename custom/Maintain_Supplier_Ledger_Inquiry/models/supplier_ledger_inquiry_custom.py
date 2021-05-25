@@ -28,12 +28,14 @@ class SupplierLedgerInquiryCustom(models.Model):
     invoice_line_type = fields.Char(string='Transaction/Breakdown Category', readonly=True)
     # 得意先コード
     customer_code = fields.Char(string='Customer Code', readonly=True)
+    # 請求コード
+    customer_code_bill = fields.Char(string='Customer Code Bill', readonly=True)
     # 得意先名
     customer_name = fields.Char(string='Customer Name', readonly=True)
     # JANコード
     jan_code = fields.Char(string='JAN Code', readonly=True)
     # 商品コード
-    product_code = fields.Integer(string='Product Code', readonly=True)
+    product_code = fields.Char(string='Product Code', readonly=True)
     # 品番 / 型番
     part_model_number = fields.Char(string='Part/Model Number', readonly=True)
     # メーカー名
@@ -41,15 +43,15 @@ class SupplierLedgerInquiryCustom(models.Model):
     # 商品名
     product_name = fields.Char(string='Product Name', readonly=True)
     # 数量
-    quantity = fields.Float(string='Quantity', readonly=True)
+    quantity = fields.Integer(string='Quantity', readonly=True)
     # 単価
-    price_unit = fields.Float(string='Price Unit', readonly=True)
+    price_unit = fields.Integer(string='Price Unit', readonly=True)
     # 金額
-    price_total = fields.Float(string='Price Total ', readonly=True)
+    price_total = fields.Integer(string='Price Total ', readonly=True)
     # 支払金額
-    payment_amount = fields.Float(string='Payment Amount', readonly=True)
+    payment_amount = fields.Integer(string='Payment Amount', readonly=True)
     # 税率
-    tax_rate = fields.Float(string='Tax Rate', readonly=True)
+    tax_rate = fields.Integer(string='Tax Rate', readonly=True)
     # Create By User Id
     create_uid = fields.Integer(string='Create By User Id', readonly=True)
     # 税転嫁
@@ -92,7 +94,7 @@ class SupplierLedgerInquiryCustom(models.Model):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
         CREATE OR REPLACE VIEW supplier_ledger AS
-        SELECT row_number() OVER(ORDER BY date, invoice_no) AS id , * FROM(
+        SELECT row_number() OVER(ORDER BY customer_code, date, invoice_no) AS id , * FROM(
             (SELECT
                 account_move_line.date, -- 日付
                 account_move_line.invoice_no, -- 伝票Ｎｏ
@@ -100,7 +102,7 @@ class SupplierLedgerInquiryCustom(models.Model):
                 res_partner.customer_code AS customer_code, -- 得意先コード
                 res_partner.name AS customer_name, -- 得意先名
                 account_move_line.product_barcode AS jan_code, -- JANコード
-                account_move_line.product_id AS product_code, -- 商品コード
+                account_move_line.product_code AS product_code, -- 商品コード
                 account_move_line.invoice_custom_standardnumber AS part_model_number, -- 品番/型番
                 account_move_line."product_maker_name" AS maker_name, -- メーカー名
                 account_move_line.product_name AS product_name, -- 商品名
@@ -132,7 +134,12 @@ class SupplierLedgerInquiryCustom(models.Model):
                     WHEN account_move_line.x_tax_transfer_show_tree = 'custom_tax' THEN 
                         '税調整別途'  
                 END AS tax_transfer, -- 税転嫁（外／内／非、明／伝／請）
-                res_partner.id AS partner_id
+                res_partner.id AS partner_id,
+                res_partner.customer_code_bill AS customer_code_bill, 
+			    CASE 
+                    WHEN res_partner.customer_code <> res_partner.customer_code_bill THEN 1
+                    WHEN res_partner.customer_code = res_partner.customer_code_bill THEN 0
+			    END AS isbill_place
             FROM
                 account_move_line
                     LEFT JOIN
@@ -152,24 +159,28 @@ class SupplierLedgerInquiryCustom(models.Model):
                     res_partner.customer_code,
                     res_partner.name,
                     '',
-                    0,
+                    '',
                     NULL, -- 品番/型番
                     '', -- メーカー名
-                    '',
+                    receipt_divide_custom.name,
                     0,
                     0,
                     0,
-                    account_payment.payment_amount,
+                    account_payment_line.payment_amount,
                     0,
                     account_payment.create_uid,
                     '', -- 税転嫁（外／内／非、明／伝／請）
-                    res_partner.id
+                    res_partner.id, 
+                    res_partner.customer_code_bill AS customer_code_bill, 
+			    CASE 
+                    WHEN res_partner.customer_code <> res_partner.customer_code_bill THEN 1
+                    WHEN res_partner.customer_code = res_partner.customer_code_bill THEN 0
+			    END AS isbill_place
                 FROM
                     account_payment
-                        LEFT JOIN
-                            res_partner
-                                ON res_partner.id = account_payment.partner_id
-                                AND res_partner.active = true
+                    LEFT JOIN account_payment_line ON account_payment.id = account_payment_line.payment_id
+                    LEFT JOIN receipt_divide_custom ON account_payment_line.receipt_divide_custom_id = receipt_divide_custom.id
+                    LEFT JOIN res_partner  ON res_partner.id = account_payment.partner_id AND res_partner.active = true
             ) ) AS foo""")
 
     def search(self, args, offset=0, limit=None, order=None, count=False):
@@ -178,9 +189,9 @@ class SupplierLedgerInquiryCustom(models.Model):
             File path Override: /odoo/models.py
         """
         domain = self._get_condition_search_of_module(self=self, args=args)
-
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+        if len(domain) > 0:
+            res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+            return res if count else self.browse(res)
 
     @staticmethod
     def _get_condition_search_of_module(self, args):
@@ -207,49 +218,62 @@ class SupplierLedgerInquiryCustom(models.Model):
             val_sales_rep = ''
             val_customer_supplier_group_code = ''
             check_input_date = 0
+            check_required_field = False
 
-            for record in args:
-                if record[0] == '&':
-                    continue
-                if record[0] == 'date':
-                    domain += [record]
-                    check_input_date = 1
-                    continue
-                if record[0] == 'customer_code':
-                    domain += [record]
-                    continue
-                # if record[0] == 'customer_code_bill_from':
-                #     record[0] = 'customer_code_bill'
-                #     domain_res_partner += [record]
-                #     val_customer_code_bill_from = record[2]
-                #     continue
-                # if record[0] == 'customer_code_bill_to':
-                #     record[0] = 'customer_code_bill'
-                #     domain_res_partner += [record]
-                #     val_customer_code_bill_to = record[2]
-                #     continue
-                # if record[0] == 'division':
-                #     record[0] = 'department_id'
-                #     record[2] = int(record[2])
-                #     domain_hr_employee += [record]
-                #     val_division = record[2]
-                #     continue
-                # if record[0] == 'sales_rep':
-                #     record[0] = 'id'
-                #     record[2] = int(record[2])
-                #     domain_hr_employee += [record]
-                #     val_sales_rep = record[2]
-                #     continue
-                # if record[0] == 'customer_supplier_group_code':
-                #     record[2] = int(record[2])
-                #     domain_res_partner += [record]
-                #     val_customer_supplier_group_code = record[2]
-                #     continue
+            # Check required field
+            if 'customer_code_bill' in (item for sublist in args for item in sublist):
+                check_required_field = True
 
-                domain += [record]
-            if check_input_date == 0:
-                domain += [('date', '>', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
-                domain += [('date', '<', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
+            if check_required_field:
+                for record in args:
+                    if record[0] == '&':
+                        continue
+                    if record[0] == 'date':
+                        domain += [record]
+                        check_input_date = 1
+                        continue
+
+                    # Start Upd: Change search by customer_code_bill
+                    if record[0] == 'customer_code_bill':
+                        # Get child code list
+                        domain_res_partner += [('customer_code_bill', '=', record[2])]
+                        res_partner_ids = self.env["res.partner"].search(domain_res_partner)
+                        customer_code_list = []
+                        customer_code_list.append(record[2])  # First parent code
+                        for row in res_partner_ids:
+                            if row.customer_code:
+                                customer_code_list.append(row.customer_code)
+                        domain += [('customer_code', 'in', customer_code_list)]
+                    continue
+                    # End Upd: Change search by customer_code_bill
+
+                    # if record[0] == 'customer_code_bill_to':
+                    #     record[0] = 'customer_code_bill'
+                    #     domain_res_partner += [record]
+                    #     val_customer_code_bill_to = record[2]
+                    #     continue
+                    # if record[0] == 'division':
+                    #     record[0] = 'department_id'
+                    #     record[2] = int(record[2])
+                    #     domain_hr_employee += [record]
+                    #     val_division = record[2]
+                    #     continue
+                    # if record[0] == 'sales_rep':
+                    #     record[0] = 'id'
+                    #     record[2] = int(record[2])
+                    #     domain_hr_employee += [record]
+                    #     val_sales_rep = record[2]
+                    #     continue
+                    # if record[0] == 'customer_supplier_group_code':
+                    #     record[2] = int(record[2])
+                    #     domain_res_partner += [record]
+                    #     val_customer_supplier_group_code = record[2]
+                    #     continue
+
+                    domain += [record]
+                if check_input_date == 0:
+                    domain += [('date', '>', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
+                    domain += [('date', '<', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
 
             # get closing current date
             # closing_date = self._get_closing_date(year_month_selected=val_target_month)
@@ -259,16 +283,15 @@ class SupplierLedgerInquiryCustom(models.Model):
             # domain += [('date', '<=', str(closing_date_end))]
 
             # filter customer_code_bill and customer_supplier_group_code from table res_partner
-            if len(domain_res_partner) > 0:
-                res_partner_ids = self.env["res.partner"].search(domain_res_partner)
-                partner_ids = []
-                for row in res_partner_ids:
-                    if row.id:
-                        partner_ids.append(row.id)
-                if len(partner_ids) > 0:
-                    domain += [('partner_id', 'in', partner_ids)]
-                else:
-                    domain += [('partner_id', '=', False)]
+
+            # if len(domain_res_partner) > 0:
+            #     res_partner_ids = self.env["res.partner"].search(domain_res_partner)
+            #     partner_ids = []
+            #     partner_ids.append(record[2])   # First parent code
+            #     for row in res_partner_ids:
+            #         if row.id:
+            #             partner_ids.append(row.id)
+            #     domain += [('partner_id', 'in', partner_ids)]
 
             # filter division and sales_rep from table res_partner
             if len(domain_hr_employee) > 0:
@@ -344,7 +367,7 @@ class SupplierLedgerInquiryCustom(models.Model):
         """
         for item in self:
             # set the value to use for the program report
-            item.input_target_month = datetime.strptime(val_target_month, '%Y-%m').strftime('%Y年%m月')
+            # item.input_target_month = datetime.strptime(val_target_month, '%Y-%m').strftime('%Y年%m月')
             item.input_customer_code_bill_from = val_customer_code_bill_from
             item.input_customer_code_bill_to = val_customer_code_bill_to
             item.input_division = val_division
