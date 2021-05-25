@@ -7,22 +7,22 @@
 			<field name="model">supplier.ledger</field>
 			<field name="arch" type="xml">
 				<tree create="0" import="0">
+					<field name="customer_code"/>
+					<field name="customer_name"/>
 					<field name="date" />
 					<field name="invoice_no"/>
 					<field name="invoice_line_type"/>
-					<field name="customer_code" invisible="1"/>
-					<field name="customer_name" invisible="1"/>
 					<field name="jan_code"/>
 					<field name="product_code"/>
+					<field name="product_name"/>
 					<field name="part_model_number"/>
 					<field name="maker_name"/>
-					<field name="product_name"/>
-					<field name="residual_amount_transfer" string="繰越残高"/>
+					<field name="residual_amount_transfer" string="繰越残高" invisible="1"/>
 					<field name="quantity" sum="Total Quantity"/>
 					<field name="price_unit"/>
 					<field name="price_total" sum="Total Price"/>
 					<field name="payment_amount" sum="Total Payment Amount"/>
-					<field name="residual_amount" string="残高"/>
+					<field name="residual_amount" string="残高" invisible="1"/>
 					<field name="tax_rate"/>
 					<field name="tax_transfer"/>
 				</tree>
@@ -35,6 +35,7 @@
 			<field name="view_id" ref="supplier_ledger_inquiry_tree"/>
 			<field name="context">{'supplier_ledger_inquiry_module': True}</field>
 			<field name="view_mode">tree</field>
+			<field name="hasSelectors">false</field>
 		</record>
 
 		<menuitem id="menu_parent_accounts_receivable" parent="Maintain_Income_Payment.parent_menu_master" name="Accounts Receivable" sequence="3"
