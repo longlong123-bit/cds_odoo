@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, tools
 # from datetime import date
 from datetime import date, timedelta
 from odoo.tools.float_utils import float_round
@@ -7,7 +7,131 @@ import datetime
 dict_domain = {}
 
 class PaymentPlan(models.Model):
-    _inherit = 'bill.info'
+    _name = 'payment.plan'
+    _auto = False
+
+    partner_id = fields.Many2one('res.partner')
+
+    billing_code = fields.Char(string='Billing Code')
+    billing_name = fields.Char(string='Billing Name')
+    bill_no = fields.Char(string='Bill No')
+    bill_date = fields.Date(string='Bill Date')
+    last_closing_date = fields.Date(string='Last Closing Date')
+    closing_date = fields.Date(string='Closing Date')
+    deadline = fields.Date(string='Deadline')
+    invoices_number = fields.Integer(string='Number of Invoices', default=0)
+    invoices_details_number = fields.Integer(string='Number of Invoice Details', default=0)
+    last_billed_amount = fields.Monetary(string='Last Billed Amount', currency_field='currency_id')
+    deposit_amount = fields.Monetary(string='Deposit Amount', currency_field='currency_id')
+    balance_amount = fields.Monetary(string='Balance Amount', currency_field='currency_id')
+    amount_untaxed = fields.Monetary(string='Amount Untaxed', currency_field='currency_id')
+    tax_amount = fields.Monetary(string='Tax Amount', currency_field='currency_id')
+    amount_total = fields.Monetary(string="Amount Total", currency_field='currency_id')
+    amount_untaxed_cashed = fields.Monetary(string='Amount Untaxed Cashed', currency_field='currency_id')
+    tax_amount_cashed = fields.Monetary(string='Tax Amount Cashed', currency_field='currency_id')
+    amount_total_cashed = fields.Monetary(string="Amount Total Cashed", currency_field='currency_id')
+    billed_amount = fields.Monetary(string='Billed Amount', currency_field='currency_id')
+    payment_discount_in_invoicing = fields.Monetary(currency_field='currency_id')
+    active_flag = fields.Boolean(default=True)
+    currency_id = fields.Many2one('res.currency', string='Currency')
+    bill_invoice_ids = fields.One2many('bill.invoice', 'bill_info_id', string='Bill Invoice Ids')
+    # report_status = fields.Char(string='Report Status', default='no report')
+    hr_employee_id = fields.Many2one('hr.employee', string='Customer Agent')
+    hr_department_id = fields.Many2one('hr.department', string='Department')
+    business_partner_group_custom_id = fields.Many2one('business.partner.group.custom', string='Supplier Group')
+    customer_closing_date_id = fields.Many2one('closing.date', string='Customer Closing Date')
+    customer_excerpt_request = fields.Boolean(string='Excerpt Request', default=False)
+    bill_report_state = fields.Boolean(string="Bill Report State", default=False)
+    payment_cost_and_discount = fields.Float(string='Payment Cost And Discount')
+    payment_plan_date = fields.Char(string='Payment Plan Date', store=True)
+
+    # def _check_bill_in_month (listdata,record):
+        # is_add_item = False
+        # for item in listdata:
+        #     if itm[1] == record.billing_code:
+        #         closing_date_str1 = date.strftime(itm[3],'%Y') + date.strftime(itm[3],'%m')
+        #         closing_date_str2 = record.closing_date.strftime('%Y') + record.closing_date.strftime('%m')
+        #         if closing_date_str1 == closing_date_str2:
+        #             if itm[3] < record.closing_date:
+        #                 is_add_item = True
+        #                 listdata.remove(itm)
+        #
+        #         else:
+        #             is_add_item = True
+
+        # return  is_add_item
+
+    def init(self):
+        tools.drop_view_if_exists(self._cr, self._table)
+        self._cr.execute("""
+            CREATE OR REPLACE VIEW payment_plan AS
+            SELECT row_number() OVER(ORDER BY billing_code, payment_plan_date) AS id , * FROM(
+                (SELECT
+                    t1.partner_id,
+                    t1.billing_code,
+                    t1.billing_name,
+                    t1.bill_no,
+                    t1.bill_date,
+                    t1.last_closing_date,
+                    t1.closing_date,
+                    t1.deadline,
+                    t1.invoices_number,
+                    t1.invoices_details_number,
+                    t1.last_billed_amount_moved0,
+                    t1.deposit_amount_moved0,
+                    t1.balance_amount_moved0,
+                    t1.amount_untaxed_moved0,
+                    t1.tax_amount_moved0,
+                    t1.amount_total_moved0,
+                    t1.amount_untaxed_cashed_moved0,
+                    t1.tax_amount_cashed_moved0,
+                    t1.amount_total_cashed_moved0,
+                    t1.billed_amount_moved0,
+                    t1.active_flag,
+                    t1.currency_id,
+                    t1.hr_employee_id,
+                    t1.hr_department_id,
+                    t1.business_partner_group_custom_id,
+                    t1.customer_closing_date_id,
+                    t1.customer_excerpt_request,
+                    t1.bill_report_state,
+                    t1.create_uid,
+                    t1.create_date,
+                    t1.write_uid,
+                    t1.write_date,
+                    t1.search_x_studio_name,
+                    t1.sale_rep_id,
+                    t1.payment_cost_and_discount,
+                    t1.payment_plan_date,
+                    t1.payment_discount_in_invoicing_moved0,
+                    t1.last_billed_amount_moved1,
+                    t1.deposit_amount_moved1,
+                    t1.balance_amount_moved1,
+                    t1.amount_untaxed_moved1,
+                    t1.tax_amount_moved1,
+                    t1.amount_total_moved1,
+                    t1.amount_untaxed_cashed_moved1,
+                    t1.tax_amount_cashed_moved1,
+                    t1.amount_total_cashed_moved1,
+                    t1.billed_amount_moved1,
+                    t1.payment_discount_in_invoicing_moved1,
+                    t1.last_billed_amount,
+                    t1.deposit_amount,
+                    t1.balance_amount,
+                    t1.amount_untaxed,
+                    t1.tax_amount,
+                    t1.amount_total,
+                    t1.amount_untaxed_cashed,
+                    t1.tax_amount_cashed,
+                    t1.amount_total_cashed,
+                    t1.billed_amount,
+                    t1.payment_discount_in_invoicing
+            FROM bill_info AS T1
+            WHERE T1.closing_date = (SELECT MAX(T2.closing_date) FROM bill_info As T2 
+						            WHERE T1.billing_code = T2.billing_code 
+							        AND to_char(T1.closing_date,'YYYYMM')  = to_char(T2.closing_date,'YYYYMM')
+						            GROUP BY T2.billing_code)
+) ) AS foo""")
 
     def _compute_data(self):
         list_data_print = []
@@ -198,11 +322,25 @@ class PaymentPlan(models.Model):
             record.payment_must_pay_amount = record.billed_amount - record.payment_deposit_amount
 
             #Create List To Report
-            list_data.append([record.payment_plan_date, record.billing_code, record.billing_name, record.closing_date, record.employee_code, record.employee_name,
-                          record.payment_amount_transfer, record.amount_untaxed_amount, record.tax_amount_amount, record.payment_billed_amount, record.payment_deposit_amount, record.payment_must_pay_amount])
-            # record_draft.append([record.billing_code, record.payment_must_pay_amount])
-            # record_draft.append([record.billing_code, record.payment_billed_amount])
-            list_data_print = [dict_domain[user.id], list_data]
+            is_add_item = True
+            for item in list_data:
+                if item[1] == record.billing_code:
+                    closing_date_str1 = date.strftime(item[3], '%Y') + date.strftime(item[3], '%m')
+                    closing_date_str2 = record.closing_date.strftime('%Y') + record.closing_date.strftime('%m')
+                    if closing_date_str1 == closing_date_str2:
+                        if item[3] < record.closing_date:  # Data closing date newer
+                            list_data.remove(item)
+                        else:
+                            is_add_item = False             # Data closing date older
+                    else:
+                        is_add_item = True
+
+            if is_add_item:
+                list_data.append([record.payment_plan_date, record.billing_code, record.billing_name, record.closing_date, record.employee_code, record.employee_name,
+                              record.payment_amount_transfer, record.amount_untaxed_amount, record.tax_amount_amount, record.payment_billed_amount, record.payment_deposit_amount, record.payment_must_pay_amount])
+                # record_draft.append([record.billing_code, record.payment_must_pay_amount])
+                # record_draft.append([record.billing_code, record.payment_billed_amount])
+                list_data_print = [dict_domain[user.id], list_data]
 
             # last_seikyu_closing_date = record.closing_date
 
@@ -283,4 +421,5 @@ class PaymentPlan(models.Model):
                 args = domain
         if ctx.get('view_code') == 'payment_plan' and len(args) == 0:
             return []
+
         return super(PaymentPlan, self).search(args, offset=offset, limit=limit, order=order, count=count)
