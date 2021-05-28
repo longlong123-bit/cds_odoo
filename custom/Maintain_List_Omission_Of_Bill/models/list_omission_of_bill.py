@@ -100,6 +100,11 @@ class ListOmissionOfBill(models.Model):
     input_issue_format = fields.Char('Issue Format', compute='_compute_fields', default='0', store=False)
     input_issue_format_str = fields.Char('Issue Format String', compute='_compute_fields', default='伝票単位', store=False)
 
+    amount_untaxed_int_format = fields.Integer(string='Amount Untaxed', compute='_amount_untaxed_int_format'
+                                               , readonly=True)
+
+    amount_tax_int_format = fields.Integer(string='Amount Tax', compute='_amount_tax_int_format', readonly=True)
+
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
         self._cr.execute("""
@@ -319,3 +324,12 @@ class ListOmissionOfBill(models.Model):
             return []
         res = super(ListOmissionOfBill, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
+
+    def _amount_untaxed_int_format(self):
+        for rec in self:
+            rec.amount_untaxed_int_format = int(rec.amount_untaxed)
+
+    def _amount_tax_int_format(self):
+        for rec in self:
+            rec.amount_tax_int_format = int(rec.amount_tax)
+
