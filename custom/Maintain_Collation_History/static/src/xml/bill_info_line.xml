@@ -109,40 +109,52 @@
                             <t t-esc="record.product_maker_name"/>
                         </span>
                     </td>
-                    <td>
-                        <span>
-                            <t t-esc="record.quantity"/>
-                        </span>
-                    </td>
                     <t t-if="record.payment_id == ''">
                         <td>
-                            <span>
+                            <span style="float:right">
+                                <t t-esc="record.quantity"/>
+                            </span>
+                        </td>
+                    </t>
+                    <t t-else="">
+                        <td>
+                            <span></span>
+                        </td>
+                    </t>
+                    <t t-if="record.payment_id == ''">
+                        <td>
+                            <span style="float:right">
                                 <t t-esc="record.price_unit"/>
                             </span>
                         </td>
                         <td>
-                            <span>
+                            <span style="float:right">
                                 <t t-esc="record.line_amount"/>
                             </span>
                         </td>
                     </t>
                     <t t-else="">
                         <td>
-                            <span>
-                                <t t-esc="record.payment_amount"/>
-                            </span>
+                            <span></span>
                         </td>
                         <td>
-                            <span style="text-align='right'">
+                            <span style="color:red; float:right">
                                 <t t-esc="record.payment_amount"/>
                             </span>
                         </td>
                     </t>
-                    <td>
-                        <span>
-                            <t t-esc="record.tax_rate"/>
-                        </span>
-                    </td>
+                    <t t-if="record.payment_id == ''">
+                        <td>
+                            <span style="float:right">
+                                <t t-esc="record.tax_rate"/>
+                            </span>
+                        </td>
+                    </t>
+                    <t t-else="">
+                        <td>
+                            <span></span>
+                        </td>
+                    </t>
                     <td>
                         <t t-if="record.x_voucher_tax_transfer == 'foreign_tax'">
                             <span>外税／明細</span>
