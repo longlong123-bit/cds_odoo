@@ -39,4 +39,43 @@ class BillInfoClass(models.Model):
     payment_cost_and_discount = fields.Float(string='Payment Cost And Discount')
     payment_plan_date = fields.Char(string='Payment Plan Date', store=True)
 
-    _sql_constraints = [('bill_info', 'unique(billing_code, last_closing_date, deadline)', 'This data has been billed.')]
+    _sql_constraints = [
+        ('bill_info', 'unique(billing_code, last_closing_date, deadline)', 'This data has been billed.')]
+
+    last_billed_amount_int_format = fields.Integer(string='Last Billed Amount', compute='_last_billed_amount_int_format'
+                                                   , readonly=True)
+    deposit_amount_int_format = fields.Integer(string='Deposit Amount', compute='_deposit_amount_int_format'
+                                               , readonly=True)
+    balance_amount_int_format = fields.Integer(string='Balance Amount', compute='_balance_amount_int_format'
+                                               , readonly=True)
+
+    amount_untaxed_int_format = fields.Integer(string='Amount Untaxed', compute='_amount_untaxed_int_format'
+                                               , readonly=True)
+
+    tax_amount_int_format = fields.Integer(string='Tax Amount', compute='_tax_amount_int_format', readonly=True)
+
+    amount_total_int_format = fields.Integer(string="Amount Total", compute='_amount_total_int_format', readonly=True)
+
+    def _last_billed_amount_int_format(self):
+        for rec in self:
+            rec.last_billed_amount_int_format = int(rec.last_billed_amount)
+
+    def _deposit_amount_int_format(self):
+        for rec in self:
+            rec.deposit_amount_int_format = int(rec.deposit_amount)
+
+    def _balance_amount_int_format(self):
+        for rec in self:
+            rec.balance_amount_int_format = int(rec.balance_amount)
+
+    def _amount_untaxed_int_format(self):
+        for rec in self:
+            rec.amount_untaxed_int_format = int(rec.amount_untaxed)
+
+    def _tax_amount_int_format(self):
+        for rec in self:
+            rec.tax_amount_int_format = int(rec.tax_amount)
+
+    def _amount_total_int_format(self):
+        for rec in self:
+            rec.amount_total_int_format = int(rec.amount_total)
