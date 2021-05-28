@@ -13,13 +13,13 @@
                 <field name="bill_date" invisible="1"/>
                 <field name="last_closing_date"/>
                 <field name="deadline"/>
-                <field name="last_billed_amount"/>
-                <field name="deposit_amount"/>
-                <field name="balance_amount"/>
-                <field name="amount_untaxed" string="Bill Amount Untaxed"/>
-                <field name="tax_amount" string="Bill Tax Amount"/>
-                <field name="amount_total" invisible="1"/>
-                <field name="billed_amount"/>
+                <field name="last_billed_amount_int_format"/>
+                <field name="deposit_amount_int_format"/>
+                <field name="balance_amount_int_format"/>
+                <field name="amount_untaxed_int_format" string="Bill Amount Untaxed"/>
+                <field name="tax_amount_int_format" string="Bill Tax Amount"/>
+                <field name="amount_total_int_format" invisible="1"/>
+                <field name="billed_amount_int_format"/>
                 <field name="closing_date" invisible="1"/>
                 <field name="invoices_number"/>
                 <field name="invoices_details_number" invisible="1"/>
