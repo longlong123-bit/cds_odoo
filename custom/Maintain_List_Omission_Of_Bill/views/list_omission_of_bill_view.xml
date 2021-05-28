@@ -11,8 +11,8 @@
 					<field name="sales_date"/>
 					<field name="invoice_no"/>
                     <field name="customer_name"/>
-					<field name="amount_untaxed" attrs="{'issue_format': '0'}" sum="total"/>
-					<field name="amount_tax" attrs="{'issue_format': '0'}" sum="total"/>
+					<field name="amount_untaxed_int_format" attrs="{'issue_format': '0'}" sum="total"/>
+					<field name="amount_tax_int_format" attrs="{'issue_format': '0'}" sum="total"/>
 					<field name="detail_number" attrs="{'issue_format': '0'}"/>
 					<field name="invoice_line_type" attrs="{'issue_format': '1'}"/>
 					<field name="jan_code" attrs="{'issue_format': '1'}"/>
