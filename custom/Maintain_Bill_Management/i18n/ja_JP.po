@@ -215,6 +215,7 @@ msgstr "消費税額"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__amount_total
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__amount_total_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__amount_total
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__amount_total_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__amount_total
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_draft__amount_total
 msgid "Amount Total"
@@ -232,6 +233,7 @@ msgstr "税込み金額"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__amount_untaxed
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice__amount_untaxed
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_draft__amount_untaxed
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_invoice_draft__amount_untaxed_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__amount_untaxed
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__amount_untaxed
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
@@ -249,6 +251,7 @@ msgstr "伝票合計額"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__balance_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__balance_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__balance_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__balance_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__balance_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__balance_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
@@ -343,7 +346,9 @@ msgstr ""
 
 #. module: Maintain_Bill_Management
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__billed_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__billed_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__billed_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__billed_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__billed_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__billed_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
@@ -579,6 +584,7 @@ msgstr "事業部"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__deposit_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__deposit_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__deposit_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__deposit_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__deposit_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__deposit_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
@@ -700,6 +706,7 @@ msgstr "仕訳項目"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__last_billed_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__last_billed_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__last_billed_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__last_billed_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__last_billed_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__last_billed_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_tree
@@ -1001,6 +1008,7 @@ msgstr "取引先グループ"
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__tax_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info__tax_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__tax_amount
+#: model:ir.model.fields,field_description:Maintain_Bill_Management.field_bill_info_draft__tax_amount_int_format
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_partner__tax_amount
 #: model:ir.model.fields,field_description:Maintain_Bill_Management.field_res_users__tax_amount
 #: model_terms:ir.ui.view,arch_db:Maintain_Bill_Management.bm_bill_details_form
