@@ -11,20 +11,21 @@
 					<field name="customer_name"/>
 					<field name="date" />
 					<field name="invoice_no"/>
-					<field name="invoice_line_type"/>
+					<field name="invoice_line_type"  options='{"fg_color":"red:is_set_color_column == True"}'/>
 					<field name="jan_code"/>
 					<field name="product_code"/>
-					<field name="product_name"/>
+					<field name="product_name" options='{"fg_color":"red:is_set_color_column == True"}'/>
 					<field name="part_model_number"/>
 					<field name="maker_name"/>
-					<field name="residual_amount_transfer" string="繰越残高" invisible="1"/>
-					<field name="quantity" sum="Total Quantity"/>
-					<field name="price_unit"/>
-					<field name="price_total" sum="Total Price"/>
-					<field name="payment_amount" sum="Total Payment Amount"/>
+					<field name="residual_amount_transfer" attrs="{'invisible': [('residual_amount_transfer','==',0)]}" options='{"fg_color":"red:is_set_color_column == True"}' string="繰越残高"  />
+					<field name="quantity" sum="Total Quantity"  attrs="{'invisible': [('quantity','==',0)]}" />
+					<field name="price_unit" attrs="{'invisible': [('price_unit','==',0)]}"/>
+					<field name="price_total" sum="Total Price" attrs="{'invisible': [('price_total','==',0)]}" />
+					<field name="payment_amount" sum="Total Payment Amount" attrs="{'invisible': [('payment_amount','==',0)]}" options='{"fg_color":"red:is_set_color_column == True"}' type="integer" />
 					<field name="residual_amount" string="残高" invisible="1"/>
-					<field name="tax_rate"/>
+					<field name="tax_rate" attrs="{'invisible': [('tax_rate','==',0)]}"/>
 					<field name="tax_transfer"/>
+					<field name="is_set_color_column" invisible="1"/>
 				</tree>
 			</field>
 		</record>
