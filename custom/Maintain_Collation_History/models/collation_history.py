@@ -30,13 +30,73 @@ class CollationPayment(models.Model):
     # その他CD
     customer_other_cd = fields.Char('Customer CD', readonly=True, compute=_get_customer_other_cd)
 
-    # bill_detail_ids = fields.One2many('bill.invoice.details', 'bill_info_id')
+    bill_detail_ids = fields.One2many('bill.invoice.details', 'bill_info_id')
 
 class ClassBillInvoice(models.Model):
     _inherit = 'bill.invoice'
 
 
 class ClassDetail(models.Model):
+    _inherit = 'bill.invoice.details'
+
+    jan_code = fields.Char('Product Code', compute='_get_account_move_line_db', readonly=True)
+    product_name = fields.Char('Product Code', compute='_get_account_move_line_db', readonly=True)
+    product_custom_standardnumber = fields.Char('Product Custom Standard Number',
+                                                compute='_get_account_move_line_db', readonly=True)
+    product_default_code = fields.Char('Product Default Code', compute='_get_account_move_line_db',
+                                       readonly=True)
+    product_uom = fields.Char('Product Uom', compute='_get_account_move_line_db')
+    # quantity = fields.Float('Product Maker Name', compute='_get_account_move_line_db', readonly=True)
+    # price_unit = fields.Float(string='Unit Price', compute='_get_account_move_line_db', digits='Product Price')
+    tax_audit = fields.Char('tax_audit', compute='_get_account_move_line_db', readonly=True)
+    # tax_amount = fields.Float('tax_amount', compute='_get_account_move_line_db', readonly=True)
+    product_maker_name = fields.Char('Product Maker Name', compute='_get_account_move_line_db', readonly=True)
+    # line_amount = fields.Float('line amount', compute='_get_account_move_line_db', readonly=True)
+    x_invoicelinetype = fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
+    # voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='_get_account_move_line_db')
+    # tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
+    # flag_child_billing_code = fields.Integer('Flag Child Billing Code')
+
+    def _get_account_move_line_db(self):
+        for acc in self:
+            # if acc.billing_code == acc.customer_code:
+            #     acc.flag_child_billing_code = 0
+            # else:
+            #     acc.flag_child_billing_code = 1
+
+            if not acc.payment_id:
+                acc.jan_code = acc.account_move_line_id.product_barcode
+                acc.product_name = acc.account_move_line_id.product_name
+                acc.product_custom_standardnumber = acc.account_move_line_id.invoice_custom_standardnumber
+                acc.product_default_code = acc.account_move_line_id.product_id.id
+                acc.product_uom = acc.account_move_line_id.product_uom_id
+                # acc.quantity = acc.account_move_line_id.quantity
+                # acc.price_unit = acc.account_move_line_id.price_unit
+                acc.tax_audit = acc.account_move_line_id.tax_audit
+                # acc.tax_amount = acc.account_move_line_id.line_tax_amount
+                acc.product_maker_name = acc.account_move_line_id.product_maker_name
+                # acc.line_amount = acc.account_move_line_id.invoice_custom_lineamount
+                acc.x_invoicelinetype = acc.account_move_line_id.x_invoicelinetype
+                # acc.voucher_line_tax_amount = acc.account_move_line_id.voucher_line_tax_amount
+                # acc.tax_rate = acc.account_move_line_id.tax_rate
+            else:
+                acc.jan_code = ''
+                acc.product_name = ''
+                acc.product_custom_standardnumber = ''
+                acc.product_default_code = ''
+                acc.product_uom = ''
+                # acc.quantity = False
+                # acc.price_unit = False
+                acc.tax_audit = ''
+                # acc.tax_amount = False
+                acc.product_maker_name = ''
+                # acc.line_amount = False
+                acc.x_invoicelinetype = ''
+                # acc.tax_rate = False
+                # acc.voucher_line_tax_amount = 0
+
+class ClassDetail_View(models.Model):
+    _inherit = 'bill.invoice.details'
     _name = 'bill.invoice.details.view'
     _auto = False
 
@@ -46,9 +106,9 @@ class ClassDetail(models.Model):
             CREATE OR REPLACE VIEW bill_invoice_details_view AS
             SELECT row_number() OVER(ORDER BY invoice_date) AS id , * FROM
             (
-                SELECT 
+                SELECT
                 receipt_divide_custom.name AS payment_type_name,
-                account_payment_line.payment_amount, 
+                account_payment_line.payment_amount,
                 bill_invoice_details.bill_invoice_id,
                 bill_invoice_details.bill_info_id AS bill_info_id,
                 bill_invoice_details.account_move_line_id,
@@ -103,7 +163,6 @@ class ClassDetail(models.Model):
     x_invoicelinetype = fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
     # voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='_get_account_move_line_db')
     # tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
-    # flag_child_billing_code = fields.Integer('Flag Child Billing Code')
 
     bill_info_id = fields.Many2one('bill.info')
     bill_invoice_id = fields.Many2one('bill.invoice')
@@ -142,10 +201,6 @@ class ClassDetail(models.Model):
 
     def _get_account_move_line_db(self):
         for acc in self:
-            # if acc.billing_code == acc.customer_code:
-            #     acc.flag_child_billing_code = 0
-            # else:
-            #     acc.flag_child_billing_code = 1
 
             if not acc.payment_id:
                 acc.jan_code = acc.account_move_line_id.product_barcode
