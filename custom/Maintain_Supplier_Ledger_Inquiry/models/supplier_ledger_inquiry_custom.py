@@ -44,6 +44,9 @@ class SupplierLedgerInquiryCustom(models.Model):
     product_name = fields.Char(string='Product Name', readonly=True)
     # 数量
     quantity = fields.Integer(string='Quantity', readonly=True)
+
+    is_set_color_column = fields.Boolean(string='is_set_color_column', compute='_set_field_color', readonly=True)
+
     # 単価
     price_unit = fields.Integer(string='Price Unit', readonly=True)
     # 金額
@@ -106,21 +109,11 @@ class SupplierLedgerInquiryCustom(models.Model):
                 account_move_line.invoice_custom_standardnumber AS part_model_number, -- 品番/型番
                 account_move_line."product_maker_name" AS maker_name, -- メーカー名
                 account_move_line.product_name AS product_name, -- 商品名
-                account_move_line.quantity, -- 数量
+                account_move_line.quantity as quantity, -- 数量
                 account_move_line.price_unit, -- 単価
                 account_move_line.price_total, -- 金額
                 0 as payment_amount,
-                CASE
-                        WHEN account_move_line.price_total - account_move_line.price_subtotal <= 0 THEN
-                            0
-                        ELSE
-                            CASE
-                                WHEN (account_move_line.price_subtotal * 0.1) = (account_move_line.price_total - account_move_line.price_subtotal) THEN
-                                    10
-                                ELSE
-                                    5
-                            END
-                END AS tax_rate, -- 税率
+                account_move_line.tax_rate, -- 税率
                 account_move_line.create_uid,
                 CASE
                     WHEN account_move_line.x_tax_transfer_show_tree = 'foreign_tax' THEN
@@ -382,3 +375,18 @@ class SupplierLedgerInquiryCustom(models.Model):
         company_closing_date = self.env['res.users'].search([['id', '=', self.env.uid]]).company_id.company_closing_date
         # return day closing
         return company_closing_date
+
+
+    def _format_data_number(self):
+        for record in self:
+            if record.quantity == 0:
+                record.quantity_display = ''
+            else:
+                record.quantity_display = str(record.quantity)
+
+    def _set_field_color(self):
+        for record in self:
+            if record.invoice_line_type == "入金":
+                record.is_set_color_column = True
+            else:
+                record.is_set_color_column = False
