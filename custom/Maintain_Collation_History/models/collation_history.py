@@ -64,7 +64,7 @@ class ClassDetail(models.Model):
             # else:
             #     acc.flag_child_billing_code = 1
 
-            if not acc.payment_id:
+            if acc.account_move_line_id:
                 acc.jan_code = acc.account_move_line_id.product_barcode
                 acc.product_name = acc.account_move_line_id.product_name
                 acc.product_custom_standardnumber = acc.account_move_line_id.invoice_custom_standardnumber
@@ -94,6 +94,7 @@ class ClassDetail(models.Model):
                 acc.x_invoicelinetype = ''
                 # acc.tax_rate = False
                 # acc.voucher_line_tax_amount = 0
+
 
 class ClassDetail_View(models.Model):
     _inherit = 'bill.invoice.details'
