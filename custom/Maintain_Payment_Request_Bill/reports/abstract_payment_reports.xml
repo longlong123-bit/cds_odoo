@@ -16,7 +16,7 @@
                 <t t-set="count_detail" t-value="1"/>
                 <t t-set="pager" t-value="pager + 1"/>
                 <div class="page" style="position: relative; page-break-before: always; font-size: 14px; line-height: 1.2;">
-                    <t t-set="style_dot" t-value='"position: absolute; left: 1px; font-size: 5px; top: 591px;"'></t>
+                    <t t-set="style_dot" t-value='"position: absolute; left: 1px; font-size: 5px; top: 561px;"'></t>
                     <div t-att-style="style_dot">◆</div>
                     <div style="margin-left: 30px; padding-top: 30px; display: inline-block;">
                         <t t-set="style_title" t-value="'width: 38%; float: left;'"/>
