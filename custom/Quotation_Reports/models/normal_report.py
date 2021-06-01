@@ -118,6 +118,20 @@ class PrintSale(models.Model):
         return len_string
         # return len_string.replace('-', '－').replace(' ', '　').replace('~', '～')
 
+    def get_product_tax_category(self, product_code=''):
+        sql = "select product_tax_category from product_product where barcode ='" + product_code + "'"
+        self._cr.execute(sql)
+        record = self._cr.dictfetchall()
+        product_tax_category = record[0]['product_tax_category']
+        return product_tax_category
+
+    def get_marker_by_product_tax_category(self, product_code=''):
+        marker = ''
+        if self.get_product_tax_category(product_code) == 'internal':
+            marker = '※'
+        return marker
+
+
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
