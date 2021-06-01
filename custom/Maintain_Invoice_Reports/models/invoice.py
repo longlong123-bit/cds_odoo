@@ -118,3 +118,16 @@ class InvoiceReports(models.Model):
             return 0
         else:
             return int(len(self.invoice_line_ids) / limit) + 1
+
+    def get_product_tax_category(self, product_code=''):
+        sql = "select product_tax_category from product_product where barcode ='" + product_code + "'"
+        self._cr.execute(sql)
+        record = self._cr.dictfetchall()
+        product_tax_category = record[0]['product_tax_category']
+        return product_tax_category
+
+    def get_marker_by_product_tax_category(self, product_code=''):
+        marker = ''
+        if self.get_product_tax_category(product_code) == 'internal':
+            marker = '※'
+        return marker
