@@ -237,16 +237,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -463,16 +468,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -704,16 +714,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -890,16 +905,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -1975,16 +1995,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -2199,16 +2224,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -2416,16 +2446,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -2594,16 +2629,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -2953,16 +2993,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -3185,16 +3230,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -3422,16 +3472,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
@@ -3600,16 +3655,21 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-if="order.price_unit and order.price_unit %1"
-                                                                  t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
-                                                            <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                  t-elif="order.price_unit and not order.price_unit % 1"
-                                                                  t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
-                                                                <null/>
-                                                            </span>
+                                                            <div style="float: right; width: 91px;">
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-if="order.price_unit and order.price_unit %1"
+                                                                      t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="display: inline-block; width: 66px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                      t-elif="order.price_unit and not order.price_unit % 1"
+                                                                      t-esc="'{0:,.0f}'.format(order.limit_number_field(order.price_unit, 8, True))">
+                                                                    <null/>
+                                                                </span>
+                                                                <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                   t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                </span>
+                                                            </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
                                                             <span style="display: inline-block; width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"

@@ -263,14 +263,17 @@
                                                             </td>
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right">
                                                                 <div style="float: right; width: 91px;">
-                                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                    <sapn style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
                                                                        t-if="order.price_unit and order.price_unit % 1 > 0"
                                                                        t-esc="'{0:,.2f}'.format(o.limit_number_field(order.price_unit, 8, True))">
-                                                                    </p>
-                                                                    <p style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                    </sapn>
+                                                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
                                                                        t-elif="order.price_unit and order.price_unit % 1 == 0"
                                                                        t-esc="'{0:,.0f}'.format(o.limit_number_field(order.price_unit, 8, True))">
-                                                                    </p>
+                                                                    </span>
+                                                                    <span style="white-space: nowrap; overflow: hidden; text-overflow: clip; margin: 0;"
+                                                                       t-esc="o.get_marker_by_product_tax_category(order.product_barcode)">
+                                                                    </span>
                                                                 </div>
                                                             </td>
                                                             <td style="border-left: 1px solid #000000; border-bottom: 1px solid #000000; text-align: right">
