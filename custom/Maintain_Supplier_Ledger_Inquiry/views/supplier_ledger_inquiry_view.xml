@@ -6,26 +6,34 @@
 			<field name="name">supplier_ledger_inquiry_tree</field>
 			<field name="model">supplier.ledger</field>
 			<field name="arch" type="xml">
-				<tree create="0" import="0">
-					<field name="customer_code"/>
-					<field name="customer_name"/>
-					<field name="date" />
-					<field name="invoice_no"/>
-					<field name="invoice_line_type"  options='{"fg_color":"red:is_set_color_column == True"}'/>
+				<tree create="0" import="0" decoration-bf="product_name=='繰越残高'" class="forward_edit" >
+<!--					<field name="customer_code"/>-->
+<!--					<field name="customer_name"/>-->
+					<field name="customer_code" attrs="{'invisible': [('is_display_customer','==',0)]}"  />
+					<field name="customer_name" attrs="{'invisible': [('is_display_customer','==',0)]}" />
+					<field name="residual_amount_transfer" string="繰越残高"  invisible="1" />
+<!--					<field name="residual_amount_transfer" string="繰越残高" attrs="{'invisible': [('is_display_residual_amount_transfer','==',0)]}"  />-->
+					<field name="date" attrs="{'invisible': [('is_display_residual_amount_transfer','==',0)]}"  width = "0.5%%" />
+					<field name="invoice_no" attrs="{'invisible': [('is_change_voucher','==',0)]}" />
+					<field name="tax_transfer"  width = "10px" attrs="{'invisible': [('is_change_voucher','==',0)]}" />
+					<field name="invoice_line_type"  width = "10px" options='{"fg_color":"red:is_set_color_column == True"}' attrs="{'invisible': [('is_display_payment_class','==',0)]}" />
 					<field name="jan_code"/>
 					<field name="product_code"/>
 					<field name="product_name" options='{"fg_color":"red:is_set_color_column == True"}'/>
 					<field name="part_model_number"/>
 					<field name="maker_name"/>
-					<field name="residual_amount_transfer" attrs="{'invisible': [('residual_amount_transfer','==',0)]}" options='{"fg_color":"red:is_set_color_column == True"}' string="繰越残高"  />
-					<field name="quantity" sum="Total Quantity"  attrs="{'invisible': [('quantity','==',0)]}" />
-					<field name="price_unit" attrs="{'invisible': [('price_unit','==',0)]}"/>
-					<field name="price_total" sum="Total Price" attrs="{'invisible': [('price_total','==',0)]}" />
-					<field name="payment_amount" sum="Total Payment Amount" attrs="{'invisible': [('payment_amount','==',0)]}" options='{"fg_color":"red:is_set_color_column == True"}' type="integer" />
-					<field name="residual_amount" string="残高" invisible="1"/>
-					<field name="tax_rate" attrs="{'invisible': [('tax_rate','==',0)]}"/>
-					<field name="tax_transfer"/>
+					<field name="quantity" sum="Total Quantity"  attrs="{'invisible': [('quantity','==',0)]}"  width = "0.5%%"/>
+					<field name="price_unit" attrs="{'invisible': [('price_unit','==',0)]}"  width = "0.5%%" />
+					<field name="price_total" sum="Total Price" attrs="{'invisible': [('price_total','==',0)]}"  width = "0.5%%"  />
+					<field name="payment_amount" sum="Total Payment Amount" attrs="{'invisible': [('payment_amount','==',0)]}" options='{"fg_color":"red:is_set_color_column == True"}' type="integer"  width = "0.5%%" />
+					<field name="residual_amount"  string="残高" attrs="{'invisible': [('is_display_residual_amount','==',0)]}" width = "0.5%%" />
+<!--					<field name="tax_rate" attrs="{'invisible': [('tax_rate','==',0)]}"/>-->
 					<field name="is_set_color_column" invisible="1"/>
+					<field name="is_display_residual_amount_transfer" invisible="1" />
+					<field name="is_display_residual_amount" invisible="1" />
+					<field name="is_display_customer" invisible="1" />
+					<field name="is_display_payment_class" invisible="1" />
+					<field name="is_change_voucher" invisible="1" />
 				</tree>
 			</field>
 		</record>
