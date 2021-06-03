@@ -4,11 +4,13 @@ from datetime import datetime, date, timedelta
 import calendar, pytz
 
 # initialize global variable
-# 対象月
-val_target_month = ''
-# 請求先
+# 対象月日
+val_view_date_from = ''
+val_view_date_end = ''
+
 val_customer_code_bill_from = ''
 val_customer_code_bill_to = ''
+
 # 事業部
 val_division = ''
 # 営業担当者
@@ -16,6 +18,9 @@ val_sales_rep = ''
 # 取引先グループ
 val_customer_supplier_group_code = ''
 
+# 請求先/得意先コード
+val_customer_code_bill = ""
+val_customer_code_bill_list = []
 
 class SupplierLedgerInquiryCustom(models.Model):
     _name = 'supplier.ledger'
@@ -45,8 +50,6 @@ class SupplierLedgerInquiryCustom(models.Model):
     # 数量
     quantity = fields.Integer(string='Quantity', readonly=True)
 
-    is_set_color_column = fields.Boolean(string='is_set_color_column', compute='_set_field_color', readonly=True)
-
     # 単価
     price_unit = fields.Integer(string='Price Unit', readonly=True)
     # 金額
@@ -63,118 +66,404 @@ class SupplierLedgerInquiryCustom(models.Model):
     # partner_id
     partner_id = fields.Integer(string='Partner Id', readonly=True)
 
+    line_level = fields.Integer(readonly=True)
+
+    is_set_color_column = fields.Boolean(string='is_set_color_column', compute='_set_field_color', readonly=True)
+
     # fields input condition advanced search
-    input_target_month = fields.Char('Input Target Date', compute='_get_value_condition_input', default='', store=False)
-    input_customer_code_bill_from = fields.Char('Input Customer Code Bill From', compute='_get_value_condition_input',
-                                                default='',
-                                                store=False)
-    input_customer_code_bill_to = fields.Char('Input Customer Code Bill To', compute='_get_value_condition_input', default='',
-                                              store=False)
-    input_division = fields.Char('Input Division', compute='_get_value_condition_input', default='', store=False)
-    input_sales_rep = fields.Char('Input Sales Representative', compute='_get_value_condition_input', default='', store=False)
-    input_customer_supplier_group_code = fields.Char('Input Customer Supplier Group Code',
-                                                     compute='_get_value_condition_input', default='', store=False)
+    # input_target_month = fields.Char('Input Target Date', compute='_get_value_condition_input', default='', store=False)
+    # input_customer_code_bill_from = fields.Char('Input Customer Code Bill From', compute='_get_value_condition_input',
+    #                                             default='',
+    #                                             store=False)
+    # input_customer_code_bill_to = fields.Char('Input Customer Code Bill To', compute='_get_value_condition_input', default='',
+    #                                           store=False)
+    # input_division = fields.Char('Input Division', compute='_get_value_condition_input', default='', store=False)
+    # input_sales_rep = fields.Char('Input Sales Representative', compute='_get_value_condition_input', default='', store=False)
+    # input_customer_supplier_group_code = fields.Char('Input Customer Supplier Group Code',
+    #                                                  compute='_get_value_condition_input', default='', store=False)
 
     def _compute_residual_amount(self):
         date_before = ''
         date_today = ''
+
+        voucher_before = ''
+        voucher_current = ''
+
+        customer_before = ''
+        customer_current = ''
+
+        residual_amount_transfer = 0
+        residual_amount = 0
+
+        #Calcute residual_amount_before
+        residual_amount_first = 0
         residual_amount_before = 0
+
+        is_display_residual_amount_transfer = 1
+        is_display_customer = 1
+        is_display_payment_class = 1
+
+        is_change_date = 1
+        is_change_voucher = 1
+
+        query = "SELECT * from get_opening_balace_info('" + val_customer_code_bill + "','" + val_view_date_from + "')"
+        self._cr.execute(query)
+        query_res = self._cr.fetchall()
+
+        for record in query_res:
+            residual_amount_first = record[1]
+
         for record in self:
+
             date_today = record.date
-            if date_before is False or date_today == date_before:
-                record.residual_amount_transfer = 0
+            voucher_current = record.invoice_no
+            customer_current = record.customer_code
+
+            if voucher_current != voucher_before:
+                voucher_before = voucher_current
+                is_change_voucher = 1
             else:
-                record.residual_amount_transfer = residual_amount_before
-                residual_amount_before = 0
-            record.residual_amount = record.price_total - record.payment_amount + record.residual_amount_transfer
-            residual_amount_before += record.residual_amount
-            date_before = record.date
+                is_change_voucher = 0
+
+            if customer_current != customer_before:
+                customer_before = customer_current
+                is_display_customer = 1
+            else:
+                is_display_customer = 0
+
+
+            if date_before == "": #First record
+                residual_amount_transfer = residual_amount_first
+                residual_amount = residual_amount_first
+                is_display_residual_amount_transfer = 1
+                is_change_date = 1
+            else:
+                residual_amount_transfer = residual_amount
+
+            if date_today != date_before:  # Date no change ==> calc last amount
+                date_before = date_today
+                is_display_residual_amount_transfer = 1
+                is_change_date = 1
+            else:
+                is_display_residual_amount_transfer = 0
+                is_change_date = 0
+            if record.detail_level != 3:
+                residual_amount = residual_amount + record.price_total - record.payment_amount
+
+            if record.detail_level == 0 or record.detail_level == 3:
+                is_display_residual_amount = 1
+            else:
+                is_display_residual_amount = 0
+            if record.detail_level == 3 and record.invoice_line_type == '入金':
+                is_display_payment_class = 0
+            else:
+                is_display_payment_class = 1
+
+            record.residual_amount_transfer = residual_amount_transfer
+            record.residual_amount = residual_amount
+            record.is_display_residual_amount_transfer = is_display_residual_amount_transfer
+            record.is_change_date = is_change_date
+            record.is_change_voucher = is_change_voucher
+            record.is_display_residual_amount = is_display_residual_amount
+            record.is_display_customer = is_display_customer
+            record.is_display_payment_class = is_display_payment_class
+
     #残高
     residual_amount_transfer = fields.Integer(compute=_compute_residual_amount)
+    is_display_residual_amount = fields.Integer(compute=_compute_residual_amount)
+    is_display_residual_amount_transfer = fields.Integer(compute=_compute_residual_amount)
+    is_display_customer = fields.Integer(compute=_compute_residual_amount)
+    is_display_payment_class = fields.Integer(compute=_compute_residual_amount)
+
+    is_change_date = fields.Integer(compute=_compute_residual_amount)
+    is_change_voucher = fields.Integer(compute=_compute_residual_amount)
     residual_amount = fields.Integer(compute=_compute_residual_amount)
+
+
+    detail_level = fields.Integer()
+
+    # is_display_residual_amount = fields.Integer(compute=_compute_residual_amount)
 
     def init(self):
         tools.drop_view_if_exists(self._cr, self._table)
+
+        # Create data view
         self._cr.execute("""
         CREATE OR REPLACE VIEW supplier_ledger AS
-        SELECT row_number() OVER(ORDER BY customer_code, date, invoice_no) AS id , * FROM(
-            (SELECT
-                account_move_line.date, -- 日付
-                account_move_line.invoice_no, -- 伝票Ｎｏ
-                account_move_line.x_invoicelinetype AS invoice_line_type, -- 取引/内訳区分
-                res_partner.customer_code AS customer_code, -- 得意先コード
-                res_partner.name AS customer_name, -- 得意先名
-                account_move_line.product_barcode AS jan_code, -- JANコード
-                account_move_line.product_code AS product_code, -- 商品コード
-                account_move_line.invoice_custom_standardnumber AS part_model_number, -- 品番/型番
-                account_move_line."product_maker_name" AS maker_name, -- メーカー名
-                account_move_line.product_name AS product_name, -- 商品名
-                account_move_line.quantity as quantity, -- 数量
-                account_move_line.price_unit, -- 単価
-                account_move_line.price_total, -- 金額
-                0 as payment_amount,
-                account_move_line.tax_rate, -- 税率
-                account_move_line.create_uid,
+        SELECT row_number() OVER(ORDER BY customer_code, line_level, date, invoice_no, detail_level) AS id, * FROM
+        (		
+        (
+			SELECT NULL AS date,
+            '' AS invoice_no,
+            0 AS detail_level,
+            0 AS line_level,
+            '' AS invoice_line_type,
+            res_partner.customer_code,
+            res_partner.name AS customer_name,
+            '' AS jan_code,
+            '' AS product_code,
+            '' AS part_model_number,
+            '' AS maker_name,
+            '繰越残高' AS product_name,
+            0 AS quantity,
+            0 AS price_unit,
+            0 AS price_total,
+            0 AS payment_amount,
+            0 AS tax_rate,
+            res_partner.create_uid,
+            '' AS tax_transfer,
+            res_partner.id AS partner_id,
+            res_partner.customer_code_bill,
                 CASE
-                    WHEN account_move_line.x_tax_transfer_show_tree = 'foreign_tax' THEN
-                        '外税／明細'
-                    WHEN account_move_line.x_tax_transfer_show_tree = 'internal_tax' THEN
-                        '内税／明細'
-                    WHEN account_move_line.x_tax_transfer_show_tree = 'voucher' THEN
-                        '伝票'
-                    WHEN account_move_line.x_tax_transfer_show_tree = 'invoice' THEN 
-                        '請求'
-                    WHEN account_move_line.x_tax_transfer_show_tree = 'custom_tax' THEN 
-                        '税調整別途'  
-                END AS tax_transfer, -- 税転嫁（外／内／非、明／伝／請）
-                res_partner.id AS partner_id,
-                res_partner.customer_code_bill AS customer_code_bill, 
-			    CASE 
                     WHEN res_partner.customer_code <> res_partner.customer_code_bill THEN 1
                     WHEN res_partner.customer_code = res_partner.customer_code_bill THEN 0
-			    END AS isbill_place
-            FROM
-                account_move_line
-                    LEFT JOIN
-                        res_partner
-                            ON res_partner.id = account_move_line.partner_id
-                            AND res_partner.active = true
-            WHERE
-                account_move_line.account_internal_type != 'receivable'
-                AND account_move_line.exclude_from_invoice_tab = False
-                AND account_move_line.parent_state = 'posted'
-            )
-            UNION (
-                SELECT
-                    account_payment.payment_date,
-                    account_payment.name,
-                    '入金',
-                    res_partner.customer_code,
-                    res_partner.name,
-                    '',
-                    '',
-                    NULL, -- 品番/型番
-                    '', -- メーカー名
-                    receipt_divide_custom.name,
-                    0,
-                    0,
-                    0,
-                    account_payment_line.payment_amount,
-                    0,
-                    account_payment.create_uid,
-                    '', -- 税転嫁（外／内／非、明／伝／請）
-                    res_partner.id, 
-                    res_partner.customer_code_bill AS customer_code_bill, 
-			    CASE 
+                    ELSE NULL::integer
+                END AS isbill_place
+           FROM res_partner
+          WHERE res_partner.active = true AND ((res_partner.id IN ( SELECT account_move.partner_id
+                   FROM account_move
+                  WHERE account_move.type = 'out_invoice' AND account_move.state = 'posted')) OR (res_partner.id IN ( SELECT account_payment.partner_id
+                   FROM account_payment)))
+        )
+		UNION ALL
+        ( 
+			SELECT account_move_line.date,
+            account_move_line.invoice_no,
+            1 AS detail_level,
+            1 AS line_level,
+            account_move_line.x_invoicelinetype AS invoice_line_type,
+            res_partner.customer_code,
+            res_partner.name AS customer_name,
+            account_move_line.product_barcode AS jan_code,
+            account_move_line.product_code,
+            account_move_line.invoice_custom_standardnumber AS part_model_number,
+            account_move_line.product_maker_name AS maker_name,
+            account_move_line.product_name,
+            account_move_line.quantity,
+            account_move_line.price_unit,
+            account_move_line.price_total,
+            0 AS payment_amount,
+            account_move_line.tax_rate,
+            account_move_line.create_uid,
+                CASE
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'foreign_tax' THEN '外税／明細'
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'internal_tax' THEN '内税／明細'
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'voucher' THEN '伝票'
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'invoice' THEN '請求'
+                    WHEN account_move_line.x_tax_transfer_show_tree = 'custom_tax' THEN '税調整別途'
+                    ELSE NULL
+                END AS tax_transfer,
+            res_partner.id AS partner_id,
+            res_partner.customer_code_bill,
+                CASE
                     WHEN res_partner.customer_code <> res_partner.customer_code_bill THEN 1
                     WHEN res_partner.customer_code = res_partner.customer_code_bill THEN 0
-			    END AS isbill_place
-                FROM
-                    account_payment
-                    LEFT JOIN account_payment_line ON account_payment.id = account_payment_line.payment_id
-                    LEFT JOIN receipt_divide_custom ON account_payment_line.receipt_divide_custom_id = receipt_divide_custom.id
-                    LEFT JOIN res_partner  ON res_partner.id = account_payment.partner_id AND res_partner.active = true
-            ) ) AS foo""")
+                    ELSE NULL::integer
+                END AS isbill_place
+           FROM account_move_line
+             LEFT JOIN res_partner ON res_partner.id = account_move_line.partner_id AND res_partner.active = true
+          WHERE account_move_line.account_internal_type <> 'receivable' AND account_move_line.exclude_from_invoice_tab = false AND account_move_line.parent_state = 'posted'
+        UNION ALL
+         SELECT account_move.x_studio_date_invoiced AS date,
+            account_move.x_studio_document_no AS invoice_no,
+            2 AS detail_level,
+            1 AS line_level,
+            '' AS invoice_line_type,
+            res_partner.customer_code,
+            res_partner.name AS customer_name,
+            '' AS jan_code,
+            '' AS product_code,
+            '' AS part_model_number,
+            '' AS maker_name,
+            '消費税額' AS product_name,
+            0 AS quantity,
+            0 AS price_unit,
+            account_move.x_voucher_tax_amount AS price_total,
+            0 AS payment_amount,
+            0,
+            account_move.create_uid,
+            '' AS tax_transfer,
+            res_partner.id AS partner_id,
+            res_partner.customer_code_bill,
+                CASE
+                    WHEN res_partner.customer_code <> res_partner.customer_code_bill THEN 1
+                    WHEN res_partner.customer_code = res_partner.customer_code_bill THEN 0
+                    ELSE NULL::integer
+                END AS isbill_place
+           FROM account_move
+             LEFT JOIN res_partner ON res_partner.id = account_move.partner_id AND res_partner.active = true
+          WHERE account_move.type = 'out_invoice' AND account_move.state = 'posted'
+		)
+        UNION ALL
+		(
+         SELECT account_move.x_studio_date_invoiced AS date,
+            account_move.x_studio_document_no AS invoice_no,
+            3 AS detail_level,
+            1 AS line_level,
+            '' AS invoice_line_type,
+            res_partner.customer_code,
+            res_partner.name AS customer_name,
+            '' AS jan_code,
+            '' AS product_code,
+            '' AS part_model_number,
+            '' AS maker_name,
+            '伝票計' AS product_name,
+            0 AS quantity,
+            0 AS price_unit,
+            account_move.amount_total AS price_total,
+            0 AS payment_amount,
+            0,
+            account_move.create_uid,
+            '' AS tax_transfer,
+            res_partner.id AS partner_id,
+            res_partner.customer_code_bill,
+                CASE
+                    WHEN res_partner.customer_code <> res_partner.customer_code_bill THEN 1
+                    WHEN res_partner.customer_code = res_partner.customer_code_bill THEN 0
+                    ELSE NULL::integer
+                END AS isbill_place
+           FROM account_move
+             LEFT JOIN res_partner ON res_partner.id = account_move.partner_id AND res_partner.active = true
+          WHERE account_move.type = 'out_invoice' AND account_move.state = 'posted'
+        )
+		UNION ALL
+		(
+		SELECT account_payment.payment_date,
+            account_payment.name,
+            3 AS detail_level,
+            1 AS line_level,
+            '入金' AS "varchar",
+            res_partner.customer_code,
+            res_partner.name,
+            '' AS "varchar",
+            '' AS "varchar",
+            NULL AS "varchar",
+            '' AS "varchar",
+            '伝票計' AS product_name,
+            0,
+            0,
+            0,
+            account_payment.amount,
+            0,
+            account_payment.create_uid,
+            '' AS text,
+            res_partner.id,
+            res_partner.customer_code_bill,
+                CASE
+                    WHEN res_partner.customer_code <> res_partner.customer_code_bill THEN 1
+                    WHEN res_partner.customer_code = res_partner.customer_code_bill THEN 0
+                    ELSE NULL::integer
+                END AS isbill_place
+           FROM account_payment
+             LEFT JOIN res_partner ON res_partner.id = account_payment.partner_id AND res_partner.active = true
+		) 
+		UNION ALL	 
+		(
+		SELECT account_payment.payment_date,
+            account_payment.name,
+            1 AS detail_level,
+            1 AS line_level,
+            '入金' AS "varchar",
+            res_partner.customer_code,
+            res_partner.name,
+            '' AS "varchar",
+            '' AS "varchar",
+            NULL AS "varchar",
+            '' AS "varchar",
+            receipt_divide_custom.name,
+            0,
+            0,
+            0,
+            account_payment_line.payment_amount,
+            0,
+            account_payment.create_uid,
+            '' AS text,
+            res_partner.id,
+            res_partner.customer_code_bill,
+                CASE
+                    WHEN res_partner.customer_code <> res_partner.customer_code_bill THEN 1
+                    WHEN res_partner.customer_code = res_partner.customer_code_bill THEN 0
+                    ELSE NULL::integer
+                END AS isbill_place
+           FROM account_payment
+             LEFT JOIN account_payment_line ON account_payment.id = account_payment_line.payment_id
+             LEFT JOIN receipt_divide_custom ON account_payment_line.receipt_divide_custom_id = receipt_divide_custom.id
+             LEFT JOIN res_partner ON res_partner.id = account_payment.partner_id AND res_partner.active = true
+		)) AS foo""")
+
+        # Create function get_opening_balace_info
+        self._cr.execute("""CREATE OR REPLACE FUNCTION public.get_opening_balace_info(
+                            par_customer_code character varying,
+                            par_start_date date)
+                            RETURNS TABLE(customer_code character varying, opening_balace_amount numeric) 
+                            LANGUAGE 'plpgsql'
+                            COST 100
+                            VOLATILE PARALLEL UNSAFE
+                            ROWS 1000
+        
+                AS $BODY$
+                DECLARE
+                    billed_last_date date;
+                BEGIN
+                   -- Get billed_last_date
+                    billed_last_date:= (select max(bill.bill_date)
+                                        from bill_info as bill
+                                        left join res_partner as part on bill.partner_id = part.id 
+                                        where bill.bill_date = (select max(b.bill_date)
+                                                                 from bill_info as b
+                                                                 where bill_date < par_start_date
+                                                                 and bill.partner_id = b.partner_id
+                                                                 group by b.partner_id 
+                                                                )
+                                        and part.customer_code = par_customer_code
+                                      );
+                    if billed_last_date is NULL then
+                        billed_last_date:= '1900-01-01';  --Minimum of date type
+                    end if;
+                    
+                   RETURN QUERY 
+                                (	select foo.customer_code as  customer_code , COALESCE(sum (foo.amount_total), 0) as amount
+                                    from
+                                    (	
+                                    -- Get lastest bill amount 
+                                        select part.customer_code as customer_code, 
+                                            bill.billed_amount as amount_total 
+                                        from bill_info as bill
+                                            left join res_partner as part on bill.partner_id = part.id 
+                                        where bill.bill_date = (select max(b.bill_date)
+                                                                     from bill_info as b
+                                                                     where bill_date < par_start_date
+                                                                            and bill.partner_id = b.partner_id
+                                                                     group by b.partner_id 
+                                                                    )
+                                        and part.customer_code = par_customer_code
+                                        Union 
+                                        -- Get invoice amount to in_start_date (<in_start_date)
+                                            select part.customer_code as customer_code, 
+                                                    sum(am.amount_total) as amount_total 	
+                                            from account_move as am
+                                            left join res_partner as part on am.partner_id = part.id 
+                                            where am.x_studio_date_invoiced >= billed_last_date and am.x_studio_date_invoiced < par_start_date 
+                                                  and part.customer_code = par_customer_code
+                                                  and am.type = 'out_invoice' AND am.state = 'posted' and am.bill_status = 'not yet'	
+                                            group by part.customer_code
+                
+                                        Union 
+                                        -- Get payment amount  to in_start_date (<in_start_date)
+                                            select part.customer_code as customer_code, 
+                                                  - sum(pa.amount) as amount_total 	
+                                            from account_payment as pa
+                                            left join res_partner as part on pa.partner_id = part.id 
+                                            where pa.payment_date >= billed_last_date and pa.payment_date < par_start_date
+                                            and part.customer_code = par_customer_code
+                                            group by part.customer_code
+                                        ) AS foo
+                                        group by foo.customer_code
+                
+                                 );
+                                 
+                        END;
+                $BODY$;""")
 
     def search(self, args, offset=0, limit=None, order=None, count=False):
         """
@@ -197,21 +486,21 @@ class SupplierLedgerInquiryCustom(models.Model):
         supplier_ledger_inquiry_context = self._context.copy()
         if supplier_ledger_inquiry_context and 'supplier_ledger_inquiry_module' in supplier_ledger_inquiry_context:
             # using global keyword
-            global val_target_month
-            global val_customer_code_bill_from
-            global val_customer_code_bill_to
+            global val_view_date_from
+            global val_view_date_to
+            global val_customer_code_bill
+            global val_customer_code_bill_list
             global val_division
             global val_sales_rep
             global val_customer_supplier_group_code
+
             # reset global keyword
-            val_target_month = ''
-            val_customer_code_bill_from = ''
-            val_customer_code_bill_to = ''
             val_division = ''
-            val_sales_rep = ''
-            val_customer_supplier_group_code = ''
-            check_input_date = 0
             check_required_field = False
+            val_view_date_from = ""
+            val_view_date_to = ""
+            val_customer_code_bill = ""
+            val_customer_code_bill_list.clear()
 
             # Check required field
             if 'customer_code_bill' in (item for sublist in args for item in sublist):
@@ -222,69 +511,40 @@ class SupplierLedgerInquiryCustom(models.Model):
                     if record[0] == '&':
                         continue
                     if record[0] == 'date':
-                        domain += [record]
+                        if len(record[1]) > 0 and len(val_view_date_from) == 0:
+                            val_view_date_from = record[2]
+                            # domain += ['|', ('date', '>=', val_view_date_from), [('line_level', '=', 0), ('customer_code','=','1000045')]]
+                            # # record = [['|', ('date', '>=', val_view_date_from), ('line_level', '=', 0)]]
+                        else:
+                            val_view_date_to = record[2]
+                            # # record = [['|', ('date', '<=', val_view_date_to), ('line_level', '=', 0)]]
+                            # domain += ['|', ('date', '<=', val_view_date_to), [('line_level', '=', 0), ('customer_code','=','1000045')]]
                         check_input_date = 1
                         continue
 
-                    # Start Upd: Change search by customer_code_bill
                     if record[0] == 'customer_code_bill':
                         # Get child code list
                         domain_res_partner += [('customer_code_bill', '=', record[2])]
                         res_partner_ids = self.env["res.partner"].search(domain_res_partner)
-                        customer_code_list = []
-                        customer_code_list.append(record[2])  # First parent code
+                        val_customer_code_bill = record[2]
+                        val_customer_code_bill_list.append(record[2])  # First parent code
                         for row in res_partner_ids:
                             if row.customer_code:
-                                customer_code_list.append(row.customer_code)
-                        domain += [('customer_code', 'in', customer_code_list)]
+                                val_customer_code_bill_list.append(row.customer_code)
+                        # domain += [('customer_code', 'in', val_customer_code_bill_list)]
                     continue
-                    # End Upd: Change search by customer_code_bill
 
-                    # if record[0] == 'customer_code_bill_to':
-                    #     record[0] = 'customer_code_bill'
-                    #     domain_res_partner += [record]
-                    #     val_customer_code_bill_to = record[2]
-                    #     continue
-                    # if record[0] == 'division':
-                    #     record[0] = 'department_id'
-                    #     record[2] = int(record[2])
-                    #     domain_hr_employee += [record]
-                    #     val_division = record[2]
-                    #     continue
-                    # if record[0] == 'sales_rep':
-                    #     record[0] = 'id'
-                    #     record[2] = int(record[2])
-                    #     domain_hr_employee += [record]
-                    #     val_sales_rep = record[2]
-                    #     continue
-                    # if record[0] == 'customer_supplier_group_code':
-                    #     record[2] = int(record[2])
-                    #     domain_res_partner += [record]
-                    #     val_customer_supplier_group_code = record[2]
-                    #     continue
 
-                    domain += [record]
-                if check_input_date == 0:
-                    domain += [('date', '>', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
-                    domain += [('date', '<', datetime.now().astimezone(pytz.timezone(self.env.user.tz)).strftime("%Y-%m-%d"))]
+                a = ('customer_code', 'in', val_customer_code_bill_list)
+                b = ('date', '>=', val_view_date_from)
+                c = ('line_level', '=', 0)
+                d = ('customer_code','=',val_customer_code_bill)
+                e = ('date', '<=', val_view_date_to)
+                # a and (b or (c and d ) and (e or (c and d)) ==> '&','&', a,'|', b,'&', c, d, '|', e, '&', c, d
+                domain = ['&','&', a,'|', b,'&', c, d, '|', e, '&', c, d]
 
-            # get closing current date
-            # closing_date = self._get_closing_date(year_month_selected=val_target_month)
-            # closing_date_start = closing_date['closing_date_start']
-            # closing_date_end = closing_date['closing_date_end']
-            # domain += [('date', '>=', str(closing_date_start))]
-            # domain += [('date', '<=', str(closing_date_end))]
 
-            # filter customer_code_bill and customer_supplier_group_code from table res_partner
 
-            # if len(domain_res_partner) > 0:
-            #     res_partner_ids = self.env["res.partner"].search(domain_res_partner)
-            #     partner_ids = []
-            #     partner_ids.append(record[2])   # First parent code
-            #     for row in res_partner_ids:
-            #         if row.id:
-            #             partner_ids.append(row.id)
-            #     domain += [('partner_id', 'in', partner_ids)]
 
             # filter division and sales_rep from table res_partner
             if len(domain_hr_employee) > 0:
@@ -299,7 +559,6 @@ class SupplierLedgerInquiryCustom(models.Model):
                     domain += [('create_uid', '=', False)]
         else:
             domain = args
-
         return domain
 
     # def _get_closing_date(self, year_month_selected):
