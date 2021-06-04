@@ -288,7 +288,7 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <div style="float: right; width: 91px;">
+                                                            <div style="float: right; width: 88px;">
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                       t-if="order.price_unit and order.price_unit % 1 > 0"
                                                                       t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
@@ -547,7 +547,7 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <div style="float: right; width: 91px;">
+                                                            <div style="float: right; width: 88px;">
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                       t-if="order.price_unit and order.price_unit % 1 > 0"
                                                                       t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
@@ -808,7 +808,7 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <div style="float: right; width: 91px;">
+                                                            <div style="float: right; width: 88px;">
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                       t-if="order.price_unit and order.price_unit % 1 > 0"
                                                                       t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
@@ -979,7 +979,7 @@
                                                             </span>
                                                         </td>
                                                         <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                            <div style="float: right; width: 91px;">
+                                                            <div style="float: right; width: 88px;">
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                       t-if="order.price_unit and order.price_unit % 1 > 0"
                                                                       t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
@@ -1140,6 +1140,9 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
+                                    </div>
                                     <div style="font-size: 16px; font-weight: 600; padding: 5px 0 5px 30px; line-height: 1.5;" t-if="o.report_header.name.replace(' ','').replace('　','') == '請求書'">
                                         <span t-if="o.company_id.company_bank_account_1">振込口座: </span>
                                         <span t-if="o.company_id.company_bank_account_1" t-field="o.company_id.company_bank_account_1"/>
@@ -1161,7 +1164,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div style="padding-top: 10px;line-height: 1.5;" t-else="">
+                                    <div style="padding-top: 20px;line-height: 1.5;" t-else="">
                                         <span style="font-size: 19px; font-weight: 600; padding: 5px 0 5px 292px; text-align: center;">
                                             主要取扱メーカー
                                         </span>
