@@ -216,7 +216,7 @@ class BillInfoGet(models.Model):
                         subtotal += line.voucher_line_tax_amount
                     elif line.x_voucher_tax_transfer == 'invoice':
                         subtotal += line.line_amount * line.tax_rate / 100
-            if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
+            if tax_rate == 0 and re.x_voucher_tax_transfer == 'custom_tax':
                 subtotal += re.amount_tax
         return rounding(subtotal, 0, self.partner_id.customer_tax_rounding)
 
