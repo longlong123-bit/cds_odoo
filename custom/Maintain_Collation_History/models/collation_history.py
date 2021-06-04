@@ -55,15 +55,14 @@ class ClassDetail(models.Model):
     x_invoicelinetype = fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
     # voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='_get_account_move_line_db')
     # tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
-    # flag_child_billing_code = fields.Integer('Flag Child Billing Code')
+    flag_child_billing_code = fields.Integer('Flag Child Billing Code')
 
     def _get_account_move_line_db(self):
         for acc in self:
-            # if acc.billing_code == acc.customer_code:
-            #     acc.flag_child_billing_code = 0
-            # else:
-            #     acc.flag_child_billing_code = 1
-
+            if acc.billing_code == acc.customer_code:
+                acc.flag_child_billing_code = 0
+            else:
+                acc.flag_child_billing_code = 1
             if acc.account_move_line_id:
                 acc.jan_code = acc.account_move_line_id.product_barcode
                 acc.product_name = acc.account_move_line_id.product_name
@@ -77,7 +76,7 @@ class ClassDetail(models.Model):
                 acc.product_maker_name = acc.account_move_line_id.product_maker_name
                 # acc.line_amount = acc.account_move_line_id.invoice_custom_lineamount
                 acc.x_invoicelinetype = acc.account_move_line_id.x_invoicelinetype
-                # acc.voucher_line_tax_amount = acc.account_move_line_id.voucher_line_tax_amount
+                acc.voucher_line_tax_amount = acc.account_move_line_id.voucher_line_tax_amount
                 # acc.tax_rate = acc.account_move_line_id.tax_rate
             else:
                 acc.jan_code = ''
@@ -138,7 +137,8 @@ class ClassDetail_View(models.Model):
                 bill_invoice_details.tax_rate,
                 bill_invoice_details.voucher_line_tax_amount,
                 bill_invoice_details.payment_category,
-                bill_invoice_details.payment_id
+                bill_invoice_details.payment_id,
+                0 as flag_child_billing_code
                 FROM bill_invoice_details
                 LEFT JOIN account_payment_line
                     ON bill_invoice_details.payment_id = account_payment_line.payment_id
@@ -163,7 +163,7 @@ class ClassDetail_View(models.Model):
     # line_amount = fields.Float('line amount', compute='_get_account_move_line_db', readonly=True)
     x_invoicelinetype = fields.Char('x_invoicelinetype', compute='_get_account_move_line_db', readonly=True)
     # voucher_line_tax_amount = fields.Float('Voucher Line Tax Amount', compute='_get_account_move_line_db')
-    # tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
+    tax_rate = fields.Float('tax_rate', compute='_get_account_move_line_db', readonly=True)
 
     bill_info_id = fields.Many2one('bill.info')
     bill_invoice_id = fields.Many2one('bill.invoice')
@@ -235,7 +235,7 @@ class ClassDetail_View(models.Model):
                 acc.product_maker_name = ''
                 # acc.line_amount = False
                 acc.x_invoicelinetype = ''
-                # acc.tax_rate = False
+                # acc.tax_rate = 0
                 # acc.voucher_line_tax_amount = 0
 
 
