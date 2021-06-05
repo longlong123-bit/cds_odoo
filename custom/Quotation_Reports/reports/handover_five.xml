@@ -194,7 +194,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -210,16 +210,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -433,7 +435,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -445,16 +447,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -677,7 +681,7 @@
                                                         <tr style=" font-size: 12px; height: 38px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -693,16 +697,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -869,7 +875,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -881,16 +887,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -1045,6 +1053,9 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
+                                    </div>
                                     <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <div style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                             <span t-esc="o.comment_apply"/>
@@ -1058,7 +1069,7 @@
                                 <div style="text-align: center; height: 26px;">
                                     <div style="width: 59%; float: left; text-align: center; display: inline-block; margin-left: 20%; align-items: center;">
                                         <h4 class="mt0"
-                                            style="font-size: 22px; color: #000000; width: 130px;  border-bottom: 2px solid #000000; margin: 0 auto; padding: 0">
+                                            style="font-size: 22px; color: #000000; width: 120px;  border-bottom: 2px solid #000000; margin: 0 auto; padding: 0">
                                             御 見 積 書
                                         </h4>
                                     </div>
@@ -1222,7 +1233,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -1238,16 +1249,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -1457,7 +1470,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -1469,16 +1482,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -1677,7 +1692,7 @@
                                                         <tr style=" font-size: 12px; height: 38px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -1693,16 +1708,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -1864,7 +1881,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -1876,16 +1893,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -2040,6 +2059,9 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
+                                    </div>
                                     <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <div style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                             <span t-esc="o.comment_apply"/>
@@ -2217,7 +2239,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -2233,16 +2255,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -2452,7 +2476,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -2464,16 +2488,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -2672,7 +2698,7 @@
                                                         <tr style=" font-size: 12px; height: 38px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -2688,16 +2714,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -2859,7 +2887,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -2871,16 +2899,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -3035,6 +3065,9 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
+                                    </div>
                                     <div style="font-size: 14px; line-height: 1.2; max-height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <span style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;" t-esc="o.comment_apply"/>
                                         <span style="margin-left: 60px; width: 100%; display: inline-block; text-align: right; overflow: hidden; text-overflow: ellipsis; height: 15px; font-size: 14px;" t-field="o.partner_id.customer_comment"/>
@@ -3211,7 +3244,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -3227,16 +3260,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -3446,7 +3481,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -3458,16 +3493,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -3666,7 +3703,7 @@
                                                         <tr style=" font-size: 12px; height: 38px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -3682,16 +3719,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -3853,7 +3892,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -3865,16 +3904,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -4030,6 +4071,9 @@
                                             </t>
                                         </tbody>
                                     </table>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
+                                    </div>
                                     <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <div style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                             <span t-esc="o.comment_apply"/>
@@ -4208,7 +4252,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -4224,16 +4268,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -4451,7 +4497,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -4463,16 +4509,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -4690,7 +4738,7 @@
                                                         <tr style=" font-size: 12px; height: 38px">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
 <!--                                                                          t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>-->
 <!--                                                                    <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"-->
@@ -4706,16 +4754,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
@@ -4877,7 +4927,7 @@
                                                         <tr style=" font-size: 12px; height: 35px;">
                                                         <td style="border: 1px solid #000000;border-top: 0; padding: 0px 0 0 5px;">
                                                             <div>
-                                                                <div style="word-break: break-all; display: -webkit-box; width: 260px; height: 28px;float: left; margin-right: 0 auto; ">
+                                                                <div style="word-break: break-all; display: -webkit-box; width: 245px; height: 28px;float: left; margin-right: 0 auto; ">
                                                                     <t t-if="order.limit_charater_field(order.product_name, 20, True, False)">
                                                                         <span style="display: inline-block; overflow: hidden; text-overflow: ellipsis; height: 14px;"
                                                                           t-esc="order.limit_charater_field(order.product_name, 20, True)"/><br/>
@@ -4889,16 +4939,18 @@
                                                                             t-esc="order.limit_charater_field(order.product_name, 18, True)"/>
                                                                     </t>
                                                                 </div>
-                                                                <span t-if="order.product_maker_name"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_maker_name, 10)">
-                                                                    <null/>
-                                                                </span>
-                                                                <span t-if="order.product_standard_number"
-                                                                      style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                                                                      t-esc="order.limit_charater_field(order.product_standard_number, 10)">
-                                                                    <null/>
-                                                                </span>
+                                                                <div style="width: 120px; height: 28px;float: right;">
+                                                                    <span t-if="order.product_maker_name"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_maker_name, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                    <span t-if="order.product_standard_number"
+                                                                          style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                          t-esc="order.limit_charater_field(order.product_standard_number, 10)">
+                                                                        <null/>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                         <td style="border: 1px solid #000000; border-top: 0; border-left: 0; text-align: right">
