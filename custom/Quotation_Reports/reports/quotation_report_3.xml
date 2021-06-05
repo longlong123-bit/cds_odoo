@@ -367,7 +367,7 @@
                                                                 </span>
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                                <div style="float: right; width: 88px;">
+                                                                <div style="float: right; width: 91px;">
                                                                     <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                           t-if="order.price_unit and order.price_unit % 1 > 0"
                                                                           t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
@@ -638,7 +638,7 @@
                                                                 </span>
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                                <div style="float: right; width: 88px;">
+                                                                <div style="float: right; width: 91px;">
                                                                     <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                           t-if="order.price_unit and order.price_unit % 1 > 0"
                                                                           t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
@@ -908,7 +908,7 @@
                                                                 </span>
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                                <div style="float: right; width: 88px;">
+                                                                <div style="float: right; width: 91px;">
                                                                     <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                           t-if="order.price_unit and order.price_unit % 1 > 0"
                                                                           t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
@@ -1083,7 +1083,7 @@
                                                                 </span>
                                                             </td>
                                                             <td style="border: 1px solid #000000;border-top: 0; border-left: 0; text-align: right">
-                                                                <div style="float: right; width: 88px;">
+                                                                <div style="float: right; width: 91px;">
                                                                     <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                                                                           t-if="order.price_unit and order.price_unit % 1 > 0"
                                                                           t-esc="'{0:,.2f}'.format(order.limit_number_field(order.price_unit, 8, True))">
