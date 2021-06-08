@@ -1053,13 +1053,13 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
-                                        <span>単価の※印は税込商品です。</span>
-                                    </div>
                                     <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <div style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                             <span t-esc="o.comment_apply"/>
                                         </div>
+                                    </div>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
                                     </div>
                                 </div>
                             </div>
@@ -2059,13 +2059,13 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
-                                        <span>単価の※印は税込商品です。</span>
-                                    </div>
                                     <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <div style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                             <span t-esc="o.comment_apply"/>
                                         </div>
+                                    </div>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
                                     </div>
                                 </div>
                             </div>
@@ -3065,12 +3065,12 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
-                                        <span>単価の※印は税込商品です。</span>
-                                    </div>
                                     <div style="font-size: 14px; line-height: 1.2; max-height: 30px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <span style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;" t-esc="o.comment_apply"/>
                                         <span style="margin-left: 60px; width: 100%; display: inline-block; text-align: right; overflow: hidden; text-overflow: ellipsis; height: 15px; font-size: 14px;" t-field="o.partner_id.customer_comment"/>
+                                    </div>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
                                     </div>
                                 </div>
                             </div>
@@ -4071,13 +4071,13 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
-                                        <span>単価の※印は税込商品です。</span>
-                                    </div>
                                     <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <div style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                             <span t-esc="o.comment_apply"/>
                                         </div>
+                                    </div>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
                                     </div>
                                 </div>
                             </div>
@@ -5110,16 +5110,15 @@
                                             </t>
                                         </tbody>
                                     </table>
-                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
-                                        <span>単価の※印は税込商品です。</span>
-                                    </div>
                                     <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
                                         <div style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 15px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                             <span t-esc="o.comment_apply"/>
                                         </div>
                                     </div>
+                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                         <t t-set="pager" t-value="pager + 1"/>
