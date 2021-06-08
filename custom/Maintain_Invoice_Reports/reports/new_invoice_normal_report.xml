@@ -525,10 +525,18 @@
                                                     <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
                                                 </tr>
                                                 <tr t-if="for_template == 2">
-                                                    <td>単価の※印は税込商品です。<br/>&amp;nbsp;<br/>&amp;nbsp;</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td colspan="4" style="height: 54px; padding: 0">
+                                                        <div>
+                                                            <div style="font-size: 14px; line-height: 1.2; max-height: 30px; -webkit-line-clamp: 3;-webkit-box-orient: vertical;overflow: hidden; text-overflow: ellipsis;margin-top: -10px;  width: 98%;">
+                                                                <div style="padding: 0px 0px 0px 0px; margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 20px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
+                                                                    <span style="margin-left: 0px;" t-esc="o.x_studio_summary"/>
+                                                                </div>
+                                                            </div>
+                                                            <div style="font-size: 11px; padding: 7px 0px 0px 0px; margin-top: 0px; font-size: 11px; max-height: 15px;">
+                                                                単価の※印は税込商品です。
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                     <td style="border: 1px solid #000000; border-top: 0; border-right: 0; height: 60px; padding: 0">
                                                         <span style="width: 25%; display: block; height: 100%; border-right: 1px solid;">
                                                             受 領 印
@@ -546,20 +554,20 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <div t-if="for_template != 2" style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <div t-if="for_template != 2" t-att-style="margin_comment">
+                                            <div style="padding: 10px 0px 0px 0px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 20px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
+                                                <span style="margin-left: 60px;" t-esc="o.x_studio_summary"/>
+                                            </div>
+                                        </div>
+                                        <div t-if="for_template != 2" style="font-size: 11px; padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
                                             <span>単価の※印は税込商品です。</span>
                                         </div>
                                     </div>
-                                    <div t-if="for_template != 2" t-att-style="margin_comment">
-                                        <div style="padding: 10px 0px 0px 0px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 20px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
-                                            <span style="margin-left: 60px;" t-esc="o.x_studio_summary"/>
-                                        </div>
-                                    </div>
-                                    <div t-if="for_template == 2" t-att-style="margin_comment">
-                                        <div style="padding: 20px 0px 0px 0px; width: 72%; float: left; overflow: hidden; text-overflow: ellipsis; height: 20px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
-                                            <span style="margin-left: 60px;" t-esc="o.x_studio_summary"/>
-                                        </div>
-                                    </div>
+<!--                                    <div t-if="for_template == 2" t-att-style="margin_comment">-->
+<!--                                        <div style="padding: 20px 0px 0px 0px; width: 72%; float: left; overflow: hidden; text-overflow: ellipsis; height: 20px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">-->
+<!--                                            <span style="margin-left: 60px;" t-esc="o.x_studio_summary"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                 </div>
                             </div>
                         </t>
