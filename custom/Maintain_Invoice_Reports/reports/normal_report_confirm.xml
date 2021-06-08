@@ -492,13 +492,13 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div style=" padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
-                                        <span>単価の※印は税込商品です。</span>
+                                    <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
+                                        <div style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 20px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
+                                            <span t-esc="o.x_studio_summary"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                    <div style="margin-left: 60px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 20px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
-                                        <span t-esc="o.x_studio_summary"/>
+                                    <div style="font-size: 11px; padding: 10px 40px 0 0; text-align: center; max-width: 62%; float: right;">
+                                        <span>単価の※印は税込商品です。</span>
                                     </div>
                                 </div>
                             </div>
