@@ -525,7 +525,7 @@
                                                     <td style="border: 1px solid #000000;border-top: 0; border-right: 0;"></td>
                                                 </tr>
                                                 <tr t-if="for_template == 2">
-                                                    <td>単価の※印は税込商品です。</td>
+                                                    <td>単価の※印は税込商品です。<br/>&amp;nbsp;<br/>&amp;nbsp;</td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -550,9 +550,13 @@
                                             <span>単価の※印は税込商品です。</span>
                                         </div>
                                     </div>
-                                    <div t-att-style="margin_comment"
-                                         style="font-size: 14px; line-height: 1.2; max-height: 15px; overflow: hidden; text-overflow: ellipsis; margin-top: 5px; width: 100%;">
-                                        <div t-att-style="style_comment">
+                                    <div t-if="for_template != 2" t-att-style="margin_comment">
+                                        <div style="padding: 10px 0px 0px 0px; width: 100%; float: left; overflow: hidden; text-overflow: ellipsis; height: 20px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
+                                            <span style="margin-left: 60px;" t-esc="o.x_studio_summary"/>
+                                        </div>
+                                    </div>
+                                    <div t-if="for_template == 2" t-att-style="margin_comment">
+                                        <div style="padding: 20px 0px 0px 0px; width: 72%; float: left; overflow: hidden; text-overflow: ellipsis; height: 20px; word-wrap: break-word; word-break: break-all; text-decoration: underline;">
                                             <span style="margin-left: 60px;" t-esc="o.x_studio_summary"/>
                                         </div>
                                     </div>
