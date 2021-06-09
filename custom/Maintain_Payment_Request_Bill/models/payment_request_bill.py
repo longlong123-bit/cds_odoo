@@ -3,6 +3,7 @@ from calendar import calendar
 from datetime import date, timedelta, datetime
 from odoo import api, fields, models, _
 from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
+from odoo.http import request
 
 ADDRESS_FIELDS = ('street', 'street2', 'address3', 'zip', 'city', 'state_id', 'country_id')
 
@@ -49,6 +50,8 @@ class CollationPayment(models.Model):
     hr_employee_id = fields.Many2one('hr.employee')
     bill_job_title = fields.Char('bill_job_title', compute='_set_bill_sale_rep')
 
+    request.session['print_all_bill_session'] = False
+
     def _set_bill_sale_rep(self):
         self.sale_rep_id = self.env['res.users'].search([('partner_id', '=', self.partner_id)])
         self.hr_employee_id = self.env['hr.employee'].search([('user_id', '=', self.sale_rep_id.id)])
@@ -80,7 +83,13 @@ class CollationPayment(models.Model):
         odoo/models.py
         """
         ctx = self._context.copy()
-        if ctx.get('have_advance_search'):
+
+        # Click from Menu => Clear advance condition search from session
+        if len(args) == 0:
+            request.session['advance_search_condition'] = []
+            request.session['print_all_bill_session'] = False
+
+        if ctx.get('have_advance_search') or request.session['print_all_bill_session']:
             domain = []
             if ctx.get('view_code') == 'bill_report':
                 global search_address_type
@@ -293,7 +302,14 @@ class CollationPayment(models.Model):
                             continue
                     domain += [se]
                 args = domain
-                print(ctx.get('view_name'))
+
+        # Save advance search condition to session
+        # when advance search or print all bill
+        if ctx.get('have_advance_search') or request.session['print_all_bill_session']:
+
+            # Set advance condition search to session
+            request.session['advance_search_condition'] = args
+
         if 'Cancel Billing' == ctx.get('view_name') and len(args) == 0:
             return []
         elif 'bill_report' == ctx.get('view_code') and len(args) == 0:
@@ -307,3 +323,45 @@ class CollationPayment(models.Model):
 
         # res = super(CollationPayment, self).search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return super(CollationPayment, self).search(args, offset=offset, limit=limit, order=order, count=count)
+
+    def print_all_bill_button(self, args, offset=0, limit=None, order=None, count=False):
+
+        request.session['print_all_bill_session'] = True
+
+        cond = request.session['advance_search_condition']
+
+        if len(cond) > 0:
+            bill_info_ids = self.env['bill.info'].search(cond)
+
+            if len(bill_info_ids) > 0:
+
+                request.session['print_all_bill_session'] = False
+                return self.env.ref('Maintain_Payment_Request_Bill.report').report_action(self, config=False)
+
+        request.session['print_all_bill_session'] = False
+
+        return
+
+
+class PrintAllBill(models.AbstractModel):
+    _name = 'report.Maintain_Payment_Request_Bill.reports'
+
+    @api.model
+    def _get_report_values(self, docids, data):
+
+        if docids:
+            # Print Selected Bill
+            bill_info_ids = self.env['bill.info'].search([
+                ('id', 'in', docids)
+            ])
+        else:
+            # Print All Bill
+            bill_info_ids = []
+            cond = request.session['advance_search_condition']
+            if len(cond) > 0:
+                bill_info_ids = self.env['bill.info'].search(cond)
+                request.session['advance_search_condition'] = cond
+
+        return {
+            'docs': bill_info_ids
+        }
