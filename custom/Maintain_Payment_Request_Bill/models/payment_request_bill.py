@@ -343,25 +343,25 @@ class CollationPayment(models.Model):
         return
 
 
-class PrintAllBill(models.AbstractModel):
-    _name = 'report.Maintain_Payment_Request_Bill.reports'
-
-    @api.model
-    def _get_report_values(self, docids, data):
-
-        if docids:
-            # Print Selected Bill
-            bill_info_ids = self.env['bill.info'].search([
-                ('id', 'in', docids)
-            ])
-        else:
-            # Print All Bill
-            bill_info_ids = []
-            cond = request.session['advance_search_condition']
-            if len(cond) > 0:
-                bill_info_ids = self.env['bill.info'].search(cond)
-                request.session['advance_search_condition'] = cond
-
-        return {
-            'docs': bill_info_ids
-        }
+# class PrintAllBill(models.AbstractModel):
+#     _name = 'report.Maintain_Payment_Request_Bill.reports'
+#
+#     @api.model
+#     def _get_report_values(self, docids, data):
+#
+#         if docids:
+#             # Print Selected Bill
+#             bill_info_ids = self.env['bill.info'].search([
+#                 ('id', 'in', docids)
+#             ])
+#         else:
+#             # Print All Bill
+#             bill_info_ids = []
+#             cond = request.session['advance_search_condition']
+#             if len(cond) > 0:
+#                 bill_info_ids = self.env['bill.info'].search(cond)
+#                 request.session['advance_search_condition'] = cond
+#
+#         return {
+#             'docs': bill_info_ids
+#         }
