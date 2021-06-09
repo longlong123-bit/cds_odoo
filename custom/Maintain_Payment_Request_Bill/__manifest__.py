@@ -24,10 +24,11 @@
         'reports/deposit_reports_1.xml',
         'views/add_js.xml',
         'views/report_format.xml',
-        'views/payment_request_bill.xml',
+        'views/payment_request_bill.xml'
     ],
     'qweb': [
         'static/src/xml/payment_request_bill_active.xml',
+        'static/src/xml/print_all_bill_button.xml',
         'static/src/xml/advanced_search.xml'
     ],
     'demo': [],
