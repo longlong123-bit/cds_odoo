@@ -510,11 +510,11 @@ class IncomePaymentCustom(models.Model):
         return True
 
     # Check payment_amount
-    @api.constrains('payment_amount')
-    def _check_payment_amount(self):
-        for line in self:
-            if line.payment_amount < 0:
-                raise ValidationError(_('payment_amount must be more than 0'))
+    # @api.constrains('payment_amount')
+    # def _check_payment_amount(self):
+    #     for line in self:
+    #         if line.payment_amount < 0:
+    #             raise ValidationError(_('payment_amount must be more than 0'))
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
@@ -583,11 +583,11 @@ class IncomePaymentLineCustom(models.Model):
         return journal_id and journal_id[0] or False
 
     # Check payment_amount
-    @api.constrains('payment_amount')
-    def _check_payment_amount(self):
-        for line in self:
-            if line.payment_amount < 0:
-                raise ValidationError(_('payment_amount must be more than 0'))
+    # @api.constrains('payment_amount')
+    # def _check_payment_amount(self):
+    #     for line in self:
+    #         if line.payment_amount < 0:
+    #             raise ValidationError(_('payment_amount must be more than 0'))
 
     def _compute_data_payment_line(self):
         for record in self:
