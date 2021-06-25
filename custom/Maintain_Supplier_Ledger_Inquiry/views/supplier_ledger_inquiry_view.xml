@@ -7,10 +7,10 @@
 			<field name="model">supplier.ledger</field>
 			<field name="arch" type="xml">
 				<tree create="0" import="0" decoration-bf="product_name=='繰越残高'" class="forward_edit" >
-					<field name="customer_code"/>
-					<field name="customer_name"/>
-<!--					<field name="customer_code" attrs="{'invisible': [('is_display_customer','==',0)]}"  />-->
-<!--					<field name="customer_name" attrs="{'invisible': [('is_display_customer','==',0)]}" />-->
+<!--					<field name="customer_code"/>-->
+<!--					<field name="customer_name"/>-->
+					<field name="customer_code" attrs="{'invisible': [('is_display_customer','==',0)]}"  />
+					<field name="customer_name" attrs="{'invisible': [('is_display_customer','==',0)]}" />
 					<field name="residual_amount_transfer" string="繰越残高"  invisible="1" />
 <!--					<field name="residual_amount_transfer" string="繰越残高" attrs="{'invisible': [('is_display_residual_amount_transfer','==',0)]}"  />-->
 					<field name="date" attrs="{'invisible': [('is_display_residual_amount_transfer','==',0)]}"  width = "0.5%%" />
