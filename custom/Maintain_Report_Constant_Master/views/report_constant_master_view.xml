@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+		<!-- Search view-->
+		<record model="ir.ui.view" id="report_constant_master_search">
+			<field name="name">Report Constant Master Search</field>
+			<field name="model">report.constant.master</field>
+			<field name="arch" type="xml">
+				<search string="Search">
+					<field name="company_id" string="Company Name"/>
+					<field name="report_type" string="Report Type"/>
+					<field name="apply_date" string="Effective Date"/>
+				</search>
+			</field>
+		</record>
+
+		<!-- Main form -->
+		<record model="ir.ui.view" id="report_constant_master_form">
+			<field name="name">Report Constant Master Form</field>
+			<field name="model">report.constant.master</field>
+			<field name="arch" type="xml">
+				<form string="Form" class="report_constant_master_class" duplicate="0">
+					<sheet>
+						<group>
+							<field name="company_id" string="Company Name"/>
+							<field name="report_type" string="Report Type"/>
+							<field name="apply_date" string="Effective Date"/>
+							<field name="representative" string="Representative"/>
+							<field name="remarks" string="Remarks"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- Tree view-->
+		<record model="ir.ui.view" id="report_constant_master_tree">
+			<field name="name">Report Constant Master Tree</field>
+			<field name="model">report.constant.master</field>
+			<field name="arch" type="xml">
+				<tree string="Tree">
+					<field name="company_id" string="Company Name"/>
+					<field name="report_type" string="Report Type"/>
+					<field name="apply_date" string="Effective Date"/>
+					<field name="representative" string="Representative"/>
+					<field name="remarks" string="Remarks"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record model="ir.actions.act_window" id="action_report_constant_master">
+            <field name="name">Report Constant Master</field>
+            <field name="res_model">report.constant.master</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+<!--        <menuitem id="menu_ideas" parent="" name="Client" sequence="12"-->
+<!--                  action="action_list_ideas" groups="base.group_user"/>-->
+
+        <menuitem id="menu_report_constant_master" parent="Maintain_Country_State.submenu_second" name="Report Constant Master" sequence="120"
+				  action="Maintain_Report_Constant_Master.action_report_constant_master" groups="base.group_user"/>
+
+    </data>
+</odoo>

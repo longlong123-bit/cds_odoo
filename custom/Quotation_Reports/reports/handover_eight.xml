@@ -110,7 +110,12 @@
                                         <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
-                                            <span>代表取締役　　遠 藤 孝 二</span>
+<!--                                            <span>代表取締役　　遠 藤 孝 二</span>-->
+                                            <span>代表取締役　　</span>
+                                            <!-- Report Type: re_type_delivery_004 (納品票　ー　銚子信用金庫) -->
+                                            <span
+                                                t-esc="o.get_representative_name('re_type_delivery_004', o.quotations_date)">
+                                            </span>
                                             <br/>
                                             <span>本社</span>
                                             <span>千葉県銚子市新生町二丁目12番地の5</span>
@@ -1149,7 +1154,12 @@
                                         <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                            <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
-                                            <span>代表取締役　　遠 藤 孝 二</span>
+<!--                                            <span>代表取締役　　遠 藤 孝 二</span>-->
+                                            <span>代表取締役　　</span>
+                                            <!-- Report Type: re_type_delivery_004 (納品票　ー　銚子信用金庫) -->
+                                            <span
+                                                t-esc="o.get_representative_name('re_type_delivery_004', o.quotations_date)">
+                                            </span>
                                             <br/>
                                             <span>本社</span>
                                             <span>千葉県銚子市新生町二丁目12番地の5</span>
@@ -1887,7 +1897,12 @@
                                         <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                            <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
-                                            <span>代表取締役　　遠 藤 孝 二</span>
+<!--                                            <span>代表取締役　　遠 藤 孝 二</span>-->
+                                            <span>代表取締役　　</span>
+                                            <!-- Report Type: re_type_delivery_004 (納品票　ー　銚子信用金庫) -->
+                                            <span
+                                                t-esc="o.get_representative_name('re_type_delivery_004', o.quotations_date)">
+                                            </span>
                                             <br/>
                                             <span>本社</span>
                                             <span>千葉県銚子市新生町二丁目12番地の5</span>
@@ -2892,7 +2907,12 @@
                                         <div style="width: 44%; float: right; text-align: center; font-size: 15px; margin-top: 10px;">
                                             <span style="font-weight: 600; font-size: 22px">株式会社　ト　ラ　ヤ</span>
                                             <br/>
-                                            <span>代表取締役　　遠 藤 孝 二</span>
+<!--                                            <span>代表取締役　　遠 藤 孝 二</span>-->
+                                            <span>代表取締役　　</span>
+                                            <!-- Report Type: re_type_delivery_004 (納品票　ー　銚子信用金庫) -->
+                                            <span
+                                                t-esc="o.get_representative_name('re_type_delivery_004', o.quotations_date)">
+                                            </span>
                                             <br/>
                                             <span>本社</span>
                                             <span>千葉県銚子市新生町二丁目12番地の5</span>
