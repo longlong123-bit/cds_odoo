@@ -336,32 +336,60 @@ class CollationPayment(models.Model):
             if len(bill_info_ids) > 0:
 
                 request.session['print_all_bill_session'] = False
-                return self.env.ref('Maintain_Payment_Request_Bill.report').report_action(self, config=False)
+                return self.env.ref('Maintain_Payment_Request_Bill.report').report_action(bill_info_ids, config=False)
 
         request.session['print_all_bill_session'] = False
 
         return
 
+    def get_representative_name(self, report_type='', report_date=None):
 
-class PrintAllBill(models.AbstractModel):
-    _name = 'report.Maintain_Payment_Request_Bill.reports'
+        # Get current company id of login user
+        company_id = self.env.company.id
 
-    @api.model
-    def _get_report_values(self, docids, data):
+        # Get representative name
+        sql = ''
+        sql += " select representative from report_constant_master" + "\n"
+        sql += " where company_id  =  " + str(company_id) + "\n"
+        sql += "   and report_type = '" + report_type + "'" + "\n"
+        sql += "   and apply_date <= '" + str(report_date) + "'" + "\n"
+        sql += " order by apply_date desc" + "\n"
+        sql += " limit 1"
 
-        if docids:
-            # Print Selected Bill
-            bill_info_ids = self.env['bill.info'].search([
-                ('id', 'in', docids)
-            ])
-        else:
-            # Print All Bill
-            bill_info_ids = []
-            cond = request.session['advance_search_condition']
-            if len(cond) > 0:
-                bill_info_ids = self.env['bill.info'].search(cond)
-                request.session['advance_search_condition'] = cond
+        record = []
+        self._cr.execute(sql)
+        record = self._cr.dictfetchall()
 
-        return {
-            'docs': bill_info_ids
-        }
+        representative = ''
+        if len(record) > 0:
+            representative = record[0]['representative']
+
+        del company_id
+        del sql
+        del record
+
+        return representative
+
+
+# class PrintAllBill(models.AbstractModel):
+#     _name = 'report.Maintain_Payment_Request_Bill.reports'
+#
+#     @api.model
+#     def _get_report_values(self, docids, data):
+#
+#         if docids:
+#             # Print Selected Bill
+#             bill_info_ids = self.env['bill.info'].search([
+#                 ('id', 'in', docids)
+#             ])
+#         else:
+#             # Print All Bill
+#             bill_info_ids = []
+#             cond = request.session['advance_search_condition']
+#             if len(cond) > 0:
+#                 bill_info_ids = self.env['bill.info'].search(cond)
+#                 request.session['advance_search_condition'] = cond
+#
+#         return {
+#             'docs': bill_info_ids
+#         }
