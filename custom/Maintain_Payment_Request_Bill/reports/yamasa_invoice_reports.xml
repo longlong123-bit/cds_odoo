@@ -130,7 +130,12 @@
                                     </div>
                                     <span style="font-size: 24px; font-weight: 600">株式会社　ト　ラ　ヤ</span>
                                     <br/>
-                                    <span>代表取締役　　遠 藤 孝 二</span>
+<!--                                    <span>代表取締役　　遠 藤 孝 二</span>-->
+                                    <span>代表取締役　　</span>
+                                    <!-- Report Type: re_type_bill_002 (請求書　ー　ヤマサ請求) -->
+                                    <span
+                                        t-esc="o.get_representative_name('re_type_bill_002', o.bill_date)">
+                                    </span>
                                     <br/>
                                     <span>本社　千葉県銚子市新生町二丁目12番地の5</span>
                                     <br/>
