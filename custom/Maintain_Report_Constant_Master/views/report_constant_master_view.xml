@@ -19,7 +19,7 @@
 			<field name="name">Report Constant Master Form</field>
 			<field name="model">report.constant.master</field>
 			<field name="arch" type="xml">
-				<form string="Form" class="report_constant_master_class" duplicate="0">
+				<form string="Form" class="report_constant_master_class">
 					<sheet>
 						<group>
 							<field name="company_id" string="Company Name"/>
