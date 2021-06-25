@@ -159,6 +159,9 @@ class SupplierLedgerInquiryCustom(models.Model):
             else:
                 is_display_payment_class = 1
 
+            if record.product_name == '消費税額(※請求処理)':
+                is_display_residual_amount = 1
+
             record.residual_amount_transfer = residual_amount_transfer
             record.residual_amount = residual_amount
             record.is_display_residual_amount_transfer = is_display_residual_amount_transfer
@@ -390,80 +393,6 @@ class SupplierLedgerInquiryCustom(models.Model):
              LEFT JOIN receipt_divide_custom ON account_payment_line.receipt_divide_custom_id = receipt_divide_custom.id
              LEFT JOIN res_partner ON res_partner.id = account_payment.partner_id AND res_partner.active = true
 		)) AS foo""")
-
-        # Create function get_opening_balace_info
-        self._cr.execute("""CREATE OR REPLACE FUNCTION public.get_opening_balace_info(
-                            par_customer_code character varying,
-                            par_start_date date)
-                            RETURNS TABLE(customer_code character varying, opening_balace_amount numeric) 
-                            LANGUAGE 'plpgsql'
-                            COST 100
-                            VOLATILE PARALLEL UNSAFE
-                            ROWS 1000
-        
-                AS $BODY$
-                DECLARE
-                    billed_last_date date;
-                BEGIN
-                   -- Get billed_last_date
-                    billed_last_date:= (select max(bill.bill_date)
-                                        from bill_info as bill
-                                        left join res_partner as part on bill.partner_id = part.id 
-                                        where bill.bill_date = (select max(b.bill_date)
-                                                                 from bill_info as b
-                                                                 where bill_date < par_start_date
-                                                                 and bill.partner_id = b.partner_id
-                                                                 group by b.partner_id 
-                                                                )
-                                        and part.customer_code = par_customer_code
-                                      );
-                    if billed_last_date is NULL then
-                        billed_last_date:= '1900-01-01';  --Minimum of date type
-                    end if;
-                    
-                   RETURN QUERY 
-                                (	select foo.customer_code as  customer_code , COALESCE(sum (foo.amount_total), 0) as amount
-                                    from
-                                    (	
-                                    -- Get lastest bill amount 
-                                        select part.customer_code as customer_code, 
-                                            bill.billed_amount as amount_total 
-                                        from bill_info as bill
-                                            left join res_partner as part on bill.partner_id = part.id 
-                                        where bill.bill_date = (select max(b.bill_date)
-                                                                     from bill_info as b
-                                                                     where bill_date < par_start_date
-                                                                            and bill.partner_id = b.partner_id
-                                                                     group by b.partner_id 
-                                                                    )
-                                        and part.customer_code = par_customer_code
-                                        Union 
-                                        -- Get invoice amount to in_start_date (<in_start_date)
-                                            select part.customer_code as customer_code, 
-                                                    sum(am.amount_total) as amount_total 	
-                                            from account_move as am
-                                            left join res_partner as part on am.partner_id = part.id 
-                                            where am.x_studio_date_invoiced >= billed_last_date and am.x_studio_date_invoiced < par_start_date 
-                                                  and part.customer_code = par_customer_code
-                                                  and am.type = 'out_invoice' AND am.state = 'posted' and am.bill_status = 'not yet'	
-                                            group by part.customer_code
-                
-                                        Union 
-                                        -- Get payment amount  to in_start_date (<in_start_date)
-                                            select part.customer_code as customer_code, 
-                                                  - sum(pa.amount) as amount_total 	
-                                            from account_payment as pa
-                                            left join res_partner as part on pa.partner_id = part.id 
-                                            where pa.payment_date >= billed_last_date and pa.payment_date < par_start_date
-                                            and part.customer_code = par_customer_code
-                                            group by part.customer_code
-                                        ) AS foo
-                                        group by foo.customer_code
-                
-                                 );
-                                 
-                        END;
-                $BODY$;""")
 
     def search(self, args, offset=0, limit=None, order=None, count=False):
         """
