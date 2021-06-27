@@ -297,7 +297,8 @@
         <field name="search_view_id" ref="view_order_management_search"/>
     </record>
 
-    <menuitem id="parent_menu" name="Order Management" sequence="1"/>
+<!--    <menuitem id="parent_menu" name="Order Management" sequence="1"/>-->
+    <menuitem id="parent_menu" name="Order Management" sequence="3"/>
     <menuitem id="quotation" parent="Maintain_Order_Management.parent_menu" name="Order Management" sequence="1" action="order_management_action"/>
 
     <data>
