@@ -18,15 +18,9 @@
             action="base.action_partner_form"
             sequence="5"/>
 
-<!--        <menuitem id="crm_menu_leads"-->
-<!--            name="Leads"-->
-<!--            parent="crm_menu_root"-->
-<!--            groups="crm.group_use_lead"-->
-<!--            sequence="5"/>-->
-
         <menuitem id="crm_menu_leads"
             name="Leads"
             parent="crm_menu_root"
-            groups="base.group_user"
+            groups="crm.group_use_lead"
             sequence="5"/>
 </odoo>
