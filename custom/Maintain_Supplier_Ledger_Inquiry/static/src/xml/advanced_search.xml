@@ -16,7 +16,31 @@
             <tr>
                 <th>請求先（得意先）コード</th>
                 <td>
-                    <input class="filter-item" data-operator="=" data-name="customer_code_bill"/>
+                    <input class="filter-item" data-operator="=" id = "billing_code" data-name="customer_code_bill" ref="" onblur="changeBillingCode()" type="search"/>
+                </td>
+                <script>
+                    function changeBillingCode(){
+                        billing_code = document.getElementById("billing_code").value;
+                        $.ajax({
+                            url: "/get_billing_name",
+                            type: "POST",
+                            data: {"content": billing_code},
+                            dataType: 'json',
+                            traditional: true,
+                            success: function(result){
+                                document.getElementById("billing_name").value = result.content.billing_name;
+                            },
+                            error: function(result){
+                                console.log(result);
+                            }
+                        });
+                    }
+                </script>
+            </tr>
+             <tr>
+                <th>請求先名（得意先名）</th>
+                <td colspan="3">
+                    <input class="filter-item" id="billing_name" data-operator="=" data-name="customer_name" ref="" readonly="true" />
                 </td>
             </tr>
            </table>

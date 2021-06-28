@@ -401,7 +401,8 @@
         <field name="search_view_id" ref="product_custom_template_search_view"/>
     </record>
 
-    <menuitem id="menu_ideas" name="Quotations Custom" sequence="1"/>
+<!--    <menuitem id="menu_ideas" name="Quotations Custom" sequence="1"/>-->
+    <menuitem id="menu_ideas" name="Quotations Custom" sequence="2"/>
     <menuitem id="quotation" parent="Maintain_Quotations.menu_ideas" name="Sale Order" sequence="1" action="quotation_custom_action"/>
 
     <data>

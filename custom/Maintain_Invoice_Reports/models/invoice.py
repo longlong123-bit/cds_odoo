@@ -120,14 +120,52 @@ class InvoiceReports(models.Model):
             return int(len(self.invoice_line_ids) / limit) + 1
 
     def get_product_tax_category(self, product_code=''):
+
         sql = "select product_tax_category from product_product where barcode ='" + product_code + "'"
+
+        record = []
         self._cr.execute(sql)
         record = self._cr.dictfetchall()
-        product_tax_category = record[0]['product_tax_category']
+
+        product_tax_category = ''
+        if len(record) > 0:
+            product_tax_category = record[0]['product_tax_category']
+
+        del record
+
         return product_tax_category
 
     def get_marker_by_product_tax_category(self, product_code=''):
+
         marker = ''
         if self.get_product_tax_category(product_code) == 'internal':
             marker = '※'
         return marker
+
+    def get_representative_name(self, report_type='', report_date=None):
+
+        # Get current company id of login user
+        company_id = self.env.company.id
+
+        # Get representative name
+        sql = ''
+        sql += " select representative from report_constant_master" + "\n"
+        sql += " where company_id  =  " + str(company_id) + "\n"
+        sql += "   and report_type = '" + report_type + "'" + "\n"
+        sql += "   and apply_date <= '" + str(report_date) + "'" + "\n"
+        sql += " order by apply_date desc" + "\n"
+        sql += " limit 1"
+
+        record = []
+        self._cr.execute(sql)
+        record = self._cr.dictfetchall()
+
+        representative = ''
+        if len(record) > 0:
+            representative = record[0]['representative']
+
+        del company_id
+        del sql
+        del record
+
+        return representative
