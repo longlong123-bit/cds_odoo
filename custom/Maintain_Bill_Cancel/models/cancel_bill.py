@@ -69,40 +69,10 @@ class BillingClass(models.Model):
         module_context = self._context.copy()
         if module_context.get('have_advance_search') and module_context.get('bill_management_module'):
             domain = []
-            bill_info_domain_id = []
-            bill_info_list = []
             billing_ids = []
             billing_query = []
             for record in args:
-                if 'deadline' in record:
-                    invoice_line_ids = self.env['account.move.line'].search([
-                        ('date', '<=', record[2]),
-                        ('bill_status', '=', 'not yet'),
-                        ('account_internal_type', '=', 'other'),
-                        ('parent_state', '=', 'posted'),
-                    ])
-
-                    payment_ids = self.env['account.payment'].search([
-                        ('payment_date', '<=', record[2]),
-                        ('state', '=', 'draft'),
-                        ('bill_status', '!=', 'billed'),
-                    ])
-                    list_domain_invoice_and_payment = invoice_line_ids.partner_id.ids + payment_ids.partner_id.ids
-                    id_bill_info = self.env['bill.info'].search([('closing_date', '>=', record[2])])
-                    id_bill_custom = self.env['bill.info'].search([('closing_date', '<', record[2])], order="deadline desc, bill_no desc")
-                    for bill_record in id_bill_custom:
-                        if bill_record.billing_code not in bill_info_domain_id:
-                            bill_info_domain_id.append(bill_record.billing_code)
-                            bill_info_list.append(bill_record)
-                    for bill_record in bill_info_list:
-                        if bill_record.billed_amount != 0:
-                            list_domain_invoice_and_payment += bill_record.partner_id.ids
-                    list_domain = list(set(list_domain_invoice_and_payment))
-                    billing_query.append("id not in ({})".format(','.join(id_bill_info.partner_id.ids)))
-                    billing_query.append("id in ({})".format(','.join(list_domain)))
-                    # domain += [['id', 'not in', id_bill_info.partner_id.ids]]
-                    # domain += [['id', 'in', list_domain]]
-                elif 'billing_code' in record:
+                if 'billing_code' in record:
                     billing_query.append("LOWER(billing_code) {0} '{1}'".format(record[1], record[2].lower()))
                 else:
                     domain += [record]
