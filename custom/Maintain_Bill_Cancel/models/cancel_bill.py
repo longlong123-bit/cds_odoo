@@ -64,3 +64,27 @@ class BillingClass(models.Model):
                 'type': 'ir.actions.client',
                 'tag': 'reload',
             }
+
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        module_context = self._context.copy()
+        if module_context.get('have_advance_search') and module_context.get('bill_management_module'):
+            domain = []
+            billing_ids = []
+            billing_query = []
+            for record in args:
+                if 'billing_code' in record:
+                    billing_query.append("LOWER(billing_code) {0} '{1}'".format(record[1], record[2].lower()))
+                else:
+                    domain += [record]
+                    # billing_query.append("{0} {1} '{2}'".format(record[0], record[1], record[2]))
+
+            if billing_query:
+                query = 'SELECT id FROM bill_info WHERE ' + ' AND '.join(billing_query)
+                self._cr.execute(query)
+                query_res = self._cr.dictfetchall()
+                for bill_record in query_res:
+                    billing_ids.append(bill_record.get('id'))
+                domain += [['id', 'in', billing_ids]]
+            args = domain
+        res = super(BillingClass, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        return res
