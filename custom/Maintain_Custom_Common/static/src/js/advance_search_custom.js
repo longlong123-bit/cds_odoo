@@ -223,7 +223,8 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
                 modelName: this.res_model,
                 withBreadcrumbs: false,
                 withSearchPanel: false,
-                hasSelectors: true
+                hasSelectors: true,
+                searchMenuTypes: [],
             }));
             view.setController(selectCreateController);
 
