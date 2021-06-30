@@ -7,6 +7,8 @@ var Domain = require('web.Domain');
 var DropdownMenu = require('web.DropdownMenu');
 var search_filters = require('web.search_filters_free');
 
+var DialogSearch = require('web.ListRender_Custom');
+
 var _t = core._t;
 var QWeb = core.qweb;
 
@@ -173,6 +175,7 @@ var FilterMenu = DropdownMenu.extend({
      * @param {MouseEvent} ev
      */
     _onApplyClick: function (ev) {
+        alert("dm3");
         ev.stopPropagation();
         this._commitSearch();
     },
@@ -206,6 +209,7 @@ var FilterMenu = DropdownMenu.extend({
         }
         ev.target.destroy();
     },
+
 });
 
 return FilterMenu;

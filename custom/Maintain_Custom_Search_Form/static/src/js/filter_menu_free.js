@@ -163,6 +163,7 @@ var FilterMenu = DropdownMenu.extend({
      * @param {MouseEvent} ev
      */
     _onApplyClick: function (ev) {
+        alert("dm1");
         ev.stopPropagation();
         this._commitSearch();
     },
