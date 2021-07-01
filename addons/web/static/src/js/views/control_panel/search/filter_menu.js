@@ -147,6 +147,7 @@ var FilterMenu = DropdownMenu.extend({
      * @param {MouseEvent} ev
      */
     _onApplyClick: function (ev) {
+        alert("dm2");
         ev.stopPropagation();
         this._commitSearch();
     },
