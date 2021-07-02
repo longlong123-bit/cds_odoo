@@ -423,6 +423,9 @@
       if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.which !== TAB_KEYCODE)) {
         return;
       }
+      if (window.isKeepDropdownOpen) {
+        return;
+      }
 
       var toggles = [].slice.call(document.querySelectorAll(Selector.DATA_TOGGLE));
 

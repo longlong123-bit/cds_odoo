@@ -285,18 +285,14 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
                     // Hien-TT custom start
                     if (buttonData.select) {
                       self.onForceClose = false;
-                      self.getParent().getParent().getParent().getChildren().forEach(function (child){
-                          if (child.name == 'copy_history_from') {
-                            child._setValue(self.options.res_model);
-                            child._render();
-                          }
-                      })
-                      self.getParent().getParent().getParent().getChildren().forEach(function (child){
-                        if (child.name == 'copy_history_item') {
-                            child._setValue(self.viewController.getSelectedIds().toString());
-                            child._render();
-                        }
-                      })
+                      $("#billing_code_ledger_advanced_search").val(self.viewController.getSelectedRecords()[0].data.customer_code);
+                      $("#billing_code_ledger_advanced_search").blur();  // use this for trigger get billing name in ledger
+                      // self.getParent().getParent().getParent().getChildren().forEach(function (child){
+                      //   if (child.name == 'copy_history_item') {
+                      //       child._setValue(self.viewController.getSelectedIds().toString());
+                      //       child._render();
+                      //   }
+                      // })
                       Promise.resolve(def).then(self.close.bind(self)).guardedCatch(self.close.bind(self));
                     }
                     // Hien-TT custom end
