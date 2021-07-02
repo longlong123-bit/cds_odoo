@@ -13,6 +13,13 @@ class SupplierLedgerInquiryCustomAPI(odoo.http.Controller):
     def get_billing_name(self, **kwargs):
         billing_code = kwargs.get('content', False)
         billing_name = ''
+        if not billing_code:
+            return json.dumps({
+                    "status": "ok",
+                    "content": {
+                        "billing_name": billing_name,
+                    }
+                })
         model_name = "res.partner"
         dbname = request.session.db
         try:

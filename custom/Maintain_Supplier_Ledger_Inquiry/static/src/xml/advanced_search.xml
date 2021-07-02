@@ -24,7 +24,11 @@
                         onblur="onBlurBillingCode()"
                         type="search"
                     />
-                    <button onclick="window.isKeepDropdownOpen=true" class="filter-item btn btn-secondary o_apply_filter_customer_code">Search More</button>
+                    <span
+                        class="o_apply_filter_customer_code o_searchview_more fa fa-search-plus fa-lg"
+                        onclick="window.isKeepDropdownOpen=true"
+                        title="Search More" role="img" aria-label="Search More"
+                    />
                 </td>
                 <style>
                     .ui-autocomplete {

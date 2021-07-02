@@ -241,6 +241,11 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
             this.on_closed();
         },
 
+        destroy: function (options) {
+            // use this for trigger get billing name in ledger and set window.isKeepDropdownOpen = false
+            $("#billing_code_ledger_advanced_search").blur();
+        },
+
         /**
          * @override
          */
@@ -286,7 +291,8 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
                     if (buttonData.select) {
                       self.onForceClose = false;
                       $("#billing_code_ledger_advanced_search").val(self.viewController.getSelectedRecords()[0].data.customer_code);
-                      $("#billing_code_ledger_advanced_search").blur();  // use this for trigger get billing name in ledger
+                      // use this for trigger get billing name in ledger and set window.isKeepDropdownOpen = false
+                      $("#billing_code_ledger_advanced_search").blur();
                       // self.getParent().getParent().getParent().getChildren().forEach(function (child){
                       //   if (child.name == 'copy_history_item') {
                       //       child._setValue(self.viewController.getSelectedIds().toString());

@@ -156,6 +156,9 @@
       this._menu = this._getMenuElement();
       this._inNavbar = this._detectNavbar();
 
+      // return original behavior for _clearMenus method
+      window.isKeepDropdownOpen = false;
+
       this._addEventListeners();
     } // Getters
 
