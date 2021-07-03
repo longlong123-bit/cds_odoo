@@ -1227,6 +1227,13 @@ var ListRenderer = BasicRenderer.extend({
             if (!ev.target.closest('.o_list_record_selector') && !$(ev.target).prop('special_click')) {
                 var id = $(ev.currentTarget).data('id');
                 if (id) {
+                    if(ev.delegateTarget.className.includes("dialog_seach_custom")===true){
+                        if( $(ev.currentTarget).children()[0].className.includes("o_list_record_selector")===true ){
+                            $($(ev.currentTarget).children()[0]).find('input').trigger('click');
+                        }
+                        $(ev.currentTarget).closest('.modal-dialog').find('.btn-primary').trigger('click');
+                        return;
+                    }
                     if(ev.delegateTarget.className.includes("dialog_show")===true){
                         if( $(ev.currentTarget).children()[0].className.includes("o_list_record_selector")===true ){
                             $($(ev.currentTarget).children()[0]).find('input').trigger('click');

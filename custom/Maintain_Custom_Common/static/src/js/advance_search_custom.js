@@ -166,6 +166,9 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
                         $(fragment).find('.o_cp_controller .o_cp_left').empty();
                         // Hien-TT custom start
                         $(fragment).find('.o_list_view').addClass('dialog_show');
+                        $(fragment).find('.o_list_view').addClass('dialog_seach_custom');
+                        $(fragment).find('.o_list_view tr th:first-child ').css('opacity','0');
+                        $(fragment).find('.o_list_view tr td:first-child ').css('opacity','0');
                         // Hien-TT custom end
                         // append all DOM to dialog
                         dom.append(self.$el, fragment, {
@@ -285,18 +288,8 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
                     // Hien-TT custom start
                     if (buttonData.select) {
                       self.onForceClose = false;
-                      self.getParent().getParent().getParent().getChildren().forEach(function (child){
-                          if (child.name == 'copy_history_from') {
-                            child._setValue(self.options.res_model);
-                            child._render();
-                          }
-                      })
-                      self.getParent().getParent().getParent().getChildren().forEach(function (child){
-                        if (child.name == 'copy_history_item') {
-                            child._setValue(self.viewController.getSelectedIds().toString());
-                            child._render();
-                        }
-                      })
+                      alert(self.viewController.getSelectedRecords()[0].data.customer_code);
+
                       Promise.resolve(def).then(self.close.bind(self)).guardedCatch(self.close.bind(self));
                     }
                     // Hien-TT custom end
