@@ -17,7 +17,8 @@ class SupplierLedgerInquiryCustomAPI(odoo.http.Controller):
             return json.dumps({
                     "status": "ok",
                     "content": {
-                        "billing_name": billing_name,
+                        "billing_code": '',
+                        "billing_name": '',
                     }
                 })
         model_name = "res.partner"
@@ -28,10 +29,12 @@ class SupplierLedgerInquiryCustomAPI(odoo.http.Controller):
                 env = odoo.api.Environment(cr, odoo.SUPERUSER_ID, {})
                 rec = env[model_name].search([('customer_code', 'like', str(billing_code))], limit=1)
                 if rec:
+                    billing_code = rec[0].customer_code
                     billing_name = rec[0].name
                 response = {
                     "status": "ok",
                     "content": {
+                        "billing_code": billing_code,
                         "billing_name": billing_name,
                     }
                 }

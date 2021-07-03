@@ -82,6 +82,7 @@
                             traditional: true,
                             success: function(result){
                                 document.getElementById("billing_name_ledger_advanced_search").value = result.content.billing_name;
+                                document.getElementById("billing_code_ledger_advanced_search").value = result.content.billing_code;
                                 // need to put isKeepDropdownOpen = false here for dropdown back to normal clearing behavior
                                 window.isKeepDropdownOpen = false;
                             },
