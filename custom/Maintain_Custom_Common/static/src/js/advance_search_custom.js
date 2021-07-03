@@ -242,6 +242,7 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
         },
 
         destroy: function (options) {
+            this._super();
             // use this for trigger get billing name in ledger and set window.isKeepDropdownOpen = false
             $("#billing_code_ledger_advanced_search").blur();
         },
