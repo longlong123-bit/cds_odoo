@@ -22,6 +22,7 @@ val_customer_supplier_group_code = ''
 val_customer_code_bill = ""
 val_customer_code_bill_list = []
 
+
 class SupplierLedgerInquiryCustom(models.Model):
     _name = 'supplier.ledger'
     _auto = False
@@ -171,7 +172,7 @@ class SupplierLedgerInquiryCustom(models.Model):
             record.is_display_customer = is_display_customer
             record.is_display_payment_class = is_display_payment_class
 
-    #残高
+    # 残高
     residual_amount_transfer = fields.Integer(compute=_compute_residual_amount)
     is_display_residual_amount = fields.Integer(compute=_compute_residual_amount)
     is_display_residual_amount_transfer = fields.Integer(compute=_compute_residual_amount)
@@ -181,7 +182,6 @@ class SupplierLedgerInquiryCustom(models.Model):
     is_change_date = fields.Integer(compute=_compute_residual_amount)
     is_change_voucher = fields.Integer(compute=_compute_residual_amount)
     residual_amount = fields.Integer(compute=_compute_residual_amount)
-
 
     detail_level = fields.Integer()
 

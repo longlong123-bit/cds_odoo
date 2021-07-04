@@ -156,6 +156,9 @@
       this._menu = this._getMenuElement();
       this._inNavbar = this._detectNavbar();
 
+      // return original behavior for _clearMenus method
+      window.isKeepDropdownOpen = false;
+
       this._addEventListeners();
     } // Getters
 
@@ -421,6 +424,9 @@
 
     Dropdown._clearMenus = function _clearMenus(event) {
       if (event && (event.which === RIGHT_MOUSE_BUTTON_WHICH || event.type === 'keyup' && event.which !== TAB_KEYCODE)) {
+        return;
+      }
+      if (window.isKeepDropdownOpen) {
         return;
       }
 
