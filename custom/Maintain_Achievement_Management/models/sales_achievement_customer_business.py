@@ -23,7 +23,7 @@ class SalesAchievementCustomerBusiness(models.Model):
         self._cr.execute("""
         CREATE OR REPLACE VIEW sales_achievement_customer_business AS
 
-        SELECT row_number() OVER(ORDER BY business_partner_code) AS id , *  FROM(
+        SELECT row_number() OVER(ORDER BY business_partner_code, res_partner_customer_code) AS id , *  FROM(
 	        (SELECT business_partner_code,
 	                business_partner_name,
 	                res_partner_customer_code,
@@ -161,15 +161,17 @@ class SalesAchievementCustomerBusiness(models.Model):
         args_init = {'date_gte': '',
                      'date_lte': ''}
         sales_achievement_customer_business_context = self._context.copy()
+
+        dict_domain_in_search = {
+            'business_partner_name_gte': '',
+            'business_partner_name_lte': '',
+            'business_partner_code_gte': '',
+            'business_partner_code_lte': '',
+            'res_partner_customer_code_gte': '',
+            'res_partner_customer_code_lte': ''
+        }
+
         if sales_achievement_customer_business_context and 'sales_achievement_customer_business' in sales_achievement_customer_business_context:
-            dict_domain_in_search = {
-                'business_partner_name_gte': '',
-                'business_partner_name_lte': '',
-                'business_partner_code_gte': '',
-                'business_partner_code_lte': '',
-                'res_partner_customer_code_gte': '',
-                'res_partner_customer_code_lte': ''
-            }
             for record in args:
                 if record[0] == '&':
                     continue
@@ -179,7 +181,7 @@ class SalesAchievementCustomerBusiness(models.Model):
                     continue
                 if record[0] == 'business_partner_name' and record[1] == '<=':
                     args_init['date_lte'] = record[2]
-                    dict_domain_in_search['business_partner_name_gte'] = record[2]
+                    dict_domain_in_search['business_partner_name_lte'] = record[2]
                     continue
                 if record[0] != 'business_partner_name':
                     domain += [record]
@@ -191,7 +193,6 @@ class SalesAchievementCustomerBusiness(models.Model):
                     dict_domain_in_search['res_partner_customer_code_gte'] = record[2]
                 if record[0] == 'res_partner_customer_code' and record[1] == '<=':
                     dict_domain_in_search['res_partner_customer_code_lte'] = record[2]
-            dict_domain_customer_business[user.id] = dict_domain_in_search
 
             if args_init['date_gte'] and args_init['date_lte']:
                 self.init('date', 'date', args_init['date_gte'], args_init['date_lte'])
@@ -202,10 +203,31 @@ class SalesAchievementCustomerBusiness(models.Model):
             else:
                 self.init('nodate', 'date', timenow, timenow)
             args = domain
+
+        dict_domain_customer_business[user.id] = dict_domain_in_search
+
+        del dict_domain_in_search
+
         return args
 
     def passConditionInSearchToReport(self):
         current_uid = self._context.get('uid')
         user = self.env['res.users'].browse(current_uid)
-        list_domain = [dict_domain_customer_business[user.id]]
+
+        list_domain = {}
+        list_domain_detail = {
+            'business_partner_name_gte': '',
+            'business_partner_name_lte': '',
+            'business_partner_code_gte': '',
+            'business_partner_code_lte': '',
+            'res_partner_customer_code_gte': '',
+            'res_partner_customer_code_lte': ''
+        }
+        list_domain[0] = list_domain_detail
+
+        if len(dict_domain_customer_business) > 0:
+            list_domain = [dict_domain_customer_business[user.id]]
+
+        del list_domain_detail
+
         return list_domain
