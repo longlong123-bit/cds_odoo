@@ -23,7 +23,7 @@ class SalesAchievementCustomerEmployee(models.Model):
         self._cr.execute("""
         CREATE OR REPLACE VIEW sales_achievement_customer_employee AS
 
-        SELECT row_number() OVER(ORDER BY hr_employee_employee_code) AS id , *  FROM(
+        SELECT row_number() OVER(ORDER BY hr_employee_employee_code, res_partner_customer_code) AS id , *  FROM(
             (SELECT hr_employee_employee_code,
 	            hr_employee_name,
                 res_partner_customer_code,
