@@ -2,6 +2,8 @@ from odoo import api, fields, models, tools
 from datetime import datetime, date, timedelta
 import datetime
 
+from odoo.http import request
+
 dict_domain_customer_business = {}
 
 class SalesAchievementCustomerBusiness(models.Model):
@@ -148,6 +150,7 @@ class SalesAchievementCustomerBusiness(models.Model):
             Overriding function search from file models.py
             File path Override: /odoo/models.py
         """
+
         domain = self._get_condition_search_of_module(self=self, args=args)
         res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return res if count else self.browse(res)
@@ -206,6 +209,8 @@ class SalesAchievementCustomerBusiness(models.Model):
 
         dict_domain_customer_business[user.id] = dict_domain_in_search
 
+        request.session['advanced_search_condition_of_customer_business'] = dict_domain_customer_business
+
         del dict_domain_in_search
 
         return args
@@ -225,9 +230,12 @@ class SalesAchievementCustomerBusiness(models.Model):
         }
         list_domain[0] = list_domain_detail
 
-        if len(dict_domain_customer_business) > 0:
-            list_domain = [dict_domain_customer_business[user.id]]
+        advanced_search_domain_customer_business = request.session['advanced_search_condition_of_customer_business']
+
+        if len(advanced_search_domain_customer_business) > 0:
+            list_domain[0] = advanced_search_domain_customer_business[user.id]
 
         del list_domain_detail
+        del advanced_search_domain_customer_business
 
         return list_domain
