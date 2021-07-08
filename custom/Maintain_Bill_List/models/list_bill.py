@@ -68,3 +68,27 @@ class ListBillClass(models.Model):
     #
     #     res = self._search(domain, offset=offset, limit=limit, order=order, count=count)
     #     return res if count else self.browse(res)
+
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        module_context = self._context.copy()
+        if module_context.get('have_advance_search') and module_context.get('bill_management_module'):
+            domain = []
+            billing_ids = []
+            billing_query = []
+            for arg in args:
+                if 'billing_code' in arg:
+                    billing_query.append("LOWER(billing_code) {0} '{1}'".format(arg[1], arg[2].lower()))
+                else:
+                    domain += [arg]
+                    # billing_query.append("{0} {1} '{2}'".format(arg[0], arg[1], arg[2]))
+
+            if billing_query:
+                query = 'SELECT id FROM bill_info WHERE ' + ' AND '.join(billing_query)
+                self._cr.execute(query)
+                query_res = self._cr.dictfetchall()
+                for bill_record in query_res:
+                    billing_ids.append(bill_record.get('id'))
+                domain += [['id', 'in', billing_ids]]
+            args = domain
+        res = super(ListBillClass, self).search(args, offset=offset, limit=limit, order=order, count=count)
+        return res
