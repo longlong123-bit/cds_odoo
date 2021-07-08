@@ -18,7 +18,7 @@ class DraftBillingClass(models.Model):
                 ('billing_code', '=', rec['billing_code'])
             ]
             bill_info_lasted = self.env['bill.info.draft'].search(bill_info_lasted_domain,
-                                                            order='deadline desc, create_date desc', limit=1)
+                                                                  order='deadline desc, create_date desc', limit=1)
 
             if rec['id'] == bill_info_lasted.id:
                 bill_info_ids = self.env['bill.info.draft'].browse(rec['id'])
@@ -70,23 +70,35 @@ class DraftBillingClass(models.Model):
         ctx = self._context.copy()
         if ctx.get('have_advance_search'):
             domain = []
+            billing_ids = []
+            billing_query = []
             if 'Draft Bill History' == ctx.get('view_name'):
-                for se in args:
-                    if se[0] == '&':
+                for arg in args:
+                    if arg[0] == '&':
                         continue
-                    if 'customer_closing_date_id' == se[0]:
-                        if se[2].isnumeric():
-                            se[0] = 'customer_closing_date_id.start_day'
-                            se[1] = '='
-                    if 'customer_excerpt_request' == se[0]:
-                        if se[2] == 'True':
-                            se[2] = True
-                            # domain += [se]
-                        elif se[2] == 'False':
-                            se[2] = False
+                    elif arg[0] == 'customer_closing_date_id':
+                        if arg[2].isnumeric():
+                            arg[0] = 'customer_closing_date_id.start_day'
+                            arg[1] = '='
+                    elif arg[0] == 'customer_excerpt_request':
+                        if arg[2] == 'True':
+                            arg[2] = True
+                            # domain += [arg]
+                        elif arg[2] == 'False':
+                            arg[2] = False
                         else:
                             continue
-                    domain += [se]
+                    elif 'billing_code' in arg:
+                        billing_query.append("LOWER(billing_code) {0} '{1}'".format(arg[1], arg[2].lower()))
+                        continue
+                    domain += [arg]
+                if billing_query:
+                    query = 'SELECT id FROM bill_info_draft WHERE ' + ' AND '.join(billing_query)
+                    self._cr.execute(query)
+                    query_res = self._cr.dictfetchall()
+                    for bill_record in query_res:
+                        billing_ids.append(bill_record.get('id'))
+                    domain += [['id', 'in', billing_ids]]
                 args = domain
         if 'Draft Bill History' == ctx.get('view_name') and len(args) == 0:
             return []

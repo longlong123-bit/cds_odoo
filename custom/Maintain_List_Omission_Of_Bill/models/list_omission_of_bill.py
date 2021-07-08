@@ -265,57 +265,69 @@ class ListOmissionOfBill(models.Model):
 
         module_context = self._context.copy()
         if module_context.get('have_advance_search') and module_context.get('list_omission_of_bill_module'):
+            billing_ids = []
+            billing_query = []
             domain = []
             # arr = ["division", "sales_rep", "customer_supplier_group_code"]
             # check = 0
-            for record in args:
-                if record[0] == '&':
+            for arg in args:
+                if arg[0] == '&':
                     continue
-                # if record[0] == 'search_category' and record[2] == 'equal':
+                # if arg[0] == 'search_category' and arg[2] == 'equal':
                 #     check = 1
-                # if check == 1 and record[0] in arr:
-                #     record[1] = '=ilike'
-                if 'closing_date' == record[0]:
-                    val_start_day = record[2]
-                    if record[2].isnumeric():
-                        record[0] = 'start_day'
-                        record[1] = '='
+                # if check == 1 and arg[0] in arr:
+                #     arg[1] = '=ilike'
+                elif arg[0] == 'closing_date':
+                    val_start_day = arg[2]
+                    if arg[2].isnumeric():
+                        arg[0] = 'start_day'
+                        arg[1] = '='
                     else:
-                        record[0] = 'closing_date_name'
-                if 'sales_date' == record[0]:
-                    val_sales_date = record[2]
-                if 'division' == record[0]:
-                    val_division = record[2]
-                    if record[2].isnumeric():
-                        record[0] = 'department_id'
-                        record[1] = '='
+                        arg[0] = 'closing_date_name'
+                elif arg[0] == 'sales_date':
+                    val_sales_date = arg[2]
+                elif arg[0] == 'division':
+                    val_division = arg[2]
+                    if arg[2].isnumeric():
+                        arg[0] = 'department_id'
+                        arg[1] = '='
                     else:
-                        record[0] = 'department_name'
-                if 'sales_rep' == record[0]:
-                    val_sales_rep = record[2]
-                    if record[2].isnumeric():
-                        record[0] = 'sales_rep'
-                        record[1] = '='
+                        arg[0] = 'department_name'
+                elif arg[0] == 'sales_rep':
+                    val_sales_rep = arg[2]
+                    if arg[2].isnumeric():
+                        arg[0] = 'sales_rep'
+                        arg[1] = '='
                     else:
-                        record[0] = 'sales_rep_name'
-                if 'customer_supplier_group_code' == record[0]:
-                    val_customer_supplier_group_code = record[2]
-                    if record[2].isnumeric():
-                        record[0] = 'customer_supplier_group_code'
-                        record[1] = '='
+                        arg[0] = 'sales_rep_name'
+                elif arg[0] == 'customer_supplier_group_code':
+                    val_customer_supplier_group_code = arg[2]
+                    if arg[2].isnumeric():
+                        arg[0] = 'customer_supplier_group_code'
+                        arg[1] = '='
                     else:
-                        record[0] = 'customer_supplier_group_name'
-                if 'customer_code_bill_from' == record[0]:
-                    val_customer_code_bill_from = record[2]
-                    record[0] = 'customer_code_bill'
-                if 'customer_code_bill_to' == record[0]:
-                    val_customer_code_bill_to = record[2]
-                    record[0] = 'customer_code_bill'
-                if 'issue_format' == record[0]:
-                    val_issue_format = record[2]
+                        arg[0] = 'customer_supplier_group_name'
+                elif arg[0] in ['customer_code_bill_from', 'customer_code_bill_to']:
+                    if arg[0] == 'customer_code_bill_from':
+                        val_customer_code_bill_from = arg[2]
+                        # arg[0] = 'customer_code_bill'
+                    else:
+                        val_customer_code_bill_to = arg[2]
+                        # arg[0] = 'customer_code_bill'
+                    billing_query.append("LOWER(customer_code_bill) {0} '{1}'".format(arg[1], arg[2].lower()))
                     continue
-                # if record[0] != 'search_category':
-                domain += [record]
+                elif 'issue_format' == arg[0]:
+                    val_issue_format = arg[2]
+                    continue
+                # if arg[0] != 'search_category':
+                domain += [arg]
+            if billing_query:
+                query = 'SELECT id FROM omission_bill WHERE ' + ' AND '.join(billing_query)
+                self._cr.execute(query)
+                query_res = self._cr.dictfetchall()
+                for bill_record in query_res:
+                    billing_ids.append(bill_record.get('id'))
+                domain += [['id', 'in', billing_ids]]
             if val_issue_format == '0':
                 domain += [['id_voucher', '=', 1]]
             args = domain
@@ -332,4 +344,3 @@ class ListOmissionOfBill(models.Model):
     def _amount_tax_int_format(self):
         for rec in self:
             rec.amount_tax_int_format = int(rec.amount_tax)
-
