@@ -116,7 +116,7 @@ class IncomePaymentCustom(models.Model):
 
     invoice_history = fields.Many2one('account.move', string='Journal Entry', store=False)
 
-    #TH - add dialog
+    # TH - add dialog
     payment_input_history = fields.Many2one('account.payment', store=False)
     payment_request_history = fields.Many2one('bill.info', store=False)
     closing_date_new = fields.Char(string='Closing Date', readonly=True)
@@ -129,12 +129,13 @@ class IncomePaymentCustom(models.Model):
     @api.onchange('partner_id')
     def onchange_payment_request_history(self):
         return {'domain': {'payment_request_history': [('partner_id', '=', self.partner_id.id)]}}
-    #TH - done
+
+    # TH - done
 
     @api.model
     def get_default_journal(self):
         journal_id = self.env['account.journal']._search(
-                [('type', '=', 'sale')], limit=1)
+            [('type', '=', 'sale')], limit=1)
         return journal_id and journal_id[0] or False
 
     @api.onchange('invoice_history')
@@ -396,7 +397,6 @@ class IncomePaymentCustom(models.Model):
                                                              cutoff_day) + relativedelta(
                                 months=1)
 
-
     # NGÀY KẾT SỔ
     def get_summary_date(self):
         for rec in self:
@@ -518,31 +518,46 @@ class IncomePaymentCustom(models.Model):
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-        odoo/models.py
-        """
         ctx = self._context.copy()
         if ctx.get('have_advance_search'):
             domain = []
+            partner_ids = []
+            partner_query = []
             check = 0
-            for se in args:
-                if se[0] =='&':
+            for arg in args:
+                if arg[0] == '&':
                     continue
-                if se[0] == 'search_category' and se[2] == 'equal':
-                    check = 1
-                if check == 1 and se[0] in ["partner_payment_name1", "sales_rep"]:
-                    se[1] = '=ilike'
-                if se[0] != 'search_category':
-                    domain += [se]
-                if se[0] == 'document_no':
+                elif arg[0] == 'search_category':
+                    if arg[2] == 'equal':
+                        check = 1
+                    continue
+                elif arg[0] in ["partner_payment_name1", "sales_rep"] and check == 1:
+                    arg[1] = '=ilike'
+                elif arg[0] == 'document_no':
                     string_middle = ''
-                    for i in range(7 - len(se[2])):
+                    for i in range(7 - len(arg[2])):
                         string_middle += '0'
-                    if len(se[2]) < 11:
-                        se[2] = ''.join(["ARR-", string_middle, se[2]])
+                    if len(arg[2]) < 11:
+                        arg[2] = ''.join(["ARR-", string_middle, arg[2]])
+                elif arg[0] == 'partner_id' and (arg[1] == '<=' or arg[1] == '<='):
+                    # a bit confuse on this field partner_id
+                    # record can be search by partner_id (id number in res_partner table)
+                    # but in this case of advanced search, we can fill partner_id by customer_code, and have right record too (how??)
+                    # arg[2] = int(arg[2])
+                    partner_query.append("(LOWER(customer_code) {0} '{1}' OR LOWER(customer_code_bill) {0} '{1}')".format(arg[1], arg[2].lower()))
+                    continue
+                domain += [arg]
+            if partner_query:
+                query = 'SELECT id FROM res_partner WHERE ' + ' AND '.join(partner_query)
+                self._cr.execute(query)
+                query_res = self._cr.dictfetchall()
+                for partner_record in query_res:
+                    partner_ids.append(partner_record.get('id'))
+                domain += [['partner_id', 'in', partner_ids]]
             args = domain
         res = super(IncomePaymentCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
+
 
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
@@ -579,7 +594,7 @@ class IncomePaymentLineCustom(models.Model):
     @api.model
     def get_default_journal(self):
         journal_id = self.env['account.journal']._search(
-                [('type', '=', 'sale')], limit=1)
+            [('type', '=', 'sale')], limit=1)
         return journal_id and journal_id[0] or False
 
     # Check payment_amount
@@ -626,22 +641,35 @@ class IncomePaymentLineCustom(models.Model):
         ctx = self._context.copy()
         if ctx.get('have_advance_search'):
             domain = []
+            partner_ids = []
+            partner_query = []
             check = 0
-            for se in args:
-                if se[0] == '&':
+            for arg in args:
+                if arg[0] == '&':
                     continue
-                if se[0] == 'search_category' and se[2] == 'equal':
-                    check = 1
-                if check == 1 and se[0] in ["partner_payment_name1", "sales_rep"]:
-                    se[1] = '=ilike'
-                if se[0] != 'search_category':
-                    domain += [se]
-                if se[0] == 'payment_id.document_no':
+                elif arg[0] == 'search_category':
+                    if arg[2] == 'equal':
+                        check = 1
+                    continue
+                elif arg[0] in ["partner_payment_name1", "sales_rep"] and check == 1:
+                    arg[1] = '=ilike'
+                elif arg[0] == 'payment_id.document_no':
                     string_middle = ''
-                    for i in range(7 - len(se[2])):
+                    for i in range(7 - len(arg[2])):
                         string_middle += '0'
-                    if len(se[2]) < 11:
-                        se[2] = ''.join(["ARR-", string_middle, se[2]])
+                    if len(arg[2]) < 11:
+                        arg[2] = ''.join(["ARR-", string_middle, arg[2]])
+                elif 'payment_id.partner_id.customer_code' in arg:
+                    partner_query.append("LOWER(customer_code) {0} '{1}'".format(arg[1], arg[2].lower()))
+                    continue
+                domain += [arg]
+            if partner_query:
+                query = 'SELECT id FROM account_payment_line WHERE ' + ' AND '.join(partner_query)
+                self._cr.execute(query)
+                query_res = self._cr.dictfetchall()
+                for partner_record in query_res:
+                    partner_ids.append(partner_record.get('id'))
+                domain += [['id', 'in', partner_ids]]
             args = domain
         res = super(IncomePaymentLineCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
