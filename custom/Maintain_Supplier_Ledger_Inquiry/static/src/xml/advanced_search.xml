@@ -47,7 +47,7 @@
                 <script>
                     $(function() {
                         $.ajax({
-                            url: "/get_customer_list",
+                            url: "/ledger/get_customer_list",
                             type: "GET",
                             dataType: 'json',
                             success: function(result){
@@ -75,7 +75,7 @@
                     function onBlurBillingCode(){
                         billing_code = document.getElementById("billing_code_ledger_advanced_search").value;
                         $.ajax({
-                            url: "/get_billing_name",
+                            url: "/ledger/get_billing_name",
                             type: "GET",
                             data: {"content": billing_code},
                             dataType: 'json',

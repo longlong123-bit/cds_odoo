@@ -313,9 +313,22 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
                     // Hien-TT custom start
                     if (buttonData.select) {
                       self.onForceClose = false;
+
                       $("#billing_code_ledger_advanced_search").val(self.viewController.getSelectedRecords()[0].data.customer_code);
+//                      $("#billing_code_ledger_advanced_search").val(self.viewController.getSelectedRecords()[0].data.customer_code);
                       // use this for trigger get billing name in ledger and set window.isKeepDropdownOpen = false
                       $("#billing_code_ledger_advanced_search").blur();
+//                      $("#billing_code_ledger_advanced_search").blur();
+//         LONG-DN custom collation history start
+                      if (window.customer_code_collation_search_more) {
+                        $("#customer_code_collation_advanced_search").val(self.viewController.getSelectedRecords()[0].data.customer_code);
+                        $("#customer_code_collation_advanced_search").blur();
+                        window.customer_code_collation_search_more = false;
+                      } else if (window.billing_code_collation_search_more) {
+                        $("#billing_code_collation_advanced_search").val(self.viewController.getSelectedRecords()[0].data.customer_code_bill);
+                        $("#billing_code_collation_advanced_search").blur();
+                        window.billing_code_collation_search_more = false;
+                      }
                       // self.getParent().getParent().getParent().getChildren().forEach(function (child){
                       //   if (child.name == 'copy_history_item') {
                       //       child._setValue(self.viewController.getSelectedIds().toString());
@@ -340,7 +353,9 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
     var FilterMenu = FilterMenu.include({
         events: _.extend({}, FilterMenu.prototype.events, {
             'click .o_apply_filter_customer_code': '_customFillter',
+            'click .o_apply_filter_billing_code': '_customFillter',
         }),
+//         LONG-DN custom collation history end
         /**
          * @private
          * @param {OdooEvent} ev
