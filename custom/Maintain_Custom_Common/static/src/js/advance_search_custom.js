@@ -140,7 +140,7 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
             this.viewType = arguments[1].view_type;
             this.size = 'ultra-large';
             this.ending = false;
-            this.buttons = [{text: _t("Select"), select: true}];
+            this.buttons = [{text: _t("Select"), select: true, classes: 'btn-primary btn-select-dialog-search-custom'}];
             this.withSearchBar = false;
             this.searchMenuTypes = false;
         },
@@ -166,7 +166,24 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
                         $(fragment).find('.o_cp_controller .o_cp_left').empty();
                         // Hien-TT custom start
                         $(fragment).find('.o_list_view').addClass('dialog_show');
+                        $(fragment).find('.o_list_view').addClass('dialog_search_custom');
+                        // $(fragment).find('.o_list_view tr th:first-child').css('opacity','0');
+                        // $(fragment).find('.o_list_view tr td:first-child').css('opacity','0');
                         // Hien-TT custom end
+                        // Zet custom start
+                        // why not use .css('display','none'), if you do that, dialog can't get selected records and throw errors
+                        // for more info, dialog set selected records depend on input checkbox (don't ask me why T.T)
+                        // so if we set display none, input checkbox will not work and throw errors
+                        $(fragment).find('.o_list_view tr th:first-child').css('visibility','hidden');
+                        $(fragment).find('.o_list_view tr th:first-child').css('width',0);
+                        $(fragment).find('.o_list_view tr th:first-child').css('padding',0);
+                        $(fragment).find('.o_list_view tr td:first-child').css('visibility','hidden');
+                        $(fragment).find('.o_list_view tr td:first-child').css('width',0);
+                        $(fragment).find('.o_list_view tr td:first-child').css('padding',0);
+                        $(fragment).find('.custom-control.custom-checkbox').css('padding',0);
+                        // I use this for hiding select button at first, but it not working because at this moment, the button is not render yet.
+                        // $(fragment).find('.btn-select-dialog-search-custom').css('visibility','hidden');
+                        // Zet custom end
                         // append all DOM to dialog
                         dom.append(self.$el, fragment, {
                             callbacks: [{widget: self.viewController}],
@@ -271,10 +288,15 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
             var self = this;
             $target.empty();
             _.each(buttons, function (buttonData) {
+                var style = '';
+                if (buttonData.classes.includes('btn-select-dialog-search-custom')) {
+                    style = 'visibility: hidden;';
+                }
                 var $button = dom.renderButton({
                     attrs: {
                         class: buttonData.classes || (buttons.length > 1 ? 'btn-secondary' : 'btn-primary'),
                         disabled: buttonData.disabled,
+                        style: style,
                     },
                     icon: buttonData.icon,
                     text: buttonData.text,
