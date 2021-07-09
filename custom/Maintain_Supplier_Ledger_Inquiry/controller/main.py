@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# author Longdn
+
 import odoo
 import logging
 import json
@@ -9,7 +11,7 @@ _logger = logging.getLogger(__name__)
 
 
 class SupplierLedgerInquiryCustomAPI(odoo.http.Controller):
-    @odoo.http.route('/get_billing_name', type='http', auth="public", sitemap=False, cors='*', csrf=False)
+    @odoo.http.route('/ledger/get_billing_name', type='http', auth="public", sitemap=False, cors='*', csrf=False)
     def get_billing_name(self, **kwargs):
         billing_code = kwargs.get('content', False)
         billing_name = ''
@@ -45,7 +47,7 @@ class SupplierLedgerInquiryCustomAPI(odoo.http.Controller):
             }
         return json.dumps(response)
 
-    @odoo.http.route('/get_customer_list', type='http', auth="public", sitemap=False, cors='*', csrf=False)
+    @odoo.http.route('/ledger/get_customer_list', type='http', auth="public", sitemap=False, cors='*', csrf=False)
     def get_customer_list(self, **kwargs):
         # billing_code = kwargs.get('billing_code', False)
         model_name = "res.partner"
