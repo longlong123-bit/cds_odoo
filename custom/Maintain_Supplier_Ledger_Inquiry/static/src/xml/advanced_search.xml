@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <th>請求先（得意先）コード</th>
-                <td>
+                <td class="d-flex">
                     <input
                         class="filter-item"
                         id="billing_code_ledger_advanced_search"
@@ -24,9 +24,9 @@
                         onblur="onBlurBillingCode()"
                         type="search"
                     />
-                    <span
-                        class="o_apply_filter_customer_code o_searchview_more fa fa-search-plus fa-lg"
-                        onclick="window.isKeepDropdownOpen=true"
+                    <button
+                        class="o_search_more_ledger_billing_code o_searchview_more fa fa-search-plus fa-lg"
+                        onclick="window.isKeepDropdownOpen=true; window.billing_code_ledger_search_more=true;"
                         title="Search More" role="img" aria-label="Search More"
                     />
                 </td>
