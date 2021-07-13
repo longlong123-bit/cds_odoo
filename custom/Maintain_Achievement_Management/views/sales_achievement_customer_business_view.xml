@@ -5,7 +5,7 @@
 			<field name="name">sales_achievement_view_customer_business</field>
 			<field name="model">sales.achievement.customer.business</field>
 			<field name="arch" type="xml">
-				<tree create="0" import="0">
+				<tree create="0" import="0" export_xlsx="0">
 					<field name="business_partner_code"/>
 					<field name="business_partner_name"/>
 					<field name="res_partner_customer_code"/>
@@ -21,11 +21,13 @@
 
 		<record model="ir.actions.act_window" id="actions_sales_achievement_customer_business">
 			<field name="name">Sales Achievement Customer Business</field>
+	        <field name="type">ir.actions.act_window</field>
 			<field name="res_model">sales.achievement.customer.business</field>
-			<field name="view_id" ref="sales_achievement_view_customer_business"/>
-			<field name="context">{'sales_achievement_customer_business': True}</field>
 			<field name="view_mode">tree</field>
-		</record>
+	        <field name="hasSelectors">false</field>
+			<field name="view_id" ref="sales_achievement_view_customer_business"/>
+			<field name="context">{'sales_achievement_customer_business': True, 'view_name': 'sales_achievement_customer_business'}</field>
+	</record>
 
 		<menuitem id="sales_achievement_customer_business" parent="sales_achievement_menu" name="Sales Achievement Customer Business" sequence="5" action="actions_sales_achievement_customer_business" groups="base.group_user"/>
 	</data>
