@@ -10,19 +10,32 @@
             <field name="arch" type="xml">
                 <xpath expr="//tree" position="replace">
                     <tree string="Partner Custom" duplicate="false" class="forward_edit">
-                        <field name="customer_code" string="Customer Code"/>
-                        <field name="customer_code_bill" string="Billing Code"/>
-                        <field name="name" string="Customer Name"/>
-                        <field name="customer_name_2" string="Customer Name 2"/>
-                        <field name="customer_name_kana" string="Customer Name Kana"/>
-                        <field name="zip_code" string="Zip"/>
-                        <field name="street" string="Address 1"/>
-                        <field name="street2" string="Address 2"/>
-                        <field name="customer_phone" string="Phone"/>
-                        <field name="customer_state" string='State'/>
-                        <field name="customer_supplier_group_code" string='Supplier Group Code'/>
-                        <field name="customer_industry_code" string='Industry Code'/>
-                        <field name="customer_agent" string='Representative/Agent'/>
+<!--                        <field name="customer_code" string="Customer Code"/>-->
+<!--                        <field name="customer_code_bill" string="Billing Code"/>-->
+<!--                        <field name="name" string="Customer Name"/>-->
+<!--                        <field name="customer_name_2" string="Customer Name 2"/>-->
+<!--                        <field name="customer_name_kana" string="Customer Name Kana"/>-->
+<!--                        <field name="zip_code" string="Zip"/>-->
+<!--                        <field name="street" string="Address 1"/>-->
+<!--                        <field name="street2" string="Address 2"/>-->
+<!--                        <field name="customer_phone" string="Phone"/>-->
+<!--                        <field name="customer_state" string='State'/>-->
+<!--                        <field name="customer_supplier_group_code" string='Supplier Group Code'/>-->
+<!--                        <field name="customer_industry_code" string='Industry Code'/>-->
+<!--                        <field name="customer_agent" string='Representative/Agent'/>-->
+                        <field name="customer_code" string="得意先コード"/>
+                        <field name="customer_code_bill" string="請求先"/>
+                        <field name="name" string="得意先名称"/>
+                        <field name="customer_name_2" string="得意先名称2"/>
+                        <field name="customer_name_kana" string="得意先ｶﾅ"/>
+                        <field name="zip_code" string="郵便番号"/>
+                        <field name="street" string="住所1"/>
+                        <field name="street2" string="住所2"/>
+                        <field name="customer_phone" string="電話"/>
+                        <field name="customer_state" string='地区コード'/>
+                        <field name="customer_supplier_group_code" string='取引先グループコード'/>
+                        <field name="customer_industry_code" string='業種コード'/>
+                        <field name="customer_agent" string='営業担当者'/>
                         <!--invisible-->
                         <field name="customer_tax_rounding" optional="hide"/>
                         <field name="customer_trans_classification_code" optional="hide"/>
