@@ -84,7 +84,7 @@
                             </thead>
                             <tbody class="invoice_tbody">
                                 <t t-foreach="docs" t-as="line">
-                                    <t t-if="((pager-1)*30 &lt;= count_detail) and (pager*30 &gt; count_detail)">
+                                    <t t-if="(((pager-1)*30 + 1) &lt;= count_detail) and (pager*30 &gt;= count_detail)">
                                         <tr>
                                             <td style="border: 1px solid #000; border-right: 0; border-left: 0; border-top: 0; text-align: left">
                                                 <span t-field="line.business_partner_code"/>

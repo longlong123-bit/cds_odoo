@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template id="print_all_sales_achievement_business" xml:space="preserve">
+      <t t-extend="ListView.buttons">
+        <t t-jquery="button.o_list_button_discard" t-operation="after">
+            <button t-if="widget.modelName == 'sales.achievement.business'"
+                    class="btn btn-primary print_all_sales_achievement_business"
+                    type="button">Print</button>
+        </t>
+      </t>
+</template>
