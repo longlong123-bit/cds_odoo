@@ -12,7 +12,6 @@ class CollationHistoryCustomAPI(odoo.http.Controller):
     @odoo.http.route('/collation/get_customer_name', type='http', auth="public", sitemap=False, cors='*', csrf=False)
     def get_customer_name(self, **kwargs):
         customer_code = kwargs.get('content', False)
-        print('customer_code', customer_code)
         customer_name = ''
         if not customer_code:
             return json.dumps({
@@ -29,7 +28,6 @@ class CollationHistoryCustomAPI(odoo.http.Controller):
             with odoo.api.Environment.manage(), registry.cursor() as cr:
                 env = odoo.api.Environment(cr, odoo.SUPERUSER_ID, {})
                 rec = env[model_name].search([('customer_code', 'like', str(customer_code))], limit=1)
-                print('rec 1', rec)
                 if rec:
                     customer_code = rec[0].customer_code
                     customer_name = rec[0].name

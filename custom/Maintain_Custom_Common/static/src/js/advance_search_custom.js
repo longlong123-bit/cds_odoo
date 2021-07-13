@@ -260,8 +260,19 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
 
         destroy: function (options) {
             this._super();
-            // use this for trigger get billing name in ledger and set window.isKeepDropdownOpen = false
-            $("#billing_code_ledger_advanced_search").blur();
+            if (window.billing_code_ledger_search_more) {
+                // use this for trigger get billing name in ledger and set window.isKeepDropdownOpen = false
+                $("#billing_code_ledger_advanced_search").blur();
+                window.billing_code_ledger_search_more = false;
+            }
+            if (window.customer_code_collation_search_more) {
+                $("#customer_code_collation_advanced_search").blur();
+                window.customer_code_collation_search_more = false;
+            }
+            if (window.billing_code_collation_search_more) {
+                $("#billing_code_collation_advanced_search").blur();
+                window.billing_code_collation_search_more = false;
+            }
         },
 
         /**
@@ -324,7 +335,8 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
                         $("#customer_code_collation_advanced_search").val(self.viewController.getSelectedRecords()[0].data.customer_code);
                         $("#customer_code_collation_advanced_search").blur();
                         window.customer_code_collation_search_more = false;
-                      } else if (window.billing_code_collation_search_more) {
+                      }
+                      if (window.billing_code_collation_search_more) {
                         $("#billing_code_collation_advanced_search").val(self.viewController.getSelectedRecords()[0].data.customer_code_bill);
                         $("#billing_code_collation_advanced_search").blur();
                         window.billing_code_collation_search_more = false;

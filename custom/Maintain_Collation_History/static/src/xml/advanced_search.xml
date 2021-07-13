@@ -25,8 +25,8 @@
                     <input
                         class="filter-item"
                         id="billing_code_collation_advanced_search"
-                        data-operator="="
-                        data-name="customer_code_bill"
+                        data-operator="ilike"
+                        data-name="billing_code"
                         onblur="onBlurBillingCode()"
                         type="search"
                     />
@@ -102,7 +102,13 @@
             <tr>
                 <th>Billing Name</th>
                 <td>
-                    <input class="filter-item" id="billing_name_collation_advanced_search" data-operator="=" data-name="customer_name" ref="" readonly="true" />
+                    <input
+                        class="filter-item"
+                        id="billing_name_collation_advanced_search"
+                        data-operator="ilike"
+                        data-name="billing_name"
+                        readonly="true"
+                    />
                 </td>
             </tr>
             <tr>
@@ -111,8 +117,8 @@
                     <input
                         class="filter-item"
                         id="customer_code_collation_advanced_search"
-                        data-operator="="
-                        data-name="customer_code"
+                        data-operator="ilike"
+                        data-name="bill_detail_ids.customer_code"
                         onblur="onBlurCustomerCode()"
                         type="search"
                     />
@@ -188,7 +194,13 @@
             <tr>
                 <th>Customer Name</th>
                 <td>
-                    <input class="filter-item" id="customer_name_collation_advanced_search" data-operator="=" data-name="customer_name" ref="" readonly="true" />
+                    <input
+                        class="filter-item"
+                        id="customer_name_collation_advanced_search"
+                        data-operator="ilike"
+                        data-name="bill_detail_ids.customer_name"
+                        readonly="true"
+                    />
                 </td>
             </tr>
             <!--LONG-DN custom collation history end-->
