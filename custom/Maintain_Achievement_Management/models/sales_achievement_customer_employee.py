@@ -4,7 +4,7 @@ import datetime
 
 from odoo.http import request
 
-dict_domain_customer_employee = {}
+# dict_domain_customer_employee = {}
 
 
 class SalesAchievementCustomerEmployee(models.Model):
@@ -182,8 +182,10 @@ class SalesAchievementCustomerEmployee(models.Model):
     @staticmethod
     def _get_condition_search_of_module(self, args):
         domain = []
-        current_uid = self._context.get('uid')
-        user = self.env['res.users'].browse(current_uid)
+        # current_uid = self._context.get('uid')
+        # user = self.env['res.users'].browse(current_uid)
+        uid = self.env.uid
+
         timenow = datetime.datetime.now().strftime('%Y/%m/%d')
         args_init = {'date_gte': '',
                      'date_lte': ''}
@@ -235,7 +237,7 @@ class SalesAchievementCustomerEmployee(models.Model):
             self.init('nodate', 'date', timenow, timenow)
         args = domain
 
-        dict_domain_customer_employee[user.id] = dict_domain_in_search
+        dict_domain_customer_employee = {uid: dict_domain_in_search}
 
         # ===========================================
         # Save advanced_search domain to session
@@ -246,14 +248,15 @@ class SalesAchievementCustomerEmployee(models.Model):
 
     def passConditionInSearchToReport(self):
 
-        current_uid = self._context.get('uid')
-        user = self.env['res.users'].browse(current_uid)
+        # current_uid = self._context.get('uid')
+        # user = self.env['res.users'].browse(current_uid)
+        uid = self.env.uid
 
         # ===========================================
         # Get advanced_search domain from session
         # ===========================================
         advanced_search_domain_customer_employee = request.session['advanced_search_condition_of_customer_employee']
-        list_domain = [advanced_search_domain_customer_employee[user.id]]
+        list_domain = [advanced_search_domain_customer_employee[uid]]
 
         return list_domain
 
