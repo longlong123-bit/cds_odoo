@@ -237,12 +237,12 @@ class SalesAchievementEmployee(models.Model):
             self.init('nodate', 'date', timenow, timenow)
         args = domain
 
-        dict_domain_employee = {uid: dict_domain_in_search}
+        # dict_domain_employee = {uid: dict_domain_in_search}
 
         # ===========================================
         # Save advanced_search domain to session
         # ===========================================
-        request.session['advanced_search_condition_of_employee'] = dict_domain_employee
+        request.session['advanced_search_condition_of_employee'] = {uid: dict_domain_in_search}
 
         return args
 
