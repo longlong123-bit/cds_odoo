@@ -36,6 +36,7 @@
         'static/src/xml/print_all_sales_achievement_business.xml',
         'static/src/xml/print_all_sales_achievement_customer_employee.xml',
         'static/src/xml/print_all_sales_achievement_customer.xml',
+        'static/src/xml/print_all_sales_achievement_employee.xml',
     ],
     'demo': [],
     'installable': True,
