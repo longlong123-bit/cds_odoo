@@ -44,7 +44,8 @@
       <field name="inherit_id" ref="account.view_invoice_tree"/>
       <field name="arch" type="xml">
             <xpath expr="//tree" position="replace">
-                <tree class="forward_edit" default_order="x_studio_date_invoiced desc,x_studio_document_no  desc">
+                <tree class="forward_edit">
+<!--                    remove default_order="x_studio_date_invoiced desc,x_studio_document_no  desc" in <tree>-->
                     <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
                     <field name="x_studio_date_invoiced" string="Date Invoiced"/>
                     <field name="x_studio_document_no" string="Document No"/>

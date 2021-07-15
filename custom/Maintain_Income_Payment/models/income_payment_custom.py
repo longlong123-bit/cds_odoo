@@ -25,7 +25,8 @@ _logger = logging.getLogger(__name__)
 class IncomePaymentCustom(models.Model):
     _inherit = "account.payment"
     # _rec_name = 'document_no'
-    _order = 'write_date desc'
+    # _order = 'write_date desc'
+    _order = "payment_date desc, document_no desc"
 
     def get_default_payment_date(self):
         _date_now = datetime.now()
