@@ -1075,7 +1075,12 @@ class SaleOrderLine(models.Model):
     @api.depends('price_total', 'product_uom_qty')
     def _get_price_reduce_tax(self):
         for line in self:
-            line.price_reduce_taxinc = line.price_total / line.product_uom_qty if line.product_uom_qty else 0.0
+            # line.price_reduce_taxinc = line.price_total / line.product_uom_qty if line.product_uom_qty else 0.0
+            _uom_qty = line.product_uom_qty
+            if _uom_qty != 0:
+                line.price_reduce_taxinc = line.price_total / _uom_qty
+            else:
+                line.price_reduce_taxinc = 0
 
     @api.depends('price_subtotal', 'product_uom_qty')
     def _get_price_reduce_notax(self):
