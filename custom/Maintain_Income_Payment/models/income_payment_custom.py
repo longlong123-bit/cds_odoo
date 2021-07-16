@@ -67,6 +67,10 @@ class IncomePaymentCustom(models.Model):
         ('cash', '現金'),
         ('bank', '銀行')], default='cash')
 
+    # def _get_default_name(self):
+    #     return self.env['res.partner'].search([], limit=1)
+
+    name = fields.Many2one('res.partner', string='Customer Name')
     payment_amount = fields.Float(string='Payment Amount')
     description = fields.Char(string='Description')
     payment_type = fields.Selection(
