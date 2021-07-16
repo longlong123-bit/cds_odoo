@@ -29,6 +29,13 @@
                             <t t-set="style_dot" t-value='"position: absolute; left: 1px; font-size: 5px; top: 561px;"'></t>
                             <div t-att-style="style_dot">◆</div>
                         </t>
+                        <t t-if="range_docs_index == 3">
+                            <t t-set="o_title" t-value="'請　求　書【営業控】'"/>
+                            <t t-set="style_title" t-value="'width: 46%; float: left;'"/>
+                            <t t-set="style_bill_no" t-value="'width: 30%; float: left;'"/>
+                            <t t-set="style_dot" t-value='"position: absolute; left: 1px; font-size: 5px; top: 561px;"'></t>
+                            <div t-att-style="style_dot">◆</div>
+                        </t>
                         <div style="display: inline-block; width: 100%;">
                             <div style="width: 22%; float: left;">
                                 <div>
