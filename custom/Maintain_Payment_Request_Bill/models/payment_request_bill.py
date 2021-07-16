@@ -50,8 +50,6 @@ class CollationPayment(models.Model):
     hr_employee_id = fields.Many2one('hr.employee')
     bill_job_title = fields.Char('bill_job_title', compute='_set_bill_sale_rep')
 
-    request.session['print_all_bill_session'] = False
-
     def _set_bill_sale_rep(self):
         self.sale_rep_id = self.env['res.users'].search([('partner_id', '=', self.partner_id)])
         self.hr_employee_id = self.env['hr.employee'].search([('user_id', '=', self.sale_rep_id.id)])

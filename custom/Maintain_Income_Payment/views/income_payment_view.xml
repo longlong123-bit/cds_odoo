@@ -165,8 +165,8 @@
                     <field name="partner_id" string="Customer"/>
 <!--                    <field name="partner_bank_account_id" string="Bank Account"/>-->
                     <field name="state" string="Document Status" invisible="1"/>
-                    <field name="name"/>
-                    <field name="payment_amount"/>
+                    <field name="partner_payment_name1" string="Customer Name"/>
+                    <field name="payment_amount" string="Payment Amount"/>
                     <field name="account_invoice_id" string="Invoice"/>
                 </tree>
             </xpath>
