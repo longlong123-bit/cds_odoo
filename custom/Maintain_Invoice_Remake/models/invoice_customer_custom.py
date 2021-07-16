@@ -27,6 +27,7 @@ import decimal
 INTEGRITY_HASH_MOVE_FIELDS = ('date', 'journal_id', 'company_id')
 INTEGRITY_HASH_LINE_FIELDS = ('debit', 'credit', 'account_id', 'partner_id')
 
+
 def calc_check_digits(number):
     """Calculate the extra digits that should be appended to the number to make it a valid number.
     Source: python-stdnum iso7064.mod_97_10.calc_check_digits
@@ -399,8 +400,7 @@ class ClassInvoiceCustom(models.Model):
         domain = [('id', 'not in', user_ids),
                   ('id', 'not in', res_users_group_system_ids.ids)]
         return domain
-    # sort double key desc by invoice date and document no
-    _order = "x_studio_date_invoiced desc,x_studio_document_no desc"
+
 
     x_studio_client_2 = fields.Many2one('client.custom', string='Client', default=_get_default_client_id)
     x_studio_organization = fields.Many2one('res.company', default=_get_default_organization_id)
