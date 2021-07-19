@@ -2,7 +2,9 @@ from odoo import api, fields, models, tools
 from datetime import datetime, date
 import datetime
 
-dict_domain_employee = {}
+from odoo.http import request
+
+# dict_domain_employee = {}
 
 class SalesAchievementEmployee(models.Model):
     _name = 'sales.achievement.employee'
@@ -155,58 +157,146 @@ class SalesAchievementEmployee(models.Model):
             Overriding function search from file models.py
             File path Override: /odoo/models.py
         """
+
+        # ===========================================
+        # Get context
+        # ===========================================
+        ctx = self._context.copy()
+
+        # ===========================================
+        # Setting init session variables and get domain search
+        # ===========================================
         domain = self._get_condition_search_of_module(self=self, args=args)
-        res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
-        return res if count else self.browse(res)
+
+        # ===========================================
+        # If session has no variable (the first runtime)
+        # ===========================================
+        print_all_button = False
+        try:
+            print_all_button = request.session['print_all_button_sales_achievement_employee']
+        except:
+            request.session['print_all_button_sales_achievement_employee'] = False
+
+        # ===========================================
+        # Search If from Advanced Search of Print Button
+        # ===========================================
+        if ctx.get('have_advance_search') or print_all_button:
+            # res = self._search(args=domain, offset=offset, limit=limit, order=order, count=count)
+            # return res if count else self.browse(res)
+            return super(SalesAchievementEmployee, self).search(domain, offset=offset, limit=limit, order=order, count=count)
+        return []
 
     @staticmethod
     def _get_condition_search_of_module(self, args):
         domain = []
-        current_uid = self._context.get('uid')
-        user = self.env['res.users'].browse(current_uid)
+        # current_uid = self._context.get('uid')
+        # user = self.env['res.users'].browse(current_uid)
+        uid = self.env.uid
+
         timenow = datetime.datetime.now().strftime('%Y/%m/%d')
         args_init = {'date_gte': '',
                      'date_lte': ''}
-        sales_achievement_employee_context = self._context.copy()
-        if sales_achievement_employee_context and 'sales_achievement_employee' in sales_achievement_employee_context:
-            dict_domain_in_search = {
-                'hr_employee_name_gte': '',
-                'hr_employee_name_lte': '',
-                'hr_employee_employee_code_gte': '',
-                'hr_employee_employee_code_lte': ''
-            }
-            for record in args:
-                if record[0] == '&':
-                    continue
-                if record[0] == 'hr_employee_name' and record[1] == '>=':
-                    args_init['date_gte'] = record[2]
-                    dict_domain_in_search['hr_employee_name_gte'] = record[2]
-                    continue
-                if record[0] == 'hr_employee_name' and record[1] == '<=':
-                    args_init['date_lte'] = record[2]
-                    dict_domain_in_search['hr_employee_name_lte'] = record[2]
-                    continue
-                if record[0] != 'hr_employee_name':
-                    domain += [record]
-                if record[0] == 'hr_employee_employee_code' and record[1] == '>=':
-                    dict_domain_in_search['hr_employee_employee_code_gte'] = record[2]
-                if record[0] == 'hr_employee_employee_code' and record[1] == '<=':
-                    dict_domain_in_search['hr_employee_employee_code_lte'] = record[2]
-            dict_domain_employee[user.id] = dict_domain_in_search
+        # sales_achievement_employee_context = self._context.copy()
 
-            if args_init['date_gte'] and args_init['date_lte']:
-                self.init('date', 'date', args_init['date_gte'], args_init['date_lte'])
-            elif args_init['date_gte'] and args_init['date_lte'] == '':
-                self.init('date', 'date_gte', args_init['date_gte'], timenow)
-            elif args_init['date_lte'] and args_init['date_gte'] == '':
-                self.init('date', 'date_lte', timenow, args_init['date_lte'])
-            else:
-                self.init('nodate', 'date', timenow, timenow)
-            args = domain
+        # Save advanced_search_arguments to session
+        request.session['advanced_search_arguments_of_employee'] = args
+
+        dict_domain_in_search = {
+            'hr_employee_name_gte': '',
+            'hr_employee_name_lte': '',
+            'hr_employee_employee_code_gte': '',
+            'hr_employee_employee_code_lte': ''
+        }
+
+        # if sales_achievement_employee_context and 'sales_achievement_employee' in sales_achievement_employee_context:
+        for record in args:
+            if record[0] == '&':
+                continue
+            if record[0] == 'hr_employee_name' and record[1] == '>=':
+                args_init['date_gte'] = record[2]
+                dict_domain_in_search['hr_employee_name_gte'] = record[2]
+                continue
+            if record[0] == 'hr_employee_name' and record[1] == '<=':
+                args_init['date_lte'] = record[2]
+                dict_domain_in_search['hr_employee_name_lte'] = record[2]
+                continue
+            if record[0] != 'hr_employee_name':
+                domain += [record]
+            if record[0] == 'hr_employee_employee_code' and record[1] == '>=':
+                dict_domain_in_search['hr_employee_employee_code_gte'] = record[2]
+            if record[0] == 'hr_employee_employee_code' and record[1] == '<=':
+                dict_domain_in_search['hr_employee_employee_code_lte'] = record[2]
+
+        if args_init['date_gte'] and args_init['date_lte']:
+            self.init('date', 'date', args_init['date_gte'], args_init['date_lte'])
+        elif args_init['date_gte'] and args_init['date_lte'] == '':
+            self.init('date', 'date_gte', args_init['date_gte'], timenow)
+        elif args_init['date_lte'] and args_init['date_gte'] == '':
+            self.init('date', 'date_lte', timenow, args_init['date_lte'])
+        else:
+            self.init('nodate', 'date', timenow, timenow)
+        args = domain
+
+        # dict_domain_employee = {uid: dict_domain_in_search}
+
+        # ===========================================
+        # Save advanced_search domain to session
+        # ===========================================
+        request.session['advanced_search_condition_of_employee'] = {uid: dict_domain_in_search}
+
         return args
 
     def passConditionInSearchToReport(self):
-        current_uid = self._context.get('uid')
-        user = self.env['res.users'].browse(current_uid)
-        list_domain = [dict_domain_employee[user.id]]
+
+        # current_uid = self._context.get('uid')
+        # user = self.env['res.users'].browse(current_uid)
+        uid = self.env.uid
+
+        # ===========================================
+        # Get advanced_search domain from session
+        # ===========================================
+        advanced_search_domain_employee = request.session['advanced_search_condition_of_employee']
+        list_domain = [advanced_search_domain_employee[uid]]
+
         return list_domain
+
+    def print_all_sales_achievement_employee(self, args, offset=0, limit=None, order=None, count=False):
+
+        # ==============================================
+        # Set session flag to True if from Print Button
+        # ==============================================
+        request.session['print_all_button_sales_achievement_employee'] = True
+
+        # ==============================================
+        # Get advanced_search arguments from session
+        # ==============================================
+        args = request.session['advanced_search_arguments_of_employee']
+
+        # ==============================================
+        # Get advanced_search arguments has no condition => Don't print
+        # ==============================================
+        if len(args) == 0:
+            request.session['print_all_button_sales_achievement_employee'] = False
+            return
+
+        # ==============================================
+        # Search sales info from view
+        # ==============================================
+        sales_info_ids = self.search(args)
+
+        # ==============================================
+        # Search has record
+        # ==============================================
+        if len(sales_info_ids) > 0:
+
+            request.session['print_all_button_sales_achievement_employee'] = False
+
+            # ==============================================
+            # Call report and return
+            # ==============================================
+            return self.env.ref('Maintain_Achievement_Management.report_sales_achievement_employee')\
+                .report_action(sales_info_ids, config=False)
+
+        request.session['print_all_button_sales_achievement_employee'] = False
+
+        return

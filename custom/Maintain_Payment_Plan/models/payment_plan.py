@@ -45,7 +45,7 @@ class PaymentPlan(models.Model):
     customer_excerpt_request = fields.Boolean(string='Excerpt Request', default=False)
     bill_report_state = fields.Boolean(string="Bill Report State", default=False)
     payment_cost_and_discount = fields.Float(string='Payment Cost And Discount')
-    payment_plan_date = fields.Char(string='Payment Plan Date', store=True)
+    # payment_plan_date = fields.Char(string='Payment Plan Date')
 
     # def _check_bill_in_month (listdata,record):
     # is_add_item = False
@@ -79,16 +79,6 @@ class PaymentPlan(models.Model):
                     t1.deadline,
                     t1.invoices_number,
                     t1.invoices_details_number,
-                    t1.last_billed_amount_moved0,
-                    t1.deposit_amount_moved0,
-                    t1.balance_amount_moved0,
-                    t1.amount_untaxed_moved0,
-                    t1.tax_amount_moved0,
-                    t1.amount_total_moved0,
-                    t1.amount_untaxed_cashed_moved0,
-                    t1.tax_amount_cashed_moved0,
-                    t1.amount_total_cashed_moved0,
-                    t1.billed_amount_moved0,
                     t1.active_flag,
                     t1.currency_id,
                     t1.hr_employee_id,
@@ -105,18 +95,6 @@ class PaymentPlan(models.Model):
                     t1.sale_rep_id,
                     t1.payment_cost_and_discount,
                     t1.payment_plan_date,
-                    t1.payment_discount_in_invoicing_moved0,
-                    t1.last_billed_amount_moved1,
-                    t1.deposit_amount_moved1,
-                    t1.balance_amount_moved1,
-                    t1.amount_untaxed_moved1,
-                    t1.tax_amount_moved1,
-                    t1.amount_total_moved1,
-                    t1.amount_untaxed_cashed_moved1,
-                    t1.tax_amount_cashed_moved1,
-                    t1.amount_total_cashed_moved1,
-                    t1.billed_amount_moved1,
-                    t1.payment_discount_in_invoicing_moved1,
                     t1.last_billed_amount,
                     t1.deposit_amount,
                     t1.balance_amount,
@@ -161,6 +139,10 @@ class PaymentPlan(models.Model):
             closing_date_date = record.closing_date.strftime('%d')
             payment_date_month = record.partner_id.customer_payment_date.payment_month
             payment_date_date = record.partner_id.customer_payment_date.payment_date
+            # Add 2021/07/09
+            if payment_date_date == 0:
+                payment_date_date = int(closing_date_date)
+            # End 2021/07/09
             if payment_date_month == 'this_month':
                 payment_date_day_cal = payment_date_date
                 if int(closing_date_month) in (4, 6, 9, 11) and payment_date_day_cal >= 30:
@@ -351,7 +333,7 @@ class PaymentPlan(models.Model):
 
     employee_code = fields.Char(compute=_compute_data, store=False)
     employee_name = fields.Char(compute=_compute_data, store=False)
-    payment_plan_date = fields.Char(compute=_compute_data, store=True)
+    payment_plan_date = fields.Char(compute=_compute_data, store=False)
     payment_plan_date_display = fields.Char(compute=_compute_data, store=False)
     payment_date_search = fields.Char(compute=_compute_data, store=False)
     payment_deposit_amount = fields.Integer(compute=_compute_data, store=False)

@@ -9,6 +9,34 @@ import pytz
 class BillingClass(models.Model):
     _inherit = 'res.partner'
 
+    def _last_billed_amount_int_format(self):
+        for rec in self:
+            rec.last_billed_amount_int_format = int(rec.last_billed_amount)
+
+    def _deposit_amount_int_format(self):
+        for rec in self:
+            rec.deposit_amount_int_format = int(rec.deposit_amount)
+
+    def _balance_amount_int_format(self):
+        for rec in self:
+            rec.balance_amount_int_format = int(rec.balance_amount)
+
+    def _amount_untaxed_int_format(self):
+        for rec in self:
+            rec.amount_untaxed_int_format = int(rec.amount_untaxed)
+
+    def _tax_amount_int_format(self):
+        for rec in self:
+            rec.tax_amount_int_format = int(rec.tax_amount)
+
+    def _amount_total_int_format(self):
+        for rec in self:
+            rec.amount_total_int_format = int(rec.amount_total)
+
+    def _billed_amount_int_format(self):
+        for rec in self:
+            rec.billed_amount_int_format = int(rec.billed_amount)
+
     def _compute_closing_date_for_bill(self, record):
         _last_closing_date = ''
         _last_closing_date_display = ''
@@ -280,28 +308,35 @@ class BillingClass(models.Model):
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True)
 
     # 前回請求金額
-    last_billed_amount = fields.Float(compute=_set_data_to_fields, string='Last Billed Amount', readonly=True)
+    last_billed_amount = fields.Integer(compute=_set_data_to_fields, string='Last Billed Amount', readonly=True)
+    last_billed_amount_int_format = fields.Integer(compute=_last_billed_amount_int_format, string='Last Billed Amount', readonly=True)
 
     # 入金額
     deposit_amount = fields.Float(compute=_set_data_to_fields, string='Deposit Amount', readonly=True)
+    deposit_amount_int_format = fields.Integer(compute=_deposit_amount_int_format, string='Deposit Amount', readonly=True)
 
     payment_cost_and_discount = fields.Float(compute=_set_data_to_fields, string='Payment Cost And Discount', readonly=True)
 
     # 繰越金額
     balance_amount = fields.Float(compute=_set_data_to_fields, string='Balance Amount', readonly=True)
+    balance_amount_int_format = fields.Integer(compute=_balance_amount_int_format, string='Balance Amount', readonly=True)
 
     # 御買上金額
     amount_untaxed = fields.Float(compute=_set_data_to_fields, string='Amount Untaxed', readonly=True)
+    amount_untaxed_int_format = fields.Integer(compute=_amount_untaxed_int_format, string='Amount Untaxed', readonly=True)
 
     # 消費税
     tax_amount = fields.Float(compute=_set_data_to_fields, string='Tax Amount', readonly=True)
+    tax_amount_int_format = fields.Integer(compute=_tax_amount_int_format, string='Tax Amount', readonly=True)
 
     # 今回請求金額
     billed_amount = fields.Float(compute=_set_data_to_fields, string='Billed Amount', readonly=True)
+    billed_amount_int_format = fields.Integer(compute=_billed_amount_int_format, string='Billed Amount', readonly=True)
 
     payment_discount_in_invoicing = fields.Float(compute=_set_data_to_fields, readonly=True)
 
     amount_total = fields.Float(compute=_set_data_to_fields, readonly=True)
+    amount_total_int_format = fields.Float(compute=_amount_total_int_format, readonly=True)
 
     # 売伝枚数
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True)

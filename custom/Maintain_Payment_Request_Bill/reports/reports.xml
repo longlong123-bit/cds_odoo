@@ -9,18 +9,20 @@
                     <div>
                         <t t-call="web.html_container">
                             <div class="page" style="font-family: MS Gothic;">
-                                <t t-foreach="range(1,3)" t-as="range_docs_index">
-                                    <t t-if="o.partner_id.customer_select_invoice == 'form1'">
-                                        <t t-call="Maintain_Payment_Request_Bill.normal_report"/>
-                                    </t>
-                                    <t t-if="o.partner_id.customer_select_invoice == 'form4'">
-                                        <t t-call="Maintain_Payment_Request_Bill.current_month_report"/>
-                                    </t>
-                                    <t t-if="o.partner_id.customer_select_invoice == 'form2'">
-                                        <t t-call="Maintain_Payment_Request_Bill.yamasa_report"/>
-                                    </t>
-                                    <t t-if="o.partner_id.customer_select_invoice == 'form5'">
-                                        <t t-call="Maintain_Payment_Request_Bill.normal_invoice_for_each_customer_report"/>
+                                <t t-foreach="range(1,4)" t-as="range_docs_index">
+                                    <t t-if="(range_docs_index == 1) or (range_docs_index == 2)">
+                                        <t t-if="o.partner_id.customer_select_invoice == 'form1'">
+                                            <t t-call="Maintain_Payment_Request_Bill.normal_report"/>
+                                        </t>
+                                        <t t-if="o.partner_id.customer_select_invoice == 'form4'">
+                                            <t t-call="Maintain_Payment_Request_Bill.current_month_report"/>
+                                        </t>
+                                        <t t-if="o.partner_id.customer_select_invoice == 'form2'">
+                                            <t t-call="Maintain_Payment_Request_Bill.yamasa_report"/>
+                                        </t>
+                                        <t t-if="o.partner_id.customer_select_invoice == 'form5'">
+                                            <t t-call="Maintain_Payment_Request_Bill.normal_invoice_for_each_customer_report"/>
+                                        </t>
                                     </t>
                                     <t t-if="o.partner_id.customer_select_invoice == 'form6'">
                                         <t t-call="Maintain_Payment_Request_Bill.deposit_report"/>
