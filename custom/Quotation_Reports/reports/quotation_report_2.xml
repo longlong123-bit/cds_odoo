@@ -323,9 +323,9 @@
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;"
                                                                       t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -333,9 +333,9 @@
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;"
                                                                       t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -344,8 +344,8 @@
                                                                     <null/>
                                                                 </span>
                                                                 <span t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)"
-                                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)"
+                                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -584,9 +584,9 @@
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;"
                                                                       t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -594,9 +594,9 @@
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;"
                                                                       t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -605,8 +605,8 @@
                                                                     <null/>
                                                                 </span>
                                                                 <span t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)"
-                                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)"
+                                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -847,9 +847,9 @@
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;"
                                                                       t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -857,9 +857,9 @@
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;"
                                                                       t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -868,8 +868,8 @@
                                                                     <null/>
                                                                 </span>
                                                                 <span t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)"
-                                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)"
+                                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1020,9 +1020,9 @@
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                     ※非課税
                                                                 </span>
-                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;"
                                                                       t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1030,9 +1030,9 @@
                                                                 <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                                     ※軽減税率
                                                                 </span>
-                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                                                                <span style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;"
                                                                       t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)">
                                                                     <null/>
                                                                 </span>
                                                             </t>
@@ -1041,8 +1041,8 @@
                                                                     <null/>
                                                                 </span>
                                                                 <span t-if="order.description"
-                                                                      t-esc="order.limit_charater_field(order.description, 5)"
-                                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                                      t-esc="order.limit_charater_field(order.description, 10)"
+                                                                      style="display: inline-block; width: 70px; overflow: hidden; text-overflow: ellipsis; word-break: break-all; font-size: 12px;">
                                                                     <null/>
                                                                 </span>
                                                             </t>
