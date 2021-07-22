@@ -77,9 +77,6 @@ class CollationPayment(models.Model):
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-        odoo/models.py
-        """
         ctx = self._context.copy()
 
         # Click from Menu => Clear advance condition search from session
@@ -89,7 +86,7 @@ class CollationPayment(models.Model):
 
         if ctx.get('have_advance_search') or request.session['print_all_bill_session']:
             domain = []
-            if ctx.get('view_code') == 'bill_report':
+            if ctx.get('view_code') == 'payment_request_bill':
                 global search_address_type
                 global search_cash_type
                 global search_claim_type
@@ -102,48 +99,65 @@ class CollationPayment(models.Model):
                 search_bill_job_title = ''
                 search_print_child = ''
                 search_payment_closing_date = datetime.today()
+                billing_ids = []
+                billing_query = []
                 # check = 0
                 # arr = ["hr_department_id","hr_employee_id","business_partner_group_custom_id"]
                 for se in args:
                     if se[0] =='&':
                         continue
-                    if 'customer_closing_date_id' == se[0]:
+                    elif se[0] == 'customer_closing_date_id':
                         if se[2].isnumeric():
                             se[0] = 'customer_closing_date_id.start_day'
                             se[1] = '='
-                        domain += [se]
-                    if se[0] == 'closing_date':
+                        # domain += [se]
+                    elif se[0] == 'closing_date':
                         search_payment_closing_date = datetime.strptime(se[2], '%Y-%m-%d')
-                        domain += [se]
-                    if se[0] == 'partner_id.customer_closing_date.closing_date_code':
-                        domain += [se]
-                    if se[0] == 'billing_code' and se[1] == '>=':
-                        domain += [se]
-                    if se[0] == 'billing_code' and se[1] == '<=':
-                        domain += [se]
+                        # domain += [se]
+                    # if se[0] == 'partner_id.customer_closing_date.closing_date_code':
+                    #     domain += [se]
+                    # if se[0] == 'billing_code' and se[1] == '>=':
+                    #     domain += [se]
+                    # if se[0] == 'billing_code' and se[1] == '<=':
+                    #     domain += [se]
 
-                    if se[0] == 'hr_department_id':
+                    elif se[0] == 'hr_department_id':
                         search_bill_job_title = se[2]
-                        domain += [se]
-                    if se[0] == 'hr_employee_id':
-                        domain += [se]
-                    if se[0] == 'business_partner_group_custom_id':
-                        domain += [se]
-                    if se[0] == 'address_type':
+                        # domain += [se]
+                    # if se[0] == 'hr_employee_id':
+                    #     domain += [se]
+                    # if se[0] == 'business_partner_group_custom_id':
+                    #     domain += [se]
+                    elif se[0] == 'address_type':
                         search_address_type = se[2]
                         if se[2] == 1:
                             order = 'user_id'
                         else:
                             order = 'billing_code'
-                    if se[0] == 'cash_type':
+                        continue
+                    elif se[0] == 'cash_type':
                         search_cash_type = se[2]
-                    if se[0] == 'claim_type':
+                        continue
+                    elif se[0] == 'claim_type':
                         if se[2] == '0':
                             domain += [['billed_amount', '!=', '0']]
-                    if se[0] == 'print_child':
+                        continue
+                    elif se[0] == 'print_child':
                         search_print_child = se[2]
+                        continue
+                    elif se[0] == 'billing_code':
+                        billing_query.append("LOWER(billing_code) {0} '{1}'".format(se[1], se[2].lower()))
+                        continue
+                    domain += [se]
+                if billing_query:
+                    query = 'SELECT id FROM bill_info WHERE ' + ' AND '.join(billing_query)
+                    self._cr.execute(query)
+                    query_res = self._cr.dictfetchall()
+                    for bill_record in query_res:
+                        billing_ids.append(bill_record.get('id'))
+                    domain += [['id', 'in', billing_ids]]
                 args = domain
-            elif 'Cancel Billing' == ctx.get('view_name'):
+            elif ctx.get('view_name') == 'Cancel Billing':
                 # check = 0
                 # arr = ["customer_closing_date_id.start_day", "hr_department_id", "hr_employee_id",
                 #        "business_partner_group_custom_id"]
@@ -218,7 +232,7 @@ class CollationPayment(models.Model):
                         domain += [se]
                 args = domain
 
-            elif 'Billing List' == ctx.get('view_name'):
+            elif ctx.get('view_name') == 'Billing List':
                 global search_list_claim_zero
                 global search_list_customer_closing_date_id
                 global search_list_closing_date
@@ -282,7 +296,7 @@ class CollationPayment(models.Model):
                     domain += [record]
                 args = domain
 
-            elif 'Draft Bill History' == ctx.get('view_name'):
+            elif ctx.get('view_name') == 'Draft Bill History':
                 for se in args:
                     if se[0] == '&':
                         continue
@@ -310,7 +324,7 @@ class CollationPayment(models.Model):
 
         if 'Cancel Billing' == ctx.get('view_name') and len(args) == 0:
             return []
-        elif 'bill_report' == ctx.get('view_code') and len(args) == 0:
+        elif 'payment_request_bill' == ctx.get('view_code') and len(args) == 0:
             return []
         elif 'Billing List' == ctx.get('view_name') and len(args) == 0:
             return []

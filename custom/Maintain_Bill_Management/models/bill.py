@@ -6619,8 +6619,12 @@ class BillingClass(models.Model):
             domain = []
             bill_info_domain_id = []
             bill_info_list = []
+            partner_ids = []
+            partner_query = []
             for record in args:
-                if 'deadline' in record:
+                if record[0] == '|':
+                    continue
+                elif record[0] == 'deadline':
                     invoice_line_ids = self.env['account.move.line'].search([
                         ('date', '<=', record[2]),
                         ('bill_status', '=', 'not yet'),
@@ -6633,6 +6637,7 @@ class BillingClass(models.Model):
                         ('state', '=', 'draft'),
                         ('bill_status', '!=', 'billed'),
                     ])
+
                     list_domain_invoice_and_payment = invoice_line_ids.partner_id.ids + payment_ids.partner_id.ids
                     id_bill_info = self.env['bill.info'].search([('closing_date', '>=', record[2])])
                     id_bill_custom = self.env['bill.info'].search([('closing_date', '<', record[2])], order="deadline desc, bill_no desc")
@@ -6646,10 +6651,21 @@ class BillingClass(models.Model):
                     list_domain = list(set(list_domain_invoice_and_payment))
                     domain += [['id', 'not in', id_bill_info.partner_id.ids]]
                     domain += [['id', 'in', list_domain]]
+                elif record[0] == 'customer_code_bill':
+                    partner_query.append("(LOWER(customer_code) {0} '{1}' OR LOWER(customer_code_bill) {0} '{1}')".format(record[1], record[2].lower()))
+                    continue
                 domain += [record]
+            if partner_query:
+                query = 'SELECT id FROM res_partner WHERE ' + ' AND '.join(partner_query)
+                self._cr.execute(query)
+                query_res = self._cr.dictfetchall()
+                for bill_record in query_res:
+                    partner_ids.append(bill_record.get('id'))
+                domain += [['id', 'in', partner_ids]]
             args = domain
         res = super(BillingClass, self).search(args, offset=offset, limit=limit, order=order, count=count)
         return res
+
 
 class InvoiceLineClass(models.Model):
     _inherit = 'account.move.line'
