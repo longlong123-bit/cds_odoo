@@ -148,10 +148,6 @@ class AccountsReceivableBalanceList(models.Model):
             item.input_display_order = val_display_order
 
     def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-            Overriding function search from file models.py
-            File path Override: /odoo/models.py
-        """
         # ctx = self._context.copy()
         module_context = self._context.copy()
         if module_context and module_context.get('liabilities_module'):
@@ -161,10 +157,7 @@ class AccountsReceivableBalanceList(models.Model):
             partner_query = []
             for record in args:
                 if record[0] in ['customer_code_bill_from', 'customer_code_bill_to']:
-                    partner_query.append(
-                        "(LOWER(customer_code) {0} '{1}' OR LOWER(customer_code_bill) {0} '{1}')".format(record[1],
-                                                                                                         record[
-                                                                                                             2].lower()))
+                    partner_query.append("(LOWER(customer_code) {0} '{1}' OR LOWER(customer_code_bill) {0} '{1}')".format(record[1], record[2].lower()))
                     continue
                 domain += [record]
 
