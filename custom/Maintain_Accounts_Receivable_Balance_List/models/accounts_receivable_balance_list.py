@@ -148,17 +148,34 @@ class AccountsReceivableBalanceList(models.Model):
             item.input_display_order = val_display_order
 
     def search(self, args, offset=0, limit=None, order=None, count=False):
-        """
-            Overriding function search from file models.py
-            File path Override: /odoo/models.py
-        """
         # ctx = self._context.copy()
         module_context = self._context.copy()
         if module_context and module_context.get('liabilities_module'):
+            # Code em bo sung ###############################
+            domain = []
+            partner_ids = []
+            partner_query = []
+            for record in args:
+                if record[0] in ['customer_code_bill_from', 'customer_code_bill_to']:
+                    partner_query.append("(LOWER(customer_code) {0} '{1}' OR LOWER(customer_code_bill) {0} '{1}')".format(record[1], record[2].lower()))
+                    continue
+                domain += [record]
+
+            if partner_query:
+                query = 'SELECT id FROM res_partner WHERE ' + ' AND '.join(partner_query)
+                self._cr.execute(query)
+                query_res = self._cr.dictfetchall()
+                for partner_record in query_res:
+                    partner_ids.append(partner_record.get('id'))
+                domain += [['id', 'in', partner_ids]]
+            args = domain
+            ####################################
+
             get_condition_search_of_module = self._get_condition_search_of_module(self=self, args=args)
             args = get_condition_search_of_module['args']
             if get_condition_search_of_module['order']:
                 order = get_condition_search_of_module['order']
+
         else:
             if module_context.get('have_advance_search'):
                 domain = []
