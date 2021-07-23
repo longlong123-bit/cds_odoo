@@ -540,7 +540,7 @@ class IncomePaymentCustom(models.Model):
                         string_middle += '0'
                     if len(arg[2]) < 11:
                         arg[2] = ''.join(["ARR-", string_middle, arg[2]])
-                elif arg[0] == 'partner_id' and (arg[1] == '<=' or arg[1] == '<='):
+                elif arg[0] == 'partner_id' and (arg[1] == '>=' or arg[1] == '<='):
                     # a bit confuse on this field partner_id
                     # record can be search by partner_id (id number in res_partner table)
                     # but in this case of advanced search, we can fill partner_id by customer_code, and have right record too (how??)
