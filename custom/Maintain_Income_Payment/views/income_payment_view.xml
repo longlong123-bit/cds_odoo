@@ -160,8 +160,8 @@
         <field name="arch" type="xml">
             <xpath expr="//tree" position="replace">
                 <tree string="Account Payment" multi_edit="1" duplicate="false" class="forward_edit">
-                    <field name="document_no" string="Document No"/>
                     <field name="payment_date" string="Transaction Date"/>
+                    <field name="document_no" string="Document No"/>
                     <field name="partner_id" string="Customer"/>
 <!--                    <field name="partner_bank_account_id" string="Bank Account"/>-->
                     <field name="state" string="Document Status" invisible="1"/>
