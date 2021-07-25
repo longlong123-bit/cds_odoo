@@ -1,6 +1,6 @@
 odoo.define('bill.create_bill_button', function (require) {
     "use strict";
-
+    var framework = require('web.framework');
     var ListController = require('web.ListController');
     var FormController = require('web.FormController');
     var rpc = require('web.rpc');
@@ -31,6 +31,7 @@ odoo.define('bill.create_bill_button', function (require) {
                 this.$buttons.on('click', '.create_bill_button', function (e) {
                     const def = new $.Deferred();
                     var selected_data = [];
+                    framework.blockUI();
                     data = window.current_data || data;
                     if (data) {
                         for (var i = 0; i < data.length; i++) {
@@ -38,22 +39,33 @@ odoo.define('bill.create_bill_button', function (require) {
                                 selected_data.push(data[i].data);
                             }
                         }
+
+                         if (selected_data.length == 0) {
+                            framework.unblockUI();
+                            return def;
+                         }
+                        rpc.query({
+                            model: model,
+                            method: 'create_bill_for_invoice',
+                            args: ['', selected_data],
+                            data: {
+                                context: JSON.stringify(session.user_context),
+                            }
+                        }, {
+                            timeout: 6000000,
+                            shadow: true
+                        }).then(function (result) {
+                            if (result) {
+                                framework.unblockUI();
+                                if (result['type']=='error') {
+                                    self.do_warn('エラー',result['tag'],false);
+                                }else{
+                                    elf.do_action(result);
+                                    self.do_notify('Infomation','請求処理が完了しました。',false);
+                                }
+                            }
+                        })
                     }
-                    rpc.query({
-                        model: model,
-                        method: 'create_bill_for_invoice',
-                        args: ['', selected_data],
-                        data: {
-                            context: JSON.stringify(session.user_context),
-                        }
-                    }, {
-                        timeout: 3000,
-                        shadow: true
-                    }).then(function (result) {
-                        if (result) {
-                            return self.do_action(result)
-                        }
-                    })
                     return def;
                 });
             } else {
@@ -86,7 +98,7 @@ odoo.define('bill.create_bill_button', function (require) {
                             context: JSON.stringify(session.user_context),
                         }
                     }, {
-                        timeout: 0,
+                        timeout: 6000000,
                         shadow: true
                     })
                     $('[data-section=print][data-index="0"]').trigger("click");

@@ -5,7 +5,7 @@
         <field name="name">bm.bill.tree</field>
         <field name="model">res.partner</field>
         <field name="arch" type="xml">
-            <tree string="Bill Tree" class="forward_edit" delete="false">
+            <tree string="Bill Tree" class="forward_edit" delete="false" limit = "200" >
                 <field name="customer_code" string="Billing Code"/>
                 <field name="name" string="Billing Name"/>
                 <field name="last_closing_date" string="Last Closing Date" invisible="1"/>
@@ -28,6 +28,13 @@
                 <field name="payment_cost_and_discount" invisible="1"/>
                 <field name="customer_supplier_group_code" invisible="1"/>
                 <field name="customer_except_request" invisible="1"/>
+                <field name="last_billed_amount" string="Last Billed Amount" invisible="1"/>
+                <field name="deposit_amount" string="Deposit Amount" invisible="1"/>
+                <field name="balance_amount" string="Balance Amount" invisible="1"/>
+                <field name="amount_untaxed" string="Amount Untaxed" invisible="1"/>
+                <field name="tax_amount" string="Tax Amount" invisible="1"/>
+                <field name="billed_amount" string="Billed Amount" invisible="1"/>
+
             </tree>
         </field>
     </record>

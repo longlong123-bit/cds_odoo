@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+import base64
+import os
 from calendar import calendar
 from datetime import date, timedelta, datetime
+
+from PyPDF2 import PdfFileMerger, PdfFileReader
+
 from odoo import api, fields, models, _
 from odoo.addons.base.models.res_partner import WARNING_MESSAGE, WARNING_HELP
 from odoo.http import request
@@ -50,6 +55,8 @@ class CollationPayment(models.Model):
     hr_employee_id = fields.Many2one('hr.employee')
     bill_job_title = fields.Char('bill_job_title', compute='_set_bill_sale_rep')
 
+    request.session['print_all_bill_session'] = False
+
     def _set_bill_sale_rep(self):
         self.sale_rep_id = self.env['res.users'].search([('partner_id', '=', self.partner_id)])
         self.hr_employee_id = self.env['hr.employee'].search([('user_id', '=', self.sale_rep_id.id)])
@@ -77,6 +84,9 @@ class CollationPayment(models.Model):
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        odoo/models.py
+        """
         ctx = self._context.copy()
 
         # Click from Menu => Clear advance condition search from session
@@ -336,24 +346,6 @@ class CollationPayment(models.Model):
         # res = super(CollationPayment, self).search(args=domain, offset=offset, limit=limit, order=order, count=count)
         return super(CollationPayment, self).search(args, offset=offset, limit=limit, order=order, count=count)
 
-    def print_all_bill_button(self, args, offset=0, limit=None, order=None, count=False):
-
-        request.session['print_all_bill_session'] = True
-
-        cond = request.session['advance_search_condition']
-
-        if len(cond) > 0:
-            bill_info_ids = self.env['bill.info'].search(cond)
-
-            if len(bill_info_ids) > 0:
-
-                request.session['print_all_bill_session'] = False
-                return self.env.ref('Maintain_Payment_Request_Bill.report').report_action(bill_info_ids, config=False)
-
-        request.session['print_all_bill_session'] = False
-
-        return
-
     def get_representative_name(self, report_type='', report_date=None):
 
         # Get current company id of login user
@@ -381,6 +373,137 @@ class CollationPayment(models.Model):
         del record
 
         return representative
+
+    def print_all_bill_button(self, args, data):
+
+        request.session['print_all_bill_session'] = True
+
+        cond = request.session['advance_search_condition']
+
+        if len(cond) > 0:
+            bill_info_ids = self.env['bill.info'].search(cond)
+
+            if len(bill_info_ids) > 0:
+
+                # Get current time
+                now = datetime.now()
+                current_time = now.strftime("%Y%m%d_%H%M%S_%f")
+
+                # PDF bill report's full path
+                # folder = 'C:/_LIEM_DATA/TEMP/'
+                folder = '/var/tmp/odoo/report/bill_info/'
+                filename = 'BILL_INFO_' + current_time + '_' + \
+                           str(self._uid) + '_' + self.env.user.name + '.pdf'
+                filename_full = folder + filename
+
+                # Call the PdfFileMerger
+                bill_info_pdf_merger = PdfFileMerger()
+
+                for bill_info in bill_info_ids:
+
+                    # Get report
+                    report = self.env.ref('Maintain_Payment_Request_Bill.report')
+                    self.print_one_bill(report, bill_info.id, bill_info.billing_code, bill_info_pdf_merger, folder)
+
+                    del report
+                    del bill_info
+
+                # request.session['print_all_bill_session'] = False
+                # return self.env.ref('Maintain_Payment_Request_Bill.report').report_action(bill_info_ids, config=False)
+
+                # Write all the files into a file which is named as shown below
+                bill_info_pdf_merger.write(filename_full)
+                bill_info_pdf_merger.close()
+
+                del now
+                del current_time
+                del folder
+                # del filename
+                del filename_full
+                del bill_info_pdf_merger
+                del bill_info_ids
+                del cond
+
+                request.session['print_all_bill_session'] = False
+
+                # self.env.user.notify_success(message='êøãÅàÍäáî≠çsÇ™äÆóπÇµÇ‹ÇµÇΩÅB')
+
+                return {
+                    'type': 'ir.actions.act_url',
+                    'url': '/web/billinfo/download_report_pdf?filename=' + filename,
+                    'target': 'new',
+                }
+
+            del bill_info_ids
+
+        request.session['print_all_bill_session'] = False
+
+        del cond
+
+        return
+
+    def print_one_bill(self, report, bill_id, bill_code, bill_info_pdf_merger, report_folder):
+
+        # Set Context
+        # ctx = self.env.context.copy()
+        # ctx['flag'] = True
+
+        # Call report with context
+        report_pdf = report.with_context(self.env.context).render_qweb_pdf(bill_id)
+
+        # Get report file
+        report_file = base64.b64encode(report_pdf[0])
+
+        # Get report bytes array
+        report_pdf_bytes_array = base64.decodebytes(report_file)
+
+        # Get current time
+        now = datetime.now()
+        current_time = now.strftime("%Y%m%d_%H%M%S_%f")
+
+        # current_time = str(dt.year) + str(dt.month) + str(dt.day) + '_' + \
+        #                str(dt.hour) + str(dt.minute) + str(dt.second) + '_' + str(dt.microsecond)
+
+        # PDF bill report's full path
+        filename = 'billinfo_' + str(bill_id) + '_' + str(bill_code) + '_' + current_time + '.pdf'
+        filename_full = report_folder + filename
+
+        # filename = r'/var/tmp/odoo/report/bill_info/billinfo_' + str(bill_id) + '_' + str(bill_code) + '_' \
+        #            + current_time + '.pdf'
+
+        # Save temp one-bill pdf report
+        with open(filename_full, "wb+") as _file:
+            _file.write(report_pdf_bytes_array)
+            _file.close()
+            del _file
+
+        # Read PDF File
+        file_pdf = PdfFileReader(filename_full, 'rb')
+
+        # Call the PdfFileMerger
+        bill_info_pdf_merger.append(file_pdf, import_bookmarks=False)
+
+        # Remove temp one-bill pdf report
+        os.remove(filename_full)
+
+        del report_pdf
+        del report_file
+        del report_pdf_bytes_array
+        del now
+        del current_time
+        del filename
+        del filename_full
+        del file_pdf
+
+        return
+
+    # def download_final_report_pdf(self, filename):
+    #
+    #     return {
+    #              'type' : 'ir.actions.act_url',
+    #              'url': '/web/billinfo/download_report_pdf?model=res.partners&field=datas&id=%sfilename=' + filename,
+    #              'target': 'new',
+    #     }
 
 
 # class PrintAllBill(models.AbstractModel):
