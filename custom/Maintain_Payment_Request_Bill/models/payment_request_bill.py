@@ -424,7 +424,7 @@ class CollationPayment(models.Model):
 
                 request.session['print_all_bill_session'] = False
 
-                # self.env.user.notify_success(message='�����ꊇ���s���������܂����B')
+                # self.env.user.notify_success(message='請求一括発行が完了しました。')
 
                 return {
                     'type': 'ir.actions.act_url',
