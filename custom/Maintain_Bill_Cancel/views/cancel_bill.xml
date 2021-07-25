@@ -6,7 +6,7 @@
         <field name="name">bm.cancel.bill.tree</field>
         <field name="model">bill.info</field>
         <field name="arch" type="xml">
-            <tree string="Cancel Bill Tree" class="forward_edit" delete="false">
+            <tree string="Cancel Bill Tree" class="forward_edit" delete="false" limit = "200" >
                 <field name="billing_code"/>
                 <field name="billing_name"/>
                 <field name="bill_no"/>
