@@ -60,7 +60,7 @@ odoo.define('bill.create_bill_button', function (require) {
                                 if (result['type']=='error') {
                                     self.do_warn('エラー',result['tag'],false);
                                 }else{
-                                    elf.do_action(result);
+                                    self.do_action(result);
                                     self.do_notify('Infomation','請求処理が完了しました。',false);
                                 }
                             }
