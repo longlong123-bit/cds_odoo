@@ -36,7 +36,18 @@ msgid "Customer Code"
 msgstr "得意先コード"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__customer_code_display
+msgid "Customer Code"
+msgstr "得意先コード"
+
+
+#. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__customer_name
+msgid "Customer Name"
+msgstr "得意先名"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__customer_name_display
 msgid "Customer Name"
 msgstr "得意先名"
 
@@ -44,6 +55,12 @@ msgstr "得意先名"
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__date
 msgid "Date"
 msgstr "日付"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__date_display
+msgid "Date"
+msgstr "日付"
+
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__display_name
@@ -91,7 +108,19 @@ msgid "Invoice No"
 msgstr "伝票Ｎｏ"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__invoice_no_display
+msgid "Invoice No"
+msgstr "伝票Ｎｏ"
+
+
+
+#. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__jan_code
+msgid "JAN Code"
+msgstr "JANコード"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__jan_code_display
 msgid "JAN Code"
 msgstr "JANコード"
 
@@ -111,12 +140,29 @@ msgid "Maker Name"
 msgstr "メーカー名"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__maker_name_display
+msgid "Maker Name"
+msgstr "メーカー名"
+
+
+#. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__part_model_number
 msgid "Part/Model Number"
 msgstr "品番/型番"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__part_model_number_display
+msgid "Part/Model Number"
+msgstr "品番/型番"
+
+
+#. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__payment_amount
+msgid "Payment Amount"
+msgstr "支払金額"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__payment_amount_display
 msgid "Payment Amount"
 msgstr "支払金額"
 
@@ -126,7 +172,17 @@ msgid "Price Total"
 msgstr "金額"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__price_total_display
+msgid "Price Total"
+msgstr "金額"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__price_unit
+msgid "Price Unit"
+msgstr "単価"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__price_unit_display
 msgid "Price Unit"
 msgstr "単価"
 
@@ -136,7 +192,17 @@ msgid "Product Code"
 msgstr "商品コード"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__product_code_display
+msgid "Product Code"
+msgstr "商品コード"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__product_name
+msgid "Product Name"
+msgstr "商品名"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__product_name_display
 msgid "Product Name"
 msgstr "商品名"
 
@@ -149,8 +215,6 @@ msgstr "数量"
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__quantity_display
 msgid "Quantity display"
 msgstr "数量"
-
-
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__slip_total
@@ -176,6 +240,11 @@ msgid "Tax Transfer"
 msgstr "税転嫁"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__tax_transfer_display
+msgid "Tax Transfer"
+msgstr "税転嫁"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
 #: model_terms:ir.ui.view,arch_db:Maintain_Supplier_Ledger_Inquiry.supplier_ledger_inquiry_tree
 msgid "Total Payment Amount"
 msgstr "支払金額合計"
@@ -197,6 +266,11 @@ msgstr "数量合計"
 
 #. module: Maintain_Supplier_Ledger_Inquiry
 #: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__invoice_line_type
+msgid "Transaction/Breakdown Category"
+msgstr "取引/内訳区分"
+
+#. module: Maintain_Supplier_Ledger_Inquiry
+#: model:ir.model.fields,field_description:Maintain_Supplier_Ledger_Inquiry.field_supplier_ledger__invoice_line_type_display
 msgid "Transaction/Breakdown Category"
 msgstr "取引/内訳区分"
 

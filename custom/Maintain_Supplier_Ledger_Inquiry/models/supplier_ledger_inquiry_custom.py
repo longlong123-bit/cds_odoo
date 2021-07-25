@@ -26,6 +26,7 @@ val_customer_code_bill_list = []
 class SupplierLedgerInquiryCustom(models.Model):
     _name = 'supplier.ledger'
     _auto = False
+
     # 日付
     date = fields.Date(string='Date', readonly=True)
     # 伝票Ｎｏ
@@ -55,8 +56,10 @@ class SupplierLedgerInquiryCustom(models.Model):
     price_unit = fields.Integer(string='Price Unit', readonly=True)
     # 金額
     price_total = fields.Integer(string='Price Total ', readonly=True)
+
     # 支払金額
     payment_amount = fields.Integer(string='Payment Amount', readonly=True)
+
     # 税率
     tax_rate = fields.Integer(string='Tax Rate', readonly=True)
     # Create By User Id
@@ -70,18 +73,6 @@ class SupplierLedgerInquiryCustom(models.Model):
     line_level = fields.Integer(readonly=True)
 
     is_set_color_column = fields.Boolean(string='is_set_color_column', compute='_set_field_color', readonly=True)
-
-    # fields input condition advanced search
-    # input_target_month = fields.Char('Input Target Date', compute='_get_value_condition_input', default='', store=False)
-    # input_customer_code_bill_from = fields.Char('Input Customer Code Bill From', compute='_get_value_condition_input',
-    #                                             default='',
-    #                                             store=False)
-    # input_customer_code_bill_to = fields.Char('Input Customer Code Bill To', compute='_get_value_condition_input', default='',
-    #                                           store=False)
-    # input_division = fields.Char('Input Division', compute='_get_value_condition_input', default='', store=False)
-    # input_sales_rep = fields.Char('Input Sales Representative', compute='_get_value_condition_input', default='', store=False)
-    # input_customer_supplier_group_code = fields.Char('Input Customer Supplier Group Code',
-    #                                                  compute='_get_value_condition_input', default='', store=False)
 
     def _compute_residual_amount(self):
         date_before = ''
@@ -106,6 +97,8 @@ class SupplierLedgerInquiryCustom(models.Model):
 
         is_change_date = 1
         is_change_voucher = 1
+        total_invoice_amount = 0
+        total_payment_amount = 0
 
         query = "SELECT * from get_opening_balace_info('" + val_customer_code_bill + "','" + val_view_date_from + "')"
         self._cr.execute(query)
@@ -115,7 +108,6 @@ class SupplierLedgerInquiryCustom(models.Model):
             residual_amount_first = record[1]
 
         for record in self:
-
             date_today = record.date
             voucher_current = record.invoice_no
             customer_current = record.customer_code
@@ -163,6 +155,20 @@ class SupplierLedgerInquiryCustom(models.Model):
             if record.product_name == '消費税額(※請求処理)':
                 is_display_residual_amount = 1
 
+            if record.detail_level == 3:
+                if record.invoice_line_type == '入金': #Total of payment
+                    total_payment_amount += record.payment_amount
+                else: #Total of Invoice
+                    total_invoice_amount += record.price_total
+
+            if record.detail_level == 99:  # Line total
+                record.payment_amount_display = total_payment_amount
+                record.price_total_display = total_invoice_amount
+                is_display_residual_amount = 1
+            else:
+                record.payment_amount_display = record.payment_amount
+                record.price_total_display = record.price_total
+
             record.residual_amount_transfer = residual_amount_transfer
             record.residual_amount = residual_amount
             record.is_display_residual_amount_transfer = is_display_residual_amount_transfer
@@ -183,7 +189,64 @@ class SupplierLedgerInquiryCustom(models.Model):
     is_change_voucher = fields.Integer(compute=_compute_residual_amount)
     residual_amount = fields.Integer(compute=_compute_residual_amount)
 
+    price_total_display = fields.Integer(compute=_compute_residual_amount,string='Price Total ')
+    payment_amount_display = fields.Integer(compute=_compute_residual_amount,string='Payment Amount')
+
     detail_level = fields.Integer()
+
+
+
+    def _set_display_field(self):
+        for record in self:
+            record.date_display = record.date
+            record.invoice_no_display = record.invoice_no
+            record.invoice_line_type_display = record.invoice_line_type
+            record.customer_code_display = record.customer_code
+            record.customer_code_bill_display = record.customer_code_bill
+            record.customer_name_display = record.customer_name
+            record.jan_code_display = record.jan_code
+            record.product_code_display = record.product_code
+            record.part_model_number_display = record.part_model_number
+            record.maker_name_display = record.maker_name
+            record.product_name_display = record.product_name
+            record.quantity_display = record.quantity
+            record.price_unit_display = record.price_unit
+            record.tax_transfer_display = record.tax_transfer
+
+
+
+    # 日付
+    date_display = fields.Date(compute=_set_display_field)
+    # 伝票Ｎｏ
+    invoice_no_display = fields.Char(compute=_set_display_field)
+    # 取引 / 内訳区分
+    invoice_line_type_display = fields.Char(compute=_set_display_field)
+    # 得意先コード
+    customer_code_display = fields.Char(compute=_set_display_field)
+    # 請求コード
+    customer_code_bill_display = fields.Char(compute=_set_display_field)
+    # 得意先名
+    customer_name_display = fields.Char(compute=_set_display_field)
+    # JANコード
+    jan_code_display = fields.Char(compute=_set_display_field)
+    # 商品コード
+    product_code_display = fields.Char(compute=_set_display_field)
+    # 品番 / 型番
+    part_model_number_display = fields.Char(compute=_set_display_field)
+    # メーカー名
+    maker_name_display = fields.Char(compute=_set_display_field)
+    # 商品名
+    product_name_display = fields.Char(compute=_set_display_field)
+
+    # 数量
+    quantity_display = fields.Integer(compute=_set_display_field)
+
+    # 単価
+    price_unit_display = fields.Integer(compute=_set_display_field)
+
+    # 税転嫁
+    tax_transfer_display = fields.Char(compute=_set_display_field)
+
 
     # is_display_residual_amount = fields.Integer(compute=_compute_residual_amount)
 
@@ -472,7 +535,7 @@ class SupplierLedgerInquiryCustom(models.Model):
                     val_view_date_to = datetime.now().strftime("%Y-%m-%d")
 
                 b = ('date', '>=', val_view_date_from)
-                c = ('line_level', '=', 0)
+                c = ('line_level', 'in', ['0','99'])
                 d = ('customer_code', '=', val_customer_code_bill)
                 e = ('date', '<=', val_view_date_to)
 
