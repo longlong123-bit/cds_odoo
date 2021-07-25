@@ -8,6 +8,7 @@ odoo.define('bill.Advanced_Search', function (require) {
     advancedSearch['res.partner']['draft.bill.tree'] = {
         template: 'bill.advanced_search'
     }
+
     FilterMenu.include({
         advancedSearch: advancedSearch
     });

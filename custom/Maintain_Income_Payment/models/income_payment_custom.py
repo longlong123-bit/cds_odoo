@@ -69,6 +69,8 @@ class IncomePaymentCustom(models.Model):
         ('bank', '銀行')], default='cash')
 
     payment_amount = fields.Float(string='Payment Amount')
+    amount = fields.Integer(string='Amount')
+
     description = fields.Char(string='Description')
     payment_type = fields.Selection(
         [('outbound', 'Send Money'), ('inbound', 'Receive Money'), ('transfer', 'Internal Transfer')],
@@ -117,7 +119,7 @@ class IncomePaymentCustom(models.Model):
 
     invoice_history = fields.Many2one('account.move', string='Journal Entry', store=False)
 
-    # TH - add dialog
+    #TH - add dialog
     payment_input_history = fields.Many2one('account.payment', store=False)
     payment_request_history = fields.Many2one('bill.info', store=False)
     closing_date_new = fields.Char(string='Closing Date', readonly=True)
@@ -130,13 +132,12 @@ class IncomePaymentCustom(models.Model):
     @api.onchange('partner_id')
     def onchange_payment_request_history(self):
         return {'domain': {'payment_request_history': [('partner_id', '=', self.partner_id.id)]}}
-
-    # TH - done
+    #TH - done
 
     @api.model
     def get_default_journal(self):
         journal_id = self.env['account.journal']._search(
-            [('type', '=', 'sale')], limit=1)
+                [('type', '=', 'sale')], limit=1)
         return journal_id and journal_id[0] or False
 
     @api.onchange('invoice_history')
@@ -335,12 +336,16 @@ class IncomePaymentCustom(models.Model):
                             + _('入金額合計：') + str("{:,.2f}".format(total_payment_amounts))
 
             if rec.account_payment_line_ids:
-                query = "UPDATE account_payment " \
-                        "SET payment_amount=%s,amount=%s" \
-                        "WHERE document_no=%s "
-                params = [total_payment_amounts, total_payment_amounts, rec.document_no]
-
-                self._cr.execute(query, params)
+                # query = "UPDATE account_payment " \
+                #         "SET payment_amount=%s,amount=%s" \
+                #         "WHERE document_no=%s "
+                # params = [total_payment_amounts, total_payment_amounts, rec.document_no]
+                #
+                # self._cr.execute(query, params)
+                if self.payment_amount != total_payment_amounts:
+                    self.payment_amount = total_payment_amounts
+                if self.amount != total_payment_amounts:
+                    self.amount = total_payment_amounts
 
     # tính ngày closing date dựa theo start day của payment
     @api.onchange('closing_date_compute', 'payment_date')
@@ -397,6 +402,7 @@ class IncomePaymentCustom(models.Model):
                             rec.customer_closing_date = date(invoice_year, invoice_month,
                                                              cutoff_day) + relativedelta(
                                 months=1)
+
 
     # NGÀY KẾT SỔ
     def get_summary_date(self):
@@ -499,6 +505,20 @@ class IncomePaymentCustom(models.Model):
         total_amount_invoiced = self.get_invoice_total()
         remain_amount = total_amount_invoiced - total_amount_payment
 
+
+
+    def write(self, values):
+        module_context = self._context.copy()
+        if module_context.get('form_view_initial_mode') == 'edit':
+            if self.id > 0:
+                # Udpate mode ==> Check exist in bill_invoice
+                bill_invoice_ids = self.env['bill.invoice.details'].search([('payment_id', '=', self.id)])
+                if bill_invoice_ids:
+                    raise UserError('入金伝票が請求処理されているため、変更はできません。')
+
+        payment = super(IncomePaymentCustom, self).write(values)
+        return payment
+
     # Check validate, duplicate data
     def _check_data(self, values):
         # check document no.
@@ -510,6 +530,62 @@ class IncomePaymentCustom(models.Model):
 
         return True
 
+    # check bill before delete
+    # def unlink(self):
+    #     print('------------------------------ DELETE -------------------------')
+    #     print(self.partner_id)
+    #     query_res = False
+    #     for rec in self:
+    #         if rec.partner_id:
+    #             query = "SELECT partner_id " \
+    #                     "FROM account_move " \
+    #                     "WHERE bill_status = 'billed' " \
+    #                     "AND id=%s" % rec.account_invoice_id.id
+    #             self._cr.execute(query)
+    #             query_res = self._cr.fetchall()
+    #             print(query_res)
+    #             if len(query_res) > 0:
+    #                 raise ValidationError(_('Voucher is billed'))
+    #             else:
+    #                 print('------------------------------ PRINT -------------------------')
+    #                 # total_invoiced = float([res[0] for res in query_res][0])
+    #                 # print(total_invoiced)
+    #                 return super(IncomePaymentCustom, self).unlink()
+
+    # check readonly field
+    # @api.constrains('document_no')
+    # @api.constrains('account_invoice_id', 'document_no')
+    # def _check_read_only(self):
+    #     print('------------------------------ CHECK BILLED -------------------------')
+    #     query_res = False
+    #     for rec in self:
+    #         query_res = False
+    #         if rec.document_no:
+    #             if rec.account_invoice_id:
+    #                 query = "SELECT partner_id " \
+    #                         "FROM account_move " \
+    #                         "WHERE bill_status = 'billed' " \
+    #                         "AND id=%s" % rec.account_invoice_id.id
+    #                 self._cr.execute(query)
+    #                 query_res = self._cr.fetchall()
+    #                 print(query_res)
+    #                 print(len(query_res))
+    #                 if len(query_res) > 0:
+    #                     rec.set_read_only = True
+    #                 else:
+    #                     rec.set_read_only = False
+    #         rec.set_read_only = False
+
+    # def button_history(self):
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'product.product',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'res_id': self.id,
+    #         'target': 'new',
+    #     }
+
     # Check payment_amount
     # @api.constrains('payment_amount')
     # def _check_payment_amount(self):
@@ -519,6 +595,9 @@ class IncomePaymentCustom(models.Model):
 
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        odoo/models.py
+        """
         ctx = self._context.copy()
         if ctx.get('have_advance_search'):
             domain = []
@@ -595,7 +674,7 @@ class IncomePaymentLineCustom(models.Model):
     @api.model
     def get_default_journal(self):
         journal_id = self.env['account.journal']._search(
-            [('type', '=', 'sale')], limit=1)
+                [('type', '=', 'sale')], limit=1)
         return journal_id and journal_id[0] or False
 
     # Check payment_amount

@@ -1,6 +1,7 @@
 odoo.define('bill.print_all_bill_button', function (require) {
     "use strict";
 
+    var framework = require('web.framework');
     var ListController = require('web.ListController');
     var rpc = require('web.rpc');
     var session = require('web.session');
@@ -20,6 +21,8 @@ odoo.define('bill.print_all_bill_button', function (require) {
                 this.$buttons && this.$buttons.find('button.print_all_bill_button') && this.$buttons.find('button.print_all_bill_button').hide();
             } else {
                 this.$buttons.on('click', '.print_all_bill_button', function (e) {
+                    // Waiting - BlockUI
+                    framework.blockUI();
                     const def = new $.Deferred();
                     var selected_data = [];
 //                    data = window.current_data || data;
@@ -38,11 +41,16 @@ odoo.define('bill.print_all_bill_button', function (require) {
                             context: JSON.stringify(session.user_context),
                         }
                     }, {
-                        timeout: 300000,
+                        timeout: 6000000,
                         shadow: true
                     }).then(function (result) {
                         if (result) {
+                            // Finish - UnBlockUI
+                            framework.unblockUI();
                             return self.do_action(result)
+                        } else {
+                            // Finish - UnBlockUI
+                            framework.unblockUI();
                         }
                     })
                     return def;

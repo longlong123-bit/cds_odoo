@@ -3,6 +3,9 @@ import odoo
 import logging
 import json
 import cgi
+
+from addons.web.controllers.main import serialize_exception, content_disposition
+from odoo import http
 from odoo.http import request
 
 _logger = logging.getLogger(__name__)
@@ -31,3 +34,27 @@ class PaymentRequestAPI(odoo.http.Controller):
                 "content": "not found"
             }
         return json.dumps(response)
+
+
+class DownloadBillInfoReport(http.Controller):
+    @http.route('/web/billinfo/download_report_pdf', type='http', auth="public")
+    @serialize_exception
+    def download_document(self, filename=None, **kw):
+
+        # folder = 'C:/_LIEM_DATA/TEMP/'
+        folder = '/var/tmp/odoo/report/bill_info/'
+
+        pdf = open(folder + filename, 'rb')
+        file_content = pdf.read()
+        pdf.close()
+        del pdf
+
+        if not file_content:
+            return request.not_found()
+        else:
+            # if not filename:
+            # filename = '%s_%s' % (model.replace('.', '_'), id)
+            return request.make_response(file_content,
+                        [('Content-Type', 'application/octet-stream'),
+                         ('Content-Disposition', content_disposition(filename))])
+        return
