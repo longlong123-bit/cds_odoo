@@ -51,11 +51,11 @@ odoo.define('bill.cancel_bill_button', function (require) {
                     }).then(function (result) {
                         if (result) {
                             framework.unblockUI();
-                            self.do_notify('Infomation','¿‹ˆ—‚ÌæÁ‚ªŠ®—¹‚µ‚Ü‚µ‚½B',false);
+                            self.do_notify('Infomation','è«‹æ±‚å‡¦ç†ã®å–æ¶ˆãŒå®Œäº†ã—ã¾ã—ãŸã€‚',false);
                             return self.do_action(result)
                         }else{
                             framework.unblockUI();
-                            self.do_warn('ƒGƒ‰[',"ÅV’÷Ø‚ª‚ ‚é¿‹ˆ—‚Ì‚İ‚ğæÁ‚Å‚«‚Ü‚·B",false);
+                            self.do_warn('ã‚¨ãƒ©ãƒ¼',"æœ€æ–°ç· åˆ‡ãŒã‚ã‚‹è«‹æ±‚å‡¦ç†ã®ã¿ã‚’å–æ¶ˆã§ãã¾ã™ã€‚",false);
                         }
                     })
                     return def;
