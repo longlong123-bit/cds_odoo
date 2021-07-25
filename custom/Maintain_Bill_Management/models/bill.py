@@ -5,6 +5,10 @@ from datetime import datetime, date
 from ...Maintain_Accounts_Receivable_Balance_List.models import accounts_receivable_balance_list as advanced_search
 from ...Maintain_Invoice_Remake.models.invoice_customer_custom import rounding
 import pytz
+from odoo.exceptions import UserError
+from dateutil.relativedelta import relativedelta
+import calendar
+
 
 class BillingClass(models.Model):
     _inherit = 'res.partner'
@@ -47,33 +51,38 @@ class BillingClass(models.Model):
         res_partner_ids = self.env["res.partner"].search(
             ['|', ('customer_code', '=', record.customer_code), ('customer_code_bill', '=', record.customer_code)])
 
+        # Start Fix 請求処理前回締日 - https://vjppd.backlog.jp/view/CDS-33#comment-1305940240
+        # last_data_bill_info_ids = self.env['bill.info'].search([
+        #     ('partner_id', 'in', res_partner_ids.ids),
+        #     # ('closing_date', '<=', _deadline),
+        # ], order='deadline desc', limit=1)
         last_data_bill_info_ids = self.env['bill.info'].search([
             ('partner_id', 'in', res_partner_ids.ids),
-            # ('closing_date', '<=', _deadline),
+            ('closing_date', '<=', _deadline),
         ], order='deadline desc', limit=1)
-
         if last_data_bill_info_ids:
             _last_closing_date = last_data_bill_info_ids.deadline
             _last_closing_date_display = last_data_bill_info_ids.deadline
 
-        if _last_closing_date:
-            invoice_line_ids = self.env['account.move.line'].search([
-                ('partner_id', 'in', res_partner_ids.ids),
-                ('date', '<=', _last_closing_date),
-                ('bill_status', '=', 'not yet'),
-                ('account_internal_type', '=', 'other'),
-                ('parent_state', '=', 'posted'),
-            ])
-
-            payment_ids = self.env['account.payment'].search([
-                ('partner_id', 'in', res_partner_ids.ids),
-                ('payment_date', '<=', _last_closing_date),
-                ('state', '=', 'draft'),
-                ('bill_status', '!=', 'billed'),
-            ])
-
-            if invoice_line_ids or payment_ids:
-                _last_closing_date = last_data_bill_info_ids.last_closing_date
+        # if _last_closing_date:
+        #     invoice_line_ids = self.env['account.move.line'].search([
+        #         ('partner_id', 'in', res_partner_ids.ids),
+        #         ('date', '<=', _last_closing_date),
+        #         ('bill_status', '=', 'not yet'),
+        #         ('account_internal_type', '=', 'other'),
+        #         ('parent_state', '=', 'posted'),
+        #     ])
+        #
+        #     payment_ids = self.env['account.payment'].search([
+        #         ('partner_id', 'in', res_partner_ids.ids),
+        #         ('payment_date', '<=', _last_closing_date),
+        #         ('state', '=', 'draft'),
+        #         ('bill_status', '!=', 'billed'),
+        #     ])
+        #
+        #     if invoice_line_ids or payment_ids:
+        #         _last_closing_date = last_data_bill_info_ids.last_closing_date
+        # End Fix 請求処理前回締日 - https://vjppd.backlog.jp/view/CDS-33#comment-1305940240
 
         closing_date = {
             'last_closing_date': _last_closing_date,
@@ -84,14 +93,18 @@ class BillingClass(models.Model):
 
     # Get invoices list by partner id
     def _get_invoices_by_partner_id(
-            self, partner_id, last_closing_date, deadline):
+        self, partner_id, last_closing_date, deadline):
         domain = [('partner_id', 'in', partner_id),
                   ('x_studio_date_invoiced', '<=', deadline),
                   ('state', '=', 'posted'),
                   ('type', '=', 'out_invoice'),
                   ('bill_status', '!=', 'billed')]
-        if last_closing_date:
-            domain += [('x_studio_date_invoiced', '>', last_closing_date)]
+
+        # Start comment TrungTM (Get all of invoices what bill status is not yet)
+        # if last_closing_date:
+        #     domain += [('x_studio_date_invoiced', '>', last_closing_date)]
+        # End comment TrungTM (Get all of invoices what bill status is not yet)
+
         out_invoices = self.env['account.move'].search(domain)
         return out_invoices
 
@@ -168,7 +181,7 @@ class BillingClass(models.Model):
                     if line.bill_status != 'billed':
                         if line.product_id.product_tax_category == 'foreign':
                             if line.move_id.x_voucher_tax_transfer == 'foreign_tax' \
-                                    or line.move_id.x_voucher_tax_transfer == 'voucher':
+                                or line.move_id.x_voucher_tax_transfer == 'voucher':
                                 _untax_amount = line.invoice_custom_lineamount
                                 _tax = line.tax_rate * line.invoice_custom_lineamount / 100
                                 _amount = _untax_amount + _tax
@@ -178,7 +191,7 @@ class BillingClass(models.Model):
                                     _payment_discount_in_invoicing -= _amount
                             elif line.move_id.x_voucher_tax_transfer == 'internal_tax':
                                 _tax = line.invoice_custom_lineamount * line.product_id.product_tax_rate / (
-                                        100 + line.product_id.product_tax_rate)
+                                    100 + line.product_id.product_tax_rate)
                                 _tax = rounding(_tax, 0, record.customer_tax_rounding)
                                 _untax_amount = line.invoice_custom_lineamount - _tax
                                 _amount = _untax_amount + _tax
@@ -196,7 +209,7 @@ class BillingClass(models.Model):
                                     _payment_discount_in_invoicing -= _amount
                                 if line.product_id.product_tax_category == 'foreign':
                                     _line_compute_amount_tax = _line_compute_amount_tax + (
-                                            line.invoice_custom_lineamount * line.tax_rate / 100)
+                                        line.invoice_custom_lineamount * line.tax_rate / 100)
                                 elif line.product_id.product_tax_category == 'internal':
                                     _line_compute_amount_tax = _line_compute_amount_tax + 0
                                 else:
@@ -211,7 +224,7 @@ class BillingClass(models.Model):
                                     _payment_discount_in_invoicing -= _amount
                         elif line.product_id.product_tax_category == 'internal':
                             _tax = line.invoice_custom_lineamount * line.product_id.product_tax_rate / (
-                                    100 + line.product_id.product_tax_rate)
+                                100 + line.product_id.product_tax_rate)
                             _tax = rounding(_tax, 0, record.customer_tax_rounding)
                             _untax_amount = line.invoice_custom_lineamount - _tax
                             _amount = _untax_amount + _tax
@@ -308,7 +321,7 @@ class BillingClass(models.Model):
     deadline = fields.Date(compute=_set_data_to_fields, readonly=True)
 
     # 前回請求金額
-    last_billed_amount = fields.Integer(compute=_set_data_to_fields, string='Last Billed Amount', readonly=True)
+    last_billed_amount = fields.Float(compute=_set_data_to_fields, string='Last Billed Amount', readonly=True)
     last_billed_amount_int_format = fields.Integer(compute=_last_billed_amount_int_format, string='Last Billed Amount', readonly=True)
 
     # 入金額
@@ -336,7 +349,7 @@ class BillingClass(models.Model):
     payment_discount_in_invoicing = fields.Float(compute=_set_data_to_fields, readonly=True)
 
     amount_total = fields.Float(compute=_set_data_to_fields, readonly=True)
-    amount_total_int_format = fields.Float(compute=_amount_total_int_format, readonly=True)
+    amount_total_int_format = fields.Integer(compute=_amount_total_int_format, readonly=True)
 
     # 売伝枚数
     voucher_number = fields.Integer(compute=_set_data_to_fields, readonly=True)
@@ -367,225 +380,260 @@ class BillingClass(models.Model):
                         'view_name': 'Billing Details',
                         },
         }
-    #TH - Save Payment Plan Date To Bill Info
-    def create_bill_for_invoice(self, argsSelectedData):
+
+    def compute_payment_plan_date(self, closing_date, payment_type, payment_day):
+
+        month_added_by_payment_type = {'this_month': 0,
+                                       'next_month': 1,
+                                       'two_months_after': 2,
+                                       'three_months_after': 3,
+                                       'four_months_after': 4,
+                                       'five_months_after': 5,
+                                       'six_months_after': 6}
+
+        if not payment_type in month_added_by_payment_type:
+            return False
+
+        calc_closing_day = datetime.strptime(closing_date, '%Y-%m-%d').day
+        calc_closing_month = datetime.strptime(closing_date, '%Y-%m-%d').month
+        calc_closing_year = datetime.strptime(closing_date, '%Y-%m-%d').year
+
+        month_added_num = month_added_by_payment_type[payment_type]
+        if payment_day < calc_closing_day and month_added_by_payment_type[payment_type] == 0:
+            month_added_num += 1
+
+        calc_payment_first_date = date(calc_closing_year, calc_closing_month, 1) + relativedelta(
+            months=month_added_num)  # Add Month according to payment_type
+        calc_payment_month = calc_payment_first_date.month
+        calc_payment_year = calc_payment_first_date.year
+        calc_payment_day = payment_day
+        calc_payment_last_day_month = calendar.monthrange(calc_payment_year, calc_payment_month)[1]
+
+        if calc_payment_day > calc_payment_last_day_month:
+            calc_payment_day = calc_payment_last_day_month
+
+        if calc_payment_day == 0:
+            calc_payment_day = 1
+
+        calc_payment_date = date(calc_payment_year, calc_payment_month, calc_payment_day)
+
+        return calc_payment_date
+
+    def check_create_bill(self, argsSelectedData):
+        check_flg = True
+        errmsg = ''
         for rec in argsSelectedData:
-            partner_ids = self.env['res.partner'].search([('id', '=', rec['id'])])
-            # Compute Payment Date
-            payment_date_day_cal = date.today().strftime('%d')
-            payment_date_month_cal = date.today().strftime('%m')
-            payment_date_year_cal = date.today().strftime('%Y')
-            closing_date_count = datetime.strptime(rec['deadline'], '%Y-%m-%d').date()
-            closing_date_year = closing_date_count.strftime('%Y')
-            closing_date_month = closing_date_count.strftime('%m')
-            closing_date_date = closing_date_count.strftime('%d')
-            payment_date_month = partner_ids.customer_payment_date.payment_month
-            payment_date_date = partner_ids.customer_payment_date.payment_date
-            if payment_date_month == 'this_month':
-                payment_date_day_cal = payment_date_date
-                if int(closing_date_month) in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                    payment_date_day_cal = 30
-                elif int(closing_date_month) == 2 and payment_date_day_cal >= 28:
-                    payment_date_day_cal = 28
-                if int(closing_date_date) < payment_date_day_cal:
-                    payment_date_month_cal = int(closing_date_month)
-                    payment_date_year_cal = int(closing_date_year)
-                else:
-                    if int(closing_date_month) == 12:
-                        payment_date_month_cal = int(closing_date_month) - 11
-                        payment_date_year_cal = int(closing_date_year) + 1
-                    else:
-                        payment_date_month_cal = int(closing_date_month) + 1
-                        payment_date_year_cal = int(closing_date_year)
-                        if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                            payment_date_day_cal = 30
-                        elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                            payment_date_day_cal = 28
-            elif payment_date_month == 'next_month':
-                if int(closing_date_month) == 12:
-                    payment_date_month_cal = int(closing_date_month) - 11
-                    payment_date_year_cal = int(closing_date_year) + 1
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-                else:
-                    payment_date_month_cal = int(closing_date_month) + 1
-                    payment_date_year_cal = int(closing_date_year)
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-            elif payment_date_month == 'two_months_after':
-                if int(closing_date_month) in (11, 12):
-                    payment_date_month_cal = int(closing_date_month) - 10
-                    payment_date_year_cal = int(closing_date_year) + 1
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-                else:
-                    payment_date_month_cal = int(closing_date_month) + 2
-                    payment_date_year_cal = int(closing_date_year)
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-            elif payment_date_month == 'three_months_after':
-                if int(closing_date_month) in (10, 11, 12):
-                    payment_date_month_cal = int(closing_date_month) - 9
-                    payment_date_year_cal = int(closing_date_year) + 1
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-                else:
-                    payment_date_month_cal = int(closing_date_month) + 3
-                    payment_date_year_cal = int(closing_date_year)
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-            elif payment_date_month == 'four_months_after':
-                if int(closing_date_month) in (9, 10, 11, 12):
-                    payment_date_month_cal = int(closing_date_month) - 8
-                    payment_date_year_cal = int(closing_date_year) + 1
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-                else:
-                    payment_date_month_cal = int(closing_date_month) + 4
-                    payment_date_year_cal = int(closing_date_year)
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-            elif payment_date_month == 'five_months_after':
-                if int(closing_date_month) in (8, 9, 10, 11, 12):
-                    payment_date_month_cal = int(closing_date_month) - 7
-                    payment_date_year_cal = int(closing_date_year) + 1
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-                else:
-                    payment_date_month_cal = int(closing_date_month) + 5
-                    payment_date_year_cal = int(closing_date_year)
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-            elif payment_date_month == 'six_months_after':
-                if int(closing_date_month) in (7, 8, 9, 10, 11, 12):
-                    payment_date_month_cal = int(closing_date_month) - 6
-                    payment_date_year_cal = int(closing_date_year) + 1
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-                else:
-                    payment_date_month_cal = int(closing_date_month) + 6
-                    payment_date_year_cal = int(closing_date_year)
-                    payment_date_day_cal = payment_date_date
-                    if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
-                        payment_date_day_cal = 30
-                    elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
-                        payment_date_day_cal = 28
-            payment_date_str = str(payment_date_month_cal) + '/' + str(payment_date_day_cal) + '/' + str(
-                payment_date_year_cal)
-            payment_date_obj = datetime.strptime(payment_date_str, '%m/%d/%Y').date()
-            rec['payment_plan_date'] = payment_date_obj
+            # Start Fix  2重締切. - https://vjppd.backlog.jp/view/CDS-22#comment-1305841682
+            bill_info_ids = self.env['bill.info'].search([
+                ('billing_code', '=', rec['customer_code']),
+                ('deadline', '=', rec['deadline']),
+            ], order='deadline desc', limit=1)
 
-    #TH - done
+            if bill_info_ids:
+                check_flg = False
+                errmsg = rec['name'] + '(' + rec['customer_code'] + ')は請求処理が' + datetime.strptime(rec['deadline'],
+                                                                                                  '%Y-%m-%d').strftime(
+                    '%Y年%m月%d日') + 'に行われました。'
+                break
+            # End Fix  2重締切. - https://vjppd.backlog.jp/view/CDS-22#comment-1305841682
 
-            if rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']:
-                continue
+        return check_flg, errmsg
 
-            if advanced_search.val_bill_search_deadline:
-                rec['deadline'] = advanced_search.val_bill_search_deadline
-            # Create data for bill_info
-            partner_ids = self.env['res.partner'].search([('id', '=', rec['id'])])
+    # TH - Save Payment Plan Date To Bill Info
+    def create_bill_for_invoice(self, argsSelectedData):
+        errormsg = ''
+        checklg, errormsg = self.check_create_bill(argsSelectedData)
 
-            res_partner_id = self.env["res.partner"].search(
-                ['|', ('customer_code', '=', rec['customer_code']), ('customer_code_bill', '=', rec['customer_code'])])
+        if checklg:
+            for rec in argsSelectedData:
+                partner_ids = self.env['res.partner'].search([('id', '=', rec['id'])])
+                # Start Upd TrungTm
+                # # Compute Payment Date
+                # payment_date_day_cal = date.today().strftime('%d')
+                # payment_date_month_cal = date.today().strftime('%m')
+                # payment_date_year_cal = date.today().strftime('%Y')
+                # closing_date_count = datetime.strptime(rec['deadline'], '%Y-%m-%d').date()
+                # closing_date_year = closing_date_count.strftime('%Y')
+                # closing_date_month = closing_date_count.strftime('%m')
+                # closing_date_date = closing_date_count.strftime('%d')
+                # payment_date_month = partner_ids.customer_payment_date.payment_month
+                # payment_date_date = partner_ids.customer_payment_date.payment_date
+                # if payment_date_month == 'this_month':
+                #     payment_date_day_cal = payment_date_date
+                #     if int(closing_date_month) in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #         payment_date_day_cal = 30
+                #     elif int(closing_date_month) == 2 and payment_date_day_cal >= 28:
+                #         payment_date_day_cal = 28
+                #     if int(closing_date_date) < payment_date_day_cal:
+                #         payment_date_month_cal = int(closing_date_month)
+                #         payment_date_year_cal = int(closing_date_year)
+                #     else:
+                #         if int(closing_date_month) == 12:
+                #             payment_date_month_cal = int(closing_date_month) - 11
+                #             payment_date_year_cal = int(closing_date_year) + 1
+                #         else:
+                #             payment_date_month_cal = int(closing_date_month) + 1
+                #             payment_date_year_cal = int(closing_date_year)
+                #             if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #                 payment_date_day_cal = 30
+                #             elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #                 payment_date_day_cal = 28
+                # elif payment_date_month == 'next_month':
+                #     if int(closing_date_month) == 12:
+                #         payment_date_month_cal = int(closing_date_month) - 11
+                #         payment_date_year_cal = int(closing_date_year) + 1
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                #     else:
+                #         payment_date_month_cal = int(closing_date_month) + 1
+                #         payment_date_year_cal = int(closing_date_year)
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                # elif payment_date_month == 'two_months_after':
+                #     if int(closing_date_month) in (11, 12):
+                #         payment_date_month_cal = int(closing_date_month) - 10
+                #         payment_date_year_cal = int(closing_date_year) + 1
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                #     else:
+                #         payment_date_month_cal = int(closing_date_month) + 2
+                #         payment_date_year_cal = int(closing_date_year)
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                # elif payment_date_month == 'three_months_after':
+                #     if int(closing_date_month) in (10, 11, 12):
+                #         payment_date_month_cal = int(closing_date_month) - 9
+                #         payment_date_year_cal = int(closing_date_year) + 1
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                #     else:
+                #         payment_date_month_cal = int(closing_date_month) + 3
+                #         payment_date_year_cal = int(closing_date_year)
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                # elif payment_date_month == 'four_months_after':
+                #     if int(closing_date_month) in (9, 10, 11, 12):
+                #         payment_date_month_cal = int(closing_date_month) - 8
+                #         payment_date_year_cal = int(closing_date_year) + 1
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                #     else:
+                #         payment_date_month_cal = int(closing_date_month) + 4
+                #         payment_date_year_cal = int(closing_date_year)
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                # elif payment_date_month == 'five_months_after':
+                #     if int(closing_date_month) in (8, 9, 10, 11, 12):
+                #         payment_date_month_cal = int(closing_date_month) - 7
+                #         payment_date_year_cal = int(closing_date_year) + 1
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                #     else:
+                #         payment_date_month_cal = int(closing_date_month) + 5
+                #         payment_date_year_cal = int(closing_date_year)
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                # elif payment_date_month == 'six_months_after':
+                #     if int(closing_date_month) in (7, 8, 9, 10, 11, 12):
+                #         payment_date_month_cal = int(closing_date_month) - 6
+                #         payment_date_year_cal = int(closing_date_year) + 1
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                #     else:
+                #         payment_date_month_cal = int(closing_date_month) + 6
+                #         payment_date_year_cal = int(closing_date_year)
+                #         payment_date_day_cal = payment_date_date
+                #         if payment_date_month_cal in (4, 6, 9, 11) and payment_date_day_cal >= 30:
+                #             payment_date_day_cal = 30
+                #         elif payment_date_month_cal == 2 and payment_date_day_cal >= 28:
+                #             payment_date_day_cal = 28
+                # payment_date_str = str(payment_date_month_cal) + '/' + str(payment_date_day_cal) + '/' + str(
+                #     payment_date_year_cal)
+                # payment_date_obj = datetime.strptime(payment_date_str, '%m/%d/%Y').date()
+                # rec['payment_plan_date'] = payment_date_obj
+                payment_date_obj = self.compute_payment_plan_date(rec['deadline'],
+                                                                  partner_ids.customer_payment_date.payment_month,
+                                                                  partner_ids.customer_payment_date.payment_date)
+                rec['payment_plan_date'] = payment_date_obj
+                # TH - done
+                # End Upd TrungTM
 
-            invoice_ids = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
-                                                           last_closing_date=rec['last_closing_date'],
-                                                           deadline=rec['deadline'])
-            if rec['customer_except_request']:
-                invoice_ids = invoice_ids.filtered(lambda l: l.selected)
+                if rec['last_closing_date'] and rec['last_closing_date'] > rec['deadline']:
+                    continue
 
-            _invoice_details_number = 0
-            _sum_amount_tax_cashed = 0
-            _sum_amount_untaxed_cashed = 0
-            _sum_amount_total_cashed = 0
-            for invoice in invoice_ids:
-                _invoice_details_number = _invoice_details_number + self.env['account.move.line'].search_count(
-                    [('move_id', '=', invoice.id)])
-                if invoice.customer_trans_classification_code == 'cash':
-                    _sum_amount_untaxed_cashed = _sum_amount_untaxed_cashed + invoice.amount_untaxed
-                    _sum_amount_tax_cashed = _sum_amount_tax_cashed + invoice.amount_tax
-                    _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
+                if advanced_search.val_bill_search_deadline:
+                    rec['deadline'] = advanced_search.val_bill_search_deadline
+                # Create data for bill_info
+                partner_ids = self.env['res.partner'].search([('id', '=', rec['id'])])
 
-            payment_domain = [
-                ('partner_id', 'in', res_partner_id.ids),
-                ('payment_date', '<=', rec['deadline']),
-                ('bill_status', '!=', 'billed'),
-                ('state', 'in', ['draft', 'sent']),
-            ]
-            if rec.get('last_closing_date'):
-                payment_domain += [('payment_date', '>', rec['last_closing_date'])]
+                res_partner_id = self.env["res.partner"].search(
+                    ['|', ('customer_code', '=', rec['customer_code']), ('customer_code_bill', '=', rec['customer_code'])])
 
-            payment_ids = self.env['account.payment'].search(payment_domain)
+                invoice_ids = self._get_invoices_by_partner_id(partner_id=res_partner_id.ids,
+                                                               last_closing_date=rec['last_closing_date'],
+                                                               deadline=rec['deadline'])
+                if rec['customer_except_request']:
+                    invoice_ids = invoice_ids.filtered(lambda l: l.selected)
 
-            _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
+                _invoice_details_number = 0
+                _sum_amount_tax_cashed = 0
+                _sum_amount_untaxed_cashed = 0
+                _sum_amount_total_cashed = 0
+                for invoice in invoice_ids:
+                    _invoice_details_number = _invoice_details_number + self.env['account.move.line'].search_count(
+                        [('move_id', '=', invoice.id)])
+                    if invoice.customer_trans_classification_code == 'cash':
+                        _sum_amount_untaxed_cashed = _sum_amount_untaxed_cashed + invoice.amount_untaxed
+                        _sum_amount_tax_cashed = _sum_amount_tax_cashed + invoice.amount_tax
+                        _sum_amount_total_cashed = _sum_amount_total_cashed + invoice.amount_total
 
-            _bill_info_ids = self.env['bill.info'].create({
-                'billing_code': rec['customer_code'],
-                'billing_name': rec['name'],
-                'bill_no': _bill_no,
-                'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
-                'last_closing_date': rec['last_closing_date'],
-                'closing_date': rec['deadline'],
-                'deadline': rec['deadline'],
-                'invoices_number': len(invoice_ids),
-                'invoices_details_number': _invoice_details_number,
-                'last_billed_amount': rec['last_billed_amount'],
-                'deposit_amount': rec['deposit_amount'],
-                'payment_cost_and_discount': rec['payment_cost_and_discount'],
-                'balance_amount': rec['balance_amount'],
-                'amount_untaxed': rec['amount_untaxed'],
-                'tax_amount': rec['tax_amount'],
-                'amount_total': rec['amount_total'],
-                'amount_untaxed_cashed': _sum_amount_tax_cashed,
-                'tax_amount_cashed': _sum_amount_tax_cashed,
-                'amount_total_cashed': _sum_amount_total_cashed,
-                'billed_amount': rec['billed_amount'],
-                'payment_discount_in_invoicing': rec['payment_discount_in_invoicing'],
-                'partner_id': partner_ids.id,
-                'hr_employee_id': partner_ids.customer_agent.id,
-                'hr_department_id': partner_ids.customer_agent.department_id.id,
-                'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
-                'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                'customer_excerpt_request': partner_ids.customer_except_request,
-                'payment_plan_date': rec['payment_plan_date']
-            })
+                payment_domain = [
+                    ('partner_id', 'in', res_partner_id.ids),
+                    ('payment_date', '<=', rec['deadline']),
+                    ('bill_status', '!=', 'billed'),
+                    ('state', 'in', ['draft', 'sent']),
+                ]
+                if rec.get('last_closing_date'):
+                    payment_domain += [('payment_date', '>', rec['last_closing_date'])]
 
-            for invoice in invoice_ids:
-                _bill_invoice_ids = self.env['bill.invoice'].create({
-                    'bill_info_id': _bill_info_ids.id,
+                payment_ids = self.env['account.payment'].search(payment_domain)
+
+                _bill_no = self.env['ir.sequence'].next_by_code('bill.sequence')
+
+                _bill_info_ids = self.env['bill.info'].create({
                     'billing_code': rec['customer_code'],
                     'billing_name': rec['name'],
                     'bill_no': _bill_no,
@@ -593,30 +641,32 @@ class BillingClass(models.Model):
                     'last_closing_date': rec['last_closing_date'],
                     'closing_date': rec['deadline'],
                     'deadline': rec['deadline'],
-                    'customer_code': invoice.partner_id.customer_code,
-                    'customer_name': invoice.partner_id.name,
-                    'amount_untaxed': invoice.amount_untaxed,
-                    'amount_tax': invoice.amount_tax,
-                    'amount_total': invoice.amount_total,
-                    'customer_trans_classification_code': invoice.customer_trans_classification_code,
-                    'account_move_id': invoice.id,
+                    'invoices_number': len(invoice_ids),
+                    'invoices_details_number': _invoice_details_number,
+                    'last_billed_amount': rec['last_billed_amount'],
+                    'deposit_amount': rec['deposit_amount'],
+                    'payment_cost_and_discount': rec['payment_cost_and_discount'],
+                    'balance_amount': rec['balance_amount'],
+                    'amount_untaxed': rec['amount_untaxed'],
+                    'tax_amount': rec['tax_amount'],
+                    'amount_total': rec['amount_total'],
+                    'amount_untaxed_cashed': _sum_amount_tax_cashed,
+                    'tax_amount_cashed': _sum_amount_tax_cashed,
+                    'amount_total_cashed': _sum_amount_total_cashed,
+                    'billed_amount': rec['billed_amount'],
+                    'payment_discount_in_invoicing': rec['payment_discount_in_invoicing'],
+                    'partner_id': partner_ids.id,
                     'hr_employee_id': partner_ids.customer_agent.id,
                     'hr_department_id': partner_ids.customer_agent.department_id.id,
                     'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                     'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                    'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
-                    'invoice_date': invoice.x_studio_date_invoiced,
-                    'invoice_no': invoice.x_studio_document_no,
-                    'x_studio_summary': invoice.x_studio_summary,
+                    'customer_excerpt_request': partner_ids.customer_except_request,
+                    'payment_plan_date': rec['payment_plan_date']
                 })
 
-                invoice_line_ids_list = invoice.invoice_line_ids
-                if rec['customer_except_request']:
-                    invoice_line_ids_list = invoice.invoice_line_ids.filtered(lambda l: l.selected and l.bill_status != 'billed')
-                for line in invoice_line_ids_list:
-                    self.env['bill.invoice.details'].create({
+                for invoice in invoice_ids:
+                    _bill_invoice_ids = self.env['bill.invoice'].create({
                         'bill_info_id': _bill_info_ids.id,
-                        'bill_invoice_id': _bill_invoice_ids.id,
                         'billing_code': rec['customer_code'],
                         'billing_name': rec['name'],
                         'bill_no': _bill_no,
@@ -624,89 +674,126 @@ class BillingClass(models.Model):
                         'last_closing_date': rec['last_closing_date'],
                         'closing_date': rec['deadline'],
                         'deadline': rec['deadline'],
-                        'customer_code': line.partner_id.customer_code,
-                        'customer_name': line.partner_id.name,
+                        'customer_code': invoice.partner_id.customer_code,
+                        'customer_name': invoice.partner_id.name,
+                        'amount_untaxed': invoice.amount_untaxed,
+                        'amount_tax': invoice.amount_tax,
+                        'amount_total': invoice.amount_total,
                         'customer_trans_classification_code': invoice.customer_trans_classification_code,
-                        'account_move_line_id': line.id,
+                        'account_move_id': invoice.id,
                         'hr_employee_id': partner_ids.customer_agent.id,
                         'hr_department_id': partner_ids.customer_agent.department_id.id,
                         'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
                         'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                        'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
-                        'invoice_date': line.date,
-                        'invoice_no': line.invoice_no,
-                        'tax_rate': line.tax_rate,
-                        'quantity': line.quantity,
-                        'price_unit': line.price_unit,
-                        'tax_amount': line.line_tax_amount,
-                        'line_amount': line.invoice_custom_lineamount,
-                        'voucher_line_tax_amount': line.voucher_line_tax_amount,
+                        'x_voucher_tax_transfer': invoice.x_voucher_tax_transfer,
+                        'invoice_date': invoice.x_studio_date_invoiced,
+                        'invoice_no': invoice.x_studio_document_no,
+                        'x_studio_summary': invoice.x_studio_summary,
                     })
-            for payment in payment_ids:
-                self.env['bill.invoice.details'].create({
-                    'bill_info_id': _bill_info_ids.id,
-                    # 'bill_invoice_id': _bill_invoice_ids.id,
-                    'billing_code': rec['customer_code'],
-                    'billing_name': rec['name'],
-                    'bill_no': _bill_no,
-                    'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
-                    'last_closing_date': rec['last_closing_date'],
-                    'closing_date': rec['deadline'],
-                    'deadline': rec['deadline'],
-                    'customer_code': payment.partner_id.customer_code,
-                    'customer_name': payment.partner_payment_name1,
-                    'customer_trans_classification_code': 'sale',
-                    # 'account_move_line_id': line.id,
-                    'hr_employee_id': partner_ids.customer_agent.id,
-                    'hr_department_id': partner_ids.customer_agent.department_id.id,
-                    'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
-                    'customer_closing_date_id': partner_ids.customer_closing_date.id,
-                    # 'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
-                    'quantity': 0,
-                    'price_unit': payment.amount,
-                    'invoice_date': payment.payment_date,
-                    'invoice_no': payment.document_no,
-                    'line_amount': payment.amount,
-                    'payment_category': payment.vj_c_payment_category,
-                    'payment_id': payment.id,
-                })
 
-            # Update bill_status for account_move table
-            if rec['customer_except_request']:
-                for invoice in invoice_ids:
-                    if invoice.invoice_line_ids \
-                            and invoice.invoice_line_ids == invoice.invoice_line_ids.filtered(lambda l: l.selected):
-                        invoice_ids.write({
-                            'bill_status': 'billed'
+                    invoice_line_ids_list = invoice.invoice_line_ids
+                    if rec['customer_except_request']:
+                        invoice_line_ids_list = invoice.invoice_line_ids.filtered(
+                            lambda l: l.selected and l.bill_status != 'billed')
+                    for line in invoice_line_ids_list:
+                        self.env['bill.invoice.details'].create({
+                            'bill_info_id': _bill_info_ids.id,
+                            'bill_invoice_id': _bill_invoice_ids.id,
+                            'billing_code': rec['customer_code'],
+                            'billing_name': rec['name'],
+                            'bill_no': _bill_no,
+                            'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
+                            'last_closing_date': rec['last_closing_date'],
+                            'closing_date': rec['deadline'],
+                            'deadline': rec['deadline'],
+                            'customer_code': line.partner_id.customer_code,
+                            'customer_name': line.partner_id.name,
+                            'customer_trans_classification_code': invoice.customer_trans_classification_code,
+                            'account_move_line_id': line.id,
+                            'hr_employee_id': partner_ids.customer_agent.id,
+                            'hr_department_id': partner_ids.customer_agent.department_id.id,
+                            'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
+                            'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                            'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
+                            'invoice_date': line.date,
+                            'invoice_no': line.invoice_no,
+                            'tax_rate': line.tax_rate,
+                            'quantity': line.quantity,
+                            'price_unit': line.price_unit,
+                            'tax_amount': line.line_tax_amount,
+                            'line_amount': line.invoice_custom_lineamount,
+                            'voucher_line_tax_amount': line.voucher_line_tax_amount,
                         })
-                # Update bill_status for account_move_line table
-                self.env['account.move.line'].search(
-                    [('move_id', 'in', invoice_ids.ids), ('selected', '=', True)]).write({
+                for payment in payment_ids:
+                    self.env['bill.invoice.details'].create({
+                        'bill_info_id': _bill_info_ids.id,
+                        # 'bill_invoice_id': _bill_invoice_ids.id,
+                        'billing_code': rec['customer_code'],
+                        'billing_name': rec['name'],
+                        'bill_no': _bill_no,
+                        'bill_date': datetime.now().astimezone(pytz.timezone(self.env.user.tz)),
+                        'last_closing_date': rec['last_closing_date'],
+                        'closing_date': rec['deadline'],
+                        'deadline': rec['deadline'],
+                        'customer_code': payment.partner_id.customer_code,
+                        'customer_name': payment.partner_payment_name1,
+                        'customer_trans_classification_code': 'sale',
+                        # 'account_move_line_id': line.id,
+                        'hr_employee_id': partner_ids.customer_agent.id,
+                        'hr_department_id': partner_ids.customer_agent.department_id.id,
+                        'business_partner_group_custom_id': partner_ids.customer_supplier_group_code.id,
+                        'customer_closing_date_id': partner_ids.customer_closing_date.id,
+                        # 'x_voucher_tax_transfer': _bill_invoice_ids.x_voucher_tax_transfer,
+                        'quantity': 0,
+                        'price_unit': payment.amount,
+                        'invoice_date': payment.payment_date,
+                        'invoice_no': payment.document_no,
+                        'line_amount': payment.amount,
+                        'payment_category': payment.vj_c_payment_category,
+                        'payment_id': payment.id,
+                    })
+
+                # Update bill_status for account_move table
+                if rec['customer_except_request']:
+                    for invoice in invoice_ids:
+                        if invoice.invoice_line_ids \
+                            and invoice.invoice_line_ids == invoice.invoice_line_ids.filtered(lambda l: l.selected):
+                            invoice_ids.write({
+                                'bill_status': 'billed'
+                            })
+                    # Update bill_status for account_move_line table
+                    self.env['account.move.line'].search(
+                        [('move_id', 'in', invoice_ids.ids), ('selected', '=', True)]).write({
                         'bill_status': 'billed'
                     })
+                else:
+                    invoice_ids.write({
+                        'bill_status': 'billed'
+                    })
+                    # Update bill_status for account_move_line table
+                    self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
+                        'bill_status': 'billed'
+                    })
+
+                # Update bill_status for account_payment table
+                payment_ids.write({
+                    'bill_status': 'billed'
+                })
+                payment_ids.filtered(lambda l: l.state == 'draft').post()
+
+            advanced_search.val_bill_search_deadline = ''
+
+            if not argsSelectedData:
+                return False
             else:
-                invoice_ids.write({
-                    'bill_status': 'billed'
-                })
-                # Update bill_status for account_move_line table
-                self.env['account.move.line'].search([('move_id', 'in', invoice_ids.ids)]).write({
-                    'bill_status': 'billed'
-                })
-
-            # Update bill_status for account_payment table
-            payment_ids.write({
-                'bill_status': 'billed'
-            })
-            payment_ids.filtered(lambda l: l.state == 'draft').post()
-
-        advanced_search.val_bill_search_deadline = ''
-
-        if not argsSelectedData:
-            return False
+                return {
+                    'type': 'ir.actions.client',
+                    'tag': 'reload',
+                }
         else:
             return {
-                'type': 'ir.actions.client',
-                'tag': 'reload',
+                    'type': 'error',
+                    'tag': errormsg ,
             }
 
     # TH - Save Payment Plan Date To Bill Info
@@ -1038,11 +1125,11 @@ class BillingClass(models.Model):
         _tax = 0
         for line in bill_info_draft.bill_detail_ids:
             if line.x_voucher_tax_transfer and (
-                    line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
+                line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
                 subtotal += line.line_amount
                 if line.account_move_line_id.product_id.product_tax_category == 'internal' or line.account_move_line_id.move_id.x_voucher_tax_transfer == 'internal_tax':
                     _tax = line.account_move_line_id.invoice_custom_lineamount * line.account_move_line_id.product_id.product_tax_rate / (
-                            100 + line.account_move_line_id.product_id.product_tax_rate)
+                        100 + line.account_move_line_id.product_id.product_tax_rate)
                     _tax = rounding(_tax, 0, line.account_move_line_id.move_id.customer_tax_rounding)
                     subtotal -= _tax
         return subtotal
@@ -1071,11 +1158,11 @@ class BillingClass(models.Model):
         for line in bill_info_draft.bill_detail_ids:
             if line.customer_code == customer_code:
                 if line.x_voucher_tax_transfer and (
-                        line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
+                    line.tax_rate == tax_rate or (tax_rate == 0 and line.tax_rate != 10 and line.tax_rate != 8)):
                     subtotal += line.line_amount
                     if line.account_move_line_id.product_id.product_tax_category == 'internal' or line.account_move_line_id.move_id.x_voucher_tax_transfer == 'internal_tax':
                         _tax = line.account_move_line_id.invoice_custom_lineamount * line.account_move_line_id.product_id.product_tax_rate / (
-                                100 + line.account_move_line_id.product_id.product_tax_rate)
+                            100 + line.account_move_line_id.product_id.product_tax_rate)
                         _tax = rounding(_tax, 0, line.account_move_line_id.move_id.customer_tax_rounding)
                         subtotal -= _tax
                 else:
@@ -1109,7 +1196,7 @@ class BillingClass(models.Model):
                             subtotal += line.line_amount * line.tax_rate / 100
                         if line.account_move_line_id.product_id.product_tax_category == 'internal' or line.account_move_line_id.move_id.x_voucher_tax_transfer == 'internal_tax':
                             _tax = line.account_move_line_id.invoice_custom_lineamount * line.account_move_line_id.product_id.product_tax_rate / (
-                                    100 + line.account_move_line_id.product_id.product_tax_rate)
+                                100 + line.account_move_line_id.product_id.product_tax_rate)
                             _tax = rounding(_tax, 0, line.account_move_line_id.move_id.customer_tax_rounding)
                             subtotal += _tax
                     if tax_rate == 0 and line.x_voucher_tax_transfer == 'custom_tax':
@@ -1196,7 +1283,7 @@ class BillingClass(models.Model):
                                               line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -1248,7 +1335,7 @@ class BillingClass(models.Model):
                                               line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -1332,7 +1419,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -1416,7 +1503,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -1466,10 +1553,15 @@ class BillingClass(models.Model):
                             self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11)),
                                   check_two_line])
                     if record_final.bill_invoice_id.x_studio_summary:
-                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(
-                        self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
+                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary,
+                                                                          12) + '＞', '', '', '', '',
+                                  '(' + str('{0:,.0f}'.format(
+                                      self.limit_number_field(int(record_final.bill_invoice_id.amount_total),
+                                                              8))) + ')', check_two_line])
                     else:
-                        a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
+                        a.append(['', '', '', '', '', '', '', '(' + str('{0:,.0f}'.format(
+                            self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
+                                  check_two_line])
                     a.append(['', '', '', '', '', '', '', '', check_two_line])
                     if record.account_move_line_id:
                         if record.x_voucher_tax_transfer == 'internal_tax':
@@ -1508,7 +1600,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert], check_two_line)
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -1563,7 +1655,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -1650,7 +1742,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -1737,7 +1829,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -1821,7 +1913,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -1876,7 +1968,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -1963,7 +2055,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2050,7 +2142,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2133,7 +2225,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2187,7 +2279,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2273,7 +2365,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2359,7 +2451,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2410,9 +2502,12 @@ class BillingClass(models.Model):
                             self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11)),
                                   check_two_line])
                     if record_final.bill_invoice_id.x_studio_summary:
-                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(
-                        self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
-                              check_two_line])
+                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary,
+                                                                          12) + '＞', '', '', '', '',
+                                  '(' + str('{0:,.0f}'.format(
+                                      self.limit_number_field(int(record_final.bill_invoice_id.amount_total),
+                                                              8))) + ')',
+                                  check_two_line])
                     else:
                         a.append(
                             ['', '', '', '',
@@ -2457,7 +2552,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2511,7 +2606,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2597,7 +2692,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2683,7 +2778,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -2766,7 +2861,7 @@ class BillingClass(models.Model):
                                               line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -2819,7 +2914,7 @@ class BillingClass(models.Model):
                                               line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -2904,7 +2999,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -2989,7 +3084,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -3046,11 +3141,17 @@ class BillingClass(models.Model):
                     a.append(
                         ['', '', '消費税', '', '', '', '', amount_tax_convert, check_two_line])
                 if record_final.bill_invoice_id.x_studio_summary:
-                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
+                    a.append(['', '',
+                              '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞',
+                              '', '', '', '', '(' + str('{0:,.0f}'.format(
+                            self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
+                              check_two_line])
                 else:
                     a.append(
                         ['', '', '', '', '',
-                         '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
+                         '', '', '(' + str('{0:,.0f}'.format(
+                            self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
+                         check_two_line])
             a.append(['', '', '', '', '', '', '', '', check_two_line])
             if bill_info_draft.partner_id.customer_tax_unit == 'invoice':
                 a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
@@ -3061,7 +3162,8 @@ class BillingClass(models.Model):
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
+                              '', '', '', '{0:,.0f}'.format(
+                            self.limit_number_field(int(self.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
                               check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％消費税）', '',
                               '', '', '',
@@ -3091,7 +3193,8 @@ class BillingClass(models.Model):
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(self.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
+                              '', '', '', '{0:,.0f}'.format(
+                            self.limit_number_field(int(self.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
                               check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％消費税）', '',
                               '', '', '',
@@ -3181,7 +3284,7 @@ class BillingClass(models.Model):
                                               line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -3233,7 +3336,7 @@ class BillingClass(models.Model):
                                               line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -3317,7 +3420,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -3401,7 +3504,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -3452,9 +3555,12 @@ class BillingClass(models.Model):
                             self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11)),
                                   check_two_line])
                     if record_final.bill_invoice_id.x_studio_summary:
-                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(
-                        self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
-                              check_two_line])
+                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary,
+                                                                          12) + '＞', '', '', '', '',
+                                  '(' + str('{0:,.0f}'.format(
+                                      self.limit_number_field(int(record_final.bill_invoice_id.amount_total),
+                                                              8))) + ')',
+                                  check_two_line])
                     else:
                         a.append(
                             ['', '', '', '',
@@ -3499,7 +3605,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert], check_two_line)
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -3554,7 +3660,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -3641,7 +3747,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -3728,7 +3834,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -3814,7 +3920,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -3869,7 +3975,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -3956,7 +4062,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4043,7 +4149,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4128,7 +4234,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4182,7 +4288,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4268,7 +4374,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4354,7 +4460,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4407,9 +4513,12 @@ class BillingClass(models.Model):
                             self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11)),
                                   check_two_line])
                     if record_final.bill_invoice_id.x_studio_summary:
-                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(
-                        self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
-                              check_two_line])
+                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary,
+                                                                          12) + '＞', '', '', '', '',
+                                  '(' + str('{0:,.0f}'.format(
+                                      self.limit_number_field(int(record_final.bill_invoice_id.amount_total),
+                                                              8))) + ')',
+                                  check_two_line])
                     else:
                         a.append(
                             ['', '', '', '',
@@ -4454,7 +4563,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4508,7 +4617,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4594,7 +4703,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4680,7 +4789,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4805,9 +4914,12 @@ class BillingClass(models.Model):
                             self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11)),
                                   check_two_line])
                     if record_final.bill_invoice_id.x_studio_summary:
-                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(
-                        self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
-                              check_two_line])
+                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary,
+                                                                          12) + '＞', '', '', '', '',
+                                  '(' + str('{0:,.0f}'.format(
+                                      self.limit_number_field(int(record_final.bill_invoice_id.amount_total),
+                                                              8))) + ')',
+                                  check_two_line])
                     else:
                         a.append(
                             ['', '', '', '',
@@ -4852,7 +4964,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert], check_two_line)
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4907,7 +5019,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -4994,7 +5106,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5081,7 +5193,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5167,7 +5279,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5222,7 +5334,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5309,7 +5421,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5396,7 +5508,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5481,7 +5593,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5535,7 +5647,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5621,7 +5733,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5707,7 +5819,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5760,9 +5872,12 @@ class BillingClass(models.Model):
                             self.limit_number_field(int(record_final.bill_invoice_id.amount_tax), 11)),
                                   check_two_line])
                     if record_final.bill_invoice_id.x_studio_summary:
-                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(
-                        self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
-                              check_two_line])
+                        a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary,
+                                                                          12) + '＞', '', '', '', '',
+                                  '(' + str('{0:,.0f}'.format(
+                                      self.limit_number_field(int(record_final.bill_invoice_id.amount_total),
+                                                              8))) + ')',
+                                  check_two_line])
                     else:
                         a.append(
                             ['', '', '', '',
@@ -5807,7 +5922,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5861,7 +5976,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -5947,7 +6062,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -6033,7 +6148,7 @@ class BillingClass(models.Model):
                                                       line_amount_convert, check_two_line])
                                 # In dong thu 2
                                 if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                        record.product_maker_name and record.product_custom_standardnumber):
+                                    record.product_maker_name and record.product_custom_standardnumber):
                                     if record.product_maker_name and record.product_custom_standardnumber:
                                         a.append(
                                             ['', '',
@@ -6117,7 +6232,7 @@ class BillingClass(models.Model):
                                               line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -6170,7 +6285,7 @@ class BillingClass(models.Model):
                                               line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -6255,7 +6370,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -6340,7 +6455,7 @@ class BillingClass(models.Model):
                                                   line_amount_convert, check_two_line])
                             # In dong thu 2
                             if record.limit_charater_field(record.product_name, 20, True, False) or (
-                                    record.product_maker_name and record.product_custom_standardnumber):
+                                record.product_maker_name and record.product_custom_standardnumber):
                                 if record.product_maker_name and record.product_custom_standardnumber:
                                     a.append(
                                         ['', '', self.limit_charater_field(record.product_name, 20, True, False),
@@ -6455,11 +6570,17 @@ class BillingClass(models.Model):
                     a.append(
                         ['', '', '消費税', '', '', '', '', amount_tax_convert, check_two_line])
                 if record_final.bill_invoice_id.x_studio_summary:
-                    a.append(['', '', '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞', '', '', '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
+                    a.append(['', '',
+                              '＜' + self.limit_charater_field(record_final.bill_invoice_id.x_studio_summary, 12) + '＞',
+                              '', '', '', '', '(' + str('{0:,.0f}'.format(
+                            self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
+                              check_two_line])
                 else:
                     a.append(
                         ['', '', '', '', '',
-                         '', '', '(' + str('{0:,.0f}'.format(self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')', check_two_line])
+                         '', '', '(' + str('{0:,.0f}'.format(
+                            self.limit_number_field(int(record_final.bill_invoice_id.amount_total), 8))) + ')',
+                         check_two_line])
             if bill_info_draft.partner_id.customer_tax_unit == 'invoice':
                 a.append(['', '', '（税別御買上計）　　　　　（10％対象）', '',
                           '', '', '', subtotal_amount_tax_10, check_two_line])
@@ -6469,7 +6590,8 @@ class BillingClass(models.Model):
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(bill_info_draft.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(
+                            int(bill_info_draft.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
                               check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％消費税）', '',
                               '', '', '',
@@ -6499,7 +6621,8 @@ class BillingClass(models.Model):
                     a.append(['', '', '', '', '', '', '', subtotal_amount_tax_0, check_two_line])
                 if self.amount_tax(8):
                     a.append(['', '', '（消費税）　　　　　　　　（10％消費税）', '',
-                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(int(bill_info_draft.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
+                              '', '', '', '{0:,.0f}'.format(self.limit_number_field(
+                            int(bill_info_draft.tax_amount - self.amount_tax(8) - self.amount_tax()), 11)),
                               check_two_line])
                     a.append(['', '', '　　　　　　　　　　　　　（8％消費税）', '',
                               '', '', '',
@@ -6522,6 +6645,7 @@ class BillingClass(models.Model):
         if a == []:
             a.append(['', '', '', '', '', '', '', '', 0])
         return a
+
     # TH - done
 
     # Limit Character and Number:
@@ -6555,7 +6679,7 @@ class BillingClass(models.Model):
                     while count < len_i and byte_count < text_len:
                         try:
                             if len(string_text1_tmp[count].encode(
-                                    'shift_jisx0213')) > 1 and byte_count < text_len - 1:
+                                'shift_jisx0213')) > 1 and byte_count < text_len - 1:
                                 byte_count += 2
                             else:
                                 byte_count += 1
@@ -6571,7 +6695,7 @@ class BillingClass(models.Model):
                     while count < len_i and byte_count < text_len:
                         try:
                             if len(string_text2_tmp[count].encode(
-                                    'shift_jisx0213')) > 1 and byte_count < text_len - 1:
+                                'shift_jisx0213')) > 1 and byte_count < text_len - 1:
                                 byte_count += 2
                             else:
                                 byte_count += 1
@@ -6625,22 +6749,22 @@ class BillingClass(models.Model):
                 if record[0] == '|':
                     continue
                 elif record[0] == 'deadline':
-                    invoice_line_ids = self.env['account.move.line'].search([
-                        ('date', '<=', record[2]),
-                        ('bill_status', '=', 'not yet'),
-                        ('account_internal_type', '=', 'other'),
-                        ('parent_state', '=', 'posted'),
-                    ])
+                    invoice_ids = self.env['account.move'].search([('x_studio_date_invoiced','<=', record[2]),
+                                                                      ('state', '=', 'posted'),
+                                                                      ('type', '=', 'out_invoice'),
+                                                                      ('bill_status', '!=', 'billed'),
+                                                                      ('amount_total', '!=', 0)])
+
 
                     payment_ids = self.env['account.payment'].search([
                         ('payment_date', '<=', record[2]),
                         ('state', '=', 'draft'),
                         ('bill_status', '!=', 'billed'),
                     ])
-
-                    list_domain_invoice_and_payment = invoice_line_ids.partner_id.ids + payment_ids.partner_id.ids
+                    list_domain_invoice_and_payment = invoice_ids.partner_id.ids + payment_ids.partner_id.ids
                     id_bill_info = self.env['bill.info'].search([('closing_date', '>=', record[2])])
-                    id_bill_custom = self.env['bill.info'].search([('closing_date', '<', record[2])], order="deadline desc, bill_no desc")
+                    id_bill_custom = self.env['bill.info'].search([('closing_date', '<', record[2])],
+                                                                  order="deadline desc, bill_no desc")
                     for bill_record in id_bill_custom:
                         if bill_record.billing_code not in bill_info_domain_id:
                             bill_info_domain_id.append(bill_record.billing_code)
