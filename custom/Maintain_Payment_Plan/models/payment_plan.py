@@ -566,7 +566,7 @@ class PaymentPlan(models.Model):
             record.tax_amount_amount = record.tax_amount
             record.payment_billed_amount = record.billed_amount
             # record.payment_must_pay_amount = record.billed_amount - record.payment_deposit_amount
-            record.payment_deposit_amount = record.payment_deposit_amount
+            # record.payment_deposit_amount = record.payment_deposit_amount
             # record.payment_must_pay_amount = record.payment_must_pay_amount
 
             # # Create List To Report
