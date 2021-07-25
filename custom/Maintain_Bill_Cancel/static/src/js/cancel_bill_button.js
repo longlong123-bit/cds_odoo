@@ -20,7 +20,7 @@ odoo.define('bill.cancel_bill_button', function (require) {
             if (context['bill_management_module'] === undefined || context['view_name'] !== 'Cancel Billing') {
                 this.$buttons && this.$buttons.find('button.cancel_bill_button') && this.$buttons.find('button.cancel_bill_button').hide();
             } else {
-                this.$buttons.on('click', '.cancel_bill_for_invoice', function (e) {
+                this.$buttons.on('click', '.cancel_bill_button', function (e) {
                     framework.blockUI();
                     const def = new $.Deferred();
                     var selected_data = [];
