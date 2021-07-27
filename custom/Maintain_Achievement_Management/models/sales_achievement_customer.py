@@ -16,17 +16,19 @@ class SalesAchievementCustomer(models.Model):
     res_partner_customer_code = fields.Char(string='Customer Code', readonly=True)
     res_partner_name = fields.Char(string='Customer Name', readonly=True)
 
-    sum_pay_amount_final = fields.Integer(string='Sum Pay Amount', readonly=True,
+    # sum_pay_amount_final = fields.Integer(string='Sum Pay Amount', readonly=True,
+    #                                     compute='_get_sum_pay_amount_final')
+    sum_pay_amount_final = fields.Float(string='Sum Pay Amount', readonly=True,
                                         compute='_get_sum_pay_amount_final')
-    sum_return_amount_final = fields.Integer(string='Sum Return Amount', readonly=True,
+    sum_return_amount_final = fields.Float(string='Sum Return Amount', readonly=True,
                                            compute='_get_sum_return_amount_final')
-    sum_discount_amount_final = fields.Integer(string='Sum Discount Amount', readonly=True,
+    sum_discount_amount_final = fields.Float(string='Sum Discount Amount', readonly=True,
                                              compute='_get_sum_discount_amount_final')
-    sum_cost_price_amount_final = fields.Integer(string='Sum Cost Price Amount', readonly=True,
+    sum_cost_price_amount_final = fields.Float(string='Sum Cost Price Amount', readonly=True,
                                                compute='_get_sum_cost_price_amount_final')
-    net_sale_amount_final = fields.Integer(string='Net Sale Amount', readonly=True,
+    net_sale_amount_final = fields.Float(string='Net Sale Amount', readonly=True,
                                          compute='_get_net_sale_amount_final')
-    gross_amount_final = fields.Integer(string='Gross Amount', readonly=True,
+    gross_amount_final = fields.Float(string='Gross Amount', readonly=True,
                                       compute='_get_gross_amount_final')
 
     sum_pay_amount_final_no_tax = fields.Float(string='Sum Pay Amount', readonly=True)
@@ -46,44 +48,45 @@ class SalesAchievementCustomer(models.Model):
     def _get_sum_pay_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_customer'][self.env.uid]['tax_class'] == '税込':
-                rec.sum_pay_amount_final = round(rec.sum_pay_amount_final_include_tax)
+                # rec.sum_pay_amount_final = round(rec.sum_pay_amount_final_include_tax)
+                rec.sum_pay_amount_final = rec.sum_pay_amount_final_include_tax
             else:
-                rec.sum_pay_amount_final = round(rec.sum_pay_amount_final_no_tax)
+                rec.sum_pay_amount_final = rec.sum_pay_amount_final_no_tax
 
     def _get_sum_return_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_customer'][self.env.uid]['tax_class'] == '税込':
-                rec.sum_return_amount_final = round(rec.sum_return_amount_final_include_tax)
+                rec.sum_return_amount_final = rec.sum_return_amount_final_include_tax
             else:
-                rec.sum_return_amount_final = round(rec.sum_return_amount_final_no_tax)
+                rec.sum_return_amount_final = rec.sum_return_amount_final_no_tax
 
     def _get_sum_discount_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_customer'][self.env.uid]['tax_class'] == '税込':
-                rec.sum_discount_amount_final = round(rec.sum_discount_amount_final_include_tax)
+                rec.sum_discount_amount_final = rec.sum_discount_amount_final_include_tax
             else:
-                rec.sum_discount_amount_final = round(rec.sum_discount_amount_final_no_tax)
+                rec.sum_discount_amount_final = rec.sum_discount_amount_final_no_tax
 
     def _get_sum_cost_price_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_customer'][self.env.uid]['tax_class'] == '税込':
-                rec.sum_cost_price_amount_final = round(rec.sum_cost_price_amount_final_include_tax)
+                rec.sum_cost_price_amount_final = rec.sum_cost_price_amount_final_include_tax
             else:
-                rec.sum_cost_price_amount_final = round(rec.sum_cost_price_amount_final_no_tax)
+                rec.sum_cost_price_amount_final = rec.sum_cost_price_amount_final_no_tax
 
     def _get_net_sale_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_customer'][self.env.uid]['tax_class'] == '税込':
-                rec.net_sale_amount_final = round(rec.net_sale_amount_final_include_tax)
+                rec.net_sale_amount_final = rec.net_sale_amount_final_include_tax
             else:
-                rec.net_sale_amount_final = round(rec.net_sale_amount_final_no_tax)
+                rec.net_sale_amount_final = rec.net_sale_amount_final_no_tax
 
     def _get_gross_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_customer'][self.env.uid]['tax_class'] == '税込':
-                rec.gross_amount_final = round(rec.gross_amount_final_include_tax)
+                rec.gross_amount_final = rec.gross_amount_final_include_tax
             else:
-                rec.gross_amount_final = round(rec.gross_amount_final_no_tax)
+                rec.gross_amount_final = rec.gross_amount_final_no_tax
 
     def init(self, check_date = '', check_date_gte_or_lte = '', date_gte = datetime.datetime.now().strftime('%Y/%m/%d'), date_lte = datetime.datetime.now().strftime('%Y/%m/%d')):
         tools.drop_view_if_exists(self._cr, self._table)
