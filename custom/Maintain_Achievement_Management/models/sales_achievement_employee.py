@@ -14,17 +14,19 @@ class SalesAchievementEmployee(models.Model):
     hr_employee_employee_code = fields.Char(string='Employee Code', readonly=True)
     hr_employee_name = fields.Char(string='Employee Name', readonly=True)
 
-    sum_pay_amount_final = fields.Integer(string='Sum Pay Amount', readonly=True,
+    # sum_pay_amount_final = fields.Integer(string='Sum Pay Amount', readonly=True,
+    #                                     compute='_get_sum_pay_amount_final')
+    sum_pay_amount_final = fields.Float(string='Sum Pay Amount', readonly=True,
                                         compute='_get_sum_pay_amount_final')
-    sum_return_amount_final = fields.Integer(string='Sum Return Amount', readonly=True,
+    sum_return_amount_final = fields.Float(string='Sum Return Amount', readonly=True,
                                            compute='_get_sum_return_amount_final')
-    sum_discount_amount_final = fields.Integer(string='Sum Discount Amount', readonly=True,
+    sum_discount_amount_final = fields.Float(string='Sum Discount Amount', readonly=True,
                                              compute='_get_sum_discount_amount_final')
-    sum_cost_price_amount_final = fields.Integer(string='Sum Cost Price Amount', readonly=True,
+    sum_cost_price_amount_final = fields.Float(string='Sum Cost Price Amount', readonly=True,
                                                compute='_get_sum_cost_price_amount_final')
-    net_sale_amount_final = fields.Integer(string='Net Sale Amount', readonly=True,
+    net_sale_amount_final = fields.Float(string='Net Sale Amount', readonly=True,
                                          compute='_get_net_sale_amount_final')
-    gross_amount_final = fields.Integer(string='Gross Amount', readonly=True,
+    gross_amount_final = fields.Float(string='Gross Amount', readonly=True,
                                       compute='_get_gross_amount_final')
 
     sum_pay_amount_final_no_tax = fields.Float(string='Sum Pay Amount', readonly=True)
@@ -44,44 +46,45 @@ class SalesAchievementEmployee(models.Model):
     def _get_sum_pay_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_employee'][self.env.uid]['tax_class'] == '税込':
-                rec.sum_pay_amount_final = round(rec.sum_pay_amount_final_include_tax)
+                # rec.sum_pay_amount_final = round(rec.sum_pay_amount_final_include_tax)
+                rec.sum_pay_amount_final = rec.sum_pay_amount_final_include_tax
             else:
-                rec.sum_pay_amount_final = round(rec.sum_pay_amount_final_no_tax)
+                rec.sum_pay_amount_final = rec.sum_pay_amount_final_no_tax
 
     def _get_sum_return_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_employee'][self.env.uid]['tax_class'] == '税込':
-                rec.sum_return_amount_final = round(rec.sum_return_amount_final_include_tax)
+                rec.sum_return_amount_final = rec.sum_return_amount_final_include_tax
             else:
-                rec.sum_return_amount_final = round(rec.sum_return_amount_final_no_tax)
+                rec.sum_return_amount_final = rec.sum_return_amount_final_no_tax
 
     def _get_sum_discount_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_employee'][self.env.uid]['tax_class'] == '税込':
-                rec.sum_discount_amount_final = round(rec.sum_discount_amount_final_include_tax)
+                rec.sum_discount_amount_final = rec.sum_discount_amount_final_include_tax
             else:
-                rec.sum_discount_amount_final = round(rec.sum_discount_amount_final_no_tax)
+                rec.sum_discount_amount_final = rec.sum_discount_amount_final_no_tax
 
     def _get_sum_cost_price_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_employee'][self.env.uid]['tax_class'] == '税込':
-                rec.sum_cost_price_amount_final = round(rec.sum_cost_price_amount_final_include_tax)
+                rec.sum_cost_price_amount_final = rec.sum_cost_price_amount_final_include_tax
             else:
-                rec.sum_cost_price_amount_final = round(rec.sum_cost_price_amount_final_no_tax)
+                rec.sum_cost_price_amount_final = rec.sum_cost_price_amount_final_no_tax
 
     def _get_net_sale_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_employee'][self.env.uid]['tax_class'] == '税込':
-                rec.net_sale_amount_final = round(rec.net_sale_amount_final_include_tax)
+                rec.net_sale_amount_final = rec.net_sale_amount_final_include_tax
             else:
-                rec.net_sale_amount_final = round(rec.net_sale_amount_final_no_tax)
+                rec.net_sale_amount_final = rec.net_sale_amount_final_no_tax
 
     def _get_gross_amount_final(self):
         for rec in self:
             if request.session['advanced_search_condition_of_employee'][self.env.uid]['tax_class'] == '税込':
-                rec.gross_amount_final = round(rec.gross_amount_final_include_tax)
+                rec.gross_amount_final = rec.gross_amount_final_include_tax
             else:
-                rec.gross_amount_final = round(rec.gross_amount_final_no_tax)
+                rec.gross_amount_final = rec.gross_amount_final_no_tax
 
     # Must command code if you want to Upgrade this Module
     def init(self, check_date = '', check_date_gte_or_lte = '', date_gte = datetime.datetime.now().strftime('%Y/%m/%d'), date_lte = datetime.datetime.now().strftime('%Y/%m/%d')):
@@ -127,30 +130,35 @@ class SalesAchievementEmployee(models.Model):
                 SUM(CASE WHEN 'nodate'= %s THEN sum_pay_amount_include_tax WHEN 'date_gte' = %s AND date >= %s THEN sum_pay_amount_include_tax WHEN 'date_lte' = %s AND date <= %s THEN sum_pay_amount_include_tax
                 WHEN date between %s and %s THEN sum_pay_amount_include_tax ELSE 0 END) AS sum_pay_amount_final_include_tax,
 
+                
                 SUM(CASE WHEN 'nodate'= %s THEN sum_return_amount WHEN 'date_gte' = %s AND date >= %s THEN sum_return_amount WHEN 'date_lte' = %s AND date <= %s THEN sum_return_amount
                 WHEN date between %s and %s THEN sum_return_amount ELSE 0 END) AS sum_return_amount_final_no_tax,
 
                 SUM(CASE WHEN 'nodate'= %s THEN sum_return_amount_include_tax WHEN 'date_gte' = %s AND date >= %s THEN sum_return_amount_include_tax WHEN 'date_lte' = %s AND date <= %s THEN sum_return_amount_include_tax
                 WHEN date between %s and %s THEN sum_return_amount_include_tax ELSE 0 END) AS sum_return_amount_final_include_tax,
 
+                
                 SUM(CASE WHEN 'nodate'= %s THEN sum_discount_amount WHEN 'date_gte' = %s AND date >= %s THEN sum_discount_amount WHEN 'date_lte' = %s AND date <= %s THEN sum_discount_amount
                 WHEN date between %s and %s THEN sum_discount_amount ELSE 0 END) AS sum_discount_amount_final_no_tax,
 
                 SUM(CASE WHEN 'nodate'= %s THEN sum_discount_amount_include_tax WHEN 'date_gte' = %s AND date >= %s THEN sum_discount_amount_include_tax WHEN 'date_lte' = %s AND date <= %s THEN sum_discount_amount_include_tax
                 WHEN date between %s and %s THEN sum_discount_amount_include_tax ELSE 0 END) AS sum_discount_amount_final_include_tax,
 
+                
                 SUM(CASE WHEN 'nodate'= %s THEN sum_cost_price WHEN 'date_gte' = %s AND date >= %s THEN sum_cost_price WHEN 'date_lte' = %s AND date <= %s THEN sum_cost_price
                 WHEN date between %s and %s THEN sum_cost_price ELSE 0 END) AS sum_cost_price_amount_final_no_tax,
 
                 SUM(CASE WHEN 'nodate'= %s THEN sum_cost_price_include_tax WHEN 'date_gte' = %s AND date >= %s THEN sum_cost_price_include_tax WHEN 'date_lte' = %s AND date <= %s THEN sum_cost_price_include_tax
                 WHEN date between %s and %s THEN sum_cost_price_include_tax ELSE 0 END) AS sum_cost_price_amount_final_include_tax,
 
+                
                 SUM(CASE WHEN 'nodate'= %s THEN net_sale_amount WHEN 'date_gte' = %s AND date >= %s THEN net_sale_amount WHEN 'date_lte' = %s AND date <= %s THEN net_sale_amount
                 WHEN date between %s and %s THEN net_sale_amount ELSE 0 END) AS net_sale_amount_final_no_tax,
 
                 SUM(CASE WHEN 'nodate'= %s THEN net_sale_amount_include_tax WHEN 'date_gte' = %s AND date >= %s THEN net_sale_amount_include_tax WHEN 'date_lte' = %s AND date <= %s THEN net_sale_amount_include_tax
                 WHEN date between %s and %s THEN net_sale_amount_include_tax ELSE 0 END) AS net_sale_amount_final_include_tax,
 
+                
                 SUM(CASE WHEN 'nodate'= %s THEN gross_amount WHEN 'date_gte' = %s AND date >= %s THEN gross_amount WHEN 'date_lte' = %s AND date <= %s THEN gross_amount
                 WHEN date between %s and %s THEN gross_amount ELSE 0 END) AS gross_amount_final_no_tax,
 
@@ -292,7 +300,7 @@ class SalesAchievementEmployee(models.Model):
                                     -- x_invoicelinetype AS cost_price_x_invoicelinetype,
 
                                     ABS(SUM(account_move_line.quantity * account_move_line.x_product_cost_price)) AS sum_cost_price,
-                                    -- SUM(account_move_line.x_product_cost_price * (1 + (account_move_line.tax_rate / 100))) AS sum_cost_price_include_tax
+                                    -- ABS(SUM(account_move_line.x_product_cost_price * (1 + (account_move_line.tax_rate / 100)))) AS sum_cost_price_include_tax
                                     ABS(SUM(account_move_line.quantity * account_move_line.x_product_cost_price)) AS sum_cost_price_include_tax
 
                                 FROM account_move_line

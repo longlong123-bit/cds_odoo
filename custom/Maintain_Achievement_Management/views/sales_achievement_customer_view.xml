@@ -10,9 +10,11 @@
 					<field name="hr_employee_name"/>
 					<field name="res_partner_customer_code"/>
 					<field name="res_partner_name"/>
+
 					<field name="sum_pay_amount_final" sum="Total" optional="show"/>
 					<field name="sum_return_amount_final" sum="Total" optional="show"/>
 					<field name="sum_discount_amount_final" sum="Total" optional="show"/>
+					<field name="sum_cost_price_amount_final" sum="Total" optional="show"/>
 					<field name="net_sale_amount_final" sum="Total" optional="show"/>
 					<field name="gross_amount_final" sum="Total" optional="show"/>
 				</tree>
