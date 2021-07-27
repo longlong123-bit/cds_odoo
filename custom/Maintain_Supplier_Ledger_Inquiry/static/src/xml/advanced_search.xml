@@ -21,6 +21,7 @@
                         id="billing_code_ledger_advanced_search"
                         data-operator="="
                         data-name="customer_code_bill"
+                        onkeyup="onChangeBillingCode()"
                         onblur="onBlurBillingCode()"
                         type="search"
                     />
@@ -30,68 +31,6 @@
                         title="Search More" role="img" aria-label="Search More"
                     />
                 </td>
-                <style>
-                    .ui-autocomplete {
-                        max-height: 400px;
-                        overflow-y: auto;
-                        /* prevent horizontal scrollbar */
-                        overflow-x: hidden;
-                    }
-                    /* IE 6 doesn't support max-height
-                    * we use height instead, but this forces the menu to always be this tall
-                    */
-                    * html .ui-autocomplete {
-                        height: 400px;
-                    }
-                </style>
-                <script>
-                    $(function() {
-                        $.ajax({
-                            url: "/ledger/get_customer_list",
-                            type: "GET",
-                            dataType: 'json',
-                            success: function(result){
-                                $("#billing_code_ledger_advanced_search").autocomplete({
-                                    minLength: 0,
-                                    source: result.customer_list,
-                                    select: function(event, ui) {
-                                        window.isKeepDropdownOpen = true;
-                                        $("#billing_code_ledger_advanced_search" ).val(ui.item.value);
-                                        onBlurBillingCode();
-                                        return false;
-                                    }
-                                })
-                                .autocomplete("instance")._renderItem = function(ul, item) {
-                                    return $("&lt;li>")
-                                        .append("&lt;div>" + item.value + "&lt;br>" + item.name + "&lt;/div>")
-                                        .appendTo(ul);
-                                };
-                            },
-                            error: function(result){
-                                console.log(result);
-                            }
-                        });
-                    });
-                    function onBlurBillingCode(){
-                        billing_code = document.getElementById("billing_code_ledger_advanced_search").value;
-                        $.ajax({
-                            url: "/ledger/get_billing_name",
-                            type: "GET",
-                            data: {"content": billing_code},
-                            dataType: 'json',
-                            traditional: true,
-                            success: function(result){
-                                document.getElementById("billing_name_ledger_advanced_search").value = result.content.billing_name;
-                                document.getElementById("billing_code_ledger_advanced_search").value = result.content.billing_code;
-                                // need to put isKeepDropdownOpen = false here for dropdown back to normal clearing behavior
-                                window.isKeepDropdownOpen = false;
-                            },
-                            error: function(result){
-                                console.log(result);
-                            }
-                        });
-                    }
-                </script>
             </tr>
              <tr>
                 <th>請求先名（得意先名）</th>
@@ -99,6 +38,76 @@
                     <input class="filter-item" id="billing_name_ledger_advanced_search" data-operator="=" data-name="customer_name" ref="" readonly="true" />
                 </td>
             </tr>
-           </table>
+        </table>
+        <style>
+            .ui-autocomplete {
+                max-height: 400px;
+                overflow-y: auto;
+                /* prevent horizontal scrollbar */
+                overflow-x: hidden;
+            }
+            /* IE 6 doesn't support max-height
+            * we use height instead, but this forces the menu to always be this tall
+            */
+            * html .ui-autocomplete {
+                height: 400px;
+            }
+        </style>
+        <script>
+            $(function() {
+                $.ajax({
+                    url: "/ledger/get_customer_list",
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(result){
+                        $("#billing_code_ledger_advanced_search").autocomplete({
+                            minLength: 0,
+                            source: result.customer_list,
+                            select: function(event, ui) {
+                                window.isKeepDropdownOpen = true;
+                                $("#billing_code_ledger_advanced_search").val(ui.item.value);
+                                onBlurBillingCode();
+                                return false;
+                            }
+                        })
+                        .autocomplete("instance")._renderItem = function(ul, item) {
+                            return $("&lt;li>")
+                                .append("&lt;div>" + item.value + "&lt;br>" + item.name + "&lt;/div>")
+                                .appendTo(ul);
+                        };
+                    },
+                    error: function(result){
+                        console.log(result);
+                    }
+                });
+            });
+            function onBlurBillingCode() {
+                billing_code = document.getElementById("billing_code_ledger_advanced_search").value;
+                $.ajax({
+                    url: "/ledger/get_billing_name",
+                    type: "GET",
+                    data: {"content": billing_code},
+                    dataType: 'json',
+                    traditional: true,
+                    success: function(result){
+                        document.getElementById("billing_name_ledger_advanced_search").value = result.content.billing_name;
+                        document.getElementById("billing_code_ledger_advanced_search").value = result.content.billing_code;
+                        // need to put isKeepDropdownOpen = false here for dropdown back to normal clearing behavior
+                        window.isKeepDropdownOpen = false;
+                    },
+                    error: function(result){
+                        console.log(result);
+                    }
+                });
+                $('#billing_code_ledger_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                $('#billing_code_ledger_advanced_search').css('border', '2px solid black');
+            }
+            function onChangeBillingCode() {
+                if ($('#billing_code_ledger_advanced_search').val()) {
+                    $('#billing_code_ledger_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                    $('#billing_code_ledger_advanced_search').css('border', '2px solid black');
+                }
+            }
+        </script>
     </t>
 </template>
