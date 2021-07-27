@@ -404,26 +404,43 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
     });
     FilterMenu.prototype._onApplyClick =  function (ev) {
         ev.stopPropagation();
-        // check if ledger advanced search is currently open
+        // check if collation advanced search is currently open
         if ($('#billing_code_collation_advanced_search').length && $('#customer_code_collation_advanced_search').length) {
             // validate billing_code_ledger_advanced_search input
             if (!$('#billing_code_collation_advanced_search').val() && !$('#customer_code_collation_advanced_search').val()) {
                 $('#billing_code_collation_advanced_search').css('background-color', 'rgb(255 0 0 / 15%)');
-                $('#billing_code_collation_advanced_search').css('border', '2px solid red');
+                $('#billing_code_collation_advanced_search').css('border', '2px solid #dc3545');
                 $('#customer_code_collation_advanced_search').css('background-color', 'rgb(255 0 0 / 15%)');
-                $('#customer_code_collation_advanced_search').css('border', '2px solid red');
+                $('#customer_code_collation_advanced_search').css('border', '2px solid #dc3545');
+                // currently not focusing in invalid input because of struggling in blur problem
                 // $('#billing_code_collation_advanced_search').focus();
+                var msg = '<ul><li>請求先コード</li><li>得意先コード</li></ul>'
+                this.displayNotification({
+                    type: 'danger',
+                    title: '次のフィールドは無効 :',
+                    message: msg,
+                    sticky: false,
+                });
             }
             else {
                 this._commitSearch();
             }
         }
+        // check if ledger advanced search is currently open
         else if ($('#billing_code_ledger_advanced_search').length) {
             // validate billing_code_ledger_advanced_search input
             if (!$('#billing_code_ledger_advanced_search').val()) {
                 $('#billing_code_ledger_advanced_search').css('background-color', 'rgb(255 0 0 / 15%)');
-                $('#billing_code_ledger_advanced_search').css('border', '2px solid red');
+                $('#billing_code_ledger_advanced_search').css('border', '2px solid #dc3545');
+                // currently not focusing in invalid input because of struggling in blur problem
                 // $('#billing_code_ledger_advanced_search').focus();
+                var msg = '<ul><li>請求先（得意先）コード</li></ul>'
+                this.displayNotification({
+                    type: 'danger',
+                    title: '次のフィールドは無効 :',
+                    message: msg,
+                    sticky: false,
+                });
             } else {
                 this._commitSearch();
             }
