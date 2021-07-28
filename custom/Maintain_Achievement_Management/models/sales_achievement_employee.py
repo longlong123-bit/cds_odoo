@@ -166,32 +166,34 @@ class SalesAchievementEmployee(models.Model):
                 WHEN date between %s and %s THEN gross_amount_include_tax ELSE 0 END) AS gross_amount_final_include_tax
 
             FROM
-                (SELECT date,
-                    hr_employee_employee_code,
-                    hr_employee_name,
-
-                    SUM(sum_pay_amount) AS sum_pay_amount,
-                    SUM(sum_pay_amount_include_tax) AS sum_pay_amount_include_tax,
-
-                    SUM(sum_return_amount) AS sum_return_amount,
-                    SUM(sum_return_amount_include_tax) AS sum_return_amount_include_tax,
-
-                    SUM(sum_discount_amount) AS sum_discount_amount,
-                    SUM(sum_discount_amount_include_tax) AS sum_discount_amount_include_tax,
-
-                    SUM(sum_cost_price) AS sum_cost_price,
-                    SUM(sum_cost_price_include_tax) AS sum_cost_price_include_tax,
-
-                    SUM(net_sale_amount) AS net_sale_amount,
-                    SUM(net_sale_amount_include_tax) AS net_sale_amount_include_tax,
-
-                    SUM(gross_amount) AS gross_amount,
-                    SUM(gross_amount_include_tax) AS gross_amount_include_tax
-                FROM
+--                (SELECT date,
+--                    hr_employee_employee_code,
+--                    hr_employee_name,
+--
+--                    SUM(sum_pay_amount) AS sum_pay_amount,
+--                    SUM(sum_pay_amount_include_tax) AS sum_pay_amount_include_tax,
+--
+--                    SUM(sum_return_amount) AS sum_return_amount,
+--                    SUM(sum_return_amount_include_tax) AS sum_return_amount_include_tax,
+--
+--                    SUM(sum_discount_amount) AS sum_discount_amount,
+--                    SUM(sum_discount_amount_include_tax) AS sum_discount_amount_include_tax,
+--
+--                    SUM(sum_cost_price) AS sum_cost_price,
+--                    SUM(sum_cost_price_include_tax) AS sum_cost_price_include_tax,
+--
+--                    SUM(net_sale_amount) AS net_sale_amount,
+--                    SUM(net_sale_amount_include_tax) AS net_sale_amount_include_tax,
+--
+--                    SUM(gross_amount) AS gross_amount,
+--                    SUM(gross_amount_include_tax) AS gross_amount_include_tax
+--                FROM
                     (SELECT account_move_line.date,
                         account_move_line.partner_id,
                         res_employee.hr_employee_name,
 
+                        --pay_amount.sales_rep,
+                        
                         pay_amount.sum_pay_amount,
                         pay_amount.sum_pay_amount_include_tax,
 
@@ -215,7 +217,14 @@ class SalesAchievementEmployee(models.Model):
                         res_employee.res_partner_name,
                         res_employee.res_partner_customer_code
                     FROM
-                        account_move_line
+--                        account_move_line
+                            (SELECT AM.sales_rep AS sales_rep, 
+                                    AML.*
+                                FROM account_move_line AS AML
+                                INNER JOIN account_move AS AM
+                                ON AML.move_id = AM.id
+                            ) AS account_move_line
+                        
                             LEFT JOIN
 --                                (SELECT hr_employee.employee_code AS hr_employee_employee_code,
 --                                    hr_employee.name AS hr_employee_name,
@@ -246,70 +255,86 @@ class SalesAchievementEmployee(models.Model):
                                     ) AS res_employee
                             ON account_move_line.move_id = res_employee.account_move_id
                             
-                            LEFT JOIN
-                                (SELECT date AS pay_amount_date,
-                                    partner_id AS pay_amount_partner_id,
-                                    x_invoicelinetype AS pay_amount_x_invoicelinetype,
+                        LEFT JOIN
+                            (SELECT account_move_line.date AS pay_amount_date,
+                                account_move.sales_rep AS sales_rep,
+                                account_move_line.partner_id AS pay_amount_partner_id,
+                                account_move_line.x_invoicelinetype AS pay_amount_x_invoicelinetype,
 
-                                    SUM(account_move_line.quantity * account_move_line.price_no_tax) AS sum_pay_amount,
-                                    SUM(account_move_line.quantity * account_move_line.price_include_tax) AS sum_pay_amount_include_tax
+                                SUM(account_move_line.quantity * account_move_line.price_no_tax) AS sum_pay_amount,
+                                SUM(account_move_line.quantity * account_move_line.price_include_tax) AS sum_pay_amount_include_tax
 
-                                FROM account_move_line
-                                WHERE x_invoicelinetype = '通常'
-                                    AND account_move_line.parent_state = 'posted'
-                                    AND account_move_line.account_internal_type != 'receivable'
-                                GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
-                                ) AS pay_amount
-                            ON pay_amount.pay_amount_date = account_move_line.date and pay_amount.pay_amount_partner_id = account_move_line.partner_id
-                            
-                            LEFT JOIN
-                                (SELECT date AS return_amount_date,
-                                    partner_id AS return_amount_partner_id,
-                                    x_invoicelinetype AS return_amount_x_invoicelinetype, 
+                            FROM account_move_line, account_move
+                            WHERE x_invoicelinetype = '通常'
+                                AND account_move_line.parent_state = 'posted'
+                                AND account_move_line.account_internal_type != 'receivable'
+                                AND account_move_line.move_id = account_move.id
+                            GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
+                                    ,account_move.sales_rep
+                            ) AS pay_amount
+                        ON pay_amount.pay_amount_date = account_move_line.date and pay_amount.pay_amount_partner_id = account_move_line.partner_id
+                            AND COALESCE(pay_amount.sales_rep, 0) = COALESCE(account_move_line.sales_rep, 0)
 
-                                    SUM(account_move_line.quantity * account_move_line.price_no_tax) AS sum_return_amount,
-                                    SUM(account_move_line.quantity * account_move_line.price_include_tax) AS sum_return_amount_include_tax
+                        LEFT JOIN
+                            (SELECT account_move_line.date AS return_amount_date,
+                                account_move.sales_rep AS sales_rep,
+                                account_move_line.partner_id AS return_amount_partner_id,
+                                account_move_line.x_invoicelinetype AS return_amount_x_invoicelinetype,
 
-                                FROM account_move_line
-                                WHERE x_invoicelinetype = '返品'
-                                    AND account_move_line.parent_state = 'posted'
-                                    AND account_move_line.account_internal_type != 'receivable'
-                                GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
-                                ) AS return_amount
-                            ON return_amount.return_amount_date = account_move_line.date and return_amount.return_amount_partner_id = account_move_line.partner_id
-                            
-                            LEFT JOIN
-                                (SELECT date AS discount_amount_date,
-                                    partner_id AS discount_amount_partner_id,
-                                    x_invoicelinetype AS discount_amount_x_invoicelinetype,
+                                SUM(account_move_line.quantity * account_move_line.price_no_tax) AS sum_return_amount,
+                                SUM(account_move_line.quantity * account_move_line.price_include_tax) AS sum_return_amount_include_tax
 
-                                    SUM(account_move_line.quantity * account_move_line.price_no_tax) AS sum_discount_amount,
-                                    SUM(account_move_line.quantity * account_move_line.price_include_tax) AS sum_discount_amount_include_tax
+                            FROM account_move_line, account_move
+                            WHERE x_invoicelinetype = '返品'
+                                AND account_move_line.parent_state = 'posted'
+                                AND account_move_line.account_internal_type != 'receivable'
+                                AND account_move_line.move_id = account_move.id
+                            GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
+                                    ,account_move.sales_rep
+                            ) AS return_amount
+                        ON return_amount.return_amount_date = account_move_line.date and return_amount.return_amount_partner_id = account_move_line.partner_id
+                            AND COALESCE(return_amount.sales_rep, 0) = COALESCE(account_move_line.sales_rep, 0)
 
-                                FROM account_move_line
-                                WHERE x_invoicelinetype = '値引'
-                                    AND account_move_line.parent_state = 'posted'
-                                    AND account_move_line.account_internal_type != 'receivable'
-                                GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
-                                ) AS discount_amount
-                            ON discount_amount.discount_amount_date = account_move_line.date and discount_amount.discount_amount_partner_id = account_move_line.partner_id
-                            
-                            LEFT JOIN
-                                (SELECT date AS cost_price_date,
-                                    partner_id AS cost_price_partner_id,
-                                    -- x_invoicelinetype AS cost_price_x_invoicelinetype,
+                        LEFT JOIN
+                            (SELECT account_move_line.date AS discount_amount_date,
+                                account_move.sales_rep AS sales_rep,
+                                account_move_line.partner_id AS discount_amount_partner_id,
+                                account_move_line.x_invoicelinetype AS discount_amount_x_invoicelinetype,
 
-                                    ABS(SUM(account_move_line.quantity * account_move_line.x_product_cost_price)) AS sum_cost_price,
-                                    -- ABS(SUM(account_move_line.x_product_cost_price * (1 + (account_move_line.tax_rate / 100)))) AS sum_cost_price_include_tax
-                                    ABS(SUM(account_move_line.quantity * account_move_line.x_product_cost_price)) AS sum_cost_price_include_tax
+                                SUM(account_move_line.quantity * account_move_line.price_no_tax) AS sum_discount_amount,
+                                SUM(account_move_line.quantity * account_move_line.price_include_tax) AS sum_discount_amount_include_tax
 
-                                FROM account_move_line
-                                WHERE account_move_line.parent_state = 'posted'
-                                    AND account_move_line.account_internal_type != 'receivable'
-                                GROUP BY account_move_line.date, account_move_line.partner_id
-                                --,  account_move_line.x_invoicelinetype
-                                ) AS cost_price
-                            ON account_move_line.date = cost_price.cost_price_date AND account_move_line.partner_id = cost_price.cost_price_partner_id
+                            FROM account_move_line, account_move
+                            WHERE x_invoicelinetype = '値引'
+                                AND account_move_line.parent_state = 'posted'
+                                AND account_move_line.account_internal_type != 'receivable'
+                                AND account_move_line.move_id = account_move.id
+                            GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
+                                    ,account_move.sales_rep
+                            ) AS discount_amount
+                        ON discount_amount.discount_amount_date = account_move_line.date and discount_amount.discount_amount_partner_id = account_move_line.partner_id
+                            AND COALESCE(discount_amount.sales_rep, 0) = COALESCE(account_move_line.sales_rep, 0)
+
+                        LEFT JOIN
+                            (SELECT account_move_line.date AS cost_price_date,
+                                account_move.sales_rep AS sales_rep,
+                                account_move_line.partner_id AS cost_price_partner_id,
+                                -- x_invoicelinetype AS cost_price_x_invoicelinetype,
+
+                                ABS(SUM(account_move_line.quantity * account_move_line.x_product_cost_price)) AS sum_cost_price,
+                                -- ABS(SUM(account_move_line.x_product_cost_price * (1 + (account_move_line.tax_rate / 100)))) AS sum_cost_price_include_tax
+                                ABS(SUM(account_move_line.quantity * account_move_line.x_product_cost_price)) AS sum_cost_price_include_tax
+
+                            FROM account_move_line, account_move
+                            WHERE account_move_line.parent_state = 'posted'
+                                AND account_move_line.account_internal_type != 'receivable'
+                                AND account_move_line.move_id = account_move.id
+                            GROUP BY account_move_line.date, account_move_line.partner_id
+                            --,  account_move_line.x_invoicelinetype
+                                ,account_move.sales_rep
+                            ) AS cost_price
+                        ON account_move_line.date = cost_price.cost_price_date AND account_move_line.partner_id = cost_price.cost_price_partner_id
+                            AND COALESCE(cost_price.sales_rep, 0) = COALESCE(account_move_line.sales_rep, 0)
                     
                     WHERE account_move_line.parent_state = 'posted'
                         AND account_move_line.account_internal_type != 'receivable'
@@ -324,6 +349,8 @@ class SalesAchievementEmployee(models.Model):
                         res_employee.hr_employee_employee_code,
                         res_employee.hr_employee_name,
                         res_employee.res_partner_customer_code,
+                        
+                        --pay_amount.sales_rep,
 
                         pay_amount.sum_pay_amount,
                         pay_amount.sum_pay_amount_include_tax,
@@ -346,10 +373,10 @@ class SalesAchievementEmployee(models.Model):
 
                     ORDER BY date, partner_id
                     ) AS employee_option
-                GROUP BY date, hr_employee_employee_code, hr_employee_name
-                ORDER BY hr_employee_employee_code, date
-                ) AS employee_option_no_search
-            WHERE hr_employee_employee_code IS NOT NULL
+--                GROUP BY date, hr_employee_employee_code, hr_employee_name
+--                ORDER BY hr_employee_employee_code, date
+--                ) AS employee_option_no_search
+            --WHERE hr_employee_employee_code IS NOT NULL
             GROUP BY hr_employee_employee_code, hr_employee_name
             )
 --            ) AS DETAIl

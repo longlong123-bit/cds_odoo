@@ -137,28 +137,28 @@ class SalesAchievementBusiness(models.Model):
                 WHEN date between %s and %s THEN gross_amount_include_tax ELSE 0 END) AS gross_amount_final_include_tax
 
             FROM
-                (SELECT date,
-                    business_partner_code,
-                    business_partner_name,
-
-                    SUM(sum_pay_amount) AS sum_pay_amount,
-                    SUM(sum_pay_amount_include_tax) AS sum_pay_amount_include_tax,
-
-                    SUM(sum_return_amount) AS sum_return_amount,
-                    SUM(sum_return_amount_include_tax) AS sum_return_amount_include_tax,
-
-                    SUM(sum_discount_amount) AS sum_discount_amount,
-                    SUM(sum_discount_amount_include_tax) AS sum_discount_amount_include_tax,
-
-                    SUM(sum_cost_price) AS sum_cost_price,
-                    SUM(sum_cost_price_include_tax) AS sum_cost_price_include_tax,
-
-                    SUM(net_sale_amount) AS net_sale_amount,
-                    SUM(net_sale_amount_include_tax) AS net_sale_amount_include_tax,
-
-                    SUM(gross_amount) AS gross_amount,
-                    SUM(gross_amount_include_tax) AS gross_amount_include_tax
-                FROM
+--                (SELECT date,
+--                    business_partner_code,
+--                    business_partner_name,
+--
+--                    SUM(sum_pay_amount) AS sum_pay_amount,
+--                    SUM(sum_pay_amount_include_tax) AS sum_pay_amount_include_tax,
+--
+--                    SUM(sum_return_amount) AS sum_return_amount,
+--                    SUM(sum_return_amount_include_tax) AS sum_return_amount_include_tax,
+--
+--                    SUM(sum_discount_amount) AS sum_discount_amount,
+--                    SUM(sum_discount_amount_include_tax) AS sum_discount_amount_include_tax,
+--
+--                    SUM(sum_cost_price) AS sum_cost_price,
+--                    SUM(sum_cost_price_include_tax) AS sum_cost_price_include_tax,
+--
+--                    SUM(net_sale_amount) AS net_sale_amount,
+--                    SUM(net_sale_amount_include_tax) AS net_sale_amount_include_tax,
+--
+--                    SUM(gross_amount) AS gross_amount,
+--                    SUM(gross_amount_include_tax) AS gross_amount_include_tax
+--                FROM
                     (SELECT account_move_line.date,
                         account_move_line.partner_id,
                         res_business_partner.business_partner_code,
@@ -298,9 +298,9 @@ class SalesAchievementBusiness(models.Model):
     
                     ORDER BY date, partner_id
                     ) AS business_partner_option
-                GROUP BY date, business_partner_code, business_partner_name
-                ORDER BY business_partner_code, date
-                ) AS business_partner_final
+--                GROUP BY date, business_partner_code, business_partner_name
+--                ORDER BY business_partner_code, date
+--                ) AS business_partner_final
             GROUP BY business_partner_code, business_partner_name
             )
         ) AS foo""", [check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
