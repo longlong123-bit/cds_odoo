@@ -15,11 +15,78 @@ class SalesAchievementCustomerEmployee(models.Model):
     hr_employee_name = fields.Char(string='Employee Name', readonly=True)
     res_partner_customer_code = fields.Char(string='Customer Code', readonly=True)
     res_partner_name = fields.Char(string='Customer Name', readonly=True)
-    sum_pay_amount_final = fields.Float(string='Sum Pay Amount', readonly=True)
-    sum_return_amount_final = fields.Float(string='Sum Return Amount', readonly=True)
-    sum_discount_amount_final = fields.Float(string='Sum Discount Amount', readonly=True)
-    net_sale_amount_final = fields.Float(string='Net Sale Amount', readonly=True)
-    gross_amount_final = fields.Float(string='Gross Amount', readonly=True)
+
+    # sum_pay_amount_final = fields.Integer(string='Sum Pay Amount', readonly=True,
+    #                                     compute='_get_sum_pay_amount_final')
+    sum_pay_amount_final = fields.Float(string='Sum Pay Amount', readonly=True,
+                                        compute='_get_sum_pay_amount_final')
+    sum_return_amount_final = fields.Float(string='Sum Return Amount', readonly=True,
+                                           compute='_get_sum_return_amount_final')
+    sum_discount_amount_final = fields.Float(string='Sum Discount Amount', readonly=True,
+                                             compute='_get_sum_discount_amount_final')
+    sum_cost_price_amount_final = fields.Float(string='Sum Cost Price Amount', readonly=True,
+                                               compute='_get_sum_cost_price_amount_final')
+    net_sale_amount_final = fields.Float(string='Net Sale Amount', readonly=True,
+                                         compute='_get_net_sale_amount_final')
+    gross_amount_final = fields.Float(string='Gross Amount', readonly=True,
+                                      compute='_get_gross_amount_final')
+
+    sum_pay_amount_final_no_tax = fields.Float(string='Sum Pay Amount', readonly=True)
+    sum_return_amount_final_no_tax = fields.Float(string='Sum Return Amount', readonly=True)
+    sum_discount_amount_final_no_tax = fields.Float(string='Sum Discount Amount', readonly=True)
+    sum_cost_price_amount_final_no_tax = fields.Float(string='Sum Cost Price Amount', readonly=True)
+    net_sale_amount_final_no_tax = fields.Float(string='Net Sale Amount', readonly=True)
+    gross_amount_final_no_tax = fields.Float(string='Gross Amount', readonly=True)
+
+    sum_pay_amount_final_include_tax = fields.Float(string='Sum Pay Amount', readonly=True)
+    sum_return_amount_final_include_tax = fields.Float(string='Sum Return Amount', readonly=True)
+    sum_discount_amount_final_include_tax = fields.Float(string='Sum Discount Amount', readonly=True)
+    sum_cost_price_amount_final_include_tax = fields.Float(string='Sum Cost Price Amount', readonly=True)
+    net_sale_amount_final_include_tax = fields.Float(string='Net Sale Amount', readonly=True)
+    gross_amount_final_include_tax = fields.Float(string='Gross Amount', readonly=True)
+
+    def _get_sum_pay_amount_final(self):
+        for rec in self:
+            if request.session['advanced_search_condition_of_customer_employee'][self.env.uid]['tax_class'] == '税込':
+                # rec.sum_pay_amount_final = round(rec.sum_pay_amount_final_include_tax)
+                rec.sum_pay_amount_final = rec.sum_pay_amount_final_include_tax
+            else:
+                rec.sum_pay_amount_final = rec.sum_pay_amount_final_no_tax
+
+    def _get_sum_return_amount_final(self):
+        for rec in self:
+            if request.session['advanced_search_condition_of_customer_employee'][self.env.uid]['tax_class'] == '税込':
+                rec.sum_return_amount_final = rec.sum_return_amount_final_include_tax
+            else:
+                rec.sum_return_amount_final = rec.sum_return_amount_final_no_tax
+
+    def _get_sum_discount_amount_final(self):
+        for rec in self:
+            if request.session['advanced_search_condition_of_customer_employee'][self.env.uid]['tax_class'] == '税込':
+                rec.sum_discount_amount_final = rec.sum_discount_amount_final_include_tax
+            else:
+                rec.sum_discount_amount_final = rec.sum_discount_amount_final_no_tax
+
+    def _get_sum_cost_price_amount_final(self):
+        for rec in self:
+            if request.session['advanced_search_condition_of_customer_employee'][self.env.uid]['tax_class'] == '税込':
+                rec.sum_cost_price_amount_final = rec.sum_cost_price_amount_final_include_tax
+            else:
+                rec.sum_cost_price_amount_final = rec.sum_cost_price_amount_final_no_tax
+
+    def _get_net_sale_amount_final(self):
+        for rec in self:
+            if request.session['advanced_search_condition_of_customer_employee'][self.env.uid]['tax_class'] == '税込':
+                rec.net_sale_amount_final = rec.net_sale_amount_final_include_tax
+            else:
+                rec.net_sale_amount_final = rec.net_sale_amount_final_no_tax
+
+    def _get_gross_amount_final(self):
+        for rec in self:
+            if request.session['advanced_search_condition_of_customer_employee'][self.env.uid]['tax_class'] == '税込':
+                rec.gross_amount_final = rec.gross_amount_final_include_tax
+            else:
+                rec.gross_amount_final = rec.gross_amount_final_no_tax
 
     def init(self, check_date = '', check_date_gte_or_lte = '', date_gte = datetime.datetime.now().strftime('%Y/%m/%d'), date_lte = datetime.datetime.now().strftime('%Y/%m/%d')):
         tools.drop_view_if_exists(self._cr, self._table)
@@ -28,117 +95,248 @@ class SalesAchievementCustomerEmployee(models.Model):
 
         SELECT row_number() OVER(ORDER BY hr_employee_employee_code, res_partner_customer_code) AS id , *  FROM(
             (SELECT hr_employee_employee_code,
-	            hr_employee_name,
+                hr_employee_name,
                 res_partner_customer_code,
                 res_partner_name,
+                
                 SUM(CASE WHEN 'nodate'= %s THEN sum_pay_amount WHEN 'date_gte' = %s AND date >= %s THEN sum_pay_amount WHEN 'date_lte' = %s AND date <= %s THEN sum_pay_amount
-                WHEN date between %s and %s THEN sum_pay_amount ELSE 0 END) AS sum_pay_amount_final,
-	            SUM(CASE WHEN 'nodate'= %s THEN sum_return_amount WHEN 'date_gte' = %s AND date >= %s THEN sum_return_amount WHEN 'date_lte' = %s AND date <= %s THEN sum_return_amount
-	            WHEN date between %s and %s THEN sum_return_amount ELSE 0 END) AS sum_return_amount_final,
-	            SUM(CASE WHEN 'nodate'= %s THEN sum_discount_amount WHEN 'date_gte' = %s AND date >= %s THEN sum_discount_amount WHEN 'date_lte' = %s AND date <= %s THEN sum_discount_amount
-	            WHEN date between %s and %s THEN sum_discount_amount ELSE 0 END) AS sum_discount_amount_final,
-	            SUM(CASE WHEN 'nodate'= %s THEN sum_cost_price WHEN 'date_gte' = %s AND date >= %s THEN sum_cost_price WHEN 'date_lte' = %s AND date <= %s THEN sum_cost_price
-	            WHEN date between %s and %s THEN sum_cost_price ELSE 0 END) AS sum_cost_price_final,
-	            SUM(CASE WHEN 'nodate'= %s THEN net_sale_amount WHEN 'date_gte' = %s AND date >= %s THEN net_sale_amount WHEN 'date_lte' = %s AND date <= %s THEN net_sale_amount
-	            WHEN date between %s and %s THEN net_sale_amount ELSE 0 END) AS net_sale_amount_final,
-	            SUM(CASE WHEN 'nodate'= %s THEN gross_amount WHEN 'date_gte' = %s AND date >= %s THEN gross_amount WHEN 'date_lte' = %s AND date <= %s THEN gross_amount
-	            WHEN date between %s and %s THEN gross_amount ELSE 0 END) AS gross_amount_final
+                WHEN date between %s and %s THEN sum_pay_amount ELSE 0 END) AS sum_pay_amount_final_no_tax,
+
+                SUM(CASE WHEN 'nodate'= %s THEN sum_pay_amount_include_tax WHEN 'date_gte' = %s AND date >= %s THEN sum_pay_amount_include_tax WHEN 'date_lte' = %s AND date <= %s THEN sum_pay_amount_include_tax
+                WHEN date between %s and %s THEN sum_pay_amount_include_tax ELSE 0 END) AS sum_pay_amount_final_include_tax,
+
+                
+                SUM(CASE WHEN 'nodate'= %s THEN sum_return_amount WHEN 'date_gte' = %s AND date >= %s THEN sum_return_amount WHEN 'date_lte' = %s AND date <= %s THEN sum_return_amount
+                WHEN date between %s and %s THEN sum_return_amount ELSE 0 END) AS sum_return_amount_final_no_tax,
+
+                SUM(CASE WHEN 'nodate'= %s THEN sum_return_amount_include_tax WHEN 'date_gte' = %s AND date >= %s THEN sum_return_amount_include_tax WHEN 'date_lte' = %s AND date <= %s THEN sum_return_amount_include_tax
+                WHEN date between %s and %s THEN sum_return_amount_include_tax ELSE 0 END) AS sum_return_amount_final_include_tax,
+
+                
+                SUM(CASE WHEN 'nodate'= %s THEN sum_discount_amount WHEN 'date_gte' = %s AND date >= %s THEN sum_discount_amount WHEN 'date_lte' = %s AND date <= %s THEN sum_discount_amount
+                WHEN date between %s and %s THEN sum_discount_amount ELSE 0 END) AS sum_discount_amount_final_no_tax,
+
+                SUM(CASE WHEN 'nodate'= %s THEN sum_discount_amount_include_tax WHEN 'date_gte' = %s AND date >= %s THEN sum_discount_amount_include_tax WHEN 'date_lte' = %s AND date <= %s THEN sum_discount_amount_include_tax
+                WHEN date between %s and %s THEN sum_discount_amount_include_tax ELSE 0 END) AS sum_discount_amount_final_include_tax,
+
+                
+                SUM(CASE WHEN 'nodate'= %s THEN sum_cost_price WHEN 'date_gte' = %s AND date >= %s THEN sum_cost_price WHEN 'date_lte' = %s AND date <= %s THEN sum_cost_price
+                WHEN date between %s and %s THEN sum_cost_price ELSE 0 END) AS sum_cost_price_amount_final_no_tax,
+
+                SUM(CASE WHEN 'nodate'= %s THEN sum_cost_price_include_tax WHEN 'date_gte' = %s AND date >= %s THEN sum_cost_price_include_tax WHEN 'date_lte' = %s AND date <= %s THEN sum_cost_price_include_tax
+                WHEN date between %s and %s THEN sum_cost_price_include_tax ELSE 0 END) AS sum_cost_price_amount_final_include_tax,
+
+                
+                SUM(CASE WHEN 'nodate'= %s THEN net_sale_amount WHEN 'date_gte' = %s AND date >= %s THEN net_sale_amount WHEN 'date_lte' = %s AND date <= %s THEN net_sale_amount
+                WHEN date between %s and %s THEN net_sale_amount ELSE 0 END) AS net_sale_amount_final_no_tax,
+
+                SUM(CASE WHEN 'nodate'= %s THEN net_sale_amount_include_tax WHEN 'date_gte' = %s AND date >= %s THEN net_sale_amount_include_tax WHEN 'date_lte' = %s AND date <= %s THEN net_sale_amount_include_tax
+                WHEN date between %s and %s THEN net_sale_amount_include_tax ELSE 0 END) AS net_sale_amount_final_include_tax,
+
+                
+                SUM(CASE WHEN 'nodate'= %s THEN gross_amount WHEN 'date_gte' = %s AND date >= %s THEN gross_amount WHEN 'date_lte' = %s AND date <= %s THEN gross_amount
+                WHEN date between %s and %s THEN gross_amount ELSE 0 END) AS gross_amount_final_no_tax,
+
+                SUM(CASE WHEN 'nodate'= %s THEN gross_amount_include_tax WHEN 'date_gte' = %s AND date >= %s THEN gross_amount_include_tax WHEN 'date_lte' = %s AND date <= %s THEN gross_amount_include_tax
+                WHEN date between %s and %s THEN gross_amount_include_tax ELSE 0 END) AS gross_amount_final_include_tax
+
             FROM
-	            (SELECT account_move_line.date,
-		            account_move_line.partner_id,
-		            res_employee.hr_employee_name,
-	                pay_amount.sum_pay_amount,
-			 	    return_amount.sum_return_amount,
-	                discount_amount.sum_discount_amount,
-	 			    cost_price.sum_cost_price,
-			 	    coalesce(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) AS net_sale_amount,
-			 	    coalesce(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) - coalesce(cost_price.sum_cost_price, 0) AS gross_amount ,
-	                res_employee.hr_employee_employee_code,
-	                res_employee.res_partner_name,
-			 	    res_employee.res_partner_customer_code
+                (SELECT account_move_line.date,
+                    account_move_line.partner_id,
+                    res_employee.hr_employee_name,
+
+                    --pay_amount.sales_rep,
+
+                    pay_amount.sum_pay_amount,
+                    pay_amount.sum_pay_amount_include_tax,
+
+                    return_amount.sum_return_amount,
+                    return_amount.sum_return_amount_include_tax,
+
+                    discount_amount.sum_discount_amount,
+                    discount_amount.sum_discount_amount_include_tax,
+
+                    cost_price.sum_cost_price,
+                    cost_price.sum_cost_price_include_tax,
+
+                    coalesce(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) AS net_sale_amount,
+                    coalesce(sum_pay_amount_include_tax, 0) + coalesce(sum_return_amount_include_tax, 0) + coalesce(sum_discount_amount_include_tax, 0) AS net_sale_amount_include_tax,
+
+                    coalesce(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) - coalesce(cost_price.sum_cost_price, 0) AS gross_amount ,
+                    --coalesce(sum_pay_amount_include_tax, 0) + coalesce(sum_return_amount_include_tax, 0) + coalesce(sum_discount_amount_include_tax, 0) - coalesce(cost_price.sum_cost_price_include_tax, 0) AS gross_amount_include_tax ,
+                    coalesce(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) - coalesce(cost_price.sum_cost_price, 0) AS gross_amount_include_tax ,
+
+                    res_employee.hr_employee_employee_code,
+                    res_employee.res_partner_name,
+                    res_employee.res_partner_customer_code
                 FROM
-                    account_move_line
+--                    account_move_line
+                        (SELECT AM.sales_rep AS sales_rep, 
+                                AML.*
+                            FROM account_move_line AS AML
+                            INNER JOIN account_move AS AM
+                            ON AML.move_id = AM.id
+                        ) AS account_move_line
+
                         LEFT JOIN
-                            (SELECT hr_employee.employee_code AS hr_employee_employee_code,
-				                hr_employee.name AS hr_employee_name, res_partner.id AS join_partner_id, res_partner.name AS res_partner_name,
-						        res_partner.customer_code AS res_partner_customer_code
-		                    FROM res_partner
-		                        LEFT JOIN hr_employee
-		                        ON res_partner.customer_agent = hr_employee.id) AS res_employee
-                        ON account_move_line.partner_id = res_employee.join_partner_id
-	 			        LEFT JOIN
-				            (SELECT date AS pay_amount_date,
-					            partner_id AS pay_amount_partner_id,
-					            x_invoicelinetype AS pay_amount_x_invoicelinetype,
-					            SUM(account_move_line.price_total) AS sum_pay_amount
-					        FROM account_move_line
-					        WHERE x_invoicelinetype = '通常'
-					            AND account_move_line.parent_state = 'posted'
-					            AND account_move_line.account_internal_type != 'receivable'
-					        GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
-				            ) AS pay_amount
-	 			        ON pay_amount.pay_amount_date = account_move_line.date and pay_amount.pay_amount_partner_id = account_move_line.partner_id
- 				        LEFT JOIN
-				            (SELECT date AS return_amount_date,
-					            partner_id AS return_amount_partner_id,
-					            x_invoicelinetype AS return_amount_x_invoicelinetype,
-					            SUM(account_move_line.price_total) AS sum_return_amount
-					        FROM account_move_line
-					        WHERE x_invoicelinetype = '返品'
-					            AND account_move_line.parent_state = 'posted'
-					            AND account_move_line.account_internal_type != 'receivable'
-					        GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
-				            ) AS return_amount
-	 			        ON return_amount.return_amount_date = account_move_line.date and return_amount.return_amount_partner_id = account_move_line.partner_id
-	 			        LEFT JOIN
-				            (SELECT date AS discount_amount_date,
-					            partner_id AS discount_amount_partner_id,
-					            x_invoicelinetype AS discount_amount_x_invoicelinetype,
-					            SUM(account_move_line.price_total) AS sum_discount_amount
-					        FROM account_move_line
-					        WHERE x_invoicelinetype = '値引'
-					            AND account_move_line.parent_state = 'posted'
-					            AND account_move_line.account_internal_type != 'receivable'
-					        GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
-				            ) AS discount_amount
-	 			        ON discount_amount.discount_amount_date = account_move_line.date and discount_amount.discount_amount_partner_id = account_move_line.partner_id
-	 			        LEFT JOIN
-	 			            (SELECT date AS cost_price_date,
-					            partner_id AS cost_price_partner_id,
-					            x_invoicelinetype AS cost_price_x_invoicelinetype,
-					            SUM(account_move_line.x_product_cost_price) AS sum_cost_price
-					        FROM account_move_line
-					        WHERE account_move_line.parent_state = 'posted'
-					            AND account_move_line.account_internal_type != 'receivable'
-					        GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
-				            ) AS cost_price
-	 			        ON account_move_line.date = cost_price.cost_price_date AND account_move_line.partner_id = cost_price.cost_price_partner_id
-		        WHERE account_move_line.parent_state = 'posted'
-	 		        AND account_move_line.account_internal_type != 'receivable'
-			        AND (pay_amount.pay_amount_x_invoicelinetype = account_move_line.x_invoicelinetype
-				        OR return_amount.return_amount_x_invoicelinetype = account_move_line.x_invoicelinetype
-				        OR discount_amount.discount_amount_x_invoicelinetype = account_move_line.x_invoicelinetype)
-	 	        GROUP BY account_move_line.date,
-			        account_move_line.partner_id,
-			        res_employee.res_partner_name,
-			        pay_amount.sum_pay_amount,
-			        return_amount.sum_return_amount,
-			        discount_amount.sum_discount_amount,
-			        res_employee.hr_employee_employee_code,
-			        res_employee.hr_employee_name,
-			        res_employee.res_partner_customer_code,
-			        net_sale_amount,
-			        account_move_line.x_product_cost_price,
-	 		        cost_price.sum_cost_price
-		        ORDER BY date, partner_id
-    	        ) AS customer_final
+--                            (SELECT hr_employee.employee_code AS hr_employee_employee_code,
+--				                hr_employee.name AS hr_employee_name, res_partner.id AS join_partner_id, res_partner.name AS res_partner_name,
+--						        res_partner.customer_code AS res_partner_customer_code
+--		                    FROM res_partner
+--		                        LEFT JOIN hr_employee
+--		                        ON res_partner.customer_agent = hr_employee.id) AS res_employee
+--                        ON account_move_line.partner_id = res_employee.join_partner_id
+
+                                    (SELECT
+                                        account_move.id AS account_move_id, 
+                                        --account_move.x_studio_date_invoiced, 
+                                        --account_move.x_studio_document_no,
+                                        --account_move.x_studio_business_partner, 
+                                        --account_move.sales_rep,
+                                        hr_employee.employee_code AS hr_employee_employee_code,
+                                        hr_employee.name AS hr_employee_name,
+                                        res_partner.id AS join_partner_id,
+                                        res_partner.name AS res_partner_name,
+                                        res_partner.customer_code AS res_partner_customer_code
+                                    FROM account_move
+                                    LEFT JOIN hr_employee
+                                        ON account_move.sales_rep = hr_employee.id
+                                    LEFT JOIN res_partner
+                                        ON account_move.x_studio_business_partner = res_partner.id
+                                    --WHERE account_move.sales_rep IS NOT NULL
+                                    ) AS res_employee
+                            ON account_move_line.move_id = res_employee.account_move_id
+                            
+                        LEFT JOIN
+                            (SELECT account_move_line.date AS pay_amount_date,
+                                account_move.sales_rep AS sales_rep,
+                                account_move_line.partner_id AS pay_amount_partner_id,
+                                account_move_line.x_invoicelinetype AS pay_amount_x_invoicelinetype,
+
+                                SUM(account_move_line.quantity * account_move_line.price_no_tax) AS sum_pay_amount,
+                                SUM(account_move_line.quantity * account_move_line.price_include_tax) AS sum_pay_amount_include_tax
+
+                            FROM account_move_line, account_move
+                            WHERE x_invoicelinetype = '通常'
+                                AND account_move_line.parent_state = 'posted'
+                                AND account_move_line.account_internal_type != 'receivable'
+                                AND account_move_line.move_id = account_move.id
+                            GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
+                                    ,account_move.sales_rep
+                            ) AS pay_amount
+                        ON pay_amount.pay_amount_date = account_move_line.date and pay_amount.pay_amount_partner_id = account_move_line.partner_id
+                            AND COALESCE(pay_amount.sales_rep, 0) = COALESCE(account_move_line.sales_rep, 0)
+
+                        LEFT JOIN
+                            (SELECT account_move_line.date AS return_amount_date,
+                                account_move.sales_rep AS sales_rep,
+                                account_move_line.partner_id AS return_amount_partner_id,
+                                account_move_line.x_invoicelinetype AS return_amount_x_invoicelinetype,
+
+                                SUM(account_move_line.quantity * account_move_line.price_no_tax) AS sum_return_amount,
+                                SUM(account_move_line.quantity * account_move_line.price_include_tax) AS sum_return_amount_include_tax
+
+                            FROM account_move_line, account_move
+                            WHERE x_invoicelinetype = '返品'
+                                AND account_move_line.parent_state = 'posted'
+                                AND account_move_line.account_internal_type != 'receivable'
+                                AND account_move_line.move_id = account_move.id
+                            GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
+                                    ,account_move.sales_rep
+                            ) AS return_amount
+                        ON return_amount.return_amount_date = account_move_line.date and return_amount.return_amount_partner_id = account_move_line.partner_id
+                            AND COALESCE(return_amount.sales_rep, 0) = COALESCE(account_move_line.sales_rep, 0)
+
+                        LEFT JOIN
+                            (SELECT account_move_line.date AS discount_amount_date,
+                                account_move.sales_rep AS sales_rep,
+                                account_move_line.partner_id AS discount_amount_partner_id,
+                                account_move_line.x_invoicelinetype AS discount_amount_x_invoicelinetype,
+
+                                SUM(account_move_line.quantity * account_move_line.price_no_tax) AS sum_discount_amount,
+                                SUM(account_move_line.quantity * account_move_line.price_include_tax) AS sum_discount_amount_include_tax
+
+                            FROM account_move_line, account_move
+                            WHERE x_invoicelinetype = '値引'
+                                AND account_move_line.parent_state = 'posted'
+                                AND account_move_line.account_internal_type != 'receivable'
+                                AND account_move_line.move_id = account_move.id
+                            GROUP BY account_move_line.date, account_move_line.partner_id,  account_move_line.x_invoicelinetype
+                                    ,account_move.sales_rep
+                            ) AS discount_amount
+                        ON discount_amount.discount_amount_date = account_move_line.date and discount_amount.discount_amount_partner_id = account_move_line.partner_id
+                            AND COALESCE(discount_amount.sales_rep, 0) = COALESCE(account_move_line.sales_rep, 0)
+
+                        LEFT JOIN
+                            (SELECT account_move_line.date AS cost_price_date,
+                                account_move.sales_rep AS sales_rep,
+                                account_move_line.partner_id AS cost_price_partner_id,
+                                -- x_invoicelinetype AS cost_price_x_invoicelinetype,
+
+                                ABS(SUM(account_move_line.quantity * account_move_line.x_product_cost_price)) AS sum_cost_price,
+                                -- ABS(SUM(account_move_line.x_product_cost_price * (1 + (account_move_line.tax_rate / 100)))) AS sum_cost_price_include_tax
+                                ABS(SUM(account_move_line.quantity * account_move_line.x_product_cost_price)) AS sum_cost_price_include_tax
+
+                            FROM account_move_line, account_move
+                            WHERE account_move_line.parent_state = 'posted'
+                                AND account_move_line.account_internal_type != 'receivable'
+                                AND account_move_line.move_id = account_move.id
+                            GROUP BY account_move_line.date, account_move_line.partner_id
+                            --,  account_move_line.x_invoicelinetype
+                                ,account_move.sales_rep
+                            ) AS cost_price
+                        ON account_move_line.date = cost_price.cost_price_date AND account_move_line.partner_id = cost_price.cost_price_partner_id
+                            AND COALESCE(cost_price.sales_rep, 0) = COALESCE(account_move_line.sales_rep, 0)
+
+                WHERE account_move_line.parent_state = 'posted'
+                    AND account_move_line.account_internal_type != 'receivable'
+                    AND (pay_amount.pay_amount_x_invoicelinetype = account_move_line.x_invoicelinetype
+                        OR return_amount.return_amount_x_invoicelinetype = account_move_line.x_invoicelinetype
+                        OR discount_amount.discount_amount_x_invoicelinetype = account_move_line.x_invoicelinetype)
+                GROUP BY account_move_line.date,
+                    account_move_line.partner_id,
+                    res_employee.res_partner_name,
+
+                    res_employee.hr_employee_employee_code,
+                    res_employee.hr_employee_name,
+                    res_employee.res_partner_customer_code,
+
+                    --pay_amount.sales_rep,
+
+                    pay_amount.sum_pay_amount,
+                    pay_amount.sum_pay_amount_include_tax,
+
+                    return_amount.sum_return_amount,
+                    return_amount.sum_return_amount_include_tax,
+
+                    discount_amount.sum_discount_amount,
+                    discount_amount.sum_discount_amount_include_tax,
+
+                    --account_move_line.x_product_cost_price,
+                    cost_price.sum_cost_price,
+                    cost_price.sum_cost_price_include_tax
+
+                    --net_sale_amount,
+                    --net_sale_amount_include_tax,
+
+                    -- gross_amount,
+                    -- gross_amount_include_tax
+
+                ORDER BY date, partner_id
+                ) AS customer_final
             GROUP BY hr_employee_employee_code,
-	            hr_employee_name,
+                hr_employee_name,
                 res_partner_customer_code,
                 res_partner_name
             ORDER BY hr_employee_employee_code, res_partner_customer_code
             )
         ) AS foo""", [check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
+                      check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
+                      check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
+                      check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
+                      check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
+                      check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
+                      check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
                       check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
                       check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
                       check_date, check_date_gte_or_lte, date_gte, check_date_gte_or_lte, date_lte, date_gte, date_lte,
@@ -200,7 +398,8 @@ class SalesAchievementCustomerEmployee(models.Model):
             'hr_employee_employee_code_gte': '',
             'hr_employee_employee_code_lte': '',
             'res_partner_customer_code_gte': '',
-            'res_partner_customer_code_lte': ''
+            'res_partner_customer_code_lte': '',
+            'tax_class': ''
         }
 
         # if sales_achievement_customer_employee_context and 'sales_achievement_customer_employee' in sales_achievement_customer_employee_context:
@@ -216,7 +415,7 @@ class SalesAchievementCustomerEmployee(models.Model):
                 args_init['date_lte'] = record[2]
                 dict_domain_in_search['hr_employee_name_lte'] = record[2]
                 continue
-            if record[0] != 'hr_employee_name':
+            if (record[0] != 'hr_employee_name') and (record[0] != 'tax_class'):
                 domain += [record]
             if record[0] == 'hr_employee_employee_code' and record[1] == '>=':
                 dict_domain_in_search['hr_employee_employee_code_gte'] = record[2]
@@ -226,6 +425,8 @@ class SalesAchievementCustomerEmployee(models.Model):
                 dict_domain_in_search['res_partner_customer_code_gte'] = record[2]
             if record[0] == 'res_partner_customer_code' and record[1] == '<=':
                 dict_domain_in_search['res_partner_customer_code_lte'] = record[2]
+            if record[0] == 'tax_class':
+                dict_domain_in_search['tax_class'] = record[2]
 
         if args_init['date_gte'] and args_init['date_lte']:
             self.init('date', 'date', args_init['date_gte'], args_init['date_lte'])
