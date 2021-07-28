@@ -20,13 +20,14 @@
             </tr>
             <!--LONG-DN custom collation history start-->
             <tr>
-                <th>Billing Code</th>
+                <th>Billing Code<span class="text-danger">*</span></th>
                 <td class="d-flex">
                     <input
                         class="filter-item"
                         id="billing_code_collation_advanced_search"
                         data-operator="ilike"
                         data-name="billing_code"
+                        onkeyup="onChangeBillingCode()"
                         onblur="onBlurBillingCode()"
                         type="search"
                     />
@@ -36,68 +37,6 @@
                         title="Search More" role="img" aria-label="Search More"
                     />
                 </td>
-                <style>
-                    .ui-autocomplete {
-                        max-height: 400px;
-                        overflow-y: auto;
-                        /* prevent horizontal scrollbar */
-                        overflow-x: hidden;
-                    }
-                    /* IE 6 doesn't support max-height
-                    * we use height instead, but this forces the menu to always be this tall
-                    */
-                    * html .ui-autocomplete {
-                        height: 400px;
-                    }
-                </style>
-                <script>
-                    $(function() {
-                        $.ajax({
-                            url: "/collation/get_billing_list",
-                            type: "GET",
-                            dataType: 'json',
-                            success: function(result){
-                                $("#billing_code_collation_advanced_search").autocomplete({
-                                    minLength: 0,
-                                    source: result.billing_list,
-                                    select: function(event, ui) {
-                                        window.isKeepDropdownOpen = true;
-                                        $("#billing_code_collation_advanced_search" ).val(ui.item.value);
-                                        onBlurBillingCode();
-                                        return false;
-                                    }
-                                })
-                                .autocomplete("instance")._renderItem = function(ul, item) {
-                                    return $("&lt;li>")
-                                        .append("&lt;div>" + item.value + "&lt;br>" + item.name + "&lt;/div>")
-                                        .appendTo(ul);
-                                };
-                            },
-                            error: function(result){
-                                console.log(result);
-                            }
-                        });
-                    });
-                    function onBlurBillingCode(){
-                        billing_code = document.getElementById("billing_code_collation_advanced_search").value;
-                        $.ajax({
-                            url: "/collation/get_billing_name",
-                            type: "GET",
-                            data: {"content": billing_code},
-                            dataType: 'json',
-                            traditional: true,
-                            success: function(result){
-                                document.getElementById("billing_name_collation_advanced_search").value = result.content.billing_name;
-                                document.getElementById("billing_code_collation_advanced_search").value = result.content.billing_code;
-                                // need to put isKeepDropdownOpen = false here for dropdown back to normal clearing behavior
-                                window.isKeepDropdownOpen = false;
-                            },
-                            error: function(result){
-                                console.log(result);
-                            }
-                        });
-                    }
-                </script>
             </tr>
             <tr>
                 <th>Billing Name</th>
@@ -112,13 +51,14 @@
                 </td>
             </tr>
             <tr>
-                <th>Customer Code</th>
+                <th>Customer Code<span class="text-danger">*</span></th>
                 <td class="d-flex">
                     <input
                         class="filter-item"
                         id="customer_code_collation_advanced_search"
                         data-operator="ilike"
                         data-name="bill_detail_ids.customer_code"
+                        onkeyup="onChangeCustomerCode()"
                         onblur="onBlurCustomerCode()"
                         type="search"
                     />
@@ -128,68 +68,7 @@
                         title="Search More" role="img" aria-label="Search More"
                     />
                 </td>
-                <style>
-                    .ui-autocomplete {
-                        max-height: 400px;
-                        overflow-y: auto;
-                        /* prevent horizontal scrollbar */
-                        overflow-x: hidden;
-                    }
-                    /* IE 6 doesn't support max-height
-                    * we use height instead, but this forces the menu to always be this tall
-                    */
-                    * html .ui-autocomplete {
-                        height: 400px;
-                    }
-                </style>
-                <script>
-                    $(function() {
-                        $.ajax({
-                            url: "/collation/get_customer_list",
-                            type: "GET",
-                            dataType: 'json',
-                            success: function(result){
-                                $("#customer_code_collation_advanced_search").autocomplete({
-                                    minLength: 0,
-                                    source: result.customer_list,
-                                    select: function(event, ui) {
-                                        window.isKeepDropdownOpen = true;
-                                        $("#customer_code_collation_advanced_search" ).val(ui.item.value);
-                                        onBlurCustomerCode();
-                                        return false;
-                                    }
-                                })
-                                .autocomplete("instance")._renderItem = function(ul, item) {
-                                    return $("&lt;li>")
-                                        .append("&lt;div>" + item.value + "&lt;br>" + item.name + "&lt;/div>")
-                                        .appendTo(ul);
-                                };
-                            },
-                            error: function(result){
-                                console.log(result);
-                            }
-                        });
-                    });
-                    function onBlurCustomerCode(){
-                        customer_code = document.getElementById("customer_code_collation_advanced_search").value;
-                        $.ajax({
-                            url: "/collation/get_customer_name",
-                            type: "GET",
-                            data: {"content": customer_code},
-                            dataType: 'json',
-                            traditional: true,
-                            success: function(result){
-                                document.getElementById("customer_name_collation_advanced_search").value = result.content.customer_name;
-                                document.getElementById("customer_code_collation_advanced_search").value = result.content.customer_code;
-                                // need to put isKeepDropdownOpen = false here for dropdown back to normal clearing behavior
-                                window.isKeepDropdownOpen = false;
-                            },
-                            error: function(result){
-                                console.log(result);
-                            }
-                        });
-                    }
-                </script>
+
             </tr>
             <tr>
                 <th>Customer Name</th>
@@ -205,6 +84,132 @@
             </tr>
             <!--LONG-DN custom collation history end-->
         </table>
+        <style>
+            .ui-autocomplete {
+                max-height: 400px;
+                overflow-y: auto;
+                /* prevent horizontal scrollbar */
+                overflow-x: hidden;
+            }
+            /* IE 6 doesn't support max-height
+            * we use height instead, but this forces the menu to always be this tall
+            */
+            * html .ui-autocomplete {
+                height: 400px;
+            }
+        </style>
+        <script>
+            $(function() {
+                $.ajax({
+                    url: "/collation/get_billing_list",
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(result){
+                        $("#billing_code_collation_advanced_search").autocomplete({
+                            minLength: 0,
+                            source: result.billing_list,
+                            select: function(event, ui) {
+                                window.isKeepDropdownOpen = true;
+                                $("#billing_code_collation_advanced_search" ).val(ui.item.value);
+                                onBlurBillingCode();
+                                return false;
+                            }
+                        })
+                        .autocomplete("instance")._renderItem = function(ul, item) {
+                            return $("&lt;li>")
+                                .append("&lt;div>" + item.value + "&lt;br>" + item.name + "&lt;/div>")
+                                .appendTo(ul);
+                        };
+                    },
+                    error: function(result){
+                        console.log(result);
+                    }
+                });
+                $.ajax({
+                    url: "/collation/get_customer_list",
+                    type: "GET",
+                    dataType: 'json',
+                    success: function(result){
+                        $("#customer_code_collation_advanced_search").autocomplete({
+                            minLength: 0,
+                            source: result.customer_list,
+                            select: function(event, ui) {
+                                window.isKeepDropdownOpen = true;
+                                $("#customer_code_collation_advanced_search" ).val(ui.item.value);
+                                onBlurCustomerCode();
+                                return false;
+                            }
+                        })
+                        .autocomplete("instance")._renderItem = function(ul, item) {
+                            return $("&lt;li>")
+                                .append("&lt;div>" + item.value + "&lt;br>" + item.name + "&lt;/div>")
+                                .appendTo(ul);
+                        };
+                    },
+                    error: function(result){
+                        console.log(result);
+                    }
+                });
+            });
+            function onBlurBillingCode(){
+                billing_code = document.getElementById("billing_code_collation_advanced_search").value;
+                $.ajax({
+                    url: "/collation/get_billing_name",
+                    type: "GET",
+                    data: {"content": billing_code},
+                    dataType: 'json',
+                    traditional: true,
+                    success: function(result){
+                        document.getElementById("billing_name_collation_advanced_search").value = result.content.billing_name;
+                        document.getElementById("billing_code_collation_advanced_search").value = result.content.billing_code;
+                        // need to put isKeepDropdownOpen = false here for dropdown back to normal clearing behavior
+                        window.isKeepDropdownOpen = false;
+                    },
+                    error: function(result){
+                        console.log(result);
+                    }
+                });
+                $('#billing_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                $('#billing_code_collation_advanced_search').css('border', '2px solid black');
+            }
+            function onBlurCustomerCode(){
+                customer_code = document.getElementById("customer_code_collation_advanced_search").value;
+                $.ajax({
+                    url: "/collation/get_customer_name",
+                    type: "GET",
+                    data: {"content": customer_code},
+                    dataType: 'json',
+                    traditional: true,
+                    success: function(result){
+                        document.getElementById("customer_name_collation_advanced_search").value = result.content.customer_name;
+                        document.getElementById("customer_code_collation_advanced_search").value = result.content.customer_code;
+                        // need to put isKeepDropdownOpen = false here for dropdown back to normal clearing behavior
+                        window.isKeepDropdownOpen = false;
+                    },
+                    error: function(result){
+                        console.log(result);
+                    }
+                });
+                $('#customer_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                $('#customer_code_collation_advanced_search').css('border', '2px solid black');
+            }
+            function onChangeBillingCode() {
+                if ($('#billing_code_collation_advanced_search').val()) {
+                    $('#billing_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                    $('#billing_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#customer_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                    $('#customer_code_collation_advanced_search').css('border', '2px solid black');
+                }
+            }
+            function onChangeCustomerCode() {
+                if ($('#customer_code_collation_advanced_search').val()) {
+                    $('#billing_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                    $('#billing_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#customer_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                    $('#customer_code_collation_advanced_search').css('border', '2px solid black');
+                }
+            }
+        </script>
     </t>
 </template>
 
