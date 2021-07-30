@@ -87,6 +87,15 @@ class CollationPayment(models.Model):
         """
         ctx = self._context.copy()
 
+        # ===========================================
+        # If session has no variable (the first runtime)
+        # ===========================================
+        try:
+            print_all_button = request.session['print_all_bill_session']
+            del print_all_button
+        except:
+            request.session['print_all_bill_session'] = False
+
         # Click from Menu => Clear advance condition search from session
         if len(args) == 0:
             request.session['advance_search_condition'] = []
