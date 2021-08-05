@@ -410,8 +410,10 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
             if (!$('#billing_code_collation_advanced_search').val() && !$('#customer_code_collation_advanced_search').val()) {
                 $('#billing_code_collation_advanced_search').css('background-color', 'rgb(255 0 0 / 15%)');
                 $('#billing_code_collation_advanced_search').css('border', '2px solid #dc3545');
+                $('#label_billing_code_collation_advanced_search').css('color', '#dc3545');
                 $('#customer_code_collation_advanced_search').css('background-color', 'rgb(255 0 0 / 15%)');
                 $('#customer_code_collation_advanced_search').css('border', '2px solid #dc3545');
+                $('#label_customer_code_collation_advanced_search').css('color', '#dc3545');
                 // currently not focusing in invalid input because of struggling in blur problem
                 // $('#billing_code_collation_advanced_search').focus();
                 var msg = '<ul><li>請求先コード</li><li>得意先コード</li></ul>'
@@ -432,6 +434,7 @@ odoo.define('web.AdvanceSeachCustom', function (require) {
             if (!$('#billing_code_ledger_advanced_search').val()) {
                 $('#billing_code_ledger_advanced_search').css('background-color', 'rgb(255 0 0 / 15%)');
                 $('#billing_code_ledger_advanced_search').css('border', '2px solid #dc3545');
+                $('#label_billing_code_ledger_advanced_search').css('color', '#dc3545');
                 // currently not focusing in invalid input because of struggling in blur problem
                 // $('#billing_code_ledger_advanced_search').focus();
                 var msg = '<ul><li>請求先（得意先）コード</li></ul>'
