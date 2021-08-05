@@ -20,10 +20,10 @@
             </tr>
             <!--LONG-DN custom collation history start-->
             <tr>
-                <th>Billing Code<span class="text-danger">*</span></th>
+                <th id="label_billing_code_collation_advanced_search">Billing Code<span>*</span></th>
                 <td class="d-flex">
                     <input
-                        class="filter-item"
+                        class="filter-item input-require"
                         id="billing_code_collation_advanced_search"
                         data-operator="ilike"
                         data-name="billing_code"
@@ -51,10 +51,10 @@
                 </td>
             </tr>
             <tr>
-                <th>Customer Code<span class="text-danger">*</span></th>
+                <th id="label_customer_code_collation_advanced_search">Customer Code<span>*</span></th>
                 <td class="d-flex">
                     <input
-                        class="filter-item"
+                        class="filter-item input-require"
                         id="customer_code_collation_advanced_search"
                         data-operator="ilike"
                         data-name="bill_detail_ids.customer_code"
@@ -96,6 +96,9 @@
             */
             * html .ui-autocomplete {
                 height: 400px;
+            }
+            .input-require {
+                background-color: #D2D2FF !important;
             }
         </style>
         <script>
@@ -169,8 +172,14 @@
                         console.log(result);
                     }
                 });
-                $('#billing_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
-                $('#billing_code_collation_advanced_search').css('border', '2px solid black');
+                if (billing_code) {
+                    $('#billing_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                    $('#billing_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#label_billing_code_collation_advanced_search').css('color', 'black');
+                    $('#customer_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                    $('#customer_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#label_customer_code_collation_advanced_search').css('color', 'black');
+                }
             }
             function onBlurCustomerCode(){
                 customer_code = document.getElementById("customer_code_collation_advanced_search").value;
@@ -190,23 +199,33 @@
                         console.log(result);
                     }
                 });
-                $('#customer_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
-                $('#customer_code_collation_advanced_search').css('border', '2px solid black');
+                if (customer_code) {
+                    $('#billing_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                    $('#billing_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#label_billing_code_collation_advanced_search').css('color', 'black');
+                    $('#customer_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
+                    $('#customer_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#label_customer_code_collation_advanced_search').css('color', 'black');
+                }
             }
             function onChangeBillingCode() {
                 if ($('#billing_code_collation_advanced_search').val()) {
                     $('#billing_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
                     $('#billing_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#label_billing_code_collation_advanced_search').css('color', 'black');
                     $('#customer_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
                     $('#customer_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#label_customer_code_collation_advanced_search').css('color', 'black');
                 }
             }
             function onChangeCustomerCode() {
                 if ($('#customer_code_collation_advanced_search').val()) {
                     $('#billing_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
                     $('#billing_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#label_billing_code_collation_advanced_search').css('color', 'black');
                     $('#customer_code_collation_advanced_search').css('background-color', '-internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59))');
                     $('#customer_code_collation_advanced_search').css('border', '2px solid black');
+                    $('#label_customer_code_collation_advanced_search').css('color', 'black');
                 }
             }
         </script>
