@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="income_payment_reports">
+        <t t-call="web.html_container">
+            <t t-call="Maintain_Income_Payment.income_payment_report_document"/>
+        </t>
+    </template>
+    <template id="income_payment_report_document">
+        <t t-set="pager" t-value="0"/>
+        <t t-set="total_record_detail" t-value="len(docs)"/>
+        <t t-set="total_page_detail_count" t-value="total_record_detail / 25"/>
+        <t t-if="int(total_page_detail_count) == total_page_detail_count">
+                <t t-set="total_page_detail" t-value="int(total_page_detail_count)+1"/>
+            </t>
+            <t t-else="">
+                <t t-set="total_page_detail" t-value="int(total_page_detail_count) + 2"/>
+            </t>
+        <t t-foreach="range(1, total_page_detail)" t-as="range_total_page_detail">
+            <t t-set="count_detail" t-value="1"/>
+            <t t-set="pager" t-value="pager + 1"/>
+            <div class="page" style="page-break-before: always;">
+                <div style="float: right;" t-esc="pager"/>
+                <div style="text-align: center">
+                    <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px">
+                        <h4 style=" padding: 0 0 10px 0; display: inline">入金 履 歴 照 会 レ ポ ー ト</h4></div>
+                </div>
+                <div style="text-align: center">
+                    <div style="display: inline-block; width: 49%; text-align: center; font-size: 24px">
+                        <h5 style="padding: 0 0 5px 0; display: inline">(取引先グループ別)</h5></div>
+                </div>
+                <!-- HEADER OF CONTENT -->
+                <div style="margin-top: 30px;">
+                    <!-- LEFT -->
+                    <div style="float: right;"
+                      t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y年%m月%d日 %H時:%M分')"></div>
+                    <t>
+                        <div style="font-size: 18px; display: inline-block; width: 100%;">
+<!--                            search category-->
+                            <div>
+                                <span>条件：</span>
+                                <span style="text-align: left;">
+                                    <t t-esc="docs.passConditionInSearchToReport()[0]['search_category']"/>
+                                </span>
+                            </div>
+<!--                            voucher no-->
+                             <div>
+                                <span>伝票No：</span>
+                                <t t-if="docs.passConditionInSearchToReport()[0]['document_no_gte'] or docs.passConditionInSearchToReport()[0]['document_no_lte']">
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['document_no_gte']"/>
+                                    </span>
+                                    <span>～</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['document_no_lte']"/>
+                                    </span>
+                                </t>
+                            </div>
+<!--                            write date-->
+                             <div>
+                                <span>入力（登録日付）：</span>
+                                <t t-if="docs.passConditionInSearchToReport()[0]['write_date_gte'] or docs.passConditionInSearchToReport()[0]['write_date_lte']">
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['write_date_gte']"/>
+                                    </span>
+                                    <span>～</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['write_date_lte']"/>
+                                    </span>
+                                </t>
+                            </div>
+<!--                            payment date-->
+                             <div>
+                                <span>入金日付：</span>
+                                <t t-if="docs.passConditionInSearchToReport()[0]['payment_date_gte'] or docs.passConditionInSearchToReport()[0]['payment_date_lte']">
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['payment_date_gte']"/>
+                                    </span>
+                                    <span>～</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['payment_date_lte']"/>
+                                    </span>
+                                </t>
+                            </div>
+<!--                            customer code-->
+                            <div>
+                                <span>得意先コード：</span>
+                                <t t-if="docs.passConditionInSearchToReport()[0]['partner_id_gte'] or docs.passConditionInSearchToReport()[0]['partner_id_lte']">
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['partner_id_gte']"/>
+                                    </span>
+                                    <span>～</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['partner_id_lte']"/>
+                                    </span>
+                                </t>
+                            </div>
+<!--                            customer name-->
+                             <div>
+                                <span>得意先名：</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['partner_payment_name1']"/>
+                                    </span>
+                            </div>
+<!--                            sales rep-->
+                             <div>
+                                <span>入力担当者：</span>
+                                    <span style="text-align: left;">
+                                        <t t-esc="docs.passConditionInSearchToReport()[0]['sales_rep']"/>
+                                    </span>
+                            </div>
+                        </div>
+                    </t>
+                    <!-- TABLE -->
+                    <div class="content-table" style="border: 1px solid #000; margin-top: 15px;">
+                        <table border="0" cellspacing="0" style="width: 100%; font-size: 15px;">
+                            <thead>
+                                <tr>
+                                    <td style="border: 1px solid #000; border-top: 0; border-left: 0; border-right: 0; text-align: center;"
+                                        name="th_id">入金日付</td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
+                                        name="th_id">伝票No</td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; min-width: 100px"
+                                        name="th_subtotal">得意先コード</td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; min-width: 100px"
+                                        name="th_subtotal">得意先名</td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
+                                        name="th_description">その他CD</td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
+                                        name="th_priceunit">入金区分</td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
+                                        name="th_taxes">入金金額</td>
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
+                                        name="th_taxes">備考</td>
+                                </tr>
+                            </thead>
+                            <tbody class="income_tbody">
+                                <t t-foreach="docs" t-as="line">
+                                    <t t-if="(((pager-1)*25 + 1) &lt;= count_detail) and (pager*25 &gt;= count_detail)">
+                                        <tr>
+                                            <td style="border: 1px solid #000; border-right: 0; border-left: 0; border-top: 0; text-align: left">
+                                                <span t-field="line.payment_date_display"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left;">
+                                                <span t-field="line.document_no_display"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-field="line.customer_code_display"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-field="line.customer_name_display"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-field="line.customer_other_cd_display"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-field="line.vj_c_payment_category_display"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-field="line.payment_amount"/>
+                                            </td>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                                <span t-field="line.description"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-set="count_detail" t-value="count_detail + 1"/>
+                                </t>
+                                <t t-if="pager == total_page_detail - 1">
+                                    <tr class="o_subtotal">
+                                        <td style="border-right: 0; border-top: 0; text-align: right">
+                                            <span></span>
+                                        </td>
+                                        <td style="border-right: 0; border-top: 0; text-align: left">
+                                            <span></span>
+                                        </td>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                           <span></span>
+                                        </td>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <span></span>
+                                        </td>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <span></span>
+                                        </td>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <span></span>
+                                        </td>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <t t-esc="'{0:,.0f}'.format(int(sum(line.payment_amount for line in docs)))"/>
+                                        </td>
+                                        <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
+                                            <span></span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
