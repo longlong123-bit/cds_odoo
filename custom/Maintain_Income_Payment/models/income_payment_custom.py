@@ -724,26 +724,28 @@ class IncomePaymentLineCustom(models.Model):
 
         uid = self.env.uid
 
+        dict_domain_in_search = {
+            'search_category': '',
+            'document_no_gte': '',
+            'document_no_lte': '',
+            'write_date_gte': '',
+            'write_date_lte': '',
+            'payment_date_gte': '',
+            'payment_date_lte': '',
+            'partner_id_gte': '',
+            'partner_id_lte': '',
+            'partner_payment_name1': '',
+            'sales_rep': '',
+        }
+
         if ctx.get('have_advance_search'):
             domain = []
             partner_ids = []
             partner_query = []
             check = 0
 
-            request.session['advanced_search_arguments_of_payment_line'] = args
-            dict_domain_in_search = {
-                'search_category': '',
-                'document_no_gte': '',
-                'document_no_lte': '',
-                'write_date_gte': '',
-                'write_date_lte': '',
-                'payment_date_gte': '',
-                'payment_date_lte': '',
-                'partner_id_gte': '',
-                'partner_id_lte': '',
-                'partner_payment_name1': '',
-                'sales_rep': '',
-            }
+            # request.session['advanced_search_arguments_of_payment_line'] = args
+
             for arg in args:
                 if arg[0] == '&':
                     continue
@@ -803,8 +805,10 @@ class IncomePaymentLineCustom(models.Model):
                 domain += [['id', 'in', partner_ids]]
             args = domain
 
-            request.session['advanced_search_arguments_of_payment_line'] = {uid: dict_domain_in_search}
+        request.session['advanced_search_arguments_of_payment_line'] = {uid: dict_domain_in_search}
+
         res = super(IncomePaymentLineCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
+
         return res
 
     def passConditionInSearchToReport(self):
