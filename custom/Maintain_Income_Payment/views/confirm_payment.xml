@@ -24,7 +24,7 @@
         <field name="mode">primary</field>
         <field eval="1" name="priority"/>
         <field name="arch" type="xml">
-            <tree multi_edit="1" duplicate="false" class="forward_edit" create="false" default_order="document_no asc">
+            <tree multi_edit="1" duplicate="false" class="forward_edit" create="false" default_order="payment_date desc, document_no desc">
                 <field name="payment_date_display" string="Transaction Date"/>
                 <field name="document_no_display" string="Document No"/>
                 <field name="customer_code_display" string="Business Partner"/>

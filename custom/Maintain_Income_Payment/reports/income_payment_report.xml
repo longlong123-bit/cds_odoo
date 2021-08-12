@@ -8,13 +8,18 @@
     <template id="income_payment_report_document">
         <t t-set="pager" t-value="0"/>
         <t t-set="total_record_detail" t-value="len(docs)"/>
-        <t t-set="total_page_detail_count" t-value="total_record_detail / 25"/>
+        <t t-set="total_page_detail_count" t-value="total_record_detail / 28"/>
         <t t-if="int(total_page_detail_count) == total_page_detail_count">
                 <t t-set="total_page_detail" t-value="int(total_page_detail_count)+1"/>
             </t>
             <t t-else="">
                 <t t-set="total_page_detail" t-value="int(total_page_detail_count) + 2"/>
             </t>
+
+        <!-- GET ADVANCED SEARCH CONDITION -->
+        <t t-set="advanced_search_condition" t-value="docs.passConditionInSearchToReport()[0]"/>
+
+        <!-- LOOPS THROUGH EACH PAGE -->
         <t t-foreach="range(1, total_page_detail)" t-as="range_total_page_detail">
             <t t-set="count_detail" t-value="1"/>
             <t t-set="pager" t-value="pager + 1"/>
@@ -22,7 +27,7 @@
                 <div style="float: right;" t-esc="pager"/>
                 <div style="text-align: center">
                     <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px">
-                        <h4 style=" padding: 0 0 10px 0; display: inline">入 金 履 歴 照 会 レ ポ ー ト</h4>
+                        <h4 style=" padding: 0 0 10px 0; display: inline">入 金 履 歴 照 会</h4>
                     </div>
                 </div>
 <!--                <div style="text-align: center">-->
@@ -40,58 +45,58 @@
                             <div>
                                 <span>条件：</span>
                                 <span style="text-align: left;">
-                                    <t t-esc="docs.passConditionInSearchToReport()[0]['search_category']"/>
+                                    <t t-esc="advanced_search_condition['search_category']"/>
                                 </span>
                             </div>
 <!--                            voucher no-->
                              <div>
                                 <span>伝票No：</span>
-                                <t t-if="docs.passConditionInSearchToReport()[0]['document_no_gte'] or docs.passConditionInSearchToReport()[0]['document_no_lte']">
+                                <t t-if="advanced_search_condition['document_no_gte'] or advanced_search_condition['document_no_lte']">
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['document_no_gte']"/>
+                                        <t t-esc="advanced_search_condition['document_no_gte']"/>
                                     </span>
                                     <span>～</span>
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['document_no_lte']"/>
+                                        <t t-esc="advanced_search_condition['document_no_lte']"/>
                                     </span>
                                 </t>
                             </div>
 <!--                            write date-->
                              <div>
                                 <span>入力（登録日付）：</span>
-                                <t t-if="docs.passConditionInSearchToReport()[0]['write_date_gte'] or docs.passConditionInSearchToReport()[0]['write_date_lte']">
+                                <t t-if="advanced_search_condition['write_date_gte'] or advanced_search_condition['write_date_lte']">
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['write_date_gte']"/>
+                                        <t t-esc="advanced_search_condition['write_date_gte']"/>
                                     </span>
                                     <span>～</span>
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['write_date_lte']"/>
+                                        <t t-esc="advanced_search_condition['write_date_lte']"/>
                                     </span>
                                 </t>
                             </div>
 <!--                            payment date-->
                              <div>
                                 <span>入金日付：</span>
-                                <t t-if="docs.passConditionInSearchToReport()[0]['payment_date_gte'] or docs.passConditionInSearchToReport()[0]['payment_date_lte']">
+                                <t t-if="advanced_search_condition['payment_date_gte'] or advanced_search_condition['payment_date_lte']">
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['payment_date_gte']"/>
+                                        <t t-esc="advanced_search_condition['payment_date_gte']"/>
                                     </span>
                                     <span>～</span>
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['payment_date_lte']"/>
+                                        <t t-esc="advanced_search_condition['payment_date_lte']"/>
                                     </span>
                                 </t>
                             </div>
 <!--                            customer code-->
                             <div>
                                 <span>得意先コード：</span>
-                                <t t-if="docs.passConditionInSearchToReport()[0]['partner_id_gte'] or docs.passConditionInSearchToReport()[0]['partner_id_lte']">
+                                <t t-if="advanced_search_condition['partner_id_gte'] or advanced_search_condition['partner_id_lte']">
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['partner_id_gte']"/>
+                                        <t t-esc="advanced_search_condition['partner_id_gte']"/>
                                     </span>
                                     <span>～</span>
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['partner_id_lte']"/>
+                                        <t t-esc="advanced_search_condition['partner_id_lte']"/>
                                     </span>
                                 </t>
                             </div>
@@ -99,14 +104,14 @@
                              <div>
                                 <span>得意先名：</span>
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['partner_payment_name1']"/>
+                                        <t t-esc="advanced_search_condition['partner_payment_name1']"/>
                                     </span>
                             </div>
 <!--                            sales rep-->
                              <div>
                                 <span>入力担当者：</span>
                                     <span style="text-align: left;">
-                                        <t t-esc="docs.passConditionInSearchToReport()[0]['sales_rep']"/>
+                                        <t t-esc="advanced_search_condition['sales_rep']"/>
                                     </span>
                             </div>
                         </div>
@@ -136,7 +141,7 @@
                             </thead>
                             <tbody class="income_tbody">
                                 <t t-foreach="docs" t-as="line">
-                                    <t t-if="(((pager-1)*25 + 1) &lt;= count_detail) and (pager*25 &gt;= count_detail)">
+                                    <t t-if="(((pager-1)*28 + 1) &lt;= count_detail) and (pager*28 &gt;= count_detail)">
                                         <tr>
                                             <td style="border: 1px solid #000; border-right: 0; border-left: 0; border-top: 0; text-align: center; width: 160px;">
                                                 <span t-esc="line.payment_date_display.strftime('%Y年%m月%d日')"/>

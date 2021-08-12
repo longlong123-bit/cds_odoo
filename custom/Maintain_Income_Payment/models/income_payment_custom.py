@@ -643,6 +643,7 @@ class IncomePaymentCustom(models.Model):
 
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
+    _order = "payment_date desc, document_no desc"
 
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
@@ -725,7 +726,7 @@ class IncomePaymentLineCustom(models.Model):
         uid = self.env.uid
 
         dict_domain_in_search = {
-            'search_category': '',
+            'search_category': 'あいまい検索',
             'document_no_gte': '',
             'document_no_lte': '',
             'write_date_gte': '',
