@@ -751,10 +751,10 @@ class IncomePaymentLineCustom(models.Model):
                     continue
                 elif arg[0] == 'search_category':
                     if arg[2] == 'equal':
-                        dict_domain_in_search['search_category'] = arg[2]
+                        dict_domain_in_search['search_category'] = '完全一致'
                         check = 1
                     if arg[2] == 'like':
-                        dict_domain_in_search['search_category'] = arg[2]
+                        dict_domain_in_search['search_category'] = 'あいまい検索'
                     continue
                 elif arg[0] in ["partner_payment_name1", "sales_rep"] and check == 1:
                     arg[1] = '=ilike'

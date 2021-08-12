@@ -22,7 +22,8 @@
                 <div style="float: right;" t-esc="pager"/>
                 <div style="text-align: center">
                     <div style="display: inline-block; width: 49%; text-align: center; font-size: 28px">
-                        <h4 style=" padding: 0 0 10px 0; display: inline">入 金 履 歴 照 会 レ ポ ー ト</h4></div>
+                        <h4 style=" padding: 0 0 10px 0; display: inline">入 金 履 歴 照 会 レ ポ ー ト</h4>
+                    </div>
                 </div>
 <!--                <div style="text-align: center">-->
 <!--                    <div style="display: inline-block; width: 49%; text-align: center; font-size: 24px">-->
@@ -119,9 +120,9 @@
                                         name="th_id">入金日付</td>
                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_id">伝票No</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; min-width: 100px"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_subtotal">得意先コード</td>
-                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center; min-width: 100px"
+                                    <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_subtotal">得意先名</td>
                                     <td style="border: 1px solid #000; border-top: 0; border-right: 0; text-align: center;"
                                         name="th_description">その他CD</td>
@@ -137,28 +138,29 @@
                                 <t t-foreach="docs" t-as="line">
                                     <t t-if="(((pager-1)*25 + 1) &lt;= count_detail) and (pager*25 &gt;= count_detail)">
                                         <tr>
-                                            <td style="border: 1px solid #000; border-right: 0; border-left: 0; border-top: 0; text-align: left">
-                                                <span t-field="line.payment_date_display"/>
+                                            <td style="border: 1px solid #000; border-right: 0; border-left: 0; border-top: 0; text-align: center; width: 160px;">
+                                                <span t-esc="line.payment_date_display.strftime('%Y年%m月%d日')"/>
                                             </td>
-                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left;">
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left; width: 140px;">
                                                 <span t-field="line.document_no_display"/>
                                             </td>
-                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left; width: 120px;">
                                                 <span t-field="line.customer_code_display"/>
                                             </td>
-                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left; width: 240px;">
                                                 <span t-field="line.customer_name_display"/>
                                             </td>
-                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left; width: 150px;">
                                                 <span t-field="line.customer_other_cd_display"/>
                                             </td>
-                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left; width: 100px;">
                                                 <span t-field="line.vj_c_payment_category_display"/>
                                             </td>
-                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
-                                                <span t-field="line.payment_amount"/>
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right;">
+<!--                                                <span t-field="line.payment_amount"/>-->
+                                                <span><t t-esc="'{0:,.2f}'.format(line.payment_amount)"/></span>
                                             </td>
-                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: right">
+                                            <td style="border: 1px solid #000; border-right: 0; border-top: 0; text-align: left">
                                                 <span t-field="line.description"/>
                                             </td>
                                         </tr>
@@ -186,7 +188,7 @@
                                             <span></span>
                                         </td>
                                         <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
-                                            <t t-esc="'{0:,.0f}'.format(int(sum(line.payment_amount for line in docs)))"/>
+                                            <t t-esc="'{0:,.2f}'.format(int(sum(line.payment_amount for line in docs)))"/>
                                         </td>
                                         <td style="border: 1px solid #000; border-bottom: 0; border-right: 0; border-top: 0; text-align: right">
                                             <span></span>
