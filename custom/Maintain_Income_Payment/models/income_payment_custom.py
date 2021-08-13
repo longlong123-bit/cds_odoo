@@ -2,7 +2,9 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from datetime import timedelta, time, datetime, date
 import pytz
+import datetime
 from addons.account.models.product import ProductTemplate
+from odoo.http import request
 from odoo.tools.float_utils import float_round
 
 import logging
@@ -641,6 +643,7 @@ class IncomePaymentCustom(models.Model):
 
 class IncomePaymentLineCustom(models.Model):
     _name = "account.payment.line"
+    _order = "payment_date desc, document_no desc"
 
     payment_id = fields.Many2one('account.payment', string="Originator Payment", copy=False,
                                  help="Payment that created this entry")
@@ -719,26 +722,77 @@ class IncomePaymentLineCustom(models.Model):
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
         ctx = self._context.copy()
+
+        uid = self.env.uid
+
+        dict_domain_in_search = {
+            'search_category': 'あいまい検索',
+            'document_no_gte': '',
+            'document_no_lte': '',
+            'write_date_gte': '',
+            'write_date_lte': '',
+            'payment_date_gte': '',
+            'payment_date_lte': '',
+            'partner_id_gte': '',
+            'partner_id_lte': '',
+            'partner_payment_name1': '',
+            'sales_rep': '',
+        }
+
         if ctx.get('have_advance_search'):
             domain = []
             partner_ids = []
             partner_query = []
             check = 0
+
+            # request.session['advanced_search_arguments_of_payment_line'] = args
+
             for arg in args:
                 if arg[0] == '&':
                     continue
                 elif arg[0] == 'search_category':
                     if arg[2] == 'equal':
+                        dict_domain_in_search['search_category'] = '完全一致'
                         check = 1
+                    if arg[2] == 'like':
+                        dict_domain_in_search['search_category'] = 'あいまい検索'
                     continue
                 elif arg[0] in ["partner_payment_name1", "sales_rep"] and check == 1:
                     arg[1] = '=ilike'
+                    dict_domain_in_search['partner_payment_name1'] = arg[2]
+                    dict_domain_in_search['sales_rep'] = arg[2]
                 elif arg[0] == 'payment_id.document_no':
+                    if arg[1] == '>=':
+                        dict_domain_in_search['document_no_gte'] = arg[2]
+                    if arg[1] == '<=':
+                        dict_domain_in_search['document_no_lte'] = arg[2]
                     string_middle = ''
                     for i in range(7 - len(arg[2])):
                         string_middle += '0'
                     if len(arg[2]) < 11:
                         arg[2] = ''.join(["ARR-", string_middle, arg[2]])
+
+                elif arg[0] == 'write_date' and arg[1] == '>=':
+                    dict_domain_in_search['write_date_gte'] = arg[2]
+                elif arg[0] == 'write_date' and arg[1] == '<=':
+                    dict_domain_in_search['write_date_lte'] = arg[2]
+
+                elif arg[0] == 'payment_id.payment_date' and arg[1] == '>=':
+                    dict_domain_in_search['payment_date_gte'] = arg[2]
+                elif arg[0] == 'payment_id.payment_date' and arg[1] == '<=':
+                    dict_domain_in_search['payment_date_lte'] = arg[2]
+
+                elif arg[0] == 'payment_id.partner_id.customer_code' and arg[1] == '>=':
+                    dict_domain_in_search['partner_id_gte'] = arg[2]
+                elif arg[0] == 'payment_id.partner_id.customer_code' and arg[1] == '<=':
+                    dict_domain_in_search['partner_id_lte'] = arg[2]
+
+                elif arg[0] == 'payment_id.partner_payment_name1':
+                    dict_domain_in_search['partner_payment_name1'] = arg[2]
+
+                elif arg[0] == 'payment_id.sales_rep':
+                    dict_domain_in_search['sales_rep'] = arg[2]
+
                 elif 'payment_id.partner_id.customer_code' in arg:
                     partner_query.append("LOWER(customer_code) {0} '{1}'".format(arg[1], arg[2].lower()))
                     continue
@@ -751,5 +805,23 @@ class IncomePaymentLineCustom(models.Model):
                     partner_ids.append(partner_record.get('id'))
                 domain += [['id', 'in', partner_ids]]
             args = domain
+
+        request.session['advanced_search_arguments_of_payment_line'] = {uid: dict_domain_in_search}
+
         res = super(IncomePaymentLineCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
+
         return res
+
+    def passConditionInSearchToReport(self):
+
+        # current_uid = self._context.get('uid')
+        # user = self.env['res.users'].browse(current_uid)
+        uid = self.env.uid
+
+        # ===========================================
+        # Get advanced_search domain from session
+        # ===========================================
+        advanced_search_arguments_of_payment_line = request.session['advanced_search_arguments_of_payment_line']
+        list_domain = [advanced_search_arguments_of_payment_line[uid]]
+
+        return list_domain
