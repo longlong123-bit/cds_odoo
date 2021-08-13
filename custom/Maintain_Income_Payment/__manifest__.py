@@ -21,6 +21,8 @@
         'views/confirm_payment.xml',
         'views/report_payment.xml',
         'views/report_format1.xml',
+        'reports/report_format.xml',
+        'reports/income_payment_report.xml'
     ],
     'qweb': [
         # "static/src/xml/history_payment.xml",
