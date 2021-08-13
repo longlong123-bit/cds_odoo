@@ -8,7 +8,7 @@
     <template id="sales_achievement_customer_business_report_document">
         <t t-set="pager" t-value="0"/>
         <t t-set="total_record_detail" t-value="len(docs)"/>
-        <t t-set="total_page_detail_count" t-value="total_record_detail / 30"/>
+        <t t-set="total_page_detail_count" t-value="total_record_detail / 29"/>
         <t t-if="int(total_page_detail_count) == total_page_detail_count">
                 <t t-set="total_page_detail" t-value="int(total_page_detail_count)+1"/>
             </t>
@@ -113,7 +113,7 @@
                             </thead>
                             <tbody class="invoice_tbody">
                                 <t t-foreach="docs" t-as="line">
-                                    <t t-if="(((pager-1)*30 + 1) &lt;= count_detail) and (pager*30 &gt;= count_detail)">
+                                    <t t-if="(((pager-1)*29 + 1) &lt;= count_detail) and (pager*29 &gt;= count_detail)">
                                         <tr>
                                             <td style="border: 1px solid #000; border-top: 0; border-left: 0; border-right: 0; text-align: left; padding-left: 5px;">
                                                 <span t-field="line.business_partner_code"/>
