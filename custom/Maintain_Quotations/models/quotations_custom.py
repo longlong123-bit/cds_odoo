@@ -376,13 +376,13 @@ class QuotationsCustom(models.Model):
             self.env.company.report_header = ''
 
     # ==========================================================
-    # INS 20210822 - START - LiemLVN
+    # INS 20210802 - START - LiemLVN
     # INSERT or UPDATE Last Unit Price to Master Price List
     # ==========================================================
         self.insert_or_update_last_unit_price_to_master_price_list(values)
 
     # ==========================================================
-    # INS 20210822 - END
+    # INS 20210802 - END
     # ==========================================================
 
         quotations_custom = super(QuotationsCustom, self).create(values)
@@ -398,7 +398,7 @@ class QuotationsCustom(models.Model):
             #     values.get('report_header'))
 
     # ==========================================================
-    # INS 20210822 - START - LiemLVN
+    # INS 20210802 - START - LiemLVN
     # INSERT or UPDATE Last Unit Price to Master Price List
     # ==========================================================
 
@@ -438,7 +438,7 @@ class QuotationsCustom(models.Model):
         self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete)
 
     # ==========================================================
-    # INS 20210822 - END
+    # INS 20210802 - END
     # ==========================================================
 
         return quotations_custom
@@ -772,7 +772,7 @@ class QuotationsCustom(models.Model):
         return res
 
 # ==========================================================
-# INS 20210822 - START - LiemLVN
+# INS 20210802 - START - LiemLVN
 # ==========================================================
 
     # ----------------------------------------------------------
@@ -929,7 +929,7 @@ class QuotationsCustom(models.Model):
             # ----------------------------------------------------------
             # PREPARE PARAMETERS FOR SQL
             # ----------------------------------------------------------
-            params = [
+            params_sql = [
                 params['customer_code_id'],
                 params['customer_code'],
                 params['customer_name'],
@@ -955,7 +955,7 @@ class QuotationsCustom(models.Model):
             # ----------------------------------------------------------
             # EXCUTE SQL WITH PARAMS
             # ----------------------------------------------------------
-            self._cr.execute(sql, params)
+            self._cr.execute(sql, params_sql)
 
         except Exception as error:
             print("An exception has occured:", error)
@@ -1004,7 +1004,7 @@ class QuotationsCustom(models.Model):
             # ----------------------------------------------------------
             # PREPARE PARAMETERS FOR SQL
             # ----------------------------------------------------------
-            params = [
+            params_sql = [
                 params['customer_code_id'],
                 params['customer_code'],
                 params['customer_name'],
@@ -1034,7 +1034,7 @@ class QuotationsCustom(models.Model):
             # ----------------------------------------------------------
             # EXCUTE SQL WITH PARAMS
             # ----------------------------------------------------------
-            self._cr.execute(sql, params)
+            self._cr.execute(sql, params_sql)
 
         except Exception as error:
             print("An exception has occured:", error)
@@ -1108,6 +1108,8 @@ class QuotationsCustom(models.Model):
         # QUOTATION LINE DETAIL: LOOP
         # ----------------------------------------------------------
         for order_line in values.get('order_line', []):
+
+            line_values = {}
 
             jan_code_id = ''
             jan_code = ''
@@ -1187,7 +1189,7 @@ class QuotationsCustom(models.Model):
                     price_applied = sale_order_line.price_unit
 
             # ----------------------------------------------------------
-            # RETURN HEADER VALUES
+            # RETURN DETAIL VALUES
             # ----------------------------------------------------------
             line_values = {
                 'jan_code_id': jan_code_id,
@@ -1216,6 +1218,8 @@ class QuotationsCustom(models.Model):
         # QUOTATION LINE DETAIL: LOOP
         # ----------------------------------------------------------
         for order_line in self.order_line:
+
+            line_values = {}
 
             jan_code_id = ''
             jan_code = ''
@@ -1263,7 +1267,7 @@ class QuotationsCustom(models.Model):
                 price_applied = sale_order_line.price_unit
 
             # ----------------------------------------------------------
-            # RETURN HEADER VALUES
+            # RETURN DETAIL VALUES
             # ----------------------------------------------------------
             line_values = {
                 'jan_code_id': jan_code_id,
@@ -1287,9 +1291,6 @@ class QuotationsCustom(models.Model):
     # ----------------------------------------------------------
     def maintain_last_unit_price_from_quotation_to_master_price_list(self, quotation_before_delete):
 
-        # Document No
-        document_no = ''
-
         # Customer ID
         customer_code_id = quotation_before_delete['customer_code_id']
 
@@ -1298,6 +1299,7 @@ class QuotationsCustom(models.Model):
 
         for order_line in quotation_before_delete['order_line']:
 
+            document_no = ''
             price_applied = ''
             date_applied = ''
 
@@ -1349,10 +1351,10 @@ class QuotationsCustom(models.Model):
                 'price_applied': price_applied,
                 'date_applied': date_applied,
                 'document_no': document_no,
-                'product_code': product_code,
 
                 'customer_code': customer_code,
                 'jan_code': jan_code,
+                'product_code': product_code,
                 'document_type': 'quotation'
             }
 
@@ -1400,7 +1402,7 @@ class QuotationsCustom(models.Model):
             # ----------------------------------------------------------
             # PREPARE PARAMETERS FOR SQL
             # ----------------------------------------------------------
-            params = [
+            params_sql = [
                 params['price_applied'],
                 params['date_applied'],
                 params['document_no'],
@@ -1416,7 +1418,7 @@ class QuotationsCustom(models.Model):
             # ----------------------------------------------------------
             # EXCUTE SQL WITH PARAMS
             # ----------------------------------------------------------
-            self._cr.execute(sql, params)
+            self._cr.execute(sql, params_sql)
 
         except Exception as error:
             print("An exception has occured:", error)
@@ -1436,7 +1438,7 @@ class QuotationsCustom(models.Model):
             master_price_list.unlink()
 
 # ==========================================================
-# INS 20210822 - END
+# INS 20210802 - END
 # ==========================================================
 
 
@@ -1511,6 +1513,25 @@ class QuotationsLinesCustom(models.Model):
                                product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                                maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                                industry_code=None, country_state_code=None, date=datetime.today()):
+
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # country_state_code_ids = self.env['master.price.list'].search([
+        #     ('country_state_code_id', '=', country_state_code),
+        #     ('industry_code_id', '=', industry_code),
+        #     ('supplier_group_code_id', '=', supplier_group_code),
+        #     ('customer_code_bill', '=', customer_code_bill),
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         country_state_code_ids = self.env['master.price.list'].search([
             ('country_state_code_id', '=', country_state_code),
             ('industry_code_id', '=', industry_code),
@@ -1524,7 +1545,12 @@ class QuotationsLinesCustom(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(country_state_code_ids):
             if len(country_state_code_ids) > 1:
                 for i in country_state_code_ids:
@@ -1536,6 +1562,24 @@ class QuotationsLinesCustom(models.Model):
                                                          country_state_code_ids.recruitment_price_select,
                                                          country_state_code_ids.price_applied)
         else:
+            # ==========================================================
+            # UPD 20210802 - START - LiemLVN
+            # ==========================================================
+            # country_state_code_id_none = self.env['master.price.list'].search([
+            #     ('country_state_code_id', '=', None),
+            #     ('industry_code_id', '=', industry_code),
+            #     ('supplier_group_code_id', '=', supplier_group_code),
+            #     ('customer_code_bill', '=', customer_code_bill),
+            #     ('customer_code', '=', customer_code),
+            #     ('maker_code', '=', maker),
+            #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+            #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+            #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            #     ('jan_code', '=', jan_code),
+            #     ('product_code', '=', product_code),
+            #     ('date_applied', '<=', date)]).sorted('date_applied')
+
             country_state_code_id_none = self.env['master.price.list'].search([
                 ('country_state_code_id', '=', None),
                 ('industry_code_id', '=', industry_code),
@@ -1549,7 +1593,12 @@ class QuotationsLinesCustom(models.Model):
                 ('product_class_code_lv4_id', '=', product_class_code_lv4),
                 ('jan_code', '=', jan_code),
                 ('product_code', '=', product_code),
+                ('document_type', '!=', 'quotation'),
+                ('document_type', '!=', 'invoice'),
                 ('date_applied', '<=', date)]).sorted('date_applied')
+            # ==========================================================
+            # UPD 20210802 - END - LiemLVN
+            # ==========================================================
             if len(country_state_code_id_none):
                 if len(country_state_code_id_none) > 1:
                     for i in country_state_code_id_none:
@@ -1567,6 +1616,23 @@ class QuotationsLinesCustom(models.Model):
                           product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                           maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                           industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # industry_code_ids = self.env['master.price.list'].search([
+        #     ('industry_code_id', '=', industry_code),
+        #     ('supplier_group_code_id', '=', supplier_group_code),
+        #     ('customer_code_bill', '=', customer_code_bill),
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         industry_code_ids = self.env['master.price.list'].search([
             ('industry_code_id', '=', industry_code),
             ('supplier_group_code_id', '=', supplier_group_code),
@@ -1579,7 +1645,12 @@ class QuotationsLinesCustom(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(industry_code_ids):
             if len(industry_code_ids) > 1:
                 price = self.set_country_state_code(product_code, jan_code, product_class_code_lv4,
@@ -1600,6 +1671,22 @@ class QuotationsLinesCustom(models.Model):
                                 product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                                 maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                                 industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # supplier_group_code_ids = self.env['master.price.list'].search([
+        #     ('supplier_group_code_id', '=', supplier_group_code),
+        #     ('customer_code_bill', '=', customer_code_bill),
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         supplier_group_code_ids = self.env['master.price.list'].search([
             ('supplier_group_code_id', '=', supplier_group_code),
             ('customer_code_bill', '=', customer_code_bill),
@@ -1611,7 +1698,12 @@ class QuotationsLinesCustom(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(supplier_group_code_ids):
             if len(supplier_group_code_ids) > 1:
                 price = self.set_industry_code(product_code, jan_code, product_class_code_lv4, product_class_code_lv3,
@@ -1632,6 +1724,21 @@ class QuotationsLinesCustom(models.Model):
                                product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                                maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                                industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # customer_code_bill_ids = self.env['master.price.list'].search([
+        #     ('customer_code_bill', '=', customer_code_bill),
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         customer_code_bill_ids = self.env['master.price.list'].search([
             ('customer_code_bill', '=', customer_code_bill),
             ('customer_code', '=', customer_code),
@@ -1642,7 +1749,12 @@ class QuotationsLinesCustom(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(customer_code_bill_ids):
             if len(customer_code_bill_ids) > 1:
                 price = self.set_supplier_group_code(product_code, jan_code, product_class_code_lv4,
@@ -1664,6 +1776,20 @@ class QuotationsLinesCustom(models.Model):
                           product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                           maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                           industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # customer_code_ids = self.env['master.price.list'].search([
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         customer_code_ids = self.env['master.price.list'].search([
             ('customer_code', '=', customer_code),
             ('maker_code', '=', maker),
@@ -1673,7 +1799,12 @@ class QuotationsLinesCustom(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(customer_code_ids):
             if len(customer_code_ids) > 1:
                 price = self.set_customer_code_bill(product_code, jan_code, product_class_code_lv4,
@@ -1694,6 +1825,18 @@ class QuotationsLinesCustom(models.Model):
     def set_maker(self, product_code=None, jan_code=None, product_class_code_lv4=None, product_class_code_lv3=None,
                   product_class_code_lv2=None, product_class_code_lv1=None, maker=None, customer_code=None,
                   customer_code_bill=None, supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # maker_ids = self.env['master.price.list'].search([('maker_code', '=', maker),
+        #                                                   ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #                                                   ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #                                                   ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #                                                   ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #                                                   ('jan_code', '=', jan_code),
+        #                                                   ('product_code', '=', product_code),
+        #                                                   ('date_applied', '<=', date)]).sorted('date_applied')
+
         maker_ids = self.env['master.price.list'].search([('maker_code', '=', maker),
                                                           ('product_class_code_lv1_id', '=', product_class_code_lv1),
                                                           ('product_class_code_lv2_id', '=', product_class_code_lv2),
@@ -1701,7 +1844,12 @@ class QuotationsLinesCustom(models.Model):
                                                           ('product_class_code_lv4_id', '=', product_class_code_lv4),
                                                           ('jan_code', '=', jan_code),
                                                           ('product_code', '=', product_code),
+                                                          ('document_type', '!=', 'quotation'),
+                                                          ('document_type', '!=', 'invoice'),
                                                           ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(maker_ids):
             if len(maker_ids) > 1:
                 price = self.set_customer_code(product_code, jan_code, product_class_code_lv4,
@@ -1724,6 +1872,18 @@ class QuotationsLinesCustom(models.Model):
                                    product_class_code_lv3=None, product_class_code_lv2=None,
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
                                    supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # product_class_code_lv1_ids = self.env['master.price.list'].search([
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         product_class_code_lv1_ids = self.env['master.price.list'].search([
             ('product_class_code_lv1_id', '=', product_class_code_lv1),
             ('product_class_code_lv2_id', '=', product_class_code_lv2),
@@ -1731,7 +1891,12 @@ class QuotationsLinesCustom(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(product_class_code_lv1_ids):
             if len(product_class_code_lv1_ids) > 1:
                 price = self.set_maker(product_code, jan_code, product_class_code_lv4,
@@ -1752,13 +1917,29 @@ class QuotationsLinesCustom(models.Model):
                                    product_class_code_lv3=None, product_class_code_lv2=None,
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
                                    supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # product_class_code_lv2_ids = self.env['master.price.list'].search([
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         product_class_code_lv2_ids = self.env['master.price.list'].search([
             ('product_class_code_lv2_id', '=', product_class_code_lv2),
             ('product_class_code_lv3_id', '=', product_class_code_lv3),
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(product_class_code_lv2_ids):
             if len(product_class_code_lv2_ids) > 1:
                 price = self.set_product_class_code_lv1(product_code, jan_code, product_class_code_lv4,
@@ -1780,12 +1961,27 @@ class QuotationsLinesCustom(models.Model):
                                    product_class_code_lv3=None, product_class_code_lv2=None,
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
                                    supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # product_class_code_lv3_ids = self.env['master.price.list'].search([
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         product_class_code_lv3_ids = self.env['master.price.list'].search([
             ('product_class_code_lv3_id', '=', product_class_code_lv3),
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(product_class_code_lv3_ids):
             if len(product_class_code_lv3_ids) > 1:
                 price = self.set_product_class_code_lv2(product_code, jan_code, product_class_code_lv4,
@@ -1808,11 +2004,25 @@ class QuotationsLinesCustom(models.Model):
                                    product_class_code_lv3=None, product_class_code_lv2=None,
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
                                    supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # product_class_code_lv4_ids = self.env['master.price.list'].search([
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         product_class_code_lv4_ids = self.env['master.price.list'].search([
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(product_class_code_lv4_ids):
             if len(product_class_code_lv4_ids) > 1:
                 price = self.set_product_class_code_lv3(product_code, jan_code, product_class_code_lv4,
@@ -1836,44 +2046,58 @@ class QuotationsLinesCustom(models.Model):
                               maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                               industry_code=None, country_state_code=None, date=datetime.today()):
 
+        # # ==========================================================
+        # # INS 20210802 - START - LiemLVN
+        # # GET Last Unit Price from Master Price List
+        # # ==========================================================
+        # price = 0
+        # jan_ids = self.env['master.price.list'].search([
+        #     ('customer_code', '=', customer_code),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('document_type', '=', 'quotation'),
+        #     ('date_applied', '<=', date)])
+        #
+        # if len(jan_ids) == 1:
+        #     price = jan_ids[0]['price_applied']
+        # # ==========================================================
+        # # INS 20210802 - END - LiemLVN
+        # # ==========================================================
+        # else:
+
         # ==========================================================
-        # INS 20210822 - START - LiemLVN
-        # GET Last Unit Price from Master Price List
+        # UPD 20210802 - START - LiemLVN
         # ==========================================================
-        price = 0
+        # jan_ids = self.env['master.price.list'].search([
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         jan_ids = self.env['master.price.list'].search([
-            ('customer_code', '=', customer_code),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
-            ('document_type', '=', 'quotation'),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
-
-        if len(jan_ids) == 1:
-            price = jan_ids[0]['price_applied']
         # ==========================================================
-        # INS 20210822 - END - LiemLVN
+        # UPD 20210802 - END - LiemLVN
         # ==========================================================
-        else:
-            jan_ids = self.env['master.price.list'].search([
-                ('jan_code', '=', jan_code),
-                ('product_code', '=', product_code),
-                ('date_applied', '<=', date)]).sorted('date_applied')
-            if len(jan_ids):
-                if len(jan_ids) > 1:
-                    price = self.set_product_class_code_lv4(product_code, jan_code, product_class_code_lv4,
-                                                            product_class_code_lv3, product_class_code_lv2,
-                                                            product_class_code_lv1, maker, customer_code,
-                                                            customer_code_bill,
-                                                            supplier_group_code, industry_code, country_state_code, date)
-                else:
-                    price = self.price_of_recruitment_select(jan_ids.rate,
-                                                             jan_ids.recruitment_price_select,
-                                                             jan_ids.price_applied)
-            else:
-                price = self.set_product_class_code_lv4(None, None, product_class_code_lv4,
+        if len(jan_ids):
+            if len(jan_ids) > 1:
+                price = self.set_product_class_code_lv4(product_code, jan_code, product_class_code_lv4,
                                                         product_class_code_lv3, product_class_code_lv2,
-                                                        product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                        product_class_code_lv1, maker, customer_code,
+                                                        customer_code_bill,
                                                         supplier_group_code, industry_code, country_state_code, date)
+            else:
+                price = self.price_of_recruitment_select(jan_ids.rate,
+                                                         jan_ids.recruitment_price_select,
+                                                         jan_ids.price_applied)
+        else:
+            price = self.set_product_class_code_lv4(None, None, product_class_code_lv4,
+                                                    product_class_code_lv3, product_class_code_lv2,
+                                                    product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                    supplier_group_code, industry_code, country_state_code, date)
         return price
 
     def set_price_product_code(self, product_code=None, jan_code=None, product_class_code_lv4=None,
@@ -1882,7 +2106,7 @@ class QuotationsLinesCustom(models.Model):
                                industry_code=None, country_state_code=None, date=datetime.today()):
 
         # ==========================================================
-        # INS 20210822 - START - LiemLVN
+        # INS 20210802 - START - LiemLVN
         # GET Last Unit Price from Master Price List
         # ==========================================================
         price = 0
@@ -1891,15 +2115,27 @@ class QuotationsLinesCustom(models.Model):
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
             ('document_type', '=', 'quotation'),
-            ('date_applied', '<=', date)]).sorted('date_applied')
+            ('date_applied', '<=', date)])
 
         if len(product_code_ids) == 1:
             price = product_code_ids[0]['price_applied']
         # ==========================================================
-        # INS 20210822 - END - LiemLVN
+        # INS 20210802 - END - LiemLVN
         # ==========================================================
         else:
-            product_code_ids = self.env['master.price.list'].search([('product_code', '=', product_code), ('date_applied', '<=', date)]).sorted('date_applied')
+
+            # ==========================================================
+            # UPD 20210802 - START - LiemLVN
+            # ==========================================================
+            # product_code_ids = self.env['master.price.list'].search([('product_code', '=', product_code), ('date_applied', '<=', date)]).sorted('date_applied')
+
+            product_code_ids = self.env['master.price.list'].search([('product_code', '=', product_code),
+                                                                     ('document_type', '!=', 'quotation'),
+                                                                     ('document_type', '!=', 'invoice'),
+                                                                     ('date_applied', '<=', date)]).sorted('date_applied')
+            # ==========================================================
+            # UPD 20210802 - END - LiemLVN
+            # ==========================================================
             if len(product_code_ids):
                 if len(product_code_ids) > 1:
                     price = self.set_price_by_jan_code(product_code, jan_code, product_class_code_lv4,
@@ -2302,7 +2538,27 @@ class QuotationsLinesCustom(models.Model):
 
     @api.depends('order_id.tax_method')
     def compute_price_unit(self):
+
         for line in self:
+
+            # # ==========================================================
+            # # INS 20210802 - START - LiemLVN
+            # # GET Last Unit Price from Master Price List
+            # # ==========================================================
+            # jan_ids = self.env['master.price.list'].search([
+            #     ('customer_code', '=', line.partner_id.customer_code),
+            #     ('jan_code', '=', line.product_barcode),
+            #     ('product_code', '=', line.product_code),
+            #     ('document_type', '=', 'quotation'),
+            #     ('date_applied', '<=', datetime.today())])
+            #
+            # if len(jan_ids) == 1:
+            #     line.price_unit = jan_ids[0]['price_applied']
+            # # ==========================================================
+            # # INS 20210802 - END - LiemLVN
+            # # ==========================================================
+            # else:
+
             # todo set price follow product code
             #TH - code
             if line.product_id.product_tax_category == 'foreign':

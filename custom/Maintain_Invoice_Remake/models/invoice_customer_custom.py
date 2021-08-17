@@ -975,8 +975,752 @@ class ClassInvoiceCustom(models.Model):
             raise UserError(_("You need to add a line before save."))
         if vals.get('x_studio_document_no', _('0')) == _('0'):
             vals['x_studio_document_no'] = self.env['ir.sequence'].next_by_code('document.sequence') or _('New')
+
+        # ==========================================================
+        # INS 20210802 - START - LiemLVN
+        # INSERT or UPDATE Last Unit Price to Master Price List
+        # ==========================================================
+            self.insert_or_update_last_unit_price_to_master_price_list(vals)
+
+        # ==========================================================
+        # INS 20210802 - END
+        # ==========================================================
+
         result = super(ClassInvoiceCustom, self).create(vals)
+
         return result
+
+    # ==========================================================
+    # INS 20210802 - START - LiemLVN
+    # INSERT or UPDATE Last Unit Price to Master Price List
+    # ==========================================================
+
+    # ----------------------------------------------------------
+    # OVERRIDE WRITE METHOD
+    # ----------------------------------------------------------
+    def write(self, values):
+
+        # ----------------------------------------------------------
+        # BACKUP Quotation Info Before Delete
+        # ----------------------------------------------------------
+        invoice_before_delete_arr = []
+
+        for invoice_delete in self:
+
+            invoice_line_before = []
+
+            for invoice_line in invoice_delete.invoice_line_ids:
+                invoice_line_before.append({'product_barcode': invoice_line.product_barcode,
+                                            'product_code': invoice_line.product_code})
+
+            invoice_before_delete = {'customer_code_id': invoice_delete.partner_id.id,
+                                     'customer_code': invoice_delete.partner_id.customer_code,
+                                     'document_no': invoice_delete.x_studio_document_no,
+                                     'invoice_line': invoice_line_before}
+
+            invoice_before_delete_arr.append(invoice_before_delete)
+
+        # ----------------------------------------------------------
+        # INSERT or UPDATE Last Unit Price to Master Price List
+        # ----------------------------------------------------------
+        self.insert_or_update_last_unit_price_to_master_price_list(values)
+
+        # ----------------------------------------------------------
+        # UPDATE INVOICE
+        # ----------------------------------------------------------
+        invoices_custom = super(ClassInvoiceCustom, self).write(values)
+
+        # ----------------------------------------------------------
+        # COMMIT DATABASE
+        # ----------------------------------------------------------
+        self.env.cr.commit()
+
+        # ----------------------------------------------------------
+        # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
+        # (AFTER DELETE OR UPDATE QUOTATION)
+        # ----------------------------------------------------------
+        self.maintain_last_unit_price_from_quotation_to_master_price_list(invoice_before_delete_arr)
+
+        return invoices_custom
+
+    # ----------------------------------------------------------
+    # OVERRIDE DELETE METHOD
+    # ----------------------------------------------------------
+    def unlink(self):
+
+        # ----------------------------------------------------------
+        # BACKUP Quotation Info Before Delete
+        # ----------------------------------------------------------
+        invoice_before_delete_arr = []
+
+        for invoice_delete in self:
+
+            invoice_line_before = []
+
+            for invoice_line in invoice_delete.invoice_line_ids:
+                invoice_line_before.append({'product_barcode': invoice_line.product_barcode,
+                                            'product_code': invoice_line.product_code})
+
+            invoice_before_delete = {'customer_code_id': invoice_delete.partner_id.id,
+                                     'customer_code': invoice_delete.partner_id.customer_code,
+                                     'document_no': invoice_delete.x_studio_document_no,
+                                     'invoice_line': invoice_line_before}
+
+            invoice_before_delete_arr.append(invoice_before_delete)
+
+        # ----------------------------------------------------------
+        # DELETE QUOTATION
+        # ----------------------------------------------------------
+        quotations_custom = super(ClassInvoiceCustom, self).unlink()
+
+        # ----------------------------------------------------------
+        # COMMIT DATABASE
+        # ----------------------------------------------------------
+        self.env.cr.commit()
+
+        # ----------------------------------------------------------
+        # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
+        # (AFTER DELETE OR UPDATE QUOTATION)
+        # ----------------------------------------------------------
+        self.maintain_last_unit_price_from_quotation_to_master_price_list(invoice_before_delete_arr)
+
+        return quotations_custom
+
+    # ----------------------------------------------------------
+    # INSERT or UPDATE Last Unit Price to Master Price List
+    # ----------------------------------------------------------
+    def insert_or_update_last_unit_price_to_master_price_list(self, values):
+
+        header_values = {}
+        detail_values = []
+
+        # ----------------------------------------------------------
+        # GET HEADER VALUE
+        # ----------------------------------------------------------
+        header_values = self.prepare_header_data_to_master_price_list(values)
+
+        # ----------------------------------------------------------
+        # GET DETAIL VALUE
+        # ----------------------------------------------------------
+        detail_changed = False
+        if values.get('invoice_line_ids', False):
+            detail_changed = True
+
+        if detail_changed:
+            detail_values = self.prepare_detail_data_to_master_price_list_when_detail_changed(values)
+        else:
+            detail_values = self.prepare_detail_data_to_master_price_list_when_detail_no_changed(values)
+
+        # ----------------------------------------------------------
+        # INSERT or UPDATE to Master Price List
+        # ----------------------------------------------------------
+        for detail_line in detail_values:
+
+            # ----------------------------------------------------------
+            # PREPARE PARAMETERS FOR SQL
+            # ----------------------------------------------------------
+            params = {
+                'customer_code_id': header_values['customer_code_id'],
+                'customer_code': header_values['customer_code'],
+                'customer_name': header_values['customer_name'],
+
+                'jan_code_id': detail_line['jan_code_id'],
+                'jan_code': detail_line['jan_code'],
+                'product_code_select': detail_line['product_code_select'],
+                'product_code_id': detail_line['product_code_id'],
+                'product_code': detail_line['product_code'],
+                'product_name': detail_line['product_name'],
+                'standard_number': detail_line['standard_number'],
+
+                'price_applied': detail_line['price_applied'],
+                'date_applied': header_values['date_applied'],
+
+                'document_no': header_values['document_no'],
+                'document_type': 'invoice'
+            }
+
+            # ----------------------------------------------------------
+            # CHECK IF EXISTS IN MASTER PRICE LIST
+            # ----------------------------------------------------------
+            master_price = self.env['master.price.list'].search(
+                [('customer_code', '=', header_values['customer_code']),
+                 ('jan_code', '=', detail_line['jan_code']),
+                 ('product_code', '=', detail_line['product_code']),
+                 ('document_type', '=', 'invoice')])
+
+            if len(master_price) == 0:
+                # ----------------------------------------------------------
+                # INSERT Last Unit Price to Master Price List
+                # ----------------------------------------------------------
+                self.insert_last_unit_price_to_master_price_list(params)
+
+            else:
+                # ----------------------------------------------------------
+                # UPDATE Last Unit Price to Master Price List
+                # ----------------------------------------------------------
+                if master_price.date_applied \
+                        and (master_price.date_applied.strftime('%Y-%m-%d') <= header_values['date_applied']):
+                    self.update_last_unit_price_to_master_price_list(params)
+
+    # ----------------------------------------------------------
+    # INSERT Last Unit Price to Master Price List
+    # ----------------------------------------------------------
+    def insert_last_unit_price_to_master_price_list(self, params):
+
+        try:
+            # ----------------------------------------------------------
+            # PREPARE SQL
+            # ----------------------------------------------------------
+            sql = '''
+                INSERT INTO master_price_list (
+                    customer_code_id,
+                    customer_code,
+                    customer_name,
+
+                    jan_code_id,
+                    jan_code,
+                    product_code_select,
+                    product_code_id,
+                    product_code,
+                    product_name,
+                    standard_number,
+
+                    price_applied,
+                    date_applied,
+
+                    document_no,
+                    document_type,
+
+                    create_uid,
+                    create_date,
+                    write_uid,
+                    write_date
+                ) VALUES (
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), %s, NOW()
+                )
+                '''
+
+            # ----------------------------------------------------------
+            # PREPARE PARAMETERS FOR SQL
+            # ----------------------------------------------------------
+            params_sql = [
+                params['customer_code_id'],
+                params['customer_code'],
+                params['customer_name'],
+
+                params['jan_code_id'],
+                params['jan_code'],
+                params['product_code_select'],
+                params['product_code_id'],
+                params['product_code'],
+                params['product_name'],
+                params['standard_number'],
+
+                params['price_applied'],
+                params['date_applied'],
+
+                params['document_no'],
+                params['document_type'],
+
+                self.env.uid,
+                self.env.uid
+            ]
+
+            # ----------------------------------------------------------
+            # EXCUTE SQL WITH PARAMS
+            # ----------------------------------------------------------
+            self._cr.execute(sql, params_sql)
+
+        except Exception as error:
+            print("An exception has occured:", error)
+            print("Exception TYPE:", type(error))
+            raise UserError(_("問題が発生しました。"))
+
+    # ----------------------------------------------------------
+    # UPDATE Last Unit Price to Master Price List
+    # ----------------------------------------------------------
+    def update_last_unit_price_to_master_price_list(self, params):
+
+        try:
+            # ----------------------------------------------------------
+            # PREPARE SQL
+            # ----------------------------------------------------------
+            sql = '''
+                UPDATE master_price_list 
+                SET
+                    customer_code_id = %s,
+                    customer_code = %s,
+                    customer_name = %s,
+
+                    jan_code_id = %s,
+                    jan_code = %s,
+                    product_code_select = %s,
+                    product_code_id = %s,
+                    product_code = %s,
+                    product_name = %s,
+                    standard_number = %s,
+
+                    price_applied = %s,
+                    date_applied = %s,
+
+                    document_no= %s,
+                    document_type= %s,
+
+                    write_uid = %s,
+                    write_date = NOW()
+                WHERE
+                    customer_code = %s
+                    AND jan_code = %s
+                    AND product_code = %s
+                    AND document_type = %s
+                '''
+
+            # ----------------------------------------------------------
+            # PREPARE PARAMETERS FOR SQL
+            # ----------------------------------------------------------
+            params_sql = [
+                params['customer_code_id'],
+                params['customer_code'],
+                params['customer_name'],
+
+                params['jan_code_id'],
+                params['jan_code'],
+                params['product_code_select'],
+                params['product_code_id'],
+                params['product_code'],
+                params['product_name'],
+                params['standard_number'],
+
+                params['price_applied'],
+                params['date_applied'],
+
+                params['document_no'],
+                params['document_type'],
+
+                self.env.uid,
+
+                params['customer_code'],
+                params['jan_code'],
+                params['product_code'],
+                params['document_type']
+            ]
+
+            # ----------------------------------------------------------
+            # EXCUTE SQL WITH PARAMS
+            # ----------------------------------------------------------
+            self._cr.execute(sql, params_sql)
+
+        except Exception as error:
+            print("An exception has occured:", error)
+            print("Exception TYPE:", type(error))
+            raise UserError(_("問題が発生しました。"))
+
+    # ----------------------------------------------------------
+    # PREPARE HEADER DATA to Master Price List
+    # ----------------------------------------------------------
+    def prepare_header_data_to_master_price_list(self, values):
+
+        customer_code_id = ''
+        customer_code = ''
+        customer_name = ''
+
+        date_applied = ''
+
+        document_no = ''
+
+        # ----------------------------------------------------------
+        # QUOTATION HEADER: DOCUMENT-NO CHANGE
+        # ----------------------------------------------------------
+        if values.get('x_studio_document_no', False):
+            document_no = values['x_studio_document_no']
+        else:
+            document_no = self.x_studio_document_no
+
+        # ----------------------------------------------------------
+        # QUOTATION HEADER: CUSTOMER CHANGE
+        # ----------------------------------------------------------
+        if values.get('x_studio_business_partner', False):
+            customer_code_id = values['x_studio_business_partner']
+            customer = self.env['res.partner'].search([('id', '=', customer_code_id)])
+            if len(customer) == 1:
+                customer_code = customer.customer_code
+            customer_name = values['x_studio_name']
+        else:
+            customer_code_id = self.x_studio_business_partner.id
+            customer_code = self.x_studio_business_partner.customer_code
+            customer_name = self.x_studio_name
+
+        # ----------------------------------------------------------
+        # QUOTATION HEADER: DATE CHANGE
+        # ----------------------------------------------------------
+        if values.get('x_studio_date_invoiced', False):
+            date_applied = values['x_studio_date_invoiced']
+        else:
+            date_applied = self.x_studio_date_invoiced.strftime('%Y-%m-%d')
+
+        # ----------------------------------------------------------
+        # RETURN HEADER VALUES
+        # ----------------------------------------------------------
+        header_values = {
+            'customer_code_id': customer_code_id,
+            'customer_code': customer_code,
+            'customer_name': customer_name,
+
+            'date_applied': date_applied,
+
+            'document_no': document_no
+        }
+
+        return header_values
+
+    # ----------------------------------------------------------
+    # PREPARE DETAIL DATA to Master Price List (WHEN DETAIL CHANGED)
+    # ----------------------------------------------------------
+    def prepare_detail_data_to_master_price_list_when_detail_changed(self, values):
+
+        detail_values = []
+
+        # ----------------------------------------------------------
+        # QUOTATION LINE DETAIL: LOOP
+        # ----------------------------------------------------------
+        for invoice_line in values.get('invoice_line_ids', []):
+
+            line_values = {}
+
+            jan_code_id = ''
+            jan_code = ''
+            product_code_select = ''
+            product_code_id = ''
+            product_code = ''
+            product_name = ''
+            standard_number = ''
+
+            price_applied = ''
+
+            product = {}
+            sale_invoice_line = {}
+
+            # ----------------------------------------------------------
+            # QUOTATION LINE DETAIL: PRODUCT CHANGE
+            # ----------------------------------------------------------
+            if invoice_line[2] and invoice_line[2].get('product_id', False):
+                jan_code_id = invoice_line[2]['product_id']
+                jan_code = invoice_line[2]['product_barcode']
+                product_code_id = invoice_line[2]['product_id']
+                product_code = invoice_line[2]['product_code']
+                product_name = invoice_line[2]['product_name']
+                standard_number = invoice_line[2]['invoice_custom_standardnumber']
+                product = self.env['product.product'].search([('id', '=', product_code_id)])
+
+            # ----------------------------------------------------------
+            # QUOTATION LINE DETAIL: PRODUCT NOT CHANGE
+            # ----------------------------------------------------------
+            else:
+                sale_invoice_line = self.env['account.move.line'].search([('id', '=', invoice_line[1])])
+                product = sale_invoice_line.product_id
+                if len(product) == 1:
+                    jan_code_id = product.id
+                    jan_code = product.barcode
+                    product_code_id = product.id
+
+                    if product.product_code_1:
+                        product_code = product.product_code_1
+                    elif product.product_code_2:
+                        product_code = product.product_code_2
+                    elif product.product_code_3:
+                        product_code = product.product_code_3
+                    elif product.product_code_4:
+                        product_code = product.product_code_4
+                    elif product.product_code_5:
+                        product_code = product.product_code_5
+                    elif product.product_code_6:
+                        product_code = product.product_code_6
+
+                    product_name = product.name
+                    standard_number = product.product_custom_standardnumber
+
+            # Get product_code_select
+            if len(product) == 1:
+                if product.product_code_1 == product_code:
+                    product_code_select = 'product_1'
+                elif product.product_code_2 == product_code:
+                    product_code_select = 'product_2'
+                elif product.product_code_3 == product_code:
+                    product_code_select = 'product_3'
+                elif product.product_code_4 == product_code:
+                    product_code_select = 'product_4'
+                elif product.product_code_5 == product_code:
+                    product_code_select = 'product_5'
+                elif product.product_code_6 == product_code:
+                    product_code_select = 'product_6'
+
+            # ----------------------------------------------------------
+            # QUOTATION LINE DETAIL: UNIT PRICE CHANGE
+            # ----------------------------------------------------------
+            if invoice_line[2] and invoice_line[2].get('price_unit', False):
+                price_applied = invoice_line[2]['price_unit']
+
+            else:
+                if len(sale_invoice_line) == 1:
+                    price_applied = sale_invoice_line.price_unit
+
+            # ----------------------------------------------------------
+            # RETURN DETAIL VALUES
+            # ----------------------------------------------------------
+            line_values = {
+                'jan_code_id': jan_code_id,
+                'jan_code': jan_code,
+                'product_code_select': product_code_select,
+                'product_code_id': product_code_id,
+                'product_code': product_code,
+                'product_name': product_name,
+                'standard_number': standard_number,
+
+                'price_applied': price_applied
+            }
+
+            detail_values.append(line_values)
+
+        return detail_values
+
+    # ----------------------------------------------------------
+    # PREPARE DETAIL DATA to Master Price List (WHEN DETAIL CHANGED)
+    # ----------------------------------------------------------
+    def prepare_detail_data_to_master_price_list_when_detail_no_changed(self, values):
+
+        detail_values = []
+
+        # ----------------------------------------------------------
+        # QUOTATION LINE DETAIL: LOOP
+        # ----------------------------------------------------------
+        for invoice_line in self.invoice_line_ids:
+
+            line_values = {}
+
+            jan_code_id = ''
+            jan_code = ''
+            product_code_select = ''
+            product_code_id = ''
+            product_code = ''
+            product_name = ''
+            standard_number = ''
+
+            price_applied = ''
+
+            sale_invoice_line = self.env['sale.order.line'].search([('id', '=', invoice_line.id)])
+
+            if len(sale_invoice_line) == 0:
+                continue
+
+            product = sale_invoice_line.product_id
+
+            # Get product info
+            if len(product) == 1:
+                jan_code_id = product.id
+                jan_code = product.barcode
+                product_code_id = product.id
+
+                if product.product_code_1:
+                    product_code = product.product_code_1
+                    product_code_select = 'product_1'
+                elif product.product_code_2:
+                    product_code = product.product_code_2
+                    product_code_select = 'product_2'
+                elif product.product_code_3:
+                    product_code = product.product_code_3
+                    product_code_select = 'product_3'
+                elif product.product_code_4:
+                    product_code = product.product_code_4
+                    product_code_select = 'product_4'
+                elif product.product_code_5:
+                    product_code = product.product_code_5
+                    product_code_select = 'product_5'
+                elif product.product_code_6:
+                    product_code = product.product_code_6
+                    product_code_select = 'product_6'
+
+                product_name = product.name
+                standard_number = product.product_custom_standardnumber
+
+            # Get price_unit
+            if len(sale_invoice_line) == 1:
+                price_applied = sale_invoice_line.price_unit
+
+            # ----------------------------------------------------------
+            # RETURN DETAIL VALUES
+            # ----------------------------------------------------------
+            line_values = {
+                'jan_code_id': jan_code_id,
+                'jan_code': jan_code,
+                'product_code_select': product_code_select,
+                'product_code_id': product_code_id,
+                'product_code': product_code,
+                'product_name': product_name,
+                'standard_number': standard_number,
+
+                'price_applied': price_applied
+            }
+
+            detail_values.append(line_values)
+
+        return detail_values
+
+    # ----------------------------------------------------------
+    # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
+    # (AFTER DELETE OR UPDATE QUOTATION)
+    # ----------------------------------------------------------
+    def maintain_last_unit_price_from_quotation_to_master_price_list(self, invoice_before_delete_arr):
+
+        for invoice_before_delete in invoice_before_delete_arr:
+
+            # Customer ID
+            customer_code_id = invoice_before_delete['customer_code_id']
+
+            # Customer Code
+            customer_code = invoice_before_delete['customer_code']
+
+            for invoice_line in invoice_before_delete['invoice_line']:
+
+                document_no = ''
+                price_applied = ''
+                date_applied = ''
+
+                # Product JanCode
+                jan_code = invoice_line['product_barcode']
+
+                # Product Code
+                product_code = invoice_line['product_code']
+
+                # ----------------------------------------------------------
+                # GET LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION
+                # ----------------------------------------------------------
+                sql = '''
+                    SELECT
+                        invoice_no, 
+                        date,
+                        -- write_date,
+                        -- partner_id, 
+                        -- product_barcode,
+                        price_unit 
+                    FROM account_move_line
+                    WHERE partner_id = %s
+                    AND product_barcode = %s
+                    AND product_code = %s
+                    ORDER BY date desc, write_date desc, invoice_custom_line_no desc
+                    LIMIT 1
+                    '''
+
+                params = [customer_code_id, jan_code, product_code]
+
+                self._cr.execute(sql, params)
+                result = self._cr.dictfetchall()
+
+                if len(result) == 1:
+                    # Document No
+                    document_no = result[0]['invoice_no']
+
+                    # Unit Price
+                    price_applied = result[0]['price_unit']
+
+                    # Quotation Date
+                    date_applied = result[0]['date']
+
+                # ----------------------------------------------------------
+                # PREPARE PARAMETERS FOR SQL
+                # ----------------------------------------------------------
+                params = {
+                    'price_applied': price_applied,
+                    'date_applied': date_applied,
+                    'document_no': document_no,
+
+                    'customer_code': customer_code,
+                    'jan_code': jan_code,
+                    'product_code': product_code,
+                    'document_type': 'invoice'
+                }
+
+                # -----------------------------------------------------------------
+                # IF [LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION] EXISTS
+                # -----------------------------------------------------------------
+                if len(result) == 1:
+
+                    # -----------------------------------------------------------------------------------
+                    # UPDATE LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION TO MASTER PRICE LIST
+                    # -----------------------------------------------------------------------------------
+                    self.update_last_unit_price_from_quotation_to_master_price_list(params)
+
+                else:
+                    # ----------------------------------------------------------
+                    # DELETE LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM MASTER PRICE LIST
+                    # ----------------------------------------------------------
+                    self.delete_last_unit_price_from_master_price_list(params)
+
+    # -----------------------------------------------------------------------------------
+    # UPDATE LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION TO MASTER PRICE LIST
+    # -----------------------------------------------------------------------------------
+    def update_last_unit_price_from_quotation_to_master_price_list(self, params):
+
+        try:
+            # ----------------------------------------------------------
+            # PREPARE SQL
+            # ----------------------------------------------------------
+            sql = '''
+                UPDATE master_price_list 
+                SET
+                    price_applied = %s,
+                    date_applied = %s,
+                    document_no= %s,
+
+                    write_uid = %s,
+                    write_date = NOW()
+                WHERE
+                    customer_code = %s
+                    AND jan_code = %s
+                    AND product_code = %s
+                    AND document_type = %s
+                '''
+
+            # ----------------------------------------------------------
+            # PREPARE PARAMETERS FOR SQL
+            # ----------------------------------------------------------
+            params_sql = [
+                params['price_applied'],
+                params['date_applied'],
+                params['document_no'],
+
+                self.env.uid,
+
+                params['customer_code'],
+                params['jan_code'],
+                params['product_code'],
+                params['document_type']
+            ]
+
+            # ----------------------------------------------------------
+            # EXCUTE SQL WITH PARAMS
+            # ----------------------------------------------------------
+            self._cr.execute(sql, params_sql)
+
+        except Exception as error:
+            print("An exception has occured:", error)
+            print("Exception TYPE:", type(error))
+            raise UserError(_("問題が発生しました。"))
+
+    # ----------------------------------------------------------
+    # DELETE LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM MASTER PRICE LIST
+    # ----------------------------------------------------------
+    def delete_last_unit_price_from_master_price_list(self, params):
+
+        master_price_list = self.env['master.price.list'].search([('customer_code', '=', params['customer_code']),
+                                                                  ('jan_code', '=', params['jan_code']),
+                                                                  ('product_code', '=', params['product_code']),
+                                                                  ('document_type', '=', params['document_type'])])
+        if len(master_price_list) == 1:
+            master_price_list.unlink()
+
+# ==========================================================
+# INS 20210802 - END
+# ==========================================================
 
     # Get customer office method
     def _compute_get_customer_office(self):
