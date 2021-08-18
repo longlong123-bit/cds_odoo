@@ -1395,7 +1395,7 @@ class ClassInvoiceCustom(models.Model):
             product_name = ''
             standard_number = ''
 
-            price_applied = ''
+            price_applied = 0
 
             product = {}
             sale_invoice_line = {}
@@ -1417,7 +1417,9 @@ class ClassInvoiceCustom(models.Model):
             # ----------------------------------------------------------
             else:
                 sale_invoice_line = self.env['account.move.line'].search([('id', '=', invoice_line[1])])
-                product = sale_invoice_line.product_id
+                if len(sale_invoice_line) == 1:
+                    product = sale_invoice_line.product_id
+
                 if len(product) == 1:
                     jan_code_id = product.id
                     jan_code = product.barcode
@@ -1461,6 +1463,7 @@ class ClassInvoiceCustom(models.Model):
                 price_applied = invoice_line[2]['price_unit']
 
             else:
+                sale_invoice_line = self.env['account.move.line'].search([('id', '=', invoice_line[1])])
                 if len(sale_invoice_line) == 1:
                     price_applied = sale_invoice_line.price_unit
 
@@ -1505,14 +1508,17 @@ class ClassInvoiceCustom(models.Model):
             product_name = ''
             standard_number = ''
 
-            price_applied = ''
+            price_applied = 0
 
-            sale_invoice_line = self.env['sale.order.line'].search([('id', '=', invoice_line.id)])
+            product = {}
+
+            sale_invoice_line = self.env['account.move.line'].search([('id', '=', invoice_line.id)])
 
             if len(sale_invoice_line) == 0:
                 continue
 
-            product = sale_invoice_line.product_id
+            if len(sale_invoice_line) == 1:
+                product = sale_invoice_line.product_id
 
             # Get product info
             if len(product) == 1:
@@ -2274,6 +2280,24 @@ class AccountMoveLine(models.Model):
                                product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                                maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                                industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # country_state_code_ids = self.env['master.price.list'].search([
+        #     ('country_state_code_id', '=', country_state_code),
+        #     ('industry_code_id', '=', industry_code),
+        #     ('supplier_group_code_id', '=', supplier_group_code),
+        #     ('customer_code_bill', '=', customer_code_bill),
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         country_state_code_ids = self.env['master.price.list'].search([
             ('country_state_code_id', '=', country_state_code),
             ('industry_code_id', '=', industry_code),
@@ -2287,7 +2311,12 @@ class AccountMoveLine(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(country_state_code_ids):
             if len(country_state_code_ids) > 1:
                 for i in country_state_code_ids:
@@ -2299,6 +2328,24 @@ class AccountMoveLine(models.Model):
                                                          country_state_code_ids.recruitment_price_select,
                                                          country_state_code_ids.price_applied)
         else:
+            # ==========================================================
+            # UPD 20210802 - START - LiemLVN
+            # ==========================================================
+            # country_state_code_id_none = self.env['master.price.list'].search([
+            #     ('country_state_code_id', '=', None),
+            #     ('industry_code_id', '=', industry_code),
+            #     ('supplier_group_code_id', '=', supplier_group_code),
+            #     ('customer_code_bill', '=', customer_code_bill),
+            #     ('customer_code', '=', customer_code),
+            #     ('maker_code', '=', maker),
+            #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+            #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+            #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+            #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+            #     ('jan_code', '=', jan_code),
+            #     ('product_code', '=', product_code),
+            #     ('date_applied', '<=', date)]).sorted('date_applied')
+
             country_state_code_id_none = self.env['master.price.list'].search([
                 ('country_state_code_id', '=', None),
                 ('industry_code_id', '=', industry_code),
@@ -2312,7 +2359,12 @@ class AccountMoveLine(models.Model):
                 ('product_class_code_lv4_id', '=', product_class_code_lv4),
                 ('jan_code', '=', jan_code),
                 ('product_code', '=', product_code),
+                ('document_type', '!=', 'quotation'),
+                ('document_type', '!=', 'invoice'),
                 ('date_applied', '<=', date)]).sorted('date_applied')
+            # ==========================================================
+            # UPD 20210802 - END - LiemLVN
+            # ==========================================================
             if len(country_state_code_id_none):
                 if len(country_state_code_id_none) > 1:
                     for i in country_state_code_id_none:
@@ -2330,6 +2382,23 @@ class AccountMoveLine(models.Model):
                           product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                           maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                           industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # industry_code_ids = self.env['master.price.list'].search([
+        #     ('industry_code_id', '=', industry_code),
+        #     ('supplier_group_code_id', '=', supplier_group_code),
+        #     ('customer_code_bill', '=', customer_code_bill),
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         industry_code_ids = self.env['master.price.list'].search([
             ('industry_code_id', '=', industry_code),
             ('supplier_group_code_id', '=', supplier_group_code),
@@ -2342,7 +2411,12 @@ class AccountMoveLine(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(industry_code_ids):
             if len(industry_code_ids) > 1:
                 price = self.set_country_state_code(product_code, jan_code, product_class_code_lv4,
@@ -2363,6 +2437,22 @@ class AccountMoveLine(models.Model):
                                 product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                                 maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                                 industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # supplier_group_code_ids = self.env['master.price.list'].search([
+        #     ('supplier_group_code_id', '=', supplier_group_code),
+        #     ('customer_code_bill', '=', customer_code_bill),
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         supplier_group_code_ids = self.env['master.price.list'].search([
             ('supplier_group_code_id', '=', supplier_group_code),
             ('customer_code_bill', '=', customer_code_bill),
@@ -2374,7 +2464,12 @@ class AccountMoveLine(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(supplier_group_code_ids):
             if len(supplier_group_code_ids) > 1:
                 price = self.set_industry_code(product_code, jan_code, product_class_code_lv4, product_class_code_lv3,
@@ -2395,6 +2490,21 @@ class AccountMoveLine(models.Model):
                                product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                                maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                                industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # customer_code_bill_ids = self.env['master.price.list'].search([
+        #     ('customer_code_bill', '=', customer_code_bill),
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         customer_code_bill_ids = self.env['master.price.list'].search([
             ('customer_code_bill', '=', customer_code_bill),
             ('customer_code', '=', customer_code),
@@ -2405,7 +2515,12 @@ class AccountMoveLine(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(customer_code_bill_ids):
             if len(customer_code_bill_ids) > 1:
                 price = self.set_supplier_group_code(product_code, jan_code, product_class_code_lv4,
@@ -2427,6 +2542,20 @@ class AccountMoveLine(models.Model):
                           product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                           maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                           industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # customer_code_ids = self.env['master.price.list'].search([
+        #     ('customer_code', '=', customer_code),
+        #     ('maker_code', '=', maker),
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         customer_code_ids = self.env['master.price.list'].search([
             ('customer_code', '=', customer_code),
             ('maker_code', '=', maker),
@@ -2436,7 +2565,12 @@ class AccountMoveLine(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(customer_code_ids):
             if len(customer_code_ids) > 1:
                 price = self.set_customer_code_bill(product_code, jan_code, product_class_code_lv4,
@@ -2458,6 +2592,18 @@ class AccountMoveLine(models.Model):
                   product_class_code_lv2=None, product_class_code_lv1=None, maker=None, customer_code=None,
                   customer_code_bill=None, supplier_group_code=None, industry_code=None, country_state_code=None,
                   date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # maker_ids = self.env['master.price.list'].search([('maker_code', '=', maker),
+        #                                                   ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #                                                   ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #                                                   ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #                                                   ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #                                                   ('jan_code', '=', jan_code),
+        #                                                   ('product_code', '=', product_code),
+        #                                                   ('date_applied', '<=', date)]).sorted('date_applied')
+
         maker_ids = self.env['master.price.list'].search([('maker_code', '=', maker),
                                                           ('product_class_code_lv1_id', '=', product_class_code_lv1),
                                                           ('product_class_code_lv2_id', '=', product_class_code_lv2),
@@ -2465,7 +2611,12 @@ class AccountMoveLine(models.Model):
                                                           ('product_class_code_lv4_id', '=', product_class_code_lv4),
                                                           ('jan_code', '=', jan_code),
                                                           ('product_code', '=', product_code),
+                                                          ('document_type', '!=', 'quotation'),
+                                                          ('document_type', '!=', 'invoice'),
                                                           ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(maker_ids):
             if len(maker_ids) > 1:
                 price = self.set_customer_code(product_code, jan_code, product_class_code_lv4,
@@ -2489,6 +2640,18 @@ class AccountMoveLine(models.Model):
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
                                    supplier_group_code=None, industry_code=None, country_state_code=None,
                                    date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # product_class_code_lv1_ids = self.env['master.price.list'].search([
+        #     ('product_class_code_lv1_id', '=', product_class_code_lv1),
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         product_class_code_lv1_ids = self.env['master.price.list'].search([
             ('product_class_code_lv1_id', '=', product_class_code_lv1),
             ('product_class_code_lv2_id', '=', product_class_code_lv2),
@@ -2496,7 +2659,12 @@ class AccountMoveLine(models.Model):
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(product_class_code_lv1_ids):
             if len(product_class_code_lv1_ids) > 1:
                 price = self.set_maker(product_code, jan_code, product_class_code_lv4,
@@ -2518,13 +2686,29 @@ class AccountMoveLine(models.Model):
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
                                    supplier_group_code=None, industry_code=None, country_state_code=None,
                                    date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # product_class_code_lv2_ids = self.env['master.price.list'].search([
+        #     ('product_class_code_lv2_id', '=', product_class_code_lv2),
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         product_class_code_lv2_ids = self.env['master.price.list'].search([
             ('product_class_code_lv2_id', '=', product_class_code_lv2),
             ('product_class_code_lv3_id', '=', product_class_code_lv3),
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(product_class_code_lv2_ids):
             if len(product_class_code_lv2_ids) > 1:
                 price = self.set_product_class_code_lv1(product_code, jan_code, product_class_code_lv4,
@@ -2547,12 +2731,27 @@ class AccountMoveLine(models.Model):
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
                                    supplier_group_code=None, industry_code=None, country_state_code=None,
                                    date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # product_class_code_lv3_ids = self.env['master.price.list'].search([
+        #     ('product_class_code_lv3_id', '=', product_class_code_lv3),
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         product_class_code_lv3_ids = self.env['master.price.list'].search([
             ('product_class_code_lv3_id', '=', product_class_code_lv3),
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(product_class_code_lv3_ids):
             if len(product_class_code_lv3_ids) > 1:
                 price = self.set_product_class_code_lv2(product_code, jan_code, product_class_code_lv4,
@@ -2576,11 +2775,25 @@ class AccountMoveLine(models.Model):
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
                                    supplier_group_code=None, industry_code=None, country_state_code=None,
                                    date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # product_class_code_lv4_ids = self.env['master.price.list'].search([
+        #     ('product_class_code_lv4_id', '=', product_class_code_lv4),
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         product_class_code_lv4_ids = self.env['master.price.list'].search([
             ('product_class_code_lv4_id', '=', product_class_code_lv4),
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(product_class_code_lv4_ids):
             if len(product_class_code_lv4_ids) > 1:
                 price = self.set_product_class_code_lv3(product_code, jan_code, product_class_code_lv4,
@@ -2603,10 +2816,23 @@ class AccountMoveLine(models.Model):
                               product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                               maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                               industry_code=None, country_state_code=None, date=datetime.today()):
+        # ==========================================================
+        # UPD 20210802 - START - LiemLVN
+        # ==========================================================
+        # jan_ids = self.env['master.price.list'].search([
+        #     ('jan_code', '=', jan_code),
+        #     ('product_code', '=', product_code),
+        #     ('date_applied', '<=', date)]).sorted('date_applied')
+
         jan_ids = self.env['master.price.list'].search([
             ('jan_code', '=', jan_code),
             ('product_code', '=', product_code),
+            ('document_type', '!=', 'quotation'),
+            ('document_type', '!=', 'invoice'),
             ('date_applied', '<=', date)]).sorted('date_applied')
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         if len(jan_ids):
             if len(jan_ids) > 1:
                 price = self.set_product_class_code_lv4(product_code, jan_code, product_class_code_lv4,
@@ -2629,23 +2855,63 @@ class AccountMoveLine(models.Model):
                                product_class_code_lv3=None, product_class_code_lv2=None, product_class_code_lv1=None,
                                maker=None, customer_code=None, customer_code_bill=None, supplier_group_code=None,
                                industry_code=None, country_state_code=None, date=datetime.today()):
-        product_code_ids = self.env['master.price.list'].search(
-            [('product_code', '=', product_code), ('date_applied', '<=', date)]).sorted('date_applied')
-        if len(product_code_ids):
-            if len(product_code_ids) > 1:
-                price = self.set_price_by_jan_code(product_code, jan_code, product_class_code_lv4,
-                                                   product_class_code_lv3, product_class_code_lv2,
-                                                   product_class_code_lv1, maker, customer_code, customer_code_bill,
-                                                   supplier_group_code, industry_code, country_state_code, date)
-            else:
-                price = self.price_of_recruitment_select(product_code_ids.rate,
-                                                         product_code_ids.recruitment_price_select,
-                                                         product_code_ids.price_applied)
+        # ==========================================================
+        # INS 20210802 - START - LiemLVN
+        # GET Last Unit Price from Master Price List
+        # ==========================================================
+        price = 0
+        product_code_ids = self.env['master.price.list'].search([
+            ('customer_code', '=', customer_code),
+            ('jan_code', '=', jan_code),
+            ('product_code', '=', product_code),
+            ('document_type', '=', 'invoice'),
+            ('date_applied', '<=', date)])
+
+        if len(product_code_ids) == 1:
+            price = product_code_ids[0]['price_applied']
+        # ==========================================================
+        # INS 20210802 - END - LiemLVN
+        # ==========================================================
         else:
-            price = self.set_price_by_jan_code(None, jan_code, product_class_code_lv4, product_class_code_lv3,
-                                               product_class_code_lv2, product_class_code_lv1, maker, customer_code,
-                                               customer_code_bill, supplier_group_code, industry_code,
-                                               country_state_code, date)
+
+            # ==========================================================
+            # UPD 20210802 - START - LiemLVN
+            # ==========================================================
+            # product_code_ids = self.env['master.price.list'].search(
+            #     [('product_code', '=', product_code), ('date_applied', '<=', date)]).sorted('date_applied')
+
+            product_code_ids = self.env['master.price.list'].search([('product_code', '=', product_code),
+                                                                     ('document_type', '!=', 'quotation'),
+                                                                     ('document_type', '!=', 'invoice'),
+                                                                     ('date_applied', '<=', date)]).sorted('date_applied')
+            # ==========================================================
+            # UPD 20210802 - END - LiemLVN
+            # ==========================================================
+            if len(product_code_ids):
+                if len(product_code_ids) > 1:
+                    price = self.set_price_by_jan_code(product_code, jan_code, product_class_code_lv4,
+                                                       product_class_code_lv3, product_class_code_lv2,
+                                                       product_class_code_lv1, maker, customer_code, customer_code_bill,
+                                                       supplier_group_code, industry_code, country_state_code, date)
+                else:
+                    price = self.price_of_recruitment_select(product_code_ids.rate,
+                                                             product_code_ids.recruitment_price_select,
+                                                             product_code_ids.price_applied)
+            else:
+                # ==========================================================
+                # UPD 20210802 - START - LiemLVN
+                # ==========================================================
+                # price = self.set_price_by_jan_code(None, jan_code, product_class_code_lv4, product_class_code_lv3,
+                #                                    product_class_code_lv2, product_class_code_lv1, maker, customer_code,
+                #                                    customer_code_bill, supplier_group_code, industry_code,
+                #                                    country_state_code, date)
+                price = self.set_price_by_jan_code(product_code, jan_code, product_class_code_lv4, product_class_code_lv3,
+                                                   product_class_code_lv2, product_class_code_lv1, maker, customer_code,
+                                                   customer_code_bill, supplier_group_code, industry_code,
+                                                   country_state_code, date)
+                # ==========================================================
+                # UPD 20210802 - END - LiemLVN
+                # ==========================================================
         return price
 
     @api.onchange('product_code')

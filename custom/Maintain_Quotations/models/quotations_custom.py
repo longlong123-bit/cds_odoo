@@ -403,18 +403,24 @@ class QuotationsCustom(models.Model):
     # ==========================================================
 
         # ----------------------------------------------------------
-        # BACKUP Quotation Info Before Update
+        # BACKUP Quotation(=Order) Info Before Delete
         # ----------------------------------------------------------
-        order_line_before = []
+        quotation_before_delete_arr = []
 
-        for order_line in self.order_line:
-            order_line_before.append({'product_barcode': order_line.product_barcode,
-                                      'product_code': order_line.product_code})
+        for quotation_delete in self:
 
-        quotation_before_delete = {'customer_code_id': self.partner_id.id,
-                                   'customer_code': self.related_partner_code,
-                                   'document_no': self.document_no,
-                                   'order_line': order_line_before}
+            quotation_line_before = []
+
+            for quotation_line in quotation_delete.order_line:
+                quotation_line_before.append({'product_barcode': quotation_line.product_barcode,
+                                              'product_code': quotation_line.product_code})
+
+            quotation_before_delete = {'customer_code_id': quotation_delete.partner_id.id,
+                                       'customer_code': quotation_delete.related_partner_code,
+                                       'document_no': quotation_delete.document_no,
+                                       'order_line': quotation_line_before}
+
+            quotation_before_delete_arr.append(quotation_before_delete)
 
         # ----------------------------------------------------------
         # INSERT or UPDATE Last Unit Price to Master Price List
@@ -435,7 +441,7 @@ class QuotationsCustom(models.Model):
         # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
         # (AFTER DELETE OR UPDATE QUOTATION)
         # ----------------------------------------------------------
-        self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete)
+        self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete_arr)
 
     # ==========================================================
     # INS 20210802 - END
@@ -781,18 +787,24 @@ class QuotationsCustom(models.Model):
     def unlink(self):
 
         # ----------------------------------------------------------
-        # BACKUP Quotation Info Before Delete
+        # BACKUP Quotation(=Order) Info Before Delete
         # ----------------------------------------------------------
-        order_line_before = []
+        quotation_before_delete_arr = []
 
-        for order_line in self.order_line:
-            order_line_before.append({'product_barcode': order_line.product_barcode,
-                                      'product_code': order_line.product_code})
+        for quotation_delete in self:
 
-        quotation_before_delete = {'customer_code_id': self.partner_id.id,
-                                   'customer_code': self.related_partner_code,
-                                   'document_no': self.document_no,
-                                   'order_line': order_line_before}
+            quotation_line_before = []
+
+            for quotation_line in quotation_delete.order_line:
+                quotation_line_before.append({'product_barcode': quotation_line.product_barcode,
+                                              'product_code': quotation_line.product_code})
+
+            quotation_before_delete = {'customer_code_id': quotation_delete.partner_id.id,
+                                       'customer_code': quotation_delete.related_partner_code,
+                                       'document_no': quotation_delete.document_no,
+                                       'order_line': quotation_line_before}
+
+            quotation_before_delete_arr.append(quotation_before_delete)
 
         # ----------------------------------------------------------
         # DELETE QUOTATION
@@ -808,7 +820,7 @@ class QuotationsCustom(models.Model):
         # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
         # (AFTER DELETE OR UPDATE QUOTATION)
         # ----------------------------------------------------------
-        self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete)
+        self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete_arr)
 
         return quotations_custom
 
@@ -1119,7 +1131,7 @@ class QuotationsCustom(models.Model):
             product_name = ''
             standard_number = ''
 
-            price_applied = ''
+            price_applied = 0
 
             product = {}
             sale_order_line = {}
@@ -1141,7 +1153,9 @@ class QuotationsCustom(models.Model):
             # ----------------------------------------------------------
             else:
                 sale_order_line = self.env['sale.order.line'].search([('id', '=', order_line[1])])
-                product = sale_order_line.product_id
+                if len(sale_order_line) == 1:
+                    product = sale_order_line.product_id
+
                 if len(product) == 1:
                     jan_code_id = product.id
                     jan_code = product.barcode
@@ -1185,6 +1199,7 @@ class QuotationsCustom(models.Model):
                 price_applied = order_line[2]['price_unit']
 
             else:
+                sale_order_line = self.env['sale.order.line'].search([('id', '=', order_line[1])])
                 if len(sale_order_line) == 1:
                     price_applied = sale_order_line.price_unit
 
@@ -1229,10 +1244,13 @@ class QuotationsCustom(models.Model):
             product_name = ''
             standard_number = ''
 
-            price_applied = ''
+            price_applied = 0
+
+            product = {}
 
             sale_order_line = self.env['sale.order.line'].search([('id', '=', order_line.id)])
-            product = sale_order_line.product_id
+            if len(sale_order_line) == 1:
+                product = sale_order_line.product_id
 
             # Get product info
             if len(product) == 1:
@@ -1289,90 +1307,92 @@ class QuotationsCustom(models.Model):
     # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
     # (AFTER DELETE OR UPDATE QUOTATION)
     # ----------------------------------------------------------
-    def maintain_last_unit_price_from_quotation_to_master_price_list(self, quotation_before_delete):
+    def maintain_last_unit_price_from_quotation_to_master_price_list(self, quotation_before_delete_arr):
 
-        # Customer ID
-        customer_code_id = quotation_before_delete['customer_code_id']
+        for quotation_before_delete in quotation_before_delete_arr:
 
-        # Customer Code
-        customer_code = quotation_before_delete['customer_code']
+            # Customer ID
+            customer_code_id = quotation_before_delete['customer_code_id']
 
-        for order_line in quotation_before_delete['order_line']:
+            # Customer Code
+            customer_code = quotation_before_delete['customer_code']
 
-            document_no = ''
-            price_applied = ''
-            date_applied = ''
+            for order_line in quotation_before_delete['order_line']:
 
-            # Product JanCode
-            jan_code = order_line['product_barcode']
+                document_no = ''
+                price_applied = ''
+                date_applied = ''
 
-            # Product Code
-            product_code = order_line['product_code']
+                # Product JanCode
+                jan_code = order_line['product_barcode']
 
-            # ----------------------------------------------------------
-            # GET LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION
-            # ----------------------------------------------------------
-            sql = '''
-                SELECT
-                    document_no, 
-                    quotation_date,
-                    -- write_date,
-                    -- partner_id, 
-                    -- product_barcode,
-                    price_unit 
-                FROM sale_order_line
-                WHERE partner_id = %s
-                AND product_barcode = %s
-                AND product_code = %s
-                ORDER BY quotation_date desc, write_date desc, quotation_custom_line_no desc
-                LIMIT 1
-                '''
+                # Product Code
+                product_code = order_line['product_code']
 
-            params = [customer_code_id, jan_code, product_code]
-
-            self._cr.execute(sql, params)
-            result = self._cr.dictfetchall()
-
-            if len(result) == 1:
-
-                # Document No
-                document_no = result[0]['document_no']
-
-                # Unit Price
-                price_applied = result[0]['price_unit']
-
-                # Quotation Date
-                date_applied = result[0]['quotation_date']
-
-            # ----------------------------------------------------------
-            # PREPARE PARAMETERS FOR SQL
-            # ----------------------------------------------------------
-            params = {
-                'price_applied': price_applied,
-                'date_applied': date_applied,
-                'document_no': document_no,
-
-                'customer_code': customer_code,
-                'jan_code': jan_code,
-                'product_code': product_code,
-                'document_type': 'quotation'
-            }
-
-            # -----------------------------------------------------------------
-            # IF [LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION] EXISTS
-            # -----------------------------------------------------------------
-            if len(result) == 1:
-
-                # -----------------------------------------------------------------------------------
-                # UPDATE LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION TO MASTER PRICE LIST
-                # -----------------------------------------------------------------------------------
-                self.update_last_unit_price_from_quotation_to_master_price_list(params)
-
-            else:
                 # ----------------------------------------------------------
-                # DELETE LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM MASTER PRICE LIST
+                # GET LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION
                 # ----------------------------------------------------------
-                self.delete_last_unit_price_from_master_price_list(params)
+                sql = '''
+                    SELECT
+                        document_no, 
+                        quotation_date,
+                        -- write_date,
+                        -- partner_id, 
+                        -- product_barcode,
+                        price_unit 
+                    FROM sale_order_line
+                    WHERE partner_id = %s
+                    AND product_barcode = %s
+                    AND product_code = %s
+                    ORDER BY quotation_date desc, write_date desc, quotation_custom_line_no desc
+                    LIMIT 1
+                    '''
+
+                params = [customer_code_id, jan_code, product_code]
+
+                self._cr.execute(sql, params)
+                result = self._cr.dictfetchall()
+
+                if len(result) == 1:
+
+                    # Document No
+                    document_no = result[0]['document_no']
+
+                    # Unit Price
+                    price_applied = result[0]['price_unit']
+
+                    # Quotation Date
+                    date_applied = result[0]['quotation_date']
+
+                # ----------------------------------------------------------
+                # PREPARE PARAMETERS FOR SQL
+                # ----------------------------------------------------------
+                params = {
+                    'price_applied': price_applied,
+                    'date_applied': date_applied,
+                    'document_no': document_no,
+
+                    'customer_code': customer_code,
+                    'jan_code': jan_code,
+                    'product_code': product_code,
+                    'document_type': 'quotation'
+                }
+
+                # -----------------------------------------------------------------
+                # IF [LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION] EXISTS
+                # -----------------------------------------------------------------
+                if len(result) == 1:
+
+                    # -----------------------------------------------------------------------------------
+                    # UPDATE LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION TO MASTER PRICE LIST
+                    # -----------------------------------------------------------------------------------
+                    self.update_last_unit_price_from_quotation_to_master_price_list(params)
+
+                else:
+                    # ----------------------------------------------------------
+                    # DELETE LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM MASTER PRICE LIST
+                    # ----------------------------------------------------------
+                    self.delete_last_unit_price_from_master_price_list(params)
 
     # -----------------------------------------------------------------------------------
     # UPDATE LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION TO MASTER PRICE LIST
@@ -2147,6 +2167,9 @@ class QuotationsLinesCustom(models.Model):
                                                              product_code_ids.recruitment_price_select,
                                                              product_code_ids.price_applied)
             else:
+                # ==========================================================
+                # UPD 20210802 - START - LiemLVN
+                # ==========================================================
                 # price = self.set_price_by_jan_code(None, jan_code, product_class_code_lv4, product_class_code_lv3,
                 #                                    product_class_code_lv2, product_class_code_lv1, maker, customer_code,
                 #                                    customer_code_bill, supplier_group_code, industry_code,
@@ -2155,6 +2178,9 @@ class QuotationsLinesCustom(models.Model):
                                                    product_class_code_lv2, product_class_code_lv1, maker, customer_code,
                                                    customer_code_bill, supplier_group_code, industry_code,
                                                    country_state_code, date)
+        # ==========================================================
+        # UPD 20210802 - END - LiemLVN
+        # ==========================================================
         return price
 
     def _get_default_line_no(self):
