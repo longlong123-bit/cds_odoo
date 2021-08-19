@@ -115,6 +115,18 @@ class ClassMasterPriceList(models.Model):
     # 適用年月日
     date_applied = fields.Date(string="Date Applied", default=datetime.today())
 
+    # ----------------------------------------------------------
+    # INS 20210822 - START - LiemLVN
+    # ----------------------------------------------------------
+    document_no = fields.Char(string="Document No")
+
+    document_type = fields.Selection([('quotation', 'Quotation'),
+                                      ('invoice', 'Invoice')],
+                                     string='Document Type')
+    # ----------------------------------------------------------
+    # INS 20210822 - END - LiemLVN
+    # ----------------------------------------------------------
+
     # Listen event onchange maker_code (メーカーCD)
     @api.onchange('maker_id')
     def _onchange_maker(self):
