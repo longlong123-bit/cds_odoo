@@ -1356,7 +1356,8 @@ class ClassInvoiceCustom(models.Model):
         if values.get('x_studio_date_invoiced', False):
             date_applied = values['x_studio_date_invoiced']
         else:
-            date_applied = self.x_studio_date_invoiced.strftime('%Y-%m-%d')
+            if self.x_studio_date_invoiced:
+                date_applied = self.x_studio_date_invoiced.strftime('%Y-%m-%d')
 
         # ----------------------------------------------------------
         # RETURN HEADER VALUES
