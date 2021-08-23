@@ -1092,7 +1092,8 @@ class QuotationsCustom(models.Model):
         if values.get('quotations_date', False):
             date_applied = values['quotations_date']
         else:
-            date_applied = self.quotations_date.strftime('%Y-%m-%d')
+            if self.quotations_date:
+                date_applied = self.quotations_date.strftime('%Y-%m-%d')
 
         # ----------------------------------------------------------
         # RETURN HEADER VALUES
