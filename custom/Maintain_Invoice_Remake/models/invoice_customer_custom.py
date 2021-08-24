@@ -1098,6 +1098,8 @@ class ClassInvoiceCustom(models.Model):
         # GET HEADER VALUE
         # ----------------------------------------------------------
         header_values = self.prepare_header_data_to_master_price_list(values)
+        if not header_values['customer_code_id']:
+            return
 
         # ----------------------------------------------------------
         # GET DETAIL VALUE
@@ -1582,6 +1584,8 @@ class ClassInvoiceCustom(models.Model):
 
             # Customer ID
             customer_code_id = invoice_before_delete['customer_code_id']
+            if not customer_code_id:
+                continue
 
             # Customer Code
             customer_code = invoice_before_delete['customer_code']
@@ -1594,9 +1598,13 @@ class ClassInvoiceCustom(models.Model):
 
                 # Product JanCode
                 jan_code = invoice_line['product_barcode']
+                if not jan_code:
+                    continue
 
                 # Product Code
                 product_code = invoice_line['product_code']
+                if not product_code:
+                    product_code = ''
 
                 # ----------------------------------------------------------
                 # GET LAST UNIT PRICE OF (CUSTOMER, PRODUCT) FROM QUOTATION
