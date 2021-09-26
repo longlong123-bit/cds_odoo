@@ -6,25 +6,25 @@
             <tr>
                 <th>売上期間</th>
                 <td>
-                    <input class="filter-item" data-operator="gte" data-name="business_partner_name" type="date"/>
+                    <input class="filter-item" data-operator="gte" data-name="search_date" type="date"/>
                 </td>
                 <td>
                     <span>～</span>
                 </td>
                 <td>
-                    <input class="filter-item" data-operator="lte" data-name="business_partner_name" type="date"/>
+                    <input class="filter-item" data-operator="lte" data-name="search_date" type="date"/>
                 </td>
             </tr>
             <tr>
                 <th>取引先グループ</th>
                 <td>
-                    <input class="filter-item" data-operator="gte" data-name="business_partner_code"/>
+                    <input class="filter-item" data-operator="gte" data-name="business_partner_name"/>
                 </td>
                 <td>
                     <span>～</span>
                 </td>
                 <td>
-                    <input class="filter-item" data-operator="lte" data-name="business_partner_code"/>
+                    <input class="filter-item" data-operator="lte" data-name="business_partner_name"/>
                 </td>
             </tr>
             <tr>
@@ -43,8 +43,17 @@
                 <th>税抜・税込</th>
                 <td>
                     <select class="filter-item" data-operator="eq" data-name="tax_class" style="height:26px">
-                        <option value='税抜'>税抜</option>
-                        <option value='税込'>税込</option>
+                        <option value="税抜">税抜</option>
+                        <option value="税込">税込</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>オール0除く</th>
+                <td>
+                    <select class="filter-item" data-operator="eq" data-name="not_show_all_0" style="height:26px">
+                        <option value="False">なし</option>
+                        <option value="True" selected="selected">はい</option>
                     </select>
                 </td>
             </tr>

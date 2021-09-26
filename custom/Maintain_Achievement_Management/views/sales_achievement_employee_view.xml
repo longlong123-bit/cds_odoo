@@ -8,13 +8,14 @@
 				<tree create="0" import="0" export_xlsx="0">
 					<field name="hr_employee_employee_code"/>
 					<field name="hr_employee_name"/>
-
 					<field name="sum_pay_amount_final" sum="Total" optional="show"/>
 					<field name="sum_return_amount_final" sum="Total" optional="show"/>
 					<field name="sum_discount_amount_final" sum="Total" optional="show"/>
 					<field name="sum_cost_price_amount_final" sum="Total" optional="show" invisible="1"/>
 					<field name="net_sale_amount_final" sum="Total" optional="show"/>
 					<field name="gross_amount_final" sum="Total" optional="show"/>
+<!--					<field name="all_0_no_tax"/>-->
+<!--					<field name="all_0_include_tax"/>-->
 				</tree>
 			</field>
 		</record>

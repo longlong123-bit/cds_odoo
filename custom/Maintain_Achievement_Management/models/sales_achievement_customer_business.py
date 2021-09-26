@@ -16,20 +16,20 @@ class SalesAchievementCustomerBusiness(models.Model):
     res_partner_customer_code = fields.Char(string='Customer Code', readonly=True)
     res_partner_name = fields.Char(string='Customer Name', readonly=True)
 
-    # sum_pay_amount_final = fields.Integer(string='Sum Pay Amount', readonly=True,
+    sum_pay_amount_final = fields.Integer(string='Sum Pay Amount', readonly=True,
+                                          compute='_get_sum_pay_amount_final')
+    # sum_pay_amount_final = fields.Float(string='Sum Pay Amount', readonly=True,
     #                                     compute='_get_sum_pay_amount_final')
-    sum_pay_amount_final = fields.Float(string='Sum Pay Amount', readonly=True,
-                                        compute='_get_sum_pay_amount_final')
-    sum_return_amount_final = fields.Float(string='Sum Return Amount', readonly=True,
-                                           compute='_get_sum_return_amount_final')
-    sum_discount_amount_final = fields.Float(string='Sum Discount Amount', readonly=True,
-                                             compute='_get_sum_discount_amount_final')
-    sum_cost_price_amount_final = fields.Float(string='Sum Cost Price Amount', readonly=True,
-                                               compute='_get_sum_cost_price_amount_final')
-    net_sale_amount_final = fields.Float(string='Net Sale Amount', readonly=True,
-                                         compute='_get_net_sale_amount_final')
-    gross_amount_final = fields.Float(string='Gross Amount', readonly=True,
-                                      compute='_get_gross_amount_final')
+    sum_return_amount_final = fields.Integer(string='Sum Return Amount', readonly=True,
+                                             compute='_get_sum_return_amount_final')
+    sum_discount_amount_final = fields.Integer(string='Sum Discount Amount', readonly=True,
+                                               compute='_get_sum_discount_amount_final')
+    sum_cost_price_amount_final = fields.Integer(string='Sum Cost Price Amount', readonly=True,
+                                                 compute='_get_sum_cost_price_amount_final')
+    net_sale_amount_final = fields.Integer(string='Net Sale Amount', readonly=True,
+                                           compute='_get_net_sale_amount_final')
+    gross_amount_final = fields.Integer(string='Gross Amount', readonly=True,
+                                        compute='_get_gross_amount_final')
 
     sum_pay_amount_final_no_tax = fields.Float(string='Sum Pay Amount', readonly=True)
     sum_return_amount_final_no_tax = fields.Float(string='Sum Return Amount', readonly=True)
@@ -44,6 +44,9 @@ class SalesAchievementCustomerBusiness(models.Model):
     sum_cost_price_amount_final_include_tax = fields.Float(string='Sum Cost Price Amount', readonly=True)
     net_sale_amount_final_include_tax = fields.Float(string='Net Sale Amount', readonly=True)
     gross_amount_final_include_tax = fields.Float(string='Gross Amount', readonly=True)
+
+    all_0_no_tax = fields.Boolean(string='All_0_No_Tax', readonly=True)
+    all_0_include_tax = fields.Boolean(string='All_0_Include_Tax', readonly=True)
 
     def _get_sum_pay_amount_final(self):
         for rec in self:
@@ -93,7 +96,25 @@ class SalesAchievementCustomerBusiness(models.Model):
         self._cr.execute("""
         CREATE OR REPLACE VIEW sales_achievement_customer_business AS
 
-        SELECT row_number() OVER(ORDER BY business_partner_code, res_partner_customer_code) AS id , *  FROM(
+        SELECT 
+            row_number() OVER(ORDER BY business_partner_code, res_partner_customer_code) AS id , 
+
+            ((floor(sum_pay_amount_final_no_tax) = 0) AND
+             (floor(sum_return_amount_final_no_tax) = 0) AND
+             (floor(sum_discount_amount_final_no_tax) = 0) AND
+             (floor(net_sale_amount_final_no_tax) = 0) AND
+             (floor(gross_amount_final_no_tax) = 0))
+            AS all_0_no_tax,
+
+            ((floor(sum_pay_amount_final_include_tax) = 0) AND
+             (floor(sum_return_amount_final_include_tax) = 0) AND
+             (floor(sum_discount_amount_final_include_tax) = 0) AND
+             (floor(net_sale_amount_final_include_tax) = 0) AND
+             (floor(gross_amount_final_include_tax) = 0))
+            AS all_0_include_tax,
+
+            *  
+        FROM(
             (SELECT business_partner_code,
                 business_partner_name,
                 res_partner_customer_code,
@@ -145,24 +166,24 @@ class SalesAchievementCustomerBusiness(models.Model):
                         account_move_line.partner_id,
                         res_business_partner.business_partner_code,
 
-                        pay_amount.sum_pay_amount,
-                        pay_amount.sum_pay_amount_include_tax,
-
-                        return_amount.sum_return_amount,
-                        return_amount.sum_return_amount_include_tax,
-
-                        discount_amount.sum_discount_amount,
-                        discount_amount.sum_discount_amount_include_tax,
-
-                        cost_price.sum_cost_price,
-                        cost_price.sum_cost_price_include_tax,
-
-                        coalesce(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) AS net_sale_amount,
-                        coalesce(sum_pay_amount_include_tax, 0) + coalesce(sum_return_amount_include_tax, 0) + coalesce(sum_discount_amount_include_tax, 0) AS net_sale_amount_include_tax,
-
-                        coalesce(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) - coalesce(cost_price.sum_cost_price, 0) AS gross_amount ,
-                        --coalesce(sum_pay_amount_include_tax, 0) + coalesce(sum_return_amount_include_tax, 0) + coalesce(sum_discount_amount_include_tax, 0) - coalesce(cost_price.sum_cost_price_include_tax, 0) AS gross_amount_include_tax ,
-                        coalesce(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) - coalesce(cost_price.sum_cost_price, 0) AS gross_amount_include_tax ,
+                        COALESCE(pay_amount.sum_pay_amount, 0) AS sum_pay_amount,
+                        COALESCE(pay_amount.sum_pay_amount_include_tax, 0) AS sum_pay_amount_include_tax,
+                        
+                        COALESCE(return_amount.sum_return_amount, 0) AS sum_return_amount,
+                        COALESCE(return_amount.sum_return_amount_include_tax, 0) AS sum_return_amount_include_tax,
+    
+                        COALESCE(discount_amount.sum_discount_amount, 0) AS sum_discount_amount,
+                        COALESCE(discount_amount.sum_discount_amount_include_tax, 0) AS sum_discount_amount_include_tax,
+    
+                        COALESCE(cost_price.sum_cost_price, 0) AS sum_cost_price,
+                        COALESCE(cost_price.sum_cost_price_include_tax, 0) sum_cost_price_include_tax,
+                        
+                        COALESCE(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) AS net_sale_amount,
+                        COALESCE(sum_pay_amount_include_tax, 0) + coalesce(sum_return_amount_include_tax, 0) + coalesce(sum_discount_amount_include_tax, 0) AS net_sale_amount_include_tax,
+                        
+                        COALESCE(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) - coalesce(cost_price.sum_cost_price, 0) AS gross_amount ,
+                        --COALESCE(sum_pay_amount_include_tax, 0) + coalesce(sum_return_amount_include_tax, 0) + coalesce(sum_discount_amount_include_tax, 0) - coalesce(cost_price.sum_cost_price_include_tax, 0) AS gross_amount_include_tax ,
+                        COALESCE(sum_pay_amount, 0) + coalesce(sum_return_amount, 0) + coalesce(sum_discount_amount, 0) - coalesce(cost_price.sum_cost_price, 0) AS gross_amount_include_tax ,
 
                         res_business_partner.business_partner_name,
                         res_business_partner.res_partner_name,
@@ -347,10 +368,10 @@ class SalesAchievementCustomerBusiness(models.Model):
         request.session['advanced_search_arguments_of_customer_business'] = args
 
         dict_domain_in_search = {
+            'search_date_gte': '',
+            'search_date_lte': '',
             'business_partner_name_gte': '',
             'business_partner_name_lte': '',
-            'business_partner_code_gte': '',
-            'business_partner_code_lte': '',
             'res_partner_customer_code_gte': '',
             'res_partner_customer_code_lte': '',
             'tax_class': ''
@@ -361,26 +382,36 @@ class SalesAchievementCustomerBusiness(models.Model):
         for record in args:
             if record[0] == '&':
                 continue
-            if record[0] == 'business_partner_name' and record[1] == '>=':
+            if record[0] == 'search_date' and record[1] == '>=':
                 args_init['date_gte'] = record[2]
-                dict_domain_in_search['business_partner_name_gte'] = record[2]
+                dict_domain_in_search['search_date_gte'] = record[2]
                 continue
-            if record[0] == 'business_partner_name' and record[1] == '<=':
+            if record[0] == 'search_date' and record[1] == '<=':
                 args_init['date_lte'] = record[2]
-                dict_domain_in_search['business_partner_name_lte'] = record[2]
+                dict_domain_in_search['search_date_lte'] = record[2]
                 continue
-            if (record[0] != 'business_partner_name') and (record[0] != 'tax_class'):
+            if (record[0] != 'search_date') and (record[0] != 'tax_class') and (record[0] != 'not_show_all_0'):
                 domain += [record]
-            if record[0] == 'business_partner_code' and record[1] == '>=':
-                dict_domain_in_search['business_partner_code_gte'] = record[2]
-            if record[0] == 'business_partner_code' and record[1] == '<=':
-                dict_domain_in_search['business_partner_code_lte'] = record[2]
+            if record[0] == 'business_partner_name' and record[1] == '>=':
+                dict_domain_in_search['business_partner_name_gte'] = record[2]
+            if record[0] == 'business_partner_name' and record[1] == '<=':
+                dict_domain_in_search['business_partner_name_lte'] = record[2]
             if record[0] == 'res_partner_customer_code' and record[1] == '>=':
                 dict_domain_in_search['res_partner_customer_code_gte'] = record[2]
             if record[0] == 'res_partner_customer_code' and record[1] == '<=':
                 dict_domain_in_search['res_partner_customer_code_lte'] = record[2]
             if record[0] == 'tax_class':
                 dict_domain_in_search['tax_class'] = record[2]
+
+            # Add Start 2021/09/01 - LiemLVN
+            if record[0] == 'not_show_all_0':
+                not_show_all_0 = record[2]
+                if not_show_all_0 == 'True':
+                    if dict_domain_in_search['tax_class'] == '税抜':
+                        domain += [['all_0_no_tax', '=', False]]
+                    elif dict_domain_in_search['tax_class'] == '税込':
+                        domain += [['all_0_include_tax', '=', False]]
+            # Add End 2021/09/01 - LiemLVN
 
         if args_init['date_gte'] and args_init['date_lte']:
             self.init('date', 'date', args_init['date_gte'], args_init['date_lte'])

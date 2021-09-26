@@ -9,7 +9,7 @@
 """,
     'depends': [
         'base_setup',
-        'l10n_jp',
+        # 'l10n_jp',
         'Maintain_Client',
         'Maintain_Organization'
     ],
