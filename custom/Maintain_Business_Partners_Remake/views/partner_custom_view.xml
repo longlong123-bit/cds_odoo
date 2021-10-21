@@ -64,7 +64,11 @@
                     <table class="custom-form-table partner-table-form">
                         <tbody>
                         <!-- Row 1 -->
-
+                            <tr>
+                                <td>
+                                    <field name="load_lead" widget="button_field" z-index="92" options='{"model":"crm.lead", "text":"Load lead", "title":"CRM Leads"}'/>
+                                </td>
+                            </tr>
                         <!-- Row 2 -->
                         <tr>
                             <td class="col-label"><label for="customer_name_2" string="Name 2"/></td>

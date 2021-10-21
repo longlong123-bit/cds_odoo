@@ -146,6 +146,7 @@ class NewClassPartnerCustom(models.Model):
     property_account_receivable_id = fields.Many2one(default=lambda self: self.get_default_receivable_account())
     property_account_payable_id = fields.Many2one(default=lambda self: self.get_default_payable_account())
 
+    load_lead = fields.Many2one('crm.lead', store=False)
     def get_default_receivable_account(self):
         account = self.env['account.account'].search([('company_id', '=', self.env.user.company_id.id),
                                                       ('internal_type', '=', 'receivable')], limit=1)
@@ -241,6 +242,18 @@ class NewClassPartnerCustom(models.Model):
     def _check_code_bill(self):
         if not self.customer_code_bill:
             self.customer_code_bill = self.customer_code
+
+    @api.onchange('load_lead')
+    def _onchange_load_lead(self):
+        for rec in self:
+            if rec.load_lead:
+                rec.customer_phone = rec.load_lead.phone
+                rec.name = rec.load_lead.partner_name
+                rec.street = rec.load_lead.street
+                rec.street2 = rec.load_lead.street2
+                rec.zip_code = rec.load_lead.zip
+                rec.customer_state = rec.load_lead.state_id
+
 
     # @api.model
     # def search(self, args, offset=0, limit=None, order=None, count=False):
