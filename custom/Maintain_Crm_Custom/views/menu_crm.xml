@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <menuitem id="parent_menu_crm_lead" name="CRM Custom" sequence="10" action="crm_lead_action"/>
+        <menuitem id="lead_custom" parent="parent_menu_crm_lead" name="Leads" sequence="1"
+                  action="crm_lead_action"/>
+    </data>
+</odoo>
