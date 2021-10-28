@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'Custom CRM',
+    'name': 'Leads Custom',
     'version': '13.0',
     'author': 'Longdn',
     'license': 'AGPL-3',
