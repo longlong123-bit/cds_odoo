@@ -1,0 +1,110 @@
+.quotations_custom {
+    .quotations_custom_details {
+        .o_list_number, .o_field_number:not(.o_input)
+        {
+            text-align: right;
+            border: none;
+            background-color: unset;
+            width: auto !important;
+        }
+    }
+
+    .quotations_custom_details table td, .quotations_custom_details table th {
+        vertical-align: middle !important;
+    }
+
+    .quotations_custom_details table td div:not(.o_tag_color_0) {
+        height:25px !important;
+        width: 100% !important;
+    }
+
+    .quotations_custom_details table td pre {
+        margin: unset;
+        font-size: 13px;
+        font-family: inherit;
+
+    }
+
+    .quotations_custom_details table td pre textarea {
+        min-height: 25px;
+        padding-top: 2px;
+        padding-bottom: 0px;
+        border-bottom-width: 1px;
+        border-top-width: 1px;
+        line-height: 14px;
+        font-size: 13px;
+        font-family: inherit;
+    }
+
+    .quotations_custom_details table th:nth-child(1)
+    {
+        width:2%;
+    }
+    .quotations_custom_details table th:nth-child(2)
+    {
+        width:2%!important;
+    }
+    .quotations_custom_details table th:nth-child(3)
+    {
+        width:5%;
+    }
+    /*Product Code*/
+    .quotations_custom_details table th:nth-child(4)
+    {
+        width:7%;
+    }
+    /*商品名*/
+    .quotations_custom_details table th:nth-child(5)
+    {
+        width:7%;
+    }
+    /*商品名2*/
+    .quotations_custom_details table th:nth-child(6)
+    {
+        width:23%;
+    }
+    /*standardnumber*/
+    .quotations_custom_details table th:nth-child(7)
+    {
+        width:7%;
+    }
+    /*Quantity*/
+    .quotations_custom_details table th:nth-child(8)
+    {
+        width:5%;
+    }
+    /*Price*/
+    .quotations_custom_details table th:nth-child(9)
+    {
+        width:8%;
+    }
+    /*UoM*/
+    .quotations_custom_details table th:nth-child(10)
+    {
+        width:5%;
+    }
+    /*Line Amount*/
+    .quotations_custom_details table th:nth-child(11)
+    {
+        width:10%;
+    }
+    /*Tax Rate*/
+    .quotations_custom_details table th:nth-child(12)
+    {
+        width:7%;
+    }
+    /*Cost Value*/
+    .quotations_custom_details table th:nth-child(13)
+    {
+        width:12%;
+    }
+}
+
+.o_custom_color {
+    background-color: #FF8686 !important;
+    border-radius: 3px;
+}
+
+.modal-dialog{
+    height: unset !important;
+  }

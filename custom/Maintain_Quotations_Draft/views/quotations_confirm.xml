@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_quotations_confirm_tree" model="ir.ui.view">
+        <field name="name">quotation_confirm</field>
+        <field name="model">sale.order</field>
+        <field name="mode">primary</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Quotations Custom" class="forward_edit o_sale_order"
+                  decoration-bf="message_needaction==True" decoration-muted="state=='cancel'"
+                  banner_route="/sales/sale_quotation_onboarding_panel" create="false"
+                  multi_edit="1" default_order="quotations_date desc,document_no desc">
+                <button class="o_button_line" string="" icon="fa-toggle-right" name="get_lines"/>
+                <field name="quotations_date"/>
+                <field name="document_no"/>
+                <field name="document_reference"/>
+                <field name="partner_name"/>
+                <field name="related_partner_code"/>
+                <field name="quotation_name"/>
+                <field name="amount_untaxed"/>
+                <field name="amount_tax"/>
+                <!--                <field name="line_number"/>-->
+                <field name="tax_method"/>
+                <field name="message_needaction" invisible="1"/>
+                <field name="state" invisible="1" optional="show"/>
+                <field name="sales_rep"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_confirm_template_search_view" model="ir.ui.view">
+        <field name="name">sale.order.custom.search</field>
+        <field name="model">sale.order</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="quotations_date"/>
+                <field name="document_reference"/>
+                <field name="document_no"/>
+                <field name="partner_name"/>
+                <field name="related_partner_code"/>
+                <field name="quotation_name"/>
+                <field name="amount_untaxed"/>
+                <field name="amount_tax"/>
+                <field name="line_number"/>
+                <field name="tax_method"/>
+                <filter name="sales_rep" domain="[('sales_rep','=',uid)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="quotation_confirm_action" model="ir.actions.act_window">
+        <field name="name">パターン印刷</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_quotations_confirm_tree"/>
+        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true',
+                               'search_default_sales_rep': 1, 'view_name': 'confirm_sale_order'}</field>
+        <field name="search_view_id" ref="product_confirm_template_search_view"/>
+    </record>
+
+    <menuitem id="quotation_confirm" parent="Maintain_Quotations.menu_ideas" name="パターン印刷" sequence="2" action="quotation_confirm_action"
+              groups="base.group_user"/>
+
+    <data>
+        <!-- Sequences for sale.order -->
+        <record id="seq_quotations_custom" model="ir.sequence">
+            <field name="name">パターン印刷</field>
+            <field name="code">sale.order</field>
+            <field name="padding">7</field>
+            <field name="number_next">1000000</field>
+            <field name="prefix">ARQ-</field>
+        </record>
+    </data>
+</odoo>

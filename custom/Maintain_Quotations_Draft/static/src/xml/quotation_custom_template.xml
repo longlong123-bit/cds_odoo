@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-extend="ListView.buttons" t-name="SaleOrderListView.buttons">
+        <t t-jquery="button.o_list_button_add" t-operation="replace">
+            <form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><input id="test-input-list" placeholder="input field"></input></td>
+                            <td><button class="button-test">button test list</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </t>
+    </t>
+
+<!--    <t t-extend="FormView.buttons" t-name="SaleOrderCustomFormView.buttons">-->
+<!--        <t t-jquery="button.o_form_button_edit" t-operation="after">-->
+<!--            <form>-->
+<!--                <table>-->
+<!--                    <tbody>-->
+<!--                        <tr>-->
+<!--                            <td><input id="test-input-form" placeholder="input field"></input></td>-->
+<!--                            <td><button class="button-test-form">button test form</button></td>-->
+<!--                        </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </form>-->
+<!--        </t>-->
+<!--    </t>-->
+
+    <t t-extend="ControlPanel" t-name="NewControlPanel">
+        <t t-jquery=".o_control_panel" t-operation="replace">
+            <form class="custom_template">
+                <table class="custom-form-table cols-8">
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><input id="test-input-form" placeholder="input field control"></input></td>
+                            <td><button class="btn_search_order">Search</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+<!--            <div style="display:none; min-height:0px!important; margin-top:10px;padding:5px 5px 5px 5px;" class="alert alert-success" id="success-alert">-->
+<!--              <strong>Save Success</strong>-->
+<!--            </div>-->
+        </t>
+    </t>
+
+<!--    <div role="dialog" t-name="Dialog" t-attf-class="modal#{technical ? ' o_technical_modal' : ''}#{fullscreen ? ' o_modal_full': ''}" tabindex="-1" data-backdrop="static" t-att-id="_.uniqueId('modal_')" aria-hidden="true">-->
+<!--        <div class="modal-dialog">-->
+<!--            <div class="modal-content">-->
+<!--                <header t-if="renderHeader" class="modal-header">-->
+<!--                    <h4 class="modal-title"><t t-raw="title"/><span class="o_subtitle text-muted small"><t t-esc="subtitle"/></span></h4>-->
+<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="-1">×</button>-->
+<!--                </header>-->
+<!--                <main class="modal-body"/>-->
+<!--                <div>abcdef</div>-->
+<!--                <footer t-if="renderFooter" class="modal-footer"/>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+</templates>
