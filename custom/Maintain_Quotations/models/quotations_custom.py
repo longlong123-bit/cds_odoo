@@ -375,6 +375,9 @@ class QuotationsCustom(models.Model):
         else:
             self.env.company.report_header = ''
 
+        if self._context.copy().get('view_mode') == 'quotation_draft_custom':
+            quotations_custom = super(QuotationsCustom, self).create(values)
+            return quotations_custom
     # ==========================================================
     # INS 20210802 - START - LiemLVN
     # INSERT or UPDATE Last Unit Price to Master Price List
@@ -397,6 +400,9 @@ class QuotationsCustom(models.Model):
             # self.env.company.report_header = dict(self._fields['report_header'].selection).get(
             #     values.get('report_header'))
 
+        if self._context.copy().get('view_mode') == 'quotation_draft_custom':
+            quotations_custom = super(QuotationsCustom, self).create(values)
+            return quotations_custom
     # ==========================================================
     # INS 20210802 - START - LiemLVN
     # INSERT or UPDATE Last Unit Price to Master Price List

@@ -397,7 +397,12 @@
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="view_id" ref="view_quotations_custom_tree"/>
-        <field name="context">{'form_view_initial_mode': 'edit', 'force_detailed_view': 'true', 'view_name': 'main_sale_order'}</field>
+        <field name="context">{
+            'form_view_initial_mode': 'edit',
+            'force_detailed_view': 'true',
+            'view_name': 'main_sale_order',
+            'view_mode': 'quotation_custom',
+            }</field>
         <field name="search_view_id" ref="product_custom_template_search_view"/>
     </record>
 

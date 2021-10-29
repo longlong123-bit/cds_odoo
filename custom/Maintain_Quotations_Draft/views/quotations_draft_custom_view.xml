@@ -61,19 +61,14 @@
                                 <td class="o_td_label"><label for="quotations_date" string="Quotation Date"/></td>
                                 <td colspan="2"><field name="quotations_date" readonly="False" required="1"/></td>
                             </tr>
-
+                            <tr>
+                                <td class="o_td_label"><label for="leads_id" string="Leads"/></td>
+                                <td colspan="2"><field name="leads_id" options="{'no_quick_create':True,'no_create_edit':True, 'no_open': True, 'no_create': True}"/></td>
+                            </tr>
                             <!-- Row 2 -->
                             <tr>
-                                <td class="o_td_label"><label for="leads_id" string="Leads*"/></td>
-                                <td colspan="2"><field name="leads_id" />
-<!--                                                       widget="res_partner_many2one" required="1"-->
-<!--                                                       domain="[('customer_rank','>', 0)]" default_focus="1"-->
-<!--                                                       context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"-->
-<!--                                                       options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True, 'no_create': True}"-->
-<!--                                                       z-index="98"-->
-
-                                </td>
-
+                                <td class="o_td_label"><label for="partner_id" string="Business Partner"/></td>
+                                <td colspan="2"><field name="partner_id" options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True, 'no_create': True}"/></td>
                                 <td></td>
                                 <td colspan="2">
                                     <field name="is_print_date" class="field-checkbox"/>
@@ -393,7 +388,7 @@
     </record>
 
     <record id="quotation_draft_custom_action" model="ir.actions.act_window">
-        <field name="name">見積入力</field>
+        <field name="name">Draft</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree,kanban,form</field>
@@ -402,6 +397,7 @@
             'form_view_initial_mode': 'edit',
             'force_detailed_view': 'true',
             'view_name': 'main_sale_order',
+            'view_mode': 'quotation_draft_custom',
             'form_view_ref': 'Maintain_Quotations_Draft.view_order_draft_custom_form'
             }</field>
         <field name="search_view_id" ref="product_custom_template_search_view"/>
@@ -414,11 +410,11 @@
     <data>
         <!-- Sequences for sale.order -->
         <record id="seq_quotations_custom" model="ir.sequence">
-            <field name="name">Sale Order</field>
-            <field name="code">sale.order</field>
+            <field name="name">Sale Order Draft</field>
+            <field name="code">sale.order.draft</field>
             <field name="padding">7</field>
             <field name="number_next">1000000</field>
-            <field name="prefix">ARQ-</field>
+            <field name="prefix">ADQ-</field>
         </record>
     </data>
 </odoo>

@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-from . import quotations_draft_custom
+from . import quotations_custom
