@@ -27,12 +27,12 @@ class QuotationsCustom(models.Model):
         'res.partner', string='Invoice Address',
         readonly=True, required=False,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)], 'sale': [('readonly', False)]},
-        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", )
 
     partner_shipping_id = fields.Many2one(
         'res.partner', string='Delivery Address', readonly=True, required=False,
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)], 'sale': [('readonly', False)]},
-        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", )
 
     pricelist_id = fields.Many2one(
         'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
@@ -93,9 +93,11 @@ class QuotationsCustom(models.Model):
         # if new document no. already exits, do again
         while next in [res[0] for res in query_res]:
             if self._context.copy().get('view_mode') == 'quotation_draft_custom':
-                next = self.env['ir.sequence'].next_by_code('sale.order.draft')
+                document_no_tmp = self.env['ir.sequence'].next_by_code('sale.order.draft')
             else:
-                next = self.env['ir.sequence'].next_by_code('sale.order')
+                document_no_tmp = self.env['ir.sequence'].next_by_code('sale.order')
+
+            next = document_no_tmp
         return next
 
         # End
@@ -119,11 +121,8 @@ class QuotationsCustom(models.Model):
     expiration_date = fields.Text(string='Expiration Date')
     comment = fields.Text(string='Comment')
     # is_unit_quotations = fields.Boolean(string='Unit Quotations')
-    quotation_type = fields.Selection([
-        ('unit', 'Unit Quotation'),
-        ('normal', 'Normal Quotation')
-    ], string='Unit/Normal Quotation', default='normal')
-    quotation_draft_type = fields.Char(string='Draft Type')
+    quotation_type = fields.Selection( selection="_get_quotation_type", string='Unit/Normal Quotation', default='normal')
+    # quotation_draft_type = fields.Char(string='Draft Type')
     is_print_date = fields.Boolean(string='Print Date', default=True)
     tax_method = fields.Selection([
         ('foreign_tax', '外税／明細'),
@@ -155,6 +154,15 @@ class QuotationsCustom(models.Model):
 
     leads_id = fields.Many2one('crm.lead', String='Leads')
     related_leads_name = fields.Char('Leads Name', related='leads_id.name')
+
+    # Show options quotation_type follow view quotation_custom or quotation_draft_custom
+    # Long code start
+    def _get_quotation_type(self):
+        if self._context.copy().get('view_mode') == 'quotation_custom':
+            return [('unit', 'Unit Quotation'),
+                    ('normal', 'Normal Quotation')]
+        else:
+            return [('draft', 'Draft')]
 
     def _default_report_header(self):
         # TH - Change default
@@ -433,9 +441,15 @@ class QuotationsCustom(models.Model):
         values['document_no'] = seq
         values['name'] = seq
 
+        # auto increment numbers_next_actual in ir.sequence
+        if self._context.copy().get('view_mode') == 'quotation_draft_custom':
+            self.env['ir.sequence'].next_by_code('sale.order.draft')
+        else:
+            self.env['ir.sequence'].next_by_code('sale.order')
+
         # set quotation_draft_type when create new record in view quotation_draft_custom
         if self._context.copy().get('view_mode') == 'quotation_draft_custom':
-            values['quotation_draft_type'] = 'draft'
+            values['quotation_type'] = 'draft'
 
         # Long fix document_no draft
         # End
@@ -663,7 +677,6 @@ class QuotationsCustom(models.Model):
             self.expiration_date = sale_order.expiration_date
             self.note = sale_order.note
             self.comment = sale_order.comment
-            self.quotation_type = sale_order.quotation_type
             self.report_header = sale_order.report_header
             self.paperformat_id = sale_order.paperformat_id
             self.paper_format = sale_order.paper_format
@@ -671,6 +684,17 @@ class QuotationsCustom(models.Model):
             self.tax_method = sale_order.tax_method
             self.comment_apply = sale_order.comment_apply
             # self.order_line = ()
+
+            # ==================================================================
+            # set quotaion_type = normal if quotaion_type = draft
+            # Long code start
+            if self._context.copy().get('view_mode') == 'quotation_custom':
+                if sale_order.quotation_type == 'draft':
+                    self.quotation_type = 'normal'
+                else:
+                    self.quotation_type = sale_order.quotation_type
+            # End
+            # ====================================================================
 
             # default = dict(None or [])
             # lines = [rec.copy_data()[0] for rec in sale_order[0].order_line.sorted(key='id')]
@@ -931,7 +955,6 @@ class QuotationsCustom(models.Model):
             return quotations_custom
         # End
         # ================================================================================
-
 
     # ----------------------------------------------------------
     # INSERT or UPDATE Last Unit Price to Master Price List

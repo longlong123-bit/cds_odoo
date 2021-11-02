@@ -107,6 +107,9 @@
                                 <td class="o_td_label"><label for="quotation_name" string="Name"/></td>
                                 <td colspan="2"><field name="quotation_name" required="False"/></td>
 
+<!--                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation*"/></td>-->
+<!--                                <td colspan="2"><field name="quotation_type" required="True"/></td>-->
+
                                 <td><field name="state" invisible="True"/></td>
                                 <td><field name="company_id" invisible="True"/></td>
                             </tr>
@@ -393,7 +396,7 @@
 <!--        Long set up domain filter view_order_line_tree_custom where quotation_draft_type-->
 <!--        Start-->
          <field name="domain">
-            [('quotation_draft_type','=','draft')]
+            [('quotation_type','=','draft')]
         </field>
 <!--        End-->
         <field name="context">{

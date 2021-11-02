@@ -397,6 +397,9 @@
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="view_id" ref="view_quotations_custom_tree"/>
+        <field name="domain">
+            [('quotation_type','!=','draft')]
+        </field>
         <field name="context">{
             'form_view_initial_mode': 'edit',
             'force_detailed_view': 'true',
