@@ -23,6 +23,23 @@ class QuotationsCustom(models.Model):
     _order = "quotations_date desc, document_no desc"
     _rec_name = "display_name"
 
+    partner_invoice_id = fields.Many2one(
+        'res.partner', string='Invoice Address',
+        readonly=True, required=False,
+        states={'draft': [('readonly', False)], 'sent': [('readonly', False)], 'sale': [('readonly', False)]},
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
+
+    partner_shipping_id = fields.Many2one(
+        'res.partner', string='Delivery Address', readonly=True, required=False,
+        states={'draft': [('readonly', False)], 'sent': [('readonly', False)], 'sale': [('readonly', False)]},
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",)
+
+    pricelist_id = fields.Many2one(
+        'product.pricelist', string='Pricelist', check_company=True,  # Unrequired company
+        required=False, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
+        help="If you change the pricelist, only newly added lines will be affected.")
+
     def get_default_quotations_date(self):
         _date_now = datetime.now()
         return _date_now.astimezone(pytz.timezone(self.env.user.tz))
@@ -50,10 +67,39 @@ class QuotationsCustom(models.Model):
         return len(self.order_line)
 
     def _get_next_quotation_no(self):
-        sequence = self.env['ir.sequence'].search(
-            [('code', '=', 'sale.order'), ('prefix', '=', 'ARQ-')])
-        next = sequence.get_next_char(sequence.number_next_actual)
+
+        # ==========================================================================
+        # Long fix document_no draft
+        # Start
+        # Get document_no by view quotation_draft_custom or quotation_custom
+
+        module_context = self._context.copy()
+        if module_context.get('view_mode') == 'quotation_draft_custom':
+            sequence = self.env['ir.sequence'].search(
+                [('code', '=', 'sale.order.draft'), ('prefix', '=', 'ADQ-')])
+            next = sequence.get_next_char(sequence.number_next_actual)
+        else:
+            sequence = self.env['ir.sequence'].search(
+                [('code', '=', 'sale.order'), ('prefix', '=', 'ARQ-')])
+            next = sequence.get_next_char(sequence.number_next_actual)
+
+        self._cr.execute('''
+                            SELECT document_no
+                            FROM sale_order
+                            WHERE SUBSTRING(document_no, 5) ~ '^[0-9\.]+$';
+                        ''')
+        query_res = self._cr.fetchall()
+
+        # if new document no. already exits, do again
+        while next in [res[0] for res in query_res]:
+            if self._context.copy().get('view_mode') == 'quotation_draft_custom':
+                next = self.env['ir.sequence'].next_by_code('sale.order.draft')
+            else:
+                next = self.env['ir.sequence'].next_by_code('sale.order')
         return next
+
+        # End
+        # ===========================================================================
 
     display_name = fields.Char(string='display_name', default='修正')
     name = fields.Char(string='Name', default=None)
@@ -77,6 +123,7 @@ class QuotationsCustom(models.Model):
         ('unit', 'Unit Quotation'),
         ('normal', 'Normal Quotation')
     ], string='Unit/Normal Quotation', default='normal')
+    quotation_draft_type = fields.Char(string='Draft Type')
     is_print_date = fields.Boolean(string='Print Date', default=True)
     tax_method = fields.Selection([
         ('foreign_tax', '外税／明細'),
@@ -93,7 +140,7 @@ class QuotationsCustom(models.Model):
 
     quotations_date = fields.Date(string='Quotations Date', default=get_default_quotations_date)
     order_id = fields.Many2one('sale.order', string='Order', store=False)
-    partner_id = fields.Many2one('res.partner', string='Business Partner')
+    partner_id = fields.Many2one('res.partner', string='Business Partner', required=False)
     related_partner_code = fields.Char('Partner Code', related='partner_id.customer_code')
     partner_name = fields.Char(string='Partner Name')
     partner_name_2 = fields.Char(string='Partner Name 2')
@@ -105,6 +152,9 @@ class QuotationsCustom(models.Model):
     related_sales_rep_name = fields.Char('Sales rep name', related='sales_rep.name')
     cb_partner_sales_rep_id = fields.Many2one('hr.employee', string='cbpartner_salesrep_id')
     comment_apply = fields.Text(string='Comment Apply', readonly=True, states={'draft': [('readonly', False)]})
+
+    leads_id = fields.Many2one('crm.lead', String='Leads')
+    related_leads_name = fields.Char('Leads Name', related='leads_id.name')
 
     def _default_report_header(self):
         # TH - Change default
@@ -156,6 +206,12 @@ class QuotationsCustom(models.Model):
             self.partner_name_2 = self.order_id.partner_name_2
         else:
             self.partner_name_2 = self.partner_id.customer_name_2
+
+    @api.onchange('leads_id')
+    def _onchange_leads(self):
+        if self.leads_id:
+            self.partner_name = self.leads_id.partner_name
+            self.shipping_address = self.leads_id.street
 
     @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
                   'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',
@@ -355,16 +411,35 @@ class QuotationsCustom(models.Model):
                     ''')
         query_res = self._cr.fetchall()
 
+        # ==========================================================================
+        # Long fix document_no draft
+        # Start
+        # Get document_no by view quotation_draft_custom or quotation_custom
         # generate new document no. by sequence
         if values.get('document_no'):
             seq = values['document_no']
         else:
-            seq = self.env['ir.sequence'].next_by_code('sale.order')
+            if self._context.copy().get('view_mode') == 'quotation_draft_custom':
+                seq = self.env['ir.sequence'].next_by_code('sale.order.draft')
+            else:
+                seq = self.env['ir.sequence'].next_by_code('sale.order')
         # if new document no. already exits, do again
         while seq in [res[0] for res in query_res]:
-            seq = self.env['ir.sequence'].next_by_code('sale.order')
+            if self._context.copy().get('view_mode') == 'quotation_draft_custom':
+                seq = self.env['ir.sequence'].next_by_code('sale.order.draft')
+            else:
+                seq = self.env['ir.sequence'].next_by_code('sale.order')
 
         values['document_no'] = seq
+        values['name'] = seq
+
+        # set quotation_draft_type when create new record in view quotation_draft_custom
+        if self._context.copy().get('view_mode') == 'quotation_draft_custom':
+            values['quotation_draft_type'] = 'draft'
+
+        # Long fix document_no draft
+        # End
+        # ==========================================================================
 
         self._check_data(values)
         # TODO set report header
@@ -375,22 +450,30 @@ class QuotationsCustom(models.Model):
         else:
             self.env.company.report_header = ''
 
+        # ======================================================================
+        # Long fix create quotation draft
+        # Start
+        # Create by view quotation_draft_custom or quotation_custom
         if self._context.copy().get('view_mode') == 'quotation_draft_custom':
             quotations_custom = super(QuotationsCustom, self).create(values)
             return quotations_custom
-    # ==========================================================
-    # INS 20210802 - START - LiemLVN
-    # INSERT or UPDATE Last Unit Price to Master Price List
-    # ==========================================================
-        self.insert_or_update_last_unit_price_to_master_price_list(values)
+        else:
+            # ==========================================================
+            # INS 20210802 - START - LiemLVN
+            # INSERT or UPDATE Last Unit Price to Master Price List
+            # ==========================================================
+            self.insert_or_update_last_unit_price_to_master_price_list(values)
 
-    # ==========================================================
-    # INS 20210802 - END
-    # ==========================================================
+            # ==========================================================
+            # INS 20210802 - END
+            # ==========================================================
 
-        quotations_custom = super(QuotationsCustom, self).create(values)
+            quotations_custom = super(QuotationsCustom, self).create(values)
 
-        return quotations_custom
+            return quotations_custom
+        # Long fix create quotation draft
+        # End
+        # =====================================================================
 
     def write(self, values):
         self._check_data(values)
@@ -400,60 +483,69 @@ class QuotationsCustom(models.Model):
             # self.env.company.report_header = dict(self._fields['report_header'].selection).get(
             #     values.get('report_header'))
 
+        # ========================================================================
+        # Long fix update quotation draft
+        # Start
+        # Update by view quotation_draft_custom or quotation_custom
         if self._context.copy().get('view_mode') == 'quotation_draft_custom':
             quotations_custom = super(QuotationsCustom, self).create(values)
             return quotations_custom
-    # ==========================================================
-    # INS 20210802 - START - LiemLVN
-    # INSERT or UPDATE Last Unit Price to Master Price List
-    # ==========================================================
+        else:
+            # ==========================================================
+            # INS 20210802 - START - LiemLVN
+            # INSERT or UPDATE Last Unit Price to Master Price List
+            # ==========================================================
 
-        # ----------------------------------------------------------
-        # BACKUP Quotation(=Order) Info Before Delete
-        # ----------------------------------------------------------
-        quotation_before_delete_arr = []
+            # ----------------------------------------------------------
+            # BACKUP Quotation(=Order) Info Before Delete
+            # ----------------------------------------------------------
+            quotation_before_delete_arr = []
 
-        for quotation_delete in self:
+            for quotation_delete in self:
 
-            quotation_line_before = []
+                quotation_line_before = []
 
-            for quotation_line in quotation_delete.order_line:
-                quotation_line_before.append({'product_barcode': quotation_line.product_barcode,
-                                              'product_code': quotation_line.product_code})
+                for quotation_line in quotation_delete.order_line:
+                    quotation_line_before.append({'product_barcode': quotation_line.product_barcode,
+                                                  'product_code': quotation_line.product_code})
 
-            quotation_before_delete = {'customer_code_id': quotation_delete.partner_id.id,
-                                       'customer_code': quotation_delete.related_partner_code,
-                                       'document_no': quotation_delete.document_no,
-                                       'order_line': quotation_line_before}
+                quotation_before_delete = {'customer_code_id': quotation_delete.partner_id.id,
+                                           'customer_code': quotation_delete.related_partner_code,
+                                           'document_no': quotation_delete.document_no,
+                                           'order_line': quotation_line_before}
 
-            quotation_before_delete_arr.append(quotation_before_delete)
+                quotation_before_delete_arr.append(quotation_before_delete)
 
-        # ----------------------------------------------------------
-        # INSERT or UPDATE Last Unit Price to Master Price List
-        # ----------------------------------------------------------
-        self.insert_or_update_last_unit_price_to_master_price_list(values)
+            # ----------------------------------------------------------
+            # INSERT or UPDATE Last Unit Price to Master Price List
+            # ----------------------------------------------------------
+            self.insert_or_update_last_unit_price_to_master_price_list(values)
 
-        # ----------------------------------------------------------
-        # UPDATE QUOTATION
-        # ----------------------------------------------------------
-        quotations_custom = super(QuotationsCustom, self).write(values)
+            # ----------------------------------------------------------
+            # UPDATE QUOTATION
+            # ----------------------------------------------------------
+            quotations_custom = super(QuotationsCustom, self).write(values)
 
-        # ----------------------------------------------------------
-        # COMMIT DATABASE
-        # ----------------------------------------------------------
-        self.env.cr.commit()
+            # ----------------------------------------------------------
+            # COMMIT DATABASE
+            # ----------------------------------------------------------
+            self.env.cr.commit()
 
-        # ----------------------------------------------------------
-        # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
-        # (AFTER DELETE OR UPDATE QUOTATION)
-        # ----------------------------------------------------------
-        self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete_arr)
+            # ----------------------------------------------------------
+            # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
+            # (AFTER DELETE OR UPDATE QUOTATION)
+            # ----------------------------------------------------------
+            self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete_arr)
 
-    # ==========================================================
-    # INS 20210802 - END
-    # ==========================================================
+            # ==========================================================
+            # INS 20210802 - END
+            # ==========================================================
 
-        return quotations_custom
+            return quotations_custom
+
+        # Long fix update quotation draft
+        # End
+        # =======================================================================
 
     # TODO get document no
     # def _get_docment_no(self, document_no):
@@ -707,7 +799,7 @@ class QuotationsCustom(models.Model):
                     line._onchange_product_barcode()
                 # line.compute_price_unit()
         elif self.copy_history_from == 'duplicated':
-            self.order_line = [(0, False,{
+            self.order_line = [(0, False, {
                 'class_item': self.order_line[int(self.copy_history_item)].class_item,
                 'product_id': self.order_line[int(self.copy_history_item)].product_id.id,
                 'product_code': self.order_line[int(self.copy_history_item)].product_code,
@@ -752,7 +844,7 @@ class QuotationsCustom(models.Model):
                     se[1] = '=ilike'
                 if se[0] != 'search_category':
                     domain += [se]
-                #TH - custom domain
+                # TH - custom domain
                 if se[0] == 'document_no':
                     string_middle = ''
                     if len(se[2]) < 7:
@@ -761,7 +853,7 @@ class QuotationsCustom(models.Model):
                         string_middle = '1' + string_middle
                     if len(se[2]) < 11:
                         se[2] = ''.join(["ARQ-", string_middle, se[2]])
-                #TH - done
+                # TH - done
             args = domain
         res = super(QuotationsCustom, self).search(args, offset=offset, limit=limit, order=order, count=count)
         # if ctx.get('view_name') == 'confirm_sale_order':
@@ -783,52 +875,63 @@ class QuotationsCustom(models.Model):
         #     res = self._search(args, offset=offset, limit=limit, order=order, count=count)
         return res
 
-# ==========================================================
-# INS 20210802 - START - LiemLVN
-# ==========================================================
+    # ==========================================================
+    # INS 20210802 - START - LiemLVN
+    # ==========================================================
 
     # ----------------------------------------------------------
     # OVERRIDE DELETE METHOD
     # ----------------------------------------------------------
     def unlink(self):
 
-        # ----------------------------------------------------------
-        # BACKUP Quotation(=Order) Info Before Delete
-        # ----------------------------------------------------------
-        quotation_before_delete_arr = []
+        # =======================================================================
+        # Long fix quotation draft
+        # Start
+        # Delete by view quotation_draft_custom or quotation_custom
+        if self._context.copy().get('view_mode') == 'quotation_draft_custom':
+            quotations_custom = super(QuotationsCustom, self).unlink()
+            return quotations_custom
+        else:
+            # ----------------------------------------------------------
+            # BACKUP Quotation(=Order) Info Before Delete
+            # ----------------------------------------------------------
+            quotation_before_delete_arr = []
 
-        for quotation_delete in self:
+            for quotation_delete in self:
 
-            quotation_line_before = []
+                quotation_line_before = []
 
-            for quotation_line in quotation_delete.order_line:
-                quotation_line_before.append({'product_barcode': quotation_line.product_barcode,
-                                              'product_code': quotation_line.product_code})
+                for quotation_line in quotation_delete.order_line:
+                    quotation_line_before.append({'product_barcode': quotation_line.product_barcode,
+                                                  'product_code': quotation_line.product_code})
 
-            quotation_before_delete = {'customer_code_id': quotation_delete.partner_id.id,
-                                       'customer_code': quotation_delete.related_partner_code,
-                                       'document_no': quotation_delete.document_no,
-                                       'order_line': quotation_line_before}
+                quotation_before_delete = {'customer_code_id': quotation_delete.partner_id.id,
+                                           'customer_code': quotation_delete.related_partner_code,
+                                           'document_no': quotation_delete.document_no,
+                                           'order_line': quotation_line_before}
 
-            quotation_before_delete_arr.append(quotation_before_delete)
+                quotation_before_delete_arr.append(quotation_before_delete)
 
-        # ----------------------------------------------------------
-        # DELETE QUOTATION
-        # ----------------------------------------------------------
-        quotations_custom = super(QuotationsCustom, self).unlink()
+            # ----------------------------------------------------------
+            # DELETE QUOTATION
+            # ----------------------------------------------------------
+            quotations_custom = super(QuotationsCustom, self).unlink()
 
-        # ----------------------------------------------------------
-        # COMMIT DATABASE
-        # ----------------------------------------------------------
-        self.env.cr.commit()
+            # ----------------------------------------------------------
+            # COMMIT DATABASE
+            # ----------------------------------------------------------
+            self.env.cr.commit()
 
-        # ----------------------------------------------------------
-        # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
-        # (AFTER DELETE OR UPDATE QUOTATION)
-        # ----------------------------------------------------------
-        self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete_arr)
+            # ----------------------------------------------------------
+            # MAINTAIN Last Unit Price FROM Quotation TO Master Price List
+            # (AFTER DELETE OR UPDATE QUOTATION)
+            # ----------------------------------------------------------
+            self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete_arr)
 
-        return quotations_custom
+            return quotations_custom
+        # End
+        # ================================================================================
+
 
     # ----------------------------------------------------------
     # INSERT or UPDATE Last Unit Price to Master Price List
@@ -903,7 +1006,6 @@ class QuotationsCustom(models.Model):
                 # ----------------------------------------------------------
                 if master_price.date_applied \
                         and (master_price.date_applied.strftime('%Y-%m-%d') <= header_values['date_applied']):
-
                     self.update_last_unit_price_to_master_price_list(params)
 
     # ----------------------------------------------------------
@@ -1361,7 +1463,6 @@ class QuotationsCustom(models.Model):
                 result = self._cr.dictfetchall()
 
                 if len(result) == 1:
-
                     # Document No
                     document_no = result[0]['document_no']
 
@@ -1463,6 +1564,7 @@ class QuotationsCustom(models.Model):
                                                                   ('document_type', '=', params['document_type'])])
         if len(master_price_list) == 1:
             master_price_list.unlink()
+
 
 # ==========================================================
 # INS 20210802 - END
@@ -1851,7 +1953,8 @@ class QuotationsLinesCustom(models.Model):
 
     def set_maker(self, product_code=None, jan_code=None, product_class_code_lv4=None, product_class_code_lv3=None,
                   product_class_code_lv2=None, product_class_code_lv1=None, maker=None, customer_code=None,
-                  customer_code_bill=None, supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+                  customer_code_bill=None, supplier_group_code=None, industry_code=None, country_state_code=None,
+                  date=datetime.today()):
         # ==========================================================
         # UPD 20210802 - START - LiemLVN
         # ==========================================================
@@ -1898,7 +2001,8 @@ class QuotationsLinesCustom(models.Model):
     def set_product_class_code_lv1(self, product_code=None, jan_code=None, product_class_code_lv4=None,
                                    product_class_code_lv3=None, product_class_code_lv2=None,
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
-                                   supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+                                   supplier_group_code=None, industry_code=None, country_state_code=None,
+                                   date=datetime.today()):
         # ==========================================================
         # UPD 20210802 - START - LiemLVN
         # ==========================================================
@@ -1943,7 +2047,8 @@ class QuotationsLinesCustom(models.Model):
     def set_product_class_code_lv2(self, product_code=None, jan_code=None, product_class_code_lv4=None,
                                    product_class_code_lv3=None, product_class_code_lv2=None,
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
-                                   supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+                                   supplier_group_code=None, industry_code=None, country_state_code=None,
+                                   date=datetime.today()):
         # ==========================================================
         # UPD 20210802 - START - LiemLVN
         # ==========================================================
@@ -1987,7 +2092,8 @@ class QuotationsLinesCustom(models.Model):
     def set_product_class_code_lv3(self, product_code=None, jan_code=None, product_class_code_lv4=None,
                                    product_class_code_lv3=None, product_class_code_lv2=None,
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
-                                   supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+                                   supplier_group_code=None, industry_code=None, country_state_code=None,
+                                   date=datetime.today()):
         # ==========================================================
         # UPD 20210802 - START - LiemLVN
         # ==========================================================
@@ -2030,7 +2136,8 @@ class QuotationsLinesCustom(models.Model):
     def set_product_class_code_lv4(self, product_code=None, jan_code=None, product_class_code_lv4=None,
                                    product_class_code_lv3=None, product_class_code_lv2=None,
                                    product_class_code_lv1=None, maker=None, customer_code=None, customer_code_bill=None,
-                                   supplier_group_code=None, industry_code=None, country_state_code=None, date=datetime.today()):
+                                   supplier_group_code=None, industry_code=None, country_state_code=None,
+                                   date=datetime.today()):
         # ==========================================================
         # UPD 20210802 - START - LiemLVN
         # ==========================================================
@@ -2159,7 +2266,8 @@ class QuotationsLinesCustom(models.Model):
             product_code_ids = self.env['master.price.list'].search([('product_code', '=', product_code),
                                                                      ('document_type', '!=', 'quotation'),
                                                                      ('document_type', '!=', 'invoice'),
-                                                                     ('date_applied', '<=', date)]).sorted('date_applied')
+                                                                     ('date_applied', '<=', date)]).sorted(
+                'date_applied')
             # ==========================================================
             # UPD 20210802 - END - LiemLVN
             # ==========================================================
@@ -2181,7 +2289,8 @@ class QuotationsLinesCustom(models.Model):
                 #                                    product_class_code_lv2, product_class_code_lv1, maker, customer_code,
                 #                                    customer_code_bill, supplier_group_code, industry_code,
                 #                                    country_state_code, date)
-                price = self.set_price_by_jan_code(product_code, jan_code, product_class_code_lv4, product_class_code_lv3,
+                price = self.set_price_by_jan_code(product_code, jan_code, product_class_code_lv4,
+                                                   product_class_code_lv3,
                                                    product_class_code_lv2, product_class_code_lv1, maker, customer_code,
                                                    customer_code_bill, supplier_group_code, industry_code,
                                                    country_state_code, date)
@@ -2405,7 +2514,7 @@ class QuotationsLinesCustom(models.Model):
                             self.order_id.partner_id.customer_supplier_group_code.id,
                             self.order_id.partner_id.customer_industry_code.id,
                             self.order_id.partner_id.customer_state.id, self.order_id.quotations_date) / (
-                                                        product.product_tax_rate / 100 + 1)
+                                                    product.product_tax_rate / 100 + 1)
                     self.compute_price_unit()
                     self.compute_line_amount()
                     self.compute_line_tax_amount()
@@ -2479,7 +2588,8 @@ class QuotationsLinesCustom(models.Model):
                 if sample_product_ids:
                     line.product_id = sample_product_ids
                 else:
-                    raise ValidationError(_('Must create a sample product in the product master\n- JANコード: 0000000000000'))
+                    raise ValidationError(
+                        _('Must create a sample product in the product master\n- JANコード: 0000000000000'))
 
     def _compute_tax_id(self):
         for line in self:
@@ -2533,7 +2643,7 @@ class QuotationsLinesCustom(models.Model):
     def _onchange_price_unit(self):
         for line in self:
             exchange_rate = 1
-            #TH - code
+            # TH - code
             if line.product_id.product_tax_category == 'foreign':
                 if line.order_id.partner_id.customer_apply_rate == "customer":
                     if line.order_id.partner_id.customer_rate and line.order_id.partner_id.customer_rate > 0:
@@ -2567,7 +2677,7 @@ class QuotationsLinesCustom(models.Model):
                 line.price_no_tax = line.price_unit / (line.tax_rate / 100 + 1) / exchange_rate
             else:
                 line.price_no_tax = line.price_include_tax = line.price_unit / exchange_rate
-            #TH - done
+            # TH - done
 
     @api.depends('order_id.tax_method')
     def compute_price_unit(self):
@@ -2593,7 +2703,7 @@ class QuotationsLinesCustom(models.Model):
             # else:
 
             # todo set price follow product code
-            #TH - code
+            # TH - code
             if line.product_id.product_tax_category == 'foreign':
                 if line.order_id.tax_method == 'internal_tax':
                     price_unit = line.price_include_tax
@@ -2619,7 +2729,7 @@ class QuotationsLinesCustom(models.Model):
                 price_unit = line.price_include_tax
             else:
                 price_unit = line.price_no_tax
-            #TH - done
+            # TH - done
             if line.copy_history_flag:
                 price_unit = line.price_unit
             if line.class_item == 'サンプル':
@@ -2638,7 +2748,7 @@ class QuotationsLinesCustom(models.Model):
 
     def compute_line_tax_amount(self):
         for line in self:
-            #TH - code
+            # TH - code
             if line.product_id.product_tax_category == 'foreign':
                 if (line.order_id.tax_method == 'foreign_tax'
                     and line.product_id.product_tax_category != 'exempt') \
@@ -2653,7 +2763,7 @@ class QuotationsLinesCustom(models.Model):
                     line.line_tax_amount = 0
             else:
                 line.line_tax_amount = 0
-            #TH - done
+            # TH - done
             line._onchange_price_unit()
 
     # Set tax for tax_method = voucher
