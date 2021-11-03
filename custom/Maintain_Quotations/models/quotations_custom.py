@@ -215,11 +215,17 @@ class QuotationsCustom(models.Model):
         else:
             self.partner_name_2 = self.partner_id.customer_name_2
 
+    # ================================================================
+    # Long code load value from crm.lead to sale.order
+    # Start
     @api.onchange('leads_id')
     def _onchange_leads(self):
         if self.leads_id:
             self.partner_name = self.leads_id.partner_name
             self.shipping_address = self.leads_id.street
+            self.cb_partner_sales_rep_id = self.leads_id.customer_agent
+    # End
+    # =================================================================
 
     @api.onchange('partner_id', 'partner_name', 'quotation_name', 'document_reference', 'expected_date',
                   'shipping_address', 'note', 'expiration_date', 'comment', 'comment_apply', 'cb_partner_sales_rep_id',

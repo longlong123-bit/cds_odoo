@@ -888,8 +888,9 @@ msgstr "Eメール品質"
 msgid "Email address of the contact"
 msgstr "連絡先のメールアドレス"
 
-#. module: crm
-#: model:ir.model.fields,field_description:crm.field_crm_lead__email_cc
+#. module: Maintain_Crm_Lead_Custom
+#: model:ir.model.fields,field_description:Maintain_Crm_Lead_Custom.field_crm_lead__email_cc
+#:model_terms:ir.ui.view,arch_db:Maintain_Crm_Lead_Custom.crm_form_view_leads
 msgid "Email cc"
 msgstr "メールCC"
 
@@ -1204,8 +1205,9 @@ msgstr ""
 msgid "Is automated probability?"
 msgstr ""
 
-#. module: crm
-#: model:ir.model.fields,field_description:crm.field_crm_lead__function
+#. module: Maintain_Crm_Lead_Custom
+#: model:ir.model.fields,field_description:Maintain_Crm_Lead_Custom.field_crm_lead__function
+#:model_terms:ir.ui.view,arch_db:Maintain_Crm_Lead_Custom.crm_form_view_leads
 msgid "Job Position"
 msgstr "職位"
 
@@ -1641,8 +1643,9 @@ msgstr "メッセージ"
 msgid "Misc"
 msgstr "その他"
 
-#. module: crm
-#: model:ir.model.fields,field_description:crm.field_crm_lead__mobile
+#. module: Maintain_Crm_Lead_Custom
+#: model:ir.model.fields,field_description:Maintain_Crm_Lead_Custom.field_crm_lead__mobile
+#:model_terms:ir.ui.view,arch_db:Maintain_Crm_Lead_Custom.crm_form_view_leads
 msgid "Mobile"
 msgstr "携帯電話"
 
@@ -1975,9 +1978,9 @@ msgstr ""
 msgid "Partner linking/binding in CRM wizard"
 msgstr ""
 
-#. module: crm
+#. module: Maintain_Crm_Lead_Custom
 #: model:ir.model.fields,field_description:crm.field_crm_lead__phone
-#: model_terms:ir.ui.view,arch_db:crm.crm_lead_view_form
+#: model_terms:ir.ui.view,arch_db:Maintain_Crm_Lead_Custom.crm_form_view_leads
 msgid "Phone"
 msgstr "電話"
 
@@ -2037,8 +2040,9 @@ msgstr "リストビューから複数の要素(リードまたは案件)を選�
 msgid "Predictive Lead Scoring: Rebuild Frequencies table"
 msgstr ""
 
-#. module: crm
-#: model:ir.model.fields,field_description:crm.field_crm_lead__priority
+#. module: Maintain_Crm_Lead_Custom
+#: model:ir.model.fields,field_description:Maintain_Crm_Lead_Custom.field_crm_lead__priority
+#:model_terms:ir.ui.view,arch_db:Maintain_Crm_Lead_Custom.crm_form_view_leads
 msgid "Priority"
 msgstr "優先度"
 
@@ -2120,10 +2124,10 @@ msgstr ""
 msgid "Sales"
 msgstr "販売"
 
-#. module: crm
-#: model_terms:ir.ui.view,arch_db:crm.crm_case_tree_view_leads
-msgid "Sales Person"
-msgstr ""
+#. module: Maintain_Crm_Lead_Custom
+#:model_terms:ir.ui.view,arch_db:Maintain_Crm_Lead_Custom.crm_form_view_leads
+msgid "Representative/Agent"
+msgstr "担当者"
 
 #. module: crm
 #: model:ir.model,name:crm.model_crm_team
@@ -2143,7 +2147,11 @@ msgstr ""
 msgid "Sales Team"
 msgstr "販売チーム"
 
-#. module: crm
+#. module: Maintain_Crm_Lead_Custom
+#:model_terms:ir.ui.view,arch_db:Maintain_Crm_Lead_Custom.crm_form_view_leads
+msgid "Sales Team"
+msgstr "販売チーム"
+
 #: code:addons/crm/models/crm_lead.py:0
 #, python-format
 msgid "Sales Team Settings"
@@ -2382,6 +2390,11 @@ msgstr "そのタグ名は既に使われています！"
 #: model:ir.actions.act_window,name:crm.crm_lead_tag_action
 #: model:ir.model.fields,field_description:crm.field_crm_lead__tag_ids
 #: model:ir.ui.menu,name:crm.menu_crm_lead_categ
+msgid "Tags"
+msgstr "タグ"
+
+#. module: Maintain_Crm_Lead_Custom
+#:model_terms:ir.ui.view,arch_db:Maintain_Crm_Lead_Custom.crm_form_view_leads
 msgid "Tags"
 msgstr "タグ"
 

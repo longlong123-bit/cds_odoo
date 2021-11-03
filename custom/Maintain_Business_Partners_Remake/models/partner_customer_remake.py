@@ -251,12 +251,13 @@ class NewClassPartnerCustom(models.Model):
     def _onchange_leads_id(self):
         for rec in self:
             if rec.leads_id:
-                rec.customer_phone = rec.leads_id.phone
-                rec.name = rec.leads_id.partner_name
-                rec.street = rec.leads_id.street
-                rec.street2 = rec.leads_id.street2
-                rec.zip_code = rec.leads_id.zip
-                rec.customer_state = rec.leads_id.state_id
+                rec.customer_phone = self.leads_id.phone
+                rec.name = self.leads_id.partner_name
+                rec.street = self.leads_id.street
+                rec.street2 = self.leads_id.street2
+                rec.zip_code = self.leads_id.zip
+                rec.customer_state = self.leads_id.state_id
+                rec.customer_agent = self.leads_id.customer_agent
     # End
     # ================================================================
 

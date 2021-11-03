@@ -95,7 +95,6 @@ class LeadCustom(models.Model):
     stage_id = fields.Many2one('crm.stage', string='Stage', ondelete='restrict', tracking=True, index=True, copy=False,
         domain="['|', ('team_id', '=', False), ('team_id', '=', team_id)]",
         group_expand='_read_group_stage_ids', default=lambda self: self._default_stage_id())
-    user_id = fields.Many2one('res.users', string='Salesperson', index=True, tracking=True, default=lambda self: self.env.user)
     referred = fields.Char('Referred By')
 
     date_open = fields.Datetime('Assignation Date', readonly=True, default=fields.Datetime.now)
@@ -143,6 +142,7 @@ class LeadCustom(models.Model):
     company_id = fields.Many2one('res.company', string='Company', index=True, default=lambda self: self.env.company.id)
     meeting_count = fields.Integer('# Meetings', compute='_compute_meeting_count')
     lost_reason = fields.Many2one('crm.lost.reason', string='Lost Reason', index=True, tracking=True)
+    customer_agent = fields.Many2one('hr.employee', string='Representative/Agent')
 
     _sql_constraints = [
         ('check_probability', 'check(probability >= 0 and probability <= 100)', 'The probability of closing the deal should be between 0% and 100%!')
