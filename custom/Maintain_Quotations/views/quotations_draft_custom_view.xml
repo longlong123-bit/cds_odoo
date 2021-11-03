@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_order_custom_form" model="ir.ui.view">
-        <field name="name">sale.order.custom.form</field>
+    <record id="view_order_draft_custom_form" model="ir.ui.view">
+        <field name="name">sale.order.draft.custom.form</field>
         <field name="model">sale.order</field>
         <field name="mode">primary</field>
         <field eval="1" name="priority"/>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="replace">
-                <form string="Quotations Custom" class="custom_template quotations_custom" js_class="quotation-custom">
+                <form string="Quotations Draft Custom" class="custom_template quotations_custom" js_class="quotation-custom">
                     <header>
                         <field name="authorized_transaction_ids" invisible="1"/>
                         <button name="payment_action_capture" type="object"
@@ -61,16 +61,14 @@
                                 <td class="o_td_label"><label for="quotations_date" string="Quotation Date"/></td>
                                 <td colspan="2"><field name="quotations_date" readonly="False" required="1"/></td>
                             </tr>
-
+                            <tr>
+                                <td class="o_td_label"><label for="leads_id" string="Leads"/></td>
+                                <td colspan="2"><field name="leads_id" options="{'no_quick_create':True,'no_create_edit':True, 'no_open': True, 'no_create': True}"/></td>
+                            </tr>
                             <!-- Row 2 -->
                             <tr>
-                                <td class="o_td_label"><label for="partner_id" string="Business Partner*"/></td>
-                                <td colspan="2"><field name="partner_id" widget="res_partner_many2one" required="1"
-                                                       domain="[('customer_rank','>', 0)]" default_focus="1"
-                                                       context="{'showemail': 'ok','res_partner_search_mode': 'customer'}"
-                                                       options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True, 'no_create': True}"
-                                           z-index="98"/></td>
-
+                                <td class="o_td_label"><label for="partner_id" string="Business Partner"/></td>
+                                <td colspan="2"><field name="partner_id" required="0" options="{'no_quick_create':True,'no_create_edit':True, 'reload_on_button': True, 'no_open': True, 'no_create': True}"/></td>
                                 <td></td>
                                 <td colspan="2">
                                     <field name="is_print_date" class="field-checkbox"/>
@@ -109,9 +107,8 @@
                                 <td class="o_td_label"><label for="quotation_name" string="Name"/></td>
                                 <td colspan="2"><field name="quotation_name" required="False"/></td>
 
-
-                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation*"/></td>
-                                <td colspan="2"><field name="quotation_type" required="True"/></td>
+<!--                                <td class="o_td_label"><label for="quotation_type" string="Unit/Normal Quotation*"/></td>-->
+<!--                                <td colspan="2"><field name="quotation_type" required="True"/></td>-->
 
                                 <td><field name="state" invisible="True"/></td>
                                 <td><field name="company_id" invisible="True"/></td>
@@ -175,10 +172,10 @@
                                 <td class="o_td_label"><label for="create_date" string="Create Date"/></td>
                                 <td><field name="create_date"/></td>
                             </tr>
-                            <tr>
-                                <td><field name="related_partner_code" invisible="1" optional="hide" force_save="1"
-                                           attrs="{'invisible':[('partner_id','=', False)]}" readonly="False"/></td>
-                            </tr>
+<!--                            <tr>-->
+<!--                                <td><field name="related_partner_code" invisible="1" optional="hide" force_save="1"-->
+<!--                                           attrs="{'invisible':[('partner_id','=', False)]}" readonly="False"/></td>-->
+<!--                            </tr>-->
                         </tbody>
                     </table>
 
@@ -290,8 +287,8 @@
                                     </div>
                                     <field name="amount_total" nolabel="1"
                                            class="oe_subtotal_footer_separator" widget='monetary'
-                                           options="{'currency_field': 'currency_id'}"
-                                           attrs="{'invisible': [('quotation_type', '=', 'unit')]}"/>
+                                           options="{'currency_field': 'currency_id'}"/>
+<!--                                           attrs="{'invisible': [('quotation_type', '=', 'unit')]}"-->
                                 </group>
                             </group>
                         </page>
@@ -301,14 +298,14 @@
         </field>
     </record>
 
-    <record id="view_quotations_custom_tree" model="ir.ui.view">
-        <field name="name">sale.order.custom.tree</field>
+    <record id="view_quotations_draft_custom_tree" model="ir.ui.view">
+        <field name="name">sale.order.draft.custom.tree</field>
         <field name="model">sale.order</field>
 <!--        <field name="inherit_id" ref="sale.view_quotation_tree"/>-->
         <field name="mode">primary</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree string="Quotations Custom" class="forward_edit o_sale_order"
+            <tree string="Quotations Draft Custom" class="forward_edit o_sale_order"
                   decoration-bf="message_needaction==True" decoration-muted="state=='cancel'"
                   banner_route="/sales/sale_quotation_onboarding_panel"
                   multi_edit="1" default_order="quotations_date desc, document_no desc">
@@ -317,7 +314,8 @@
                 <field name="document_no"/>
                 <field name="document_reference"/>
                 <field name="partner_name"/>
-                <field name="related_partner_code"/>
+                <field name="related_partner_code" />
+                <field name="related_leads_name"/>
                 <field name="quotation_name"/>
                 <field name="amount_untaxed"/>
                 <field name="amount_tax"/>
@@ -340,7 +338,6 @@
                 <field name="document_no"/>
                 <field name="document_reference"/>
                 <field name="partner_name"/>
-                <field name="related_partner_code"/>
                 <field name="quotation_name"/>
                 <field name="amount_untaxed"/>
                 <field name="amount_tax"/>
@@ -373,7 +370,6 @@
             <tree default_order="quotation_date desc, document_no desc">
                 <field name="quotation_date" optional="show" readonly="1" string="見積日付"/>
                 <field name="document_no" optional="show" readonly="1" string="伝票Ｎｏ"/>
-                <field name="partner_id" optional="show" readonly="1" string="得意先コード"/>
                 <field name="customer_name" optional="show" readonly="1" string="得意先名"/>
                 <field name="class_item" optional="show" readonly="1" string="内訳区分"/>
                 <field name="product_code" optional="show" readonly="1" string="商品コード"/>
@@ -391,36 +387,40 @@
         </field>
     </record>
 
-    <record id="quotation_custom_action" model="ir.actions.act_window">
-        <field name="name">見積入力</field>
+    <record id="quotation_draft_custom_action" model="ir.actions.act_window">
+        <field name="name">仮見積</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree,kanban,form</field>
-        <field name="view_id" ref="view_quotations_custom_tree"/>
-        <field name="domain">
-            [('quotation_type','!=','draft')]
+        <field name="view_id" ref="view_quotations_draft_custom_tree"/>
+<!--        Long set up domain filter view_order_line_tree_custom where quotation_draft_type-->
+<!--        Start-->
+         <field name="domain">
+            [('quotation_type','=','draft')]
         </field>
+<!--        End-->
         <field name="context">{
             'form_view_initial_mode': 'edit',
             'force_detailed_view': 'true',
-            'view_name': 'main_sale_order',
-            'view_mode': 'quotation_custom',
+            'view_name': 'main_sale_order_draft',
+            'view_mode': 'quotation_draft_custom',
+            'form_view_ref': 'Maintain_Quotations.view_order_draft_custom_form'
             }</field>
         <field name="search_view_id" ref="product_custom_template_search_view"/>
     </record>
 
 <!--    <menuitem id="menu_ideas" name="Quotations Custom" sequence="1"/>-->
-    <menuitem id="menu_ideas" name="Quotations Custom" sequence="2"/>
-    <menuitem id="quotation" parent="Maintain_Quotations.menu_ideas" name="Sale Order" sequence="1" action="quotation_custom_action"/>
+<!--    <menuitem id="menu_ideas" name="Quotations Draft Custom" sequence="30"/>-->
+<!--    <menuitem id="quotation" parent="Maintain_Quotations_Draft.menu_ideas" name="Sale Order" sequence="1" action="quotation_draft_custom_action"/>-->
 
     <data>
         <!-- Sequences for sale.order -->
-        <record id="seq_quotations_custom" model="ir.sequence">
-            <field name="name">Sale Order</field>
-            <field name="code">sale.order</field>
+        <record id="seq_quotations_draft_custom" model="ir.sequence">
+            <field name="name">Sale Order Draft</field>
+            <field name="code">sale.order.draft</field>
             <field name="padding">7</field>
             <field name="number_next">1000000</field>
-            <field name="prefix">ARQ-</field>
+            <field name="prefix">ADQ-</field>
         </record>
     </data>
 </odoo>

@@ -337,6 +337,7 @@ odoo.define('Maintain_Widget_Relation_Field.button_field', function(require){
                     domain: domain,
                     view_type:'list',
                     context: context,
+                    title: options.title,
                     disable_multiple_selection: true
                 }).open();
         }
