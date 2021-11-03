@@ -388,7 +388,7 @@
     </record>
 
     <record id="quotation_draft_custom_action" model="ir.actions.act_window">
-        <field name="name">Draft</field>
+        <field name="name">仮見積</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">sale.order</field>
         <field name="view_mode">tree,kanban,form</field>

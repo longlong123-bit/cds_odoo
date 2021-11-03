@@ -474,10 +474,7 @@ class QuotationsCustom(models.Model):
         # Long fix create quotation draft
         # Start
         # Create by view quotation_draft_custom or quotation_custom
-        if self._context.copy().get('view_mode') == 'quotation_draft_custom':
-            quotations_custom = super(QuotationsCustom, self).create(values)
-            return quotations_custom
-        else:
+        if self._context.copy().get('view_mode') == 'quotation_custom':
             # ==========================================================
             # INS 20210802 - START - LiemLVN
             # INSERT or UPDATE Last Unit Price to Master Price List
@@ -487,9 +484,10 @@ class QuotationsCustom(models.Model):
             # ==========================================================
             # INS 20210802 - END
             # ==========================================================
-
             quotations_custom = super(QuotationsCustom, self).create(values)
-
+            return quotations_custom
+        else:
+            quotations_custom = super(QuotationsCustom, self).create(values)
             return quotations_custom
         # Long fix create quotation draft
         # End
@@ -507,10 +505,7 @@ class QuotationsCustom(models.Model):
         # Long fix update quotation draft
         # Start
         # Update by view quotation_draft_custom or quotation_custom
-        if self._context.copy().get('view_mode') == 'quotation_draft_custom':
-            quotations_custom = super(QuotationsCustom, self).create(values)
-            return quotations_custom
-        else:
+        if self._context.copy().get('view_mode') == 'quotation_custom':
             # ==========================================================
             # INS 20210802 - START - LiemLVN
             # INSERT or UPDATE Last Unit Price to Master Price List
@@ -563,6 +558,11 @@ class QuotationsCustom(models.Model):
 
             return quotations_custom
 
+        else:
+            if self._context.copy().get('view_mode') == 'quotation_draft_custom':
+                values['quotation_type'] = 'draft'
+            quotations_custom = super(QuotationsCustom, self).create(values)
+            return quotations_custom
         # Long fix update quotation draft
         # End
         # =======================================================================
@@ -918,10 +918,8 @@ class QuotationsCustom(models.Model):
         # Long fix quotation draft
         # Start
         # Delete by view quotation_draft_custom or quotation_custom
-        if self._context.copy().get('view_mode') == 'quotation_draft_custom':
-            quotations_custom = super(QuotationsCustom, self).unlink()
-            return quotations_custom
-        else:
+        if self._context.copy().get('view_mode') == 'quotation_custom':
+
             # ----------------------------------------------------------
             # BACKUP Quotation(=Order) Info Before Delete
             # ----------------------------------------------------------
@@ -957,6 +955,11 @@ class QuotationsCustom(models.Model):
             # (AFTER DELETE OR UPDATE QUOTATION)
             # ----------------------------------------------------------
             self.maintain_last_unit_price_from_quotation_to_master_price_list(quotation_before_delete_arr)
+
+            return quotations_custom
+
+        else:
+            quotations_custom = super(QuotationsCustom, self).unlink()
 
             return quotations_custom
         # End
