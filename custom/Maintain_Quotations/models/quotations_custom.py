@@ -699,6 +699,9 @@ class QuotationsCustom(models.Model):
                     self.quotation_type = 'normal'
                 else:
                     self.quotation_type = sale_order.quotation_type
+            else:
+                # paste leads_name when onchange order_id in view_mode draft
+                self.leads_id = sale_order.leads_id
             # End
             # ====================================================================
 
