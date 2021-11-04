@@ -16,7 +16,6 @@
     'data': [
         'security/ir.model.access.csv',
         'views/crm_lead_custom_views.xml',
-        'views/menu_crm.xml',
         'views/utm_campaign_views.xml',
         'views/crm_templates.xml'
     ],
