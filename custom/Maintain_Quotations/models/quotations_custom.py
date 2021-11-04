@@ -1336,7 +1336,18 @@ class QuotationsCustom(models.Model):
             # ----------------------------------------------------------
             # QUOTATION LINE DETAIL: UNIT PRICE CHANGE
             # ----------------------------------------------------------
-            if order_line[2] and order_line[2].get('price_unit', False):
+            # ADD - START - 20211104 - LiemLVN
+            price_unit_change = False
+            if order_line[2]:
+                price_unit_tmp = order_line[2].get('price_unit', 'False')
+                if str(price_unit_tmp) != 'False':
+                    price_unit_change = True
+            # ADD - END   - 20211104 - LiemLVN
+
+            # MOD - START - 20211104 - LiemLVN
+            # if order_line[2] and order_line[2].get('price_unit', False):
+            if order_line[2] and price_unit_change:
+            # MOD - END   - 20211104 - LiemLVN
                 price_applied = order_line[2]['price_unit']
 
             else:
@@ -1364,7 +1375,7 @@ class QuotationsCustom(models.Model):
         return detail_values
 
     # ----------------------------------------------------------
-    # PREPARE DETAIL DATA to Master Price List (WHEN DETAIL CHANGED)
+    # PREPARE DETAIL DATA to Master Price List (WHEN DETAIL NO CHANGED)
     # ----------------------------------------------------------
     def prepare_detail_data_to_master_price_list_when_detail_no_changed(self, values):
 

@@ -976,11 +976,14 @@ class ClassInvoiceCustom(models.Model):
         if vals.get('x_studio_document_no', _('0')) == _('0'):
             vals['x_studio_document_no'] = self.env['ir.sequence'].next_by_code('document.sequence') or _('New')
 
+        # # ADD - START - 20211104 - LiemLVN
+        # if self._context.copy().get('view_mode') == 'invoice_custom':
+        # # ADD - END   - 20211104 - LiemLVN
         # ==========================================================
         # INS 20210802 - START - LiemLVN
         # INSERT or UPDATE Last Unit Price to Master Price List
         # ==========================================================
-            self.insert_or_update_last_unit_price_to_master_price_list(vals)
+        self.insert_or_update_last_unit_price_to_master_price_list(vals)
 
         # ==========================================================
         # INS 20210802 - END
@@ -1000,8 +1003,12 @@ class ClassInvoiceCustom(models.Model):
     # ----------------------------------------------------------
     def write(self, values):
 
+        # # ADD - START - 20211104 - LiemLVN
+        # if self._context.copy().get('view_mode') == 'invoice_custom':
+        # # ADD - END   - 20211104 - LiemLVN
+
         # ----------------------------------------------------------
-        # BACKUP Quotation Info Before Delete
+        # BACKUP Invoice Info Before Delete
         # ----------------------------------------------------------
         invoice_before_delete_arr = []
 
@@ -1043,13 +1050,27 @@ class ClassInvoiceCustom(models.Model):
 
         return invoices_custom
 
+        # # ADD - START - 20211104 - LiemLVN
+        # else:
+        #     # ----------------------------------------------------------
+        #     # UPDATE INVOICE
+        #     # ----------------------------------------------------------
+        #     invoices_custom = super(ClassInvoiceCustom, self).write(values)
+        #
+        #     return invoices_custom
+        # # ADD - END   - 20211104 - LiemLVN
+
     # ----------------------------------------------------------
     # OVERRIDE DELETE METHOD
     # ----------------------------------------------------------
     def unlink(self):
 
+        # # ADD - START - 20211104 - LiemLVN
+        # if self._context.copy().get('view_mode') == 'invoice_custom':
+        # # ADD - END   - 20211104 - LiemLVN
+
         # ----------------------------------------------------------
-        # BACKUP Quotation Info Before Delete
+        # BACKUP Invoice Info Before Delete
         # ----------------------------------------------------------
         invoice_before_delete_arr = []
 
@@ -1069,9 +1090,9 @@ class ClassInvoiceCustom(models.Model):
             invoice_before_delete_arr.append(invoice_before_delete)
 
         # ----------------------------------------------------------
-        # DELETE QUOTATION
+        # DELETE INVOICE
         # ----------------------------------------------------------
-        quotations_custom = super(ClassInvoiceCustom, self).unlink()
+        invoices_custom = super(ClassInvoiceCustom, self).unlink()
 
         # ----------------------------------------------------------
         # COMMIT DATABASE
@@ -1084,7 +1105,17 @@ class ClassInvoiceCustom(models.Model):
         # ----------------------------------------------------------
         self.maintain_last_unit_price_from_quotation_to_master_price_list(invoice_before_delete_arr)
 
-        return quotations_custom
+        return invoices_custom
+
+        # # ADD - START - 20211104 - LiemLVN
+        # else:
+        #     # ----------------------------------------------------------
+        #     # DELETE INVOICE
+        #     # ----------------------------------------------------------
+        #     invoices_custom = super(ClassInvoiceCustom, self).unlink()
+        #
+        #     return invoices_custom
+        # # ADD - END   - 20211104 - LiemLVN
 
     # ----------------------------------------------------------
     # INSERT or UPDATE Last Unit Price to Master Price List
@@ -1462,7 +1493,18 @@ class ClassInvoiceCustom(models.Model):
             # ----------------------------------------------------------
             # QUOTATION LINE DETAIL: UNIT PRICE CHANGE
             # ----------------------------------------------------------
-            if invoice_line[2] and invoice_line[2].get('price_unit', False):
+            # ADD - START - 20211104 - LiemLVN
+            price_unit_change = False
+            if invoice_line[2]:
+                price_unit_tmp = invoice_line[2].get('price_unit', 'False')
+                if str(price_unit_tmp) != 'False':
+                    price_unit_change = True
+            # ADD - END   - 20211104 - LiemLVN
+
+            # MOD - START - 20211104 - LiemLVN
+            # if invoice_line[2] and invoice_line[2].get('price_unit', False):
+            if invoice_line[2] and price_unit_change:
+            # MOD - END   - 20211104 - LiemLVN
                 price_applied = invoice_line[2]['price_unit']
 
             else:
@@ -1490,7 +1532,7 @@ class ClassInvoiceCustom(models.Model):
         return detail_values
 
     # ----------------------------------------------------------
-    # PREPARE DETAIL DATA to Master Price List (WHEN DETAIL CHANGED)
+    # PREPARE DETAIL DATA to Master Price List (WHEN DETAIL NO CHANGED)
     # ----------------------------------------------------------
     def prepare_detail_data_to_master_price_list_when_detail_no_changed(self, values):
 
