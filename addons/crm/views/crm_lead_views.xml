@@ -828,6 +828,7 @@ if record:
             groups="sales_team.group_sale_manager"
             sequence="4"/>
 
+<!--        Action to Customer custom-->
         <menuitem id="res_partner_menu_customer"
             name="Customers"
             parent="crm_menu_sales"
@@ -884,11 +885,11 @@ if record:
             <field name="act_window_id" ref="crm_lead_all_leads"/>
         </record>
 
+<!--        Action to Leads Custom-->
         <menuitem id="crm_menu_leads"
             name="Leads"
             parent="crm_menu_root"
-            groups="crm.group_use_lead"
-            action="crm_lead_all_leads"
+            action="Maintain_Crm_Lead_Custom.crm_lead_action"
             sequence="5"/>
 
         <!-- 'My Pipeline' menu : Server action, act_window_views and act_windows -->
